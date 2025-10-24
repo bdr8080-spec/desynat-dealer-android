@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.auth.fragment.OtpVerificationFragment">
+
+   <include
+       android:id="@+id/toolbar"
+       layout="@layout/common_toolbar"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/ic_selected_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/view2"/>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/ic_selected_view"
+            app:layout_constraintTop_toTopOf="@+id/view1"
+            app:layout_constraintStart_toEndOf="@+id/view1"
+            app:layout_constraintEnd_toStartOf="@+id/view3"/>
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/ic_unselected_view"
+            app:layout_constraintTop_toTopOf="@+id/view1"
+            app:layout_constraintStart_toEndOf="@+id/view2"
+            app:layout_constraintEnd_toStartOf="@+id/view4"/>
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:background="@drawable/ic_unselected_view"
+            app:layout_constraintTop_toTopOf="@+id/view1"
+            app:layout_constraintStart_toEndOf="@+id/view3"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/clView"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivOtp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        android:src="@drawable/ic_otp_verification"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvOtpInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="A verification code has been sent to"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_10sdp"
+        android:textAlignment="center"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="+971 1 123 123 1234"
+        android:textColor="#12110D"
+        android:textSize="@dimen/_11sdp"
+        android:textAlignment="center"/>
+
+            <com.chaos.view.PinView
+                android:id="@+id/pinView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:inputType="number"
+                app:itemCount="6"
+                app:itemWidth="48dp"
+                app:itemHeight="48dp"
+                app:itemSpacing="10dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="20sp"
+                app:lineWidth="1dp"
+                app:lineColor="@drawable/otp_background"
+                app:itemRadius="@dimen/_10sdp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="@dimen/_15sdp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDidNotReceive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:textAlignment="center"
+            android:text="Resend OTP in"
+            android:textColor="#80000000"
+            android:textSize="@dimen/_10sdp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvResendOtp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:textAlignment="center"
+            android:text="Resend Otp"
+            android:textColor="@color/brown"
+            android:layout_toRightOf="@+id/tvDidNotReceive"
+            android:textSize="@dimen/_10sdp"/>
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btnVerify"
+        style="@style/button"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:text="Verify"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

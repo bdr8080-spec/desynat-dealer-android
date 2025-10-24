@@ -1,0 +1,251 @@
+package com.desynatdealer.ui.auth.fragment
+
+import android.graphics.Color
+import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.desynatdealer.R
+import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.data.view_model.AuthViewModel
+import com.desynatdealer.databinding.FragmentSignUpBinding
+import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.CustomTypefaceSpan
+import com.desynatdealer.utils.ImagePicker
+import com.desynatdealer.utils.showToast
+import com.desynatdealer.utils.togglePasswordVisibility
+import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+
+@AndroidEntryPoint
+class SignUpFragment : BaseFragment() {
+    private var binding: FragmentSignUpBinding? = null
+    private val viewModel: AuthViewModel by viewModels()
+    var isObserver = false
+    private lateinit var imagePicker: ImagePicker
+    private var profileImage: File? = null
+    private val cameraLauncher =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            imagePicker.onCameraResult(success)
+        }
+
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            imagePicker.onGalleryResult(uri)
+        }
+
+    private val permissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            imagePicker.onPermissionResult(granted)
+        }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
+        return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initControl()
+        observe()
+    }
+
+    override fun initView() {
+        binding?.apply {
+            CommonMethod.removeAllTextSpaces(etEmail)
+            CommonMethod.removeAllTextSpaces(etConfirmPassword)
+            CommonMethod.removeAllTextSpaces(etPassword)
+            tvAlreadyAccount.text = CommonMethod.spannableText(requireActivity(),requireActivity().getString(
+                R.string.already_have_an_account_sign_in),requireActivity().getString(R.string.sign_in), onClick = {
+                findNavController().popBackStack()
+
+            })
+            tvAlreadyAccount.movementMethod = LinkMovementMethod.getInstance()
+            tvAlreadyAccount.highlightColor = Color.TRANSPARENT
+
+            etPassword.togglePasswordVisibility(ivPasswordVisible)
+            etConfirmPassword.togglePasswordVisibility(ivConfirmPasswordVisible)
+            cbTermsPolicy.text = spannableText()
+
+            imagePicker = ImagePicker(
+                requireActivity(),
+                cameraLauncher,
+                galleryLauncher,
+                permissionLauncher
+            ) { uri ->
+                uri?.let {
+                    profileImage = CommonMethod.uriToFile(requireActivity(), it)
+                    ivProfile.setImageURI(it)
+                }
+            }
+        }
+    }
+
+    override fun initControl() {
+        binding?.apply {
+
+            ivProfile.setOnClickListener {
+                imagePicker.showImageSourceDialog()
+            }
+
+            btnContinue.setOnClickListener {
+                if (validation()) {
+                    CommonMethod.showSuccessDialog(
+                        requireActivity(),
+                        "Please check your email a verification link sent to ${etEmail.text.toString()}"
+                    ) {
+                        val bundle = Bundle().apply {
+                            putString("countryCode", binding?.ccp?.selectedCountryCodeWithPlus)
+                            putString("mobileNumber", binding?.etMobile?.text.toString().trim())
+                            putString("from", "signUp")
+                        }
+                        findNavController().navigate(
+                            R.id.action_signUpFragment_to_OtpFragment,
+                            bundle
+                        )
+                    }
+                }
+
+            }
+
+        }
+    }
+
+    override fun observe() {
+    }
+
+    private fun validation(): Boolean {
+        binding?.apply {
+            val fullName = etFullName.text.toString().trim()
+            val mobile = etMobile.text.toString().trim()
+            val email = etEmail.text.toString().trim()
+            val password = etPassword.text.toString().trim()
+            val confirmPassword = etConfirmPassword.text.toString().trim()
+
+            return when {
+                fullName.isEmpty() -> {
+                    showToast("Please enter your full name")
+                    false
+                }
+
+                mobile.isEmpty() -> {
+                    showToast("Please enter your mobile number")
+                    false
+                }
+
+                mobile.length < 10 -> {
+                    showToast("Please enter a valid mobile number")
+                    false
+                }
+
+                email.isEmpty() -> {
+                    showToast("Please enter your email address")
+                    false
+                }
+
+                !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                    showToast("Please enter a valid email address")
+                    false
+                }
+
+                password.isEmpty() -> {
+                    showToast("Please enter a password")
+                    false
+                }
+
+                !CommonMethod.isValidPassword(password) -> {
+                    showToast("Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one special character.")
+                    false
+                }
+
+                confirmPassword.isEmpty() -> {
+                    showToast("Please confirm your password")
+                    false
+                }
+
+                confirmPassword != password -> {
+                    showToast("Password and confirm password didn't match")
+                    false
+                }
+
+                !cbTermsPolicy.isChecked -> {
+                    showToast("Please accept Terms & Policies to continue")
+                    false
+                }
+
+                else -> true
+            }
+        }
+        return false
+    }
+
+    private fun spannableText(
+    ): SpannableString {
+        val textSpannable = SpannableString(getString(R.string.i_accept_the_terms_conditions_and_policies))
+        val typeface = ResourcesCompat.getFont(requireActivity(), R.font.poppins_regular)
+
+        fun applySpan(target: String, click: (() -> Unit)?) {
+            val startIndex = textSpannable.indexOf(target)
+            if (startIndex != -1) {
+                val endIndex = startIndex + target.length
+
+                typeface?.let {
+                    textSpannable.setSpan(
+                        CustomTypefaceSpan(null, it),
+                        startIndex, endIndex,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+
+                textSpannable.setSpan(
+                    ForegroundColorSpan(ContextCompat.getColor(requireActivity(), R.color.brown)),
+                    startIndex, endIndex,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                click?.let {
+                    textSpannable.setSpan(
+                        object : ClickableSpan() {
+                            override fun onClick(widget: View) {
+                                it()
+                            }
+
+                            override fun updateDrawState(ds: TextPaint) {
+                                super.updateDrawState(ds)
+                                ds.isUnderlineText = true
+                                ds.color = ContextCompat.getColor(requireActivity(),  R.color.brown)
+                            }
+                        },
+                        startIndex, endIndex,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+            }
+        }
+
+        applySpan(getString(R.string.terms_conditions)){
+
+        }
+        applySpan(getString(R.string.policies)){
+
+        }
+
+        return textSpannable
+    }
+
+}

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_navigation_graph.xml"
+    app:startDestination="@id/language">
+
+    <fragment
+        android:id="@+id/language"
+        android:name="com.desynatdealer.ui.auth.fragment.LanguageFragment"
+        android:label="Language Fragment"
+        tools:layout="@layout/fragment_language" >
+
+        <action
+            android:id="@+id/action_languageFragment_to_onBoardingFragment"
+            app:destination="@id/onBoarding"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/onBoarding"
+        android:name="com.desynatdealer.ui.auth.fragment.OnBoardingFragment"
+        android:label="OnBoarding Fragment"
+        tools:layout="@layout/fragment_on_boarding" >
+
+        <action
+            android:id="@+id/action_onBoardingFragment_to_LoginFragment"
+            app:destination="@id/login"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/login"
+        android:name="com.desynatdealer.ui.auth.fragment.LoginFragment"
+        android:label="Login Fragment"
+        tools:layout="@layout/fragment_login" >
+
+        <action
+            android:id="@+id/action_loginFragment_to_forgotFragment"
+            app:destination="@id/forgot"/>
+
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUp"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/otp"
+        android:name="com.desynatdealer.ui.auth.fragment.OtpVerificationFragment"
+        android:label="Otp Fragment"
+        tools:layout="@layout/fragment_otp_verification">
+
+    <action
+        android:id="@+id/action_otpFragment_to_resetPasswordFragment"
+        app:destination="@id/resetPassword"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/forgot"
+        android:name="com.desynatdealer.ui.auth.fragment.ForgotPasswordFragment"
+        android:label="Forgot Password Fragment"
+        tools:layout="@layout/fragment_forgot_password">
+
+    <action
+        android:id="@+id/action_forgotFragment_to_otpFragment"
+        app:destination="@id/otp"/>
+
+        </fragment>
+
+    <fragment
+        android:id="@+id/resetPassword"
+        android:name="com.desynatdealer.ui.auth.fragment.ResetPasswordFragment"
+        android:label="Reset Password Fragment"
+        tools:layout="@layout/fragment_reset_password"/>
+
+    <fragment
+        android:id="@+id/signUp"
+        android:name="com.desynatdealer.ui.auth.fragment.SignUpFragment"
+        android:label="SignUp Fragment"
+        tools:layout="@layout/fragment_sign_up">
+
+        <action
+            android:id="@+id/action_signUpFragment_to_OtpFragment"
+            app:destination="@id/otp"/>
+
+    </fragment>
+
+</navigation>
