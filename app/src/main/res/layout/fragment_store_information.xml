@@ -8,20 +8,24 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/common_toolbar"/>
+        layout="@layout/common_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_20sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp">
 
         <View
             android:id="@+id/view1"
@@ -66,7 +70,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivStoreImage"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="@dimen/_110sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_gravity="center_horizontal"
             app:shapeAppearanceOverlay="@style/rounded_corner4sdp"
@@ -169,7 +173,7 @@
             android:id="@+id/etAddress1"
             android:layout_width="match_parent"
             style="@style/edit_text"
-            android:hint="Enter Store mail Id"
+            android:hint="Enter address line 1"
             android:layout_marginTop="@dimen/_5sdp"
             android:inputType="text"
             android:background="@drawable/edit_back"
@@ -187,7 +191,7 @@
             android:id="@+id/etAddress2"
             android:layout_width="match_parent"
             style="@style/edit_text"
-            android:hint="Enter Store mail Id"
+            android:hint="Enter address line 2"
             android:layout_marginTop="@dimen/_5sdp"
             android:inputType="text"
             android:background="@drawable/edit_back"
@@ -300,6 +304,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

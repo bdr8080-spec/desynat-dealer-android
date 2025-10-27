@@ -55,7 +55,7 @@ class OtpVerificationFragment : BaseFragment() {
 
             clView.isVisible = from=="signUp"
 
-            tvMobile.text =  if (email!=""&&email!=null){
+            tvMobile.text =  if (email!=""&&email!="null"){
                 email
             }
             else{

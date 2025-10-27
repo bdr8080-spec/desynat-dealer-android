@@ -62,7 +62,7 @@ class ResetPasswordFragment : BaseFragment() {
                         requireActivity(),
                         getString(R.string.password_reset_successfully), false
                     ) {
-                        findNavController().popBackStack()
+                        findNavController().popBackStack(R.id.login, false)
                     }
                 }
             }

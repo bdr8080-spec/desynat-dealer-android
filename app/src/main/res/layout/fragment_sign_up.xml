@@ -9,7 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_10sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:orientation="vertical">
 
@@ -108,7 +109,8 @@
             style="@style/edit_text"
             android:hint="Enter Full Name"
             android:layout_marginTop="@dimen/_5sdp"
-            android:inputType="text"
+            android:inputType="textCapSentences"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
             android:background="@drawable/edit_back"
             app:layout_constraintTop_toBottomOf="@+id/tvFullName"/>
 
