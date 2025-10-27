@@ -87,7 +87,7 @@ class ForgotPasswordFragment : BaseFragment() {
 
                     val bundle = Bundle().apply {
                         if (binding?.cbMobile?.isChecked == true) {
-                            putString("countyCode", binding?.ccp?.selectedCountryCodeWithPlus)
+                            putString("countryCode", binding?.ccp?.selectedCountryCodeWithPlus)
                             putString("mobileNumber", binding?.etMobile?.text.toString().trim())
                         }
                         else {

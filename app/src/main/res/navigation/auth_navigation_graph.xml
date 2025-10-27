@@ -55,6 +55,10 @@
         android:id="@+id/action_otpFragment_to_resetPasswordFragment"
         app:destination="@id/resetPassword"/>
 
+        <action
+        android:id="@+id/action_otpFragment_to_storeInfoFragment"
+        app:destination="@id/storeInfo"/>
+
     </fragment>
 
     <fragment
@@ -84,6 +88,51 @@
         <action
             android:id="@+id/action_signUpFragment_to_OtpFragment"
             app:destination="@id/otp"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/storeInfo"
+        android:name="com.desynatdealer.ui.auth.fragment.StoreInformationFragment"
+        android:label="Store Information Fragment"
+        tools:layout="@layout/fragment_store_information">
+
+        <action
+            android:id="@+id/action_storeInfoFragment_to_DocBankFragment"
+            app:destination="@id/docAndBank"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/docAndBank"
+        android:name="com.desynatdealer.ui.auth.fragment.DocAndBankInfoFragment"
+        android:label="Doc And Bank Info Fragment"
+        tools:layout="@layout/fragment_doc_and_bank_info">
+
+        <action
+            android:id="@+id/action_docAndBankFragment_to_previewFragment"
+            app:destination="@id/preview"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/preview"
+        android:name="com.desynatdealer.ui.auth.fragment.PreviewFragment"
+        android:label="Preview Fragment"
+        tools:layout="@layout/fragment_preview">
+
+        <action
+            android:id="@+id/action_previewFragment_to_underReviewFragment"
+            app:destination="@id/underReview"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/underReview"
+        android:name="com.desynatdealer.ui.auth.fragment.UnderReviewAccountFragment"
+        android:label="Under Review Fragment"
+        tools:layout="@layout/fragment_under_review_account">
+
 
     </fragment>
 

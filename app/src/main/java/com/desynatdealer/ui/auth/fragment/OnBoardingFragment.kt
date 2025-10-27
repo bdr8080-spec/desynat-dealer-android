@@ -47,7 +47,6 @@ class OnBoardingFragment : BaseFragment() {
             }
         })
 
-        // Initially set visibility for position 0
         updateUI(0)
         
     }

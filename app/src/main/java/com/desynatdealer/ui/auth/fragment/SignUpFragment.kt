@@ -105,10 +105,6 @@ class SignUpFragment : BaseFragment() {
 
             btnContinue.setOnClickListener {
                 if (validation()) {
-                    CommonMethod.showSuccessDialog(
-                        requireActivity(),
-                        "Please check your email a verification link sent to ${etEmail.text.toString()}"
-                    ) {
                         val bundle = Bundle().apply {
                             putString("countryCode", binding?.ccp?.selectedCountryCodeWithPlus)
                             putString("mobileNumber", binding?.etMobile?.text.toString().trim())
@@ -118,7 +114,7 @@ class SignUpFragment : BaseFragment() {
                             R.id.action_signUpFragment_to_OtpFragment,
                             bundle
                         )
-                    }
+
                 }
 
             }

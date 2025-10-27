@@ -1,19 +1,19 @@
 <resources>
-<string name="app_name">Desynat Dealer</string>
-<string name="map_key">AIzaSyA4L_dBeJDWuqtBT9ZOOUhjigbh6Lxi43s</string>
-<string name="hello_blank_fragment">Hello blank fragment</string>
-<string name="continue_text">Continue</string>
-<string name="arabic">Arabic</string>
-<string name="english">English</string>
-<string name="resend_otp">Resend Otp</string>
-<string name="enter_mobile_number">Enter Mobile Number</string>
-<string name="enter_email_address">Enter Email Address</string>
-<string name="password_reset_successfully">Password Reset successfully !</string>
-<string name="don_t_have_an_account_create_new">Don’t have an account? Sign up</string>
-<string name="signUp">Sign up</string>
-<string name="already_have_an_account_sign_in">Already have an account? Sign in</string>
-<string name="sign_in">Sign in</string>
-<string name="i_accept_the_terms_conditions_and_policies"><![CDATA[I accept the Terms & Conditions and Policies]]></string>
-<string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
-<string name="policies">Policies</string>
+    <string name="app_name">Desynat Dealer</string>
+    <string name="map_key">AIzaSyA4L_dBeJDWuqtBT9ZOOUhjigbh6Lxi43s</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="continue_text">Continue</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
+    <string name="resend_otp">Resend Otp</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="enter_email_address">Enter Email Address</string>
+    <string name="password_reset_successfully">Password Reset successfully !</string>
+    <string name="don_t_have_an_account_create_new">Don’t have an account? Sign up</string>
+    <string name="signUp">Sign up</string>
+    <string name="already_have_an_account_sign_in">Already have an account? Sign in</string>
+    <string name="sign_in">Sign in</string>
+    <string name="i_accept_the_terms_conditions_and_policies"><![CDATA[I accept the Terms & Conditions and Policies]]></string>
+    <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="policies">Policies</string>
 </resources>

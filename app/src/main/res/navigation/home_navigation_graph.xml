@@ -4,5 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation_graph">
 
+    <fragment
+        android:id="@+id/subscription"
+        android:name="com.desynatdealer.ui.auth.fragment.SubscriptionPlanFragment"
+        android:label="Subscription Plan Fragment"
+        tools:layout="@layout/fragment_subscription_plan">
+
+        <action
+            android:id="@+id/action_subscriptionFragment_to_paymentMethodFragment"
+            app:destination="@id/paymentMethod"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/paymentMethod"
+        android:name="com.desynatdealer.ui.auth.fragment.PaymentMethodFragment"
+        android:label="Payment Method Fragment"
+        tools:layout="@layout/fragment_payment_method">
+
+        <action
+            android:id="@+id/action_paymentMethodFragment_to_AddCardFragment"
+            app:destination="@id/addCard"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addCard"
+        android:name="com.desynatdealer.ui.auth.fragment.AddCardFragment"
+        android:label="Add Card Fragment"
+        tools:layout="@layout/fragment_add_card">
+
+    </fragment>
 
 </navigation>

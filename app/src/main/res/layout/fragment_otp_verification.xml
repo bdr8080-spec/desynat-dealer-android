@@ -84,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_20sdp"
         android:fontFamily="@font/poppins_medium"
         android:text="A verification code has been sent to"
         android:textColor="#80000000"
@@ -96,7 +96,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_2sdp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_20sdp"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="+971 1 123 123 1234"
         android:textColor="#12110D"
@@ -110,8 +110,8 @@
                 android:layout_gravity="center_horizontal"
                 android:inputType="number"
                 app:itemCount="6"
-                app:itemWidth="48dp"
-                app:itemHeight="48dp"
+                app:itemWidth="45dp"
+                app:itemHeight="45dp"
                 app:itemSpacing="10dp"
                 android:gravity="center"
                 android:padding="8dp"
@@ -120,13 +120,18 @@
                 app:lineColor="@drawable/otp_background"
                 app:itemRadius="@dimen/_10sdp"
                 android:layout_marginTop="20dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:cursorVisible="true"
+                android:clickable="true"
+                android:enabled="true" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="@dimen/_15sdp">
+        android:layout_marginHorizontal="@dimen/_20sdp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDidNotReceive"
@@ -161,7 +166,7 @@
         style="@style/button"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_20sdp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_20sdp"
         android:text="Verify"/>
 
         </LinearLayout>

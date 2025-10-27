@@ -46,7 +46,7 @@ class OtpVerificationFragment : BaseFragment() {
     override fun initView() {
         startTimer()
         mobileNumber = arguments?.getString("mobileNumber").toString()
-        countryCode = arguments?.getString("countyCode").toString()
+        countryCode = arguments?.getString("countryCode").toString()
         from = arguments?.getString("from").toString()
         email = arguments?.getString("email").toString()
 
@@ -55,7 +55,7 @@ class OtpVerificationFragment : BaseFragment() {
 
             clView.isVisible = from=="signUp"
 
-            tvMobile.text =  if (email!=""){
+            tvMobile.text =  if (email!=""&&email!=null){
                 email
             }
             else{
@@ -87,7 +87,7 @@ class OtpVerificationFragment : BaseFragment() {
                     else -> {
                         when(from){
                             "signUp" -> {
-
+                                findNavController().navigate(R.id.action_otpFragment_to_storeInfoFragment)
                             }
                             "forgot" -> {
                                 findNavController().navigate(R.id.action_otpFragment_to_resetPasswordFragment)
