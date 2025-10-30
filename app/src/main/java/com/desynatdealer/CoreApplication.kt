@@ -5,13 +5,21 @@ import com.google.android.libraries.places.api.Places
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class CoreApplication : Application(){
-override fun onCreate() {
-    super.onCreate()
+class CoreApplication : Application() {
 
-    if (!Places.isInitialized()) {
-        Places.initialize(applicationContext, getString(R.string.map_key))
+    companion object {
+        @JvmStatic
+        var instance: CoreApplication? = null
     }
 
-}
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+
+
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, getString(R.string.map_key))
+        }
+
+    }
 }

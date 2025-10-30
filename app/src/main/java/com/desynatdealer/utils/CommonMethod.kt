@@ -27,6 +27,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.desynatdealer.R
 import com.desynatdealer.databinding.SuccessDialogLayoutBinding
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -37,14 +40,21 @@ import java.util.TimeZone
 
 object CommonMethod {
 
-    fun openDatePicker(context: Context,editText: EditText,format:String="dd-MM-yyyy",pastDate:Boolean=false,futureDate:Boolean=true,onDateSelected: (String) -> Unit) {
+    fun openDatePicker(
+        context: Context,
+        editText: EditText,
+        format: String = "dd-MM-yyyy",
+        pastDate: Boolean = false,
+        futureDate: Boolean = true,
+        onDateSelected: (String) -> Unit
+    ) {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(
-            context,R.style.DialogTheme,
+            context, R.style.DialogTheme,
             { _, selectedYear, selectedMonth, selectedDay ->
                 val selectedCalendar = Calendar.getInstance()
                 selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
@@ -60,7 +70,7 @@ object CommonMethod {
             day
         )
 
-        if (!pastDate){
+        if (!pastDate) {
             datePickerDialog.datePicker.minDate = System.currentTimeMillis()
         }
         if (!futureDate) {
@@ -71,10 +81,11 @@ object CommonMethod {
     }
 
 
-     fun detectGestureMode(root: View, viewBottom: View) {
-         root.setOnApplyWindowInsetsListener { _, insets ->
+    fun detectGestureMode(root: View, viewBottom: View) {
+        root.setOnApplyWindowInsetsListener { _, insets ->
             val windowInsetsCompat = WindowInsetsCompat.toWindowInsetsCompat(insets)
-            val navigationBarInsets = windowInsetsCompat.getInsets(WindowInsetsCompat.Type.navigationBars())
+            val navigationBarInsets =
+                windowInsetsCompat.getInsets(WindowInsetsCompat.Type.navigationBars())
 
             val isUsingNavigationButtons = navigationBarInsets.bottom > 0
 
@@ -88,7 +99,7 @@ object CommonMethod {
     }
 
 
-    fun uriToFile(context:Context,uri: Uri): File {
+    fun uriToFile(context: Context, uri: Uri): File {
         val inputStream = context.contentResolver.openInputStream(uri)
         val file = File(context.cacheDir, "picked_image_${System.currentTimeMillis()}.jpg")
         inputStream?.use { input ->
@@ -99,12 +110,28 @@ object CommonMethod {
         return file
     }
 
-    fun removeAllTextSpaces (editText: AppCompatEditText){
+    fun File.toMultiPartBody(key: String): MultipartBody.Part? {
+        val requestFile = this.asRequestBody("image/jpeg".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData(key, this.name, requestFile)
+    }
+
+    fun removeAllTextSpaces(editText: AppCompatEditText) {
         editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun beforeTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
 
             }
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+
+            override fun onTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
                 val text = charSequence.toString()
                 val newText = text.replace(" ", "")
                 if (text != newText) {
@@ -112,6 +139,7 @@ object CommonMethod {
                     editText.setSelection(newText.length)
                 }
             }
+
             override fun afterTextChanged(editable: Editable?) {
 
             }
@@ -177,8 +205,8 @@ object CommonMethod {
 
     fun commonErrorHandling(
         context: Context,
-        errorCode:Int,
-        errorMessage:String
+        errorCode: Int,
+        errorMessage: String
 
     ) {
         try {
@@ -189,16 +217,13 @@ object CommonMethod {
                 }
 
 
-
             }
-        }
-
-        catch (e:Exception){
+        } catch (e: Exception) {
 
         }
     }
 
-    fun clearAllData(context: Context){
+    fun clearAllData(context: Context) {
         /*SharedPreference.get(context).accessToken = ""
         SharedPreference.get(context).language = ""
         SharedPreference.get(context).clearUser()
@@ -219,7 +244,7 @@ object CommonMethod {
     }
 
     fun formatPriceToReduceLength(amountStr: String?): String {
-        if (amountStr.isNullOrBlank()||amountStr=="null") return ""
+        if (amountStr.isNullOrBlank() || amountStr == "null") return ""
         return try {
             val amount = amountStr.toDouble()
             when {
@@ -240,9 +265,14 @@ object CommonMethod {
     }
 
 
-    fun customizeChangeDateFormat(inputDate: String,inputFormat:String="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",outputFormat:String="dd MMM,yyyy"): String {
+    fun customizeChangeDateFormat(
+        inputDate: String,
+        inputFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+        outputFormat: String = "dd MMM,yyyy"
+    ): String {
         val originalFormat: SimpleDateFormat = SimpleDateFormat(inputFormat, Locale.ENGLISH).apply {
-            timeZone = TimeZone.getTimeZone("UTC")}
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
         val targetFormat = SimpleDateFormat(outputFormat, Locale.ENGLISH)
 
         val date: Date
@@ -262,7 +292,11 @@ object CommonMethod {
         )
     }
 
-    fun formatDate(date:String,input:String="dd/MM/yyyy",output:String="yyyy-MM-dd"):String{
+    fun formatDate(
+        date: String,
+        input: String = "dd/MM/yyyy",
+        output: String = "yyyy-MM-dd"
+    ): String {
         val inputFormat = SimpleDateFormat(input, Locale.getDefault())
         val outputFormat = SimpleDateFormat(output, Locale.getDefault())
         val date = inputFormat.parse(date)
@@ -276,7 +310,12 @@ object CommonMethod {
         return password.matches(passwordPattern.toRegex())
     }
 
-    fun showSuccessDialog(context: Context,description:String,button:Boolean=false,onDismiss: (() -> Unit)? = null) {
+    fun showSuccessDialog(
+        context: Context,
+        description: String,
+        button: Boolean = false,
+        onDismiss: (() -> Unit)? = null
+    ) {
         val dialog = Dialog(context, R.style.CustomDialog)
         val dialogBinding = SuccessDialogLayoutBinding.inflate(LayoutInflater.from(context))
         dialog.setContentView(dialogBinding.root)
@@ -289,7 +328,7 @@ object CommonMethod {
         window.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(false)
 
-        dialogBinding.tvDescription.text=description
+        dialogBinding.tvDescription.text = description
         dialogBinding.tvOkay.isVisible = button
 
         dialogBinding.tvOkay.setOnClickListener {
@@ -301,7 +340,7 @@ object CommonMethod {
         }
 
         dialog.show()
-        if(button==false){
+        if (button == false) {
             Handler(Looper.getMainLooper()).postDelayed({
                 if (dialog.isShowing) {
                     dialog.dismiss()

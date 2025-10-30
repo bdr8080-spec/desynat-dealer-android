@@ -16,4 +16,5 @@
     <string name="i_accept_the_terms_conditions_and_policies"><![CDATA[I accept the Terms & Conditions and Policies]]></string>
     <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
     <string name="policies">Policies</string>
+    <string name="generic_error">Something went wrong!</string>
 </resources>

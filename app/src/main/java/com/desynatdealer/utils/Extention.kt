@@ -22,6 +22,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.desynatdealer.R
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -266,3 +268,9 @@ fun String?.orDash(): String = if (this.isNullOrBlank()) "-" else this
 
 fun String?.orNA(): String = if (this.isNullOrBlank()) "NA" else this
 
+fun ImageView.setImage(
+    link: String?,
+    placeholder: Int = R.drawable.profile_picture_placeholder,
+) {
+    Glide.with(this).load(link).error(placeholder).into(this)
+}

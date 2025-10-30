@@ -1,20 +1,19 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    id("kotlin-android")
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    kotlin("kapt")
     id("kotlin-parcelize")
-    alias(libs.plugins.hilt.android)
+    id("com.google.dagger.hilt.android")
 }
 
 android {
     namespace = "com.desynatdealer"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.desynatdealer"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -34,11 +33,11 @@ android {
         viewBinding = true
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
 }
 
@@ -49,26 +48,50 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.play.services.location)
+    implementation(libs.play.services.maps)
+    implementation(libs.places)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
 
+    //fragment navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
-    //lifecycle
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    //circle image view
+    implementation(libs.circleimageview)
+
+    //country code picker and phone validation
+    implementation(libs.libphonenumber)
+    implementation(libs.ccp)
+
+
+    //dagger hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-compiler:2.48")
+
+
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    //hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    // Logging interceptor
-    implementation(libs.okhttp)
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+
+    // passing primitive as RequestBody: retrofit
+    implementation(libs.converter.scalars)
+
+    //gson for serialize and deserialize
+    implementation(libs.gson)
+
+    //okhttp network interceptor
+    implementation(libs.logging.interceptor)
+
 //    coil
     implementation("io.coil-kt:coil:2.7.0")
+
+    //glide
+    implementation(libs.glide)
 
 //    for opt
     implementation(libs.ccp)
@@ -80,6 +103,10 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("com.google.android.libraries.places:places:3.5.0")
     implementation("com.makeramen:roundedimageview:2.3.0")
-    implementation ("com.intuit.sdp:sdp-android:1.1.0")
+    implementation("com.intuit.sdp:sdp-android:1.1.0")
     implementation("com.tbuonomo:dotsindicator:5.1.0")
+
+    //chucker for debugging api
+    debugImplementation(libs.library)
+    releaseImplementation(libs.library.no.op)
 }

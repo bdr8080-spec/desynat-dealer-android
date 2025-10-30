@@ -15,25 +15,24 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.databinding.FragmentSignUpBinding
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.CustomTypefaceSpan
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.utils.togglePasswordVisibility
-import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
-@AndroidEntryPoint
 class SignUpFragment : BaseFragment() {
     private var binding: FragmentSignUpBinding? = null
-    private val viewModel: AuthViewModel by viewModels()
-    var isObserver = false
+    private val viewModel: AuthViewModel by activityViewModels()
     private lateinit var imagePicker: ImagePicker
     private var profileImage: File? = null
     private val cameraLauncher =
@@ -50,6 +49,9 @@ class SignUpFragment : BaseFragment() {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             imagePicker.onPermissionResult(granted)
         }
+
+    private var profilePhotoUrl: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,11 +72,13 @@ class SignUpFragment : BaseFragment() {
             CommonMethod.removeAllTextSpaces(etEmail)
             CommonMethod.removeAllTextSpaces(etConfirmPassword)
             CommonMethod.removeAllTextSpaces(etPassword)
-            tvAlreadyAccount.text = CommonMethod.spannableText(requireActivity(),requireActivity().getString(
-                R.string.already_have_an_account_sign_in),requireActivity().getString(R.string.sign_in), onClick = {
-                findNavController().popBackStack()
+            tvAlreadyAccount.text = CommonMethod.spannableText(
+                requireActivity(), requireActivity().getString(
+                    R.string.already_have_an_account_sign_in
+                ), requireActivity().getString(R.string.sign_in), onClick = {
+                    findNavController().popBackStack()
 
-            })
+                })
             tvAlreadyAccount.movementMethod = LinkMovementMethod.getInstance()
             tvAlreadyAccount.highlightColor = Color.TRANSPARENT
 
@@ -91,6 +95,8 @@ class SignUpFragment : BaseFragment() {
                 uri?.let {
                     profileImage = CommonMethod.uriToFile(requireActivity(), it)
                     ivProfile.setImageURI(it)
+                    val image = profileImage?.toMultiPartBody("image")
+                    viewModel.upload(image)
                 }
             }
         }
@@ -105,37 +111,122 @@ class SignUpFragment : BaseFragment() {
 
             btnContinue.setOnClickListener {
                 if (validation()) {
-                        val bundle = Bundle().apply {
-                            putString("countryCode", binding?.ccp?.selectedCountryCodeWithPlus)
-                            putString("mobileNumber", binding?.etMobile?.text.toString().trim())
-                            putString("from", "signUp")
-                        }
-                        findNavController().navigate(
-                            R.id.action_signUpFragment_to_OtpFragment,
-                            bundle
+
+                    PreviewFragment.createAccountReq = hashMapOf(
+                        "profile_pic" to profilePhotoUrl.toString(),
+                        "first_name" to binding?.etFirstName?.text.toString(),
+                        "last_name" to binding?.etLastName?.text.toString(),
+                        "country_code" to binding?.ccp?.selectedCountryCodeWithPlus.toString(),
+                        "mobile" to binding?.etMobile?.text.toString(),
+                        "email" to binding?.etEmail?.text.toString(),
+                        "password" to binding?.etPassword?.text.toString(),
+                        "confirm_password" to binding?.etConfirmPassword?.text.toString(),
+                        "accept_terms" to "1",
+                        "device_type" to "1",
+                        "device_token" to "123456"
+                    )
+                    viewModel.createAccount(
+                        hashMapOf(
+                            "profile_pic" to profilePhotoUrl.toString(),
+                            "first_name" to binding?.etFirstName?.text.toString(),
+                            "last_name" to binding?.etLastName?.text.toString(),
+                            "country_code" to binding?.ccp?.selectedCountryCodeWithPlus.toString(),
+                            "mobile" to binding?.etMobile?.text.toString(),
+                            "email" to binding?.etEmail?.text.toString(),
+                            "password" to binding?.etPassword?.text.toString(),
+                            "confirm_password" to binding?.etConfirmPassword?.text.toString(),
+                            "accept_terms" to "1",
+                            "device_type" to "1",
+                            "device_token" to "123456"
                         )
+                    )
 
                 }
-
             }
 
         }
     }
 
     override fun observe() {
+
+        viewModel.uploadResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+//                    binding.loader.setVisible()
+                }
+
+                is ApiResult.Success -> {
+                    profilePhotoUrl = result.data?.data?.url
+                    viewModel.uploadResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+//                    binding.loader.setGone()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.uploadResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+        viewModel.createAccountResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+//                    binding.loader.setVisible()
+                }
+
+                is ApiResult.Success -> {
+
+                    val bundle = Bundle().apply {
+                        putString("countryCode", binding?.ccp?.selectedCountryCodeWithPlus)
+                        putString("mobileNumber", binding?.etMobile?.text.toString().trim())
+                        putString("from", "signUp")
+                        putString("id", result.data?.data?.id.toString())
+                    }
+                    findNavController().navigate(
+                        R.id.action_signUpFragment_to_OtpFragment,
+                        bundle
+                    )
+
+                    viewModel.createAccountResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+//                    binding.loader.setGone()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.createAccountResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
     }
 
     private fun validation(): Boolean {
         binding?.apply {
-            val fullName = etFullName.text.toString().trim()
+            val firstName = etFirstName.text.toString().trim()
+            val lastName = etLastName.text.toString().trim()
             val mobile = etMobile.text.toString().trim()
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
             val confirmPassword = etConfirmPassword.text.toString().trim()
 
             return when {
-                fullName.isEmpty() -> {
-                    showToast("Please enter your full name")
+
+                profilePhotoUrl == null -> {
+                    showToast("Please upload Profile Photo")
+                    false
+                }
+
+                firstName.isEmpty() -> {
+                    showToast("Please enter your first name")
+                    false
+                }
+
+                lastName.isEmpty() -> {
+                    showToast("Please enter your last name")
                     false
                 }
 
@@ -192,7 +283,8 @@ class SignUpFragment : BaseFragment() {
 
     private fun spannableText(
     ): SpannableString {
-        val textSpannable = SpannableString(getString(R.string.i_accept_the_terms_conditions_and_policies))
+        val textSpannable =
+            SpannableString(getString(R.string.i_accept_the_terms_conditions_and_policies))
         val typeface = ResourcesCompat.getFont(requireActivity(), R.font.poppins_regular)
 
         fun applySpan(target: String, click: (() -> Unit)?) {
@@ -224,7 +316,7 @@ class SignUpFragment : BaseFragment() {
                             override fun updateDrawState(ds: TextPaint) {
                                 super.updateDrawState(ds)
                                 ds.isUnderlineText = true
-                                ds.color = ContextCompat.getColor(requireActivity(),  R.color.brown)
+                                ds.color = ContextCompat.getColor(requireActivity(), R.color.brown)
                             }
                         },
                         startIndex, endIndex,
@@ -234,10 +326,10 @@ class SignUpFragment : BaseFragment() {
             }
         }
 
-        applySpan(getString(R.string.terms_conditions)){
+        applySpan(getString(R.string.terms_conditions)) {
 
         }
-        applySpan(getString(R.string.policies)){
+        applySpan(getString(R.string.policies)) {
 
         }
 

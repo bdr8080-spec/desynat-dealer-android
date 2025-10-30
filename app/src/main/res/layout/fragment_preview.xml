@@ -1,272 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.auth.fragment.PreviewFragment">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/common_toolbar"/>
+        layout="@layout/common_toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
-            android:paddingBottom="@dimen/_20sdp"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/_15sdp"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/_20sdp">
 
             <androidx.appcompat.widget.AppCompatTextView
-               android:layout_width="wrap_content"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semi_bold"
                 android:text="Personal Information"
-                android:textSize="@dimen/_12sdp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/poppins_semi_bold"/>
+                android:textSize="@dimen/_12sdp" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivProfile"
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_90sdp"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_gravity="start"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/brown"
-                app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
-                android:scaleType="centerCrop"
-                android:clipToOutline="true"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="#1AA7A7A7"
-                android:src="@drawable/ic_placeholder"/>
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_placeholder"
+                app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
+                app:strokeColor="@color/brown"
+                app:strokeWidth="1dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:text="Full Name"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Full Name"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvFullName"
+                android:id="@+id/tvFirstName"
                 style="@style/edit_text_title"
                 android:text="Ankit Sharma"
-                android:textSize="@dimen/_11sdp"/>
+                android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Phone Number"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Phone Number"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvMobileNumber"
                 style="@style/edit_text_title"
                 android:text="+91- 7620386210"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintTop_toBottomOf="@+id/tvMobile"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvMobile" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Mail Id"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Mail Id"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvEmailAddress"
                 style="@style/edit_text_title"
                 android:text="akash23@gmail.com"
-                android:textSize="@dimen/_11sdp"/>
+                android:textSize="@dimen/_11sdp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#33000000"
-                android:layout_marginTop="@dimen/_10sdp"/>
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="#33000000" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:textSize="@dimen/_12sdp"
-                android:textColor="@color/black"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Store Information" />
+                android:text="Store Information"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivStore"
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_90sdp"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_gravity="start"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/brown"
-                app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
-                android:scaleType="centerCrop"
-                android:clipToOutline="true"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="#1AA7A7A7"
-                android:src="@drawable/ic_placeholder"/>
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_placeholder"
+                app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
+                app:strokeColor="@color/brown"
+                app:strokeWidth="1dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:text="Store Name"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Store Name"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStoreName"
                 style="@style/edit_text_title"
                 android:text="Puma Store"
-                android:textSize="@dimen/_11sdp"/>
+                android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Adress"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Adress"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAddress"
                 style="@style/edit_text_title"
                 android:text="Puma Store C 19, 2nd Floor, Sector 63, Moon Road, Kuwait"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintTop_toBottomOf="@+id/tvMobile"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvMobile" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Phone Number"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Phone Number"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStoreMobileNumber"
                 style="@style/edit_text_title"
                 android:text="+91- 7620386210"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintTop_toBottomOf="@+id/tvMobile"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvMobile" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Mail Id"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Mail Id"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStoreEmailAddress"
                 style="@style/edit_text_title"
                 android:text="sharma23@gmail.com"
-                android:textSize="@dimen/_11sdp"/>
+                android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Bio"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Bio"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBio"
                 style="@style/edit_text_title"
                 android:text="lorem ipsum dolor sit amet, conse adipisicing elit, sed do eiusmod tempor lorem ipsum dolor amet, consectetur adipisicing elit, it eiusmod tempor"
-                android:textSize="@dimen/_11sdp"/>
+                android:textSize="@dimen/_11sdp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#33000000"
-                android:layout_marginTop="@dimen/_10sdp"/>
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="#33000000" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:textSize="@dimen/_12sdp"
-                android:textColor="@color/black"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Documents" />
+                android:text="Documents"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/edit_text_title"
                 android:text="Owner's Documents"
-                android:textSize="@dimen/_11sdp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_90sdp"
-                android:layout_weight="1"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_gravity="start"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/brown"
-                android:layout_marginEnd="@dimen/_7sdp"
-                app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
-                android:scaleType="centerCrop"
-                android:clipToOutline="true"
-                android:background="#1AA7A7A7"
-                android:src="@drawable/ic_placeholder"/>
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_90sdp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/brown"
-                    app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
-                    android:scaleType="centerCrop"
-                    android:clipToOutline="true"
-                    android:background="#1AA7A7A7"
-                    android:src="@drawable/ic_placeholder"/>
-
-            </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/edit_text_title"
-                android:text="Owner's Documents"
-                android:textSize="@dimen/_11sdp"/>
+                android:textSize="@dimen/_11sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -275,165 +232,212 @@
                 android:weightSum="2">
 
                 <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/owner_doc_1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_90sdp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_gravity="start"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/brown"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_7sdp"
-                    app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
-                    android:scaleType="centerCrop"
-                    android:clipToOutline="true"
+                    android:layout_weight="1"
                     android:background="#1AA7A7A7"
-                    android:src="@drawable/ic_placeholder"/>
+                    android:clipToOutline="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_placeholder"
+                    app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
+                    app:strokeColor="@color/brown"
+                    app:strokeWidth="1dp" />
 
                 <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/owner_doc_2"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_90sdp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_gravity="start"
                     android:layout_marginStart="@dimen/_8sdp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/brown"
-                    app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
-                    android:scaleType="centerCrop"
-                    android:clipToOutline="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
                     android:background="#1AA7A7A7"
-                    android:src="@drawable/ic_placeholder"/>
+                    android:clipToOutline="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_placeholder"
+                    app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
+                    app:strokeColor="@color/brown"
+                    app:strokeWidth="1dp" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/edit_text_title"
+                android:text="Store's Documents"
+                android:textSize="@dimen/_11sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/store_doc_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_7sdp"
+                    android:layout_weight="1"
+                    android:background="#1AA7A7A7"
+                    android:clipToOutline="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_placeholder"
+                    app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
+                    app:strokeColor="@color/brown"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/store_doc_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="#1AA7A7A7"
+                    android:clipToOutline="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_placeholder"
+                    app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
+                    app:strokeColor="@color/brown"
+                    app:strokeWidth="1dp" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#33000000"
-                android:layout_marginTop="@dimen/_10sdp"/>
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="#33000000" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:textSize="@dimen/_12sdp"
-                android:textColor="@color/black"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Bank Details" />
+                android:text="Bank Details"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:text="Account Type"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Account Type"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAccountType"
                 style="@style/edit_text_title"
                 android:text="Personal"
-                android:textSize="@dimen/_11sdp"/>
+                android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="IBAN"
                 android:fontFamily="@font/poppins_medium"
+                android:text="IBAN"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvIban"
                 style="@style/edit_text_title"
                 android:text="KW2837289202937393937929038292093839203"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintTop_toBottomOf="@+id/tvMobile"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvMobile" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="SWIFT/BIC"
                 android:fontFamily="@font/poppins_medium"
+                android:text="SWIFT/BIC"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSwift"
                 style="@style/edit_text_title"
                 android:text="26781901"
-                android:textSize="@dimen/_11sdp"/>
+                android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Bank Name"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Bank Name"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBankName"
                 style="@style/edit_text_title"
                 android:text="SBI Bank"
-                android:textSize="@dimen/_11sdp"/>
+                android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Account holder name"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Account holder name"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAccountHolderName"
                 style="@style/edit_text_title"
                 android:text="Rohan "
-                android:textSize="@dimen/_11sdp"/>
+                android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Proof of account"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Proof of account"
                 android:textColor="#808080"
-                android:textSize="@dimen/_10sdp"/>
+                android:textSize="@dimen/_10sdp" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivBankAccount"
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_90sdp"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_gravity="start"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/brown"
-                app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
-                android:scaleType="centerCrop"
-                android:clipToOutline="true"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="#1AA7A7A7"
-                android:src="@drawable/ic_placeholder"/>
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_placeholder"
+                app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
+                app:strokeColor="@color/brown"
+                app:strokeWidth="1dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnSubmit"
                 style="@style/button"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:text="Submit"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivBankAccount"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivBankAccount" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"/>
+                android:layout_height="@dimen/_30sdp" />
 
         </LinearLayout>
 

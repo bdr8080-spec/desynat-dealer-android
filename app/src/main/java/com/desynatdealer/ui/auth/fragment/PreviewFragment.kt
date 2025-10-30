@@ -1,16 +1,33 @@
 package com.desynatdealer.ui.auth.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
+import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.databinding.FragmentPreviewBinding
+import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
+import com.desynatdealer.utils.setImage
+import com.desynatdealer.utils.showToast
 
 class PreviewFragment : BaseFragment() {
+
+    companion object {
+        lateinit var createAccountReq: HashMap<String, String>
+        lateinit var storeInformationReq: HashMap<String, String>
+        lateinit var storeDocumentAndBankDetailsReq: StoreDocumentAndBankDetailsReq
+    }
+
     private var binding: FragmentPreviewBinding? = null
+
+    private val viewModel: AuthViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,9 +43,38 @@ class PreviewFragment : BaseFragment() {
         observe()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
         binding?.apply {
             toolbar.tvToolbar.text = "Summary"
+
+            ivProfile.setImage(createAccountReq.get("profile_pic"))
+            tvFirstName.text =
+                createAccountReq.get("first_name") + " " + createAccountReq.get("last_name")
+            tvMobileNumber.text =
+                createAccountReq.get("country_code") + "-" + createAccountReq.get("mobile")
+            tvEmailAddress.text = createAccountReq.get("email")
+
+            ivStore.setImage(storeInformationReq.get("store_image"))
+            tvStoreName.text = storeInformationReq.get("store_name")
+            tvAddress.text = storeInformationReq.get("store_address")
+            tvStoreMobileNumber.text = storeInformationReq.get("store_phone")
+            tvStoreEmailAddress.text = storeInformationReq.get("store_mail_id")
+            tvBio.text = storeInformationReq.get("bio")
+
+            ownerDoc1.setImage(storeDocumentAndBankDetailsReq.ownerDocument.getOrNull(0))
+            ownerDoc2.setImage(storeDocumentAndBankDetailsReq.ownerDocument.getOrNull(1))
+            storeDoc1.setImage(storeDocumentAndBankDetailsReq.storeDocument.getOrNull(0))
+            storeDoc2.setImage(storeDocumentAndBankDetailsReq.storeDocument.getOrNull(1))
+
+            tvAccountType.text =
+                if (storeDocumentAndBankDetailsReq.accountType == "0") "Personal" else "Business"
+
+            tvIban.text = storeDocumentAndBankDetailsReq.iban
+            tvSwift.text = storeDocumentAndBankDetailsReq.swift
+            tvBankName.text = storeDocumentAndBankDetailsReq.bankName
+            tvAccountHolderName.text = storeDocumentAndBankDetailsReq.accountHolderName
+            ivBankAccount.setImage(storeDocumentAndBankDetailsReq.uploadProof)
         }
     }
 
@@ -39,12 +85,55 @@ class PreviewFragment : BaseFragment() {
             }
 
             btnSubmit.setOnClickListener {
-                findNavController().navigate(R.id.action_previewFragment_to_underReviewFragment)
+                viewModel.storeInformation(storeInformationReq)
             }
         }
     }
 
     override fun observe() {
+
+        viewModel.storeInformationResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+//                    binding.loader.setVisible()
+                }
+
+                is ApiResult.Success -> {
+                    viewModel.storeDocumentAndBankDetails(storeDocumentAndBankDetailsReq)
+                    viewModel.storeInformationResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+//                    binding.loader.setGone()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.storeInformationResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+        viewModel.storeDocumentAndBankDetailsResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+//                    binding.loader.setVisible()
+                }
+
+                is ApiResult.Success -> {
+                    findNavController().navigate(R.id.action_previewFragment_to_underReviewFragment)
+                    viewModel.storeDocumentAndBankDetailsResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+//                    binding.loader.setGone()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.storeDocumentAndBankDetailsResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
     }
 
 }
