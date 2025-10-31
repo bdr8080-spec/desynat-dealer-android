@@ -83,4 +83,12 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
             ApiResult.Error("Syntax Error")
         }
     }
+
+    suspend fun resendOtp(map: HashMap<String, String>): ApiResult<Unit> {
+        return try {
+            networkCall(api.resendOtp(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
 }

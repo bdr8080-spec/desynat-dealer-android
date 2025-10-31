@@ -47,4 +47,8 @@ interface CommonApiService {
     @POST("api/seller/create_password")
     suspend fun changePassword(@Body map: HashMap<String, String>): Response<Unit>
 
+
+    @POST("api/seller/resend_otp")
+    suspend fun resendOtp(@Body map: HashMap<String, String>): Response<Unit>
+
 }

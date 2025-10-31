@@ -68,7 +68,15 @@ class OtpVerificationFragment : BaseFragment() {
             }
 
             tvResendOtp.setOnClickListener {
-                startTimer()
+                viewModel.resendOtp(
+                    hashMapOf(
+                        "email_mobile" to if (email != "" && email != "null") {
+                            email
+                        } else {
+                            mobileNumber
+                        }
+                    )
+                )
             }
 
             btnVerify.setOnClickListener {
@@ -143,6 +151,27 @@ class OtpVerificationFragment : BaseFragment() {
             }
         }
 
+
+        viewModel.resendOtpResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+//                    binding.loader.setVisible()
+                }
+
+                is ApiResult.Success -> {
+                    startTimer()
+                    viewModel.resendOtpResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+//                    binding.loader.setGone()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.resendOtpResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
 
     }
 

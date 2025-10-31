@@ -126,4 +126,17 @@ open class AuthViewModel @Inject constructor(private val repo: AuthRepository) :
         }
     }
 
+
+    private val _resendOtpResponse =
+        MutableLiveData<ApiResult<Unit>?>()
+    val resendOtpResponse: MutableLiveData<ApiResult<Unit>?>
+        get() = _resendOtpResponse
+
+    fun resendOtp(map: HashMap<String, String>) {
+        viewModelScope.launch {
+            _resendOtpResponse.value = ApiResult.Loading
+            _resendOtpResponse.value = repo.resendOtp(map)
+        }
+    }
+
 }
