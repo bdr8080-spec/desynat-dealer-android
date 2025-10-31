@@ -121,7 +121,13 @@ class OtpVerificationFragment : BaseFragment() {
                         }
 
                         "forgot" -> {
-                            findNavController().navigate(R.id.action_otpFragment_to_resetPasswordFragment)
+                            val bundle = Bundle().apply {
+                                putString("id", arguments?.getString("id").toString())
+                            }
+                            findNavController().navigate(
+                                R.id.action_otpFragment_to_resetPasswordFragment,
+                                bundle
+                            )
                         }
                     }
                     viewModel.verifyOtpResponse.value = null

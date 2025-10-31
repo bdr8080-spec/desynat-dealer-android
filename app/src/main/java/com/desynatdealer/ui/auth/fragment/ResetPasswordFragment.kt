@@ -4,22 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.databinding.FragmentResetPasswordBinding
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.utils.togglePasswordVisibility
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class ResetPasswordFragment : BaseFragment() {
+
     private var binding: FragmentResetPasswordBinding? = null
-    private val viewModel: AuthViewModel by viewModels()
-    var isObserver = false
+    private val viewModel: AuthViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,21 +49,18 @@ class ResetPasswordFragment : BaseFragment() {
     override fun initControl() {
         binding?.apply {
 
-            toolbar.tvToolbar.setOnClickListener{
+            toolbar.tvToolbar.setOnClickListener {
                 findNavController().popBackStack()
             }
 
             btnDone.setOnClickListener {
                 if (validation()) {
-                    val map = HashMap<String,String>()
+                    val map = HashMap<String, String>()
                     map["password"] = binding?.etPassword?.text.toString().trim()
-                    map["confirmPassword"] = binding?.etConfirmPassword?.text.toString().trim()
-                    CommonMethod.showSuccessDialog(
-                        requireActivity(),
-                        getString(R.string.password_reset_successfully), false
-                    ) {
-                        findNavController().popBackStack(R.id.login, false)
-                    }
+                    map["confirm_password"] = binding?.etConfirmPassword?.text.toString().trim()
+                    map["id"] = arguments?.getString("id").toString()
+
+                    viewModel.changePassword(map)
                 }
             }
         }
@@ -71,25 +68,51 @@ class ResetPasswordFragment : BaseFragment() {
     }
 
     override fun observe() {
+
+        viewModel.changePasswordResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+//                    binding.loader.setVisible()
+                }
+
+                is ApiResult.Success -> {
+
+                    CommonMethod.showSuccessDialog(
+                        requireActivity(),
+                        getString(R.string.password_reset_successfully), false
+                    ) {
+                        findNavController().popBackStack(R.id.login, false)
+                    }
+
+                    viewModel.changePasswordResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+//                    binding.loader.setGone()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.changePasswordResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
     }
 
-    private fun validation():Boolean{
+    private fun validation(): Boolean {
         val password = binding?.etPassword?.text.toString().trim()
         val confirmPassword = binding?.etConfirmPassword?.text.toString().trim()
 
         if (password.isEmpty()) {
             showToast("Please enter password")
             return false
-        }
-        else if (!CommonMethod.isValidPassword(password)) {
+        } else if (!CommonMethod.isValidPassword(password)) {
             showToast("Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one special character.")
             return false
-        }
-        else if (confirmPassword.isEmpty() ) {
+        } else if (confirmPassword.isEmpty()) {
             showToast("Please enter confirm password")
             return false
-        }
-        else if (password!=confirmPassword) {
+        } else if (password != confirmPassword) {
             showToast("Password and confirm password didn't match")
             return false
         }

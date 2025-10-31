@@ -39,4 +39,12 @@ interface CommonApiService {
     @POST("api/seller/store_document_and_bank_details")
     suspend fun storeDocumentAndBankDetails(@Body loginReq: StoreDocumentAndBankDetailsReq): Response<Unit>
 
+
+    @POST("api/seller/forgot_password")
+    suspend fun forgotPassword(@Body map: HashMap<String, String>): Response<CreateAccountRes>
+
+
+    @POST("api/seller/create_password")
+    suspend fun changePassword(@Body map: HashMap<String, String>): Response<Unit>
+
 }

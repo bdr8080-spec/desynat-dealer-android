@@ -60,9 +60,25 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
-    suspend fun storeDocumentAndBankDetails(req: StoreDocumentAndBankDetailsReq): ApiResult<Unit>  {
+    suspend fun storeDocumentAndBankDetails(req: StoreDocumentAndBankDetailsReq): ApiResult<Unit> {
         return try {
             networkCall(api.storeDocumentAndBankDetails(req))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun forgotPassword(map: HashMap<String, String>): ApiResult<CreateAccountRes> {
+        return try {
+            networkCall(api.forgotPassword(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun changePassword(map: HashMap<String, String>): ApiResult<Unit> {
+        return try {
+            networkCall(api.changePassword(map))
         } catch (e: Exception) {
             ApiResult.Error("Syntax Error")
         }

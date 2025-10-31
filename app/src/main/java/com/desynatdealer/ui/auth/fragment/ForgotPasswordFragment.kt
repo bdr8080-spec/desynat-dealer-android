@@ -6,21 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.databinding.FragmentForgotPasswordBinding
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.showToast
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class ForgotPasswordFragment : BaseFragment() {
+
     private var binding: FragmentForgotPasswordBinding? = null
-    private val viewModel: AuthViewModel by viewModels()
-    var isObserver = false
+    private val viewModel: AuthViewModel by activityViewModels()
     private var type = "mobile"
 
     override fun onCreateView(
@@ -78,48 +77,71 @@ class ForgotPasswordFragment : BaseFragment() {
                 if (validation()) {
                     val map = HashMap<String, String>()
                     if (binding?.cbMobile?.isChecked == true) {
-                        map["countryCode"] = binding?.ccp?.selectedCountryCodeWithPlus.toString()
-                        map["mobileNumber"] = binding?.etMobile?.text.toString().trim()
-                    }
-                    else {
+                        map["country_code"] = binding?.ccp?.selectedCountryCodeWithPlus.toString()
+                        map["mobile"] = binding?.etMobile?.text.toString().trim()
+                        map["type"] = "0"
+                    } else {
                         map["email"] = binding?.etEmail?.text.toString().trim()
+                        map["type"] = "1"
                     }
 
-                    val bundle = Bundle().apply {
-                        if (binding?.cbMobile?.isChecked == true) {
-                            putString("countryCode", binding?.ccp?.selectedCountryCodeWithPlus)
-                            putString("mobileNumber", binding?.etMobile?.text.toString().trim())
-                        }
-                        else {
-                            putString("email", binding?.etEmail?.text.toString().trim())
-                        }
-                        putString("from", "forgot")
-                    }
-                    findNavController().navigate(R.id.action_forgotFragment_to_otpFragment,bundle)
+                    viewModel.forgotPassword(map)
                 }
             }
         }
     }
 
     override fun observe() {
+
+        viewModel.forgotPasswordResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+//                    binding.loader.setVisible()
+                }
+
+                is ApiResult.Success -> {
+                    val bundle = Bundle().apply {
+                        if (binding?.cbMobile?.isChecked == true) {
+                            putString("countryCode", binding?.ccp?.selectedCountryCodeWithPlus)
+                            putString("mobileNumber", binding?.etMobile?.text.toString().trim())
+                        } else {
+                            putString("email", binding?.etEmail?.text.toString().trim())
+                        }
+                        putString("from", "forgot")
+                        putString("id", result.data?.data?.id?.toString())
+                    }
+                    findNavController().navigate(R.id.action_forgotFragment_to_otpFragment, bundle)
+
+                    viewModel.forgotPasswordResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+//                    binding.loader.setGone()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.forgotPasswordResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
     }
 
-    private fun validation():Boolean{
+    private fun validation(): Boolean {
         val email = binding?.etEmail?.text.toString().trim()
 
-        if (binding?.etMobile?.text?.isEmpty() == true&&binding?.cbMobile?.isChecked==true) {
+        if (binding?.etMobile?.text?.isEmpty() == true && binding?.cbMobile?.isChecked == true) {
             showToast("Please enter mobile number")
             return false
-        }
-        else if (binding?.etMobile?.text?.length!! < 7&&binding?.cbMobile?.isChecked==true) {
+        } else if (binding?.etMobile?.text?.length!! < 7 && binding?.cbMobile?.isChecked == true) {
             showToast("Please enter valid mobile number between 7 to 15 digits")
             return false
-        }
-        else if (email.isBlank()&&binding?.cbEmail?.isChecked==true) {
+        } else if (email.isBlank() && binding?.cbEmail?.isChecked == true) {
             showToast("Please enter email")
             return false
-        }
-        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches() && !email.all { it.isDigit() }&&binding?.cbEmail?.isChecked==true) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email)
+                .matches() && !email.all { it.isDigit() } && binding?.cbEmail?.isChecked == true
+        ) {
             showToast("Please enter valid email")
             return false
         }

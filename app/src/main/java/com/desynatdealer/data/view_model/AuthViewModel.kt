@@ -100,4 +100,30 @@ open class AuthViewModel @Inject constructor(private val repo: AuthRepository) :
         }
     }
 
+
+    private val _forgotPasswordResponse =
+        MutableLiveData<ApiResult<CreateAccountRes>?>()
+    val forgotPasswordResponse: MutableLiveData<ApiResult<CreateAccountRes>?>
+        get() = _forgotPasswordResponse
+
+    fun forgotPassword(req: HashMap<String, String>) {
+        viewModelScope.launch {
+            _forgotPasswordResponse.value = ApiResult.Loading
+            _forgotPasswordResponse.value = repo.forgotPassword(req)
+        }
+    }
+
+
+    private val _changePasswordResponse =
+        MutableLiveData<ApiResult<Unit>?>()
+    val changePasswordResponse: MutableLiveData<ApiResult<Unit>?>
+        get() = _changePasswordResponse
+
+    fun changePassword(req: HashMap<String, String>) {
+        viewModelScope.launch {
+            _changePasswordResponse.value = ApiResult.Loading
+            _changePasswordResponse.value = repo.changePassword(req)
+        }
+    }
+
 }
