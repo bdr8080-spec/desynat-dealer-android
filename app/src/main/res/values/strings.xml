@@ -5,7 +5,7 @@
     <string name="continue_text">Continue</string>
     <string name="arabic">Arabic</string>
     <string name="english">English</string>
-    <string name="resend_otp">Resend Otp</string>
+    <string name="resend_otp">Resend OTP</string>
     <string name="enter_mobile_number">Enter Mobile Number</string>
     <string name="enter_email_address">Enter Email Address</string>
     <string name="password_reset_successfully">Password Reset successfully !</string>

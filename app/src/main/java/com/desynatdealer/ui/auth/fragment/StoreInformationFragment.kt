@@ -1,33 +1,46 @@
 package com.desynatdealer.ui.auth.fragment
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
+import com.desynatdealer.data.view_model.DealerRegistrationViewModel
 import com.desynatdealer.databinding.FragmentStoreInformationBinding
 import com.desynatdealer.ui.UpdateLocationActivity
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ImagePicker
+import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
+import java.io.IOException
+import java.util.Locale
 
+@AndroidEntryPoint
 class StoreInformationFragment : BaseFragment() {
 
     private var binding: FragmentStoreInformationBinding? = null
     private val viewModel: AuthViewModel by activityViewModels()
+    private val sharedViewModel: DealerRegistrationViewModel by activityViewModels()
     private lateinit var imagePicker: ImagePicker
     private var storeImage: File? = null
+    var userId:String?=null
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             imagePicker.onCameraResult(success)
@@ -59,6 +72,19 @@ class StoreInformationFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedViewModel.storeInformation?.let { data ->
+            storePhotoUrl = data["store_image"]
+            lat = data["let"]
+            long = data["long"]
+            userId = data["user_id"]
+            binding?.etStoreName?.setText(data["store_name"])
+            binding?.etCountry?.setText(data["country"])
+            binding?.etStoreAddress?.setText(data["store_address"])
+            binding?.etMobile?.setText(data["store_phone"])
+            binding?.etEmail?.setText(data["store_mail_id"])
+            binding?.etBio?.setText(data["bio"])
+            binding?.ivStoreImage?.load(storePhotoUrl)
+        }
         initView()
         initControl()
         observe()
@@ -66,8 +92,14 @@ class StoreInformationFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
+            if (arguments?.getString("id").toString()!=null&&arguments?.getString("id").toString()!="null"){
+                userId=arguments?.getString("id").toString()
+            }
             toolbar.tvToolbar.text = "Store Information"
             CommonMethod.removeAllTextSpaces(etEmail)
+            CommonMethod.removeSpace(etStoreName)
+            CommonMethod.removeSpace(etAddress1)
+            CommonMethod.removeSpace(etAddress2)
 
             ccpCountryPicker.setCustomMasterCountries("KW,BH,QA,SA,AE,OM")
 
@@ -99,15 +131,15 @@ class StoreInformationFragment : BaseFragment() {
                 imagePicker.showImageSourceDialog()
             }
 
-            etCountry.setOnClickListener {
+            /*etCountry.setOnClickListener {
                 ccpCountryPicker.launchCountrySelectionDialog()
-            }
+            }*/
 
-            ccpCountryPicker.setOnCountryChangeListener {
+            /*ccpCountryPicker.setOnCountryChangeListener {
                 val countryName = ccpCountryPicker.selectedCountryName
                 selectedCountryCode = ccpCountryPicker.selectedCountryNameCode
                 etCountry.setText(countryName)
-            }
+            }*/
 
 
             etStoreAddress.setOnClickListener {
@@ -118,10 +150,11 @@ class StoreInformationFragment : BaseFragment() {
             btnContinue.setOnClickListener {
                 if (validation()) {
                     val bundle = Bundle().apply {
-                        putString("id", arguments?.getString("id").toString())
+                        putString("id", userId.toString())
                     }
+
                     val req = hashMapOf(
-                        "user_id" to arguments?.getString("id").toString(),
+                        "user_id" to userId.toString(),
                         "store_image" to storePhotoUrl.toString(),
                         "store_name" to etStoreName.text.toString(),
                         "country" to getCountryIndex(selectedCountryCode),
@@ -135,6 +168,7 @@ class StoreInformationFragment : BaseFragment() {
                         "long" to long.toString(),
                     )
                     PreviewFragment.storeInformationReq = req
+                    sharedViewModel.storeInformation = req
                     findNavController().navigate(
                         R.id.action_storeInfoFragment_to_DocBankFragment,
                         bundle
@@ -159,28 +193,48 @@ class StoreInformationFragment : BaseFragment() {
             Constants.longitude = data?.getStringExtra("longitudeD")?.toDoubleOrNull() ?: 0.0
             Constants.location = address.toString()
             val addressH = data?.getStringExtra("addressH") ?: "N/A"
-            lat = data?.getDoubleExtra("lat", 0.0).toString()
-            long = data?.getDoubleExtra("lng", 0.0).toString()
+            lat = data?.getStringExtra("latitudeD")?.toDoubleOrNull().toString()
+            long = data?.getStringExtra("longitudeD")?.toDoubleOrNull().toString()
             binding?.etStoreAddress?.setText(address)
+
+            val country = getCountryName(requireActivity(), Constants.latitude,Constants.longitude)
+            binding?.etCountry?.setText(country)
+              binding?.etCountry?.setText(country)
         }
     }
 
+    fun getCountryName(context: Context, latitude: Double, longitude: Double): String? {
+        val geocoder = Geocoder(context, Locale.getDefault())
+        var addresses: List<Address>? = null
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1)
+            var result: Address
+
+            if (addresses != null && !addresses.isEmpty()) {
+                return addresses[0].countryName
+            }
+            return null
+        } catch (ignored: IOException) {
+            return ""
+        }
+    }
 
     override fun observe() {
 
         viewModel.uploadResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-//                    binding.loader.setVisible()
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
 
                 is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
                     storePhotoUrl = result.data?.data?.url
                     viewModel.uploadResponse.value = null
                 }
 
                 is ApiResult.Error -> {
-//                    binding.loader.setGone()
+                    ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.uploadResponse.value = null
                 }
@@ -211,7 +265,7 @@ class StoreInformationFragment : BaseFragment() {
             return when {
 
                 storePhotoUrl == null -> {
-                    showToast("Please upload Profile Photo")
+                    showToast("Please upload store image")
                     false
                 }
 
@@ -235,8 +289,8 @@ class StoreInformationFragment : BaseFragment() {
                     false
                 }
 
-                mobile.length < 10 -> {
-                    showToast("Please enter a valid mobile number")
+                mobile.length < 7 -> {
+                    showToast("Number must be at least 7 digits long")
                     false
                 }
 

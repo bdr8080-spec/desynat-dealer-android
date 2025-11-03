@@ -26,6 +26,7 @@ import androidx.core.text.HtmlCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.desynatdealer.R
+import com.desynatdealer.databinding.AlertDialogLayoutBinding
 import com.desynatdealer.databinding.SuccessDialogLayoutBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -145,6 +146,53 @@ object CommonMethod {
             }
         })
     }
+
+
+    fun removeSpace(editText: EditText){
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+
+                if (start == 0 && count > 0 && charSequence?.startsWith(" ") == true) {
+                    editText.setText(charSequence.toString().trim())
+                    editText.setSelection(editText.text.length)
+                }
+            }
+            override fun afterTextChanged(editable: Editable?) {
+
+            }
+        })
+    }
+
+    fun showAlertDialog(context: Context,description:String,onDismiss: (() -> Unit)? = null) {
+        val dialog = Dialog(context, R.style.CustomDialog)
+        val dialogBinding = AlertDialogLayoutBinding.inflate(LayoutInflater.from(context))
+        dialog.setContentView(dialogBinding.root)
+
+        val window: Window = dialog.window!!
+        window.setLayout(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        window.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+
+        dialogBinding.tvDescription.text=description
+
+        dialogBinding.tvOkay.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.setOnDismissListener {
+            onDismiss?.invoke()
+        }
+
+        dialog.show()
+
+    }
+
+
 
     fun spannableText(
         context: Context,

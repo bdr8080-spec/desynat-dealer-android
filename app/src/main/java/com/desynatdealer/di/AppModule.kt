@@ -40,7 +40,7 @@ object AppModule {
                 val token = SharedPreference.get(context).accessToken
 
                 if (token.isNotEmpty()) {
-                    requestBuilder.addHeader("access_token", "Bearer $token")
+                    requestBuilder.addHeader("Authorization", "Bearer $token")
                 }
 
                 chain.proceed(requestBuilder.build())

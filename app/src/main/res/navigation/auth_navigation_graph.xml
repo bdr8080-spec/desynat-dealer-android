@@ -15,6 +15,10 @@
             android:id="@+id/action_languageFragment_to_onBoardingFragment"
             app:destination="@id/onBoarding"/>
 
+        <action
+            android:id="@+id/action_languageFragment_to_loginFragment"
+            app:destination="@id/login"/>
+
     </fragment>
 
     <fragment

@@ -5,18 +5,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
+import com.desynatdealer.data.view_model.DealerRegistrationViewModel
 import com.desynatdealer.databinding.FragmentPreviewBinding
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
+import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.setImage
 import com.desynatdealer.utils.showToast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PreviewFragment : BaseFragment() {
+    private val sharedViewModel: DealerRegistrationViewModel by activityViewModels()
 
     companion object {
         lateinit var createAccountReq: HashMap<String, String>
@@ -70,8 +76,16 @@ class PreviewFragment : BaseFragment() {
             tvAccountType.text =
                 if (storeDocumentAndBankDetailsReq.accountType == "0") "Personal" else "Business"
 
-            tvIban.text = storeDocumentAndBankDetailsReq.iban
-            tvSwift.text = storeDocumentAndBankDetailsReq.swift
+            if (storeDocumentAndBankDetailsReq.iban!=null&&storeDocumentAndBankDetailsReq.iban!="null"&&storeDocumentAndBankDetailsReq.iban!=""){
+                tvIban.text = storeDocumentAndBankDetailsReq.iban
+                tvIban.isVisible = true
+                tvIbanTitle.isVisible = true
+            }
+            if (storeDocumentAndBankDetailsReq.iban!=null&&storeDocumentAndBankDetailsReq.iban!="null"&&storeDocumentAndBankDetailsReq.iban!=""){
+                tvSwift.text = storeDocumentAndBankDetailsReq.swift
+                tvSwift.isVisible = true
+                tvSwiftTitle.isVisible = true
+            }
             tvBankName.text = storeDocumentAndBankDetailsReq.bankName
             tvAccountHolderName.text = storeDocumentAndBankDetailsReq.accountHolderName
             ivBankAccount.setImage(storeDocumentAndBankDetailsReq.uploadProof)
@@ -95,16 +109,17 @@ class PreviewFragment : BaseFragment() {
         viewModel.storeInformationResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-//                    binding.loader.setVisible()
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
 
                 is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
                     viewModel.storeDocumentAndBankDetails(storeDocumentAndBankDetailsReq)
                     viewModel.storeInformationResponse.value = null
                 }
 
                 is ApiResult.Error -> {
-//                    binding.loader.setGone()
+                    ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.storeInformationResponse.value = null
                 }
@@ -116,16 +131,17 @@ class PreviewFragment : BaseFragment() {
         viewModel.storeDocumentAndBankDetailsResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-//                    binding.loader.setVisible()
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
 
                 is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
                     findNavController().navigate(R.id.action_previewFragment_to_underReviewFragment)
                     viewModel.storeDocumentAndBankDetailsResponse.value = null
                 }
 
                 is ApiResult.Error -> {
-//                    binding.loader.setGone()
+                    ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.storeDocumentAndBankDetailsResponse.value = null
                 }

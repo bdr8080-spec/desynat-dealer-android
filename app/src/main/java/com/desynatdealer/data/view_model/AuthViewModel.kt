@@ -1,5 +1,6 @@
 package com.desynatdealer.data.view_model
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +12,7 @@ import com.desynatdealer.model.upload.UploadResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import java.io.File
 import javax.inject.Inject
 
 
@@ -23,11 +25,11 @@ open class AuthViewModel @Inject constructor(private val repo: AuthRepository) :
     val loginResponse: MutableLiveData<ApiResult<Unit>?>
         get() = _loginResponse
 
-    fun login(emailPhone: String, password: String) {
+    fun login(map: HashMap<String,Any>) {
         viewModelScope.launch {
             viewModelScope.launch {
                 _loginResponse.value = ApiResult.Loading
-                _loginResponse.value = repo.login(emailPhone, password)
+                _loginResponse.value = repo.login(map)
             }
         }
     }

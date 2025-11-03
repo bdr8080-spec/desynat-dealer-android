@@ -26,6 +26,7 @@ import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.CustomTypefaceSpan
 import com.desynatdealer.utils.ImagePicker
+import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.utils.togglePasswordVisibility
 import java.io.File
@@ -72,6 +73,8 @@ class SignUpFragment : BaseFragment() {
             CommonMethod.removeAllTextSpaces(etEmail)
             CommonMethod.removeAllTextSpaces(etConfirmPassword)
             CommonMethod.removeAllTextSpaces(etPassword)
+            CommonMethod.removeSpace(etFirstName)
+            CommonMethod.removeSpace(etLastName)
             tvAlreadyAccount.text = CommonMethod.spannableText(
                 requireActivity(), requireActivity().getString(
                     R.string.already_have_an_account_sign_in
@@ -152,16 +155,16 @@ class SignUpFragment : BaseFragment() {
         viewModel.uploadResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-//                    binding.loader.setVisible()
-                }
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())                  }
 
                 is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
                     profilePhotoUrl = result.data?.data?.url
                     viewModel.uploadResponse.value = null
                 }
 
                 is ApiResult.Error -> {
-//                    binding.loader.setGone()
+                    ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.uploadResponse.value = null
                 }
@@ -235,8 +238,8 @@ class SignUpFragment : BaseFragment() {
                     false
                 }
 
-                mobile.length < 10 -> {
-                    showToast("Please enter a valid mobile number")
+                mobile.length < 7 -> {
+                    showToast("Number must be at least 7 digits long")
                     false
                 }
 
@@ -256,12 +259,13 @@ class SignUpFragment : BaseFragment() {
                 }
 
                 !CommonMethod.isValidPassword(password) -> {
-                    showToast("Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one special character.")
+                    CommonMethod.showAlertDialog(requireActivity(),"Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
+                  //  showToast("Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
                     false
                 }
 
                 confirmPassword.isEmpty() -> {
-                    showToast("Please confirm your password")
+                    showToast("Please enter confirm password")
                     false
                 }
 

@@ -154,7 +154,7 @@
             android:layout_marginStart="@dimen/_4sdp"
             android:fontFamily="@font/poppins_medium"
             android:textAlignment="center"
-            android:text="Resend Otp"
+            android:text="Resend OTP"
             android:textColor="@color/brown"
             android:layout_toRightOf="@+id/tvDidNotReceive"
             android:textSize="@dimen/_10sdp"/>

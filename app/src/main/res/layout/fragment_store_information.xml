@@ -108,13 +108,13 @@
                 android:text="Choose Country"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etStoreName" />
+                app:layout_constraintTop_toBottomOf="@+id/etStoreAddress" />
 
             <com.hbb20.CountryCodePicker
                 android:id="@+id/ccpCountryPicker"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:visibility="invisible"
+                android:visibility="gone"
                 app:ccp_showArrow="false"
                 app:ccp_showFlag="false"
                 app:ccp_showNameCode="false"
@@ -130,11 +130,10 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/edit_back"
-                android:clickable="true"
-                android:drawableEnd="@drawable/ic_drop_down"
+                android:clickable="false"
                 android:editable="false"
                 android:focusable="false"
-                android:hint="Enter store name"
+                android:hint="Country"
                 android:inputType="text"
                 app:layout_constraintTop_toBottomOf="@+id/tvCountry" />
 
@@ -145,7 +144,7 @@
                 android:text="Store Address"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etCountry" />
+                app:layout_constraintTop_toBottomOf="@+id/etStoreName" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etStoreAddress"
@@ -167,7 +166,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="Address line 1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etStoreAddress" />
+                app:layout_constraintTop_toBottomOf="@+id/etCountry" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etAddress1"
@@ -183,7 +182,7 @@
                 android:id="@+id/tvAddress2"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Address line 1"
+                android:text="Address line 2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAddress1" />
 

@@ -7,22 +7,31 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
+import com.desynatdealer.data.view_model.DealerRegistrationViewModel
 import com.desynatdealer.databinding.FragmentDocAndBankInfoBinding
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
+import com.desynatdealer.ui.auth.fragment.PreviewFragment.Companion.storeDocumentAndBankDetailsReq
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.ImagePicker
+import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.setImage
 import com.desynatdealer.utils.showToast
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
+@AndroidEntryPoint
 class DocAndBankInfoFragment : BaseFragment() {
 
     private var binding: FragmentDocAndBankInfoBinding? = null
     private val viewModel: AuthViewModel by activityViewModels()
+    private val sharedViewModel: DealerRegistrationViewModel by activityViewModels()
+
     private lateinit var imagePicker: ImagePicker
     private var ownerDoc1: File? = null
     private var ownerDoc2: File? = null
@@ -30,6 +39,7 @@ class DocAndBankInfoFragment : BaseFragment() {
     private var storeDoc2: File? = null
     private var bankDoc: File? = null
     private var imageType = 0
+    var userId:String?=null
 
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
@@ -62,6 +72,35 @@ class DocAndBankInfoFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedViewModel.documentAndBankDetails?.let { data ->
+            bankDocUrl = data.uploadProof
+            ownerDoc1Url = data.ownerDocument.getOrNull(0)
+            ownerDoc2Url = data.ownerDocument.getOrNull(1)
+            storeDoc1Url = data.storeDocument.getOrNull(0)
+            storeDoc2Url = data.storeDocument.getOrNull(1)
+            binding?.etIban?.setText(data.iban)
+            binding?.etSwift?.setText(data.iban)
+            binding?.ivBank?.load(bankDocUrl)
+            binding?.ivDoc1?.load(ownerDoc1)
+            binding?.ivDoc2?.load(ownerDoc2)
+            binding?.ivStoreDoc1?.load(storeDoc1)
+            binding?.ivStoreDoc2?.load(storeDoc2)
+
+            binding?.ivBank?.setImage(storeDocumentAndBankDetailsReq.uploadProof)
+            binding?.ivDoc1?.setImage(storeDocumentAndBankDetailsReq.ownerDocument.getOrNull(0))
+            binding?.ivDoc2?.setImage(storeDocumentAndBankDetailsReq.ownerDocument.getOrNull(1))
+            binding?.ivStoreDoc1?.setImage(storeDocumentAndBankDetailsReq.storeDocument.getOrNull(0))
+            binding?.ivStoreDoc2?.setImage(storeDocumentAndBankDetailsReq.storeDocument.getOrNull(1))
+            binding?.etAccountHolderName?.setText(data.iban)
+            binding?.etBankName?.setText(data.iban)
+            userId = data.userId
+            if (data.accountType=="0"){
+                binding?.cbPersonal?.isChecked = true
+            }
+            else if (data.accountType=="1"){
+                binding?.cbBusiness?.isChecked = true
+            }
+        }
         initView()
         initControl()
         observe()
@@ -69,6 +108,13 @@ class DocAndBankInfoFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
+            if (arguments?.getString("id").toString()!=null&&arguments?.getString("id").toString()!="null"){
+                userId = arguments?.getString("id").toString()
+            }
+            CommonMethod.removeSpace(etBankName)
+            CommonMethod.removeSpace(etAccountHolderName)
+            CommonMethod.removeSpace(etSwift)
+            CommonMethod.removeSpace(etIban)
             toolbar.tvToolbar.text = "Upload documents & Bank details"
 
             imagePicker = ImagePicker(
@@ -156,10 +202,10 @@ class DocAndBankInfoFragment : BaseFragment() {
             btnContinue.setOnClickListener {
                 if (validation()) {
                     val bundle = Bundle().apply {
-                        putString("id", arguments?.getString("id").toString())
+                        putString("id", userId.toString())
                     }
                     val req = StoreDocumentAndBankDetailsReq(
-                        userId = arguments?.getString("id").toString(),
+                        userId = userId.toString(),
                         ownerDocument = arrayListOf(
                             ownerDoc1Url.toString(),
                             ownerDoc2Url.toString()
@@ -176,6 +222,7 @@ class DocAndBankInfoFragment : BaseFragment() {
                         uploadProof = bankDocUrl.toString()
                     )
                     PreviewFragment.storeDocumentAndBankDetailsReq = req
+                    sharedViewModel.documentAndBankDetails = req
                     findNavController().navigate(
                         R.id.action_docAndBankFragment_to_previewFragment, bundle
                     )
@@ -190,10 +237,11 @@ class DocAndBankInfoFragment : BaseFragment() {
         viewModel.uploadResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-//                    binding.loader.setVisible()
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
 
                 is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
                     when (imageType) {
                         1 -> ownerDoc1Url = result.data?.data?.url
                         2 -> ownerDoc2Url = result.data?.data?.url
@@ -205,7 +253,7 @@ class DocAndBankInfoFragment : BaseFragment() {
                 }
 
                 is ApiResult.Error -> {
-//                    binding.loader.setGone()
+                    ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.uploadResponse.value = null
                 }
@@ -240,15 +288,15 @@ class DocAndBankInfoFragment : BaseFragment() {
                     false
                 }
 
-                etIban.text.toString().isEmpty() -> {
-                    showToast("Please enter iban")
+               /* etIban.text.toString().isEmpty() -> {
+                    showToast("Please enter IBAN")
                     false
                 }
 
                 etSwift.text.toString().isEmpty() -> {
-                    showToast("Please enter swift")
+                    showToast("Please enter SWIFT/BIC")
                     false
-                }
+                }*/
 
                 etBankName.text.toString().isEmpty() -> {
                     showToast("Please enter bank name")

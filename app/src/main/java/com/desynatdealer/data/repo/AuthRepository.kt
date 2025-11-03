@@ -12,9 +12,9 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor(private val api: CommonApiService) {
 
-    suspend fun login(emailPhone: String, password: String): ApiResult<Unit> {
+    suspend fun login(map: HashMap<String,Any>): ApiResult<Unit> {
         return try {
-            networkCall(api.login(LoginReq(emailPhone, password)))
+            networkCall(api.login(map))
         } catch (e: Exception) {
             ApiResult.Error("Syntax Error")
         }

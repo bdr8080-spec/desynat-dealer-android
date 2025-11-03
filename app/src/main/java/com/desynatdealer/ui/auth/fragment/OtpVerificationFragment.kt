@@ -13,6 +13,7 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.databinding.FragmentOtpVerificationBinding
+import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 
 class OtpVerificationFragment : BaseFragment() {
@@ -23,6 +24,7 @@ class OtpVerificationFragment : BaseFragment() {
     var countryCode = ""
     var email = ""
     var from = ""
+    var type = 0
 
     lateinit var timer: CountDownTimer
 
@@ -49,14 +51,16 @@ class OtpVerificationFragment : BaseFragment() {
         email = arguments?.getString("email").toString()
 
         binding?.apply {
-            toolbar.tvToolbar.text = "Otp Verification"
+            toolbar.tvToolbar.text = "OTP Verification"
 
             clView.isVisible = from == "signUp"
 
-            tvMobile.text = if (email != "" && email != "null") {
-                email
+           if (email != "" && email != "null") {
+               tvMobile.text =    email
+               type = 1
             } else {
-                "${countryCode} ${mobileNumber}"
+               tvMobile.text = "${countryCode} ${mobileNumber}"
+               type = 0
             }
         }
     }
@@ -68,15 +72,7 @@ class OtpVerificationFragment : BaseFragment() {
             }
 
             tvResendOtp.setOnClickListener {
-                viewModel.resendOtp(
-                    hashMapOf(
-                        "email_mobile" to if (email != "" && email != "null") {
-                            email
-                        } else {
-                            mobileNumber
-                        }
-                    )
-                )
+                resendOtp()
             }
 
             btnVerify.setOnClickListener {
@@ -108,15 +104,31 @@ class OtpVerificationFragment : BaseFragment() {
 
     }
 
+    private fun resendOtp(){
+        val map = HashMap<String,String>()
+        if (email!=""&&email!="null"){
+            map["email_mobile"] = email
+        }
+        else{
+            map["email_mobile"] = mobileNumber
+            map["country_code"] = countryCode
+        }
+        map["type"] = type.toString()
+        viewModel.resendOtp(map)
+        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+    }
+
     override fun observe() {
 
         viewModel.verifyOtpResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-//                    binding.loader.setVisible()
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
 
                 is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast("OTP verified successfully")
                     when (from) {
                         "signUp" -> {
                             val bundle = Bundle().apply {
@@ -142,7 +154,7 @@ class OtpVerificationFragment : BaseFragment() {
                 }
 
                 is ApiResult.Error -> {
-//                    binding.loader.setGone()
+                    ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.verifyOtpResponse.value = null
                 }
@@ -155,16 +167,23 @@ class OtpVerificationFragment : BaseFragment() {
         viewModel.resendOtpResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-//                    binding.loader.setVisible()
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
 
                 is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    if (type==1){
+                        showToast("OTP sent to email address successfully ")
+                    }
+                    else{
+                        showToast("OTP sent to mobile number successfully ")
+                    }
                     startTimer()
                     viewModel.resendOtpResponse.value = null
                 }
 
                 is ApiResult.Error -> {
-//                    binding.loader.setGone()
+                    ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.resendOtpResponse.value = null
                 }

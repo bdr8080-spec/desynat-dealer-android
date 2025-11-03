@@ -14,7 +14,7 @@ import retrofit2.http.Part
 interface CommonApiService {
 
     @POST("api/seller/login")
-    suspend fun login(@Body loginReq: LoginReq): Response<Unit>
+    suspend fun login(@Body map: HashMap<String,Any>): Response<Unit>
 
 
     @Multipart

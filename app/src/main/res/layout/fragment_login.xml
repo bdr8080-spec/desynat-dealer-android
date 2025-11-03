@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_30sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:orientation="vertical">
 
@@ -41,31 +41,67 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvEmailMobile"
             style="@style/edit_text_title"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:text="Mobile or Email Address"
             app:layout_constraintTop_toBottomOf="@+id/tvWelcome"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etEmailMobile"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clMobile"
             android:layout_width="match_parent"
-            style="@style/edit_text"
-            android:hint="Enter Mobile Number or Email Address"
-            android:drawableStart="@drawable/ic_email"
-            android:drawablePadding="@dimen/_10sdp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:inputType="textEmailAddress"
+            android:paddingHorizontal="@dimen/_10sdp"
             android:background="@drawable/edit_back"
-            app:layout_constraintTop_toBottomOf="@+id/tvEmailMobile"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvEmailMobile">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_email"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/etEmailMobile"
+                app:layout_constraintBottom_toBottomOf="@+id/etEmailMobile"/>
+
+            <com.hbb20.CountryCodePicker
+                android:visibility="gone"
+                android:id="@+id/ccp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_showFlag="false"
+                app:ccp_showNameCode="false"
+                app:ccp_showArrow="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                app:layout_constraintStart_toEndOf="@+id/ivEmail"
+                app:layout_constraintTop_toTopOf="@+id/etEmailMobile"
+                app:layout_constraintBottom_toBottomOf="@+id/etEmailMobile"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etEmailMobile"
+                android:layout_width="0dp"
+                style="@style/edit_text"
+                android:hint="Enter Mobile Number or Email Address"
+                android:inputType="number"
+                android:background="@null"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:paddingHorizontal="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ccp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPassword"
             style="@style/edit_text_title"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:text="Password"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etEmailMobile"/>
+            app:layout_constraintTop_toBottomOf="@+id/clMobile"/>
 
         <RelativeLayout
             android:id="@+id/relPassword"

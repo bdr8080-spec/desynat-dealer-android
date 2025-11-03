@@ -270,7 +270,7 @@ fun String?.orNA(): String = if (this.isNullOrBlank()) "NA" else this
 
 fun ImageView.setImage(
     link: String?,
-    placeholder: Int = R.drawable.profile_picture_placeholder,
+    placeholder: Int = R.drawable.ic_placeholder,
 ) {
     Glide.with(this).load(link).error(placeholder).into(this)
 }

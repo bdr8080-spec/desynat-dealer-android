@@ -210,18 +210,29 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvIban"
+                android:layout_width="wrap_content"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text="IBAN"
                 app:layout_constraintTop_toBottomOf="@+id/rgAccountType"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(Optional)"
+                android:textSize="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:fontFamily="@font/poppins_regular"
+                app:layout_constraintTop_toTopOf="@+id/tvIban"
+                app:layout_constraintBottom_toBottomOf="@+id/tvIban"
+                app:layout_constraintStart_toEndOf="@+id/tvIban"/>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etIban"
                 android:layout_width="match_parent"
                 style="@style/edit_text"
-                android:hint="Enter iban"
+                android:hint="Enter IBAN"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:inputType="text"
                 android:background="@drawable/edit_back"
@@ -229,18 +240,29 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSwift"
+                android:layout_width="wrap_content"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:text="SWIFT/BIC"
                 app:layout_constraintTop_toBottomOf="@+id/etIban"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(Optional)"
+                android:textSize="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:fontFamily="@font/poppins_regular"
+                app:layout_constraintTop_toTopOf="@+id/tvSwift"
+                app:layout_constraintBottom_toBottomOf="@+id/tvSwift"
+                app:layout_constraintStart_toEndOf="@+id/tvSwift"/>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etSwift"
                 android:layout_width="match_parent"
                 style="@style/edit_text"
-                android:hint="Enter Swift"
+                android:hint="Enter SWIFT/BIC"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:inputType="text"
                 android:background="@drawable/edit_back"

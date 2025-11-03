@@ -12,6 +12,7 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.databinding.FragmentResetPasswordBinding
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.utils.togglePasswordVisibility
 
@@ -72,11 +73,11 @@ class ResetPasswordFragment : BaseFragment() {
         viewModel.changePasswordResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-//                    binding.loader.setVisible()
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
 
                 is ApiResult.Success -> {
-
+                    ProgressDialogUtils.getInstance().hideProgress()
                     CommonMethod.showSuccessDialog(
                         requireActivity(),
                         getString(R.string.password_reset_successfully), false
@@ -88,7 +89,7 @@ class ResetPasswordFragment : BaseFragment() {
                 }
 
                 is ApiResult.Error -> {
-//                    binding.loader.setGone()
+                    ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.changePasswordResponse.value = null
                 }
@@ -107,7 +108,8 @@ class ResetPasswordFragment : BaseFragment() {
             showToast("Please enter password")
             return false
         } else if (!CommonMethod.isValidPassword(password)) {
-            showToast("Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one special character.")
+            CommonMethod.showAlertDialog(requireActivity(),"Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
+           // showToast("Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
             return false
         } else if (confirmPassword.isEmpty()) {
             showToast("Please enter confirm password")
