@@ -23,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PreviewFragment : BaseFragment() {
     private val sharedViewModel: DealerRegistrationViewModel by activityViewModels()
+    var userId = ""
 
     companion object {
         lateinit var createAccountReq: HashMap<String, String>
@@ -54,6 +55,7 @@ class PreviewFragment : BaseFragment() {
         binding?.apply {
             toolbar.tvToolbar.text = "Summary"
 
+            userId = storeInformationReq.get("user_id").toString()
             ivProfile.setImage(createAccountReq.get("profile_pic"))
             tvFirstName.text =
                 createAccountReq.get("first_name") + " " + createAccountReq.get("last_name")
@@ -64,7 +66,7 @@ class PreviewFragment : BaseFragment() {
             ivStore.setImage(storeInformationReq.get("store_image"))
             tvStoreName.text = storeInformationReq.get("store_name")
             tvAddress.text = storeInformationReq.get("store_address")
-            tvStoreMobileNumber.text = storeInformationReq.get("store_phone")
+            tvStoreMobileNumber.text = storeInformationReq.get("store_country_code")+"-"+storeInformationReq.get("store_phone")
             tvStoreEmailAddress.text = storeInformationReq.get("store_mail_id")
             tvBio.text = storeInformationReq.get("bio")
 
@@ -113,7 +115,6 @@ class PreviewFragment : BaseFragment() {
                 }
 
                 is ApiResult.Success -> {
-                    ProgressDialogUtils.getInstance().hideProgress()
                     viewModel.storeDocumentAndBankDetails(storeDocumentAndBankDetailsReq)
                     viewModel.storeInformationResponse.value = null
                 }
@@ -135,9 +136,10 @@ class PreviewFragment : BaseFragment() {
                 }
 
                 is ApiResult.Success -> {
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    findNavController().navigate(R.id.action_previewFragment_to_underReviewFragment)
                     viewModel.storeDocumentAndBankDetailsResponse.value = null
+                    val map = HashMap<String, String>()
+                        map["user_id"] = userId
+                    viewModel.sellerStoreSubmitRequest(map)
                 }
 
                 is ApiResult.Error -> {
@@ -149,6 +151,29 @@ class PreviewFragment : BaseFragment() {
                 else -> {}
             }
         }
+
+        viewModel.sellerStoreSubmitInfoResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    findNavController().navigate(R.id.action_previewFragment_to_underReviewFragment)
+                    viewModel.sellerStoreSubmitInfoResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.sellerStoreSubmitInfoResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
 
     }
 

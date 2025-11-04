@@ -20,12 +20,14 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.data.view_model.DealerRegistrationViewModel
 import com.desynatdealer.databinding.FragmentStoreInformationBinding
+import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.ui.UpdateLocationActivity
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -35,6 +37,7 @@ import java.util.Locale
 @AndroidEntryPoint
 class StoreInformationFragment : BaseFragment() {
 
+    private var countryList: List<GetCountryResponse.Data>?=null
     private var binding: FragmentStoreInformationBinding? = null
     private val viewModel: AuthViewModel by activityViewModels()
     private val sharedViewModel: DealerRegistrationViewModel by activityViewModels()
@@ -72,18 +75,22 @@ class StoreInformationFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setCountry()
         sharedViewModel.storeInformation?.let { data ->
             storePhotoUrl = data["store_image"]
             lat = data["let"]
             long = data["long"]
             userId = data["user_id"]
             binding?.etStoreName?.setText(data["store_name"])
-            binding?.etCountry?.setText(data["country"])
             binding?.etStoreAddress?.setText(data["store_address"])
             binding?.etMobile?.setText(data["store_phone"])
             binding?.etEmail?.setText(data["store_mail_id"])
             binding?.etBio?.setText(data["bio"])
             binding?.ivStoreImage?.load(storePhotoUrl)
+
+
+            selectedCountryCode =   countryList?.find { it.id.toString() == data["country"] }?.isoCode
+            binding?.etCountry?.setText(countryList?.find { it.id.toString() == data["country"] }?.name)
         }
         initView()
         initControl()
@@ -101,7 +108,6 @@ class StoreInformationFragment : BaseFragment() {
             CommonMethod.removeSpace(etAddress1)
             CommonMethod.removeSpace(etAddress2)
 
-            ccpCountryPicker.setCustomMasterCountries("KW,BH,QA,SA,AE,OM")
 
             imagePicker = ImagePicker(
                 requireActivity(),
@@ -131,16 +137,15 @@ class StoreInformationFragment : BaseFragment() {
                 imagePicker.showImageSourceDialog()
             }
 
-            /*etCountry.setOnClickListener {
+            etCountry.setOnClickListener {
                 ccpCountryPicker.launchCountrySelectionDialog()
-            }*/
+            }
 
-            /*ccpCountryPicker.setOnCountryChangeListener {
+            ccpCountryPicker.setOnCountryChangeListener {
                 val countryName = ccpCountryPicker.selectedCountryName
                 selectedCountryCode = ccpCountryPicker.selectedCountryNameCode
                 etCountry.setText(countryName)
-            }*/
-
+            }
 
             etStoreAddress.setOnClickListener {
                 val intent = Intent(requireActivity(), UpdateLocationActivity::class.java)
@@ -149,30 +154,36 @@ class StoreInformationFragment : BaseFragment() {
 
             btnContinue.setOnClickListener {
                 if (validation()) {
-                    val bundle = Bundle().apply {
-                        putString("id", userId.toString())
-                    }
+                    CommonMethod.showSuccessDialog(
+                        requireActivity(),
+                        "Store information save successfully "
+                    ) {
+                        val bundle = Bundle().apply {
+                            putString("id", userId.toString())
+                        }
 
-                    val req = hashMapOf(
-                        "user_id" to userId.toString(),
-                        "store_image" to storePhotoUrl.toString(),
-                        "store_name" to etStoreName.text.toString(),
-                        "country" to getCountryIndex(selectedCountryCode),
-                        "store_address" to address.toString(),
-                        "address_line1" to etAddress1.text.toString(),
-                        "address_line2" to etAddress2.text.toString(),
-                        "store_phone" to etMobile.text.toString(),
-                        "store_mail_id" to etEmail.text.toString(),
-                        "bio" to etBio.text.toString(),
-                        "let" to lat.toString(),
-                        "long" to long.toString(),
-                    )
-                    PreviewFragment.storeInformationReq = req
-                    sharedViewModel.storeInformation = req
-                    findNavController().navigate(
-                        R.id.action_storeInfoFragment_to_DocBankFragment,
-                        bundle
-                    )
+                        val req = hashMapOf(
+                            "user_id" to userId.toString(),
+                            "store_image" to storePhotoUrl.toString(),
+                            "store_name" to etStoreName.text.toString(),
+                            "country" to countryList?.find { it.isoCode == selectedCountryCode }?.id.toString(),
+                            "store_address" to address.toString(),
+                            "address_line1" to etAddress1.text.toString(),
+                            "address_line2" to etAddress2.text.toString(),
+                            "store_country_code" to ccp.selectedCountryCodeWithPlus.toString(),
+                            "store_phone" to etMobile.text.toString(),
+                            "store_mail_id" to etEmail.text.toString(),
+                            "bio" to etBio.text.toString(),
+                            "let" to lat.toString(),
+                            "long" to long.toString(),
+                        )
+                        PreviewFragment.storeInformationReq = req
+                        sharedViewModel.storeInformation = req
+                        findNavController().navigate(
+                            R.id.action_storeInfoFragment_to_DocBankFragment,
+                            bundle
+                        )
+                    }
                 }
             }
         }
@@ -183,12 +194,12 @@ class StoreInformationFragment : BaseFragment() {
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
-            val city = data?.getStringExtra("city") ?: "N/A"
-            val street = data?.getStringExtra("street") ?: "N/A"
-            val state = data?.getStringExtra("state") ?: "N/A"
-            val pincode = data?.getStringExtra("pincode") ?: "N/A"
-            val houseno = data?.getStringExtra("houseno") ?: "N/A"
-            address = data?.getStringExtra("addressH") ?: "N/A"
+            val city = data?.getStringExtra("city") ?: ""
+            val street = data?.getStringExtra("street") ?: ""
+            val state = data?.getStringExtra("state") ?: ""
+            val pincode = data?.getStringExtra("pincode") ?: ""
+            val houseno = data?.getStringExtra("houseno") ?: ""
+            address = data?.getStringExtra("addressH") ?: ""
             Constants.latitude = data?.getStringExtra("latitudeD")?.toDoubleOrNull() ?: 0.0
             Constants.longitude = data?.getStringExtra("longitudeD")?.toDoubleOrNull() ?: 0.0
             Constants.location = address.toString()
@@ -197,9 +208,14 @@ class StoreInformationFragment : BaseFragment() {
             long = data?.getStringExtra("longitudeD")?.toDoubleOrNull().toString()
             binding?.etStoreAddress?.setText(address)
 
+            val addressLine1 = "$houseno, $street".trim().trim(',')
+            val addressLine2 = "$city, $state - $pincode".trim().trim(',')
+
+            binding?.etAddress1?.setText(addressLine1)
+            binding?.etAddress2?.setText(addressLine2)
+
             val country = getCountryName(requireActivity(), Constants.latitude,Constants.longitude)
-            binding?.etCountry?.setText(country)
-              binding?.etCountry?.setText(country)
+         //   binding?.etCountry?.setText(country)
         }
     }
 
@@ -289,13 +305,18 @@ class StoreInformationFragment : BaseFragment() {
                     false
                 }
 
+                mobile.isEmpty() -> {
+                    showToast("Please enter store phone number")
+                    false
+                }
+
                 mobile.length < 7 -> {
                     showToast("Number must be at least 7 digits long")
                     false
                 }
 
                 email.isEmpty() -> {
-                    showToast("Please enter your email address")
+                    showToast("Please enter store email id")
                     false
                 }
 
@@ -313,6 +334,17 @@ class StoreInformationFragment : BaseFragment() {
             }
         }
         return false
+    }
+
+    private fun setCountry() {
+         countryList = SharedPreference.get(requireActivity()).getCountryList()
+        if (!countryList.isNullOrEmpty()) {
+            val countryCodes = countryList?.map { it.isoCode }
+            val countryCodeString = countryCodes?.joinToString(",")
+            binding?.ccp?.setCustomMasterCountries(countryCodeString)
+            binding?.ccpCountryPicker?.setCustomMasterCountries("KW,BH,QA,SA,AE,OM")
+
+        }
     }
 
 

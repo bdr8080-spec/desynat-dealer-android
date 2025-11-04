@@ -18,6 +18,7 @@ import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankD
 import com.desynatdealer.ui.auth.fragment.PreviewFragment.Companion.storeDocumentAndBankDetailsReq
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
+import com.desynatdealer.utils.FilePickerPicker
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.setImage
@@ -33,6 +34,7 @@ class DocAndBankInfoFragment : BaseFragment() {
     private val sharedViewModel: DealerRegistrationViewModel by activityViewModels()
 
     private lateinit var imagePicker: ImagePicker
+    private lateinit var filePicker: FilePickerPicker
     private var ownerDoc1: File? = null
     private var ownerDoc2: File? = null
     private var storeDoc1: File? = null
@@ -55,6 +57,27 @@ class DocAndBankInfoFragment : BaseFragment() {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             imagePicker.onPermissionResult(granted)
         }
+
+
+
+    private val cameraLauncherFile =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            filePicker.onCameraResult(success)
+        }
+
+    private val galleryLauncherFile =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            filePicker.onGalleryResult(uri)
+        }
+
+    private val permissionLauncherFile =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            filePicker.onPermissionResult(granted)
+        }
+
+    private val pdfLauncherFile = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        filePicker.onPdfResult(uri)
+    }
 
     private var ownerDoc1Url: String? = null
     private var ownerDoc2Url: String? = null
@@ -79,7 +102,7 @@ class DocAndBankInfoFragment : BaseFragment() {
             storeDoc1Url = data.storeDocument.getOrNull(0)
             storeDoc2Url = data.storeDocument.getOrNull(1)
             binding?.etIban?.setText(data.iban)
-            binding?.etSwift?.setText(data.iban)
+            binding?.etSwift?.setText(data.swift)
             binding?.ivBank?.load(bankDocUrl)
             binding?.ivDoc1?.load(ownerDoc1)
             binding?.ivDoc2?.load(ownerDoc2)
@@ -91,8 +114,8 @@ class DocAndBankInfoFragment : BaseFragment() {
             binding?.ivDoc2?.setImage(storeDocumentAndBankDetailsReq.ownerDocument.getOrNull(1))
             binding?.ivStoreDoc1?.setImage(storeDocumentAndBankDetailsReq.storeDocument.getOrNull(0))
             binding?.ivStoreDoc2?.setImage(storeDocumentAndBankDetailsReq.storeDocument.getOrNull(1))
-            binding?.etAccountHolderName?.setText(data.iban)
-            binding?.etBankName?.setText(data.iban)
+            binding?.etAccountHolderName?.setText(data.accountHolderName)
+            binding?.etBankName?.setText(data.bankName)
             userId = data.userId
             if (data.accountType=="0"){
                 binding?.cbPersonal?.isChecked = true
@@ -164,6 +187,28 @@ class DocAndBankInfoFragment : BaseFragment() {
                 }
             }
 
+
+            filePicker = FilePickerPicker(
+                context = requireContext(),
+                cameraLauncher = cameraLauncherFile,
+                galleryLauncher = galleryLauncherFile,
+                filePickerLauncher = pdfLauncherFile,
+                permissionLauncher = permissionLauncherFile,
+            ) { uri ->
+                uri?.let {
+                    when (imageType) {
+
+                        5 -> {
+                            bankDoc = CommonMethod.uriToFile(requireActivity(), it)
+                            ivBank.setImageURI(it)
+                            val image = bankDoc?.toMultiPartBody("image")
+                            viewModel.upload(image)
+                        }
+                    }
+
+                }
+            }
+
         }
     }
 
@@ -196,7 +241,7 @@ class DocAndBankInfoFragment : BaseFragment() {
 
             ivBank.setOnClickListener {
                 imageType = 5
-                imagePicker.showImageSourceDialog()
+                filePicker.showFileSourceDialog()
             }
 
             btnContinue.setOnClickListener {
@@ -247,7 +292,10 @@ class DocAndBankInfoFragment : BaseFragment() {
                         2 -> ownerDoc2Url = result.data?.data?.url
                         3 -> storeDoc1Url = result.data?.data?.url
                         4 -> storeDoc2Url = result.data?.data?.url
-                        5 -> bankDocUrl = result.data?.data?.url
+                        5 -> {
+                            bankDocUrl = result.data?.data?.url
+                            binding?.ivBank?.load(bankDocUrl)
+                        }
                     }
                     viewModel.uploadResponse.value = null
                 }

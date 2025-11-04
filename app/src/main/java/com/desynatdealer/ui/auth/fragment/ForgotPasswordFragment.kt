@@ -13,7 +13,9 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.databinding.FragmentForgotPasswordBinding
+import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 
 class ForgotPasswordFragment : BaseFragment() {
@@ -38,6 +40,7 @@ class ForgotPasswordFragment : BaseFragment() {
     }
 
     override fun initView() {
+        setCountry()
         binding?.apply {
             CommonMethod.removeAllTextSpaces(etEmail)
             toolbar.tvToolbar.text = "Forgot Password"
@@ -151,6 +154,15 @@ class ForgotPasswordFragment : BaseFragment() {
     private fun clearData() {
         binding?.etMobile?.setText("")
         binding?.etEmail?.setText("")
+    }
+
+    private fun setCountry() {
+        val data = SharedPreference.get(requireActivity()).getCountryList()
+        if (!data.isNullOrEmpty()) {
+            val countryCodes = data.map { it.isoCode }
+            val countryCodeString = countryCodes.joinToString(",")
+            binding?.ccp?.setCustomMasterCountries(countryCodeString)
+        }
     }
 
 }

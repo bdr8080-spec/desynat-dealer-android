@@ -1,5 +1,6 @@
 package com.desynatdealer.controller
 
+import com.desynatdealer.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +18,7 @@ object AppModule {
     @Provides
     fun providesCommonApiService(): CommonApiService {
         return Retrofit.Builder()
-//            .baseUrl(BuildConfig.BASE_URL)
-            .baseUrl("http://157.241.119.72/")
+            .baseUrl(Constants.BASE_URL)
             .client(OkHttpClientHelper().getOkHttpClient())
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())

@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.repo.AuthRepository
+import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.model.create_account.CreateAccountRes
+import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +23,8 @@ open class AuthViewModel @Inject constructor(private val repo: AuthRepository) :
     ViewModel() {
 
     private val _loginResponse =
-        MutableLiveData<ApiResult<Unit>?>()
-    val loginResponse: MutableLiveData<ApiResult<Unit>?>
+        MutableLiveData<ApiResult<LoginResponse>?>()
+    val loginResponse: MutableLiveData<ApiResult<LoginResponse>?>
         get() = _loginResponse
 
     fun login(map: HashMap<String,Any>) {
@@ -103,6 +105,18 @@ open class AuthViewModel @Inject constructor(private val repo: AuthRepository) :
     }
 
 
+    private val _sellerStoreSubmitInfoResponse =
+        MutableLiveData<ApiResult<Unit>?>()
+    val sellerStoreSubmitInfoResponse: MutableLiveData<ApiResult<Unit>?>
+        get() = _sellerStoreSubmitInfoResponse
+
+    fun sellerStoreSubmitRequest(req: HashMap<String, String>) {
+        viewModelScope.launch {
+            _sellerStoreSubmitInfoResponse.value = ApiResult.Loading
+            _sellerStoreSubmitInfoResponse.value = repo.sellerStoreSubmitRequest(req)
+        }
+    }
+
     private val _forgotPasswordResponse =
         MutableLiveData<ApiResult<CreateAccountRes>?>()
     val forgotPasswordResponse: MutableLiveData<ApiResult<CreateAccountRes>?>
@@ -138,6 +152,18 @@ open class AuthViewModel @Inject constructor(private val repo: AuthRepository) :
         viewModelScope.launch {
             _resendOtpResponse.value = ApiResult.Loading
             _resendOtpResponse.value = repo.resendOtp(map)
+        }
+    }
+
+    private val _countryResponse =
+        MutableLiveData<ApiResult<GetCountryResponse>?>()
+    val countryResponse: MutableLiveData<ApiResult<GetCountryResponse>?>
+        get() = _countryResponse
+
+    fun getCountry() {
+        viewModelScope.launch {
+            _countryResponse.value = ApiResult.Loading
+            _countryResponse.value = repo.getCountry()
         }
     }
 

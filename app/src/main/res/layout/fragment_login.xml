@@ -42,7 +42,7 @@
             android:id="@+id/tvEmailMobile"
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_15sdp"
-            android:text="Mobile or Email Address"
+            android:text="Mobile Number or Email Address"
             app:layout_constraintTop_toBottomOf="@+id/tvWelcome"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -73,6 +73,8 @@
                 app:ccp_showFlag="false"
                 app:ccp_showNameCode="false"
                 app:ccp_showArrow="true"
+                app:ccp_autoDetectCountry="false"
+                app:ccp_defaultNameCode="KW"
                 android:layout_marginStart="@dimen/_5sdp"
                 app:layout_constraintStart_toEndOf="@+id/ivEmail"
                 app:layout_constraintTop_toTopOf="@+id/etEmailMobile"
@@ -83,7 +85,7 @@
                 android:layout_width="0dp"
                 style="@style/edit_text"
                 android:hint="Enter Mobile Number or Email Address"
-                android:inputType="number"
+                android:inputType="textEmailAddress"
                 android:background="@null"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:paddingHorizontal="0dp"
@@ -93,7 +95,6 @@
                 app:layout_constraintStart_toEndOf="@+id/ccp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPassword"

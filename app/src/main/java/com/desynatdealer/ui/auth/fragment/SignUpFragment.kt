@@ -22,11 +22,13 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.databinding.FragmentSignUpBinding
+import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.CustomTypefaceSpan
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.utils.togglePasswordVisibility
 import java.io.File
@@ -69,6 +71,7 @@ class SignUpFragment : BaseFragment() {
     }
 
     override fun initView() {
+        setCountry()
         binding?.apply {
             CommonMethod.removeAllTextSpaces(etEmail)
             CommonMethod.removeAllTextSpaces(etConfirmPassword)
@@ -338,6 +341,15 @@ class SignUpFragment : BaseFragment() {
         }
 
         return textSpannable
+    }
+
+    private fun setCountry() {
+        val data = SharedPreference.get(requireActivity()).getCountryList()
+        if (!data.isNullOrEmpty()) {
+            val countryCodes = data.map { it.isoCode }
+            val countryCodeString = countryCodes.joinToString(",")
+            binding?.ccp?.setCustomMasterCountries(countryCodeString)
+        }
     }
 
 }

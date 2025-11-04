@@ -19,9 +19,11 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.databinding.FragmentLoginBinding
+import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.ui.home.HomeActivity
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.utils.togglePasswordVisibility
 
@@ -49,6 +51,7 @@ class LoginFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
+            getCountry()
             CommonMethod.removeAllTextSpaces(etEmailMobile)
             CommonMethod.removeAllTextSpaces(etPassword)
             tvCreateNewAccount.text = CommonMethod.spannableText(
@@ -97,7 +100,7 @@ class LoginFragment : BaseFragment() {
     override fun initControl() {
         binding?.apply {
             tvForgotPassword.setOnClickListener {
-                findNavController().navigate(R.id.action_loginFragment_to_forgotFragment)
+              //  findNavController().navigate(R.id.action_loginFragment_to_forgotFragment)
             }
 
             btnLogin.setOnClickListener {
@@ -122,6 +125,12 @@ class LoginFragment : BaseFragment() {
 
     }
 
+    private fun getCountry() {
+
+        viewModel.getCountry()
+
+    }
+
     override fun observe() {
 
         viewModel.loginResponse.observe(viewLifecycleOwner) { result ->
@@ -131,13 +140,19 @@ class LoginFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    requireActivity().startActivity(
-                        Intent(
-                            requireActivity(),
-                            HomeActivity::class.java
+                    if (result.data?.data?.adminVerify=="0"){
+                        showToast("Your profile is under review")
+                    }
+                    else{
+                        requireActivity().startActivity(
+                            Intent(
+                                requireActivity(),
+                                HomeActivity::class.java
+                            )
                         )
-                    )
-                    requireActivity().finish()
+                        requireActivity().finish()
+                    }
+
                     viewModel.loginResponse.value = null
                 }
 
@@ -151,12 +166,46 @@ class LoginFragment : BaseFragment() {
             }
         }
 
+        viewModel.countryResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    result.data?.data?.let {
+                        SharedPreference.get(requireActivity()).saveCountryList(
+                            it
+                        )
+                    }
+                    setCountry(result.data?.data)
+                    viewModel.countryResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.countryResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+    }
+
+    private fun setCountry(data: List<GetCountryResponse.Data>?) {
+        if (!data.isNullOrEmpty()) {
+            val countryCodes = data.map { it.isoCode }
+            val countryCodeString = countryCodes.joinToString(",")
+            binding?.ccp?.setCustomMasterCountries(countryCodeString)
+        }
     }
 
     private fun validation():Boolean{
 
-        if (binding?.etEmailMobile?.text?.isEmpty() == true&&type==0) {
-            showToast("Please enter mobile number")
+        if (binding?.etEmailMobile?.text?.isEmpty() == true) {
+            showToast("Please enter Mobile Number or Email Address")
             return false
         }
         else if (binding?.etEmailMobile?.text?.length!! < 7&&type==0) {
