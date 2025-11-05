@@ -136,8 +136,30 @@
         android:name="com.desynatdealer.ui.auth.fragment.UnderReviewAccountFragment"
         android:label="Under Review Fragment"
         tools:layout="@layout/fragment_under_review_account">
-
-
     </fragment>
+
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name= "com.desynatdealer.ui.auth.fragment.HomePageFragment"
+        android:label="Home" />
+
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="com.desynatdealer.ui.auth.fragment.ProductFragment"
+        android:label="Products" />
+
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.desynatdealer.ui.auth.fragment.OrdersFragment"
+        android:label="Orders" />
+
+    <fragment
+        android:id="@+id/paymentsFragment"
+        android:name="com.desynatdealer.ui.auth.fragment.PaymentsFragment"
+        android:label="Payments" />
+
+
+
 
 </navigation>

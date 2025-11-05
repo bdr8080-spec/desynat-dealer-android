@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/home_ic"
+        android:title="Home"/>
+    <item
+        android:id="@+id/productsFragment"
+        android:icon="@drawable/products_ic"
+        android:title="Products" />
+
+
+    <item
+        android:id="@+id/CenterFragment"
+        android:icon="@drawable/tv_icon"
+        android:title="Center" />
+
+
+    <item
+        android:id="@+id/ordersFragment"
+        android:icon="@drawable/order_item"
+        android:title="Orders" />
+    <item
+        android:id="@+id/paymentsFragment"
+        android:icon="@drawable/payments_ic"
+        android:title="Payments" />
+</menu>
