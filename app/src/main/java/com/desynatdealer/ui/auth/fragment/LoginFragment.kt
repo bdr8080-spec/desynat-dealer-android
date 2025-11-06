@@ -140,7 +140,8 @@ class LoginFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    if (result.data?.data?.adminVerify=="0"){
+                    showToast("Your profile is under review")
+                  /*  if (result.data?.data?.adminVerify=="0"){
                         showToast("Your profile is under review")
                     }
                     else{
@@ -151,7 +152,7 @@ class LoginFragment : BaseFragment() {
                             )
                         )
                         requireActivity().finish()
-                    }
+                    }*/
 
                     viewModel.loginResponse.value = null
                 }

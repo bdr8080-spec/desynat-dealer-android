@@ -228,6 +228,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/edit_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPassword">
 
@@ -235,9 +236,11 @@
                 android:id="@+id/etPassword"
                 style="@style/edit_text"
                 android:layout_width="match_parent"
-                android:background="@drawable/edit_back"
                 android:hint="Enter password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:background="@null"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_toLeftOf="@+id/ivPasswordVisible"/>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivPasswordVisible"
@@ -265,6 +268,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/edit_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvConfirmPassword">
 
@@ -272,9 +276,11 @@
                 android:id="@+id/etConfirmPassword"
                 style="@style/edit_text"
                 android:layout_width="match_parent"
-                android:background="@drawable/edit_back"
                 android:hint="Enter confirm password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:background="@null"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_toLeftOf="@+id/ivConfirmPasswordVisible"/>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivConfirmPasswordVisible"
