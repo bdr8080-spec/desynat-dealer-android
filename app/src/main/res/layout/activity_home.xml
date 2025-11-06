@@ -82,6 +82,7 @@
 
 
         <TextView
+            android:id="@+id/storeAvailability"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Store availability"
@@ -91,6 +92,48 @@
             android:fontFamily="@font/poppins_medium"
             android:layout_marginTop="15dp"
             app:layout_constraintTop_toBottomOf="@id/logoImage"/>
+
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@id/profilePic">
+
+            <!-- Switch UI -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/toogle_btn"/>
+
+            <!-- Label below -->
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Busy/On"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:textColor="#8B5E3C"
+                android:fontFamily="@font/poppins_medium"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose date"
+            app:layout_constraintTop_toBottomOf="@id/storeAvailability"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/black"
+            android:textSize="14sp"
 
 
 
@@ -126,8 +169,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+
 
     <!-- ========== BOTTOM NAVIGATION FIXED AT BOTTOM ========== -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -142,5 +188,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav"
         app:labelVisibilityMode="labeled" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bottom_line"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"/>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
