@@ -84,6 +84,8 @@ class StoreInformationFragment : BaseFragment() {
             binding?.etStoreName?.setText(data["store_name"])
             binding?.etStoreAddress?.setText(data["store_address"])
             binding?.etMobile?.setText(data["store_phone"])
+            data["country_code"]?.replace("+","")?.toInt()
+                ?.let { binding?.ccp?.setCountryForPhoneCode(it) }
             binding?.etEmail?.setText(data["store_mail_id"])
             binding?.etBio?.setText(data["bio"])
             binding?.ivStoreImage?.load(storePhotoUrl)
@@ -170,7 +172,7 @@ class StoreInformationFragment : BaseFragment() {
                             "store_address" to address.toString(),
                             "address_line1" to etAddress1.text.toString(),
                             "address_line2" to etAddress2.text.toString(),
-                            "store_country_code" to ccp.selectedCountryCodeWithPlus.toString(),
+                            "country_code" to ccp.selectedCountryCodeWithPlus.toString(),
                             "store_phone" to etMobile.text.toString(),
                             "store_mail_id" to etEmail.text.toString(),
                             "bio" to etBio.text.toString(),

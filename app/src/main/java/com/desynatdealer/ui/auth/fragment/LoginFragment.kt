@@ -100,7 +100,7 @@ class LoginFragment : BaseFragment() {
     override fun initControl() {
         binding?.apply {
             tvForgotPassword.setOnClickListener {
-              //  findNavController().navigate(R.id.action_loginFragment_to_forgotFragment)
+                findNavController().navigate(R.id.action_loginFragment_to_forgotFragment)
             }
 
             btnLogin.setOnClickListener {
@@ -140,11 +140,11 @@ class LoginFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast("Your profile is under review")
-                  /*  if (result.data?.data?.adminVerify=="0"){
+                    if (result.data?.data?.adminVerify=="0"){
                         showToast("Your profile is under review")
                     }
                     else{
+                        SharedPreference.get(requireActivity()).accessToken = result.data?.data?.accessToken.toString()
                         requireActivity().startActivity(
                             Intent(
                                 requireActivity(),
@@ -152,7 +152,7 @@ class LoginFragment : BaseFragment() {
                             )
                         )
                         requireActivity().finish()
-                    }*/
+                    }
 
                     viewModel.loginResponse.value = null
                 }

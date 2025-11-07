@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.desynatdealer.network.ApiServices
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
@@ -13,9 +12,7 @@ import javax.inject.Singleton
 
 @Singleton
 class MainRepository @Inject constructor(
-    @ApplicationContext context: Context,
-    private val api: ApiServices
-) : BaseRepository(context) {
+    @ApplicationContext context: Context) : BaseRepository(context) {
 
 
 }

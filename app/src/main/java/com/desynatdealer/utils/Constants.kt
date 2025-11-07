@@ -12,6 +12,8 @@ object Constants {
     var latitude=0.0
     var longitude=0.0
     var DEVICE_TYPE=1
+    var isLogout = false
 
-    const val GET_COUNTRY = "/api/country"
+    const val GET_COUNTRY = "api/country"
+    const val GET_SUBSCRIPTION_PLAN = "api/seller/all-plans"
 }

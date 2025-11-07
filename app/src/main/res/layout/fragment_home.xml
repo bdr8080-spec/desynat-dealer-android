@@ -1,0 +1,934 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.fragment.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF7EA"
+        android:paddingBottom="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/logoImage"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo"
+            android:clipToOutline="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/circle_image" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/chat_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/chat_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/desynat_title"
+            app:layout_constraintEnd_toStartOf="@+id/notification_icon"
+            app:layout_constraintTop_toTopOf="@+id/desynat_title" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/notification_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/notification_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/desynat_title"
+            app:layout_constraintEnd_toStartOf="@+id/profilePic"
+            app:layout_constraintTop_toTopOf="@+id/desynat_title" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profilePic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_pic"
+            android:clipToOutline="true"
+            app:layout_constraintBottom_toBottomOf="@+id/desynat_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/desynat_title"
+            app:shapeAppearanceOverlay="@style/circle_image" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/desynat_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Desynat"
+            android:textColor="#000000"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/logoImage"
+            app:layout_constraintStart_toEndOf="@id/logoImage"
+            app:layout_constraintTop_toTopOf="@id/logoImage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/header_layout"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF7EA">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/storeAvailability"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Store availability"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_11sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Busy/On"
+            android:textColor="#8B5E3C"
+            android:textSize="@dimen/_8sdp"
+            android:fontFamily="@font/poppins_regular"
+            android:drawablePadding="@dimen/_2sdp"
+            android:drawableTop="@drawable/switch_on"
+            android:layout_marginEnd="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/storeAvailability"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChooseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Choose date"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/storeAvailability" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etFrom"
+            style="@style/edit_text"
+            android:layout_width="0dp"
+            android:paddingVertical="@dimen/_9sdp"
+            android:drawablePadding="@dimen/_5sdp"
+            android:hint="From   //  //"
+            android:editable="false"
+            android:clickable="true"
+            android:background="@drawable/card_stroke_background"
+            android:focusable="false"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_centerVertical="true"
+            android:drawableEnd="@drawable/calendar_ic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/etTo"
+            app:layout_constraintTop_toBottomOf="@+id/tvChooseDate"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etTo"
+            style="@style/edit_text"
+            android:layout_width="0dp"
+            android:paddingVertical="@dimen/_9sdp"
+            android:drawablePadding="@dimen/_5sdp"
+            android:hint="To   //  //"
+            android:editable="false"
+            android:clickable="true"
+            android:background="@drawable/card_stroke_background"
+            android:focusable="false"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_centerVertical="true"
+            android:drawableEnd="@drawable/calendar_ic"
+            app:layout_constraintStart_toEndOf="@+id/etFrom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/etFrom"
+            app:layout_constraintTop_toTopOf="@+id/etFrom"/>
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            app:layout_constraintTop_toBottomOf="@+id/etFrom">
+
+            <RadioButton
+                android:id="@+id/rbToday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Today"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:paddingVertical="@dimen/_12sdp"
+                android:button="@drawable/selector_home_radio_icon"
+                android:paddingStart="@dimen/_8sdp"
+                android:checked="true"
+                app:buttonTint="@null"
+                android:drawableTint="@null"
+                android:fontFamily="@font/poppins_medium"
+                android:textSize="@dimen/_11sdp"/>
+
+            <RadioButton
+                android:id="@+id/rbWeek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Week"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:paddingVertical="@dimen/_12sdp"
+                android:button="@drawable/selector_home_radio_icon"
+                android:paddingStart="@dimen/_8sdp"
+                android:checked="false"
+                app:buttonTint="@null"
+                android:drawableTint="@null"
+                android:fontFamily="@font/poppins_medium"
+                android:textSize="@dimen/_11sdp"/>
+
+            <RadioButton
+                android:id="@+id/rbMonth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Month"
+                android:textColor="@color/black"
+                android:paddingVertical="@dimen/_12sdp"
+                android:button="@drawable/selector_home_radio_icon"
+                android:paddingStart="@dimen/_8sdp"
+                android:checked="false"
+                app:buttonTint="@null"
+                android:drawableTint="@null"
+                android:fontFamily="@font/poppins_medium"
+                android:textSize="@dimen/_11sdp"/>
+
+        </RadioGroup>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/revenueCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardBackgroundColor="#EEF9F1"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvRevenueGenrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Total Revenue Generated"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/ivAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="KD0000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_18sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvRevenueGenrate" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_15sdp"
+                        android:src="@drawable/revenue"
+                        app:layout_constraintBottom_toBottomOf="@+id/ivAmount"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/ivAmount" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvTotalProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Products "
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp"
+                android:fontFamily="@font/poppins_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/revenueCard" />
+
+            <TextView
+                android:id="@+id/tvTotalProductCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(127)"
+                android:textColor="#F3D1A2"
+                android:textSize="@dimen/_11sdp"
+                android:fontFamily="@font/poppins_bold"
+                app:layout_constraintStart_toEndOf="@+id/tvTotalProduct"
+                app:layout_constraintTop_toTopOf="@+id/tvTotalProduct"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTotalProduct"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/clActive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="1dp"
+                app:layout_constraintEnd_toStartOf="@+id/clInActive"
+                app:layout_constraintTop_toBottomOf="@+id/tvTotalProduct"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvActive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Active"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvActiveUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="120"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textSize="@dimen/_18sdp"
+                    app:layout_constraintStart_toStartOf="@+id/tvActive"
+                    app:layout_constraintTop_toBottomOf="@+id/tvActive"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/parcel"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/clInActive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:background="@drawable/card_stroke_background"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_6sdp"
+                app:cardElevation="1dp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:layout_constraintStart_toEndOf="@+id/clActive"
+                app:layout_constraintTop_toBottomOf="@+id/tvTotalProduct"
+                app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvInActive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="In-Active"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="#F16767"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvInActiveUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="120"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textSize="@dimen/_18sdp"
+                    app:layout_constraintStart_toStartOf="@+id/tvInActive"
+                    app:layout_constraintTop_toBottomOf="@+id/tvInActive"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/parcel"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvTotalOrders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Orders "
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp"
+                android:fontFamily="@font/poppins_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clActive" />
+
+            <TextView
+                android:id="@+id/tvTotalOrdersCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(14)"
+                android:textColor="#F3D1A2"
+                android:textSize="@dimen/_11sdp"
+                android:fontFamily="@font/poppins_bold"
+                app:layout_constraintStart_toEndOf="@+id/tvTotalOrders"
+                app:layout_constraintTop_toTopOf="@+id/tvTotalOrders"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTotalOrders"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/clNew"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:background="@drawable/card_stroke_background"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/clOngoing"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalOrders"
+            app:layout_constraintStart_toStartOf="parent"
+            app:cardElevation="1dp"
+            app:cardCornerRadius="@dimen/_10sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvNew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Active"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvNewUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="120"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textSize="@dimen/_18sdp"
+                    app:layout_constraintStart_toStartOf="@+id/tvNew"
+                    app:layout_constraintTop_toBottomOf="@+id/tvNew"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/parcel"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/clOngoing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:background="@drawable/card_stroke_background"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/clNew"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalOrders"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardElevation="1dp"
+            app:cardCornerRadius="@dimen/_10sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvOnGoing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="On-Going"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvOnGoingUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="120"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textSize="@dimen/_18sdp"
+                    app:layout_constraintStart_toStartOf="@+id/tvOnGoing"
+                    app:layout_constraintTop_toBottomOf="@+id/tvOnGoing"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/parcel"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/clcomplete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/card_stroke_background"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/clCancelled"
+            app:layout_constraintTop_toBottomOf="@+id/clNew"
+            app:layout_constraintStart_toStartOf="parent"
+            app:cardElevation="1dp"
+            app:cardCornerRadius="@dimen/_10sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvComplete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Completed"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCompleteUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="120"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textSize="@dimen/_18sdp"
+                    app:layout_constraintStart_toStartOf="@+id/tvComplete"
+                    app:layout_constraintTop_toBottomOf="@+id/tvComplete"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/parcel"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/clCancelled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/card_stroke_background"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/clcomplete"
+            app:layout_constraintTop_toBottomOf="@+id/clOngoing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardElevation="1dp"
+            app:cardCornerRadius="@dimen/_10sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCancelled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Cancelled"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="#F16767"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCancelledUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="120"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textSize="@dimen/_18sdp"
+                    app:layout_constraintStart_toStartOf="@+id/tvCancelled"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCancelled"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/parcel"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvTotalStaff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Staffs "
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp"
+                android:fontFamily="@font/poppins_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clcomplete" />
+
+            <TextView
+                android:id="@+id/tvTotalStaffCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(07)"
+                android:textColor="#F3D1A2"
+                android:textSize="@dimen/_11sdp"
+                android:fontFamily="@font/poppins_bold"
+                app:layout_constraintStart_toEndOf="@+id/tvTotalStaff"
+                app:layout_constraintTop_toTopOf="@+id/tvTotalStaff"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTotalStaff"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/clActiveStaff"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="1dp"
+                app:layout_constraintEnd_toStartOf="@+id/clInActiveStaff"
+                app:layout_constraintTop_toBottomOf="@+id/tvTotalStaff"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvActiveStaff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="Active"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvActiveStaffCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:text="120"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:textSize="@dimen/_18sdp"
+                        app:layout_constraintStart_toStartOf="@+id/tvActiveStaff"
+                        app:layout_constraintTop_toBottomOf="@+id/tvActiveStaff"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_staff"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/clInActiveStaff"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:background="@drawable/card_stroke_background"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_6sdp"
+                app:cardElevation="1dp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:layout_constraintStart_toEndOf="@+id/clActiveStaff"
+                app:layout_constraintTop_toBottomOf="@+id/tvTotalStaff"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvInActiveStaff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="In-Active"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="#F16767"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvInActiveCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:text="120"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:textSize="@dimen/_18sdp"
+                        app:layout_constraintStart_toStartOf="@+id/tvInActiveStaff"
+                        app:layout_constraintTop_toBottomOf="@+id/tvInActiveStaff"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_staff"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvVisitorAnalytics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Visitor analytics"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp"
+                android:fontFamily="@font/poppins_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clActiveStaff" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etAnalyticsFrom"
+                style="@style/edit_text"
+                android:layout_width="0dp"
+                android:paddingVertical="@dimen/_9sdp"
+                android:drawablePadding="@dimen/_5sdp"
+                android:hint="From   //  //"
+                android:editable="false"
+                android:clickable="true"
+                android:background="@drawable/card_stroke_background"
+                android:focusable="false"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_centerVertical="true"
+                android:drawableEnd="@drawable/calendar_ic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/etAnalyticsTo"
+                app:layout_constraintTop_toBottomOf="@+id/tvVisitorAnalytics"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etAnalyticsTo"
+                style="@style/edit_text"
+                android:layout_width="0dp"
+                android:paddingVertical="@dimen/_9sdp"
+                android:drawablePadding="@dimen/_5sdp"
+                android:hint="To   //  //"
+                android:editable="false"
+                android:clickable="true"
+                android:background="@drawable/card_stroke_background"
+                android:focusable="false"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_centerVertical="true"
+                android:drawableEnd="@drawable/calendar_ic"
+                app:layout_constraintStart_toEndOf="@+id/etAnalyticsFrom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/etAnalyticsFrom"
+                app:layout_constraintTop_toTopOf="@+id/etAnalyticsFrom"/>
+
+            <RadioGroup
+                android:id="@+id/radioAnalyticsGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                app:layout_constraintTop_toBottomOf="@+id/etAnalyticsFrom">
+
+                <RadioButton
+                    android:id="@+id/rbOrderConversion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total Order Conversion"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:paddingVertical="@dimen/_12sdp"
+                    android:button="@drawable/selector_home_radio_icon"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:checked="true"
+                    app:buttonTint="@null"
+                    android:drawableTint="@null"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="@dimen/_9sdp"/>
+
+                <RadioButton
+                    android:id="@+id/rbCustomerVisit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total Customer visits"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:paddingVertical="@dimen/_12sdp"
+                    android:button="@drawable/selector_home_radio_icon"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:checked="false"
+                    app:buttonTint="@null"
+                    android:drawableTint="@null"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="@dimen/_9sdp"/>
+
+            </RadioGroup>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivGraph"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:src="@drawable/ic_graph"
+                app:layout_constraintTop_toBottomOf="@+id/radioAnalyticsGroup"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_20sdp"
+                    app:layout_constraintTop_toTopOf="@+id/ivGraph"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

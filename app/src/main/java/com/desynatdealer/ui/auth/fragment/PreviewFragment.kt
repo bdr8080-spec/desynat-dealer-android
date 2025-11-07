@@ -66,7 +66,7 @@ class PreviewFragment : BaseFragment() {
             ivStore.setImage(storeInformationReq.get("store_image"))
             tvStoreName.text = storeInformationReq.get("store_name")
             tvAddress.text = storeInformationReq.get("store_address")
-            tvStoreMobileNumber.text = storeInformationReq.get("store_country_code")+"-"+storeInformationReq.get("store_phone")
+            tvStoreMobileNumber.text = storeInformationReq.get("country_code")+"-"+storeInformationReq.get("store_phone")
             tvStoreEmailAddress.text = storeInformationReq.get("store_mail_id")
             tvBio.text = storeInformationReq.get("bio")
 

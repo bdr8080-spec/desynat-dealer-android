@@ -58,6 +58,10 @@ class SharedPreference(context: Context) {
         get() = preference["tutorial", false]!!
         set(value) = preference.set("tutorial", value)
 
+    var isSubscription: Boolean
+        get() = preference["isSubscription", false]!!
+        set(value) = preference.set("isSubscription", value)
+
     var language: String
         get() = preference["language", "en"]!!
         set(value) = preference.set("language", value)

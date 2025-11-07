@@ -6,6 +6,7 @@ import com.desynatdealer.model.login.req.LoginReq
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.utils.Constants
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -60,5 +61,8 @@ interface CommonApiService {
 
     @GET(Constants.GET_COUNTRY)
     suspend fun getCountry(): Response<GetCountryResponse>
+
+    @GET(Constants.GET_SUBSCRIPTION_PLAN)
+    suspend fun getSubscriptionPlan(): Response<GetAllPlanResponse>
 
 }
