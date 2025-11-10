@@ -6,7 +6,10 @@ import com.desynatdealer.model.login.req.LoginReq
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.home.response.CommonResponse
+import com.desynatdealer.ui.home.response.CreateSubscriptionPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
+import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.Constants
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -62,7 +65,23 @@ interface CommonApiService {
     @GET(Constants.GET_COUNTRY)
     suspend fun getCountry(): Response<GetCountryResponse>
 
+    @GET(Constants.LOGOUT)
+    suspend fun logout(): Response<CommonResponse>
+
     @GET(Constants.GET_SUBSCRIPTION_PLAN)
     suspend fun getSubscriptionPlan(): Response<GetAllPlanResponse>
+
+    @POST(Constants.GET_PROFILE)
+    suspend fun getSellerInfo(): Response<GetSellerInfo>
+
+    @POST(Constants.CREATE_SUBSCRIPTION_PLAN)
+    suspend fun createSubscriptionPlan(
+        @Body map: HashMap<String, Any>
+    ): Response<CreateSubscriptionPlanResponse>
+
+    @POST(Constants.BUY_SUBSCRIPTION_PLAN)
+    suspend fun buySubscriptionPlan(
+        @Body map: HashMap<String, Any>
+    ): Response<CommonResponse>
 
 }

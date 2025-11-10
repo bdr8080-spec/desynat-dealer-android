@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class GetAllPlanResponse(
     @SerializedName("data")
-    val `data`: ArrayList<Data>,
+    val `data`: List<Data>,
     @SerializedName("message")
     val message: String,
     @SerializedName("status")
@@ -15,7 +15,7 @@ data class GetAllPlanResponse(
         @SerializedName("commission")
         val commission: Int,
         @SerializedName("commission_percentage")
-        val commissionPercentage: Int,
+        val commissionPercentage: Double,
         @SerializedName("country_id")
         val countryId: Int,
         @SerializedName("created_at")

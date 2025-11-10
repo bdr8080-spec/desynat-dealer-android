@@ -105,17 +105,19 @@ class ResetPasswordFragment : BaseFragment() {
         val confirmPassword = binding?.etConfirmPassword?.text.toString().trim()
 
         if (password.isEmpty()) {
-            showToast("Please enter password")
+            showToast("Please enter new password")
             return false
-        } else if (!CommonMethod.isValidPassword(password)) {
+        }
+        /* else if (!CommonMethod.isValidPassword(password)) {
             CommonMethod.showAlertDialog(requireActivity(),"Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
            // showToast("Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
             return false
-        } else if (confirmPassword.isEmpty()) {
+        }*/
+        else if (confirmPassword.isEmpty()) {
             showToast("Please enter confirm password")
             return false
         } else if (password != confirmPassword) {
-            showToast("Password and confirm password didn't match")
+            showToast("New password and confirm password didn't match")
             return false
         }
         return true

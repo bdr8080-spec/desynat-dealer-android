@@ -34,6 +34,7 @@ class SubscriptionPlanFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ProgressDialogUtils.getInstance().hideProgress()
         initView()
         initControl()
         observe()
@@ -90,6 +91,11 @@ class SubscriptionPlanFragment : BaseFragment() {
                     subscriptionList.clear()
                     result.data?.data?.let { subscriptionList.addAll(it) }
                     subscriptionAdapter?.notifyDataSetChanged()
+                    if (result.data?.data?.isEmpty() == true){
+                        SharedPreference.get(requireActivity()).isSubscription = true
+                        findNavController().navigate(R.id.action_subscriptionFragment_to_HomeFragment)
+                    }
+
                     viewModel.subscriptionPlanResponse.value = null
                 }
                 is ApiResult.Error -> {

@@ -1,44 +1,57 @@
 package com.desynatdealer.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import com.desynatdealer.R
 import com.desynatdealer.adapter.BottomNavAdapter
 import com.desynatdealer.base.BaseActivity
+import com.desynatdealer.controller.ApiResult
+import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.ActivityHomeBinding
+import com.desynatdealer.ui.auth.AuthActivity
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
+import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
+import com.desynatdealer.utils.showToast
+import com.myfatoorah.sdk.views.MFSDK
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity() {
     private var binding: ActivityHomeBinding? =null
+    private val viewModel: HomeViewModel by viewModels()
     private lateinit var controller: NavController
     var bottonNavItemList = ArrayList<BottomNavItem>()
     private var bottomAdapter : BottomNavAdapter? =null
+    lateinit var navGraph: NavGraph
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding?.root)
-
+        MFSDK.setUpActionBar(isShowToolBar = false)
         initView()
         initControl()
         observer()
     }
 
     override fun initView() {
-
         CommonMethod.detectGestureMode(binding?.root!!,binding?.viewBottom!!)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         controller = navHostFragment.navController
 
 
-        val navGraph = controller.navInflater.inflate(R.navigation.home_navigation_graph)
+     /*   val navGraph = controller.navInflater.inflate(R.navigation.home_navigation_graph)
 
         navGraph.setStartDestination(
             if (SharedPreference.get(this).isSubscription) R.id.home
@@ -46,7 +59,7 @@ class HomeActivity : BaseActivity() {
         )
 
         controller.graph = navGraph
-
+*/
         bottonNavItemList.clear()
         bottonNavItemList.add(BottomNavItem("Home",R.drawable.ic_home,R.drawable.ic_selected_home))
         bottonNavItemList.add(BottomNavItem("Products",R.drawable.products_ic,R.drawable.ic_selected_products))
@@ -89,13 +102,54 @@ class HomeActivity : BaseActivity() {
                 }*/
             }
         }
+        getProfile()
 
+
+    }
+
+    private fun getProfile() {
+        viewModel.getSellerInfo()
     }
 
     override fun initControl() {
     }
 
     override fun observer() {
+        viewModel.sellerInfoResponse.observe(this){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(this)
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    result.data?.data?.let { SharedPreference.get(this).saveUser(it) }
+
+                    navGraph = controller.navInflater.inflate(R.navigation.home_navigation_graph)
+
+                    navGraph.setStartDestination(
+                        if (result.data?.data?.subcriptionPlan?.isEmpty() == true&&SharedPreference.get(this).isSubscription==false){
+                            R.id.subscription
+                        }
+                        else{
+                            R.id.home
+
+                        }
+                    )
+
+                    controller.graph = navGraph
+
+                    viewModel.sellerInfoResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.sellerInfoResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
     }
 
     fun setBottomAdapter(){

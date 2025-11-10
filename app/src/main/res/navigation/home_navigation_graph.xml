@@ -37,6 +37,12 @@
             android:id="@+id/action_paymentMethodFragment_to_AddCardFragment"
             app:destination="@id/addCard"/>
 
+        <action
+            android:id="@+id/action_paymentMethodFragment_to_HomeFragment"
+            app:destination="@id/home"
+            app:popUpTo="@id/home_navigation_graph"
+            app:popUpToInclusive="true"/>
+
     </fragment>
 
     <fragment
@@ -44,6 +50,12 @@
         android:name="com.desynatdealer.ui.auth.fragment.AddCardFragment"
         android:label="Add Card Fragment"
         tools:layout="@layout/fragment_add_card">
+
+        <action
+            android:id="@+id/action_addCardFragment_to_HomeFragment"
+            app:destination="@id/home"
+            app:popUpTo="@id/home_navigation_graph"
+            app:popUpToInclusive="true"/>
 
     </fragment>
 

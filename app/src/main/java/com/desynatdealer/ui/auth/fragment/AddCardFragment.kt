@@ -37,7 +37,6 @@ class AddCardFragment : BaseFragment() {
     override fun initView() {
         binding?.apply {
             toolbar.tvToolbar.text = "Add Card"
-
         }
     }
 
@@ -56,7 +55,7 @@ class AddCardFragment : BaseFragment() {
             btnPay.setOnClickListener {
                 if (isValidate()){
                     CommonMethod.showSuccessDialog(requireActivity(),"Plan purchased successfully !"){
-                        findNavController().popBackStack()
+                        findNavController().navigate(R.id.action_addCardFragment_to_HomeFragment)
                     }
                 }
             }

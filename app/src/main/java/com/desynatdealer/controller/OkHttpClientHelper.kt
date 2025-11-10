@@ -2,8 +2,6 @@ package com.desynatdealer.controller
 
 
 import android.util.Log
-import com.chuckerteam.chucker.api.ChuckerCollector
-import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.desynatdealer.CoreApplication
 import com.desynatdealer.utils.SharedPreference
 import okhttp3.Cache
@@ -40,7 +38,6 @@ class OkHttpClientHelper {
             .addInterceptor(getHttpLoggingInterceptor())
             .addInterceptor(getRequestInterceptor())
 //        if (BuildConfig.DEBUG) {
-        getChuckerInterceptor()?.let { client.addInterceptor(it) }
 //        }
         client.cache(cache)
         return client.build()
@@ -122,18 +119,6 @@ class OkHttpClientHelper {
     }
 
 
-    private fun getChuckerInterceptor(): ChuckerInterceptor? {
-        val context = CoreApplication.instance?.baseContext
-        return context?.let {
-            ChuckerInterceptor.Builder(it)
-                .collector(ChuckerCollector(context))
-                .maxContentLength(250000L)
-                .redactHeaders(emptySet())
-                .alwaysReadResponseBody(true)
-                .build()
-        }
-    }
-
     private fun getHeaders(request: Request): Request {
 //        val versionCode = BuildConfig.VERSION_CODE.toString()
 //        val authToken = SharedService.authToken ?: ""
@@ -141,7 +126,7 @@ class OkHttpClientHelper {
         Log.d("TAG", "AccessToeken: $authToken")
         val req = request.newBuilder()
 //            .header("APP-VERSION-CODE", versionCode)
-            .header("accesstoken", authToken)
+            .header("Authorization","Bearer $authToken")
 //            .header(
 //                "language",
 //                SharedPreference.get(CoreApplication.instance?.baseContext!!).selectedLanguage

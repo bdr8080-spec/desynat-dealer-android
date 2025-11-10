@@ -1,20 +1,29 @@
 package com.desynatdealer.ui.auth.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
-import com.desynatdealer.data.view_model.AuthViewModel
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentPaymentMethodBinding
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
+import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
+import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
+import com.myfatoorah.sdk.entity.executepayment.MFExecutePaymentRequest
+import com.myfatoorah.sdk.entity.paymentstatus.MFGetPaymentStatusResponse
+import com.myfatoorah.sdk.enums.MFAPILanguage
+import com.myfatoorah.sdk.views.MFResult
+import com.myfatoorah.sdk.views.MFSDK
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +31,9 @@ class PaymentMethodFragment : BaseFragment() {
     private var binding: FragmentPaymentMethodBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
     private var subscriptionData: GetAllPlanResponse.Data?=null
+    private var profileData:GetSellerInfo.Data?=null
+    private var paymentData: MFGetPaymentStatusResponse?=null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +50,9 @@ class PaymentMethodFragment : BaseFragment() {
     }
 
     override fun initView() {
+        profileData = SharedPreference.get(requireActivity()).getUser()
+      /*  initiateSession()
+        cardStyling()*/
         val itemJson = arguments?.getString("subscriptionData")
         if (!itemJson.isNullOrEmpty()) {
             subscriptionData = Gson().fromJson(itemJson, GetAllPlanResponse.Data::class.java)
@@ -45,7 +60,15 @@ class PaymentMethodFragment : BaseFragment() {
         }
         binding?.apply {
             toolbar.tvToolbar.text = "Payment Method"
-
+            tvTotalAmount.text = "KD ${subscriptionData?.price}"
+            when(subscriptionData?.durationType){
+                1 -> {
+                    tvDays.text = "for ${subscriptionData?.duration} Month"
+                }
+                else -> {
+                    tvDays.text = "for ${subscriptionData?.duration} Days"
+                }
+            }
         }
     }
 
@@ -60,14 +83,237 @@ class PaymentMethodFragment : BaseFragment() {
             }
 
             btnPay.setOnClickListener {
-                CommonMethod.showSuccessDialog(requireActivity(),"Plan purchased successfully !"){
-                }
+                executeRedirectPayment()
+              //  executeEmbeddedPayment()
             }
         }
     }
 
     override fun observe() {
+        viewModel.createSubscriptionPlanResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    result.data?.data?.transactionId?.let { buySubscriptionPlan(it) }
+                    viewModel.createSubscriptionPlanResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.createSubscriptionPlanResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
+        viewModel.buySubscriptionPlanResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    CommonMethod.showSuccessDialog(requireActivity(),"Plan purchased successfully !"){
+                        SharedPreference.get(requireActivity()).isSubscription = true
+                        findNavController().navigate(R.id.action_paymentMethodFragment_to_HomeFragment)
+                    }
+                    viewModel.buySubscriptionPlanResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.buySubscriptionPlanResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
     }
+
+ /*   private fun cardStyling() {
+        binding?.mfPaymentView?.cardStyle = MFCardViewStyle(
+            hideCardIcons = false,
+            direction = "ltr",
+            cardHeight = 230,
+            input = MFCardViewInput(
+                color = requireActivity().getColor(R.color.black),
+                fontSize = 15f,
+                fontFamily = MFFontFamily.CourierNew,
+                inputHeight = 40f,
+                inputMargin = 6f,
+                borderColor = requireActivity().getColor(R.color.grey),
+                borderWidth = 1f,
+                borderRadius = 8f,
+                boxShadow = MFBoxShadow(10, 10, 5, 0, requireActivity().getColor(R.color.white)),
+                placeHolder = MFCardViewPlaceHolder(
+                    holderName = "Name On Card",
+                    cardNumber = "Number",
+                    expiryDate = "MM / YY",
+                    securityCode = "CVV"
+                )
+            ),
+            label = MFCardViewLabel(
+                display = true,
+                color = requireActivity().getColor(R.color.black),
+                fontSize = 14f,
+                fontFamily = MFFontFamily.CourierNew,
+                fontWeight = MFFontWeight.Bold,
+                text = MFCardViewText(
+                    holderName = "Card Holder Name",
+                    cardNumber = "Card Number",
+                    expiryDate = "Expiry Date",
+                    securityCode = "Security Code"
+                )
+            ),
+            error = MFCardViewError(
+                borderColor = requireActivity().getColor(R.color.red),
+                borderRadius = 8f,
+                boxShadow = MFBoxShadow(10, 10, 5, 0, requireActivity().getColor(R.color.white))
+            )
+        )
+    }
+
+    private fun initiateSession(){
+        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+        MFSDK.initiateSession {
+            when (it) {
+                is MFResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    binding?.mfPaymentView?.load(
+                        it.response,
+                        onCardBinChanged = { bin ->
+                            Log.d("initiateSession", "bin: $bin")
+                        }
+                    )
+                }
+                is MFResult.Fail -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    it.error.message?.let { it1 -> showToast(it1) }
+                    Log.d("initiateSession", "Fail: " + Gson().toJson(it.error))
+                }
+
+                MFResult.Loading -> {
+
+                }
+            }
+        }
+    }*/
+
+    /*private fun executeEmbeddedPayment() {
+
+        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+        val request = MFExecutePaymentRequest(subscriptionData?.price).apply {
+            customerReference = subscriptionData?.id.toString()
+            customerName = "${profileData?.firstName} ${profileData?.lastName}"
+            mobileCountryCode = profileData?.countryCode
+            customerMobile = profileData?.mobile
+            customerEmail = profileData?.email
+        }
+        binding?.mfPaymentView?.validate { result: MFResult<String> ->
+            when (result) {
+                is MFResult.Success -> {
+                    Log.d("executeEmbeddedPayment123", "Response: " + Gson().toJson(result.response))
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    binding?.mfPaymentView?.pay(
+                        requireActivity(),
+                        request,
+                        MFAPILanguage.EN,
+                        onInvoiceCreated = { Log.d("executeEmbeddedPayment", "invoiceId: $it") })
+                    { invoiceId: String, result: MFResult<MFGetPaymentStatusResponse> ->
+                        when (result) {
+                            is MFResult.Success -> {
+                                Log.d("executeEmbeddedPayment", "Response: " + Gson().toJson(result.response))
+                                paymentData =  result.response
+                                createSubscriptionPlan()
+
+                            }
+                            is MFResult.Fail -> {
+                                result.error.message?.let { showToast(it) }
+                                Log.d("executeEmbeddedPayment", "Response: " + Gson().toJson(result))
+                                Log.d("executeEmbeddedPayment", "Fail: " + Gson().toJson(result.error))
+                            }
+
+                            MFResult.Loading -> {
+                            }
+                        }
+                    }
+                }
+                is MFResult.Fail -> {Log.d("executeEmbeddedPayment123", "Fail: " + Gson().toJson(result.error))
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    result.error.message?.let { showToast(it) }
+                }
+
+                MFResult.Loading -> {
+
+                }
+            }
+        }
+    }*/
+
+    fun createSubscriptionPlan(){
+        val map = HashMap<String,Any>()
+        map["plan_id"]=subscriptionData?.id.toString()
+        viewModel.createSubscriptionPlan(map)
+    }
+
+    fun buySubscriptionPlan(transactionId: String) {
+        val map = HashMap<String,Any>()
+        map["plan_id"]=subscriptionData?.id.toString()
+        map["transaction_id"]=transactionId
+        map["payment_status"]=1// 1 paid 2 reject
+        if(paymentData!=null){
+            map["online_transaction_id"]=paymentData?.invoiceTransactions?.get(0)?.transactionId.toString()
+        }
+        else{
+            map["online_transaction_id"]="Online-$transactionId"
+        }
+        viewModel.buySubscriptionPlan(map)
+    }
+
+    private fun executeRedirectPayment() {
+        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+
+        // paymentMethodId = 2 → Visa/Mastercard
+        val paymentMethodId = 2
+
+        val request = MFExecutePaymentRequest(paymentMethodId, subscriptionData?.price).apply {
+            customerReference = subscriptionData?.id.toString()
+            customerName = "${profileData?.firstName} ${profileData?.lastName}"
+            mobileCountryCode = profileData?.countryCode
+            customerMobile = profileData?.mobile
+            customerEmail = profileData?.email
+        }
+
+        MFSDK.executePayment(
+            requireActivity(),
+            request,
+            MFAPILanguage.EN
+        ) { invoiceId: String, result: MFResult<MFGetPaymentStatusResponse> ->
+            ProgressDialogUtils.getInstance().hideProgress()
+
+            when (result) {
+                is MFResult.Success -> {
+                    Log.d("executeRedirectPayment", "Success: ${Gson().toJson(result.response)}")
+                    paymentData = result.response
+                    createSubscriptionPlan()
+                }
+                is MFResult.Fail -> {
+                    Log.d("executeRedirectPayment", "Fail: ${Gson().toJson(result.error)}")
+                   // result.error.message?.let { showToast(it) }
+                    createSubscriptionPlan()
+                }
+                MFResult.Loading -> {
+                    // Optional: show progress here if needed
+                }
+            }
+        }
+    }
+
 
 
 }

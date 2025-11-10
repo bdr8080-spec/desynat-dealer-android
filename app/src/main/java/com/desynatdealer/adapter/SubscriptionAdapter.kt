@@ -45,17 +45,52 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
                 1 -> {
                     tvDuration.text = "for ${subscriptionData.duration} Month"
                 }
+                else -> {
+                    tvDuration.text = "for ${subscriptionData.duration} Days"
+                }
             }
 
         }
 
         featureList.clear()
-        featureList.add(FeatureList("Number of Products: ",subscriptionData.noOfProducts))
+        /*featureList.add(FeatureList("Number of Products: ",subscriptionData.noOfProducts))
         featureList.add(FeatureList("Number of Videos (Reels): ",subscriptionData.noOfVideos))
         featureList.add(FeatureList("Number of Highlights: ",subscriptionData.noOfHighlights))
         featureList.add(FeatureList("Stories: ",subscriptionData.stories))
         featureList.add(FeatureList("${subscriptionData.noOfEmployee} Store Employees",0))
-        featureList.add(FeatureList("Commission: ",subscriptionData.commissionPercentage))
+        featureList.add(FeatureList("Commission: ${subscriptionData.commissionPercentage}",0))*/
+
+        subscriptionData.apply {
+            if (noOfProducts != 0)
+                featureList.add(FeatureList("Number of Products: ", noOfProducts))
+
+            if (noOfVideos != 0)
+                featureList.add(FeatureList("Number of Videos (Reels): ", noOfVideos))
+
+            if (noOfHighlights != 0)
+                featureList.add(FeatureList("Number of Highlights: ", noOfHighlights))
+
+            if (stories != 0)
+                featureList.add(FeatureList("Stories: ", stories))
+
+            if (noOfEmployee != 0)
+                featureList.add(FeatureList("$noOfEmployee Store Employees", 0))
+
+            // Handle commission formatting
+            val commissionValue = commissionPercentage?.toString()?.toDoubleOrNull()
+            if (commissionValue != null && commissionValue != 0.0) {
+                if (commissionValue % 1.0 == 0.0){
+                    val formattedCommission =  commissionValue.toInt()
+                featureList.add(FeatureList("Commission: ", formattedCommission))}
+                else {
+                    val formattedCommission =  commissionValue.toString()
+                    featureList.add(FeatureList("Commission: $formattedCommission", 0))
+
+                }
+
+            }
+        }
+
 
         holder.binding.rvFeature.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)

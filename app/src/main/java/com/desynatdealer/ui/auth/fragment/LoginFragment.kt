@@ -136,15 +136,16 @@ class LoginFragment : BaseFragment() {
         viewModel.loginResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())                }
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    if (result.data?.data?.adminVerify=="0"){
+                    if (result.data?.data?.adminVerify=="1"){
                         showToast("Your profile is under review")
                     }
-                    else{
-                        SharedPreference.get(requireActivity()).accessToken = result.data?.data?.accessToken.toString()
+                    else if (result.data?.data?.adminVerify=="2"){
+                        SharedPreference.get(requireActivity()).accessToken = result.data.data.accessToken
                         requireActivity().startActivity(
                             Intent(
                                 requireActivity(),
@@ -152,6 +153,29 @@ class LoginFragment : BaseFragment() {
                             )
                         )
                         requireActivity().finish()
+                    }
+
+                    else if (result.data?.data?.adminVerify=="3"){
+                       showToast("Your Account is Rejected by Admin. Please create a New account")
+                    }
+                    else if (result.data?.data?.adminVerify=="4"){
+                        val data = result.data.data
+                        PreviewFragment.createAccountReq = hashMapOf(
+                            "profile_pic" to data.profilePic,
+                            "first_name" to data.firstName,
+                            "last_name" to data.lastName,
+                            "country_code" to  data.countryCode,
+                            "mobile" to  data.mobile,
+                            "email" to  data.email
+                        )
+                        val bundle = Bundle().apply {
+                            putString("id", data.id.toString())
+                        }
+                        findNavController().navigate(R.id.action_loginFragment_to_storeInfoFragment,bundle)
+                    }
+
+                    else{
+                        showToast(result.data?.message.toString())
                     }
 
                     viewModel.loginResponse.value = null

@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.desynatdealer.R
 import com.desynatdealer.model.country.GetCountryResponse
+import com.desynatdealer.model.login.req.LoginResponse
+import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -87,6 +89,24 @@ class SharedPreference(context: Context) {
         } catch (e: Exception) {
             null
         }
+    }
+
+    fun saveUser(user: GetSellerInfo.Data) {
+        val json = Gson().toJson(user)
+        preference.set("userData", json)
+    }
+
+    fun getUser(): GetSellerInfo.Data? {
+        val json = preference["userData", ""] ?: return null
+        return try {
+            Gson().fromJson(json, GetSellerInfo.Data::class.java)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun clearUser() {
+        preference.set("userData", "")
     }
 
 }

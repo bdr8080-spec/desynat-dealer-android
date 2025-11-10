@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     app:cardCornerRadius="@dimen/_12sdp"
+    android:layout_marginEnd="@dimen/_15sdp"
     android:layout_marginBottom="@dimen/_15sdp">
 
     <androidx.appcompat.widget.AppCompatTextView

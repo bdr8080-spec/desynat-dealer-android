@@ -24,6 +24,7 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
             android:id="@+id/tvBankDetails"
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_20sdp"
@@ -36,7 +37,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+     <!--   <com.myfatoorah.sdk.views.embeddedpayment.MFPaymentCardView
+            android:id="@+id/mfPaymentView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>-->
+
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/llPaymentMethod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

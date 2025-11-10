@@ -106,7 +106,6 @@ dependencies {
     implementation("com.intuit.sdp:sdp-android:1.1.0")
     implementation("com.tbuonomo:dotsindicator:5.1.0")
 
-    //chucker for debugging api
-    debugImplementation(libs.library)
-    releaseImplementation(libs.library.no.op)
+    implementation ("com.myfatoorah:myfatoorah:3.0.4")
+
 }
