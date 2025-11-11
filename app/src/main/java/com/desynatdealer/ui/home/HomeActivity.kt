@@ -1,21 +1,20 @@
 package com.desynatdealer.ui.home
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.adapter.BottomNavAdapter
 import com.desynatdealer.base.BaseActivity
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.ActivityHomeBinding
-import com.desynatdealer.ui.auth.AuthActivity
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
@@ -42,6 +41,8 @@ class HomeActivity : BaseActivity() {
         initView()
         initControl()
         observer()
+        getSubscription()
+
     }
 
     override fun initView() {
@@ -102,15 +103,17 @@ class HomeActivity : BaseActivity() {
                 }*/
             }
         }
-        getProfile()
-
-
     }
 
     private fun getProfile() {
         viewModel.getSellerInfo()
     }
 
+    private fun getSubscription() {
+
+            viewModel.getSubscriptionHomePlan()
+
+    }
     override fun initControl() {
     }
 
@@ -124,8 +127,9 @@ class HomeActivity : BaseActivity() {
                     ProgressDialogUtils.getInstance().hideProgress()
                     result.data?.data?.let { SharedPreference.get(this).saveUser(it) }
 
-                    navGraph = controller.navInflater.inflate(R.navigation.home_navigation_graph)
-
+                    if (!::navGraph.isInitialized) {
+                        navGraph = controller.navInflater.inflate(R.navigation.home_navigation_graph)
+                    }
                     navGraph.setStartDestination(
                         if (result.data?.data?.subcriptionPlan?.isEmpty() == true&&SharedPreference.get(this).isSubscription==false){
                             R.id.subscription
@@ -137,13 +141,41 @@ class HomeActivity : BaseActivity() {
                     )
 
                     controller.graph = navGraph
-
+                    binding?.viewWhite?.isVisible = false
                     viewModel.sellerInfoResponse.value = null
                 }
                 is ApiResult.Error -> {
+                    binding?.viewWhite?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.sellerInfoResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
+        viewModel.subscriptionPlanHomeResponse.observe(this){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(this)
+                }
+                is ApiResult.Success -> {
+                    if (result.data?.data?.isEmpty() == true){
+                        SharedPreference.get(this).isSubscription = true
+                    }
+                    viewModel.subscriptionPlanHomeResponse.value = null
+                    getProfile()
+                }
+                is ApiResult.Error -> {
+                    binding?.viewWhite?.isVisible = false
+                    Log.e("error",result.message.toString())
+                    SharedPreference.get(this).isSubscription = true
+                    getProfile()
+                    ProgressDialogUtils.getInstance().hideProgress()
+                   // showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.subscriptionPlanHomeResponse.value = null
                 }
                 else ->{
 

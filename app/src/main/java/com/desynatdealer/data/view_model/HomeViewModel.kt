@@ -18,6 +18,18 @@ import javax.inject.Inject
 open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     ViewModel() {
 
+    private val _subscriptionPlanHomeResponse =
+        MutableLiveData<ApiResult<GetAllPlanResponse>?>()
+    val subscriptionPlanHomeResponse: MutableLiveData<ApiResult<GetAllPlanResponse>?>
+        get() = _subscriptionPlanHomeResponse
+
+    fun getSubscriptionHomePlan() {
+        viewModelScope.launch {
+            _subscriptionPlanHomeResponse.value = ApiResult.Loading
+            _subscriptionPlanHomeResponse.value = repo.getSubscriptionPlan()
+        }
+    }
+
     private val _subscriptionPlanResponse =
         MutableLiveData<ApiResult<GetAllPlanResponse>?>()
     val subscriptionPlanResponse: MutableLiveData<ApiResult<GetAllPlanResponse>?>

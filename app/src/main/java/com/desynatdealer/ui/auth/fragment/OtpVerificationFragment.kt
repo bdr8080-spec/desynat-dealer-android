@@ -232,4 +232,11 @@ class OtpVerificationFragment : BaseFragment() {
            return "${formattedMinutes}:${formattedSeconds}"
 
        }*/
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (::timer.isInitialized) {
+            timer.cancel()
+        }
+    }
 }

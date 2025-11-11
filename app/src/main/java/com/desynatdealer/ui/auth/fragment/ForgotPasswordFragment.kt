@@ -103,6 +103,7 @@ class ForgotPasswordFragment : BaseFragment() {
                 }
 
                 is ApiResult.Success -> {
+                    showToast("Otp Sent Successfully")
                     val bundle = Bundle().apply {
                         if (binding?.cbMobile?.isChecked == true) {
                             putString("countryCode", binding?.ccp?.selectedCountryCodeWithPlus)
@@ -136,8 +137,8 @@ class ForgotPasswordFragment : BaseFragment() {
         if (binding?.etMobile?.text?.isEmpty() == true && binding?.cbMobile?.isChecked == true) {
             showToast("Please enter mobile number")
             return false
-        } else if (binding?.etMobile?.text?.length!! < 7 && binding?.cbMobile?.isChecked == true) {
-            showToast("Please enter valid mobile number between 7 to 15 digits")
+        } else if (binding?.etMobile?.text?.length!! < 6 && binding?.cbMobile?.isChecked == true) {
+            showToast("Mobile number must be between 6 and 15 digits ")
             return false
         } else if (email.isBlank() && binding?.cbEmail?.isChecked == true) {
             showToast("Please enter email")

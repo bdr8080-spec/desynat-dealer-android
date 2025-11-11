@@ -19,9 +19,21 @@ import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
+import com.myfatoorah.sdk.entity.MFBoxShadow
+import com.myfatoorah.sdk.entity.MFCardViewError
+import com.myfatoorah.sdk.entity.MFCardViewInput
+import com.myfatoorah.sdk.entity.MFCardViewLabel
+import com.myfatoorah.sdk.entity.MFCardViewPlaceHolder
+import com.myfatoorah.sdk.entity.MFCardViewStyle
+import com.myfatoorah.sdk.entity.MFCardViewText
 import com.myfatoorah.sdk.entity.executepayment.MFExecutePaymentRequest
+import com.myfatoorah.sdk.entity.initiatepayment.MFInitiatePaymentRequest
+import com.myfatoorah.sdk.entity.initiatepayment.MFInitiatePaymentResponse
 import com.myfatoorah.sdk.entity.paymentstatus.MFGetPaymentStatusResponse
 import com.myfatoorah.sdk.enums.MFAPILanguage
+import com.myfatoorah.sdk.enums.MFCurrencyISO
+import com.myfatoorah.sdk.enums.MFFontFamily
+import com.myfatoorah.sdk.enums.MFFontWeight
 import com.myfatoorah.sdk.views.MFResult
 import com.myfatoorah.sdk.views.MFSDK
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,7 +96,7 @@ class PaymentMethodFragment : BaseFragment() {
 
             btnPay.setOnClickListener {
                 executeRedirectPayment()
-              //  executeEmbeddedPayment()
+             //   executeEmbeddedPayment()
             }
         }
     }
@@ -202,9 +214,9 @@ class PaymentMethodFragment : BaseFragment() {
                 }
             }
         }
-    }*/
+    }
 
-    /*private fun executeEmbeddedPayment() {
+    private fun executeEmbeddedPayment() {
 
         ProgressDialogUtils.getInstance().showProgress(requireActivity())
         val request = MFExecutePaymentRequest(subscriptionData?.price).apply {
@@ -253,8 +265,8 @@ class PaymentMethodFragment : BaseFragment() {
                 }
             }
         }
-    }*/
-
+    }
+*/
     fun createSubscriptionPlan(){
         val map = HashMap<String,Any>()
         map["plan_id"]=subscriptionData?.id.toString()
@@ -277,9 +289,22 @@ class PaymentMethodFragment : BaseFragment() {
 
     private fun executeRedirectPayment() {
         ProgressDialogUtils.getInstance().showProgress(requireActivity())
+        val requestInitiate = MFInitiatePaymentRequest(0.100, MFCurrencyISO.KUWAIT_KWD)
+        MFSDK.initiatePayment(
+            requestInitiate,
+            MFAPILanguage.EN
+        ) { result: MFResult<MFInitiatePaymentResponse> ->
+            when (result) {
+                is MFResult.Success ->
+                    Log.d("executeRedirectPayment", "Response: " + Gson().toJson(result.response))
+                is MFResult.Fail ->
+                    Log.d("executeRedirectPayment", "Fail: " + Gson().toJson(result.error))
 
-        // paymentMethodId = 2 → Visa/Mastercard
-        val paymentMethodId = 2
+                else -> {}
+            }
+        }
+
+        val paymentMethodId = 6
 
         val request = MFExecutePaymentRequest(paymentMethodId, subscriptionData?.price).apply {
             customerReference = subscriptionData?.id.toString()
@@ -304,8 +329,10 @@ class PaymentMethodFragment : BaseFragment() {
                 }
                 is MFResult.Fail -> {
                     Log.d("executeRedirectPayment", "Fail: ${Gson().toJson(result.error)}")
-                   // result.error.message?.let { showToast(it) }
-                    createSubscriptionPlan()
+                    result.error.message?.let { showToast(it) }
+                    showToast("Payment failed")
+                    findNavController().popBackStack()
+               //     createSubscriptionPlan()
                 }
                 MFResult.Loading -> {
                     // Optional: show progress here if needed

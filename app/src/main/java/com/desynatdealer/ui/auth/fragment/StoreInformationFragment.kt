@@ -344,7 +344,7 @@ class StoreInformationFragment : BaseFragment() {
             val countryCodes = countryList?.map { it.isoCode }
             val countryCodeString = countryCodes?.joinToString(",")
             binding?.ccp?.setCustomMasterCountries(countryCodeString)
-            binding?.ccpCountryPicker?.setCustomMasterCountries("KW,BH,QA,SA,AE,OM")
+            binding?.ccpCountryPicker?.setCustomMasterCountries(countryCodeString)
 
         }
     }

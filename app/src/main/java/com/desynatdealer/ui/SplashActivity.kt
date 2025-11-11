@@ -9,6 +9,7 @@ import com.desynatdealer.base.BaseActivity
 import com.desynatdealer.databinding.ActivitySplashBinding
 import com.desynatdealer.ui.auth.AuthActivity
 import com.desynatdealer.ui.home.HomeActivity
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
 
 class SplashActivity : BaseActivity() {
@@ -26,7 +27,7 @@ class SplashActivity : BaseActivity() {
 
     override fun initView() {
         Handler(Looper.getMainLooper()).postDelayed({
-            if (SharedPreference.get(this).accessToken.isNotEmpty()) {
+            if (SharedPreference.get(this).accessToken.isNotEmpty()&&SharedPreference.get(this).isSubscription) {
                 startActivity(Intent(this, HomeActivity::class.java))
                 finish()
             }

@@ -336,15 +336,15 @@ class DocAndBankInfoFragment : BaseFragment() {
                     false
                 }
 
-               /* etIban.text.toString().isEmpty() -> {
-                    showToast("Please enter IBAN")
+                etIban.text.toString().isEmpty() -> {
+                    showToast("Please enter IBAN number")
                     false
                 }
 
                 etSwift.text.toString().isEmpty() -> {
-                    showToast("Please enter SWIFT/BIC")
+                    showToast("Please enter SWIFT/BIC number")
                     false
-                }*/
+                }
 
                 etBankName.text.toString().isEmpty() -> {
                     showToast("Please enter bank name")

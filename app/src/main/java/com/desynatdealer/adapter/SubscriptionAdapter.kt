@@ -10,7 +10,6 @@ import com.desynatdealer.databinding.ItemPlanBinding
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
 
 class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<GetAllPlanResponse.Data>, var subscriptionClick:SubscriptionClick) : RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {
-    var featureList = ArrayList<FeatureList>()
     inner class ViewHolder(val binding: ItemPlanBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -43,14 +42,19 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
             tvPrice.text = "KD ${subscriptionData.price}"
             when(subscriptionData.durationType){
                 1 -> {
+                    tvDuration.text = "for ${subscriptionData.duration} Days"
+                }
+                2 -> {
                     tvDuration.text = "for ${subscriptionData.duration} Month"
                 }
                 else -> {
-                    tvDuration.text = "for ${subscriptionData.duration} Days"
+                    tvDuration.text = "for ${subscriptionData.duration} Year"
                 }
             }
 
         }
+
+        val featureList = ArrayList<FeatureList>() // new list per item
 
         featureList.clear()
         /*featureList.add(FeatureList("Number of Products: ",subscriptionData.noOfProducts))
@@ -59,6 +63,7 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
         featureList.add(FeatureList("Stories: ",subscriptionData.stories))
         featureList.add(FeatureList("${subscriptionData.noOfEmployee} Store Employees",0))
         featureList.add(FeatureList("Commission: ${subscriptionData.commissionPercentage}",0))*/
+
 
         subscriptionData.apply {
             if (noOfProducts != 0)
@@ -97,8 +102,9 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
             adapter = FeaturePlanAdapter(
                 context = context,
                 featureList)
-            setHasFixedSize(true)
+            setHasFixedSize(false)
             isNestedScrollingEnabled = false
+            setRecycledViewPool(null)
         }
 
         holder.itemView.setOnClickListener {
@@ -111,6 +117,5 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
         var feature:String,
         var count:Int?=0
     )
-
 
 }

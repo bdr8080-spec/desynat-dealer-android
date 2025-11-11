@@ -2,7 +2,6 @@ package com.desynatdealer
 
 import android.app.Application
 import com.google.android.libraries.places.api.Places
-import com.myfatoorah.sdk.enums.MFAPILanguage
 import com.myfatoorah.sdk.enums.MFCountry
 import com.myfatoorah.sdk.enums.MFEnvironment
 import com.myfatoorah.sdk.views.MFSDK
@@ -30,6 +29,5 @@ class CoreApplication : Application() {
             MFCountry.KUWAIT,
             MFEnvironment.TEST
         )
-
     }
 }

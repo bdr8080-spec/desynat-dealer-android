@@ -22,6 +22,7 @@ import com.desynatdealer.databinding.FragmentLoginBinding
 import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.ui.home.HomeActivity
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
@@ -156,9 +157,25 @@ class LoginFragment : BaseFragment() {
                     }
 
                     else if (result.data?.data?.adminVerify=="3"){
-                       showToast("Your Account is Rejected by Admin. Please create a New account")
+                    //   showToast("Your Account is Rejected by Admin. Please create a New account")
+                       showToast("Your document is rejected by admin please upload Again")
+                        val data = result.data.data
+                        PreviewFragment.createAccountReq = hashMapOf(
+                            "profile_pic" to data.profilePic,
+                            "first_name" to data.firstName,
+                            "last_name" to data.lastName,
+                            "country_code" to  data.countryCode,
+                            "mobile" to  data.mobile,
+                            "email" to  data.email
+                        )
+                        val bundle = Bundle().apply {
+                            putString("id", data.id.toString())
+                        }
+                        findNavController().navigate(R.id.action_loginFragment_to_storeInfoFragment,bundle)
+
                     }
                     else if (result.data?.data?.adminVerify=="4"){
+                        showToast("Your document is rejected by admin please upload Again")
                         val data = result.data.data
                         PreviewFragment.createAccountReq = hashMapOf(
                             "profile_pic" to data.profilePic,
