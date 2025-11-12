@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
@@ -37,6 +38,7 @@ import com.myfatoorah.sdk.enums.MFFontWeight
 import com.myfatoorah.sdk.views.MFResult
 import com.myfatoorah.sdk.views.MFSDK
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PaymentMethodFragment : BaseFragment() {
@@ -45,6 +47,7 @@ class PaymentMethodFragment : BaseFragment() {
     private var subscriptionData: GetAllPlanResponse.Data?=null
     private var profileData:GetSellerInfo.Data?=null
     private var paymentData: MFGetPaymentStatusResponse?=null
+    private var isLoad = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,8 +66,8 @@ class PaymentMethodFragment : BaseFragment() {
 
     override fun initView() {
         profileData = SharedPreference.get(requireActivity()).getUser()
-      /*  initiateSession()
-        cardStyling()*/
+        initiateSession()
+        cardStyling()
         val itemJson = arguments?.getString("subscriptionData")
         if (!itemJson.isNullOrEmpty()) {
             subscriptionData = Gson().fromJson(itemJson, GetAllPlanResponse.Data::class.java)
@@ -95,8 +98,10 @@ class PaymentMethodFragment : BaseFragment() {
             }
 
             btnPay.setOnClickListener {
-                executeRedirectPayment()
-             //   executeEmbeddedPayment()
+                if(isLoad) {
+                    //   executeRedirectPayment()
+                    executeEmbeddedPayment()
+                }
             }
         }
     }
@@ -146,8 +151,7 @@ class PaymentMethodFragment : BaseFragment() {
             }
         }
     }
-
- /*   private fun cardStyling() {
+    private fun cardStyling() {
         binding?.mfPaymentView?.cardStyle = MFCardViewStyle(
             hideCardIcons = false,
             direction = "ltr",
@@ -196,6 +200,7 @@ class PaymentMethodFragment : BaseFragment() {
             when (it) {
                 is MFResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    isLoad = true
                     binding?.mfPaymentView?.load(
                         it.response,
                         onCardBinChanged = { bin ->
@@ -204,6 +209,7 @@ class PaymentMethodFragment : BaseFragment() {
                     )
                 }
                 is MFResult.Fail -> {
+                    isLoad = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     it.error.message?.let { it1 -> showToast(it1) }
                     Log.d("initiateSession", "Fail: " + Gson().toJson(it.error))
@@ -217,56 +223,87 @@ class PaymentMethodFragment : BaseFragment() {
     }
 
     private fun executeEmbeddedPayment() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            ProgressDialogUtils.getInstance().showProgress(requireActivity())
+            val request = MFExecutePaymentRequest(subscriptionData?.price).apply {
+                customerReference = subscriptionData?.id.toString()
+                customerName = "${profileData?.firstName} ${profileData?.lastName}"
+                mobileCountryCode = profileData?.countryCode
+                customerMobile = profileData?.mobile
+                customerEmail = profileData?.email
+            }
+            binding?.mfPaymentView?.validate { result: MFResult<String> ->
+                when (result) {
+                    is MFResult.Success -> {
+                        Log.d(
+                            "executeEmbeddedPayment123",
+                            "Response: " + Gson().toJson(result.response)
+                        )
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        binding?.mfPaymentView?.pay(
+                            requireActivity(),
+                            request,
+                            MFAPILanguage.EN,
+                            onInvoiceCreated = {
+                                Log.d(
+                                    "executeEmbeddedPayment",
+                                    "invoiceId: $it"
+                                )
+                            })
+                        { invoiceId: String, result: MFResult<MFGetPaymentStatusResponse> ->
+                            when (result) {
+                                is MFResult.Success -> {
+                                    Log.d(
+                                        "executeEmbeddedPayment",
+                                        "Response: " + Gson().toJson(result.response)
+                                    )
+                                    paymentData = result.response
+                                    createSubscriptionPlan()
 
-        ProgressDialogUtils.getInstance().showProgress(requireActivity())
-        val request = MFExecutePaymentRequest(subscriptionData?.price).apply {
-            customerReference = subscriptionData?.id.toString()
-            customerName = "${profileData?.firstName} ${profileData?.lastName}"
-            mobileCountryCode = profileData?.countryCode
-            customerMobile = profileData?.mobile
-            customerEmail = profileData?.email
-        }
-        binding?.mfPaymentView?.validate { result: MFResult<String> ->
-            when (result) {
-                is MFResult.Success -> {
-                    Log.d("executeEmbeddedPayment123", "Response: " + Gson().toJson(result.response))
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    binding?.mfPaymentView?.pay(
-                        requireActivity(),
-                        request,
-                        MFAPILanguage.EN,
-                        onInvoiceCreated = { Log.d("executeEmbeddedPayment", "invoiceId: $it") })
-                    { invoiceId: String, result: MFResult<MFGetPaymentStatusResponse> ->
-                        when (result) {
-                            is MFResult.Success -> {
-                                Log.d("executeEmbeddedPayment", "Response: " + Gson().toJson(result.response))
-                                paymentData =  result.response
-                                createSubscriptionPlan()
+                                }
 
-                            }
-                            is MFResult.Fail -> {
-                                result.error.message?.let { showToast(it) }
-                                Log.d("executeEmbeddedPayment", "Response: " + Gson().toJson(result))
-                                Log.d("executeEmbeddedPayment", "Fail: " + Gson().toJson(result.error))
-                            }
+                                is MFResult.Fail -> {
+                                    //   result.error.message?.let { showToast(it) }
+                                    Log.d(
+                                        "executeEmbeddedPayment",
+                                        "Response: " + Gson().toJson(result)
+                                    )
+                                    Log.d(
+                                        "executeEmbeddedPayment",
+                                        "Fail: " + Gson().toJson(result.error)
+                                    )
+                                    showToast("Payment failed")
+                                    lifecycleScope.launchWhenResumed {
+                                        if (isAdded && !isDetached && findNavController().currentDestination?.id == R.id.paymentMethod) {
+                                            try {
+                                                findNavController().popBackStack()
+                                            } catch (e: Exception) {
+                                                Log.w("executeEmbeddedPayment", "Safe popBackStack failed: ${e.message}")
+                                            }
+                                        }
+                                    }
+                                }
 
-                            MFResult.Loading -> {
+                                MFResult.Loading -> {
+                                }
                             }
                         }
                     }
-                }
-                is MFResult.Fail -> {Log.d("executeEmbeddedPayment123", "Fail: " + Gson().toJson(result.error))
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    result.error.message?.let { showToast(it) }
-                }
 
-                MFResult.Loading -> {
+                    is MFResult.Fail -> {
+                        Log.d("executeEmbeddedPayment123", "Fail: " + Gson().toJson(result.error))
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        result.error.message?.let { showToast(it) }
+                    }
 
+                    MFResult.Loading -> {
+
+                    }
                 }
             }
         }
     }
-*/
+
     fun createSubscriptionPlan(){
         val map = HashMap<String,Any>()
         map["plan_id"]=subscriptionData?.id.toString()
@@ -287,6 +324,7 @@ class PaymentMethodFragment : BaseFragment() {
         viewModel.buySubscriptionPlan(map)
     }
 
+/*
     private fun executeRedirectPayment() {
         ProgressDialogUtils.getInstance().showProgress(requireActivity())
         val requestInitiate = MFInitiatePaymentRequest(0.100, MFCurrencyISO.KUWAIT_KWD)
@@ -304,7 +342,7 @@ class PaymentMethodFragment : BaseFragment() {
             }
         }
 
-        val paymentMethodId = 6
+        val paymentMethodId = 2
 
         val request = MFExecutePaymentRequest(paymentMethodId, subscriptionData?.price).apply {
             customerReference = subscriptionData?.id.toString()
@@ -330,8 +368,12 @@ class PaymentMethodFragment : BaseFragment() {
                 is MFResult.Fail -> {
                     Log.d("executeRedirectPayment", "Fail: ${Gson().toJson(result.error)}")
                     result.error.message?.let { showToast(it) }
-                    showToast("Payment failed")
-                    findNavController().popBackStack()
+                   // showToast("Payment failed")
+                    requireActivity().runOnUiThread {
+                        if (isAdded && findNavController().currentDestination?.id == R.id.paymentMethod) {
+                            findNavController().popBackStack()
+                        }
+                    }
                //     createSubscriptionPlan()
                 }
                 MFResult.Loading -> {
@@ -340,7 +382,6 @@ class PaymentMethodFragment : BaseFragment() {
             }
         }
     }
-
-
+*/
 
 }

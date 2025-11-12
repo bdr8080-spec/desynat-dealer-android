@@ -51,7 +51,7 @@ class HomeFragment : BaseFragment() {
         userInfo = SharedPreference.get(requireActivity()).getUser()
         binding?.apply {
             profilePic.load(userInfo?.profilePic){
-                crossfade(true)
+                crossfade(false)
                 placeholder(R.drawable.ic_user)
                 error(R.drawable.ic_user)
             }
@@ -79,6 +79,7 @@ class HomeFragment : BaseFragment() {
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    showToast("Logout successfully")
                     Constants.isLogout = true
                     CommonMethod.clearData(requireActivity())
                     requireActivity().startActivity(

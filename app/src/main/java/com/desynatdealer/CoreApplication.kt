@@ -25,9 +25,9 @@ class CoreApplication : Application() {
         }
 
         MFSDK.init(
-            getString(R.string.my_fatoorah_token_test),
+            getString(R.string.my_fatoorah_token),
             MFCountry.KUWAIT,
-            MFEnvironment.TEST
+            MFEnvironment.LIVE
         )
     }
 }

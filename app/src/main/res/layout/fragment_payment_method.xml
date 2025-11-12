@@ -24,29 +24,18 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:visibility="gone"
             android:id="@+id/tvBankDetails"
             style="@style/edit_text_title"
-            android:layout_marginTop="@dimen/_20sdp"
             android:text="Select Payment Method"
             android:textAllCaps="true"
             android:fontFamily="@font/poppins_medium"
-            android:textSize="@dimen/_13sdp"
+            android:textSize="@dimen/_12sdp"
             android:textColor="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-      <!--  <com.myfatoorah.sdk.views.embeddedpayment.MFPaymentCardView
-            android:id="@+id/mfPaymentView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>-->
-
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/llPaymentMethod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,9 +63,10 @@
                 android:drawableStart="@drawable/ic_card"
                 android:drawablePadding="@dimen/_5sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:textSize="@dimen/_12sdp"/>
+                android:textSize="@dimen/_11sdp"/>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_30sdp"
@@ -85,6 +75,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:id="@+id/tvAddNewCard"
                 style="@style/edit_text_title"
                 android:layout_width="wrap_content"
@@ -102,17 +93,25 @@
 
         </LinearLayout>
 
+        <com.myfatoorah.sdk.views.embeddedpayment.MFPaymentCardView
+            android:id="@+id/mfPaymentView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            app:layout_constraintTop_toBottomOf="@+id/llPaymentMethod"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <RelativeLayout
             android:id="@+id/relAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_15sdp"
             android:paddingVertical="@dimen/_2sdp"
             android:background="@drawable/brown_stroke_10"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/llPaymentMethod">
+            app:layout_constraintTop_toBottomOf="@+id/mfPaymentView">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTotal"
