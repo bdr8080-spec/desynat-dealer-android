@@ -5,13 +5,17 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
+import com.desynatdealer.adapter.CountryPickerAdapter
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
+import com.desynatdealer.databinding.CustomCountryPickerBinding
 import com.desynatdealer.databinding.FragmentForgotPasswordBinding
 import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.utils.CommonMethod
@@ -23,6 +27,7 @@ class ForgotPasswordFragment : BaseFragment() {
     private var binding: FragmentForgotPasswordBinding? = null
     private val viewModel: AuthViewModel by activityViewModels()
     private var type = "mobile"
+    var countryList = ArrayList<GetCountryResponse.Data>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,11 +81,15 @@ class ForgotPasswordFragment : BaseFragment() {
                 }
             }
 
+            tvCountryPicker.setOnClickListener {
+                showCustomDropdown(etMobile)
+            }
+
             btnContinue.setOnClickListener {
                 if (validation()) {
                     val map = HashMap<String, String>()
                     if (binding?.cbMobile?.isChecked == true) {
-                        map["country_code"] = binding?.ccp?.selectedCountryCodeWithPlus.toString()
+                        map["country_code"] = binding?.tvCountryPicker?.text.toString()
                         map["mobile"] = binding?.etMobile?.text.toString().trim()
                         map["type"] = "0"
                     } else {
@@ -106,7 +115,7 @@ class ForgotPasswordFragment : BaseFragment() {
                     showToast("Otp Sent Successfully")
                     val bundle = Bundle().apply {
                         if (binding?.cbMobile?.isChecked == true) {
-                            putString("countryCode", binding?.ccp?.selectedCountryCodeWithPlus)
+                            putString("countryCode", binding?.tvCountryPicker?.text.toString())
                             putString("mobileNumber", binding?.etMobile?.text.toString().trim())
                         } else {
                             putString("email", binding?.etEmail?.text.toString().trim())
@@ -159,11 +168,40 @@ class ForgotPasswordFragment : BaseFragment() {
 
     private fun setCountry() {
         val data = SharedPreference.get(requireActivity()).getCountryList()
-        if (!data.isNullOrEmpty()) {
-            val countryCodes = data.map { it.isoCode }
-            val countryCodeString = countryCodes.joinToString(",")
-            binding?.ccp?.setCustomMasterCountries(countryCodeString)
+        countryList.clear()
+        if (data != null) {
+            countryList.addAll(data)
         }
     }
+
+    private fun showCustomDropdown(anchor: View) {
+
+        val dropdownBinding = CustomCountryPickerBinding.inflate(layoutInflater)
+
+        val popupWindow = PopupWindow(
+            dropdownBinding.root,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.isOutsideTouchable = true
+        popupWindow.elevation = 20f
+
+        popupWindow.showAsDropDown(anchor)
+
+        dropdownBinding.apply {
+
+            rvCountry.adapter = CountryPickerAdapter(requireActivity(),countryList,object :
+                CountryPickerAdapter.ClickOnItem{
+                override fun onClickItem(position: Int) {
+                    binding?.tvCountryPicker?.text = countryList[position].dialCode
+                    popupWindow.dismiss()
+                }
+
+            })
+        }
+    }
+
 
 }

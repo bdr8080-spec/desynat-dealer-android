@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -65,8 +66,13 @@ class HomeFragment : BaseFragment() {
                 updateStatus()
             }
 
+            profilePic.setOnClickListener {
+                ivLogout.isVisible = !ivLogout.isVisible
+            }
+
             ivLogout.setOnClickListener {
                 logout()
+                ivLogout.isVisible = false
             }
         }
     }

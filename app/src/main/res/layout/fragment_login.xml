@@ -80,6 +80,22 @@
                 app:layout_constraintTop_toTopOf="@+id/etEmailMobile"
                 app:layout_constraintBottom_toBottomOf="@+id/etEmailMobile"/>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCountryPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="+975"
+                android:paddingVertical="@dimen/_10sdp"
+                android:drawableEnd="@drawable/ic_drop_down"
+                android:drawablePadding="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp"
+                app:layout_constraintStart_toEndOf="@+id/ivEmail"
+                app:layout_constraintTop_toTopOf="@+id/etEmailMobile"
+                app:layout_constraintBottom_toBottomOf="@+id/etEmailMobile"/>
+
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etEmailMobile"
                 android:layout_width="0dp"
@@ -92,7 +108,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ccp"/>
+                app:layout_constraintStart_toEndOf="@+id/tvCountryPicker"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

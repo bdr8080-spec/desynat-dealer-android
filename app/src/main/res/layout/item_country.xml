@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/_15sdp"
+    android:layout_marginBottom="@dimen/_12sdp">
+
+    <ImageView
+        android:id="@+id/ivFlag"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_20sdp"/>
+
+   <androidx.appcompat.widget.AppCompatTextView
+    android:id="@+id/tvCountry"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_15sdp"
+    android:fontFamily="@font/poppins_medium"
+    android:text="Store availability"
+    android:textColor="@color/black"
+    android:textSize="@dimen/_11sdp" />
+
+</LinearLayout>

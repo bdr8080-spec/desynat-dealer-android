@@ -12,15 +12,19 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
+import com.desynatdealer.adapter.CountryPickerAdapter
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
+import com.desynatdealer.databinding.CustomCountryPickerBinding
 import com.desynatdealer.databinding.FragmentSignUpBinding
 import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.utils.CommonMethod
@@ -54,6 +58,7 @@ class SignUpFragment : BaseFragment() {
         }
 
     private var profilePhotoUrl: String? = null
+    var countryList = ArrayList<GetCountryResponse.Data>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,6 +120,10 @@ class SignUpFragment : BaseFragment() {
                 imagePicker.showImageSourceDialog()
             }
 
+            tvCountryPicker.setOnClickListener {
+                showCustomDropdown(etMobile)
+            }
+
             btnContinue.setOnClickListener {
                 if (validation()) {
 
@@ -122,7 +131,8 @@ class SignUpFragment : BaseFragment() {
                         "profile_pic" to profilePhotoUrl.toString(),
                         "first_name" to binding?.etFirstName?.text.toString(),
                         "last_name" to binding?.etLastName?.text.toString(),
-                        "country_code" to binding?.ccp?.selectedCountryCodeWithPlus.toString(),
+                       // "country_code" to binding?.ccp?.selectedCountryCodeWithPlus.toString(),
+                        "country_code" to binding?.tvCountryPicker?.text.toString(),
                         "mobile" to binding?.etMobile?.text.toString(),
                         "email" to binding?.etEmail?.text.toString(),
                         "password" to binding?.etPassword?.text.toString(),
@@ -136,7 +146,7 @@ class SignUpFragment : BaseFragment() {
                             "profile_pic" to profilePhotoUrl.toString(),
                             "first_name" to binding?.etFirstName?.text.toString(),
                             "last_name" to binding?.etLastName?.text.toString(),
-                            "country_code" to binding?.ccp?.selectedCountryCodeWithPlus.toString(),
+                            "country_code" to binding?.tvCountryPicker?.text.toString(),
                             "mobile" to binding?.etMobile?.text.toString(),
                             "email" to binding?.etEmail?.text.toString(),
                             "password" to binding?.etPassword?.text.toString(),
@@ -185,7 +195,7 @@ class SignUpFragment : BaseFragment() {
                 is ApiResult.Success -> {
 
                     val bundle = Bundle().apply {
-                        putString("countryCode", binding?.ccp?.selectedCountryCodeWithPlus)
+                        putString("countryCode", binding?.tvCountryPicker?.text.toString(),)
                         putString("mobileNumber", binding?.etMobile?.text.toString().trim())
                         putString("from", "signUp")
                         putString("id", result.data?.data?.id.toString())
@@ -345,11 +355,43 @@ class SignUpFragment : BaseFragment() {
 
     private fun setCountry() {
         val data = SharedPreference.get(requireActivity()).getCountryList()
+        countryList.clear()
+        data?.let { countryList.addAll(it) }
         if (!data.isNullOrEmpty()) {
             val countryCodes = data.map { it.isoCode }
             val countryCodeString = countryCodes.joinToString(",")
             binding?.ccp?.setCustomMasterCountries(countryCodeString)
         }
     }
+
+    private fun showCustomDropdown(anchor: View) {
+
+        val dropdownBinding = CustomCountryPickerBinding.inflate(layoutInflater)
+
+        val popupWindow = PopupWindow(
+            dropdownBinding.root,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.isOutsideTouchable = true
+        popupWindow.elevation = 20f
+
+        popupWindow.showAsDropDown(anchor)
+
+        dropdownBinding.apply {
+
+            rvCountry.adapter = CountryPickerAdapter(requireActivity(),countryList,object :
+                CountryPickerAdapter.ClickOnItem{
+                override fun onClickItem(position: Int) {
+                    binding?.tvCountryPicker?.text = countryList[position].dialCode
+                    popupWindow.dismiss()
+                }
+
+            })
+        }
+    }
+
 
 }

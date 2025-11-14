@@ -9,16 +9,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.desynatdealer.R
+import com.desynatdealer.adapter.CountryPickerAdapter
+import com.desynatdealer.adapter.CustomCountryPickerAdapter
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.data.view_model.DealerRegistrationViewModel
+import com.desynatdealer.databinding.CustomCountryPickerBinding
 import com.desynatdealer.databinding.FragmentStoreInformationBinding
 import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.ui.UpdateLocationActivity
@@ -37,7 +42,7 @@ import java.util.Locale
 @AndroidEntryPoint
 class StoreInformationFragment : BaseFragment() {
 
-    private var countryList: List<GetCountryResponse.Data>?=null
+    private var countryList = ArrayList<GetCountryResponse.Data>()
     private var binding: FragmentStoreInformationBinding? = null
     private val viewModel: AuthViewModel by activityViewModels()
     private val sharedViewModel: DealerRegistrationViewModel by activityViewModels()
@@ -84,14 +89,14 @@ class StoreInformationFragment : BaseFragment() {
             binding?.etStoreName?.setText(data["store_name"])
             binding?.etStoreAddress?.setText(data["store_address"])
             binding?.etMobile?.setText(data["store_phone"])
-            data["country_code"]?.replace("+","")?.toInt()
-                ?.let { binding?.ccp?.setCountryForPhoneCode(it) }
+            binding?.tvCountryPicker?.text = data["country_code"]
+
             binding?.etEmail?.setText(data["store_mail_id"])
             binding?.etBio?.setText(data["bio"])
             binding?.ivStoreImage?.load(storePhotoUrl)
 
 
-            selectedCountryCode =   countryList?.find { it.id.toString() == data["country"] }?.isoCode
+            selectedCountryCode = data["country"]
             binding?.etCountry?.setText(countryList?.find { it.id.toString() == data["country"] }?.name)
         }
         initView()
@@ -140,14 +145,19 @@ class StoreInformationFragment : BaseFragment() {
             }
 
             etCountry.setOnClickListener {
-                ccpCountryPicker.launchCountrySelectionDialog()
+                showCustomCountryDropdown(etCountry)
+             //   ccpCountryPicker.launchCountrySelectionDialog()
             }
 
-            ccpCountryPicker.setOnCountryChangeListener {
+            tvCountryPicker.setOnClickListener {
+                showCustomDropdown(etMobile)
+            }
+
+            /*ccpCountryPicker.setOnCountryChangeListener {
                 val countryName = ccpCountryPicker.selectedCountryName
                 selectedCountryCode = ccpCountryPicker.selectedCountryNameCode
                 etCountry.setText(countryName)
-            }
+            }*/
 
             etStoreAddress.setOnClickListener {
                 val intent = Intent(requireActivity(), UpdateLocationActivity::class.java)
@@ -168,11 +178,11 @@ class StoreInformationFragment : BaseFragment() {
                             "user_id" to userId.toString(),
                             "store_image" to storePhotoUrl.toString(),
                             "store_name" to etStoreName.text.toString(),
-                            "country" to countryList?.find { it.isoCode == selectedCountryCode }?.id.toString(),
+                            "country" to selectedCountryCode.toString(),
                             "store_address" to address.toString(),
                             "address_line1" to etAddress1.text.toString(),
                             "address_line2" to etAddress2.text.toString(),
-                            "country_code" to ccp.selectedCountryCodeWithPlus.toString(),
+                            "country_code" to tvCountryPicker.text.toString(),
                             "store_phone" to etMobile.text.toString(),
                             "store_mail_id" to etEmail.text.toString(),
                             "bio" to etBio.text.toString(),
@@ -339,13 +349,76 @@ class StoreInformationFragment : BaseFragment() {
     }
 
     private fun setCountry() {
-         countryList = SharedPreference.get(requireActivity()).getCountryList()
+         val data = SharedPreference.get(requireActivity()).getCountryList()
+        countryList.clear()
+        if (data != null) {
+            countryList.addAll(data)
+        }
         if (!countryList.isNullOrEmpty()) {
             val countryCodes = countryList?.map { it.isoCode }
             val countryCodeString = countryCodes?.joinToString(",")
-            binding?.ccp?.setCustomMasterCountries(countryCodeString)
-            binding?.ccpCountryPicker?.setCustomMasterCountries(countryCodeString)
+          //  binding?.ccp?.setCustomMasterCountries(countryCodeString)
+        //    binding?.ccpCountryPicker?.setCustomMasterCountries(countryCodeString)
 
+        }
+    }
+
+    private fun showCustomDropdown(anchor: View) {
+
+        val dropdownBinding = CustomCountryPickerBinding.inflate(layoutInflater)
+
+        val popupWindow = PopupWindow(
+            dropdownBinding.root,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.isOutsideTouchable = true
+        popupWindow.elevation = 20f
+
+        popupWindow.showAsDropDown(anchor)
+
+        dropdownBinding.apply {
+
+            rvCountry.adapter = CountryPickerAdapter(requireActivity(),countryList,object :
+                CountryPickerAdapter.ClickOnItem{
+                override fun onClickItem(position: Int) {
+                    binding?.tvCountryPicker?.text = countryList[position].dialCode
+                    popupWindow.dismiss()
+                }
+
+            })
+        }
+    }
+
+    private fun showCustomCountryDropdown(anchor: View) {
+
+        val dropdownBinding = CustomCountryPickerBinding.inflate(layoutInflater)
+
+        val popupWindow = PopupWindow(
+            dropdownBinding.root,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.isOutsideTouchable = true
+        popupWindow.elevation = 20f
+
+        popupWindow.showAsDropDown(anchor)
+
+        dropdownBinding.apply {
+
+            rvCountry.adapter = CustomCountryPickerAdapter(requireActivity(),countryList,object :
+                CustomCountryPickerAdapter.ClickOnItem{
+                override fun onClickItem(position: Int) {
+                    binding?.etCountry?.setText(countryList[position].name)
+                    selectedCountryCode = countryList[position].id.toString()
+                    popupWindow.dismiss()
+                }
+
+            })
         }
     }
 

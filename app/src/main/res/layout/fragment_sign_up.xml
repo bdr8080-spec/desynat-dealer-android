@@ -164,6 +164,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvMobile">
 
             <com.hbb20.CountryCodePicker
+                android:visibility="gone"
                 android:id="@+id/ccp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -176,20 +177,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/etMobile" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCountryPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="+975"
+                android:paddingVertical="@dimen/_10sdp"
+                android:drawableEnd="@drawable/ic_drop_down"
+                android:drawablePadding="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/etMobile"
+                app:layout_constraintBottom_toBottomOf="@+id/etMobile"/>
+
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etMobile"
                 style="@style/edit_text"
                 android:layout_width="0dp"
                 android:background="@null"
-                android:drawableStart="@drawable/ic_drop_down"
-                android:drawablePadding="@dimen/_10sdp"
                 android:hint="@string/enter_mobile_number"
                 android:inputType="number"
                 android:maxLength="15"
-                android:paddingHorizontal="0dp"
+                android:paddingHorizontal="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ccp"
+                app:layout_constraintStart_toEndOf="@+id/tvCountryPicker"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
