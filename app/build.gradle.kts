@@ -107,6 +107,7 @@ dependencies {
     implementation("com.tbuonomo:dotsindicator:5.1.0")
 
     implementation ("com.myfatoorah:myfatoorah:3.0.4")
-    implementation ("com.mikhaellopez:circularimageview:4.3.1")
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
 
 }

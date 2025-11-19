@@ -59,4 +59,38 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/productManagement"
+        android:name="com.desynatdealer.ui.home.productManagement.ProductManagementFragment"
+        android:label="Product Management Fragment"
+        tools:layout="@layout/fragment_product_management">
+
+        <action
+            android:id="@+id/action_productManagementFragment_to_productDetailFragment"
+            app:destination="@id/productDetail"/>
+
+        <action
+            android:id="@+id/action_productManagementFragment_to_addProductFragment"
+            app:destination="@id/addProduct"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/productDetail"
+        android:name="com.desynatdealer.ui.home.productManagement.ProductDetailFragment"
+        android:label="Product Detail Fragment"
+        tools:layout="@layout/fragment_product_detail">
+
+        <action
+            android:id="@+id/action_productDetailFragment_to_addProductFragment"
+            app:destination="@id/addProduct"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addProduct"
+        android:name="com.desynatdealer.ui.home.productManagement.AddProductFragment"
+        android:label="Add Product Fragment"
+        tools:layout="@layout/fragment_add_product"/>
+
 </navigation>

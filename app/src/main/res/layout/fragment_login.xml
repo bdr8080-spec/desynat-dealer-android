@@ -65,7 +65,7 @@
                 app:layout_constraintTop_toTopOf="@+id/etEmailMobile"
                 app:layout_constraintBottom_toBottomOf="@+id/etEmailMobile"/>
 
-            <com.hbb20.CountryCodePicker
+        <!--    <com.hbb20.CountryCodePicker
                 android:visibility="gone"
                 android:id="@+id/ccp"
                 android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 app:layout_constraintStart_toEndOf="@+id/ivEmail"
                 app:layout_constraintTop_toTopOf="@+id/etEmailMobile"
-                app:layout_constraintBottom_toBottomOf="@+id/etEmailMobile"/>
+                app:layout_constraintBottom_toBottomOf="@+id/etEmailMobile"/>-->
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:visibility="gone"
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
-                android:text="+975"
+                android:text="+965"
                 android:paddingVertical="@dimen/_10sdp"
                 android:drawableEnd="@drawable/ic_drop_down"
                 android:drawablePadding="@dimen/_5sdp"

@@ -109,20 +109,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etStoreName" />
-<!--
-            <com.hbb20.CountryCodePicker
-                android:id="@+id/ccpCountryPicker"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:visibility="invisible"
-                app:ccp_showArrow="false"
-                app:ccp_showFlag="false"
-                app:ccp_showNameCode="false"
-                app:ccp_showPhoneCode="false"
-                app:layout_constraintBottom_toBottomOf="@+id/etCountry"
-                app:layout_constraintEnd_toEndOf="@+id/etCountry"
-                app:layout_constraintStart_toStartOf="@+id/etCountry"
-                app:layout_constraintTop_toTopOf="@+id/etCountry" />-->
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etCountry"
@@ -216,26 +202,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvMobile">
-<!--
-                <com.hbb20.CountryCodePicker
-                    android:id="@+id/ccp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:ccp_showArrow="false"
-                    app:ccp_showFlag="false"
-                    app:ccp_showNameCode="false"
-                    app:ccp_autoDetectCountry="false"
-                    app:ccp_defaultNameCode="KW"
-                    app:layout_constraintBottom_toBottomOf="@+id/etMobile"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/etMobile" />-->
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvCountryPicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="+975"
+                    android:text="+965"
                     android:drawableEnd="@drawable/ic_drop_down"
                     android:paddingVertical="@dimen/_10sdp"
                     android:drawablePadding="@dimen/_5sdp"

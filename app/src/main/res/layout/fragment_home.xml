@@ -50,31 +50,17 @@
             app:layout_constraintEnd_toStartOf="@+id/profilePic"
             app:layout_constraintTop_toTopOf="@+id/desynat_title" />
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profilePic"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/profile_pic"
-            app:civ_border="false"
             app:layout_constraintBottom_toBottomOf="@+id/desynat_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/desynat_title"
             app:shapeAppearanceOverlay="@style/circle_image" />
-
-       <!-- <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/desynat_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="Desynat"
-            android:textColor="#000000"
-            android:textSize="26sp"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintBottom_toBottomOf="@id/logoImage"
-            app:layout_constraintStart_toEndOf="@id/logoImage"
-            app:layout_constraintTop_toTopOf="@id/logoImage" />-->
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/desynat_title"
@@ -107,7 +93,6 @@
         android:fontFamily="@font/poppins_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_layout" />
-
 
     <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

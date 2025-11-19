@@ -19,6 +19,8 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -26,8 +28,11 @@ import androidx.core.text.HtmlCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.desynatdealer.R
+import com.desynatdealer.adapter.CountryPickerAdapter
 import com.desynatdealer.databinding.AlertDialogLayoutBinding
+import com.desynatdealer.databinding.CustomCountryPickerBinding
 import com.desynatdealer.databinding.SuccessDialogLayoutBinding
+import com.desynatdealer.model.country.GetCountryResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -401,6 +406,35 @@ object CommonMethod {
         SharedPreference.get(context).clearUser()
         SharedPreference.get(context).accessToken = ""
         SharedPreference.get(context).isSubscription = false
+    }
+
+    fun showCountryPicker(
+        context: Context,
+        anchor: View,
+        countryList: ArrayList<GetCountryResponse.Data>,
+        onCountrySelected: (GetCountryResponse.Data) -> Unit
+    ) {
+        val binding = CustomCountryPickerBinding.inflate(LayoutInflater.from(context))
+
+        val popupWindow = PopupWindow(
+            binding.root,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.isOutsideTouchable = true
+        popupWindow.elevation = 20f
+        popupWindow.showAsDropDown(anchor)
+
+        binding.rvCountry.adapter = CountryPickerAdapter(context, countryList,
+            object : CountryPickerAdapter.ClickOnItem {
+                override fun onClickItem(position: Int) {
+                    onCountrySelected(countryList[position])
+                    popupWindow.dismiss()
+                }
+            }
+        )
     }
 
 }

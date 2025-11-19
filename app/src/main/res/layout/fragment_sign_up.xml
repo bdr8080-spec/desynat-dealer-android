@@ -182,7 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
-                android:text="+975"
+                android:text="+965"
                 android:paddingVertical="@dimen/_10sdp"
                 android:drawableEnd="@drawable/ic_drop_down"
                 android:drawablePadding="@dimen/_5sdp"

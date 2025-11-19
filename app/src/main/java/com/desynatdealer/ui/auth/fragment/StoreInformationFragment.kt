@@ -41,9 +41,8 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class StoreInformationFragment : BaseFragment() {
-
-    private var countryList = ArrayList<GetCountryResponse.Data>()
     private var binding: FragmentStoreInformationBinding? = null
+    private var countryList = ArrayList<GetCountryResponse.Data>()
     private val viewModel: AuthViewModel by activityViewModels()
     private val sharedViewModel: DealerRegistrationViewModel by activityViewModels()
     private lateinit var imagePicker: ImagePicker
@@ -145,19 +144,16 @@ class StoreInformationFragment : BaseFragment() {
             }
 
             etCountry.setOnClickListener {
-                showCustomCountryDropdown(etCountry)
-             //   ccpCountryPicker.launchCountrySelectionDialog()
-            }
+                CommonMethod.showCountryPicker(requireActivity(),etCountry,countryList){countryData->
+                    binding?.etCountry?.setText(countryData.name)
+                    selectedCountryCode = countryData.id.toString()
+                }            }
 
             tvCountryPicker.setOnClickListener {
-                showCustomDropdown(etMobile)
+                CommonMethod.showCountryPicker(requireActivity(),clMobile,countryList){countryData->
+                    tvCountryPicker.text = countryData.dialCode
+                }
             }
-
-            /*ccpCountryPicker.setOnCountryChangeListener {
-                val countryName = ccpCountryPicker.selectedCountryName
-                selectedCountryCode = ccpCountryPicker.selectedCountryNameCode
-                etCountry.setText(countryName)
-            }*/
 
             etStoreAddress.setOnClickListener {
                 val intent = Intent(requireActivity(), UpdateLocationActivity::class.java)
@@ -354,73 +350,6 @@ class StoreInformationFragment : BaseFragment() {
         if (data != null) {
             countryList.addAll(data)
         }
-        if (!countryList.isNullOrEmpty()) {
-            val countryCodes = countryList?.map { it.isoCode }
-            val countryCodeString = countryCodes?.joinToString(",")
-          //  binding?.ccp?.setCustomMasterCountries(countryCodeString)
-        //    binding?.ccpCountryPicker?.setCustomMasterCountries(countryCodeString)
-
-        }
     }
-
-    private fun showCustomDropdown(anchor: View) {
-
-        val dropdownBinding = CustomCountryPickerBinding.inflate(layoutInflater)
-
-        val popupWindow = PopupWindow(
-            dropdownBinding.root,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            true
-        )
-
-        popupWindow.isOutsideTouchable = true
-        popupWindow.elevation = 20f
-
-        popupWindow.showAsDropDown(anchor)
-
-        dropdownBinding.apply {
-
-            rvCountry.adapter = CountryPickerAdapter(requireActivity(),countryList,object :
-                CountryPickerAdapter.ClickOnItem{
-                override fun onClickItem(position: Int) {
-                    binding?.tvCountryPicker?.text = countryList[position].dialCode
-                    popupWindow.dismiss()
-                }
-
-            })
-        }
-    }
-
-    private fun showCustomCountryDropdown(anchor: View) {
-
-        val dropdownBinding = CustomCountryPickerBinding.inflate(layoutInflater)
-
-        val popupWindow = PopupWindow(
-            dropdownBinding.root,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            true
-        )
-
-        popupWindow.isOutsideTouchable = true
-        popupWindow.elevation = 20f
-
-        popupWindow.showAsDropDown(anchor)
-
-        dropdownBinding.apply {
-
-            rvCountry.adapter = CustomCountryPickerAdapter(requireActivity(),countryList,object :
-                CustomCountryPickerAdapter.ClickOnItem{
-                override fun onClickItem(position: Int) {
-                    binding?.etCountry?.setText(countryList[position].name)
-                    selectedCountryCode = countryList[position].id.toString()
-                    popupWindow.dismiss()
-                }
-
-            })
-        }
-    }
-
 
 }
