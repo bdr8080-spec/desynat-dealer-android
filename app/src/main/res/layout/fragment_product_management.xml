@@ -76,6 +76,83 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/llTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="@dimen/_15sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/relSearch">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvAll"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="All (12)"
+                        android:textColor="@color/brown"
+                        android:textSize="@dimen/_12sdp"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/tvActive"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <View
+                        android:id="@+id/viewAll"
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:background="@color/brown"
+                        app:layout_constraintTop_toBottomOf="@+id/tvAll"
+                        app:layout_constraintStart_toStartOf="@+id/tvAll"
+                        app:layout_constraintEnd_toEndOf="@+id/tvAll"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvActive"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Active (3)"
+                        android:textColor="#B3B3B3"
+                        android:textSize="@dimen/_12sdp"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        app:layout_constraintStart_toEndOf="@+id/tvAll"
+                        app:layout_constraintEnd_toStartOf="@+id/tvInactive"
+                        app:layout_constraintTop_toTopOf="@+id/tvAll"/>
+
+                    <View
+                        android:id="@+id/viewActive"
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:background="#B3B3B3"
+                        app:layout_constraintTop_toBottomOf="@+id/tvActive"
+                        app:layout_constraintStart_toStartOf="@+id/tvActive"
+                        app:layout_constraintEnd_toEndOf="@+id/tvActive"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvInactive"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Inactive (3)"
+                        android:textColor="#B3B3B3"
+                        android:textSize="@dimen/_12sdp"
+                        android:gravity="end"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        app:layout_constraintStart_toEndOf="@+id/tvActive"
+                        app:layout_constraintTop_toTopOf="@+id/tvActive"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <View
+                        android:id="@+id/viewInactive"
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:background="#B3B3B3"
+                        app:layout_constraintTop_toBottomOf="@+id/tvInactive"
+                        app:layout_constraintStart_toStartOf="@+id/tvInactive"
+                        app:layout_constraintEnd_toEndOf="@+id/tvInactive"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvProduct"
                     android:layout_width="match_parent"

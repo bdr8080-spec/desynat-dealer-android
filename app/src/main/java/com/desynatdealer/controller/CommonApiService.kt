@@ -6,6 +6,13 @@ import com.desynatdealer.model.login.req.LoginReq
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
+import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
+import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
+import com.desynatdealer.ui.home.productManagement.response.GetProductDetailResponse
+import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandResponse
+import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
+import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
 import com.desynatdealer.ui.home.response.CommonResponse
 import com.desynatdealer.ui.home.response.CreateSubscriptionPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
@@ -14,10 +21,13 @@ import com.desynatdealer.utils.Constants
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Query
 
 interface CommonApiService {
 
@@ -84,4 +94,32 @@ interface CommonApiService {
         @Body map: HashMap<String, Any>
     ): Response<CommonResponse>
 
+    @GET(Constants.GET_CATEGORY)
+    suspend fun getCategory(): Response<GetCategoryResponse>
+
+    @GET(Constants.GET_SUB_CATEGORY)
+    suspend fun getSubCategory(
+        @Query ("category_id") categoryId:String
+    ): Response<GetSubCategoryResponse>
+
+    @GET(Constants.GET_BRAND)
+    suspend fun getBrand(): Response<GetSellerBrandResponse>
+
+    @GET(Constants.GET_COLOR)
+    suspend fun getColor(): Response<GetColorResponse>
+
+    @GET(Constants.GET_SIZE)
+    suspend fun getSize(): Response<GetSizeResponse>
+
+    @POST(Constants.GET_ALL_PRODUCT)
+    suspend fun getAllProduct(@Body map: HashMap<String, Any>): Response<GetAllProductResponse>
+
+    @POST(Constants.PRODUCT_DETAIL)
+    suspend fun getProductDetail(@Body map: HashMap<String, Any>): Response<GetProductDetailResponse>
+
+    @PUT(Constants.PRODUCT_ACTIVE_INACTIVE)
+    suspend fun updateProductStatus(@Body map: HashMap<String, Any>): Response<GetProductDetailResponse>
+
+    @DELETE(Constants.DELETE_PRODUCT)
+    suspend fun deleteProduct(@Body map: HashMap<String, Any>): Response<CommonResponse>
 }

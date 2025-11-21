@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingVertical="@dimen/_15sdp"
-        android:paddingHorizontal="@dimen/_20sdp"
+        android:paddingHorizontal="@dimen/_15sdp"
         android:fontFamily="@font/poppins_medium"
         android:text="Forgot Password"
         android:textColor="@color/black"

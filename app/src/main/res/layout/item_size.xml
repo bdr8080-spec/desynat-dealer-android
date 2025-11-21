@@ -7,10 +7,10 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivColor"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp"
-       app:strokeWidth="1dp"
-        app:strokeColor="#1A000000"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+       app:strokeWidth="@dimen/_1sdp"
+        app:strokeColor="#33000000"
         android:clipToOutline="true"
         app:shapeAppearanceOverlay="@style/rounded_corner4sdp"/>
 
@@ -22,6 +22,6 @@
         android:text="XL"
         android:layout_centerInParent="true"
         android:textColor="@color/black"
-        android:textSize="@dimen/_11sdp" />
+        android:textSize="@dimen/_12sdp" />
 
 </RelativeLayout>

@@ -44,7 +44,7 @@
         android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="@dimen/_11sdp"
-        app:layout_constraintEnd_toStartOf="@+id/ivSwitch"
+        app:layout_constraintEnd_toStartOf="@+id/tvSwitch"
         app:layout_constraintStart_toEndOf="@id/ivProduct"
         app:layout_constraintTop_toTopOf="@id/ivProduct" />
 
@@ -57,7 +57,7 @@
         android:textColor="@color/brown"
         android:textSize="@dimen/_11sdp"
         android:singleLine="true"
-        app:layout_constraintEnd_toStartOf="@+id/ivSwitch"
+        app:layout_constraintEnd_toStartOf="@+id/tvSwitch"
         app:layout_constraintStart_toStartOf="@id/tvBrand"
         app:layout_constraintTop_toBottomOf="@id/tvBrand" />
 
@@ -133,15 +133,19 @@
         app:layout_constraintStart_toEndOf="@+id/tvPrice"
         app:layout_constraintTop_toTopOf="@id/tvPrice" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivSwitch"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/switch_on"
+        android:drawableTop="@drawable/switch_on"
+        android:fontFamily="@font/poppins_regular"
         android:paddingVertical="@dimen/_10sdp"
         android:paddingStart="@dimen/_15sdp"
+        android:text="Active"
+        android:textColor="#1A900D"
+        android:textSize="@dimen/_9sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvColor"

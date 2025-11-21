@@ -72,7 +72,8 @@ class HomeActivity : BaseActivity() {
 
         val bottomNavDestinations = setOf(
             R.id.home,
-           /* R.id.catalog,
+            R.id.productManagement
+           /*
             R.id.myBag,
             R.id.profile,*/
         )
@@ -92,9 +93,10 @@ class HomeActivity : BaseActivity() {
                 R.id.home -> {
                     bottomAdapter?.setSelectedItem(0)
                 }
-               /* R.id.catalog -> {
+                R.id.productManagement -> {
                     bottomAdapter?.setSelectedItem(1)
                 }
+               /*
                 R.id.myBag -> {
                     bottomAdapter?.setSelectedItem(3)
                 }
@@ -189,7 +191,8 @@ class HomeActivity : BaseActivity() {
             override fun onBottomNavItemClick(position: Int) {
                 when(position) {
                     0 -> controller.navigate(R.id.home)
-                  /*  1 -> controller.navigate(R.id.catalog)
+                    1 -> controller.navigate(R.id.productManagement)
+                  /*
                     //2 -> controller.navigate(R.id.catalog)
                     3 -> controller.navigate(R.id.myBag)
                     4 -> controller.navigate(R.id.profile)*/

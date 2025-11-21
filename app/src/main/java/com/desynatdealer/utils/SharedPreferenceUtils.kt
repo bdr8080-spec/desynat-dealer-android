@@ -6,6 +6,7 @@ import android.util.Log
 import com.desynatdealer.R
 import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.model.login.req.LoginResponse
+import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

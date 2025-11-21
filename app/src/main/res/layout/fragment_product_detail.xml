@@ -55,13 +55,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivProduct"
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_250sdp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/dummy"
+                android:layout_marginBottom="@dimen/_15sdp"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/dotsIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:tabBackground="@drawable/tab_selector"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp"
+                app:tabPaddingEnd="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewPager"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSwitch"
@@ -91,7 +103,7 @@
                 android:text="100 + Bought"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_10sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivProduct"
+                app:layout_constraintBottom_toBottomOf="@+id/viewPager"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -107,7 +119,7 @@
                 android:textSize="@dimen/_13sdp"
                 app:layout_constraintEnd_toStartOf="@+id/tvDate"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivProduct" />
+                app:layout_constraintTop_toBottomOf="@id/dotsIndicator" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDate"
@@ -269,7 +281,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvMoreColor"
                 tools:itemCount="5"
-                tools:listitem="@layout/item_rectangle_color" />
+                tools:listitem="@layout/item_color" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSize"
@@ -312,6 +324,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tvSize" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
                 android:id="@+id/clWomenSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -597,6 +610,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSpecification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -618,6 +632,174 @@
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvReturn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Return allowed ?"
+                    android:textColor="#CC000000"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvReturnTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="7 days"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvReturn"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvReturn"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvExchange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Exchange allowed ?"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textColor="#CC000000"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvReturn" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvExchangeTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="7 days"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvExchange"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvExchange"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvRatingAndReview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Review &amp; ratings allowed ? "
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textColor="#CC000000"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvExchange" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvRatingAndReviewStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Yes"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvRatingAndReview"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvRatingAndReview"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAffiliated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Is it an Affiliated Product?"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textColor="#CC000000"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRatingAndReview" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAffiliatedProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="No"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvAffiliated"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvAffiliated"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCustomized"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Is this a Customized product?"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textColor="#CC000000"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAffiliated" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCustomizedStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="No"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvCustomized"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvCustomized"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvReadyToShip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Ready to ship?"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textColor="#CC000000"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCustomized" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvReadyToShipStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Yes"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvReadyToShip"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvReadyToShip"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCashOnDelivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Cash on delivery allowed?"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textColor="#CC000000"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvReadyToShip" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCashOnDeliveryStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Yes"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvCashOnDelivery"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvCashOnDelivery"/>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

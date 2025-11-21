@@ -82,8 +82,8 @@
         tools:layout="@layout/fragment_product_detail">
 
         <action
-            android:id="@+id/action_productDetailFragment_to_addProductFragment"
-            app:destination="@id/addProduct"/>
+            android:id="@+id/action_productDetailFragment_to_editProductFragment"
+            app:destination="@id/editProduct"/>
 
     </fragment>
 
@@ -92,5 +92,11 @@
         android:name="com.desynatdealer.ui.home.productManagement.AddProductFragment"
         android:label="Add Product Fragment"
         tools:layout="@layout/fragment_add_product"/>
+
+    <fragment
+        android:id="@+id/editProduct"
+        android:name="com.desynatdealer.ui.home.productManagement.EditProductFragment"
+        android:label="Edit Product Fragment"
+        tools:layout="@layout/fragment_edit_product"/>
 
 </navigation>

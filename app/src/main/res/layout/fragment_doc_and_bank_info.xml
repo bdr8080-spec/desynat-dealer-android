@@ -207,7 +207,6 @@
 
             </RadioGroup>
 
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvIban"
                 android:layout_width="wrap_content"

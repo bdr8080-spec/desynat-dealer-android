@@ -21,4 +21,17 @@ object Constants {
     const val GET_SUBSCRIPTION_PLAN = "api/seller/all-plans"
     const val CREATE_SUBSCRIPTION_PLAN = "/api/seller/create-subcription-plan-buy"
     const val BUY_SUBSCRIPTION_PLAN = "/api/seller/payment-subcription-plan"
+
+    const val GET_CATEGORY = "/api/seller/category"
+    const val GET_SUB_CATEGORY = "/api/seller/sub-category"
+    const val GET_BRAND = "/api/seller/all-brand"
+    const val GET_COLOR = "/api/seller/all-color"
+    const val GET_SIZE = "/api/seller/all-size"
+    const val STORE_ON_OFF = "/api/seller/store_on_off"
+    const val ADD_PRODUCT = "/api/seller/add-product"
+
+    const val GET_ALL_PRODUCT = "/api/seller/all-product"
+    const val PRODUCT_DETAIL = "/api/seller/single-product-details"
+    const val PRODUCT_ACTIVE_INACTIVE = "/api/seller/product-status-active-inactive"
+    const val DELETE_PRODUCT = "/api/seller/product-delete"
 }

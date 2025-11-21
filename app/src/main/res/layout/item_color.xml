@@ -13,4 +13,15 @@
         android:clipToOutline="true"
         app:shapeAppearanceOverlay="@style/circle_image"/>
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:visibility="gone"
+        android:id="@+id/ivRectangleColor"
+        android:layout_width="@dimen/_28sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:src="@color/light_brown"
+        android:clipToOutline="true"
+        app:shapeAppearanceOverlay="@style/rounded_corner4sdp"/>
+
+
 </RelativeLayout>
