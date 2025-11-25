@@ -151,6 +151,8 @@ data class GetSellerInfo(
             val storeImage: String,
             @SerializedName("store_mail_id")
             val storeMailId: String,
+            @SerializedName("Store_Availability")
+            var storeAvailability: Int,
             @SerializedName("store_name")
             val storeName: String,
             @SerializedName("store_phone")

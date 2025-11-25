@@ -50,6 +50,7 @@ class HomeFragment : BaseFragment() {
 
     override fun initView() {
         userInfo = SharedPreference.get(requireActivity()).getUser()
+        updateStatus()
         binding?.apply {
             profilePic.load(userInfo?.profilePic){
                 crossfade(false)
@@ -62,8 +63,7 @@ class HomeFragment : BaseFragment() {
     override fun initControl() {
         binding?.apply {
             tvSwitch.setOnClickListener {
-                status = if (status==0) 1 else 0
-                updateStatus()
+                storeAvailability()
             }
 
             profilePic.setOnClickListener {
@@ -105,11 +105,40 @@ class HomeFragment : BaseFragment() {
                 }
             }
         }
+
+        viewModel.storeOnOffResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.data?.message.toString())
+                    if (userInfo?.storeInfo?.storeAvailability==1){
+                        userInfo?.storeInfo?.storeAvailability = 0
+                    }
+                    else{
+                        userInfo?.storeInfo?.storeAvailability = 1
+                    }
+                    userInfo?.let { SharedPreference.get(requireActivity()).saveUser(it) }
+                    updateStatus()
+                    viewModel.storeOnOffResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.storeOnOffResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
     }
 
     private fun updateStatus(){
         binding?.apply {
-            if(status==1){
+            if(userInfo?.storeInfo?.storeAvailability==1){
                 tvSwitch.text = "Busy/On"
                 tvSwitch.setTextColor(Color.parseColor("#8B5E3C"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
@@ -126,5 +155,9 @@ class HomeFragment : BaseFragment() {
 
     private fun logout() {
         viewModel.logout()
+    }
+
+    private fun storeAvailability() {
+        viewModel.storeOnOff()
     }
 }

@@ -2,7 +2,162 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FAFAFA"
-    android:paddingHorizontal="@dimen/_15sdp">
+    android:layout_marginBottom="@dimen/_10sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvOtherBrand"
+        style="@style/edit_text_title"
+        android:layout_width="0dp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:text="Name"
+        app:layout_constraintEnd_toStartOf="@+id/tvOtherBrandArabic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNameEnglish"
+        style="@style/edit_text_title"
+        android:layout_width="wrap_content"
+        android:text="In English"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="@+id/tvOtherBrand"
+        app:layout_constraintTop_toTopOf="@+id/tvOtherBrand"
+        app:layout_constraintBottom_toBottomOf="@+id/tvOtherBrand"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etName"
+        style="@style/edit_text"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:background="@drawable/edit_back"
+        android:hint="Enter Name"
+        android:inputType="text"
+        android:textSize="@dimen/_10sdp"
+        android:paddingHorizontal="@dimen/_5sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/etNameArabic"
+        app:layout_constraintTop_toBottomOf="@+id/tvOtherBrand" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvOtherBrandArabic"
+        style="@style/edit_text_title"
+        android:layout_width="0dp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_7sdp"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvOtherBrand"
+        app:layout_constraintTop_toTopOf="@+id/tvOtherBrand"
+        app:layout_constraintBottom_toBottomOf="@+id/tvOtherBrand"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNameArabic"
+        style="@style/edit_text_title"
+        android:layout_width="wrap_content"
+        android:text="In Arabic"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="@+id/tvOtherBrandArabic"
+        app:layout_constraintTop_toTopOf="@+id/tvOtherBrand"
+        app:layout_constraintBottom_toBottomOf="@+id/tvOtherBrandArabic"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etNameArabic"
+        style="@style/edit_text"
+        android:layout_width="0dp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:background="@drawable/edit_back"
+        android:hint="Enter Name"
+        android:inputType="text"
+        android:textSize="@dimen/_10sdp"
+        android:paddingHorizontal="@dimen/_5sdp"
+        app:layout_constraintTop_toTopOf="@+id/etName"
+        app:layout_constraintBottom_toBottomOf="@+id/etName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etName"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvFeatureName"
+        style="@style/edit_text_title"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:text="Feature"
+        app:layout_constraintEnd_toStartOf="@+id/tvFeatureNameArabic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etName" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvFeatureEnglish"
+        style="@style/edit_text_title"
+        android:layout_width="wrap_content"
+        android:text="In English"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="@+id/tvFeatureName"
+        app:layout_constraintTop_toTopOf="@+id/tvFeatureName"
+        app:layout_constraintBottom_toBottomOf="@+id/tvFeatureName"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etFeature"
+        style="@style/edit_text"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:background="@drawable/edit_back"
+        android:hint="Enter Feature"
+        android:inputType="text"
+        android:textSize="@dimen/_10sdp"
+        android:paddingHorizontal="@dimen/_5sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/etFeatureArabic"
+        app:layout_constraintTop_toBottomOf="@+id/tvFeatureName" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvFeatureNameArabic"
+        style="@style/edit_text_title"
+        android:layout_width="0dp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_7sdp"
+        android:text="Feature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvFeatureName"
+        app:layout_constraintTop_toTopOf="@+id/tvFeatureName"
+        app:layout_constraintBottom_toBottomOf="@+id/tvFeatureName"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvFeatureArabic"
+        style="@style/edit_text_title"
+        android:layout_width="wrap_content"
+        android:text="In Arabic"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="@+id/tvFeatureNameArabic"
+        app:layout_constraintTop_toTopOf="@+id/tvFeatureNameArabic"
+        app:layout_constraintBottom_toBottomOf="@+id/tvFeatureNameArabic"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etFeatureArabic"
+        style="@style/edit_text"
+        android:layout_width="0dp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:background="@drawable/edit_back"
+        android:hint="Enter Feature"
+        android:inputType="text"
+        android:textSize="@dimen/_10sdp"
+        android:paddingHorizontal="@dimen/_5sdp"
+        app:layout_constraintTop_toTopOf="@+id/etFeature"
+        app:layout_constraintBottom_toBottomOf="@+id/etFeature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etFeature"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

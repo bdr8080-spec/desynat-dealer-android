@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
+import android.text.InputFilter
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
@@ -31,6 +32,7 @@ import com.desynatdealer.R
 import com.desynatdealer.adapter.CountryPickerAdapter
 import com.desynatdealer.databinding.AlertDialogLayoutBinding
 import com.desynatdealer.databinding.CustomCountryPickerBinding
+import com.desynatdealer.databinding.DeleteDialogLayoutBinding
 import com.desynatdealer.databinding.SuccessDialogLayoutBinding
 import com.desynatdealer.model.country.GetCountryResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -170,6 +172,29 @@ object CommonMethod {
         })
     }
 
+    fun applyArabicOnlyFilter(editText: EditText) {
+
+        val filter = InputFilter { source, start, end, dest, dstart, dend ->
+
+            // Block English alphabets
+            val englishRegex = Regex("[a-zA-Z]")
+
+            if (source != null && source.contains(englishRegex)) {
+                return@InputFilter ""
+            }
+
+            // Block leading space
+            if (dstart == 0 && source.startsWith(" ")) {
+                return@InputFilter ""
+            }
+
+            return@InputFilter null
+        }
+
+        editText.filters = arrayOf(filter)
+    }
+
+
     fun showAlertDialog(context: Context,description:String,onDismiss: (() -> Unit)? = null) {
         val dialog = Dialog(context, R.style.CustomDialog)
         val dialogBinding = AlertDialogLayoutBinding.inflate(LayoutInflater.from(context))
@@ -197,7 +222,40 @@ object CommonMethod {
 
     }
 
+    fun deleteAlertDialog(
+        context: Context,
+        description: String,
+        onResult: (action: DialogAction) -> Unit
+    ) {
+        val dialog = Dialog(context, R.style.CustomDialog)
+        val dialogBinding = DeleteDialogLayoutBinding.inflate(LayoutInflater.from(context))
+        dialog.setContentView(dialogBinding.root)
 
+        val window: Window = dialog.window!!
+        window.setLayout(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        window.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+
+        dialogBinding.tvDescription.text = description
+
+        dialogBinding.btnDelete.setOnClickListener {
+            onResult(DialogAction.DELETE)
+            dialog.dismiss()
+        }
+        dialogBinding.btnDiscard.setOnClickListener {
+            onResult(DialogAction.DISCARD)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    enum class DialogAction {
+        DELETE, DISCARD
+    }
 
     fun spannableText(
         context: Context,
@@ -435,6 +493,20 @@ object CommonMethod {
                 }
             }
         )
+    }
+
+    fun getWatcher(
+        position: Int,
+        onChange: (pos: Int, newValue: String) -> Unit
+    ): TextWatcher {
+
+        return object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                onChange(position, s?.toString().orEmpty())
+            }
+        }
     }
 
 }

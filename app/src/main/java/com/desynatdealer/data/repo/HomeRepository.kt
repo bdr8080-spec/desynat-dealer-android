@@ -9,6 +9,7 @@ import com.desynatdealer.model.login.req.LoginReq
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
@@ -98,6 +99,22 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
+    suspend fun addProduct(request: AddProductRequest): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.addProduct(request))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun editProduct(request: AddProductRequest): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.editProduct(request))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
     suspend fun getSize(): ApiResult<GetSizeResponse> {
         return try {
             networkCall(api.getSize())
@@ -133,6 +150,24 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     suspend fun deleteProduct(map: HashMap<String, Any>): ApiResult<CommonResponse> {
         return try {
             networkCall(api.deleteProduct(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun storeOnOff(): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.storeOnOff())
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun upload(
+        file: MultipartBody.Part?,
+    ): ApiResult<UploadResponse> {
+        return try {
+            networkCall(api.upload(file))
         } catch (e: Exception) {
             ApiResult.Error("Syntax Error")
         }

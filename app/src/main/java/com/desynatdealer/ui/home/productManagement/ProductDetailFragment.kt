@@ -1,16 +1,22 @@
 package com.desynatdealer.ui.home.productManagement
 
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.desynatdealer.R
 import com.desynatdealer.adapter.ProductColorAdapter
 import com.desynatdealer.adapter.ProductImageAdapter
+import com.desynatdealer.adapter.ProductRectangleColorAdapter
 import com.desynatdealer.adapter.ReviewAdapter
 import com.desynatdealer.adapter.SizeAdapter
 import com.desynatdealer.adapter.SpecificationAdapter
@@ -18,6 +24,7 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentProductDetailBinding
+import com.desynatdealer.databinding.SizeGuideChartDialogBinding
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
@@ -35,10 +42,14 @@ class ProductDetailFragment : BaseFragment() {
     private var productData :GetAllProductResponse.Data.AllProductData?=null
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var sizeList = ArrayList<GetSizeResponse.Data>()
-    private var colorAdapter: ProductColorAdapter?=null
+    private var variantImageList = ArrayList<String>()
+    private var selectedSizeList = ArrayList<GetAllProductResponse.Data.AllProductData.ProductVariant>()
+    private var selectedColorList = ArrayList<GetAllProductResponse.Data.AllProductData.ProductVariant>()
+    private var colorAdapter: ProductRectangleColorAdapter?=null
     private var sizeAdapter: SizeAdapter?=null
     private var specificationAdapter: SpecificationAdapter?=null
     private var reviewAdapter: ReviewAdapter?=null
+    private var variantImageAdapter: ProductImageAdapter?=null
     private var selectedPos = 0
 
     override fun onCreateView(
@@ -51,7 +62,6 @@ class ProductDetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ProgressDialogUtils.getInstance().hideProgress()
         initView()
         initControl()
         observe()
@@ -61,30 +71,54 @@ class ProductDetailFragment : BaseFragment() {
         ProgressDialogUtils.getInstance().hideProgress()
         colorList = viewModel.colorList.value as ArrayList<GetColorResponse.Data>
         sizeList = viewModel.sizeList.value as ArrayList<GetSizeResponse.Data>
+
         val itemJson = arguments?.getString("productData")
         if (!itemJson.isNullOrEmpty()) {
             productData = Gson().fromJson(itemJson, GetAllProductResponse.Data.AllProductData::class.java)
-            setData()
+            //   setData()
         }
 
-        colorAdapter = productData?.productVariants?.let {
-            ProductColorAdapter(requireActivity(),
-                it,colorList,true)
-        }
-            binding?.rvColor?.adapter = colorAdapter
-
-        sizeAdapter = productData?.productVariants?.let {
-            SizeAdapter(requireActivity(),
-                it,sizeList,object :SizeAdapter.OnClick{
+        selectedColorList.clear()
+        colorAdapter =
+            ProductRectangleColorAdapter(requireActivity(),
+                selectedColorList,colorList,object :ProductRectangleColorAdapter.OnClick{
                     override fun onClickItem(position: Int) {
-                        selectedPos = position
-
-                        setData()
+                    /*    selectedPos = position
+                        setData()*/
                     }
 
                 })
-        }
+
+        binding?.rvColor?.adapter = colorAdapter
+
+        selectedSizeList.clear()
+        sizeAdapter = SizeAdapter(requireActivity(),
+            selectedSizeList,sizeList,object :SizeAdapter.OnClick{
+                override fun onClickItem(position: Int) {
+                    selectedPos = position
+                    setData()
+                }
+
+            })
+
         binding?.rvSize?.adapter = sizeAdapter
+
+        variantImageList.clear()
+        variantImageAdapter =
+            ProductImageAdapter(requireActivity(),
+                variantImageList
+            )
+
+        binding?.viewPager?.adapter = variantImageAdapter
+        TabLayoutMediator(binding!!.dotsIndicator, binding!!.viewPager) { _, _ -> }.attach()
+
+
+
+
+
+        getProductDetail()
+
+
 
         specificationAdapter = productData?.productSpecifications?.let {
             SpecificationAdapter(requireActivity(),
@@ -92,21 +126,34 @@ class ProductDetailFragment : BaseFragment() {
         }
         binding?.rvSpecification?.adapter = specificationAdapter
 
-
-        val adapter = productData?.productVariants?.let {
-            ProductImageAdapter(requireActivity(),
-                it
-            )
-        }
-        binding?.viewPager?.adapter = adapter
-        TabLayoutMediator(binding!!.dotsIndicator, binding!!.viewPager) { _, _ -> }.attach()
-
         reviewAdapter = ReviewAdapter(requireActivity(), arrayListOf("",""))
         binding?.rvRating?.adapter = reviewAdapter
     }
 
     private fun setData() {
         binding?.apply {
+
+            selectedSizeList.clear()
+            productData?.productVariants?.let { selectedSizeList.addAll(it) }
+            sizeAdapter?.notifyDataSetChanged()
+
+            selectedColorList.clear()
+            productData?.productVariants?.let { selectedColorList.addAll(it) }
+            colorAdapter?.notifyDataSetChanged()
+
+            variantImageList.clear()
+            if (productData?.productVariants?.size!=0) {
+                for (i in 0 until productData?.productVariants?.size!!) {
+                    productData?.productVariants?.get(i)?.variantImage?.let {
+                        variantImageList.addAll(
+                            it
+                        )
+                    }
+                }
+            }
+            variantImageAdapter?.notifyDataSetChanged()
+
+
             tvTitle.text = productData?.productNameEn
             tvBrand.text = productData?.brand?.nameEnglish
             tvName.text = productData?.productNameEn
@@ -192,11 +239,29 @@ class ProductDetailFragment : BaseFragment() {
             }
 
             btnDelete.setOnClickListener {
-                deleteProduct()
+                CommonMethod.deleteAlertDialog(
+                    requireActivity(),
+                    "Are you sure you want to delete the product?"
+                ) { action ->
+                    when (action) {
+                        CommonMethod.DialogAction.DELETE -> {
+                            deleteProduct()
+                        }
+
+                        CommonMethod.DialogAction.DISCARD -> {
+
+                        }
+                    }
+                }
+
             }
 
             tvSwitch.setOnClickListener {
                 updateProductStatus()
+            }
+
+            tvSizeGuide.setOnClickListener {
+                sizeGuideDialog()
             }
         }
     }
@@ -247,6 +312,44 @@ class ProductDetailFragment : BaseFragment() {
                 }
             }
         }
+
+        viewModel.getProductDetailResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    if (productData!=null){
+                        val subcategory = productData?.subcategory
+                        val category = productData?.category
+                        productData = result.data?.data
+
+                        if (subcategory != null) {
+                            productData?.subcategory = subcategory
+                        }
+                        if (category != null) {
+                            productData?.category = category
+                        }
+                    }
+                    else{
+                        productData = result.data?.data
+                    }
+
+                    setData()
+                    viewModel.getProductDetailResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getProductDetailResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
     }
 
 
@@ -262,5 +365,44 @@ class ProductDetailFragment : BaseFragment() {
         viewModel.deleteProduct(map)
     }
 
+  private fun getProductDetail(){
+        val map = HashMap<String,Any>()
+        map["product_id"] = productData?.id.toString()
+        viewModel.getProductDetail(map)
+    }
+
+    private fun sizeGuideDialog() {
+        val dialog = Dialog(requireActivity(), R.style.CustomDialog)
+        val dialogBinding = SizeGuideChartDialogBinding.inflate(LayoutInflater.from(context))
+        dialogBinding.root.let { dialog.setContentView(it) }
+
+        val window: Window = dialog.window!!
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        window.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+
+        val params: WindowManager.LayoutParams = window.attributes
+        params.gravity = Gravity.BOTTOM
+        window.attributes = params
+
+        dialogBinding.apply {
+
+            tvToolbar.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            ivSizeChart.load(productData?.uploadSizeChart) {
+                crossfade(true)
+                placeholder(R.drawable.ic_placeholder)
+                error(R.drawable.ic_placeholder)
+            }
+
+        }
+
+        dialog.show()
+    }
 
 }

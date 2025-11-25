@@ -29,13 +29,13 @@ data class GetAllProductResponse(
             @SerializedName("affiliated_product")
             val affiliatedProduct: String,
             @SerializedName("brand")
-            val brand: Brand,
+            val brand: GetSellerBrandResponse.Data,
             @SerializedName("brand_id")
             val brandId: String,
             @SerializedName("cash_on_delivery")
             val cashOnDelivery: String,
             @SerializedName("category")
-            val category: Category,
+            var category: GetCategoryResponse.Data,
             @SerializedName("category_id")
             val categoryId: String,
             @SerializedName("created_at")
@@ -85,7 +85,7 @@ data class GetAllProductResponse(
             @SerializedName("store_id")
             val storeId: String,
             @SerializedName("subcategory")
-            val subcategory: Subcategory,
+            var subcategory: GetSubCategoryResponse.Data,
             @SerializedName("subcategory_id")
             val subcategoryId: String,
             @SerializedName("updated_at")
@@ -133,15 +133,15 @@ data class GetAllProductResponse(
                 @SerializedName("created_at")
                 val createdAt: String,
                 @SerializedName("feature_ar")
-                val featureAr: String,
+                var featureAr: String,
                 @SerializedName("feature_en")
-                val featureEn: String,
+                var featureEn: String,
                 @SerializedName("id")
                 val id: Int,
                 @SerializedName("name_ar")
-                val nameAr: String,
+                var nameAr: String,
                 @SerializedName("name_en")
-                val nameEn: String,
+                var nameEn: String,
                 @SerializedName("product_id")
                 val productId: String,
                 @SerializedName("updated_at")
@@ -150,47 +150,47 @@ data class GetAllProductResponse(
 
             data class ProductVariant(
                 @SerializedName("actual_price")
-                val actualPrice: String?=null,
+                var actualPrice: String,
                 @SerializedName("bust")
-                val bust: String?=null,
+                var bust: String,
                 @SerializedName("color_id")
-                val colorId: String,
+                var colorId: String,
                 @SerializedName("created_at")
-                val createdAt: String,
+                var createdAt: String,
                 @SerializedName("discount_type")
-                val discountType: String,
+                var discountType: String,
                 @SerializedName("discount_value")
-                val discountValue: String,
+                var discountValue: String,
                 @SerializedName("final_price")
-                val finalPrice: String?=null,
+                var finalPrice: String,
                 @SerializedName("hip")
-                val hip: String?=null,
+                var hip: String,
                 @SerializedName("id")
-                val id: Int,
+                var id: Int,
                 @SerializedName("length")
-                val length: String?=null,
+                var length: String,
                 @SerializedName("product_id")
-                val productId: Int,
+                var productId: Int,
                 @SerializedName("shoulder")
-                val shoulder: String?=null,
+                var shoulder: String,
                 @SerializedName("size_id")
-                val sizeId: String,
+                var sizeId: String,
                 @SerializedName("sku")
-                val sku: String,
+                var sku: String,
                 @SerializedName("sku_threshold_value")
-                val skuThresholdValue: String,
+                var skuThresholdValue: String,
                 @SerializedName("sleeve_length")
-                val sleeveLength: String?=null,
+                var sleeveLength: String,
                 @SerializedName("status")
-                val status: String,
+                var status: String,
                 @SerializedName("total_stock")
-                val totalStock: String,
+                var totalStock: String,
                 @SerializedName("updated_at")
-                val updatedAt: String,
+                var updatedAt: String,
                 @SerializedName("variant_image")
-                val variantImage: List<String>,
+                var variantImage: ArrayList<String>,
                 @SerializedName("waist")
-                val waist: String?=null
+                var waist: String
             )
 
             data class Subcategory(

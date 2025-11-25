@@ -39,7 +39,7 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
             tvName.text = productData.productNameEn
 
             tvDate.text = "Added on- ${CommonMethod.customizeChangeDateFormat(productData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
-            ivProduct.load(productData.productVariants[0].variantImage) {
+            ivProduct.load(productData?.productVariants?.get(0)?.variantImage?.get(0)) {
                 crossfade(true)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)

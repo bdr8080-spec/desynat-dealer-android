@@ -14,7 +14,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetAllProductRespons
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.utils.CommonMethod
 
-class ProductImageAdapter(var context:Context, var productList: ArrayList<GetAllProductResponse.Data.AllProductData.ProductVariant>) : RecyclerView.Adapter<ProductImageAdapter.ViewHolder>() {
+class ProductImageAdapter(var context:Context, var productList: ArrayList<String>) : RecyclerView.Adapter<ProductImageAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemProductImageBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -33,7 +33,7 @@ class ProductImageAdapter(var context:Context, var productList: ArrayList<GetAll
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val productData = productList[position]
         holder.binding.apply {
-            ivProduct.load(productData.variantImage) {
+            ivProduct.load(productData) {
                 crossfade(true)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)

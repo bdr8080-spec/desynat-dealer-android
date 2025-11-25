@@ -41,9 +41,9 @@ data class AddProductRequest(
     @SerializedName("min_card_quantity")
     val minCardQuantity: String,
     @SerializedName("other_ar")
-    val otherAr: String,
+    val otherAr: String?=null,
     @SerializedName("other_en")
-    val otherEn: String,
+    val otherEn: String?=null,
     @SerializedName("product_exchangable")
     val productExchangable: String,
     @SerializedName("product_name_ar")
@@ -85,5 +85,8 @@ data class AddProductRequest(
     @SerializedName("variant_image")
     val variantImage: List<List<String>>,
     @SerializedName("waist")
-    val waist: List<String>
+    val waist: List<String>,
+    @SerializedName("product_id")
+    val productId: String?=null,
+
 )

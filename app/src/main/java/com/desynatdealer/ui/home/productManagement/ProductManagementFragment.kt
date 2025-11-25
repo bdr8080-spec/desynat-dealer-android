@@ -51,13 +51,13 @@ class ProductManagementFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ProgressDialogUtils.getInstance().hideProgress()
         initView()
         initControl()
         observe()
     }
 
     override fun initView() {
+        ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
 
             productAdapter = ProductAdapter(requireActivity(),productList,colorList,object:ProductAdapter.ProductClick{

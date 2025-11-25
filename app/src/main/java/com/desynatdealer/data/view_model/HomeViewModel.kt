@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.repo.HomeRepository
+import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
@@ -18,6 +20,7 @@ import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 
@@ -210,6 +213,60 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _deleteProductResponse.value = ApiResult.Loading
             _deleteProductResponse.value = repo.deleteProduct(map)
+        }
+    }
+
+    private val _storeOnOffResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val storeOnOffResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _storeOnOffResponse
+
+    fun storeOnOff() {
+        viewModelScope.launch {
+            _storeOnOffResponse.value = ApiResult.Loading
+            _storeOnOffResponse.value = repo.storeOnOff()
+        }
+    }
+
+    private val _uploadResponse =
+        MutableLiveData<ApiResult<UploadResponse>?>()
+    val uploadResponse: MutableLiveData<ApiResult<UploadResponse>?>
+        get() = _uploadResponse
+
+    fun upload(
+        file: MultipartBody.Part?,
+    ) {
+        viewModelScope.launch {
+            _uploadResponse.value = ApiResult.Loading
+            _uploadResponse.value = repo.upload(file)
+        }
+    }
+
+    private val _addProductResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val addProductResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _addProductResponse
+
+    fun addProduct(
+       request: AddProductRequest
+    ) {
+        viewModelScope.launch {
+            _addProductResponse.value = ApiResult.Loading
+            _addProductResponse.value = repo.addProduct(request)
+        }
+    }
+
+    private val _editProductResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val editProductResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _editProductResponse
+
+    fun editProduct(
+        request: AddProductRequest
+    ) {
+        viewModelScope.launch {
+            _editProductResponse.value = ApiResult.Loading
+            _editProductResponse.value = repo.editProduct(request)
         }
     }
 

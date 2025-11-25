@@ -6,6 +6,7 @@ import com.desynatdealer.model.login.req.LoginReq
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
@@ -23,6 +24,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -111,8 +113,17 @@ interface CommonApiService {
     @GET(Constants.GET_SIZE)
     suspend fun getSize(): Response<GetSizeResponse>
 
+    @GET(Constants.STORE_ON_OFF)
+    suspend fun storeOnOff(): Response<CommonResponse>
+
     @POST(Constants.GET_ALL_PRODUCT)
     suspend fun getAllProduct(@Body map: HashMap<String, Any>): Response<GetAllProductResponse>
+
+    @POST(Constants.ADD_PRODUCT)
+    suspend fun addProduct(@Body request : AddProductRequest): Response<CommonResponse>
+
+    @POST(Constants.UPDATE_PRODUCT)
+    suspend fun editProduct(@Body request : AddProductRequest): Response<CommonResponse>
 
     @POST(Constants.PRODUCT_DETAIL)
     suspend fun getProductDetail(@Body map: HashMap<String, Any>): Response<GetProductDetailResponse>
@@ -120,6 +131,8 @@ interface CommonApiService {
     @PUT(Constants.PRODUCT_ACTIVE_INACTIVE)
     suspend fun updateProductStatus(@Body map: HashMap<String, Any>): Response<GetProductDetailResponse>
 
-    @DELETE(Constants.DELETE_PRODUCT)
+ //   @DELETE(Constants.DELETE_PRODUCT)
+    @HTTP(method = "DELETE", path = Constants.DELETE_PRODUCT, hasBody = true)
+
     suspend fun deleteProduct(@Body map: HashMap<String, Any>): Response<CommonResponse>
 }

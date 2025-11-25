@@ -72,4 +72,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivUser" />
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:src="@drawable/review_img"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvReviews"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
