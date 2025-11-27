@@ -33,6 +33,12 @@ class AddSpecificationAdapter(var context:Context, var specificationList: ArrayL
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
+
+            CommonMethod.applyArabicOnlyFilter(etNameArabic)
+            CommonMethod.applyArabicOnlyFilter(etFeatureArabic)
+            CommonMethod.removeSpace(etName)
+            CommonMethod.removeSpace(etFeature)
+
             etName.setText(specificationList[position].nameEn)
             etNameArabic.setText(specificationList[position].nameAr)
             etFeature.setText(specificationList[position].featureEn)

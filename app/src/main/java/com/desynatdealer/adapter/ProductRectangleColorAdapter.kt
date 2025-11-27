@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -47,6 +48,13 @@ class ProductRectangleColorAdapter(var context:Context, var productColorList: Ar
 
             ivColor.setColorFilter(Color.parseColor(colorCode))
             ivRectangleColor.setColorFilter(Color.parseColor(colorCode))
+
+            if (selectedPos==position){
+                ivBorderRectangleColor.isVisible = true
+            }
+            else{
+                ivBorderRectangleColor.isInvisible = true
+            }
         }
 
         holder.itemView.setOnClickListener {

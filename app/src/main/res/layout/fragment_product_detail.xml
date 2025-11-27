@@ -181,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_1sdp"
                 android:fontFamily="@font/poppins_regular"
-                android:text="(123)"
+                android:text="(123K)"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
@@ -537,6 +537,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvSku"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:id="@+id/tvSkuThreshold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -549,6 +550,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvSku" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:id="@+id/tvSkuThresholdValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -649,7 +651,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="7 days"
+                    android:text="No"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -673,7 +675,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="7 days"
+                    android:text="No"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
                     app:layout_constraintEnd_toEndOf="parent"

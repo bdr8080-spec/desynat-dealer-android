@@ -14,7 +14,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.desynatdealer.R
-import com.desynatdealer.adapter.ProductColorAdapter
 import com.desynatdealer.adapter.ProductImageAdapter
 import com.desynatdealer.adapter.ProductRectangleColorAdapter
 import com.desynatdealer.adapter.ReviewAdapter
@@ -30,6 +29,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
@@ -43,14 +43,15 @@ class ProductDetailFragment : BaseFragment() {
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var sizeList = ArrayList<GetSizeResponse.Data>()
     private var variantImageList = ArrayList<String>()
-    private var selectedSizeList = ArrayList<GetAllProductResponse.Data.AllProductData.ProductVariant>()
+    private var selectedSizeList = ArrayList<String>()
     private var selectedColorList = ArrayList<GetAllProductResponse.Data.AllProductData.ProductVariant>()
     private var colorAdapter: ProductRectangleColorAdapter?=null
     private var sizeAdapter: SizeAdapter?=null
     private var specificationAdapter: SpecificationAdapter?=null
     private var reviewAdapter: ReviewAdapter?=null
     private var variantImageAdapter: ProductImageAdapter?=null
-    private var selectedPos = 0
+    private var selectedColorPos = 0
+    private var selectedSizePos = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,8 +84,8 @@ class ProductDetailFragment : BaseFragment() {
             ProductRectangleColorAdapter(requireActivity(),
                 selectedColorList,colorList,object :ProductRectangleColorAdapter.OnClick{
                     override fun onClickItem(position: Int) {
-                    /*    selectedPos = position
-                        setData()*/
+                        selectedColorPos = position
+                        setData()
                     }
 
                 })
@@ -95,7 +96,7 @@ class ProductDetailFragment : BaseFragment() {
         sizeAdapter = SizeAdapter(requireActivity(),
             selectedSizeList,sizeList,object :SizeAdapter.OnClick{
                 override fun onClickItem(position: Int) {
-                    selectedPos = position
+                    selectedSizePos = position
                     setData()
                 }
 
@@ -112,13 +113,7 @@ class ProductDetailFragment : BaseFragment() {
         binding?.viewPager?.adapter = variantImageAdapter
         TabLayoutMediator(binding!!.dotsIndicator, binding!!.viewPager) { _, _ -> }.attach()
 
-
-
-
-
         getProductDetail()
-
-
 
         specificationAdapter = productData?.productSpecifications?.let {
             SpecificationAdapter(requireActivity(),
@@ -134,7 +129,10 @@ class ProductDetailFragment : BaseFragment() {
         binding?.apply {
 
             selectedSizeList.clear()
-            productData?.productVariants?.let { selectedSizeList.addAll(it) }
+            productData?.productVariants?.get(selectedColorPos)?.let { selectedSizeList.addAll(
+                arrayListOf(it.sizeId)
+            ) }
+           // productData?.productVariants?.let { selectedSizeList.addAll(it) }
             sizeAdapter?.notifyDataSetChanged()
 
             selectedColorList.clear()
@@ -142,40 +140,40 @@ class ProductDetailFragment : BaseFragment() {
             colorAdapter?.notifyDataSetChanged()
 
             variantImageList.clear()
-            if (productData?.productVariants?.size!=0) {
-                for (i in 0 until productData?.productVariants?.size!!) {
-                    productData?.productVariants?.get(i)?.variantImage?.let {
-                        variantImageList.addAll(
-                            it
-                        )
-                    }
-                }
+            productData?.productVariants?.get(selectedColorPos)?.variantImage?.let {
+                variantImageList.addAll(
+                    it
+                )
             }
             variantImageAdapter?.notifyDataSetChanged()
+            viewPager.setCurrentItem(0, false)
 
-
-            tvTitle.text = productData?.productNameEn
-            tvBrand.text = productData?.brand?.nameEnglish
+            tvTitle.text = "Product code- ${productData?.id}"
+            tvBrand.text = if(productData?.brand?.nameEnglish=="Other") productData?.otherEn else productData?.brand?.nameEnglish
             tvName.text = productData?.productNameEn
-            tvStore.text = productData?.storeId
+            tvStore.text = SharedPreference.get(requireActivity()).getUser()?.storeInfo?.storeName +" (${productData?.category?.name})"
 
          /*   val rating = productData?.reviewRating?.toFloatOrNull() ?: 0f
             ratingBar.rating = rating
             tvRating.text = "(${productData?.reviewRating})"*/
 
-            tvPrice.text = "${(productData?.productVariants?.get(selectedPos)?.actualPrice?:0)} KD"
-            tvDiscountedPrice.text = "${(productData?.productVariants?.get(selectedPos)?.finalPrice?:0)} KD"
+            tvPrice.text = "${(productData?.productVariants?.get(selectedColorPos)?.actualPrice?:0)} KD"
+            tvDiscountedPrice.text = "${(productData?.productVariants?.get(selectedColorPos)?.finalPrice?:0)} KD"
 
-            val variant = productData?.productVariants?.getOrNull(selectedPos)
+            val variant = productData?.productVariants?.getOrNull(selectedColorPos)
             val discountValue = variant?.discountValue ?: 0
-            val discountType = if (variant?.discountType == "1") "% off" else "KD off"
-            tvOffer.text = "$discountValue $discountType"
+            val discountType = if (variant?.discountType == "1")"% off" else " KD off"
+            tvOffer.text = "$discountValue$discountType"
 
             tvDate.text = "Added on- ${CommonMethod.customizeChangeDateFormat(productData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
             tvDescription.text = productData?.descriptionEn
 
-            tvReturnTime.text = "${productData?.returnDays} days"
-            tvExchangeTime.text = "${productData?.exchangableDays} days"
+            if(productData?.productReturn=="1"){
+                tvReturnTime.text = "${productData?.returnDays} days"
+            }
+            if(productData?.productReturn=="1"){
+                tvExchangeTime.text = "${productData?.exchangableDays} days"
+            }
             tvRatingAndReviewStatus.text = if(productData?.reviewRating=="1") "Yes" else "No"
             tvAffiliatedProduct.text = if(productData?.affiliatedProduct=="1") "Yes" else "No"
             tvCustomizedStatus.text = if(productData?.customizedProduct=="1") "Yes" else "No"
@@ -184,21 +182,21 @@ class ProductDetailFragment : BaseFragment() {
 
             if (productData?.category?.name=="Women"){
                 clWomenSize.isVisible = true
-                tvBustSize.text = productData?.productVariants?.get(selectedPos)?.bust?:"NA"
-                tvHipSize.text = productData?.productVariants?.get(selectedPos)?.hip?:"NA"
-                tvShoulderSize.text = productData?.productVariants?.get(selectedPos)?.shoulder?:"NA"
-                tvWaistSize.text = productData?.productVariants?.get(selectedPos)?.waist?:"NA"
-                tvSleeveLengthSize.text = productData?.productVariants?.get(selectedPos)?.sleeveLength?:"NA"
-                tvLengthSize.text = productData?.productVariants?.get(selectedPos)?.length?:"NA"
+                tvBustSize.text = productData?.productVariants?.get(selectedColorPos)?.bust?:"NA"
+                tvHipSize.text = productData?.productVariants?.get(selectedColorPos)?.hip?:"NA"
+                tvShoulderSize.text = productData?.productVariants?.get(selectedColorPos)?.shoulder?:"NA"
+                tvWaistSize.text = productData?.productVariants?.get(selectedColorPos)?.waist?:"NA"
+                tvSleeveLengthSize.text = productData?.productVariants?.get(selectedColorPos)?.sleeveLength?:"NA"
+                tvLengthSize.text = productData?.productVariants?.get(selectedColorPos)?.length?:"NA"
 
             }
             else{
                 clWomenSize.isVisible = false
             }
 
-            tvTotalStocksValue.text =  productData?.productVariants?.get(selectedPos)?.totalStock
-            tvSkuValue.text = productData?.productVariants?.get(selectedPos)?.sku
-            tvSkuThresholdValue.text =  productData?.productVariants?.get(selectedPos)?.skuThresholdValue
+            tvTotalStocksValue.text =  productData?.productVariants?.get(selectedColorPos)?.totalStock
+            tvSkuValue.text = productData?.productVariants?.get(selectedColorPos)?.sku
+            tvSkuThresholdValue.text =  productData?.productVariants?.get(selectedColorPos)?.skuThresholdValue
 
             updateStatus()
 
@@ -209,12 +207,12 @@ class ProductDetailFragment : BaseFragment() {
         binding?.apply {
             if(productData?.productActiveStatus==1){
                 tvSwitch.text = "Active"
-                tvSwitch.setTextColor(Color.parseColor("#8B5E3C"))
+                tvSwitch.setTextColor(Color.parseColor("#1A900D"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
             }
             else{
                 tvSwitch.text = "Inactive"
-                tvSwitch.setTextColor(Color.parseColor("#666666"))
+                tvSwitch.setTextColor(Color.parseColor("#875C3A"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
             }
         }
@@ -227,8 +225,13 @@ class ProductDetailFragment : BaseFragment() {
                 findNavController().popBackStack()
             }
 
-            ivShare.setOnClickListener {
 
+            ivShare.setOnClickListener {
+                CommonMethod.shareProduct(requireActivity(),
+                    productData?.productNameEn ?: "",
+                    productData?.descriptionEn ?: "",
+                    productData?.productVariants?.get(selectedColorPos)?.variantImage?.get(0) ?: ""
+                )
             }
 
             btnEdit.setOnClickListener {

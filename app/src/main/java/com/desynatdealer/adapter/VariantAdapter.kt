@@ -21,11 +21,12 @@ import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.showToast
 
 class VariantAdapter(var context:Context, var isWomen: Boolean=false,var variantList: ArrayList<GetAllProductResponse.Data.AllProductData.ProductVariant>, var colorList:ArrayList<GetColorResponse.Data>, var sizeList:ArrayList<GetSizeResponse.Data>,var from:Boolean=false, var variantClick:VariantClick) : RecyclerView.Adapter<VariantAdapter.ViewHolder>() {
 
     interface VariantClick{
-        fun onVariantClick(position: Int,type:Int)
+        fun onVariantClick(position: Int,type:Int,imagePos:Int=-1)
     }
     inner class ViewHolder(val binding: ItemAddVariantBinding) :
         RecyclerView.ViewHolder(binding.root){
@@ -71,16 +72,16 @@ class VariantAdapter(var context:Context, var isWomen: Boolean=false,var variant
 
             clWomenSize.isVisible = isWomen
 
-            if (variantData?.variantImage?.isNotEmpty() == true) {
+         /*   if (variantData?.variantImage?.isNotEmpty() == true) {
                 ivImage?.load(variantData?.variantImage?.get(0)) {
                     crossfade(true)
-                    placeholder(R.drawable.ic_upload_img)
-                    error(R.drawable.ic_upload_img)
+                    placeholder(R.drawable.ic_upload_product_img)
+                    error(R.drawable.ic_upload_product_img)
                 }
             }
             else{
-                ivImage.setImageResource(R.drawable.ic_upload_img)
-            }
+                ivImage.setImageResource(R.drawable.ic_upload_product_img)
+            }*/
 
             etColour.setText(colorList.find { it.id.toString() == variantData.colorId }?.name)
             etSize.setText(sizeList.find { it.id.toString() == variantData.sizeId }?.name)
@@ -105,6 +106,11 @@ class VariantAdapter(var context:Context, var isWomen: Boolean=false,var variant
                 if (isChecked) {
                     cbFixedPrice.isChecked = false
                     variantData.discountType = "1"
+
+                    calculateFinalPrice(variantData)
+                    if (variantData.finalPrice!="0") {
+                        etFinalPrice.setText(variantData.finalPrice)
+                    }
                 }
             }
 
@@ -112,6 +118,11 @@ class VariantAdapter(var context:Context, var isWomen: Boolean=false,var variant
                 if (isChecked) {
                     cbPercentage.isChecked = false
                     variantData.discountType = "2"
+
+                    calculateFinalPrice(variantData)
+                    if (variantData.finalPrice!="0") {
+                        etFinalPrice.setText(variantData.finalPrice)
+                    }
                 }
             }
 
@@ -139,67 +150,95 @@ class VariantAdapter(var context:Context, var isWomen: Boolean=false,var variant
         holder.lengthWatcher?.let { holder.binding.etLength.removeTextChangedListener(it) }
         holder.shoulderWatcher?.let { holder.binding.etShoulder.removeTextChangedListener(it) }
 
-        holder.actualPriceWatcher = CommonMethod.getWatcher(position) { pos, value ->
+       /* holder.actualPriceWatcher = CommonMethod.getWatcher(position) { pos, value ->
             variantList[pos].actualPrice = value
 
+        }*/
+
+        holder.actualPriceWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
+            variantList[pos].actualPrice = value
+                calculateFinalPrice(variantList[pos])
+                if (variantData.finalPrice!= "0"&&variantData.finalPrice!=variantData.actualPrice) {
+                    holder.binding.etFinalPrice.setText(variantList[pos].finalPrice)
+                }
+            else{
+                    variantData.finalPrice = ""
+
+                    holder.binding.etFinalPrice.setText("")
+                }
+
         }
+
         holder.binding.etActualPrice.addTextChangedListener(holder.actualPriceWatcher)
 
-        holder.finalPriceWatcher = CommonMethod.getWatcher(position) { pos, value ->
+        holder.finalPriceWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
             variantList[pos].finalPrice = value
 
         }
         holder.binding.etFinalPrice.addTextChangedListener(holder.finalPriceWatcher)
 
 
-        holder.discountValueWatcher = CommonMethod.getWatcher(position) { pos, value ->
+     /*   holder.discountValueWatcher = CommonMethod.getWatcher(position) { pos, value ->
             variantList[pos].discountValue = value
 
+        }*/
+
+        holder.discountValueWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
+            variantList[pos].discountValue = value
+            calculateFinalPrice(variantList[pos])
+            if (variantData.finalPrice!= "0"&&variantData.finalPrice!=variantData.actualPrice) {
+                holder.binding.etFinalPrice.setText(variantList[pos].finalPrice)
+            }
+            else{
+                variantData.finalPrice = ""
+                holder.binding.etFinalPrice.setText("")
+            }
         }
         holder.binding.etDiscountedValue.addTextChangedListener(holder.discountValueWatcher)
 
-        holder.skuWatcher = CommonMethod.getWatcher(position) { pos, value ->
+
+        holder.skuWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
             variantList[pos].sku = value
         }
         holder.binding.etSku.addTextChangedListener(holder.skuWatcher)
 
-        holder.thresholdWatcher = CommonMethod.getWatcher(position) { pos, value ->
+        holder.thresholdWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
             variantList[pos].skuThresholdValue = value
         }
         holder.binding.etThreshold.addTextChangedListener(holder.thresholdWatcher)
 
 
-        holder.totalStockWatcher = CommonMethod.getWatcher(position) { pos, value ->
+        holder.totalStockWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
             variantList[pos].totalStock = value
         }
         holder.binding.etTotalStocks.addTextChangedListener(holder.totalStockWatcher)
 
-        holder.bustWatcher = CommonMethod.getWatcher(position) { pos, value ->
+        holder.bustWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
             variantList[pos].bust = value
         }
         holder.binding.etBust.addTextChangedListener(holder.bustWatcher)
 
-        holder.waistWatcher = CommonMethod.getWatcher(position) { pos, value ->
+        holder.waistWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
             variantList[pos].waist = value
         }
         holder.binding.etWaist.addTextChangedListener(holder.waistWatcher)
 
-        holder.hipWatcher = CommonMethod.getWatcher(position) { pos, value ->
+        holder.hipWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
             variantList[pos].hip = value
         }
         holder.binding.etHip.addTextChangedListener(holder.hipWatcher)
 
-        holder.shoulderWatcher = CommonMethod.getWatcher(position) { pos, value ->
+        holder.shoulderWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
             variantList[pos].shoulder = value
         }
         holder.binding.etShoulder.addTextChangedListener(holder.shoulderWatcher)
 
-        holder.sleeveLengthWatcher = CommonMethod.getWatcher(position) { pos, value ->
+        holder.sleeveLengthWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
             variantList[pos].sleeveLength = value
         }
         holder.binding.etSleeveLength.addTextChangedListener(holder.sleeveLengthWatcher)
 
-        holder.lengthWatcher = CommonMethod.getWatcher(position) { pos, value ->
+        holder.lengthWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
             variantList[pos].length = value
         }
         holder.binding.etLength.addTextChangedListener(holder.lengthWatcher)
@@ -214,6 +253,18 @@ holder.binding.ivDelete.setOnClickListener {
 
         holder.itemView.setOnClickListener {
             variantClick.onVariantClick(position,1)
+        }
+
+        holder.binding.rvImageList.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            adapter = VariantImageAdapter(context = context, productImageList = variantList[position].variantImage,object : VariantImageAdapter.ClickOnItem{
+                override fun onClickItem(imgPosition: Int) {
+                    variantClick.onVariantClick(position,4,imgPosition)
+                }
+
+            })
+            setHasFixedSize(true)
+            isNestedScrollingEnabled = false
         }
 
 
@@ -256,6 +307,23 @@ holder.binding.ivDelete.setOnClickListener {
     fun updateIsWomen(isWomen: Boolean) {
         this.isWomen = isWomen
         notifyDataSetChanged()
+    }
+
+    private fun calculateFinalPrice(variant: GetAllProductResponse.Data.AllProductData.ProductVariant) {
+        val actual = variant.actualPrice?.toDoubleOrNull() ?: 0.0
+        val discount = variant.discountValue?.toDoubleOrNull() ?: 0.0
+
+        variant.finalPrice = when (variant.discountType) {
+            "1" -> {   // Percentage
+                val final = actual - (actual * discount / 100.0)
+                final.toInt().toString()
+            }
+            "2" -> {   // Fixed price
+                val final = actual - discount
+                if (final < 0) "0" else final.toInt().toString()
+            }
+            else -> actual.toString()
+        }
     }
 
 }

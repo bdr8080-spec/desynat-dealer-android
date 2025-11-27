@@ -1,6 +1,8 @@
 package com.desynatdealer.ui.home.productManagement
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
@@ -102,6 +105,9 @@ class AddProductFragment : BaseFragment() {
                 getCategoryId("Women")
             }
 
+        else{
+                viewModel.getCategory()
+            }
         binding?.apply {
             CommonMethod.applyArabicOnlyFilter(etProductNameArabic)
             CommonMethod.applyArabicOnlyFilter(etOtherBrandArabic)
@@ -117,7 +123,7 @@ class AddProductFragment : BaseFragment() {
             variantList.clear()
 
         variantAdapter = VariantAdapter(requireActivity(),isWomen,variantList,colorList,sizeList,false,object:VariantAdapter.VariantClick{
-            override fun onVariantClick(position: Int, type: Int) {
+            override fun onVariantClick(position: Int, type: Int,imgPos:Int) {
                 when(type){
                     2->{
                         imageType = 2
@@ -132,6 +138,12 @@ class AddProductFragment : BaseFragment() {
                             addEmpty()
                         }
                         variantAdapter?.notifyDataSetChanged()
+
+                    }
+
+                    4->{
+                        variantList[position].variantImage.removeAt(imgPos)
+                        variantAdapter?.notifyItemChanged(position)
 
                     }
                 }
@@ -162,9 +174,121 @@ class AddProductFragment : BaseFragment() {
             if (specificationList.isEmpty()) {
                 addEmptySpecification()
             }
+
+
+            etMinCartQuantity.addTextChangedListener(object : TextWatcher {
+
+                private var isEditing = false
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (isEditing) return
+                    isEditing = true
+
+                    s?.let {
+                        val value = it.toString()
+
+                        if (value == "0") {
+                            it.clear()
+                            isEditing = false
+                            return
+                        }
+
+                        if (value.length > 1 && value.startsWith("0")) {
+                            val newValue = value.trimStart('0')
+                            it.replace(0, it.length, newValue)
+                            isEditing = false
+                            return
+                        }
+                    }
+
+                    isEditing = false
+                }
+            })
+
+            etMaxCartQuantity.addTextChangedListener(object : TextWatcher {
+
+                private var isEditing = false
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (isEditing) return
+                    isEditing = true
+
+                    s?.let {
+                        val value = it.toString()
+
+                        if (value == "0") {
+                            it.clear()
+                            isEditing = false
+                            return
+                        }
+
+                        if (value.length > 1 && value.startsWith("0")) {
+                            val newValue = value.trimStart('0')
+                            it.replace(0, it.length, newValue)
+                            isEditing = false
+                            return
+                        }
+                    }
+
+                    isEditing = false
+                }
+            })
+
         }
 
     }
+
+    private fun validateMinMax(): Boolean {
+        binding?.apply {
+
+            val minText = etMinCartQuantity.text.toString().trim()
+            val maxText = etMaxCartQuantity.text.toString().trim()
+
+            val min = minText.toIntOrNull()
+            val max = maxText.toIntOrNull()
+
+            etMinCartQuantity.error = null
+            etMaxCartQuantity.error = null
+
+            if (minText.isEmpty()) {
+                showToast("Please enter minimum quantity")
+                return false
+            }
+
+            if (maxText.isEmpty()) {
+                showToast("Please enter maximum quantity")
+                return false
+            }
+
+            if (min == null) {
+                showToast("Invalid number")
+                return false
+            }
+
+            if (max == null) {
+                showToast("Invalid number")
+                return false
+            }
+
+            if (min >= max) {
+                showToast("Max must be greater than Min")
+                return false
+            }
+
+            return true
+        }
+
+        return false
+    }
+
 
     private fun addEmptySpecification(){
         specificationList.add(
@@ -228,20 +352,57 @@ class AddProductFragment : BaseFragment() {
             rgCategory.setOnCheckedChangeListener { group, checkedId ->
                 when (checkedId) {
                     R.id.cbWomen -> {
-                        isWomen = true
-                        variantAdapter?.updateIsWomen(isWomen)
-                        getCategoryId("Women")
+                        if (isWomen==false) {
+                            isWomen = true
+                            variantAdapter?.updateIsWomen(isWomen)
+                            getCategoryId("Women")
+                            clearAllField()
+                        }
                     }
                     R.id.cbMen -> {
-                        isWomen = false
-                        variantAdapter?.updateIsWomen(isWomen)
-                        getCategoryId("Men")
+                        if (selectedCategory?.name!="Men") {
+                            isWomen = false
+                            variantAdapter?.updateIsWomen(isWomen)
+                            getCategoryId("Men")
+                            clearAllField()
+                        }
                     }
                     R.id.cbKids -> {
-                        isWomen = false
-                        variantAdapter?.updateIsWomen(isWomen)
-                        getCategoryId("Kids")
+                        if (selectedCategory?.name!="Kids") {
+                            isWomen = false
+                            variantAdapter?.updateIsWomen(isWomen)
+                            getCategoryId("Kids")
+                            clearAllField()
+                        }
                     }
+                }
+            }
+
+            rgReturnable.setOnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    R.id.cbReturnableYes -> {
+                        etReturnableDay.isVisible = true
+                        tvProductReturnableYes.isVisible = true
+                    }
+                    R.id.cbReturnableNo -> {
+                        etReturnableDay.isVisible = false
+                        tvProductReturnableYes.isVisible = false
+                    }
+
+                }
+            }
+
+            rgExchangeble.setOnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    R.id.cbExchangeYes -> {
+                        etExchangeableDay.isVisible = true
+                        tvProductExchangeableYes.isVisible = true
+                    }
+                    R.id.cbExchangeNo -> {
+                        etExchangeableDay.isVisible = false
+                        tvProductExchangeableYes.isVisible = false
+                    }
+
                 }
             }
 
@@ -317,6 +478,7 @@ class AddProductFragment : BaseFragment() {
                     if (categoryList.isNotEmpty()){
                         for(i in 0 until categoryList.size){
                             if (categoryList[i].name=="Women"){
+                                selectedCategory = categoryList[i]
                                 getSubCategory(categoryList[i].id.toString())
                             }
                         }
@@ -497,6 +659,27 @@ class AddProductFragment : BaseFragment() {
         popup.setOnItemClickListener { _, _, pos, _ ->
             selectedBrand = brandList[pos]
             view.setText(selectedBrand?.nameEnglish)
+            if (selectedBrand?.nameEnglish=="Other"){
+                binding?.etOtherBrand?.isVisible = true
+                binding?.etOtherBrandArabic?.isVisible = true
+
+                binding?.tvOtherBrandArabic?.isVisible = true
+                binding?.tvOtherBrand?.isVisible = true
+
+                binding?.tvBrandArabic?.isVisible = true
+                binding?.tvBrandEnglish?.isVisible = true
+
+            }
+            else{
+                binding?.tvBrandArabic?.isVisible = false
+                binding?.tvBrandEnglish?.isVisible = false
+
+                binding?.etOtherBrand?.isVisible = false
+                binding?.etOtherBrandArabic?.isVisible = false
+
+                binding?.tvOtherBrand?.isVisible = false
+                binding?.tvOtherBrandArabic?.isVisible = false
+            }
             popup.dismiss()
         }
         popup.show()
@@ -513,7 +696,7 @@ class AddProductFragment : BaseFragment() {
                 }
             }
             2->{
-                variantList[selectedPos].variantImage = arrayListOf(image)
+                variantList[selectedPos].variantImage.add(image)
                 variantAdapter?.notifyItemChanged(selectedPos)
                 selectedPos = -1
             }
@@ -550,28 +733,80 @@ class AddProductFragment : BaseFragment() {
             if (comeIndex=="1"){
                 comeIndex = ""
             }
+
+            if (v.variantImage.isEmpty()) {
+                showToast("Please upload product image")
+                return false
+            }
             if (v.colorId.isNullOrEmpty()) {
-                showToast("Select color for variant ${comeIndex}")
+                showToast("Please select colo")
                 return false
             }
             if (v.sizeId.isNullOrEmpty()) {
-                showToast("Select size for variant ${comeIndex}")
+                showToast("Please select size")
                 return false
             }
+
+            if (selectedCategory?.name?.trim()?.equals("Women", ignoreCase = true) == true) {
+                if (v.bust.isNullOrEmpty()) {
+                    showToast("Please enter bust size")
+                    return false
+                }
+                if (v.waist.isNullOrEmpty()) {
+                    showToast("Please enter waist size")
+                    return false
+                }
+                if (v.hip.isNullOrEmpty()) {
+                    showToast("Please enter hip size")
+                    return false
+                }
+                if (v.shoulder.isNullOrEmpty()) {
+                    showToast("Please enter shoulder size")
+                    return false
+                }
+                if (v.sleeveLength.isNullOrEmpty()) {
+                    showToast("Please enter sleeveLength")
+                    return false
+                }
+                if (v.length.isNullOrEmpty()) {
+                    showToast("Please enter length")
+                    return false
+                }
+            }
+
+            if (v.totalStock.isNullOrEmpty()) {
+                showToast("Please enter stock")
+                return false
+            }
+
+            if (v.sku.isNullOrEmpty()) {
+                showToast("Please enter SKU limit")
+                return false
+            }
+
+            val skuVal = v.sku.toIntOrNull()
+            val stockVal = v.totalStock.toIntOrNull()
+
+            if (skuVal == null) {
+                showToast("Invalid SKU limit")
+                return false
+            }
+            if (stockVal == null) {
+                showToast("Invalid stock")
+                return false
+            }
+
+            if (skuVal >= stockVal) {
+                showToast("SKU limit always smaller than total stocks")
+                return false
+            }
+
             if (v.actualPrice.isNullOrEmpty()) {
-                showToast("Enter actual price for variant ${comeIndex}")
+                showToast("Please enter actual price")
                 return false
             }
             if (v.discountValue.isNullOrEmpty()) {
-                showToast("Enter discount for variant ${comeIndex}")
-                return false
-            }
-            if (v.sku.isNullOrEmpty()) {
-                showToast("Enter SKU for variant ${comeIndex}")
-                return false
-            }
-            if (v.totalStock.isNullOrEmpty()) {
-                showToast("Enter stock for variant ${comeIndex}")
+                showToast("Please enter discount")
                 return false
             }
         }
@@ -586,12 +821,21 @@ class AddProductFragment : BaseFragment() {
         }
 
         if (selectedSubCategory == null) {
-            showToast("Please select subcategory")
+            showToast("Please select sub category")
             return false
         }
 
-        if (selectedBrand == null && binding?.etOtherBrand?.text.isNullOrEmpty()) {
-            showToast("Please select or enter brand")
+        if (selectedBrand == null) {
+            showToast("Please select  brand")
+            return false
+        }
+        if(selectedBrand?.nameEnglish=="Other"&&binding?.etOtherBrand?.text.isNullOrEmpty()){
+            showToast("Please enter brand name in english")
+            return false
+        }
+
+        if(selectedBrand?.nameEnglish=="Other"&&binding?.etOtherBrandArabic?.text.isNullOrEmpty()){
+            showToast("Please enter brand name in arabic")
             return false
         }
 
@@ -616,11 +860,17 @@ class AddProductFragment : BaseFragment() {
                 return false
             }
 
-            if (sizeChartUrl.isNullOrEmpty()) {
-                showToast("Please upload size chart")
+            if (!isAllSpecificationValid()) {
                 return false
             }
 
+            if (!isAllVariantValid()) {
+                return false
+            }
+
+            if(!validateMinMax()){
+                return false
+            }
 
             val returnableId = rgReturnable.checkedRadioButtonId
             if (returnableId == -1) {
@@ -672,6 +922,10 @@ class AddProductFragment : BaseFragment() {
                 showToast("Please select cash on delivery option")
                 return false
             }
+            if (sizeChartUrl.isNullOrEmpty()) {
+                showToast("Please upload size chart")
+                return false
+            }
         }
 
         return true
@@ -707,8 +961,8 @@ class AddProductFragment : BaseFragment() {
                 categoryId = selectedCategory?.id.toString(),
                 subcategoryId = selectedSubCategory?.id.toString(),
                 brandId = selectedBrand?.id.toString(),
-                otherEn = etOtherBrand.text?.trim().toString(),
-                otherAr = etOtherBrandArabic.text?.trim().toString(),
+                otherEn = if(selectedBrand?.nameEnglish=="Other") etOtherBrand.text?.trim().toString() else null,
+                otherAr = if(selectedBrand?.nameEnglish=="Other") etOtherBrandArabic.text?.trim().toString() else null,
                 productNameEn = etProductName.text?.trim().toString(),
                 productNameAr = etProductNameArabic.text?.trim().toString(),
                 descriptionEn = etDescription.text?.trim().toString(),
@@ -750,6 +1004,24 @@ class AddProductFragment : BaseFragment() {
 
             )
             viewModel.addProduct(request)
+        }
+    }
+
+    fun clearAllField(){
+        binding?.apply {
+            etSubCategory.setText("")
+            etBrand.setText("")
+            etOtherBrand.setText("")
+            etOtherBrandArabic.setText("")
+            etProductName.setText("")
+            etProductNameArabic.setText("")
+            etDescription.setText("")
+            etDescriptionArabic.setText("")
+            etMaxCartQuantity.setText("")
+            etMinCartQuantity.setText("")
+            etReturnableDay.setText("")
+            etExchangeableDay.setText("")
+
         }
     }
 

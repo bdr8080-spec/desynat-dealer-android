@@ -41,21 +41,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvCategory">
 
                 <RadioButton
-                    android:id="@+id/cbWomen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Women"
-                    android:textColor="@color/black"
-                    android:paddingVertical="@dimen/_12sdp"
-                    android:button="@drawable/selector_radio_icon"
-                    android:paddingStart="@dimen/_8sdp"
-                    android:checked="true"
-                    app:buttonTint="@null"
-                    android:drawableTint="@null"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="@dimen/_12sdp"/>
-
-                <RadioButton
                     android:id="@+id/cbMen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -63,9 +48,24 @@
                     android:textColor="@color/black"
                     android:paddingVertical="@dimen/_12sdp"
                     android:button="@drawable/selector_radio_icon"
-                    android:layout_marginHorizontal="@dimen/_15sdp"
                     android:paddingStart="@dimen/_8sdp"
                     android:checked="false"
+                    app:buttonTint="@null"
+                    android:drawableTint="@null"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="@dimen/_12sdp"/>
+
+                <RadioButton
+                    android:id="@+id/cbWomen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Women"
+                    android:textColor="@color/black"
+                    android:paddingVertical="@dimen/_12sdp"
+                    android:layout_marginHorizontal="@dimen/_15sdp"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:button="@drawable/selector_radio_icon"
+                    android:checked="true"
                     app:buttonTint="@null"
                     android:drawableTint="@null"
                     android:fontFamily="@font/poppins_medium"
@@ -75,7 +75,7 @@
                     android:id="@+id/cbKids"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Children"
+                    android:text="Kids"
                     android:textColor="@color/black"
                     android:paddingVertical="@dimen/_12sdp"
                     android:button="@drawable/selector_radio_icon"
@@ -139,6 +139,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvSelectBrand" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:id="@+id/tvOtherBrand"
                 style="@style/edit_text_title"
                 android:layout_width="0dp"
@@ -151,6 +152,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/etBrand" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:id="@+id/tvBrandEnglish"
                 style="@style/edit_text_title"
                 android:layout_width="wrap_content"
@@ -162,6 +164,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvOtherBrand"/>
 
             <androidx.appcompat.widget.AppCompatEditText
+                android:visibility="gone"
                 android:id="@+id/etOtherBrand"
                 style="@style/edit_text"
                 android:layout_width="0dp"
@@ -178,6 +181,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvOtherBrand" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:id="@+id/tvOtherBrandArabic"
                 style="@style/edit_text_title"
                 android:layout_width="0dp"
@@ -190,6 +194,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvOtherBrand"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:id="@+id/tvBrandArabic"
                 style="@style/edit_text_title"
                 android:layout_width="wrap_content"
@@ -201,6 +206,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvOtherBrandArabic"/>
 
             <androidx.appcompat.widget.AppCompatEditText
+                android:visibility="gone"
                 android:id="@+id/etOtherBrandArabic"
                 style="@style/edit_text"
                 android:layout_width="0dp"
@@ -215,7 +221,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/etOtherBrand"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/etOtherBrand"/>
-
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvProductName"
@@ -429,7 +434,7 @@
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:text="Set Min. cart quantity"
-                app:layout_constraintEnd_toStartOf="@+id/tvSku"
+                app:layout_constraintEnd_toStartOf="@+id/etMaxCartQuantity"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnAddVariant" />
 
@@ -505,7 +510,7 @@
                     android:paddingVertical="@dimen/_10sdp"
                     android:button="@drawable/selector_radio_icon"
                     android:paddingStart="@dimen/_8sdp"
-                    android:checked="false"
+                    android:checked="true"
                     app:buttonTint="@null"
                     android:drawableTint="@null"
                     android:fontFamily="@font/poppins_medium"
@@ -582,7 +587,7 @@
                     android:paddingVertical="@dimen/_10sdp"
                     android:button="@drawable/selector_radio_icon"
                     android:paddingStart="@dimen/_8sdp"
-                    android:checked="false"
+                    android:checked="true"
                     app:buttonTint="@null"
                     android:drawableTint="@null"
                     android:fontFamily="@font/poppins_medium"
@@ -659,7 +664,7 @@
                     android:paddingVertical="@dimen/_10sdp"
                     android:button="@drawable/selector_radio_icon"
                     android:paddingStart="@dimen/_8sdp"
-                    android:checked="false"
+                    android:checked="true"
                     app:buttonTint="@null"
                     android:drawableTint="@null"
                     android:fontFamily="@font/poppins_medium"
@@ -714,7 +719,7 @@
                     android:paddingVertical="@dimen/_10sdp"
                     android:button="@drawable/selector_radio_icon"
                     android:paddingStart="@dimen/_8sdp"
-                    android:checked="false"
+                    android:checked="true"
                     app:buttonTint="@null"
                     android:drawableTint="@null"
                     android:fontFamily="@font/poppins_medium"
@@ -769,7 +774,7 @@
                     android:paddingVertical="@dimen/_10sdp"
                     android:button="@drawable/selector_radio_icon"
                     android:paddingStart="@dimen/_8sdp"
-                    android:checked="false"
+                    android:checked="true"
                     app:buttonTint="@null"
                     android:drawableTint="@null"
                     android:fontFamily="@font/poppins_medium"
@@ -824,7 +829,7 @@
                     android:paddingVertical="@dimen/_10sdp"
                     android:button="@drawable/selector_radio_icon"
                     android:paddingStart="@dimen/_8sdp"
-                    android:checked="false"
+                    android:checked="true"
                     app:buttonTint="@null"
                     android:drawableTint="@null"
                     android:fontFamily="@font/poppins_medium"
@@ -879,7 +884,7 @@
                     android:paddingVertical="@dimen/_10sdp"
                     android:button="@drawable/selector_radio_icon"
                     android:paddingStart="@dimen/_8sdp"
-                    android:checked="false"
+                    android:checked="true"
                     app:buttonTint="@null"
                     android:drawableTint="@null"
                     android:fontFamily="@font/poppins_medium"

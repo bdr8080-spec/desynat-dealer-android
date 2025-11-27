@@ -3,6 +3,7 @@ package com.desynatdealer.utils
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -354,27 +355,6 @@ object CommonMethod {
         }
     }
 
-    fun formatPriceToReduceLength(amountStr: String?): String {
-        if (amountStr.isNullOrBlank() || amountStr == "null") return ""
-        return try {
-            val amount = amountStr.toDouble()
-            when {
-                amount >= 1_00_00_000 -> "${amount / 1_00_00_000}Cr"
-                amount >= 1_00_000 -> "${amount / 1_00_000}L"
-                amount >= 1_000 -> "${amount / 1_000}K"
-                else -> {
-                    if (amount % 1.0 == 0.0) {
-                        amount.toInt().toString()
-                    } else {
-                        amount.toString()
-                    }
-                }
-            }
-        } catch (e: NumberFormatException) {
-            amountStr // fallback → return original string if parsing fails
-        }
-    }
-
 
     fun customizeChangeDateFormat(
         inputDate: String,
@@ -495,7 +475,7 @@ object CommonMethod {
         )
     }
 
-    fun getWatcher(
+  /*  fun getWatcher(
         position: Int,
         onChange: (pos: Int, newValue: String) -> Unit
     ): TextWatcher {
@@ -507,6 +487,72 @@ object CommonMethod {
                 onChange(position, s?.toString().orEmpty())
             }
         }
+    }*/
+
+    fun getWatcher(
+        position: Int,
+        isNumberField: Boolean = false,
+        onChange: (pos: Int, newValue: String) -> Unit
+    ): TextWatcher {
+
+        return object : TextWatcher {
+
+            private var isEditing = false
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isEditing) return
+                isEditing = true
+
+                if (isNumberField && s != null) {
+
+                    val value = s.toString()
+
+                    if (value == "0") {
+                        s.clear()
+                        isEditing = false
+                        onChange(position, "")
+                        return
+                    }
+
+                    if (value.length > 1 && value.startsWith("0")) {
+                        val newValue = value.trimStart('0')
+
+                        s.replace(0, s.length, newValue)
+
+                        onChange(position, newValue)
+                        isEditing = false
+                        return
+                    }
+
+                    onChange(position, value)
+                    isEditing = false
+                } else {
+                    onChange(position, s?.toString().orEmpty())
+                    isEditing = false
+                }
+            }
+        }
+    }
+
+    fun shareProduct(context:Context,name: String, desc: String, imageUrl: String) {
+
+        val shareText = """
+        Title: $name
+        Description: $desc
+        Image:
+        $imageUrl
+    """.trimIndent()
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, shareText)
+        }
+
+        context.startActivity(Intent.createChooser(intent, "Share via"))
     }
 
 }

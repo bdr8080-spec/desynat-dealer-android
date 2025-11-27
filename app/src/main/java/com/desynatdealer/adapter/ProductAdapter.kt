@@ -35,7 +35,7 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val productData = productList[position]
         holder.binding.apply {
-            tvBrand.text = productData.brand.nameEnglish
+            tvBrand.text = if(productData?.brand?.nameEnglish=="Other") productData?.otherEn else productData?.brand?.nameEnglish
             tvName.text = productData.productNameEn
 
             tvDate.text = "Added on- ${CommonMethod.customizeChangeDateFormat(productData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
@@ -47,12 +47,12 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
 
             if(productData.productActiveStatus==1){
                 tvSwitch.text = "Active"
-                tvSwitch.setTextColor(Color.parseColor("#8B5E3C"))
+                tvSwitch.setTextColor(Color.parseColor("#1A900D"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
             }
             else{
                 tvSwitch.text = "Inactive"
-                tvSwitch.setTextColor(Color.parseColor("#666666"))
+                tvSwitch.setTextColor(Color.parseColor("#875C3A"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
 
             }
@@ -70,8 +70,8 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
 
             val variant = productData?.productVariants?.getOrNull(0)
             val discountValue = variant?.discountValue ?: 0
-            val discountType = if (variant?.discountType == "1") "% off" else "KD off off"
-            tvOffer.text = "$discountValue $discountType"
+            val discountType = if (variant?.discountType == "1")"% off" else " KD off"
+            tvOffer.text = "$discountValue$discountType"
 
             rvColor.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
