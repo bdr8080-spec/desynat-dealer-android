@@ -43,8 +43,8 @@ class ProductDetailFragment : BaseFragment() {
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var sizeList = ArrayList<GetSizeResponse.Data>()
     private var variantImageList = ArrayList<String>()
-    private var selectedSizeList = ArrayList<String>()
-    private var selectedColorList = ArrayList<GetAllProductResponse.Data.AllProductData.ProductVariant>()
+    private var selectedSizeList = ArrayList<GetAllProductResponse.Data.AllProductData.Product.ProductVariation>()
+    private var selectedColorList = ArrayList<GetAllProductResponse.Data.AllProductData.Product>()
     private var colorAdapter: ProductRectangleColorAdapter?=null
     private var sizeAdapter: SizeAdapter?=null
     private var specificationAdapter: SpecificationAdapter?=null
@@ -129,18 +129,20 @@ class ProductDetailFragment : BaseFragment() {
         binding?.apply {
 
             selectedSizeList.clear()
-            productData?.productVariants?.get(selectedColorPos)?.let { selectedSizeList.addAll(
-                arrayListOf(it.sizeId)
-            ) }
+            productData?.product?.get(selectedColorPos)?.productVariation?.let {
+                selectedSizeList.addAll(
+                    it
+                )
+            }
            // productData?.productVariants?.let { selectedSizeList.addAll(it) }
             sizeAdapter?.notifyDataSetChanged()
 
             selectedColorList.clear()
-            productData?.productVariants?.let { selectedColorList.addAll(it) }
+            productData?.product?.let { selectedColorList.addAll(it) }
             colorAdapter?.notifyDataSetChanged()
 
             variantImageList.clear()
-            productData?.productVariants?.get(selectedColorPos)?.variantImage?.let {
+            productData?.product?.get(selectedColorPos)?.variantImage?.let {
                 variantImageList.addAll(
                     it
                 )
@@ -157,10 +159,10 @@ class ProductDetailFragment : BaseFragment() {
             ratingBar.rating = rating
             tvRating.text = "(${productData?.reviewRating})"*/
 
-            tvPrice.text = "${(productData?.productVariants?.get(selectedColorPos)?.actualPrice?:0)} KD"
-            tvDiscountedPrice.text = "${(productData?.productVariants?.get(selectedColorPos)?.finalPrice?:0)} KD"
+            tvPrice.text = "${(productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.actualPrice?:0)} KD"
+            tvDiscountedPrice.text = "${(productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.finalPrice?:0)} KD"
 
-            val variant = productData?.productVariants?.getOrNull(selectedColorPos)
+            val variant = productData?.product?.get(selectedColorPos)?.productVariation?.getOrNull(selectedColorPos)
             val discountValue = variant?.discountValue ?: 0
             val discountType = if (variant?.discountType == "1")"% off" else " KD off"
             tvOffer.text = "$discountValue$discountType"
@@ -182,21 +184,21 @@ class ProductDetailFragment : BaseFragment() {
 
             if (productData?.category?.name=="Women"){
                 clWomenSize.isVisible = true
-                tvBustSize.text = productData?.productVariants?.get(selectedColorPos)?.bust?:"NA"
-                tvHipSize.text = productData?.productVariants?.get(selectedColorPos)?.hip?:"NA"
-                tvShoulderSize.text = productData?.productVariants?.get(selectedColorPos)?.shoulder?:"NA"
-                tvWaistSize.text = productData?.productVariants?.get(selectedColorPos)?.waist?:"NA"
-                tvSleeveLengthSize.text = productData?.productVariants?.get(selectedColorPos)?.sleeveLength?:"NA"
-                tvLengthSize.text = productData?.productVariants?.get(selectedColorPos)?.length?:"NA"
+                tvBustSize.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.bust?:"NA"
+                tvHipSize.text =productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.hip?:"NA"
+                tvShoulderSize.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.shoulder?:"NA"
+                tvWaistSize.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.waist?:"NA"
+                tvSleeveLengthSize.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.sleeveLength?:"NA"
+                tvLengthSize.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.length?:"NA"
 
             }
             else{
                 clWomenSize.isVisible = false
             }
 
-            tvTotalStocksValue.text =  productData?.productVariants?.get(selectedColorPos)?.totalStock
-            tvSkuValue.text = productData?.productVariants?.get(selectedColorPos)?.sku
-            tvSkuThresholdValue.text =  productData?.productVariants?.get(selectedColorPos)?.skuThresholdValue
+            tvTotalStocksValue.text =  productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.totalStock
+            tvSkuValue.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.sku
+            tvSkuThresholdValue.text =  productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.skuThresholdValue
 
             updateStatus()
 
@@ -230,7 +232,7 @@ class ProductDetailFragment : BaseFragment() {
                 CommonMethod.shareProduct(requireActivity(),
                     productData?.productNameEn ?: "",
                     productData?.descriptionEn ?: "",
-                    productData?.productVariants?.get(selectedColorPos)?.variantImage?.get(0) ?: ""
+                    productData?.product?.get(selectedColorPos)?.variantImage?.get(0) ?: ""
                 )
             }
 

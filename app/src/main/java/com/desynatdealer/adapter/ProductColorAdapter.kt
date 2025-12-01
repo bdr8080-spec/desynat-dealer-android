@@ -13,7 +13,7 @@ import com.desynatdealer.databinding.ItemProductBinding
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 
-class ProductColorAdapter(var context:Context, var productColorList: ArrayList<GetAllProductResponse.Data.AllProductData.ProductVariant>,var colorList:ArrayList<GetColorResponse.Data>,var isRectangle:Boolean=false) : RecyclerView.Adapter<ProductColorAdapter.ViewHolder>() {
+class ProductColorAdapter(var context:Context, var productColorList: ArrayList<GetAllProductResponse.Data.AllProductData.Product>,var colorList:ArrayList<GetColorResponse.Data>,var isRectangle:Boolean=false) : RecyclerView.Adapter<ProductColorAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemColorBinding) :
         RecyclerView.ViewHolder(binding.root)

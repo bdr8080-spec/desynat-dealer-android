@@ -3,6 +3,7 @@ package com.desynatdealer.ui.home.productManagement
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,7 @@ class AddProductFragment : BaseFragment() {
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var brandList = ArrayList<GetSellerBrandResponse.Data>()
     private var sizeList = ArrayList<GetSizeResponse.Data>()
-    private var variantList = ArrayList<GetAllProductResponse.Data.AllProductData.ProductVariant>()
+    private var variantList = ArrayList<GetAllProductResponse.Data.AllProductData.Product>()
     private var variantAdapter :VariantAdapter? =null
     private var specificationList = ArrayList<GetAllProductResponse.Data.AllProductData.ProductSpecification>()
     private var addSpecificationAdapter :AddSpecificationAdapter? =null
@@ -123,7 +124,7 @@ class AddProductFragment : BaseFragment() {
             variantList.clear()
 
         variantAdapter = VariantAdapter(requireActivity(),isWomen,variantList,colorList,sizeList,false,object:VariantAdapter.VariantClick{
-            override fun onVariantClick(position: Int, type: Int,imgPos:Int) {
+            override fun onVariantClick(position: Int, type: Int,imgPos:Int,subPos:Int) {
                 when(type){
                     2->{
                         imageType = 2
@@ -146,6 +147,7 @@ class AddProductFragment : BaseFragment() {
                         variantAdapter?.notifyItemChanged(position)
 
                     }
+
                 }
             }
 
@@ -307,29 +309,35 @@ class AddProductFragment : BaseFragment() {
     }
 
     private fun addEmpty() {
+        val emptySubVariantList  = ArrayList<GetAllProductResponse.Data.AllProductData.Product.ProductVariation>()
+
+        emptySubVariantList.add(GetAllProductResponse.Data.AllProductData.Product.ProductVariation(
+            sizeId = "",
+            bust = null,
+            waist = null,
+            hip = null,
+            shoulder = null,
+            sleeveLength = null,
+            length = null,
+            sku = "",
+            skuThresholdValue = "",
+            totalStock = "",
+            actualPrice = "",
+            finalPrice = "",
+            discountType = "1",
+            discountValue = "",
+            createdAt = null,
+            updatedAt = null,
+            id = null,
+            productId = null,
+            status = null
+        ))
+
         variantList.add(
-            GetAllProductResponse.Data.AllProductData.ProductVariant(
+            GetAllProductResponse.Data.AllProductData.Product(
                 colorId = "",
-                sizeId = "",
-                bust = "",
-                waist = "",
-                hip = "",
-                shoulder = "",
-                sleeveLength = "",
-                length = "",
-                sku = "",
-                skuThresholdValue = "",
-                totalStock = "",
-                actualPrice = "",
-                finalPrice = "",
-                discountType = "1",
-                discountValue = "",
                 variantImage = arrayListOf(),
-                createdAt = "",
-                updatedAt = "",
-                id = 0,
-                productId = 0,
-                status = ""
+                productVariation = emptySubVariantList
             )
         )
         variantAdapter?.notifyDataSetChanged()
@@ -728,90 +736,98 @@ class AddProductFragment : BaseFragment() {
     }
 
     private fun isAllVariantValid(): Boolean {
-        for ((index, v) in variantList.withIndex()) {
-            var comeIndex = (index+1).toString()
-            if (comeIndex=="1"){
-                comeIndex = ""
-            }
 
-            if (v.variantImage.isEmpty()) {
+        for ((index, product) in variantList.withIndex()) {
+
+            if (product.variantImage.isEmpty()) {
                 showToast("Please upload product image")
                 return false
             }
-            if (v.colorId.isNullOrEmpty()) {
-                showToast("Please select colo")
-                return false
-            }
-            if (v.sizeId.isNullOrEmpty()) {
-                showToast("Please select size")
+
+            if (product.colorId.isEmpty()) {
+                showToast("Please select color")
                 return false
             }
 
-            if (selectedCategory?.name?.trim()?.equals("Women", ignoreCase = true) == true) {
-                if (v.bust.isNullOrEmpty()) {
-                    showToast("Please enter bust size")
+            for ((innerIndex, v) in product.productVariation.withIndex()) {
+
+                if (v.sizeId.isEmpty()) {
+                    showToast("Please select size")
                     return false
                 }
-                if (v.waist.isNullOrEmpty()) {
-                    showToast("Please enter waist size")
+
+                if (selectedCategory?.name.equals("Women", ignoreCase = true)) {
+
+                    if (v.bust?.isEmpty() == true) {
+                        showToast("Please enter bust size")
+                        return false
+                    }
+                    if (v.waist?.isEmpty() == true) {
+                        showToast("Please enter waist size")
+                        return false
+                    }
+                    if (v.hip?.isEmpty() == true) {
+                        showToast("Please enter hip size")
+                        return false
+                    }
+                    if (v.shoulder?.isEmpty() == true) {
+                        showToast("Please enter shoulder size")
+                        return false
+                    }
+                    if (v.sleeveLength?.isEmpty() == true) {
+                        showToast("Please enter sleeve length")
+                        return false
+                    }
+                    if (v.length?.isEmpty() == true) {
+                        showToast("Please enter length")
+                        return false
+                    }
+                }
+
+                // Stock
+                if (v.totalStock.isEmpty()) {
+                    showToast("Please enter stock")
                     return false
                 }
-                if (v.hip.isNullOrEmpty()) {
-                    showToast("Please enter hip size")
+
+                // SKU
+                if (v.sku.isEmpty()) {
+                    showToast("Please enter SKU limit")
                     return false
                 }
-                if (v.shoulder.isNullOrEmpty()) {
-                    showToast("Please enter shoulder size")
+
+                val skuVal = v.sku.toIntOrNull()
+                val stockVal = v.totalStock.toIntOrNull()
+
+                if (skuVal == null) {
+                    showToast("Invalid SKU limit")
                     return false
                 }
-                if (v.sleeveLength.isNullOrEmpty()) {
-                    showToast("Please enter sleeveLength")
+                if (stockVal == null) {
+                    showToast("Invalid stock")
                     return false
                 }
-                if (v.length.isNullOrEmpty()) {
-                    showToast("Please enter length")
+
+                if (skuVal >= stockVal) {
+                    showToast("SKU limit must be smaller than total stock")
                     return false
                 }
-            }
 
-            if (v.totalStock.isNullOrEmpty()) {
-                showToast("Please enter stock")
-                return false
-            }
-
-            if (v.sku.isNullOrEmpty()) {
-                showToast("Please enter SKU limit")
-                return false
-            }
-
-            val skuVal = v.sku.toIntOrNull()
-            val stockVal = v.totalStock.toIntOrNull()
-
-            if (skuVal == null) {
-                showToast("Invalid SKU limit")
-                return false
-            }
-            if (stockVal == null) {
-                showToast("Invalid stock")
-                return false
-            }
-
-            if (skuVal >= stockVal) {
-                showToast("SKU limit always smaller than total stocks")
-                return false
-            }
-
-            if (v.actualPrice.isNullOrEmpty()) {
-                showToast("Please enter actual price")
-                return false
-            }
-            if (v.discountValue.isNullOrEmpty()) {
-                showToast("Please enter discount")
-                return false
+                // Price
+                if (v.actualPrice?.isEmpty() == true) {
+                    showToast("Please enter actual price")
+                    return false
+                }
+                if (v.discountValue.isEmpty()) {
+                    showToast("Please enter discount")
+                    return false
+                }
             }
         }
+
         return true
     }
+
 
     private fun isAllProductValid(): Boolean {
 
@@ -933,23 +949,6 @@ class AddProductFragment : BaseFragment() {
 
     private fun addProduct() {
 
-        val colorIdList = variantList.map { it.colorId }
-        val sizeIdList = variantList.map { it.sizeId }
-        val bustList = variantList.map { it.bust }
-        val waistList = variantList.map { it.waist }
-        val hipList = variantList.map { it.hip }
-        val shoulderList = variantList.map { it.shoulder }
-        val sleeveLengthList = variantList.map { it.sleeveLength }
-        val lengthList = variantList.map { it.length }
-        val skuList = variantList.map { it.sku }
-        val thresholdList = variantList.map { it.skuThresholdValue }
-        val stockList = variantList.map { it.totalStock }
-        val actualPriceList = variantList.map { it.actualPrice }
-        val finalPriceList = variantList.map { it.finalPrice }
-        val discountTypeList = variantList.map { it.discountType }
-        val discountValueList = variantList.map { it.discountValue }
-        val variantImagesList = variantList.map { it.variantImage }
-
         val specificationNameListEn = specificationList.map { it.nameEn }
         val specificationNameListAr = specificationList.map { it.nameAr }
         val specificationFeatureListEn = specificationList.map { it.featureEn }
@@ -980,23 +979,7 @@ class AddProductFragment : BaseFragment() {
                 readyToShip = if(cbReadyToShipYes.isChecked) "1" else "0",
                 cashOnDelivery = if(cbCashOnDeliveryYes.isChecked) "1" else "0",
 
-                colorId = colorIdList,
-                sizeId = sizeIdList,
-                bust = bustList,
-                waist = waistList,
-                hip = hipList,
-                shoulder = shoulderList,
-                sleeveLength = sleeveLengthList,
-                length = lengthList,
-                sku = skuList,
-                skuThresholdValue = thresholdList,
-                totalStock = stockList,
-                actualPrice = actualPriceList,
-                finalPrice = finalPriceList,
-                discountType = discountTypeList,
-                discountValue = discountValueList,
-                variantImage = variantImagesList,
-
+                products = variantList,
                 productSpeAr = specificationNameListAr,
                 productSpeEn = specificationNameListEn,
                 productSpeFeatureEn = specificationFeatureListEn,

@@ -27,7 +27,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivImage"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/_130sdp"
         android:layout_height="@dimen/_90sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_gravity="center_horizontal"
@@ -38,8 +38,7 @@
         android:background="@drawable/grey_dash_rectangle"
         android:src="@drawable/ic_upload_product_img"
         app:layout_constraintTop_toBottomOf="@+id/tvVariant"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tvColour"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvImageList"
@@ -60,7 +59,6 @@
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:text="Colour"
-        app:layout_constraintEnd_toStartOf="@+id/tvSize"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvImageList" />
 
@@ -70,7 +68,7 @@
         android:layout_width="0dp"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
         android:background="@drawable/edit_back"
         android:hint="Select"
         android:inputType="text"
@@ -80,408 +78,17 @@
         android:drawableEnd="@drawable/ic_drop_down"
         android:paddingHorizontal="@dimen/_5sdp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etSize"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvColour" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvSize"
-        style="@style/edit_text_title"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_7sdp"
-        android:text="Size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvColour"
-        app:layout_constraintTop_toTopOf="@+id/tvColour"
-        app:layout_constraintBottom_toBottomOf="@+id/tvColour"/>
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etSize"
-        style="@style/edit_text"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:background="@drawable/edit_back"
-        android:hint="Select"
-        android:inputType="text"
-        android:clickable="true"
-        android:focusable="false"
-        android:editable="false"
-        android:drawableEnd="@drawable/ic_drop_down"
-        android:paddingHorizontal="@dimen/_5sdp"
-        app:layout_constraintTop_toTopOf="@+id/etColour"
-        app:layout_constraintBottom_toBottomOf="@+id/etColour"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/etColour"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clWomenSize"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSubVariant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etColour">
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvBust"
-        style="@style/edit_text_title"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:text="Bust"
-        app:layout_constraintEnd_toStartOf="@+id/tvWaist"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etBust"
-        style="@style/edit_text"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:background="@drawable/edit_back"
-        android:hint="Eg. 32"
-        android:maxLength="2"
-        android:inputType="number"
-        android:paddingHorizontal="@dimen/_5sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etWaist"
-        app:layout_constraintTop_toBottomOf="@+id/tvBust" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvWaist"
-        style="@style/edit_text_title"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_7sdp"
-        android:text="Waist"
+        tools:listitem="@layout/item_sub_variant"
+        android:nestedScrollingEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvBust"
-        app:layout_constraintTop_toTopOf="@+id/tvBust"
-        app:layout_constraintBottom_toBottomOf="@+id/tvBust"/>
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etWaist"
-        style="@style/edit_text"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:background="@drawable/edit_back"
-        android:hint="Eg. 28"
-        android:maxLength="2"
-        android:inputType="number"
-        android:paddingHorizontal="@dimen/_5sdp"
-        app:layout_constraintTop_toTopOf="@+id/etBust"
-        app:layout_constraintBottom_toBottomOf="@+id/etBust"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/etBust"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvHip"
-        style="@style/edit_text_title"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:text="Hip"
-        app:layout_constraintEnd_toStartOf="@+id/tvShoulder"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBust" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etHip"
-        style="@style/edit_text"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:background="@drawable/edit_back"
-        android:hint="Eg. 36"
-        android:maxLength="2"
-        android:inputType="number"
-        android:paddingHorizontal="@dimen/_5sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etShoulder"
-        app:layout_constraintTop_toBottomOf="@+id/tvHip" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvShoulder"
-        style="@style/edit_text_title"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_7sdp"
-        android:text="Shoulder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvHip"
-        app:layout_constraintTop_toTopOf="@+id/tvHip"
-        app:layout_constraintBottom_toBottomOf="@+id/tvHip"/>
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etShoulder"
-        style="@style/edit_text"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:background="@drawable/edit_back"
-        android:hint="Eg. 16"
-        android:inputType="number"
-        android:maxLength="2"
-        android:paddingHorizontal="@dimen/_5sdp"
-        app:layout_constraintTop_toTopOf="@+id/etHip"
-        app:layout_constraintBottom_toBottomOf="@+id/etHip"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/etHip"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvSleeveLength"
-        style="@style/edit_text_title"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:text="Sleeve Length"
-        app:layout_constraintEnd_toStartOf="@+id/tvLength"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etHip" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etSleeveLength"
-        style="@style/edit_text"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:background="@drawable/edit_back"
-        android:hint="Eg. 22"
-        android:maxLength="2"
-        android:inputType="number"
-        android:paddingHorizontal="@dimen/_5sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etLength"
-        app:layout_constraintTop_toBottomOf="@+id/tvSleeveLength" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvLength"
-        style="@style/edit_text_title"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_7sdp"
-        android:text="Length"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvSleeveLength"
-        app:layout_constraintTop_toTopOf="@+id/tvSleeveLength"
-        app:layout_constraintBottom_toBottomOf="@+id/tvSleeveLength"/>
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etLength"
-        style="@style/edit_text"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:background="@drawable/edit_back"
-        android:hint="Eg. 40"
-        android:maxLength="3"
-        android:inputType="number"
-        android:paddingHorizontal="@dimen/_5sdp"
-        app:layout_constraintTop_toTopOf="@+id/etSleeveLength"
-        app:layout_constraintBottom_toBottomOf="@+id/etSleeveLength"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/etSleeveLength"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvTotalStocks"
-        style="@style/edit_text_title"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:text="Total Stocks"
-        app:layout_constraintEnd_toStartOf="@+id/tvSku"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clWomenSize" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etTotalStocks"
-        style="@style/edit_text"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:background="@drawable/edit_back"
-        android:hint="Eg. 13208"
-        android:inputType="number"
-        android:maxLength="6"
-        android:paddingHorizontal="@dimen/_5sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etSku"
-        app:layout_constraintTop_toBottomOf="@+id/tvTotalStocks" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvSku"
-        style="@style/edit_text_title"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_7sdp"
-        android:text="SKU Limit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvTotalStocks"
-        app:layout_constraintTop_toTopOf="@+id/tvTotalStocks"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTotalStocks"/>
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etSku"
-        style="@style/edit_text"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:background="@drawable/edit_back"
-        android:hint="Enter SKU limit"
-        android:inputType="number"
-        android:paddingHorizontal="@dimen/_5sdp"
-        app:layout_constraintTop_toTopOf="@+id/etTotalStocks"
-        app:layout_constraintBottom_toBottomOf="@+id/etTotalStocks"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/etTotalStocks"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:visibility="gone"
-        android:id="@+id/tvThreshold"
-        style="@style/edit_text_title"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:text="SKU Threshold value"
-        app:layout_constraintEnd_toStartOf="@+id/tvSku"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTotalStocks" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:visibility="gone"
-        android:id="@+id/etThreshold"
-        style="@style/edit_text"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:background="@drawable/edit_back"
-        android:hint="200"
-        android:inputType="number"
-        android:paddingHorizontal="@dimen/_5sdp"
-        app:layout_constraintStart_toStartOf="@+id/etTotalStocks"
-        app:layout_constraintEnd_toEndOf="@+id/etTotalStocks"
-        app:layout_constraintTop_toBottomOf="@+id/tvThreshold" />
-
-    <LinearLayout
-        android:id="@+id/llPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/card_stroke_background"
-        android:backgroundTint="#FFF7EA"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/_15sdp"
-        app:layout_constraintTop_toBottomOf="@+id/etThreshold">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/edit_text_title"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:text="Actual Price" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etActualPrice"
-            style="@style/edit_text"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:background="@drawable/edit_back"
-            android:maxLength="6"
-            android:hint="Enter Actual Price"
-            android:inputType="number" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/edit_text_title"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:text="Discounted Price" />
-
-        <RadioGroup
-            android:id="@+id/rgPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            app:layout_constraintTop_toBottomOf="@+id/tvCategory">
-
-            <RadioButton
-                android:id="@+id/cbPercentage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Percentage"
-                android:textColor="@color/black"
-                android:paddingVertical="@dimen/_10sdp"
-                android:button="@drawable/selector_radio_icon"
-                android:paddingStart="@dimen/_8sdp"
-                android:checked="true"
-                app:buttonTint="@null"
-                android:drawableTint="@null"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="@dimen/_12sdp"/>
-
-            <RadioButton
-                android:id="@+id/cbFixedPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Fixed Price"
-                android:textColor="@color/black"
-                android:paddingVertical="@dimen/_10sdp"
-                android:button="@drawable/selector_radio_icon"
-                android:layout_marginHorizontal="@dimen/_15sdp"
-                android:paddingStart="@dimen/_8sdp"
-                android:checked="false"
-                app:buttonTint="@null"
-                android:drawableTint="@null"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="@dimen/_12sdp"/>
-
-        </RadioGroup>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etDiscountedValue"
-            style="@style/edit_text"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:background="@drawable/edit_back"
-            android:hint="Eg. 10%"
-            android:maxLength="6"
-            android:inputType="number" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/edit_text_title"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:text="Final Price" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etFinalPrice"
-            style="@style/edit_text"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:background="@drawable/edit_back"
-            android:hint="Enter Final Price"
-            android:inputType="number"
-            android:editable="false"
-            android:clickable="false"
-            android:focusable="false"
-            android:layout_marginBottom="@dimen/_15sdp"/>
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/etColour"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

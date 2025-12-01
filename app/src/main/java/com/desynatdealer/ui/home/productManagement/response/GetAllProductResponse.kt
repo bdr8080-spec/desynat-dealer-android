@@ -70,8 +70,8 @@ data class GetAllProductResponse(
             val productReturn: String,
             @SerializedName("product_specifications")
             val productSpecifications: ArrayList<ProductSpecification>,
-            @SerializedName("product_variants")
-            val productVariants: ArrayList<ProductVariant>,
+            @SerializedName("product")
+            val product: ArrayList<Product>,
             @SerializedName("ready_to_ship")
             val readyToShip: String,
             @SerializedName("return_days")
@@ -148,51 +148,57 @@ data class GetAllProductResponse(
                 val updatedAt: String
             )
 
-            data class ProductVariant(
-                @SerializedName("actual_price")
-                var actualPrice: String,
-                @SerializedName("bust")
-                var bust: String,
+            data class Product(
                 @SerializedName("color_id")
                 var colorId: String,
-                @SerializedName("created_at")
-                var createdAt: String,
-                @SerializedName("discount_type")
-                var discountType: String,
-                @SerializedName("discount_value")
-                var discountValue: String,
-                @SerializedName("final_price")
-                var finalPrice: String,
-                @SerializedName("hip")
-                var hip: String,
-                @SerializedName("id")
-                var id: Int,
-                @SerializedName("length")
-                var length: String,
-                @SerializedName("product_id")
-                var productId: Int,
-                @SerializedName("shoulder")
-                var shoulder: String,
-                @SerializedName("size_id")
-                var sizeId: String,
-                @SerializedName("sku")
-                var sku: String,
-                @SerializedName("sku_threshold_value")
-                var skuThresholdValue: String,
-                @SerializedName("sleeve_length")
-                var sleeveLength: String,
-                @SerializedName("status")
-                var status: String,
-                @SerializedName("total_stock")
-                var totalStock: String,
-                @SerializedName("updated_at")
-                var updatedAt: String,
+                @SerializedName("product_variation")
+                val productVariation: ArrayList<ProductVariation>,
                 @SerializedName("variant_image")
-                var variantImage: ArrayList<String>,
-                @SerializedName("waist")
-                var waist: String
-            )
-
+                val variantImage: ArrayList<String>,
+                @SerializedName("product_id")
+                val productId: String?=null,
+            ) {
+                data class ProductVariation(
+                    @SerializedName("actual_price")
+                    var actualPrice: String?=null,
+                    @SerializedName("bust")
+                    var bust: String?=null,
+                    @SerializedName("created_at")
+                    var createdAt: String?=null,
+                    @SerializedName("discount_type")
+                    var discountType: String,
+                    @SerializedName("discount_value")
+                    var discountValue: String,
+                    @SerializedName("final_price")
+                    var finalPrice: String,
+                    @SerializedName("hip")
+                    var hip: String?=null,
+                    @SerializedName("id")
+                    var id: String?=null,
+                    @SerializedName("length")
+                    var length: String?=null,
+                    @SerializedName("product_id")
+                    var productId: String?=null,
+                    @SerializedName("shoulder")
+                    var shoulder: String?=null,
+                    @SerializedName("size_id")
+                    var sizeId: String,
+                    @SerializedName("sku")
+                    var sku: String,
+                    @SerializedName("sku_threshold_value")
+                    var skuThresholdValue: String,
+                    @SerializedName("sleeve_length")
+                    var sleeveLength: String?=null,
+                    @SerializedName("status")
+                    var status: String?=null,
+                    @SerializedName("total_stock")
+                    var totalStock: String,
+                    @SerializedName("updated_at")
+                    var updatedAt: String?=null,
+                    @SerializedName("waist")
+                    var waist: String?=null
+                )
+            }
             data class Subcategory(
                 @SerializedName("category_id")
                 val categoryId: Int,

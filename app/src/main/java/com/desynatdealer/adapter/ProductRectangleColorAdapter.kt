@@ -15,7 +15,7 @@ import com.desynatdealer.databinding.ItemProductBinding
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 
-class ProductRectangleColorAdapter(var context:Context, var productColorList: ArrayList<GetAllProductResponse.Data.AllProductData.ProductVariant>, var colorList:ArrayList<GetColorResponse.Data>,var onClick: OnClick) : RecyclerView.Adapter<ProductRectangleColorAdapter.ViewHolder>() {
+class ProductRectangleColorAdapter(var context:Context, var productColorList: ArrayList<GetAllProductResponse.Data.AllProductData.Product>, var colorList:ArrayList<GetColorResponse.Data>,var onClick: OnClick) : RecyclerView.Adapter<ProductRectangleColorAdapter.ViewHolder>() {
     var selectedPos = 0
     interface OnClick{
         fun onClickItem(position: Int)

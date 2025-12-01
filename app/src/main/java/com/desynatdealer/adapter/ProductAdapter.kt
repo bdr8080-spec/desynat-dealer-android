@@ -39,7 +39,7 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
             tvName.text = productData.productNameEn
 
             tvDate.text = "Added on- ${CommonMethod.customizeChangeDateFormat(productData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
-            ivProduct.load(productData?.productVariants?.get(0)?.variantImage?.get(0)) {
+            ivProduct.load(productData?.product?.get(0)?.variantImage?.get(0)) {
                 crossfade(true)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
@@ -65,17 +65,17 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
             ratingBar.rating = rating
             tvRating.text = "(${productData?.reviewRating})"*/
 
-            tvPrice.text = "${(productData?.productVariants?.get(0)?.actualPrice?:0)} KD"
-            tvDiscountedPrice.text = "${(productData?.productVariants?.get(0)?.finalPrice?:0)} KD"
+            tvPrice.text = "${(productData?.product?.get(0)?.productVariation?.get(0)?.actualPrice?:0)} KD"
+            tvDiscountedPrice.text = "${(productData?.product?.get(0)?.productVariation?.get(0)?.finalPrice?:0)} KD"
 
-            val variant = productData?.productVariants?.getOrNull(0)
+            val variant = productData?.product?.getOrNull(0)?.productVariation?.getOrNull(0)
             val discountValue = variant?.discountValue ?: 0
             val discountType = if (variant?.discountType == "1")"% off" else " KD off"
             tvOffer.text = "$discountValue$discountType"
 
             rvColor.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-                adapter = ProductColorAdapter(context = context, productColorList = productList[position].productVariants,colorList,false)
+                adapter = productList[position].product?.let { ProductColorAdapter(context = context, productColorList = it,colorList,false) }
                 setHasFixedSize(true)
                 isNestedScrollingEnabled = false
             }

@@ -15,7 +15,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetAllProductRespons
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 
-class SizeAdapter(var context:Context, var productSizeList: ArrayList<String>, var sizeList:ArrayList<GetSizeResponse.Data>,var onClick:OnClick) : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
+class SizeAdapter(var context:Context, var productSizeList: ArrayList<GetAllProductResponse.Data.AllProductData.Product.ProductVariation>, var sizeList:ArrayList<GetSizeResponse.Data>,var onClick:OnClick) : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
     var selectedPos = 0
     interface OnClick{
         fun onClickItem(position: Int)
@@ -36,23 +36,23 @@ class SizeAdapter(var context:Context, var productSizeList: ArrayList<String>, v
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
-            val productSize = productSizeList[position]
+            val productSize = productSizeList[position].sizeId
             val matchedSize = sizeList.find { it.id.toString() == productSize }
 
             tvSize.text = matchedSize?.name
 
-//            if (selectedPos==position){
-//                tvSize.setTextColor(Color.parseColor("#000000"))
-//            }
-//            else{
-//                tvSize.setTextColor(Color.parseColor("#E6E6E6"))
-//            }
+            if (selectedPos==position){
+                tvSize.setTextColor(Color.parseColor("#000000"))
+            }
+            else{
+                tvSize.setTextColor(Color.parseColor("#E6E6E6"))
+            }
         }
 
         holder.itemView.setOnClickListener {
-//            selectedPos = position
-//            onClick.onClickItem(position)
-//            notifyDataSetChanged()
+            selectedPos = position
+            onClick.onClickItem(position)
+            notifyDataSetChanged()
         }
 
     }

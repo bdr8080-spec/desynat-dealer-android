@@ -396,6 +396,7 @@
                 android:id="@+id/rvSpecification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:layout_marginTop="@dimen/_20sdp"
                 tools:itemCount="1"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -406,8 +407,9 @@
                 android:id="@+id/rvVariant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:layout_marginTop="@dimen/_15sdp"
-                tools:itemCount="0"
+                tools:itemCount="2"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_add_variant"
                 app:layout_constraintTop_toBottomOf="@+id/rvSpecification"/>
