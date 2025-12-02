@@ -47,7 +47,7 @@ class AddProductFragment : BaseFragment() {
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var brandList = ArrayList<GetSellerBrandResponse.Data>()
     private var sizeList = ArrayList<GetSizeResponse.Data>()
-    private var variantList = ArrayList<GetAllProductResponse.Data.AllProductData.Product>()
+    private var variantList = ArrayList<AddProductRequest.Product>()
     private var variantAdapter :VariantAdapter? =null
     private var specificationList = ArrayList<GetAllProductResponse.Data.AllProductData.ProductSpecification>()
     private var addSpecificationAdapter :AddSpecificationAdapter? =null
@@ -309,9 +309,9 @@ class AddProductFragment : BaseFragment() {
     }
 
     private fun addEmpty() {
-        val emptySubVariantList  = ArrayList<GetAllProductResponse.Data.AllProductData.Product.ProductVariation>()
+        val emptySubVariantList  = ArrayList<AddProductRequest.Product.ProductVariation>()
 
-        emptySubVariantList.add(GetAllProductResponse.Data.AllProductData.Product.ProductVariation(
+        emptySubVariantList.add(AddProductRequest.Product.ProductVariation(
             sizeId = "",
             bust = null,
             waist = null,
@@ -334,7 +334,7 @@ class AddProductFragment : BaseFragment() {
         ))
 
         variantList.add(
-            GetAllProductResponse.Data.AllProductData.Product(
+            AddProductRequest.Product(
                 colorId = "",
                 variantImage = arrayListOf(),
                 productVariation = emptySubVariantList

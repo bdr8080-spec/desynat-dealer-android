@@ -24,8 +24,10 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentProductDetailBinding
 import com.desynatdealer.databinding.SizeGuideChartDialogBinding
+import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
+import com.desynatdealer.ui.home.productManagement.response.GetProductDetailResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
@@ -43,8 +45,8 @@ class ProductDetailFragment : BaseFragment() {
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var sizeList = ArrayList<GetSizeResponse.Data>()
     private var variantImageList = ArrayList<String>()
-    private var selectedSizeList = ArrayList<GetAllProductResponse.Data.AllProductData.Product.ProductVariation>()
-    private var selectedColorList = ArrayList<GetAllProductResponse.Data.AllProductData.Product>()
+    private var selectedSizeList = ArrayList<AddProductRequest.Product.ProductVariation>()
+    private var selectedColorList = ArrayList<AddProductRequest.Product>()
     private var colorAdapter: ProductRectangleColorAdapter?=null
     private var sizeAdapter: SizeAdapter?=null
     private var specificationAdapter: SpecificationAdapter?=null
@@ -52,6 +54,7 @@ class ProductDetailFragment : BaseFragment() {
     private var variantImageAdapter: ProductImageAdapter?=null
     private var selectedColorPos = 0
     private var selectedSizePos = 0
+    var productInfo = ArrayList<AddProductRequest.Product>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,6 +88,8 @@ class ProductDetailFragment : BaseFragment() {
                 selectedColorList,colorList,object :ProductRectangleColorAdapter.OnClick{
                     override fun onClickItem(position: Int) {
                         selectedColorPos = position
+                        selectedSizePos = 0
+                            sizeAdapter?.updateData(selectedSizePos)
                         setData()
                     }
 
@@ -129,7 +134,7 @@ class ProductDetailFragment : BaseFragment() {
         binding?.apply {
 
             selectedSizeList.clear()
-            productData?.product?.get(selectedColorPos)?.productVariation?.let {
+            productInfo[selectedColorPos].productVariation.let {
                 selectedSizeList.addAll(
                     it
                 )
@@ -138,11 +143,12 @@ class ProductDetailFragment : BaseFragment() {
             sizeAdapter?.notifyDataSetChanged()
 
             selectedColorList.clear()
-            productData?.product?.let { selectedColorList.addAll(it) }
+
+            productInfo.let { selectedColorList.addAll(it) }
             colorAdapter?.notifyDataSetChanged()
 
             variantImageList.clear()
-            productData?.product?.get(selectedColorPos)?.variantImage?.let {
+            productInfo[selectedColorPos]?.variantImage?.let {
                 variantImageList.addAll(
                     it
                 )
@@ -159,10 +165,10 @@ class ProductDetailFragment : BaseFragment() {
             ratingBar.rating = rating
             tvRating.text = "(${productData?.reviewRating})"*/
 
-            tvPrice.text = "${(productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.actualPrice?:0)} KD"
-            tvDiscountedPrice.text = "${(productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.finalPrice?:0)} KD"
+            tvPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.actualPrice?:0)} KD"
+            tvDiscountedPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.finalPrice?:0)} KD"
 
-            val variant = productData?.product?.get(selectedColorPos)?.productVariation?.getOrNull(selectedColorPos)
+            val variant = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)
             val discountValue = variant?.discountValue ?: 0
             val discountType = if (variant?.discountType == "1")"% off" else " KD off"
             tvOffer.text = "$discountValue$discountType"
@@ -184,21 +190,21 @@ class ProductDetailFragment : BaseFragment() {
 
             if (productData?.category?.name=="Women"){
                 clWomenSize.isVisible = true
-                tvBustSize.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.bust?:"NA"
-                tvHipSize.text =productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.hip?:"NA"
-                tvShoulderSize.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.shoulder?:"NA"
-                tvWaistSize.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.waist?:"NA"
-                tvSleeveLengthSize.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.sleeveLength?:"NA"
-                tvLengthSize.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.length?:"NA"
+                tvBustSize.text = productData?.productVariants?.get(selectedColorPos)?.bust?:"NA"
+                tvHipSize.text =productData?.productVariants?.get(selectedSizePos)?.hip?:"NA"
+                tvShoulderSize.text = productData?.productVariants?.get(selectedSizePos)?.shoulder?:"NA"
+                tvWaistSize.text = productData?.productVariants?.get(selectedSizePos)?.waist?:"NA"
+                tvSleeveLengthSize.text = productData?.productVariants?.get(selectedSizePos)?.sleeveLength?:"NA"
+                tvLengthSize.text = productData?.productVariants?.get(selectedSizePos)?.length?:"NA"
 
             }
             else{
                 clWomenSize.isVisible = false
             }
 
-            tvTotalStocksValue.text =  productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.totalStock
-            tvSkuValue.text = productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.sku
-            tvSkuThresholdValue.text =  productData?.product?.get(selectedColorPos)?.productVariation?.get(selectedSizePos)?.skuThresholdValue
+            tvTotalStocksValue.text =  productData?.productVariants?.get(selectedSizePos)?.totalStock
+            tvSkuValue.text = productData?.productVariants?.get(selectedSizePos)?.sku
+            tvSkuThresholdValue.text =  productData?.productVariants?.get(selectedSizePos)?.skuThresholdValue
 
             updateStatus()
 
@@ -232,13 +238,14 @@ class ProductDetailFragment : BaseFragment() {
                 CommonMethod.shareProduct(requireActivity(),
                     productData?.productNameEn ?: "",
                     productData?.descriptionEn ?: "",
-                    productData?.product?.get(selectedColorPos)?.variantImage?.get(0) ?: ""
+                    productData?.productVariants?.get(selectedColorPos)?.variantImage?.get(0) ?: ""
                 )
             }
 
             btnEdit.setOnClickListener {
                 val bundle = Bundle().apply {
                     putString("productData", Gson().toJson(productData))
+                    putString("productInfo", Gson().toJson(productInfo))
                 }
                 findNavController().navigate(R.id.action_productDetailFragment_to_editProductFragment,bundle)
             }
@@ -340,7 +347,10 @@ class ProductDetailFragment : BaseFragment() {
                     else{
                         productData = result.data?.data
                     }
+                    productInfo .clear()
 
+                    productData?.productVariants?.let { mapVariantsToProducts(it) }
+                        ?.let { productInfo.addAll(it) }
                     setData()
                     viewModel.getProductDetailResponse.value = null
                 }
@@ -408,6 +418,53 @@ class ProductDetailFragment : BaseFragment() {
         }
 
         dialog.show()
+    }
+
+    fun mapVariantsToProducts(
+        variants: ArrayList<GetAllProductResponse.Data.AllProductData.ProductVariant>
+    ): ArrayList<AddProductRequest.Product> {
+
+        return ArrayList(
+            variants
+                .groupBy { it.colorId }   // group by color_id
+                .map { (colorId, listByColor) ->
+
+                    val images = ArrayList(listByColor.first().variantImage)
+
+                    val variationList = ArrayList(
+                        listByColor.map { variant ->
+                            AddProductRequest.Product.ProductVariation(
+                                id = variant.id.toString(),
+                                productId = variant.productId.toString(),
+                                sizeId = variant.sizeId.toString(),
+                                actualPrice = variant.actualPrice,
+                                discountType = variant.discountType,
+                                discountValue = variant.discountValue,
+                                finalPrice = variant.finalPrice,
+                                totalStock = variant.totalStock,
+                                sku = variant.sku,
+                                skuThresholdValue = variant.skuThresholdValue ?: "0",
+                                bust = variant.bust,
+                                waist = variant.waist,
+                                hip = variant.hip,
+                                shoulder = variant.shoulder,
+                                sleeveLength = variant.sleeveLength,
+                                length = variant.length,
+                                status = variant.status,
+                                createdAt = variant.createdAt,
+                                updatedAt = variant.updatedAt
+                            )
+                        }
+                    )
+
+                    AddProductRequest.Product(
+                        colorId = colorId,
+                        variantImage = images,
+                        productVariation = variationList,
+                        productId = listByColor.first().productId.toString()
+                    )
+                }
+        )
     }
 
 }

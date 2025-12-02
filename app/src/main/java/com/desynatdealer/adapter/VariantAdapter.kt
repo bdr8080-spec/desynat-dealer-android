@@ -10,11 +10,12 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.databinding.ItemAddVariantBinding
+import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 
-class VariantAdapter(var context:Context, var isWomen: Boolean=false,var variantList: ArrayList<GetAllProductResponse.Data.AllProductData.Product>, var colorList:ArrayList<GetColorResponse.Data>, var sizeList:ArrayList<GetSizeResponse.Data>,var from:Boolean=false, var variantClick:VariantClick) : RecyclerView.Adapter<VariantAdapter.ViewHolder>() {
+class VariantAdapter(var context:Context, var isWomen: Boolean=false, var variantList: ArrayList<AddProductRequest.Product>, var colorList:ArrayList<GetColorResponse.Data>, var sizeList:ArrayList<GetSizeResponse.Data>, var from:Boolean=false, var variantClick:VariantClick) : RecyclerView.Adapter<VariantAdapter.ViewHolder>() {
 
     interface VariantClick{
         fun onVariantClick(position: Int,type:Int,imagePos:Int=-1,subPos: Int=-1)

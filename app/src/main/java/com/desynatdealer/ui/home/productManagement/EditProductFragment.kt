@@ -35,6 +35,7 @@ import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -47,8 +48,8 @@ class EditProductFragment : BaseFragment() {
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var brandList = ArrayList<GetSellerBrandResponse.Data>()
     private var sizeList = ArrayList<GetSizeResponse.Data>()
-    private var variantList = ArrayList<GetAllProductResponse.Data.AllProductData.Product>()
-    private var selectedVariantList = ArrayList<GetAllProductResponse.Data.AllProductData.Product>()
+    private var variantList = ArrayList<AddProductRequest.Product>()
+    private var selectedVariantList = ArrayList<AddProductRequest.Product>()
     private var variantAdapter :VariantAdapter? =null
     private var variantColorAdapter : VariantColorAdapter? =null
     private var productData :GetAllProductResponse.Data.AllProductData?=null
@@ -110,12 +111,13 @@ class EditProductFragment : BaseFragment() {
             productData = Gson().fromJson(itemJson, GetAllProductResponse.Data.AllProductData::class.java)
             setData()
             getSubCategory(productData?.categoryId.toString())
-            variantList.clear()
-            productData?.product?.let { variantList.addAll(it) }
-        }
 
-        variantList.clear()
-        productData?.product?.let { variantList.addAll(it) }
+            variantList.clear()
+            val productInfo = arguments?.getString("productInfo")
+            val type = object : TypeToken<ArrayList<AddProductRequest.Product>>() {}.type
+            variantList = Gson().fromJson(productInfo, type)
+
+        }
 
         variantAdapter = VariantAdapter(requireActivity(),
             productData?.category?.name=="Women",variantList,colorList,sizeList,true,object:VariantAdapter.VariantClick{
@@ -146,13 +148,13 @@ class EditProductFragment : BaseFragment() {
         })
         binding?.rvVariant?.adapter = variantAdapter
 
-        selectedColorId = productData?.product?.get(0)?.colorId.toString()
+        selectedColorId = productData?.productVariants?.get(0)?.colorId.toString()
             // getVariantList()
 
 
         variantColorAdapter = VariantColorAdapter(requireActivity(),variantList,colorList,object:VariantColorAdapter.OnClick{
             override fun onClickItem(position: Int) {
-                selectedColorId = productData?.product?.get(position)?.colorId.toString()
+                selectedColorId = productData?.productVariants?.get(position)?.colorId.toString()
                 getVariantList()
             }
 
@@ -320,16 +322,16 @@ class EditProductFragment : BaseFragment() {
 
 
     private fun getVariantList() {
-        val productVariant = productData?.product
+        val productVariant = productData?.productVariants
         selectedVariantList.clear()
-        if (productVariant != null) {
-            for(i in 0 until productVariant.size){
-                if (productVariant[i].colorId==selectedColorId){
-                    selectedVariantList.add(productVariant[i])
-                }
-
-            }
-        }
+//        if (productVariant != null) {
+//            for(i in 0 until productVariant.size){
+//                if (productVariant[i].colorId==selectedColorId){
+//                    selectedVariantList.add(productVariant[i])
+//                }
+//
+//            }
+//        }
         variantAdapter?.notifyDataSetChanged()
     }
 
@@ -670,9 +672,9 @@ class EditProductFragment : BaseFragment() {
     }
 
     private fun addEmpty() {
-        val emptySubVariantList  = ArrayList<GetAllProductResponse.Data.AllProductData.Product.ProductVariation>()
+        val emptySubVariantList  = ArrayList<AddProductRequest.Product.ProductVariation>()
 
-        emptySubVariantList.add(GetAllProductResponse.Data.AllProductData.Product.ProductVariation(
+        emptySubVariantList.add(AddProductRequest.Product.ProductVariation(
             sizeId = "",
             bust = null,
             waist = null,
@@ -695,7 +697,7 @@ class EditProductFragment : BaseFragment() {
         ))
 
         variantList.add(
-            GetAllProductResponse.Data.AllProductData.Product(
+            AddProductRequest.Product(
                 colorId = "",
                 variantImage = arrayListOf(),
                 productVariation = emptySubVariantList
@@ -979,6 +981,7 @@ class EditProductFragment : BaseFragment() {
                 productSpeEn = specificationNameListEn,
                 productSpeFeatureEn = specificationFeatureListEn,
                 productSpeFeatureAr = specificationFeatureListAr,
+                productId = productData?.id.toString()
                 )
             viewModel.editProduct(request)
         }

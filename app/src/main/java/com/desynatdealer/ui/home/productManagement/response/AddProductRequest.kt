@@ -54,6 +54,60 @@ data class AddProductRequest(
     @SerializedName("upload_size_chart")
     val uploadSizeChart: String,
     @SerializedName("Products")
-    val products: List<GetAllProductResponse.Data.AllProductData.Product>,
+    val products: List<Product>,
+    @SerializedName("product_id")
+    val productId: String?=null,
 
-    )
+    ){
+    data class Product(
+        @SerializedName("color_id")
+        var colorId: String,
+        @SerializedName("product_variation")
+        val productVariation: ArrayList<ProductVariation>,
+        @SerializedName("variant_image")
+        val variantImage: ArrayList<String>,
+        @SerializedName("product_id")
+        val productId: String?=null,
+    ) {
+        data class ProductVariation(
+            @SerializedName("actual_price")
+            var actualPrice: String?=null,
+            @SerializedName("bust")
+            var bust: String?=null,
+            @SerializedName("created_at")
+            var createdAt: String?=null,
+            @SerializedName("discount_type")
+            var discountType: String,
+            @SerializedName("discount_value")
+            var discountValue: String,
+            @SerializedName("final_price")
+            var finalPrice: String,
+            @SerializedName("hip")
+            var hip: String?=null,
+            @SerializedName("id")
+            var id: String?=null,
+            @SerializedName("length")
+            var length: String?=null,
+            @SerializedName("product_id")
+            var productId: String?=null,
+            @SerializedName("shoulder")
+            var shoulder: String?=null,
+            @SerializedName("size_id")
+            var sizeId: String,
+            @SerializedName("sku")
+            var sku: String,
+            @SerializedName("sku_threshold_value")
+            var skuThresholdValue: String,
+            @SerializedName("sleeve_length")
+            var sleeveLength: String?=null,
+            @SerializedName("status")
+            var status: String?=null,
+            @SerializedName("total_stock")
+            var totalStock: String,
+            @SerializedName("updated_at")
+            var updatedAt: String?=null,
+            @SerializedName("waist")
+            var waist: String?=null
+        )
+    }
+}

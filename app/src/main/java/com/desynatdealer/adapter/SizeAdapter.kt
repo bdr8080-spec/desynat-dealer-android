@@ -11,11 +11,12 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemColorBinding
 import com.desynatdealer.databinding.ItemProductBinding
 import com.desynatdealer.databinding.ItemSizeBinding
+import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 
-class SizeAdapter(var context:Context, var productSizeList: ArrayList<GetAllProductResponse.Data.AllProductData.Product.ProductVariation>, var sizeList:ArrayList<GetSizeResponse.Data>,var onClick:OnClick) : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
+class SizeAdapter(var context:Context, var productSizeList: ArrayList<AddProductRequest.Product.ProductVariation>, var sizeList:ArrayList<GetSizeResponse.Data>,var onClick:OnClick) : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
     var selectedPos = 0
     interface OnClick{
         fun onClickItem(position: Int)
@@ -55,6 +56,11 @@ class SizeAdapter(var context:Context, var productSizeList: ArrayList<GetAllProd
             notifyDataSetChanged()
         }
 
+    }
+
+    fun updateData(pos:Int){
+        selectedPos = pos
+        notifyDataSetChanged()
     }
 
 

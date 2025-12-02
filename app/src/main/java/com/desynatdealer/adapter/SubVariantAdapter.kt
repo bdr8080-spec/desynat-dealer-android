@@ -12,13 +12,14 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.databinding.ItemSubVariantBinding
+import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.showToast
 
-class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var variantList: ArrayList<GetAllProductResponse.Data.AllProductData.Product.ProductVariation>, var colorList:ArrayList<GetColorResponse.Data>, var sizeList:ArrayList<GetSizeResponse.Data>, var from:Boolean=false, var subVariantClick:SubVariantClick) : RecyclerView.Adapter<SubVariantAdapter.ViewHolder>() {
+class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var variantList: ArrayList<AddProductRequest.Product.ProductVariation>, var colorList:ArrayList<GetColorResponse.Data>, var sizeList:ArrayList<GetSizeResponse.Data>, var from:Boolean=false, var subVariantClick:SubVariantClick) : RecyclerView.Adapter<SubVariantAdapter.ViewHolder>() {
 
     interface SubVariantClick{
         fun onSubVariantClick(position: Int,type:Int)
@@ -55,6 +56,8 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val variantData = variantList[position]
         holder.binding.apply {
+
+            ivDelete.isVisible = variantList.size > 1
 
             if (from){
                 llPrice.backgroundTintList = null
@@ -222,6 +225,11 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
             }
         }
 
+        holder.binding.ivDelete.setOnClickListener {
+            variantList.removeAt(position)
+            notifyDataSetChanged()
+        }
+
     }
 
     private fun setYesNoCheckbox(value: String?, yesCB: RadioButton, noCB: RadioButton) {
@@ -244,7 +252,7 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
         popup.show()
     }
 
-    private fun calculateFinalPrice(variant: GetAllProductResponse.Data.AllProductData.Product.ProductVariation) {
+    private fun calculateFinalPrice(variant: AddProductRequest.Product.ProductVariation) {
         val actual = variant.actualPrice?.toDoubleOrNull() ?: 0.0
         val discount = variant.discountValue?.toDoubleOrNull() ?: 0.0
 
@@ -264,7 +272,7 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
 
     private fun addEmptySubVariant(parentPos: Int) {
 
-        val empty = GetAllProductResponse.Data.AllProductData.Product.ProductVariation(
+        val empty = AddProductRequest.Product.ProductVariation(
             sizeId = "",
             bust = null,
             waist = null,

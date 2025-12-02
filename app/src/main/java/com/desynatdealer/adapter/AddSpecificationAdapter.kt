@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.databinding.ItemAddSpecificationBinding
 import com.desynatdealer.databinding.ItemSpecificationBinding
@@ -33,7 +34,7 @@ class AddSpecificationAdapter(var context:Context, var specificationList: ArrayL
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
-
+            ivDelete.isVisible = specificationList.size > 1
             CommonMethod.applyArabicOnlyFilter(etNameArabic)
             CommonMethod.applyArabicOnlyFilter(etFeatureArabic)
             CommonMethod.removeSpace(etName)
@@ -69,6 +70,12 @@ class AddSpecificationAdapter(var context:Context, var specificationList: ArrayL
             specificationList[pos].featureEn = value
         }
         holder.binding.etFeature.addTextChangedListener(holder.featureEnWatcher)
+
+        holder.binding.ivDelete.setOnClickListener {
+            specificationList.removeAt(position)
+            notifyDataSetChanged()
+        }
+
     }
 
 

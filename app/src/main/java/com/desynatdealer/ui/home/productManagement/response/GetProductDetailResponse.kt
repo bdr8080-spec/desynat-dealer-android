@@ -94,7 +94,7 @@ data class GetProductDetailResponse(
             @SerializedName("actual_price")
             val actualPrice: String,
             @SerializedName("bust")
-            val bust: Any,
+            val bust: String?=null,
             @SerializedName("color")
             val color: Color,
             @SerializedName("color_id")
@@ -108,15 +108,15 @@ data class GetProductDetailResponse(
             @SerializedName("final_price")
             val finalPrice: String,
             @SerializedName("hip")
-            val hip: Any,
+            val hip: String?=null,
             @SerializedName("id")
             val id: Int,
             @SerializedName("length")
-            val length: Any,
+            val length: String?=null,
             @SerializedName("product_id")
             val productId: Int,
             @SerializedName("shoulder")
-            val shoulder: Any,
+            val shoulder: String?=null,
             @SerializedName("size_id")
             val sizeId: String,
             @SerializedName("sku")
@@ -124,7 +124,7 @@ data class GetProductDetailResponse(
             @SerializedName("sku_threshold_value")
             val skuThresholdValue: String,
             @SerializedName("sleeve_length")
-            val sleeveLength: Any,
+            val sleeveLength: String?=null,
             @SerializedName("status")
             val status: String,
             @SerializedName("total_stock")
@@ -134,7 +134,7 @@ data class GetProductDetailResponse(
             @SerializedName("variant_image")
             val variantImage: List<String>,
             @SerializedName("waist")
-            val waist: Any
+            val waist: String?=null
         ) {
             data class Color(
                 @SerializedName("created_at")

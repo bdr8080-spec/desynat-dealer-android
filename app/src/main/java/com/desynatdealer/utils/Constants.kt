@@ -31,7 +31,8 @@ object Constants {
     const val STORE_ON_OFF = "/api/seller/store_on_off"
    // const val ADD_PRODUCT = "/api/seller/add-product"
     const val ADD_PRODUCT = "/api/seller/add-product1"
-    const val UPDATE_PRODUCT = "/api/seller/edit-product"
+ //   const val UPDATE_PRODUCT = "/api/seller/edit-product"000000
+    const val UPDATE_PRODUCT = "/api/seller/edit-product1"
 
     const val GET_ALL_PRODUCT = "/api/seller/all-product"
     const val PRODUCT_DETAIL = "/api/seller/single-product-details"
