@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_15sdp"
+    android:layout_marginTop="@dimen/_10sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -12,14 +12,15 @@
         android:layout_marginEnd="@dimen/_15sdp"
         android:layout_marginStart="@dimen/_15sdp"
         android:text="Size"
+        android:layout_marginTop="@dimen/_15sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etSize"
         style="@style/edit_text"
-        android:layout_width="0dp"
-        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/_15sdp"
         android:background="@drawable/edit_back"
         android:hint="Select"
         android:inputType="text"
@@ -48,7 +49,7 @@
         android:layout_height="@dimen/_24sdp"
         android:layout_marginEnd="@dimen/_15sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvSize"
+       app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/ic_add"/>
 
     <androidx.appcompat.widget.AppCompatImageView
