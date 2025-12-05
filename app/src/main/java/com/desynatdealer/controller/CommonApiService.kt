@@ -133,6 +133,17 @@ interface CommonApiService {
 
  //   @DELETE(Constants.DELETE_PRODUCT)
     @HTTP(method = "DELETE", path = Constants.DELETE_PRODUCT, hasBody = true)
-
     suspend fun deleteProduct(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.ALL_INVENTORY_PRODUCT)
+    suspend fun getAllInventoryProduct(@Body map: HashMap<String, Any>): Response<GetAllProductResponse>
+
+    @POST(Constants.SINGLE_INVENTORY_DETAIL)
+    suspend fun getInventoryProductDetail(@Body map: HashMap<String, Any>): Response<GetProductDetailResponse>
+
+    @PUT(Constants.PRODUCT_ACTIVE_INACTIVE)
+    suspend fun updateInventoryProductStatus(@Body map: HashMap<String, Any>): Response<GetProductDetailResponse>
+
+    @PUT(Constants.UPDATE_INVENTORY_STOCK)
+    suspend fun updateInventoryProductStock(@Body map: HashMap<String, Any>): Response<CommonResponse>
 }

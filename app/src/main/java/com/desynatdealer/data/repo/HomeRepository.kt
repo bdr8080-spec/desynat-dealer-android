@@ -172,4 +172,36 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
             ApiResult.Error("Syntax Error")
         }
     }
+
+    suspend fun getAllInventoryProduct(map: HashMap<String, Any>): ApiResult<GetAllProductResponse> {
+        return try {
+            networkCall(api.getAllInventoryProduct(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun getInventoryProductDetail(map: HashMap<String, Any>): ApiResult<GetProductDetailResponse> {
+        return try {
+            networkCall(api.getInventoryProductDetail(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun updateInventoryProductStatus(map: HashMap<String, Any>): ApiResult<GetProductDetailResponse> {
+        return try {
+            networkCall(api.updateInventoryProductStatus(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun updateInventoryProductStock(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.updateInventoryProductStock(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
 }

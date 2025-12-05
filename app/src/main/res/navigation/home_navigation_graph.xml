@@ -9,7 +9,13 @@
         android:id="@+id/home"
         android:name="com.desynatdealer.ui.home.fragment.HomeFragment"
         android:label="Home Fragment"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profile"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/subscription"
@@ -98,5 +104,83 @@
         android:name="com.desynatdealer.ui.home.productManagement.EditProductFragment"
         android:label="Edit Product Fragment"
         tools:layout="@layout/fragment_edit_product"/>
+
+
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.desynatdealer.ui.home.profile.ProfileFragment"
+        android:label="Profile Fragment"
+        tools:layout="@layout/fragment_profile">
+
+    <action
+        android:id="@+id/action_profileFragment_to_inventoryProductManagementFragment"
+        app:destination="@id/inventoryProductManagement"/>
+
+        <action
+        android:id="@+id/action_profileFragment_to_affiliatedCommissionFragment"
+        app:destination="@id/affiliatedCommission"/>
+
+        <action
+        android:id="@+id/action_profileFragment_to_viewProfileFragment"
+        app:destination="@id/viewProfile"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/inventoryProductManagement"
+        android:name="com.desynatdealer.ui.home.inventoryManagement.InventoryManagementFragment"
+        android:label="Inventory Product Management Fragment"
+        tools:layout="@layout/fragment_inventory_management">
+
+        <action
+            android:id="@+id/action_inventoryProductManagementFragment_to_inventoryProductDetailFragment"
+            app:destination="@id/inventoryProductDetail"/>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/inventoryProductDetail"
+        android:name="com.desynatdealer.ui.home.inventoryManagement.InventoryProductDetailFragment"
+        android:label="Inventory Product Detail Fragment"
+        tools:layout="@layout/fragment_inventory_product_detail">
+
+        <action
+            android:id="@+id/action_inventoryProductDetailFragment_to_editInventoryFragment"
+            app:destination="@id/editInventory"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/editInventory"
+        android:name="com.desynatdealer.ui.home.inventoryManagement.EditInventoryProductFragment"
+        android:label="Edit Inventory Fragment"
+        tools:layout="@layout/fragment_edit_inventory_product"/>
+
+    <fragment
+        android:id="@+id/affiliatedCommission"
+        android:name="com.desynatdealer.ui.home.fragment.AffiliatedCommissionFragment"
+        android:label="Affiliated Commission Fragment"
+        tools:layout="@layout/fragment_affiliated_commission"/>
+
+    <fragment
+        android:id="@+id/viewProfile"
+        android:name="com.desynatdealer.ui.home.profile.ViewProfileFragment"
+        android:label="Profile Fragment"
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_viewProfileFragment_to_editProfileFragment"
+            app:destination="@id/editProfile"/>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.desynatdealer.ui.home.profile.EditProfileFragment"
+        android:label="Edit Profile Fragment"
+        tools:layout="@layout/fragment_edit_profile"/>
+
 
 </navigation>

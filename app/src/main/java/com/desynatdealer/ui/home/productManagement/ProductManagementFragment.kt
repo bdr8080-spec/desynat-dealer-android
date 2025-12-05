@@ -1,12 +1,19 @@
 package com.desynatdealer.ui.home.productManagement
 
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.adapter.ProductAdapter
@@ -14,16 +21,21 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentProductManagementBinding
+import com.desynatdealer.databinding.ProductFilterDialogBinding
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
-import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
+import com.desynatdealer.adapter.FilterBrandAdapter
+import com.desynatdealer.adapter.FilterCategoryAdapter
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProductManagementFragment : BaseFragment() {
@@ -40,6 +52,14 @@ class ProductManagementFragment : BaseFragment() {
     private var sizeList = ArrayList<GetSizeResponse.Data>()
 
     var selectedPos = -1
+
+    private var search: Job? = null
+    private var lastQuery: String? = null
+
+    private var filterBrandAdapter: FilterBrandAdapter? = null
+    private var filterCategoryAdapter: FilterCategoryAdapter? = null
+    private var selectedBrandList = ArrayList<GetSellerBrandResponse.Data>()
+    private var selectedCategory: GetCategoryResponse.Data?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,6 +98,38 @@ class ProductManagementFragment : BaseFragment() {
 
             })
             rvProduct.adapter = productAdapter
+
+            etSearch.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    val query = s.toString().trim()
+                    if (query == lastQuery) return
+                    lastQuery = query
+                    search?.cancel()
+                    search = lifecycleScope.launch {
+                        delay(600)
+
+                        getAllProduct()
+
+                    }
+                }
+            })
+
         }
         getProductInfo()
         getAllProduct()
@@ -87,6 +139,10 @@ class ProductManagementFragment : BaseFragment() {
         binding?.apply {
             ivAdd.setOnClickListener {
                 findNavController().navigate(R.id.action_productManagementFragment_to_addProductFragment)
+            }
+
+            ivFilter.setOnClickListener {
+                productFilterDialog()
             }
 
             tvAll.setOnClickListener {
@@ -227,7 +283,7 @@ class ProductManagementFragment : BaseFragment() {
                 ApiResult.Loading -> {
                 }
                 is ApiResult.Success -> {
-                    categoryList.clear()
+                    sizeList.clear()
                     result.data?.data?.let { sizeList.addAll(it) }
                     viewModel.sizeList.value = sizeList
                     viewModel.sizeResponse.value = null
@@ -302,6 +358,16 @@ class ProductManagementFragment : BaseFragment() {
     private fun getAllProduct(){
         val map = HashMap<String,Any>()
         map["type"] = type
+        if (lastQuery!=null) {
+            map["search"] = lastQuery.toString()
+        }
+        if (selectedCategory!=null) {
+            map["cargory_filter"] = arrayListOf(selectedCategory?.id.toString())
+        }
+
+        if (selectedBrandList.isNotEmpty()) {
+            map["brand_filter"] = selectedBrandList.map { it.id }
+        }
         viewModel.getAllProduct(map)
     }
 
@@ -317,6 +383,80 @@ class ProductManagementFragment : BaseFragment() {
         val map = HashMap<String,Any>()
         map["product_id"] = productList[selectedPos].id.toString()
         viewModel.updateProductStatus(map)
+    }
+
+    private fun productFilterDialog() {
+        var category : GetCategoryResponse.Data? = null
+        val dialog = Dialog(requireActivity(), R.style.CustomDialog)
+        val dialogBinding = ProductFilterDialogBinding.inflate(LayoutInflater.from(context))
+        dialogBinding.root.let { dialog.setContentView(it) }
+
+        val window: Window = dialog.window!!
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        window.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+
+        val params: WindowManager.LayoutParams = window.attributes
+        params.gravity = Gravity.BOTTOM
+        window.attributes = params
+
+        dialogBinding.apply {
+
+            brandList.forEach { it.isSelected = false }
+
+            if (selectedBrandList.isNotEmpty()) {
+                brandList.forEach { brand ->
+                    brand.isSelected = selectedBrandList.any { it.id == brand.id }
+                }
+            }
+
+            filterBrandAdapter = FilterBrandAdapter(requireActivity(), brandList,object :
+                FilterBrandAdapter.OnClick{
+                override fun onClickItem(position: Int) {
+
+                }
+
+            })
+            rvBrand.adapter = filterBrandAdapter
+
+            filterCategoryAdapter = FilterCategoryAdapter(requireActivity(), categoryList,object :FilterCategoryAdapter.OnClick{
+                override fun onClickItem(position: Int) {
+                    selectedCategory = categoryList[position]
+                }
+
+            })
+            filterCategoryAdapter?.setSelectedCategoryId(selectedCategory?.id)
+            rvCategory.adapter = filterCategoryAdapter
+
+            tvToolbar.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            tvClear.setOnClickListener {
+                selectedCategory = null
+                selectedBrandList.clear()
+                getAllProduct()
+                dialog.dismiss()
+            }
+
+            tvApply.setOnClickListener{
+                selectedCategory = category
+                selectedBrandList.clear()
+                for(i in 0 until brandList.size){
+                    if (brandList[i].isSelected) {
+                        selectedBrandList.add(brandList[i])
+                    }
+                }
+                getAllProduct()
+                dialog.dismiss()
+            }
+
+        }
+
+        dialog.show()
     }
 
 

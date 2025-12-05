@@ -38,4 +38,11 @@ object Constants {
     const val PRODUCT_DETAIL = "/api/seller/single-product-details"
     const val PRODUCT_ACTIVE_INACTIVE = "/api/seller/product-status-active-inactive"
     const val DELETE_PRODUCT = "/api/seller/product-delete"
+
+    const val ALL_INVENTORY_PRODUCT = "/api/seller/all-Inventory-product"
+    const val SINGLE_INVENTORY_DETAIL = "/api/seller/single-product-details"
+    const val UPDATE_INVENTORY_STOCK = "/api/seller/update-stock-inventory"
+    const val UPDATE_AFFILIATE_COMMISSION = "/api/seller/update-affilate-commission"
+    const val UPDATE_STORE_INFO = "/api/seller/update-store-information"
+    const val UPDATE_STORE_BANK_DETAIL = "/api/seller/update-store-bank-details"
 }

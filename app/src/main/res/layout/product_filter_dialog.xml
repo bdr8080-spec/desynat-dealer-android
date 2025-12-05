@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/bottomsheet_bg"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/_15sdp"
+    android:paddingHorizontal="@dimen/_15sdp"
+    android:background="@drawable/bottomsheet_bg"
+    android:backgroundTint="#FFF7EA"
+    android:fontFamily="@font/poppins_medium"
+    android:text="Filter"
+    android:textColor="@color/black"
+    android:drawableEnd="@drawable/close_icon"
+    android:textSize="@dimen/_13sdp"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="Filter by Category"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        android:layout_marginTop="@dimen/_5sdp"
+        tools:listitem="@layout/item_brand"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="2"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="Filter by Brand"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvBrand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        tools:listitem="@layout/item_brand"
+        android:nestedScrollingEnabled="false"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="2"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp">
+
+        <TextView
+            android:id="@+id/tvClear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/brown_stroke"
+            android:text="Clear"
+            android:textColor="@color/brown"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="@dimen/_12sdp"
+            android:paddingVertical="@dimen/_8sdp"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:fontFamily="@font/poppins_medium"
+            app:layout_constraintEnd_toStartOf="@+id/tvApply"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvApply"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_gradient"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:text="Apply"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingVertical="@dimen/_8sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tvClear"
+            app:layout_constraintTop_toTopOf="@+id/tvClear" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>
+
+

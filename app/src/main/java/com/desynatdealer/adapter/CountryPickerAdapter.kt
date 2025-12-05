@@ -35,7 +35,7 @@ class CountryPickerAdapter(var context:Context, var countryList: ArrayList<GetCo
         holder.binding.apply {
             tvCountry.text = "${countryList[position].flag}  ${countryList[position].name} (${countryList[position].dialCode})"
             ivFlag.isVisible = false
-            ivFlag.load(countryList[position].flag1)
+        //    ivFlag.load(countryList[position].flag1)
         }
 
         holder.itemView.setOnClickListener {

@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.home.profile.EditProfileFragment">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/common_toolbar"/>
+
+    <LinearLayout
+        android:id="@+id/llInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:background="@drawable/brown_stroke"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPersonalInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Personal Info"
+            android:textSize="@dimen/_12sdp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/selected_left_tab"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Bank Details"
+            android:textSize="@dimen/_12sdp"
+            android:gravity="center"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/llInfo"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="@dimen/_15sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="visible"
+                android:id="@+id/clPersonalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivProfileImage"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:src="@drawable/ic_user"
+                    android:scaleType="centerCrop"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    app:shapeAppearanceOverlay="@style/circle_image"
+                    android:clipToOutline="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/brown_stroke"
+                    android:text="Change Image"
+                    android:paddingVertical="@dimen/_7sdp"
+                    android:paddingHorizontal="@dimen/_7sdp"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:textColor="@color/brown"
+                    android:textSize="@dimen/_11sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvFirstName"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="First Name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivProfileImage" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etFirstName"
+                    style="@style/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:hint="Enter First Name"
+                    android:inputType="textCapSentences"
+                    android:maxLength="20"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFirstName" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvLastName"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Last Name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etLastName"
+                    style="@style/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:hint="Enter Last Name"
+                    android:maxLength="20"
+                    android:inputType="textCapSentences"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLastName" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMobile"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Mobile Number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etLastName" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMobile">
+
+                    <com.hbb20.CountryCodePicker
+                        android:visibility="gone"
+                        android:id="@+id/ccp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:ccp_showArrow="false"
+                        app:ccp_showFlag="false"
+                        app:ccp_showNameCode="false"
+                        app:ccp_autoDetectCountry="false"
+                        app:ccp_defaultNameCode="KW"
+                        app:layout_constraintBottom_toBottomOf="@+id/etMobile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/etMobile" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvCountryPicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="+965"
+                        android:paddingVertical="@dimen/_10sdp"
+                        android:drawableEnd="@drawable/ic_drop_down"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/etMobile"
+                        app:layout_constraintBottom_toBottomOf="@+id/etMobile"/>
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/etMobile"
+                        style="@style/edit_text"
+                        android:layout_width="0dp"
+                        android:background="@null"
+                        android:hint="@string/enter_mobile_number"
+                        android:inputType="number"
+                        android:maxLength="15"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tvCountryPicker"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvEmail"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Email Address"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clMobile" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etEmail"
+                    style="@style/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:drawableStart="@drawable/ic_email"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:hint="Enter Email Address"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivStoreImage"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:src="@color/grey"
+                    android:scaleType="centerCrop"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    app:shapeAppearanceOverlay="@style/rounded_corner4sdp"
+                    android:clipToOutline="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etEmail"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeStoreImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/brown_stroke"
+                    android:text="Change Image"
+                    android:paddingVertical="@dimen/_7sdp"
+                    android:paddingHorizontal="@dimen/_7sdp"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:textColor="@color/brown"
+                    android:textSize="@dimen/_11sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/ivStoreImage"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivStoreImage"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvStoreName"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="Store Name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivStoreImage" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etStoreName"
+                    style="@style/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:hint="Enter store name"
+                    android:inputType="text"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStoreName" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCountry"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="Choose Country"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etStoreName" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etCountry"
+                    style="@style/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Country"
+                    android:inputType="text"
+                    android:drawableEnd="@drawable/ic_drop_down"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCountry" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvStoreAddress"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="Store Address"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etCountry" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etStoreAddress"
+                    style="@style/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_current_loc"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Enter Store address"
+                    android:inputType="text"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStoreAddress" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAddress1"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Address line 1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etStoreAddress" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAddress1"
+                    style="@style/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:hint="Enter address line 1"
+                    android:inputType="text"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAddress1" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAddress2"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Address line 2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etAddress1" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAddress2"
+                    style="@style/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:hint="Enter address line 2"
+                    android:inputType="text"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAddress2" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvStoreMobile"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Store Phone Number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etAddress2" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clStoreMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStoreMobile">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvStoreCountryPicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="+965"
+                        android:drawableEnd="@drawable/ic_drop_down"
+                        android:paddingVertical="@dimen/_10sdp"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/etStoreMobile"
+                        app:layout_constraintBottom_toBottomOf="@+id/etStoreMobile"/>
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/etStoreMobile"
+                        style="@style/edit_text"
+                        android:layout_width="0dp"
+                        android:background="@null"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:hint="Enter Store Phone Number"
+                        android:inputType="number"
+                        android:maxLength="15"
+                        android:paddingHorizontal="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tvStoreCountryPicker"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvStoreEmail"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Store mail Id"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clStoreMobile" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etStoreEmail"
+                    style="@style/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:hint="Enter Store mail Id"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStoreEmail" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBio"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Bio"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etStoreEmail" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etBio"
+                    style="@style/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edit_back"
+                    android:gravity="top"
+                    android:hint="Enter bio"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLines="4"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBio" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
+                android:id="@+id/clBankInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBankDetails"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="Bank details"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="@dimen/_12sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAccountType"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Account Type"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBankDetails"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <RadioGroup
+                    android:id="@+id/rgAccountType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAccountType">
+
+                    <RadioButton
+                        android:id="@+id/cbPersonal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Personal"
+                        android:textColor="@color/black"
+                        android:paddingVertical="@dimen/_12sdp"
+                        android:button="@drawable/selector_radio_icon"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:checked="true"
+                        app:buttonTint="@null"
+                        android:drawableTint="@null"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="@dimen/_11sdp"/>
+
+                    <RadioButton
+                        android:id="@+id/cbBusiness"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Business"
+                        android:textColor="@color/black"
+                        android:paddingVertical="@dimen/_12sdp"
+                        android:button="@drawable/selector_radio_icon"
+                        android:layout_marginHorizontal="@dimen/_15sdp"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:checked="false"
+                        app:buttonTint="@null"
+                        android:drawableTint="@null"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="@dimen/_11sdp"/>
+
+                </RadioGroup>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvIban"
+                    android:layout_width="wrap_content"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="IBAN"
+                    app:layout_constraintTop_toBottomOf="@+id/rgAccountType"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(Optional)"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    app:layout_constraintTop_toTopOf="@+id/tvIban"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvIban"
+                    app:layout_constraintStart_toEndOf="@+id/tvIban"/>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etIban"
+                    android:layout_width="match_parent"
+                    style="@style/edit_text"
+                    android:hint="Enter IBAN"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:inputType="text"
+                    android:background="@drawable/edit_back"
+                    app:layout_constraintTop_toBottomOf="@+id/tvIban"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSwift"
+                    android:layout_width="wrap_content"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="SWIFT/BIC"
+                    app:layout_constraintTop_toBottomOf="@+id/etIban"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(Optional)"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    app:layout_constraintTop_toTopOf="@+id/tvSwift"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvSwift"
+                    app:layout_constraintStart_toEndOf="@+id/tvSwift"/>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etSwift"
+                    android:layout_width="match_parent"
+                    style="@style/edit_text"
+                    android:hint="Enter SWIFT/BIC"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:inputType="text"
+                    android:background="@drawable/edit_back"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSwift"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBankName"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="Bank Name"
+                    app:layout_constraintTop_toBottomOf="@+id/etSwift"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etBankName"
+                    android:layout_width="match_parent"
+                    style="@style/edit_text"
+                    android:hint="Enter Bank Name"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:inputType="textCapSentences"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:background="@drawable/edit_back"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBankName"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAccountHolderName"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Account holder name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etBankName"/>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAccountHolderName"
+                    android:layout_width="match_parent"
+                    style="@style/edit_text"
+                    android:hint="Enter Account holder name"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:inputType="textCapSentences"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:background="@drawable/edit_back"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAccountHolderName"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAccountProof"
+                    style="@style/edit_text_title"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Upload proof of account"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etAccountHolderName"/>
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivBank"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal"
+                    app:shapeAppearanceOverlay="@style/rounded_corner4sdp"
+                    android:scaleType="centerCrop"
+                    android:clipToOutline="true"
+                    android:background="@drawable/grey_dash_rectangle"
+                    android:src="@drawable/ic_bank_placeholder"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAccountProof"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnSaveChanges"
+                style="@style/button"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:text="Save Changes" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

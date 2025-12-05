@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.home.profile.ProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF7EA"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/ic_user"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:clipToOutline="true"
+            app:shapeAppearanceOverlay="@style/circle_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:text="Ahmed Farhan"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/black"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            app:layout_constraintEnd_toStartOf="@+id/ivViewProfile"
+            app:layout_constraintStart_toEndOf="@id/ivProfileImage"
+            app:layout_constraintTop_toTopOf="@id/ivProfileImage"
+            app:layout_constraintBottom_toTopOf="@+id/tvEmail"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="farhan713@mail.com"
+            android:textSize="@dimen/_10sdp"
+            android:textColor="@color/black"
+            android:alpha="0.67"
+            app:layout_constraintBottom_toBottomOf="@id/ivProfileImage"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivViewProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/view_profile"
+            android:layout_marginEnd="@dimen/_15sdp"
+            app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
+            app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/clProfile"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rlStaffManagement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivStaffManagement"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_staff_mangement" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvStaffManagement"
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoStaffManagement"
+                    android:layout_toEndOf="@id/ivStaffManagement"
+                    android:text="Staff management" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoStaffManagement"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlSubscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivSubscription"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_subscription_plan" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoSubscription"
+                    android:layout_toEndOf="@id/ivSubscription"
+                    android:text="Subscription Plans" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoSubscription"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivBanner"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_banner_mangement" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoBanner"
+                    android:layout_toEndOf="@id/ivBanner"
+                    android:text="Banner management" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoBanner"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlLiveCoverage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivLiveCoverage"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_faq" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoLiveCoverage"
+                    android:layout_toEndOf="@id/ivLiveCoverage"
+                    android:text="Live Coverage request" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoLiveCoverage"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlDeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivDeal"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_language" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoDeal"
+                    android:layout_toEndOf="@id/ivDeal"
+                    android:text="Deals management" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoDeal"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlRefund"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivRefund"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_refund" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoRefund"
+                    android:layout_toEndOf="@id/ivRefund"
+                    android:text="Refund management" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoRefund"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlInventory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivInventory"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_inventory" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoInventory"
+                    android:layout_toEndOf="@id/ivInventory"
+                    android:text="Inventory management " />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoInventory"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlAffiliate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivAffiliate"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_affiliated_commission" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoAffiliate"
+                    android:layout_toEndOf="@id/ivAffiliate"
+                    android:text="Affiliated Commission" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoAffiliate"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rlTerms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivTerms"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_terms" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoTerms"
+                    android:layout_toEndOf="@id/ivTerms"
+                    android:text="Terms &amp; Condition" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoTerms"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlReturnPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivReturnPolicy"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_return_policy" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvReturnPolicy"
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoReturnPolicy"
+                    android:layout_toEndOf="@id/ivReturnPolicy"
+                    android:text="Return Policy" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoReturnPolicy"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivAbout"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_about_us" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSubAdmin"
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoAbout"
+                    android:layout_toEndOf="@id/ivAbout"
+                    android:text="About Us" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoAbout"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlFaq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivFaq"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_faq" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoFaq"
+                    android:layout_toEndOf="@id/ivFaq"
+                    android:text="Faq" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoFaq"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivLanguage"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_language" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSeller"
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoLanguage"
+                    android:layout_toEndOf="@id/ivLanguage"
+                    android:text="Change Language" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoLanguage"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlCancellationPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivCancellationPolicy"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_terms" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toLeftOf="@+id/ivGoCancellationPolicy"
+                    android:layout_toEndOf="@id/ivCancellationPolicy"
+                    android:text="Cancellation Policy"
+                    tools:ignore="RtlHardcoded" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoCancellationPolicy"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlExchange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivExchange"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_exchange_policy" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoExchange"
+                    android:layout_toEndOf="@id/ivExchange"
+                    android:text="Exchange Policy" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoExchange"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlSupport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivSupport"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_support_chat" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoSupport"
+                    android:layout_toEndOf="@id/ivSupport"
+                    android:text="Support" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoSupport"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rlSetting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivSetting"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_setting" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoSetting"
+                    android:layout_toEndOf="@id/ivSetting"
+                    android:text="Setting" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoSetting"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/relLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/brown_stroke">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Logout"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/brown"
+                    android:fontFamily="@font/poppins_medium"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:drawableStart="@drawable/ic_logout" />
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="App Version 1.0"
+                android:textColor="#66000000"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/poppins_medium"
+                android:paddingVertical="@dimen/_10sdp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

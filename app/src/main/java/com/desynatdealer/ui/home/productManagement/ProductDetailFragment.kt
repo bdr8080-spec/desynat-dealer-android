@@ -190,21 +190,21 @@ class ProductDetailFragment : BaseFragment() {
 
             if (productData?.category?.name=="Women"){
                 clWomenSize.isVisible = true
-                tvBustSize.text = productData?.productVariants?.get(selectedColorPos)?.bust?:"NA"
-                tvHipSize.text =productData?.productVariants?.get(selectedSizePos)?.hip?:"NA"
-                tvShoulderSize.text = productData?.productVariants?.get(selectedSizePos)?.shoulder?:"NA"
-                tvWaistSize.text = productData?.productVariants?.get(selectedSizePos)?.waist?:"NA"
-                tvSleeveLengthSize.text = productData?.productVariants?.get(selectedSizePos)?.sleeveLength?:"NA"
-                tvLengthSize.text = productData?.productVariants?.get(selectedSizePos)?.length?:"NA"
+                tvBustSize.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.bust?:"NA"
+                tvHipSize.text =productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.hip?:"NA"
+                tvShoulderSize.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.shoulder?:"NA"
+                tvWaistSize.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.waist?:"NA"
+                tvSleeveLengthSize.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.sleeveLength?:"NA"
+                tvLengthSize.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.length?:"NA"
 
             }
             else{
                 clWomenSize.isVisible = false
             }
 
-            tvTotalStocksValue.text =  productData?.productVariants?.get(selectedSizePos)?.totalStock
-            tvSkuValue.text = productData?.productVariants?.get(selectedSizePos)?.sku
-            tvSkuThresholdValue.text =  productData?.productVariants?.get(selectedSizePos)?.skuThresholdValue
+            tvTotalStocksValue.text =  productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.totalStock
+            tvSkuValue.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.sku
+//            tvSkuThresholdValue.text =  productData?.productVariants?.get(selectedSizePos)?.skuThresholdValue
 
             updateStatus()
 

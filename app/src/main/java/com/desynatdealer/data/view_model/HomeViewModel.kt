@@ -270,4 +270,52 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _getInventoryProductResponse =
+        MutableLiveData<ApiResult<GetAllProductResponse>?>()
+    val getInventoryProductResponse: MutableLiveData<ApiResult<GetAllProductResponse>?>
+        get() = _getInventoryProductResponse
+    fun getAllInventoryProduct(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getInventoryProductResponse.value = ApiResult.Loading
+            _getInventoryProductResponse.value = repo.getAllInventoryProduct(map)
+        }
+    }
+
+    private val _getInventoryProductDetailResponse =
+        MutableLiveData<ApiResult<GetProductDetailResponse>?>()
+    val getInventoryProductDetailResponse: MutableLiveData<ApiResult<GetProductDetailResponse>?>
+        get() = _getInventoryProductDetailResponse
+
+    fun getInventoryProductDetail(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getInventoryProductDetailResponse.value = ApiResult.Loading
+            _getInventoryProductDetailResponse.value = repo.getInventoryProductDetail(map)
+        }
+    }
+
+    private val _updateInventoryProductStatusResponse =
+        MutableLiveData<ApiResult<GetProductDetailResponse>?>()
+    val updateInventoryProductStatusResponse: MutableLiveData<ApiResult<GetProductDetailResponse>?>
+        get() = _updateInventoryProductStatusResponse
+
+    fun updateInventoryProductStatus(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _updateInventoryProductStatusResponse.value = ApiResult.Loading
+            _updateInventoryProductStatusResponse.value = repo.updateInventoryProductStatus(map)
+        }
+    }
+
+    private val _updateInventoryProductStockResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val updateInventoryProductStockResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _updateInventoryProductStockResponse
+
+    fun updateInventoryProductStock(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _updateInventoryProductStockResponse.value = ApiResult.Loading
+            _updateInventoryProductStockResponse.value = repo.updateInventoryProductStock(map)
+        }
+    }
+
+
 }

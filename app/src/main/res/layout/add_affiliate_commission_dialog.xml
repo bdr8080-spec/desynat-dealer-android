@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bottomsheet_bg"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/_15sdp"
+    android:paddingHorizontal="@dimen/_15sdp"
+    android:background="@drawable/bottomsheet_bg"
+    android:backgroundTint="#FFF7EA"
+    android:fontFamily="@font/poppins_medium"
+    android:text="Set Commission"
+    android:textColor="@color/black"
+    android:drawableEnd="@drawable/close_icon"
+    android:textSize="@dimen/_13sdp"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Commission"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:background="@drawable/edit_back">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etAmount"
+        style="@style/edit_text"
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
+        android:padding="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_7sdp"
+        android:hint="Enter commission"
+        android:maxLength="10"
+        android:inputType="numberDecimal"
+        android:background="@null"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/view"/>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/_18sdp"
+            android:background="#80000000"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_toLeftOf="@+id/tvPercentage"
+            android:layout_centerVertical="true"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="%"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_alignParentEnd="true"
+            android:textColor="#80000000"
+            android:textSize="@dimen/_12sdp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btnSubmit"
+        style="@style/button"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:text="Save Changes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relAmount"/>
+
+</LinearLayout>
+
+

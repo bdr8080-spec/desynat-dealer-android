@@ -134,7 +134,7 @@ data class GetSellerInfo(
             @SerializedName("country")
             val country: String,
             @SerializedName("country_code")
-            val countryCode: Any,
+            val countryCode: String,
             @SerializedName("created_at")
             val createdAt: String,
             @SerializedName("id")

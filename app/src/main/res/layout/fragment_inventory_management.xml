@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.home.inventoryManagement.InventoryManagementFragment">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/common_toolbar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_15sdp"
+                    android:background="@drawable/search_bg"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="10dp"
+                    android:ellipsize="end"
+                    android:hint="Search"
+                    android:paddingStart="12dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="#5B6163"
+                    android:textSize="@dimen/_12sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivFilter"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="1dp"
+                    android:background="@drawable/filter_bg"
+                    android:padding="16dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_filter"
+                    app:layout_constraintTop_toTopOf="@id/etSearch"
+                    app:layout_constraintBottom_toBottomOf="@id/etSearch"
+                    app:layout_constraintEnd_toEndOf="@id/etSearch" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/llCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:background="@drawable/brown_stroke"
+                app:layout_constraintTop_toBottomOf="@+id/relSearch">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvWomen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Women"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/selected_left_tab"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Men"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="center"
+                    android:textColor="@color/black"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvKids"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Kids"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="center"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/llTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                app:layout_constraintTop_toBottomOf="@+id/llCategory">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAll"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="All (0)"
+                    android:textColor="@color/brown"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvActive"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <View
+                    android:id="@+id/viewAll"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="@color/brown"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAll"
+                    app:layout_constraintStart_toStartOf="@+id/tvAll"
+                    app:layout_constraintEnd_toEndOf="@+id/tvAll"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvActive"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Active (0)"
+                    android:textColor="#B3B3B3"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    app:layout_constraintStart_toEndOf="@+id/tvAll"
+                    app:layout_constraintEnd_toStartOf="@+id/tvInactive"
+                    app:layout_constraintTop_toTopOf="@+id/tvAll"/>
+
+                <View
+                    android:id="@+id/viewActive"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="#B3B3B3"
+                    app:layout_constraintTop_toBottomOf="@+id/tvActive"
+                    app:layout_constraintStart_toStartOf="@+id/tvActive"
+                    app:layout_constraintEnd_toEndOf="@+id/tvActive"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvInactive"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Inactive (0)"
+                    android:textColor="#B3B3B3"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="end"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    app:layout_constraintStart_toEndOf="@+id/tvActive"
+                    app:layout_constraintTop_toTopOf="@+id/tvActive"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <View
+                    android:id="@+id/viewInactive"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="#B3B3B3"
+                    app:layout_constraintTop_toBottomOf="@+id/tvInactive"
+                    app:layout_constraintStart_toStartOf="@+id/tvInactive"
+                    app:layout_constraintEnd_toEndOf="@+id/tvInactive"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                tools:listitem="@layout/item_product"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:visibility="gone"
+        android:id="@+id/tvNoDataFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/poppins_medium"
+        android:textSize="@dimen/_13sdp"
+        android:text="No product found"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
