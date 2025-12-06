@@ -55,8 +55,38 @@ class ViewProfileFragment : BaseFragment() {
 
             ivStore.load(userInfo?.storeInfo?.storeImage){
                 crossfade(false)
-                placeholder(R.color.grey)
-                error(R.color.grey)
+                placeholder(R.drawable.ic_placeholder)
+                error(R.drawable.ic_placeholder)
+            }
+
+            ivBankAccount.load(userInfo?.sellerBankDetails?.uploadProof){
+                crossfade(false)
+                placeholder(R.drawable.ic_placeholder)
+                error(R.drawable.ic_placeholder)
+            }
+
+            ownerDoc1.load(userInfo?.ownerDocument?.get(0)?.documentPath){
+                crossfade(false)
+                placeholder(R.drawable.ic_placeholder)
+                error(R.drawable.ic_placeholder)
+            }
+
+            ownerDoc2.load(userInfo?.ownerDocument?.get(1)?.documentPath){
+                crossfade(false)
+                placeholder(R.drawable.ic_placeholder)
+                error(R.drawable.ic_placeholder)
+            }
+
+            storeDoc1.load(userInfo?.storeDocument?.get(0)?.documentPath){
+                crossfade(false)
+                placeholder(R.drawable.ic_placeholder)
+                error(R.drawable.ic_placeholder)
+            }
+
+            storeDoc2.load(userInfo?.storeDocument?.get(0)?.documentPath){
+                crossfade(false)
+                placeholder(R.drawable.ic_placeholder)
+                error(R.drawable.ic_placeholder)
             }
 
             tvName.text = "${userInfo?.firstName} ${userInfo?.lastName}"

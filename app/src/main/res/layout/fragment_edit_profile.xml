@@ -111,7 +111,7 @@
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                     android:hint="Enter First Name"
                     android:inputType="textCapSentences"
-                    android:maxLength="20"
+                    android:maxLength="30"
                     app:layout_constraintTop_toBottomOf="@+id/tvFirstName" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -131,7 +131,7 @@
                     android:background="@drawable/edit_back"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                     android:hint="Enter Last Name"
-                    android:maxLength="20"
+                    android:maxLength="30"
                     android:inputType="textCapSentences"
                     app:layout_constraintTop_toBottomOf="@+id/tvLastName" />
 
@@ -192,6 +192,9 @@
                         android:hint="@string/enter_mobile_number"
                         android:inputType="number"
                         android:maxLength="15"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:clickable="false"
                         android:paddingHorizontal="@dimen/_10sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -216,6 +219,9 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/edit_back"
                     android:drawableStart="@drawable/ic_email"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:clickable="false"
                     android:drawablePadding="@dimen/_10sdp"
                     android:hint="Enter Email Address"
                     android:inputType="textEmailAddress"
@@ -230,6 +236,9 @@
                     android:layout_marginTop="@dimen/_15sdp"
                     app:shapeAppearanceOverlay="@style/rounded_corner4sdp"
                     android:clipToOutline="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:clickable="false"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etEmail"/>
 
@@ -393,6 +402,9 @@
                         android:hint="Enter Store Phone Number"
                         android:inputType="number"
                         android:maxLength="15"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:clickable="false"
                         android:paddingHorizontal="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -418,6 +430,9 @@
                     android:background="@drawable/edit_back"
                     android:hint="Enter Store mail Id"
                     android:inputType="textEmailAddress"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:clickable="false"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreEmail" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -487,7 +502,7 @@
                         android:paddingVertical="@dimen/_12sdp"
                         android:button="@drawable/selector_radio_icon"
                         android:paddingStart="@dimen/_8sdp"
-                        android:checked="true"
+                        android:checked="false"
                         app:buttonTint="@null"
                         android:drawableTint="@null"
                         android:fontFamily="@font/poppins_medium"

@@ -13,10 +13,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.AddAffiliateCommissionDialogBinding
 import com.desynatdealer.databinding.FragmentAffiliatedCommissionBinding
+import com.desynatdealer.ui.home.response.GetSellerInfo
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +28,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class AffiliatedCommissionFragment : BaseFragment() {
     private var binding : FragmentAffiliatedCommissionBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
-
+    private var userInfo : GetSellerInfo.Data?=null
+    var affiliateCommission= ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,9 +46,12 @@ class AffiliatedCommissionFragment : BaseFragment() {
     }
 
     override fun initView() {
+        userInfo = SharedPreference.get(requireActivity()).getUser()
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
             toolbar.tvToolbar.text = "Affiliated Commission"
+            affiliateCommission = userInfo?.affilateCommission.toString()
+            etCommission.setText(affiliateCommission)
         }
     }
 
@@ -65,11 +73,43 @@ class AffiliatedCommissionFragment : BaseFragment() {
     }
 
     private fun addCommission(commission:String){
-
+        affiliateCommission = commission
+        val map = HashMap<String,Any>()
+        map["affilate_commission"] = commission
+        viewModel.updateAffiliateCommission(map)
     }
 
     override fun observe() {
+        viewModel.updateAffiliateCommissionResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())                  }
 
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    result?.data?.message?.let {
+                        CommonMethod.showSuccessDialog(requireActivity(), it){
+                            userInfo?.affilateCommission = affiliateCommission
+                            userInfo?.let { it1 ->
+                                SharedPreference.get(requireActivity()).saveUser(
+                                    it1
+                                )
+                            }
+                        }
+                    }
+
+                    viewModel.updateAffiliateCommissionResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.updateAffiliateCommissionResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
     }
 
     private fun addCommissionDialog() {

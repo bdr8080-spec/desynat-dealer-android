@@ -239,12 +239,11 @@ class InventoryManagementFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().hideProgress()
                     productData = result.data?.data
                     productList.clear()
-                    result.data?.data?.allProductData?.let { productList.addAll(it) }
-                  /*  when(type){
+                    when(type){
                         0-> result.data?.data?.allProductData?.let { productList.addAll(it) }
                         1-> result.data?.data?.activeProduct?.let { productList.addAll(it) }
                         2-> result.data?.data?.inactiveProduct?.let { productList.addAll(it) }
-                    }*/
+                    }
 
                     checkData()
                     inventoryAdapter?.notifyDataSetChanged()

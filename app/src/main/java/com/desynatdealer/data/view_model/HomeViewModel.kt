@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.repo.HomeRepository
+import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.upload.UploadResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
@@ -314,6 +315,42 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _updateInventoryProductStockResponse.value = ApiResult.Loading
             _updateInventoryProductStockResponse.value = repo.updateInventoryProductStock(map)
+        }
+    }
+
+    private val _updateAffiliateCommissionResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val updateAffiliateCommissionResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _updateAffiliateCommissionResponse
+
+    fun updateAffiliateCommission(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _updateAffiliateCommissionResponse.value = ApiResult.Loading
+            _updateAffiliateCommissionResponse.value = repo.updateAffiliateCommission(map)
+        }
+    }
+
+    private val _updateStoreInfoResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val updateStoreInfoResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _updateStoreInfoResponse
+
+    fun updateStoreInfo(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _updateStoreInfoResponse.value = ApiResult.Loading
+            _updateStoreInfoResponse.value = repo.updateStoreInfo(map)
+        }
+    }
+
+    private val _updateBankDetailResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val updateBankDetailResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _updateBankDetailResponse
+
+    fun updateBankDetail(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _updateBankDetailResponse.value = ApiResult.Loading
+            _updateBankDetailResponse.value = repo.updateBankDetail(map)
         }
     }
 

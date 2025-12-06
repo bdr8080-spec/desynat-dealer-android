@@ -51,7 +51,9 @@ data class GetSellerInfo(
         @SerializedName("profile_pic")
         val profilePic: String,
         @SerializedName("reject_reason")
-        val rejectReason: Any,
+        val rejectReason: String,
+        @SerializedName("affilate_commission")
+        var affilateCommission: String,
         @SerializedName("seller_bank_details")
         val sellerBankDetails: SellerBankDetails,
         @SerializedName("store_document")

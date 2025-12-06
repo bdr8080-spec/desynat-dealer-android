@@ -146,4 +146,13 @@ interface CommonApiService {
 
     @PUT(Constants.UPDATE_INVENTORY_STOCK)
     suspend fun updateInventoryProductStock(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @PUT(Constants.UPDATE_AFFILIATE_COMMISSION)
+    suspend fun updateAffiliateCommission(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.UPDATE_STORE_BANK_DETAIL)
+    suspend fun updateBankDetail(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.UPDATE_STORE_INFO)
+    suspend fun updateStoreInfo(@Body map: HashMap<String, Any>): Response<CommonResponse>
 }

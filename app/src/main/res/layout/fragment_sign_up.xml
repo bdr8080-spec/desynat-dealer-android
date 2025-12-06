@@ -119,7 +119,7 @@
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
             android:hint="Enter First Name"
             android:inputType="textCapSentences"
-            android:maxLength="20"
+            android:maxLength="30"
             app:layout_constraintTop_toBottomOf="@+id/tvFirstName" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -139,7 +139,7 @@
             android:background="@drawable/edit_back"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
             android:hint="Enter Last Name"
-            android:maxLength="20"
+            android:maxLength="30"
             android:inputType="textCapSentences"
             app:layout_constraintTop_toBottomOf="@+id/tvLastName" />
 

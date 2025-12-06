@@ -459,6 +459,7 @@
                     android:clipToOutline="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_placeholder"
+                    android:layout_marginBottom="@dimen/_15sdp"
                     app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
                     app:strokeColor="@color/brown"
                     app:strokeWidth="1dp" />

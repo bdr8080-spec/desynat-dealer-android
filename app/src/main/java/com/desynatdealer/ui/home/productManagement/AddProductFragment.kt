@@ -531,7 +531,7 @@ class AddProductFragment : BaseFragment() {
                 ApiResult.Loading -> {
                 }
                 is ApiResult.Success -> {
-                    categoryList.clear()
+                    sizeList.clear()
                     result.data?.data?.let { sizeList.addAll(it) }
                     viewModel.sizeResponse.value = null
                 }

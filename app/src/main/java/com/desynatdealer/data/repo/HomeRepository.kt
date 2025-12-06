@@ -204,4 +204,28 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
             ApiResult.Error("Syntax Error")
         }
     }
+
+    suspend fun updateAffiliateCommission(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.updateAffiliateCommission(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun updateStoreInfo(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.updateStoreInfo(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun updateBankDetail(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.updateBankDetail(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
 }

@@ -119,9 +119,15 @@ object CommonMethod {
         return file
     }
 
-    fun File.toMultiPartBody(key: String): MultipartBody.Part? {
-        val requestFile = this.asRequestBody("image/jpeg".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData(key, this.name, requestFile)
+    fun File.toMultiPartBody(fieldName: String): MultipartBody.Part {
+        val mimeType = when (extension.lowercase()) {
+            "jpg", "jpeg" -> "image/jpeg"
+            "png" -> "image/png"
+            "pdf" -> "application/pdf"
+            else -> throw IllegalArgumentException("Unsupported file type: $extension")
+        }
+        val requestFile = asRequestBody(mimeType.toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData(fieldName, name, requestFile)
     }
 
     fun removeAllTextSpaces(editText: AppCompatEditText) {
