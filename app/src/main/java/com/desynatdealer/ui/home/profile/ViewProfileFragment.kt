@@ -9,6 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.desynatdealer.R
+import com.desynatdealer.adapter.HighlightsAdapter
+import com.desynatdealer.adapter.ReelAdapter
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentViewProfileBinding
@@ -22,6 +24,10 @@ class ViewProfileFragment : BaseFragment() {
     private var binding : FragmentViewProfileBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
     private var userInfo : GetSellerInfo.Data?=null
+    private var reelList = ArrayList<String>()
+    private var reelAdapter : ReelAdapter?=null
+    private var highlightList = ArrayList<String>()
+    private var highlightsAdapter : HighlightsAdapter?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +48,28 @@ class ViewProfileFragment : BaseFragment() {
     override fun initView() {
         userInfo = SharedPreference.get(requireActivity()).getUser()
         setData()
+
+        binding?.apply {
+            reelList.clear()
+            reelList.addAll(arrayListOf("","","","","","",""))
+            reelAdapter = ReelAdapter(requireActivity(),reelList,object: ReelAdapter.OnClick{
+                override fun onItemClick(position: Int, type: Int) {
+
+                }
+
+            })
+            rvReel.adapter = reelAdapter
+
+            highlightList.clear()
+            highlightList.addAll(arrayListOf("","","","","","",""))
+            highlightsAdapter = HighlightsAdapter(requireActivity(),highlightList,object: HighlightsAdapter.OnClick{
+                override fun onItemClick(position: Int, type: Int) {
+
+                }
+
+            })
+            rvHighlights.adapter = highlightsAdapter
+        }
 
     }
 
@@ -93,8 +121,16 @@ class ViewProfileFragment : BaseFragment() {
             tvMobile.text = "${userInfo?.countryCode} ${userInfo?.mobile}"
             tvEmail.text = userInfo?.email
             tvStore.text = userInfo?.storeInfo?.storeName
+            tvBio.text = userInfo?.storeInfo?.bio
+            tvStoreAddress.text = userInfo?.storeInfo?.storeAddress
             tvStoreEmail.text = userInfo?.storeInfo?.storeMailId
             tvStoreMobile.text = "${userInfo?.storeInfo?.countryCode} ${userInfo?.storeInfo?.storePhone}"
+
+            tvIban.text = userInfo?.sellerBankDetails?.iban
+            tvSwift.text = userInfo?.sellerBankDetails?.swift
+            tvAccountHolderName.text = userInfo?.sellerBankDetails?.accountHolderName
+            tvBankName.text = userInfo?.sellerBankDetails?.bankName
+            tvAccountType.text = if(userInfo?.sellerBankDetails?.accountType=="0") {"Personal"}else {"Business"}
 
         }
     }

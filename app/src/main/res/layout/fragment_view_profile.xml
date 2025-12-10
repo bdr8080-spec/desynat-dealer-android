@@ -55,7 +55,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivStore"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
+                android:layout_height="@dimen/_130sdp"
                 android:src="@drawable/store_back"
                 android:scaleType="centerCrop"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -97,7 +97,7 @@
                     android:id="@+id/tvMobile"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/poppins_light"
                     android:text="123456789"
                     android:textSize="@dimen/_11sdp"
                     android:textColor="@color/black"
@@ -109,7 +109,7 @@
                     android:id="@+id/tvEmail"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/poppins_light"
                     android:text="atif@gmail.com"
                     android:textSize="@dimen/_11sdp"
                     android:textColor="@color/black"
@@ -129,7 +129,7 @@
                     android:id="@+id/tvStore"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="Puma"
                     android:textSize="@dimen/_11sdp"
                     android:textColor="@color/black"
@@ -141,7 +141,7 @@
                     android:id="@+id/tvStoreMobile"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/poppins_light"
                     android:text="1234566789"
                     android:textSize="@dimen/_11sdp"
                     android:textColor="@color/black"
@@ -153,7 +153,7 @@
                     android:id="@+id/tvStoreEmail"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
+                    android:fontFamily="@font/poppins_light"
                     android:text="atif@gmail.com"
                     android:textSize="@dimen/_11sdp"
                     android:textColor="@color/black"
@@ -161,18 +161,32 @@
                     app:layout_constraintStart_toStartOf="@id/ivProfileImage"
                     app:layout_constraintTop_toBottomOf="@id/tvStoreMobile" />
 
+
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvAddress"
+                    android:id="@+id/tvStoreAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Lorem ipsum dolor sit amet consectetur. um pretium ut lacus dui lacinia amet. Aliquam eu eget a suspendisse tellus cursus.  More"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="C 19, Sector 63, Blue diamond road, Kuwait"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_10sdp"
+                    android:textSize="@dimen/_11sdp"
                     android:layout_marginTop="@dimen/_2sdp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreEmail" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="Lorem ipsum dolor sit amet consectetur. um pretium ut lacus dui lacinia amet. Aliquam eu eget a suspendisse tellus cursus.  More"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStoreAddress" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -197,7 +211,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:orientation="horizontal"
                 android:weightSum="2"
-                android:background="@drawable/brown_stroke"
+                android:background="@drawable/tab"
                 app:layout_constraintTop_toBottomOf="@+id/rvHighlights">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -374,7 +388,6 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvIbanTitle"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -384,7 +397,6 @@
                     android:textSize="@dimen/_11sdp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:visibility="gone"
                     android:id="@+id/tvIban"
                     style="@style/edit_text_title"
                     android:text="KW2837289202937393937929038292093839203"
@@ -394,7 +406,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvMobile" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:visibility="gone"
                     android:id="@+id/tvSwiftTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -405,7 +416,6 @@
                     android:textSize="@dimen/_11sdp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:visibility="gone"
                     android:id="@+id/tvSwift"
                     style="@style/edit_text_title"
                     android:text="26781901"

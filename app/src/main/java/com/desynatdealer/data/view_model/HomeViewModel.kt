@@ -109,6 +109,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _getSellerInfoResponse =
+        MutableLiveData<ApiResult<GetSellerInfo>?>()
+    val getSellerInfoResponse: MutableLiveData<ApiResult<GetSellerInfo>?>
+        get() = _getSellerInfoResponse
+
+    fun getSellerInformation() {
+        viewModelScope.launch {
+            _getSellerInfoResponse.value = ApiResult.Loading
+            _getSellerInfoResponse.value = repo.getSellerInfo()
+        }
+    }
+
     private val _categoryResponse =
         MutableLiveData<ApiResult<GetCategoryResponse>?>()
     val categoryResponse: MutableLiveData<ApiResult<GetCategoryResponse>?>

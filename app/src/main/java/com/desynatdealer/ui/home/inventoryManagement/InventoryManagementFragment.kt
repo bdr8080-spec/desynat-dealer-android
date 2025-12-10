@@ -45,7 +45,7 @@ class InventoryManagementFragment : BaseFragment() {
 
     var type = 0
     var selectedCategory = -1
-    var selectedCategoryName = "Women"
+    var selectedCategoryName = "Men"
     private var categoryList = ArrayList<GetCategoryResponse.Data>()
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var brandList = ArrayList<GetSellerBrandResponse.Data>()
@@ -165,7 +165,7 @@ class InventoryManagementFragment : BaseFragment() {
                 tvMen.setTextColor(requireActivity().getColor(R.color.black))
                 tvKids.setTextColor(requireActivity().getColor(R.color.black))
 
-                tvWomen.setBackgroundResource(R.drawable.selected_left_tab)
+                tvWomen.setBackgroundResource(R.drawable.selected_mid_tab)
                 tvMen.background = null
                 tvKids.background = null
             }
@@ -177,7 +177,7 @@ class InventoryManagementFragment : BaseFragment() {
                 tvMen.setTextColor(requireActivity().getColor(R.color.white))
                 tvKids.setTextColor(requireActivity().getColor(R.color.black))
 
-                tvMen.setBackgroundResource(R.drawable.selected_mid_tab)
+                tvMen.setBackgroundResource(R.drawable.selected_left_tab)
                 tvKids.background = null
                 tvWomen.background = null
             }
@@ -313,12 +313,12 @@ class InventoryManagementFragment : BaseFragment() {
                         selectedPos = -1
                     }
                     checkData()
-                    viewModel.updateInventoryProductStockResponse.value = null
+                    viewModel.updateInventoryProductStatusResponse.value = null
                 }
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
-                    viewModel.updateInventoryProductStockResponse.value = null
+                    viewModel.updateInventoryProductStatusResponse.value = null
                 }
                 else ->{
 

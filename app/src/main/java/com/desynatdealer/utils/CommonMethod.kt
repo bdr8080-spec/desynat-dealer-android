@@ -456,6 +456,7 @@ object CommonMethod {
         context: Context,
         anchor: View,
         countryList: ArrayList<GetCountryResponse.Data>,
+        isDial:Boolean = true,
         onCountrySelected: (GetCountryResponse.Data) -> Unit
     ) {
         val binding = CustomCountryPickerBinding.inflate(LayoutInflater.from(context))
@@ -471,7 +472,7 @@ object CommonMethod {
         popupWindow.elevation = 20f
         popupWindow.showAsDropDown(anchor)
 
-        binding.rvCountry.adapter = CountryPickerAdapter(context, countryList,
+        binding.rvCountry.adapter = CountryPickerAdapter(context, countryList,isDial,
             object : CountryPickerAdapter.ClickOnItem {
                 override fun onClickItem(position: Int) {
                     onCountrySelected(countryList[position])

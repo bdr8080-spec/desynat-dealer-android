@@ -19,6 +19,7 @@ import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.google.android.material.tabs.TabLayoutMediator
@@ -72,6 +73,8 @@ class EditInventoryProductFragment : BaseFragment() {
             if (!itemJson.isNullOrEmpty()) {
                 productData = Gson().fromJson(itemJson, GetAllProductResponse.Data.AllProductData::class.java)
             }
+
+            toolbar.tvToolbar.text = "Product code- ${productData?.id}"
 
             val productInfoData = arguments?.getString("productInfo")
             val type = object : TypeToken<ArrayList<AddProductRequest.Product>>() {}.type
@@ -142,7 +145,6 @@ class EditInventoryProductFragment : BaseFragment() {
             variantImageAdapter?.notifyDataSetChanged()
             viewPager.setCurrentItem(0, false)
 
-            toolbar.tvToolbar.text = "Product code- ${productData?.id}"
             tvBrand.text = if(productData?.brand?.nameEnglish=="Other") productData?.otherEn else productData?.brand?.nameEnglish
             tvName.text = productData?.productNameEn
 
@@ -229,10 +231,14 @@ class EditInventoryProductFragment : BaseFragment() {
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    result.data?.message?.let { showToast(it) }
-                    productInfo[selectedColorPos].productVariation[selectedSizePos].sku = binding?.etSku?.text?.trim().toString()
-                    productInfo[selectedColorPos].productVariation[selectedSizePos].totalStock = binding?.etTotalStocks?.text?.trim().toString()
-                    viewModel.updateInventoryProductStockResponse.value = null
+                    CommonMethod.showSuccessDialog(requireActivity(),"Inventory updated successfully"){
+                        productInfo[selectedColorPos].productVariation[selectedSizePos].sku = binding?.etSku?.text?.trim().toString()
+                        productInfo[selectedColorPos].productVariation[selectedSizePos].totalStock = binding?.etTotalStocks?.text?.trim().toString()
+                        viewModel.updateInventoryProductStockResponse.value = null
+                        findNavController().popBackStack()
+                    }
+
+
                 }
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
@@ -262,35 +268,44 @@ class EditInventoryProductFragment : BaseFragment() {
         viewModel.updateInventoryProductStock(map)
     }
 
-    private fun validation(): Boolean{
-      binding?.apply {
-          if (etTotalStocks.text?.trim().toString().isEmpty()) {
-          showToast("Please enter stock")
-          return false
-      }
+    private fun validation(): Boolean {
+        binding?.apply {
 
-          if (etSku.text?.trim().toString().isEmpty()) {
-              showToast("Please enter SKU limit")
-              return false
-          }
+            val stockStr = etTotalStocks.text?.trim().toString()
+            val skuStr = etSku.text?.trim().toString()
 
-          val skuVal = etSku.text?.trim().toString().toIntOrNull()
-          val stockVal = etTotalStocks.text?.trim().toString().toIntOrNull()
+            if (stockStr.isEmpty()) {
+                showToast("Please enter stock")
+                return false
+            }
 
-          if (skuVal == null) {
-              showToast("Invalid SKU limit")
-              return false
-          }
-          if (stockVal == null) {
-              showToast("Invalid stock")
-              return false
-          }
+            if (skuStr.isEmpty()) {
+                showToast("Please enter SKU limit")
+                return false
+            }
 
-          if (skuVal >= stockVal) {
-              showToast("SKU limit must be smaller than total stock")
-              return false
-          }
-      }
+            val stockVal = stockStr.toIntOrNull()
+            val skuVal = skuStr.toIntOrNull()
+
+            if (stockVal == null) {
+                showToast("Invalid stock")
+                return false
+            }
+
+            if (skuVal == null) {
+                showToast("Invalid SKU limit")
+                return false
+            }
+
+            if (stockVal == 0 && skuVal == 0) {
+                return true
+            }
+
+            if (skuVal >= stockVal) {
+                showToast("SKU limit must be smaller than total stock")
+                return false
+            }
+        }
         return true
     }
 

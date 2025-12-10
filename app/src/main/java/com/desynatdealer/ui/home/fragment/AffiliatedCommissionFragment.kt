@@ -2,6 +2,8 @@ package com.desynatdealer.ui.home.fragment
 
 import android.app.Dialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -50,8 +52,8 @@ class AffiliatedCommissionFragment : BaseFragment() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
             toolbar.tvToolbar.text = "Affiliated Commission"
-            affiliateCommission = userInfo?.affilateCommission.toString()
-            etCommission.setText(affiliateCommission)
+            setCommissionData()
+
         }
     }
 
@@ -87,16 +89,15 @@ class AffiliatedCommissionFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    result?.data?.message?.let {
-                        CommonMethod.showSuccessDialog(requireActivity(), it){
+                        CommonMethod.showSuccessDialog(requireActivity(), "Affiliated commission updated successfully"){
                             userInfo?.affilateCommission = affiliateCommission
                             userInfo?.let { it1 ->
                                 SharedPreference.get(requireActivity()).saveUser(
                                     it1
                                 )
                             }
+                            setCommissionData()
                         }
-                    }
 
                     viewModel.updateAffiliateCommissionResponse.value = null
                 }
@@ -109,6 +110,13 @@ class AffiliatedCommissionFragment : BaseFragment() {
 
                 else -> {}
             }
+        }
+    }
+
+    private fun setCommissionData() {
+        binding?.apply {
+            affiliateCommission = CommonMethod.formatPrice(userInfo?.affilateCommission?.toDouble()?:0.0)
+            etCommission.setText(affiliateCommission)
         }
     }
 
@@ -130,6 +138,37 @@ class AffiliatedCommissionFragment : BaseFragment() {
         window.attributes = params
 
         dialogBinding.apply {
+            etAmount.setText(affiliateCommission)
+
+            var isEditing = false
+            var previousValue = ""
+
+            etAmount.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    previousValue = s.toString()
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (isEditing) return
+                    isEditing = true
+
+                    val value = s.toString()
+
+                    if (value.isNotEmpty()) {
+                        val num = value.toFloatOrNull() ?: 0f
+
+                        if (num > 100) {
+                            etAmount.setText(previousValue)
+
+                            etAmount.setSelection(previousValue.length.coerceAtMost(etAmount.text?.length ?: 0))
+                        }
+                    }
+
+                    isEditing = false
+                }
+            })
 
             tvToolbar.setOnClickListener {
                 dialog.dismiss()
@@ -156,8 +195,8 @@ class AffiliatedCommissionFragment : BaseFragment() {
             showToast("Please enter $fieldName")
             return true
         }
-        val num = value.toIntOrNull() ?: 0
-        if (num <= 0) {
+        val num = value.toDoubleOrNull() ?: 0.0
+        if (num <= 0.0) {
             showToast("$fieldName should be greater than 0")
             return true
         }

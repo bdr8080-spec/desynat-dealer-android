@@ -36,6 +36,8 @@ class EditProfileFragment : BaseFragment() {
     private var userInfo : GetSellerInfo.Data?=null
     private var selectedType = 1 //1-personal,2-bank
     var imageType = -1
+    var isEdit = false
+    var isBank = false
     private lateinit var imagePicker: ImagePicker
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
@@ -84,7 +86,7 @@ class EditProfileFragment : BaseFragment() {
         setData()
         binding?.apply {
             toolbar.tvToolbar.text = "Edit"
-
+            setupScrollBlocker()
             imagePicker = ImagePicker(
                 requireActivity(),
                 cameraLauncher,
@@ -119,6 +121,9 @@ class EditProfileFragment : BaseFragment() {
                         tvBank.background = null
                         clPersonalInfo.isVisible = true
                         clBankInfo.isVisible = false
+                    scrollView.post {
+                       scrollView.smoothScrollTo(0, 0)
+                    }
                     }
 
                  2-> {
@@ -129,6 +134,9 @@ class EditProfileFragment : BaseFragment() {
                         tvPersonalInfo.background = null
                         clPersonalInfo.isVisible = false
                         clBankInfo.isVisible = true
+                     scrollView.post {
+                         scrollView.smoothScrollTo(0, 0)
+                     }
                     }
             }
         }
@@ -194,6 +202,7 @@ class EditProfileFragment : BaseFragment() {
             }
             lat = userInfo?.storeInfo?.let
             long = userInfo?.storeInfo?.long
+            address = userInfo?.storeInfo?.storeAddress
         }
     }
 
@@ -204,10 +213,16 @@ class EditProfileFragment : BaseFragment() {
                 findNavController().popBackStack()
             }
 
+            tvCountryPicker.setOnClickListener {
+                CommonMethod.showCountryPicker(requireActivity(),clMobile,countryList,true){countryData->
+                    tvCountryPicker.text = countryData.dialCode
+                }
+            }
+
             btnSaveChanges.setOnClickListener {
                 when(selectedType){
-                    1-> updateStoreInfo()
-                    2-> updateBankDetail()
+                    1-> if(storeValidation()){updateStoreInfo()}
+                    2-> if(bankValidation()){updateBankDetail()}
                 }
             }
 
@@ -247,7 +262,7 @@ class EditProfileFragment : BaseFragment() {
             }
 
             etCountry.setOnClickListener {
-                CommonMethod.showCountryPicker(requireActivity(),etCountry,countryList){countryData->
+                CommonMethod.showCountryPicker(requireActivity(),etCountry,countryList,false){countryData->
                     binding?.etCountry?.setText(countryData.name)
                     selectedCountryCode = countryData.id.toString()
                 }            }
@@ -276,7 +291,7 @@ class EditProfileFragment : BaseFragment() {
                         2->{
                             storeImage = result.data?.data?.url
                         }
-                        2->{
+                        3->{
                             bankDoc = result.data?.data?.url
                         }
                     }
@@ -302,8 +317,8 @@ class EditProfileFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().showProgress(requireActivity())                  }
 
                 is ApiResult.Success -> {
-                    showToast(result.data?.message.toString())
-                    viewModel.getSellerInfo()
+                    isEdit = true
+                    viewModel.getSellerInformation()
                     viewModel.updateStoreInfoResponse.value = null
                 }
 
@@ -323,8 +338,8 @@ class EditProfileFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().showProgress(requireActivity())                  }
 
                 is ApiResult.Success -> {
-                    showToast(result.data?.message.toString())
-                    viewModel.getSellerInfo()
+                    isBank = true
+                    viewModel.getSellerInformation()
                     viewModel.updateBankDetailResponse.value = null
                 }
 
@@ -338,7 +353,7 @@ class EditProfileFragment : BaseFragment() {
             }
         }
 
-        viewModel.sellerInfoResponse.observe(viewLifecycleOwner){result->
+        viewModel.getSellerInfoResponse.observe(viewLifecycleOwner){result->
             when(result){
                 ApiResult.Loading -> {
                     ProgressDialogUtils.getInstance().showProgress(requireActivity())
@@ -346,12 +361,25 @@ class EditProfileFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     result.data?.data?.let { SharedPreference.get(requireActivity()).saveUser(it) }
-                    viewModel.sellerInfoResponse.value = null
+                    if (isEdit) {
+                        CommonMethod.showSuccessDialog(requireActivity(),"Personal information updated successfully") {
+                            isEdit = false
+                            viewModel.sellerInfoResponse.value = null
+                            findNavController().popBackStack()
+                        }
+                    }
+                    else if (isBank) {
+                        CommonMethod.showSuccessDialog(requireActivity(),"Bank details updated successfully") {
+                            isBank = false
+                            viewModel.getSellerInfoResponse.value = null
+                            findNavController().popBackStack()
+                        }
+                    }
                 }
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
-                    viewModel.sellerInfoResponse.value = null
+                    viewModel.getSellerInfoResponse.value = null
                 }
                 else ->{
 
@@ -476,6 +504,161 @@ class EditProfileFragment : BaseFragment() {
         countryList.clear()
         if (data != null) {
             countryList.addAll(data)
+        }
+    }
+
+    private fun bankValidation(): Boolean {
+        binding?.apply {
+            return when {
+                etIban.text.toString().isEmpty() -> {
+                    showToast("Please enter IBAN number")
+                    false
+                }
+
+                etSwift.text.toString().isEmpty() -> {
+                    showToast("Please enter SWIFT/BIC number")
+                    false
+                }
+
+                etBankName.text.toString().isEmpty() -> {
+                    showToast("Please enter bank name")
+                    false
+                }
+
+                etAccountHolderName.text.toString().isEmpty() -> {
+                    showToast("Please enter account holder name")
+                    false
+                }
+
+                bankDoc == null -> {
+                    showToast("Please upload proof of account")
+                    false
+                }
+
+                else -> true
+            }
+        }
+        return false
+    }
+
+    private fun storeValidation(): Boolean {
+        binding?.apply {
+            val email = etEmail.text.toString().trim()
+
+            val storeMobile = etStoreMobile.text.toString().trim()
+            val storeEmail = etStoreEmail.text.toString().trim()
+
+            return when {
+
+                profileImage == null -> {
+                    showToast("Please upload profile image")
+                    false
+                }
+
+                etFirstName.text.toString().isEmpty() -> {
+                    showToast("Please enter first name")
+                    false
+                }
+
+                etLastName.text.toString().isEmpty() -> {
+                    showToast("Please enter last name")
+                    false
+                }
+
+                email.isEmpty() -> {
+                    showToast("Please enter email address")
+                    false
+                }
+
+                !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                    showToast("Please enter a valid email address")
+                    false
+                }
+
+
+                storeImage == null -> {
+                    showToast("Please upload store image")
+                    false
+                }
+
+                etStoreName.text.toString().isEmpty() -> {
+                    showToast("Please enter store name")
+                    false
+                }
+
+                etStoreAddress.text.toString().isEmpty() -> {
+                    showToast("Please select address")
+                    false
+                }
+
+                etAddress1.text.toString().isEmpty() -> {
+                    showToast("Please enter store address line 1")
+                    false
+                }
+
+                etAddress2.text.toString().isEmpty() -> {
+                    showToast("Please enter store address line 2")
+                    false
+                }
+
+                storeMobile.isEmpty() -> {
+                    showToast("Please enter store phone number")
+                    false
+                }
+
+                storeMobile.length < 7 -> {
+                    showToast("Store mobile number must be at least 7 digits long")
+                    false
+                }
+
+                storeEmail.isEmpty() -> {
+                    showToast("Please enter store email id")
+                    false
+                }
+
+                !android.util.Patterns.EMAIL_ADDRESS.matcher(storeEmail).matches() -> {
+                    showToast("Please enter a valid store email address")
+                    false
+                }
+
+                etBio.text.toString().isEmpty() -> {
+                    showToast("Please enter bio")
+                    false
+                }
+
+                else -> true
+            }
+        }
+        return false
+    }
+
+    private fun setupScrollBlocker() {
+        binding?.scrollView?.setOnScrollChangeListener { _, _, _, _, _ ->
+            disableTabsWhileScrolling()
+        }
+    }
+
+    private var scrollHandler = android.os.Handler()
+    private var isScrolling = false
+
+    private fun disableTabsWhileScrolling() {
+        if (!isScrolling) {
+            isScrolling = true
+            setTabsEnabled(false)
+        }
+
+        scrollHandler.removeCallbacksAndMessages(null)
+
+        scrollHandler.postDelayed({
+            isScrolling = false
+            setTabsEnabled(true)
+        }, 200)
+    }
+
+    private fun setTabsEnabled(enable: Boolean) {
+        binding?.apply {
+            tvPersonalInfo.isEnabled = enable
+            tvBank.isEnabled = enable
         }
     }
 

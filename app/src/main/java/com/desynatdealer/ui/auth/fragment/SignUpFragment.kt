@@ -121,7 +121,7 @@ class SignUpFragment : BaseFragment() {
             }
 
             tvCountryPicker.setOnClickListener {
-                    CommonMethod.showCountryPicker(requireActivity(),clMobile,countryList){countryData->
+                    CommonMethod.showCountryPicker(requireActivity(),clMobile,countryList,true){countryData->
                         tvCountryPicker.text = countryData.dialCode
                     }
             }

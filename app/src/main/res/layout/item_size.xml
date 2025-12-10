@@ -12,7 +12,7 @@
        app:strokeWidth="@dimen/_1sdp"
         app:strokeColor="#33000000"
         android:clipToOutline="true"
-        app:shapeAppearanceOverlay="@style/rounded_corner4sdp"/>
+        app:shapeAppearanceOverlay="@style/rounded_corner5sdp"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvSize"

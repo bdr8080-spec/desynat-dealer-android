@@ -48,6 +48,7 @@ class ProfileFragment : BaseFragment() {
         userInfo = SharedPreference.get(requireActivity()).getUser()
         binding?.apply {
 
+            toolbar.tvToolbar.text = "Profile"
             tvName.text = userInfo?.firstName +" "+userInfo?.lastName
             tvEmail.text = userInfo?.email
             ivProfileImage.load(userInfo?.profilePic){
@@ -60,6 +61,10 @@ class ProfileFragment : BaseFragment() {
 
     override fun initControl() {
         binding?.apply {
+
+            toolbar.tvToolbar.setOnClickListener {
+                findNavController().popBackStack()
+            }
 
             ivViewProfile.setOnClickListener {
                 findNavController().navigate(R.id.action_profileFragment_to_viewProfileFragment)

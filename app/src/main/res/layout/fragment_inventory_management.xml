@@ -69,21 +69,8 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:orientation="horizontal"
                 android:weightSum="3"
-                android:background="@drawable/brown_stroke"
+                android:background="@drawable/tab"
                 app:layout_constraintTop_toBottomOf="@+id/relSearch">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvWomen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/_8sdp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="Women"
-                    android:textSize="@dimen/_12sdp"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:background="@drawable/selected_left_tab"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvMen"
@@ -95,7 +82,30 @@
                     android:text="Men"
                     android:textSize="@dimen/_12sdp"
                     android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/selected_left_tab"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/line_gradient"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvWomen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Women"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="center"
                     android:textColor="@color/black"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/line_gradient"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvKids"

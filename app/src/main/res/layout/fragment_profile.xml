@@ -13,6 +13,10 @@
         android:background="#FFF7EA"
         app:layout_constraintTop_toTopOf="parent">
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/common_toolbar"/>
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivProfileImage"
             android:layout_width="@dimen/_40sdp"
@@ -20,12 +24,12 @@
             android:src="@drawable/ic_user"
             android:scaleType="centerCrop"
             android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_20sdp"
             android:clipToOutline="true"
             app:shapeAppearanceOverlay="@style/circle_image"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -80,9 +84,63 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rlInventory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivInventory"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_inventory" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoInventory"
+                    android:layout_toEndOf="@id/ivInventory"
+                    android:text="Inventory management " />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoInventory"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlAffiliate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivAffiliate"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_affiliated_commission" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoAffiliate"
+                    android:layout_toEndOf="@id/ivAffiliate"
+                    android:text="Affiliated Commission" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoAffiliate"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/rlStaffManagement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:paddingVertical="@dimen/_6sdp">
 
@@ -234,60 +292,6 @@
                     style="@style/drawer_arrow" />
 
             </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlInventory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:paddingVertical="@dimen/_6sdp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivInventory"
-                    style="@style/drawer_image"
-                    android:src="@drawable/ic_inventory" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/drawer_text"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:layout_toStartOf="@+id/ivGoInventory"
-                    android:layout_toEndOf="@id/ivInventory"
-                    android:text="Inventory management " />
-
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivGoInventory"
-                    style="@style/drawer_arrow" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlAffiliate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:paddingVertical="@dimen/_6sdp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivAffiliate"
-                    style="@style/drawer_image"
-                    android:src="@drawable/ic_affiliated_commission" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/drawer_text"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:layout_toStartOf="@+id/ivGoAffiliate"
-                    android:layout_toEndOf="@id/ivAffiliate"
-                    android:text="Affiliated Commission" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivGoAffiliate"
-                    style="@style/drawer_arrow" />
-
-            </RelativeLayout>
-
 
             <RelativeLayout
                 android:id="@+id/rlTerms"

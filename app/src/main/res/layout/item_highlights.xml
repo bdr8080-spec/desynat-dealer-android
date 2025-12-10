@@ -6,19 +6,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivAdd"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_margin="@dimen/_1sdp"
+        android:src="@drawable/ic_add_highlight"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/circle_image"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivHighlight"
         android:layout_width="@dimen/_45sdp"
         android:layout_height="@dimen/_45sdp"
         android:layout_margin="@dimen/_1sdp"
-        android:src="@drawable/store_back"
+        android:src="@drawable/tshirt"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/circle_image"/>
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvHighlight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="T Shirt"
-        android:fontFamily="@font/poppins_regular"
+        android:fontFamily="@font/poppins_light"
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_5sdp"

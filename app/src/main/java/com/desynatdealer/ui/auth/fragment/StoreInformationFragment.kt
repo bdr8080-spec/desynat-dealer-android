@@ -144,13 +144,13 @@ class StoreInformationFragment : BaseFragment() {
             }
 
             etCountry.setOnClickListener {
-                CommonMethod.showCountryPicker(requireActivity(),etCountry,countryList){countryData->
+                CommonMethod.showCountryPicker(requireActivity(),etCountry,countryList,false){countryData->
                     binding?.etCountry?.setText(countryData.name)
                     selectedCountryCode = countryData.id.toString()
                 }            }
 
             tvCountryPicker.setOnClickListener {
-                CommonMethod.showCountryPicker(requireActivity(),clMobile,countryList){countryData->
+                CommonMethod.showCountryPicker(requireActivity(),clMobile,countryList,true){countryData->
                     tvCountryPicker.text = countryData.dialCode
                 }
             }

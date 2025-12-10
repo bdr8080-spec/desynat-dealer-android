@@ -11,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
-import com.desynatdealer.adapter.CountryPickerAdapter
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
@@ -82,7 +81,7 @@ class ForgotPasswordFragment : BaseFragment() {
             }
 
             tvCountryPicker.setOnClickListener {
-                CommonMethod.showCountryPicker(requireActivity(),clMobile,countryList){countryData->
+                CommonMethod.showCountryPicker(requireActivity(),clMobile,countryList,true){countryData->
                     tvCountryPicker.text = countryData.dialCode
                 }
             }

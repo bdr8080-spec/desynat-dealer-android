@@ -22,7 +22,7 @@
         android:src="@color/light_brown"
         android:clipToOutline="true"
         android:layout_centerInParent="true"
-        app:shapeAppearanceOverlay="@style/rounded_corner4sdp"/>
+        app:shapeAppearanceOverlay="@style/rounded_corner5sdp"/>
 
     <com.google.android.material.imageview.ShapeableImageView
         android:visibility="gone"
@@ -34,7 +34,7 @@
         android:layout_centerInParent="true"
         app:strokeWidth="1dp"
         app:strokeColor="@color/brown"
-        app:shapeAppearanceOverlay="@style/rounded_corner4sdp"/>
+        app:shapeAppearanceOverlay="@style/rounded_corner5sdp"/>
 
 
 </RelativeLayout>
