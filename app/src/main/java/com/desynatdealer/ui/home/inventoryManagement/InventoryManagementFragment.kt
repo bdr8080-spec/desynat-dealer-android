@@ -144,6 +144,42 @@ class InventoryManagementFragment : BaseFragment() {
 
                 getProductInfo()
 
+            when(selectedCategoryName){
+                "Women"->{
+                    selectedCategoryName = "Women"
+                    getAllInventoryProduct()
+                    tvWomen.setTextColor(requireActivity().getColor(R.color.white))
+                    tvMen.setTextColor(requireActivity().getColor(R.color.black))
+                    tvKids.setTextColor(requireActivity().getColor(R.color.black))
+
+                    tvWomen.setBackgroundResource(R.drawable.selected_mid_tab)
+                    tvMen.background = null
+                    tvKids.background = null
+                }
+                "Men" ->{
+                    selectedCategoryName = "Men"
+                    getAllInventoryProduct()
+                    tvWomen.setTextColor(requireActivity().getColor(R.color.black))
+                    tvMen.setTextColor(requireActivity().getColor(R.color.white))
+                    tvKids.setTextColor(requireActivity().getColor(R.color.black))
+
+                    tvMen.setBackgroundResource(R.drawable.selected_left_tab)
+                    tvKids.background = null
+                    tvWomen.background = null
+                }
+                "Kids" ->{
+                    selectedCategoryName = "Kids"
+                    getAllInventoryProduct()
+                    tvWomen.setTextColor(requireActivity().getColor(R.color.black))
+                    tvMen.setTextColor(requireActivity().getColor(R.color.black))
+                    tvKids.setTextColor(requireActivity().getColor(R.color.white))
+
+                    tvKids.setBackgroundResource(R.drawable.selected_right_tab)
+                    tvMen.background = null
+                    tvWomen.background = null
+                }
+            }
+
         }
     }
 

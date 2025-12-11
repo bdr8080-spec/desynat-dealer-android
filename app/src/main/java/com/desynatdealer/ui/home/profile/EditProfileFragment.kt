@@ -86,7 +86,7 @@ class EditProfileFragment : BaseFragment() {
         setData()
         binding?.apply {
             toolbar.tvToolbar.text = "Edit"
-            setupScrollBlocker()
+         //   setupScrollBlocker()
             imagePicker = ImagePicker(
                 requireActivity(),
                 cameraLauncher,
@@ -213,9 +213,9 @@ class EditProfileFragment : BaseFragment() {
                 findNavController().popBackStack()
             }
 
-            tvCountryPicker.setOnClickListener {
+            tvStoreCountryPicker.setOnClickListener {
                 CommonMethod.showCountryPicker(requireActivity(),clMobile,countryList,true){countryData->
-                    tvCountryPicker.text = countryData.dialCode
+                    tvStoreCountryPicker.text = countryData.dialCode
                 }
             }
 
@@ -237,6 +237,9 @@ class EditProfileFragment : BaseFragment() {
             }
 
             tvPersonalInfo.setOnClickListener {
+                scrollView.post {
+                    scrollView.smoothScrollTo(0, 0)
+                }
                 selectedType = 1
                 tvPersonalInfo.setTextColor(requireActivity().getColor(R.color.white))
                 tvBank.setTextColor(requireActivity().getColor(R.color.black))
@@ -247,6 +250,9 @@ class EditProfileFragment : BaseFragment() {
             }
 
             tvBank.setOnClickListener {
+                scrollView.post {
+                    scrollView.smoothScrollTo(0, 0)
+                }
                 selectedType = 2
                 tvPersonalInfo.setTextColor(requireActivity().getColor(R.color.black))
                 tvBank.setTextColor(requireActivity().getColor(R.color.white))
@@ -397,7 +403,7 @@ class EditProfileFragment : BaseFragment() {
            map["last_name"] = etLastName.text.toString()
            map["store_name"] = etStoreName.text.toString()
            map["store_image"] = storeImage.toString()
-           map["country_code"] = tvCountryPicker.text.toString()
+           map["country_code"] = tvStoreCountryPicker.text.toString()
            map["country"] = selectedCountryCode.toString()
            map["store_address"] = etStoreAddress.text.toString()
            map["address_line1"] = etAddress1.text.toString()

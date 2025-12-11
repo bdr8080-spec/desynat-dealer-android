@@ -24,7 +24,6 @@
             android:src="@drawable/ic_user"
             android:scaleType="centerCrop"
             android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_20sdp"
             android:clipToOutline="true"
             app:shapeAppearanceOverlay="@style/circle_image"

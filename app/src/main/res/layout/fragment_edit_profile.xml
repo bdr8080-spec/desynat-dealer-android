@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.profile.EditProfileFragment">
 
@@ -10,49 +11,12 @@
         android:id="@+id/toolbar"
         layout="@layout/common_toolbar"/>
 
-    <LinearLayout
-        android:id="@+id/llInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:background="@drawable/tab"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvPersonalInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/_8sdp"
-            android:layout_weight="1"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Personal Info"
-            android:textSize="@dimen/_12sdp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:background="@drawable/selected_left_tab"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvBank"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/_8sdp"
-            android:layout_weight="1"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Bank Details"
-            android:textSize="@dimen/_12sdp"
-            android:gravity="center"
-            android:textColor="@color/black" />
-
-    </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/llInfo"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
@@ -60,6 +24,44 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginHorizontal="@dimen/_15sdp">
+
+            <LinearLayout
+                android:id="@+id/llInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:background="@drawable/tab"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPersonalInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Personal Info"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/selected_left_tab"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Bank Details"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="center"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:visibility="visible"
@@ -73,23 +75,17 @@
                     android:layout_height="@dimen/_60sdp"
                     android:src="@drawable/ic_user"
                     android:scaleType="centerCrop"
-                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     app:shapeAppearanceOverlay="@style/circle_image"
                     android:clipToOutline="true"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/tvChangeImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/change_img_bg"
-                    android:text="Change Image"
-                    android:paddingVertical="@dimen/_7sdp"
-                    android:paddingHorizontal="@dimen/_10sdp"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:textColor="@color/brown"
-                    android:textSize="@dimen/_11sdp"
+                   android:src="@drawable/change_img_txt"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
                     app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>
@@ -193,6 +189,9 @@
                         android:hint="@string/enter_mobile_number"
                         android:inputType="number"
                         android:maxLength="15"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:clickable="false"
                         android:paddingHorizontal="@dimen/_10sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -240,17 +239,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etEmail"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/tvChangeStoreImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/change_img_bg"
-                    android:text="Change Image"
-                    android:paddingVertical="@dimen/_7sdp"
-                    android:paddingHorizontal="@dimen/_7sdp"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:textColor="@color/brown"
-                    android:textSize="@dimen/_11sdp"
+                    android:src="@drawable/change_img_txt"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/ivStoreImage"
                     app:layout_constraintBottom_toBottomOf="@+id/ivStoreImage"/>
@@ -400,9 +393,6 @@
                         android:hint="Enter Store Phone Number"
                         android:inputType="number"
                         android:maxLength="15"
-                        android:editable="false"
-                        android:focusable="false"
-                        android:clickable="false"
                         android:paddingHorizontal="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

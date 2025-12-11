@@ -37,6 +37,12 @@ class InventoryAdapter(var context:Context, var productList: ArrayList<GetAllPro
         holder.binding.apply {
             tvBrand.text = if(productData?.brand?.nameEnglish=="Other") productData?.otherEn else productData?.brand?.nameEnglish
             tvName.text = productData.productNameEn
+            if (productData?.productVariants?.get(0)?.totalStock!="0"){
+                tvInStock.text = "In Stock"
+            }
+            else{
+                tvInStock.text =  "Out of Stock"
+            }
 
             tvDate.text = "Added on- ${CommonMethod.customizeChangeDateFormat(productData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
             ivProduct.load(productData?.productVariants?.get(0)?.variantImage?.get(0)) {
