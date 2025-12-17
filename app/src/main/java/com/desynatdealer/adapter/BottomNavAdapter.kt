@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemBottomNavBinding
 import com.desynatdealer.ui.home.BottomNavItem
+import com.desynatdealer.utils.CommonMethod
 
 class BottomNavAdapter(var context:Context, var list: ArrayList<BottomNavItem>, var bottomNavItemClick:BottomNavItemClick) : RecyclerView.Adapter<BottomNavAdapter.ViewHolder>() {
 
@@ -37,7 +38,8 @@ class BottomNavAdapter(var context:Context, var list: ArrayList<BottomNavItem>, 
 
         if (selected==position&&selected!=2){
             holder.binding.ivImage.setImageResource(list[position].selectedImage)
-            holder.binding.tvName.setTextColor(context.getColor(R.color.brown))
+           // holder.binding.tvName.setTextColor(context.getColor(R.color.brown))
+            CommonMethod.applyGradientText(holder.binding.tvName)
             holder.binding.tvName.typeface = ResourcesCompat.getFont(context, R.font.poppins_medium)
             holder.binding.ivImage.isVisible = true
             holder.binding.tvName.isVisible = true

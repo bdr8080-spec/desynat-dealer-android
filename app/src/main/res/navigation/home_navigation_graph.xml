@@ -182,5 +182,33 @@
         android:label="Edit Profile Fragment"
         tools:layout="@layout/fragment_edit_profile"/>
 
+    <fragment
+        android:id="@+id/bannerManagement"
+        android:name="com.desynatdealer.ui.home.bannerManagement.BannerManagementFragment"
+        android:label="Banner Management Fragment"
+        tools:layout="@layout/fragment_banner_management">
+
+    <action
+        android:id="@+id/action_bannerManagementFragment_to_addBannerFragment"
+        app:destination="@id/addBanner"/>
+
+    <action
+        android:id="@+id/action_bannerManagementFragment_to_bannerDetailFragment"
+        app:destination="@id/bannerDetail"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addBanner"
+        android:name="com.desynatdealer.ui.home.bannerManagement.AddBannerFragment"
+        android:label="Add Banner Fragment"
+        tools:layout="@layout/fragment_add_banner"/>
+
+    <fragment
+        android:id="@+id/bannerDetail"
+        android:name="com.desynatdealer.ui.home.bannerManagement.BannerDetailFragment"
+        android:label="Banner Detail Fragment"
+        tools:layout="@layout/fragment_banner_detail"/>
+
 
 </navigation>

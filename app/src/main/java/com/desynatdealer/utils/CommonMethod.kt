@@ -4,6 +4,9 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -24,6 +27,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
@@ -560,6 +564,39 @@ object CommonMethod {
         }
 
         context.startActivity(Intent.createChooser(intent, "Share via"))
+    }
+
+    fun applyGradientText(
+        textView: AppCompatTextView,
+        startColor: String = "#DFBF8F",
+        endColor: String = "#6E4527"
+    ) {
+
+        textView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+            override fun onLayoutChange(
+                v: View?,
+                left: Int, top: Int, right: Int, bottom: Int,
+                oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int
+            ) {
+                textView.removeOnLayoutChangeListener(this)
+
+                val width = textView.paint.measureText(textView.text.toString())
+
+                val shader = LinearGradient(
+                    0f,
+                    0f,
+                    width,
+                    textView.textSize,
+                    intArrayOf(
+                        Color.parseColor(startColor),
+                        Color.parseColor(endColor)
+                    ),
+                    null,
+                    Shader.TileMode.CLAMP
+                )
+                textView.paint.shader = shader
+            }
+        })
     }
 
 }

@@ -802,7 +802,6 @@
                     app:layout_constraintTop_toTopOf="@+id/tvCashOnDelivery"
                     app:layout_constraintBottom_toBottomOf="@+id/tvCashOnDelivery"/>
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
