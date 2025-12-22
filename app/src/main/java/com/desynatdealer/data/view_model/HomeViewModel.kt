@@ -7,6 +7,10 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.repo.HomeRepository
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
+import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
+import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
+import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
@@ -366,5 +370,52 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _addBannerResponse =
+        MutableLiveData<ApiResult<AddBannerResponse>?>()
+    val addBannerResponse: MutableLiveData<ApiResult<AddBannerResponse>?>
+        get() = _addBannerResponse
+
+    fun addBanner(request: AddBannerRequest) {
+        viewModelScope.launch {
+            _addBannerResponse.value = ApiResult.Loading
+            _addBannerResponse.value = repo.addBanner(request)
+        }
+    }
+
+    private val _getBannerResponse =
+        MutableLiveData<ApiResult<GetAllBannerResponse>?>()
+    val getBannerResponse: MutableLiveData<ApiResult<GetAllBannerResponse>?>
+        get() = _getBannerResponse
+
+    fun getBanner(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getBannerResponse.value = ApiResult.Loading
+            _getBannerResponse.value = repo.getBanner(map)
+        }
+    }
+
+    private val _getBannerPriceResponse =
+        MutableLiveData<ApiResult<GetBannerPriceResponse>?>()
+    val getBannerPriceResponse: MutableLiveData<ApiResult<GetBannerPriceResponse>?>
+        get() = _getBannerPriceResponse
+
+    fun getBannerPrice(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getBannerPriceResponse.value = ApiResult.Loading
+            _getBannerPriceResponse.value = repo.getBannerPrice(map)
+        }
+    }
+
+    private val _bannerPaymentResponse =
+        MutableLiveData<ApiResult<AddBannerResponse>?>()
+    val bannerPaymentResponse: MutableLiveData<ApiResult<AddBannerResponse>?>
+        get() = _bannerPaymentResponse
+
+    fun bannerPayment(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _bannerPaymentResponse.value = ApiResult.Loading
+            _bannerPaymentResponse.value = repo.bannerPayment(map)
+        }
+    }
 
 }

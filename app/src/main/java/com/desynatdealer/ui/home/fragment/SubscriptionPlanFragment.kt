@@ -55,6 +55,7 @@ class SubscriptionPlanFragment : BaseFragment() {
                 override fun onSubscriptionClick(position: Int) {
                     val bundle = Bundle().apply {
                         putString("subscriptionData", Gson().toJson(subscriptionList[position]))
+                        putString("from", "subscription")
                     }
                     findNavController().navigate(R.id.action_subscriptionFragment_to_paymentMethodFragment,bundle)
                 }

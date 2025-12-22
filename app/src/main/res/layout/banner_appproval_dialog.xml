@@ -30,7 +30,7 @@
             android:text="Your banner request has been successfully submitted  for verification !Our team is currently reviewing your details please allow 3-4 hour for the verification process to be completed.you will be notified once your banner is approved on the desynat platform"
             android:textColor="#CC000000"
             android:layout_marginBottom="@dimen/_20sdp"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_10sdp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvThanks"
@@ -42,7 +42,7 @@
             android:fontFamily="@font/poppins_semi_bold"
             android:text="Thank you for your patience TEAM DESNYAT "
             android:textColor="@color/brown"
-            android:textSize="@dimen/_13sdp" />
+            android:textSize="@dimen/_11sdp" />
 
     </LinearLayout>
 

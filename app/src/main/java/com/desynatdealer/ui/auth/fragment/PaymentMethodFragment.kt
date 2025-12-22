@@ -13,6 +13,7 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentPaymentMethodBinding
+import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.CommonMethod
@@ -45,9 +46,11 @@ class PaymentMethodFragment : BaseFragment() {
     private var binding: FragmentPaymentMethodBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
     private var subscriptionData: GetAllPlanResponse.Data?=null
+    private var bannerData: GetAllBannerResponse.Data?=null
     private var profileData:GetSellerInfo.Data?=null
     private var paymentData: MFGetPaymentStatusResponse?=null
     private var isLoad = false
+    private var from = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,22 +71,43 @@ class PaymentMethodFragment : BaseFragment() {
         profileData = SharedPreference.get(requireActivity()).getUser()
         initiateSession()
         cardStyling()
-        val itemJson = arguments?.getString("subscriptionData")
-        if (!itemJson.isNullOrEmpty()) {
-            subscriptionData = Gson().fromJson(itemJson, GetAllPlanResponse.Data::class.java)
+        from = arguments?.getString("from").toString()
+        when(from){
+            "subscription"->{
+                val itemJson = arguments?.getString("subscriptionData")
+                if (!itemJson.isNullOrEmpty()) {
+                    subscriptionData = Gson().fromJson(itemJson, GetAllPlanResponse.Data::class.java)
 
-        }
-        binding?.apply {
-            toolbar.tvToolbar.text = "Payment Method"
-            tvTotalAmount.text = "KD ${subscriptionData?.price}"
-            when(subscriptionData?.durationType){
-                1 -> {
-                    tvDays.text = "for ${subscriptionData?.duration} Month"
-                }
-                else -> {
-                    tvDays.text = "for ${subscriptionData?.duration} Days"
                 }
             }
+            "banner"-> {
+                val itemJson = arguments?.getString("bannerData")
+                if (!itemJson.isNullOrEmpty()) {
+                    bannerData = Gson().fromJson(itemJson, GetAllBannerResponse.Data::class.java)
+                }
+            }
+        }
+
+        binding?.apply {
+            toolbar.tvToolbar.text = "Payment Method"
+            when(from) {
+                "subscription" -> {
+                    tvTotalAmount.text = "${subscriptionData?.price} KD"
+                    when(subscriptionData?.durationType){
+                        1 -> {
+                            tvDays.text = "for ${subscriptionData?.duration} Month"
+                        }
+                        else -> {
+                            tvDays.text = "for ${subscriptionData?.duration} Days"
+                        }
+                    }
+                }
+                "banner"-> {
+                    tvTotalAmount.text = "${bannerData?.price} KD"
+                    tvDays.text = "for ${bannerData?.totalDays} Days"
+                }
+            }
+
         }
     }
 
@@ -99,8 +123,8 @@ class PaymentMethodFragment : BaseFragment() {
 
             btnPay.setOnClickListener {
                 if(isLoad) {
-                    //   executeRedirectPayment()
-                    executeEmbeddedPayment()
+                    executeRedirectPayment(2,if (from=="subscription") subscriptionData?.price?:0.0 else bannerData?.price?:0.0)
+                   // executeEmbeddedPayment()
                 }
             }
         }
@@ -150,6 +174,31 @@ class PaymentMethodFragment : BaseFragment() {
                 }
             }
         }
+
+        viewModel.bannerPaymentResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    CommonMethod.showSuccessDialog(requireActivity(),"Plan purchased successfully !"){
+                        findNavController().popBackStack()
+                    }
+                    viewModel.bannerPaymentResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.bannerPaymentResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
     }
     private fun cardStyling() {
         binding?.mfPaymentView?.cardStyle = MFCardViewStyle(
@@ -324,8 +373,15 @@ class PaymentMethodFragment : BaseFragment() {
         viewModel.buySubscriptionPlan(map)
     }
 
-/*
-    private fun executeRedirectPayment() {
+    private  fun payForBanner(){
+        val map = HashMap<String,Any>()
+        map["order_id"] = bannerData?.orderId.toString()
+        map["payment_status"] = 1
+        map["transaction_id"] = paymentData?.invoiceTransactions?.get(0)?.transactionId.toString()
+        viewModel.bannerPayment(map)
+    }
+
+    private fun executeRedirectPayment(paymentMethodId:Int,price:Double) {
         ProgressDialogUtils.getInstance().showProgress(requireActivity())
         val requestInitiate = MFInitiatePaymentRequest(0.100, MFCurrencyISO.KUWAIT_KWD)
         MFSDK.initiatePayment(
@@ -342,14 +398,7 @@ class PaymentMethodFragment : BaseFragment() {
             }
         }
 
-        val paymentMethodId = 2
-
-        val request = MFExecutePaymentRequest(paymentMethodId, subscriptionData?.price).apply {
-            customerReference = subscriptionData?.id.toString()
-            customerName = "${profileData?.firstName} ${profileData?.lastName}"
-            mobileCountryCode = profileData?.countryCode
-            customerMobile = profileData?.mobile
-            customerEmail = profileData?.email
+        val request = MFExecutePaymentRequest(paymentMethodId, price).apply {
         }
 
         MFSDK.executePayment(
@@ -363,25 +412,24 @@ class PaymentMethodFragment : BaseFragment() {
                 is MFResult.Success -> {
                     Log.d("executeRedirectPayment", "Success: ${Gson().toJson(result.response)}")
                     paymentData = result.response
-                    createSubscriptionPlan()
+                    if (from=="subscription"){
+                        createSubscriptionPlan()
+                    }
+                    else{
+                        payForBanner()
+
+                    }
                 }
                 is MFResult.Fail -> {
                     Log.d("executeRedirectPayment", "Fail: ${Gson().toJson(result.error)}")
                     result.error.message?.let { showToast(it) }
-                   // showToast("Payment failed")
-                    requireActivity().runOnUiThread {
-                        if (isAdded && findNavController().currentDestination?.id == R.id.paymentMethod) {
-                            findNavController().popBackStack()
-                        }
-                    }
-               //     createSubscriptionPlan()
+//                    showToast("Payment failed")
+
                 }
                 MFResult.Loading -> {
-                    // Optional: show progress here if needed
                 }
             }
         }
     }
-*/
 
 }

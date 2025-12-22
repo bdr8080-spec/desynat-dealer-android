@@ -6,6 +6,10 @@ import com.desynatdealer.model.login.req.LoginReq
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
+import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
+import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
+import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
@@ -155,4 +159,16 @@ interface CommonApiService {
 
     @POST(Constants.UPDATE_STORE_INFO)
     suspend fun updateStoreInfo(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.ADD_BANNER)
+    suspend fun addBanner(@Body request: AddBannerRequest): Response<AddBannerResponse>
+
+    @POST(Constants.GET_ALL_BANNER)
+    suspend fun getBanner(@Body map: HashMap<String, Any>): Response<GetAllBannerResponse>
+
+    @POST(Constants.GET_BANNER_PRICE)
+    suspend fun getBannerPrice(@Body map: HashMap<String, Any>): Response<GetBannerPriceResponse>
+
+    @POST(Constants.BANNER_PAYMENT)
+    suspend fun bannerPayment(@Body map: HashMap<String, Any>): Response<AddBannerResponse>
 }

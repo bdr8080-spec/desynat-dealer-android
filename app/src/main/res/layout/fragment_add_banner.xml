@@ -140,6 +140,7 @@
             app:layout_constraintTop_toTopOf="@+id/etFrom"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
             android:id="@+id/clDays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -164,7 +165,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="07"
+                android:text=""
                 android:textColor="@color/brown"
                 android:textSize="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"

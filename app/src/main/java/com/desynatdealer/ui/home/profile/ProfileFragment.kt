@@ -78,6 +78,10 @@ class ProfileFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_profileFragment_to_affiliatedCommissionFragment)
             }
 
+            rlBanner.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_bannerManagementFragment)
+            }
+
             relLogout.setOnClickListener {
                     viewModel.logout()
             }

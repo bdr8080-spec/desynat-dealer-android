@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
@@ -18,10 +19,13 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.BannerAppprovalDialogBinding
 import com.desynatdealer.databinding.FragmentAddBannerBinding
+import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
+import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -30,7 +34,13 @@ import java.io.File
 class AddBannerFragment : BaseFragment() {
     private var binding : FragmentAddBannerBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
-
+    var bannerPos = 0
+    var startDate:String?=null
+    var endDate:String?=null
+    var fromTimestamp = 0L
+    var toTimestamp = 0L
+    var days = 0
+    private var bannerPriceList = ArrayList<GetBannerPriceResponse.Data>()
     private lateinit var imagePicker: ImagePicker
     private var bannerImage: File? = null
     private val cameraLauncher =
@@ -87,6 +97,23 @@ class AddBannerFragment : BaseFragment() {
                 }
             }
 
+            rgPosition.setOnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    R.id.cbTop -> {
+                        bannerPos = 1
+                        getBannerPrice()
+                    }
+                    R.id.cbBottom -> {
+                        bannerPos = 2
+                        getBannerPrice()
+                    }
+                    R.id.cbCategory -> {
+                        bannerPos = 3
+                        getBannerPrice()
+                    }
+                }
+            }
+
         }
     }
 
@@ -97,24 +124,70 @@ class AddBannerFragment : BaseFragment() {
             }
 
             btnSendRequest.setOnClickListener {
-
+                addBanner()
             }
 
-            etFrom.setOnClickListener{
+            etFrom.setOnClickListener {
+                openCustomDatePicker(requireActivity()){date,timestamp->
+                    etFrom.setText(date)
+                    startDate = CommonMethod.formatDate(etFrom.text.toString(),"dd/MM/yyyy","yyyy-MM-dd")
+                    fromTimestamp=timestamp
+                    calculateDays()
+                }
 
             }
-
             etTo.setOnClickListener {
+                openCustomDatePicker(requireActivity(), minDate = fromTimestamp){date,timestamp->
+                    etTo.setText(date)
+                    endDate = CommonMethod.formatDate(etTo.text.toString(),"dd/MM/yyyy","yyyy-MM-dd")
+                    toTimestamp=timestamp
+                    calculateDays()
+                }
 
+            }
+
+            ivBanner.setOnClickListener {
+                imagePicker.showImageSourceDialog()
             }
         }
+    }
+
+    private fun addBanner() {
+        if (startDate == null || endDate == null) {
+            showToast("Please select date")
+            return
+        }
+
+        val perDayPrice = bannerPriceList.firstOrNull()?.perDayPrice ?: 0.0
+        val totalPrice = days * perDayPrice
+
+        val request = AddBannerRequest(
+            bannerPosition = bannerPos.toString(),
+            startDate = startDate.toString(),
+            endDate = endDate.toString(),
+            price = totalPrice.toString(),
+            totalDays = days.toString(),
+            uploadBanner = bannerUrl.toString(),
+            category = null,
+            subcatgory = null
+        )
+
+        viewModel.addBanner(request)
+    }
+
+
+    private fun getBannerPrice(){
+        val map = HashMap<String,Any>()
+        map["type"] = bannerPos
+        viewModel.getBannerPrice(map)
     }
 
     override fun observe() {
         viewModel.uploadResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())                  }
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
@@ -132,6 +205,76 @@ class AddBannerFragment : BaseFragment() {
             }
         }
 
+        viewModel.addBannerResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    waitingDialog()
+                    viewModel.addBannerResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.addBannerResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+        viewModel.getBannerPriceResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    bannerPriceList.clear()
+                    result.data?.data?.let { bannerPriceList.addAll(it) }
+                    viewModel.getBannerPriceResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getBannerPriceResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+    }
+
+    private fun setBannerPriceData() {
+        binding?.apply {
+            if (bannerPriceList.isNotEmpty()) {
+                val perDayPrice = bannerPriceList?.get(0)?.perDayPrice ?: 0.0
+                val totalPrice = if (days > 0) days * perDayPrice else perDayPrice
+
+                tvTotalPrice.text = "${CommonMethod.formatPrice(totalPrice)} KD"
+                clDays.isVisible = true
+            }
+            else{
+                clDays.isVisible = false
+            }
+        }
+    }
+
+
+    private fun calculateDays() {
+        if (fromTimestamp > 0 && toTimestamp > 0 && toTimestamp >= fromTimestamp) {
+            val diff = toTimestamp - fromTimestamp
+            days = ((diff / (1000 * 60 * 60 * 24)) + 1).toInt()
+            binding?.tvTotalDays?.text = days.toString()
+            setBannerPriceData()
+        }
     }
 
     fun waitingDialog() {
@@ -155,7 +298,7 @@ class AddBannerFragment : BaseFragment() {
                     findNavController().popBackStack()
                     dialog.dismiss()
                 }
-            }, 1000)
+            }, 3000)
 
     }
 

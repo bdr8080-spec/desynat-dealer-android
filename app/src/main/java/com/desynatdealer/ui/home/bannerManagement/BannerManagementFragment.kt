@@ -12,9 +12,14 @@ import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.adapter.BannerAdapter
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentBannerManagementBinding
+import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.showToast
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -28,8 +33,9 @@ class BannerManagementFragment : BaseFragment() {
     private var search: Job? = null
     private var lastQuery: String? = null
 
-    private var bannerList = ArrayList<String>()
+    private var bannerList = ArrayList<GetAllBannerResponse.Data>()
     private var bannerAdapter : BannerAdapter?=null
+    private var selectedPos = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,6 +80,7 @@ class BannerManagementFragment : BaseFragment() {
                     lastQuery = query
                     search?.cancel()
                     search = lifecycleScope.launch {
+                        getBanner()
                         delay(600)
 
                     }
@@ -85,10 +92,17 @@ class BannerManagementFragment : BaseFragment() {
                 override fun onItemClick(position: Int, type: Int) {
                     when(type){
                         1->{
-                            findNavController().navigate(R.id.action_bannerManagementFragment_to_bannerDetailFragment)
+                            val bundle = Bundle().apply {
+                                putString("bannerData", Gson().toJson(bannerList[position]))
+                            }
+                            findNavController().navigate(R.id.action_bannerManagementFragment_to_bannerDetailFragment,bundle)
                         }
                         2->{
-
+                            val bundle = Bundle().apply {
+                                putString("bannerData", Gson().toJson(bannerList[position]))
+                                putString("from", "banner")
+                            }
+                            findNavController().navigate(R.id.action_bannerManagementFragment_to_paymentMethodFragment,bundle)
                         }
                     }
                 }
@@ -96,9 +110,20 @@ class BannerManagementFragment : BaseFragment() {
             })
             rvBanner.adapter = bannerAdapter
 
+           getBanner()
 
         }
     }
+
+    private fun getBanner() {
+        val map = HashMap<String,Any>()
+        if (lastQuery!=null) {
+            map["search"] = lastQuery.toString()
+        }
+        viewModel.getBanner(map)
+    }
+
+
 
     override fun initControl() {
         binding?.apply {
@@ -113,6 +138,30 @@ class BannerManagementFragment : BaseFragment() {
     }
 
     override fun observe() {
+        viewModel.getBannerResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    bannerList.clear()
+                    result.data?.data?.let { bannerList.addAll(it) }
+                    bannerAdapter?.notifyDataSetChanged()
+                    viewModel.getBannerResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getBannerResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
 
     }
 

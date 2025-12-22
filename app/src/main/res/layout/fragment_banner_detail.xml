@@ -90,6 +90,63 @@
                     app:layout_constraintBottom_toBottomOf="@+id/tvRequestedOn"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
+                    android:id="@+id/tvCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Category"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textColor="#80000000"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRequestedOn" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
+                    android:id="@+id/tvCategoryValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvCategory"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvCategory"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
+                    android:id="@+id/tvSubCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Sub-Category"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textColor="#80000000"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
+                    android:id="@+id/tvSubCategoryValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvSubCategory"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvSubCategory"/>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -100,7 +157,7 @@
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvRequestedOn" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvSubCategory" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvStatusValue"
@@ -268,7 +325,7 @@
                 style="@style/button"
                 android:layout_marginBottom="@dimen/_30sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Pay"/>
+                android:text="Pay Now"/>
 
         </LinearLayout>
 

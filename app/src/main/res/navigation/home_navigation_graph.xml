@@ -124,6 +124,10 @@
         android:id="@+id/action_profileFragment_to_viewProfileFragment"
         app:destination="@id/viewProfile"/>
 
+        <action
+            android:id="@+id/action_profileFragment_to_bannerManagementFragment"
+            app:destination="@id/bannerManagement"/>
+
     </fragment>
 
     <fragment
@@ -196,6 +200,10 @@
         android:id="@+id/action_bannerManagementFragment_to_bannerDetailFragment"
         app:destination="@id/bannerDetail"/>
 
+        <action
+            android:id="@+id/action_bannerManagementFragment_to_paymentMethodFragment"
+            app:destination="@id/paymentMethod"/>
+
     </fragment>
 
     <fragment
@@ -208,7 +216,13 @@
         android:id="@+id/bannerDetail"
         android:name="com.desynatdealer.ui.home.bannerManagement.BannerDetailFragment"
         android:label="Banner Detail Fragment"
-        tools:layout="@layout/fragment_banner_detail"/>
+        tools:layout="@layout/fragment_banner_detail">
+
+        <action
+            android:id="@+id/action_bannerDetailFragment_to_paymentMethodFragment"
+            app:destination="@id/paymentMethod"/>
+
+    </fragment>
 
 
 </navigation>

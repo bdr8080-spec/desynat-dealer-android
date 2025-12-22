@@ -190,8 +190,14 @@ class HomeActivity : BaseActivity() {
         bottomAdapter = BottomNavAdapter(this,bottonNavItemList, object :BottomNavAdapter.BottomNavItemClick{
             override fun onBottomNavItemClick(position: Int) {
                 when(position) {
-                    0 -> controller.navigate(R.id.home)
-                    1 -> controller.navigate(R.id.productManagement)
+                    0 -> {
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        controller.navigate(R.id.home)
+                    }
+                    1 -> {
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        controller.navigate(R.id.productManagement)
+                    }
                   /*
                     //2 -> controller.navigate(R.id.catalog)
                     3 -> controller.navigate(R.id.myBag)

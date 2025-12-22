@@ -45,4 +45,9 @@ object Constants {
     const val UPDATE_AFFILIATE_COMMISSION = "/api/seller/update-affilate-commission"
     const val UPDATE_STORE_INFO = "/api/seller/update-store-information"
     const val UPDATE_STORE_BANK_DETAIL = "/api/seller/update-store-bank-details"
+
+    const val GET_BANNER_PRICE = "/api/seller/get-seller-banner-price"
+    const val ADD_BANNER = "/api/seller/add-banner"
+    const val GET_ALL_BANNER = "/api/seller/all-banners"
+    const val BANNER_PAYMENT = "/api/seller/complete-banner-payment"
 }

@@ -9,6 +9,10 @@ import com.desynatdealer.model.login.req.LoginReq
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
+import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
+import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
+import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
@@ -228,4 +232,40 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
             ApiResult.Error("Syntax Error")
         }
     }
+
+    suspend fun addBanner(request:AddBannerRequest): ApiResult<AddBannerResponse> {
+        return try {
+            networkCall(api.addBanner(request))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+
+    suspend fun getBanner(map: HashMap<String, Any>): ApiResult<GetAllBannerResponse> {
+        return try {
+            networkCall(api.getBanner(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+
+    suspend fun getBannerPrice(map: HashMap<String, Any>): ApiResult<GetBannerPriceResponse> {
+        return try {
+            networkCall(api.getBannerPrice(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+
+    suspend fun bannerPayment(map: HashMap<String, Any>): ApiResult<AddBannerResponse> {
+        return try {
+            networkCall(api.bannerPayment(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
 }
