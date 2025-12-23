@@ -82,9 +82,11 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
                     tvStatusValue.text = "Rejected"
                     tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                     btnPay.isVisible = false
-                    tvReason.isVisible = true
-                    tvRejectedReason.isVisible = true
-                    tvRejectedReason.text = bannerData?.cancelledReason
+                    if (bannerData?.cancelledReason!=null) {
+                        tvReason.isVisible = true
+                        tvRejectedReason.isVisible = true
+                        tvRejectedReason.text = bannerData?.cancelledReason
+                    }
                 }
             }
 

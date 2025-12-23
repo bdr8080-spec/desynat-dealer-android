@@ -94,6 +94,7 @@
         </LinearLayout>
 
         <com.myfatoorah.sdk.views.embeddedpayment.MFPaymentCardView
+            android:visibility="gone"
             android:id="@+id/mfPaymentView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

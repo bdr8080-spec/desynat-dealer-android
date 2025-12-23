@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -134,6 +135,10 @@ class BannerManagementFragment : BaseFragment() {
             ivAdd.setOnClickListener {
                 findNavController().navigate(R.id.action_bannerManagementFragment_to_addBannerFragment)
             }
+
+            ivFilter.setOnClickListener {
+
+            }
         }
     }
 
@@ -149,6 +154,7 @@ class BannerManagementFragment : BaseFragment() {
                     bannerList.clear()
                     result.data?.data?.let { bannerList.addAll(it) }
                     bannerAdapter?.notifyDataSetChanged()
+                    checkData()
                     viewModel.getBannerResponse.value = null
                 }
 
@@ -162,6 +168,11 @@ class BannerManagementFragment : BaseFragment() {
             }
         }
 
+
+    }
+
+    private fun checkData(){
+        binding?.tvNoDataFound?.isVisible = bannerList.isEmpty()
 
     }
 

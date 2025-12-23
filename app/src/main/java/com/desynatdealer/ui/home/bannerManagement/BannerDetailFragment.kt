@@ -40,6 +40,24 @@ class BannerDetailFragment : BaseFragment() {
         initView()
         initControl()
         observe()
+
+        findNavController()
+            .currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<Boolean>("bannerPaymentDone")
+            ?.observe(viewLifecycleOwner) { isPaid ->
+                if (isPaid == true) {
+                    binding?.btnPay?.isVisible = false
+
+                    binding?.tvStatusValue?.text = "Active"
+                    binding?.tvStatusValue?.let { CommonMethod.applyGradientText(it) }
+
+                    findNavController()
+                        .currentBackStackEntry
+                        ?.savedStateHandle
+                        ?.remove<Boolean>("bannerPaymentDone")
+                }
+            }
     }
 
     override fun initView() {
@@ -110,6 +128,11 @@ class BannerDetailFragment : BaseFragment() {
                     tvStatusValue.text = "Rejected"
                     tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                     btnPay.isVisible = false
+                    if (bannerData?.cancelledReason!=null) {
+                        tvReason.isVisible = true
+                        tvRejectedReason.isVisible = true
+                        tvRejectedReason.text = bannerData?.cancelledReason
+                    }
                 }
             }
 

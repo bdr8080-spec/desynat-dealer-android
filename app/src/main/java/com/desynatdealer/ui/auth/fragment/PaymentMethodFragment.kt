@@ -70,7 +70,7 @@ class PaymentMethodFragment : BaseFragment() {
     override fun initView() {
         profileData = SharedPreference.get(requireActivity()).getUser()
         initiateSession()
-        cardStyling()
+       // cardStyling()
         from = arguments?.getString("from").toString()
         when(from){
             "subscription"->{
@@ -92,7 +92,7 @@ class PaymentMethodFragment : BaseFragment() {
             toolbar.tvToolbar.text = "Payment Method"
             when(from) {
                 "subscription" -> {
-                    tvTotalAmount.text = "${subscriptionData?.price} KD"
+                    tvTotalAmount.text = "${CommonMethod.formatPrice(subscriptionData?.price?:0.0)} KD"
                     when(subscriptionData?.durationType){
                         1 -> {
                             tvDays.text = "for ${subscriptionData?.duration} Month"
@@ -103,7 +103,7 @@ class PaymentMethodFragment : BaseFragment() {
                     }
                 }
                 "banner"-> {
-                    tvTotalAmount.text = "${bannerData?.price} KD"
+                    tvTotalAmount.text = "${CommonMethod.formatPrice(bannerData?.price?:0.0)} KD"
                     tvDays.text = "for ${bannerData?.totalDays} Days"
                 }
             }
@@ -124,7 +124,7 @@ class PaymentMethodFragment : BaseFragment() {
             btnPay.setOnClickListener {
                 if(isLoad) {
                     executeRedirectPayment(2,if (from=="subscription") subscriptionData?.price?:0.0 else bannerData?.price?:0.0)
-                   // executeEmbeddedPayment()
+                  //  executeEmbeddedPayment()
                 }
             }
         }
@@ -183,7 +183,12 @@ class PaymentMethodFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Plan purchased successfully !"){
+                    findNavController().previousBackStackEntry
+                        ?.savedStateHandle
+                        ?.set("bannerPaymentDone", true)
+                    CommonMethod.showSuccessDialog(requireActivity(),
+                        result.data?.message.toString()
+                    ){
                         findNavController().popBackStack()
                     }
                     viewModel.bannerPaymentResponse.value = null
@@ -250,12 +255,12 @@ class PaymentMethodFragment : BaseFragment() {
                 is MFResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     isLoad = true
-                    binding?.mfPaymentView?.load(
+                  /*  binding?.mfPaymentView?.load(
                         it.response,
                         onCardBinChanged = { bin ->
                             Log.d("initiateSession", "bin: $bin")
                         }
-                    )
+                    )*/
                 }
                 is MFResult.Fail -> {
                     isLoad = false
@@ -274,13 +279,25 @@ class PaymentMethodFragment : BaseFragment() {
     private fun executeEmbeddedPayment() {
         viewLifecycleOwner.lifecycleScope.launch {
             ProgressDialogUtils.getInstance().showProgress(requireActivity())
-            val request = MFExecutePaymentRequest(subscriptionData?.price).apply {
-                customerReference = subscriptionData?.id.toString()
-                customerName = "${profileData?.firstName} ${profileData?.lastName}"
-                mobileCountryCode = profileData?.countryCode
-                customerMobile = profileData?.mobile
-                customerEmail = profileData?.email
+            val request =  if (from=="subscription"){
+                MFExecutePaymentRequest(subscriptionData?.price).apply {
+                    customerReference = subscriptionData?.id.toString()
+                    customerName = "${profileData?.firstName} ${profileData?.lastName}"
+                    mobileCountryCode = profileData?.countryCode
+                    customerMobile = profileData?.mobile
+                    customerEmail = profileData?.email
+                }
             }
+            else{
+                MFExecutePaymentRequest(bannerData?.price).apply {
+                    customerReference = bannerData?.id.toString()
+                    customerName = "${profileData?.firstName} ${profileData?.lastName}"
+                    mobileCountryCode = profileData?.countryCode
+                    customerMobile = profileData?.mobile
+                    customerEmail = profileData?.email
+                }
+            }
+
             binding?.mfPaymentView?.validate { result: MFResult<String> ->
                 when (result) {
                     is MFResult.Success -> {
@@ -307,7 +324,13 @@ class PaymentMethodFragment : BaseFragment() {
                                         "Response: " + Gson().toJson(result.response)
                                     )
                                     paymentData = result.response
-                                    createSubscriptionPlan()
+                                    if (from=="subscription"){
+                                        createSubscriptionPlan()
+                                    }
+                                    else{
+                                        payForBanner()
+
+                                    }
 
                                 }
 
@@ -376,7 +399,7 @@ class PaymentMethodFragment : BaseFragment() {
     private  fun payForBanner(){
         val map = HashMap<String,Any>()
         map["order_id"] = bannerData?.orderId.toString()
-        map["payment_status"] = 1
+        map["payment_status"] = "1"
         map["transaction_id"] = paymentData?.invoiceTransactions?.get(0)?.transactionId.toString()
         viewModel.bannerPayment(map)
     }
