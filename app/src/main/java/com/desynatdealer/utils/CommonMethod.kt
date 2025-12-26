@@ -599,4 +599,29 @@ object CommonMethod {
         })
     }
 
+    fun isUpcoming(startDate: String): Boolean {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val today = sdf.parse(sdf.format(Date()))
+        val start = sdf.parse(startDate)
+        return start != null && start.after(today)
+    }
+
+    fun isActive(startDate: String, endDate: String): Boolean {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val today = sdf.parse(sdf.format(Date()))
+        val start = sdf.parse(startDate)
+        val end = sdf.parse(endDate)
+
+        return start != null && end != null &&
+                (today.equals(start) || today.after(start)) &&
+                (today.equals(end) || today.before(end))
+    }
+
+    fun isExpired(endDate: String): Boolean {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val today = sdf.parse(sdf.format(Date()))
+        val end = sdf.parse(endDate)
+        return end != null && today.after(end)
+    }
+
 }

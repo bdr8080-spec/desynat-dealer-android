@@ -1,11 +1,15 @@
 package com.desynatdealer.ui.home.bannerManagement
 
+import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,16 +19,20 @@ import com.desynatdealer.adapter.BannerAdapter
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
+import com.desynatdealer.databinding.BannerFilterDialogBinding
 import com.desynatdealer.databinding.FragmentBannerManagementBinding
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @AndroidEntryPoint
 class BannerManagementFragment : BaseFragment() {
@@ -37,7 +45,11 @@ class BannerManagementFragment : BaseFragment() {
     private var bannerList = ArrayList<GetAllBannerResponse.Data>()
     private var bannerAdapter : BannerAdapter?=null
     private var selectedPos = -1
-
+    private var bannerFilter:String? = null
+    private var fromTimestamp: Long? = null
+    private var toTimestamp: Long? = null
+    private var fromDateText: String? = null
+    private var toDateText: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -118,13 +130,24 @@ class BannerManagementFragment : BaseFragment() {
 
     private fun getBanner() {
         val map = HashMap<String,Any>()
-        if (lastQuery!=null) {
+        if (lastQuery!=null&&lastQuery!="") {
             map["search"] = lastQuery.toString()
+        }
+        if (bannerFilter!=null&&bannerFilter!="") {
+            map["banner_filter"] = bannerFilter.toString()
+        }
+        if (fromDateText!=null&&fromDateText!="") {
+            map["from"] =
+                CommonMethod.formatDate(fromDateText.toString(),"dd/MM/yyyy","yyyy-MM-dd")
+
+        }
+        if (toDateText!=null&&toDateText!="") {
+            map["to"] =
+                CommonMethod.formatDate(toDateText.toString(),"dd/MM/yyyy","yyyy-MM-dd")
+
         }
         viewModel.getBanner(map)
     }
-
-
 
     override fun initControl() {
         binding?.apply {
@@ -137,7 +160,7 @@ class BannerManagementFragment : BaseFragment() {
             }
 
             ivFilter.setOnClickListener {
-
+                bannerFilterDialog()
             }
         }
     }
@@ -152,7 +175,10 @@ class BannerManagementFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     bannerList.clear()
-                    result.data?.data?.let { bannerList.addAll(it) }
+
+                    result.data?.data?.let {
+                        bannerList.addAll(it)
+                    }
                     bannerAdapter?.notifyDataSetChanged()
                     checkData()
                     viewModel.getBannerResponse.value = null
@@ -173,7 +199,135 @@ class BannerManagementFragment : BaseFragment() {
 
     private fun checkData(){
         binding?.tvNoDataFound?.isVisible = bannerList.isEmpty()
+    }
 
+    private fun bannerFilterDialog() {
+        var filter:String? = null
+        var tempFromTimestamp: Long? = null
+        var tempToTimestamp: Long? = null
+        var tempFromDateText: String? = null
+        var tempToDateText: String? = null
+        val dialog = Dialog(requireActivity(), R.style.CustomDialog)
+        val dialogBinding = BannerFilterDialogBinding.inflate(LayoutInflater.from(context))
+        dialogBinding.root.let { dialog.setContentView(it) }
+
+        val window: Window = dialog.window!!
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        window.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+
+        val params: WindowManager.LayoutParams = window.attributes
+        params.gravity = Gravity.BOTTOM
+        window.attributes = params
+
+        dialogBinding.apply {
+
+            if (bannerFilter!=null) {
+                filter = bannerFilter.toString()
+                when (bannerFilter) {
+                    "1" -> rbActive.isChecked = true
+                    "2" -> rbConfirmed.isChecked = true
+                    "3" -> rbPending.isChecked = true
+                    "4" -> rbExpired.isChecked = true
+                    "5" -> rbRejected.isChecked = true
+                }
+            }
+
+            tempFromTimestamp = fromTimestamp
+            tempToTimestamp = toTimestamp
+            tempFromDateText = fromDateText
+            tempToDateText = toDateText
+
+            tempFromDateText?.let { etFrom.text = it }
+            tempToDateText?.let { etTo.text = it }
+
+            radioGroup.setOnCheckedChangeListener { _, checkedId ->
+                filter = when (checkedId) {
+                    R.id.rbActive -> "1"
+                    R.id.rbConfirmed -> "2"
+                    R.id.rbPending -> "3"
+                    R.id.rbExpired -> "4"
+                    R.id.rbRejected -> "5"
+                    else -> null
+                }
+            }
+
+            tvToolbar.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            etFrom.setOnClickListener {
+                openCustomDatePicker(requireActivity()) { date, timestamp ->
+                    tempFromTimestamp = timestamp
+                    tempFromDateText = date
+                    etFrom.text = date
+
+                    tempToTimestamp = null
+                    tempToDateText = null
+                    etTo.text = ""
+                }
+            }
+
+            etTo.setOnClickListener {
+                if (tempFromTimestamp == null) {
+                    showToast("Please select From date first")
+                    return@setOnClickListener
+                }
+
+                openCustomDatePicker(
+                    requireActivity(),
+                    minDate = tempFromTimestamp
+                ) { date, timestamp ->
+                    tempToTimestamp = timestamp
+                    tempToDateText = date
+                    etTo.text = date
+                }
+            }
+
+            tvClear.setOnClickListener {
+                filter = ""
+                bannerFilter = null
+
+                fromTimestamp = null
+                toTimestamp = null
+                fromDateText = null
+                toDateText = null
+
+                tempFromTimestamp = null
+                tempToTimestamp = null
+                tempFromDateText = null
+                tempToDateText = null
+
+                getBanner()
+                dialog.dismiss()
+            }
+
+            tvApply.setOnClickListener {
+
+                bannerFilter = filter
+
+                fromTimestamp = tempFromTimestamp
+                toTimestamp = tempToTimestamp
+                fromDateText = tempFromDateText
+                toDateText = tempToDateText
+
+                if (bannerFilter==null &&fromDateText==null&&toDateText==null) {
+                    showToast("Please select banner status")
+                    return@setOnClickListener
+                }
+                else{
+                    getBanner()
+                    dialog.dismiss()
+                }
+
+            }
+
+        }
+
+        dialog.show()
     }
 
 }

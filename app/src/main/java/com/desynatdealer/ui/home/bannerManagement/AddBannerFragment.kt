@@ -33,6 +33,9 @@ import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class AddBannerFragment : BaseFragment() {
@@ -41,6 +44,7 @@ class AddBannerFragment : BaseFragment() {
     var bannerPos = 1
     var startDate:String?=null
     var endDate:String?=null
+    var currentTimeStamp = 0L
     var fromTimestamp = 0L
     var toTimestamp = 0L
     var days = 0
@@ -90,6 +94,7 @@ class AddBannerFragment : BaseFragment() {
 
             CommonMethod.applyGradientText(tvDays)
             CommonMethod.applyGradientText(tvTotalDays)
+            setDefaultFromDate()
 
             imagePicker = ImagePicker(
                 requireActivity(),
@@ -113,7 +118,7 @@ class AddBannerFragment : BaseFragment() {
                         etCategory.isVisible=false
                         tvSelectSubCategory.isVisible=false
                         etSubCategory.isVisible=false
-                        getBannerPrice()
+                        resetBannerData()
                     }
                     R.id.cbBottom -> {
                         bannerPos = 2
@@ -121,13 +126,13 @@ class AddBannerFragment : BaseFragment() {
                         etCategory.isVisible=false
                         tvSelectSubCategory.isVisible=false
                         etSubCategory.isVisible=false
-                        getBannerPrice()
+                        resetBannerData()
                     }
                     R.id.cbCategory -> {
                         bannerPos = 3
                         tvSelectCategory.isVisible=true
                         etCategory.isVisible=true
-                        getBannerPrice()
+                        resetBannerData()
                         if (categoryList.isEmpty()) {
                             getCategory()
                         }
@@ -160,22 +165,23 @@ class AddBannerFragment : BaseFragment() {
             }
 
             etFrom.setOnClickListener {
-                openCustomDatePicker(requireActivity()){date,timestamp->
+                openCustomDatePicker(requireActivity(), minDate = currentTimeStamp) { date, timestamp ->
                     etFrom.setText(date)
-                    startDate = CommonMethod.formatDate(etFrom.text.toString(),"dd/MM/yyyy","yyyy-MM-dd")
-                    fromTimestamp=timestamp
-                    calculateDays()
+                    startDate = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
+                    fromTimestamp = normalizeTime(timestamp)
+                    toTimestamp = 0
+                    etTo.setText("")
+                    days = 0
                 }
-
             }
+
             etTo.setOnClickListener {
-                openCustomDatePicker(requireActivity(), minDate = fromTimestamp){date,timestamp->
+                openCustomDatePicker(requireActivity(), minDate = fromTimestamp) { date, timestamp ->
                     etTo.setText(date)
-                    endDate = CommonMethod.formatDate(etTo.text.toString(),"dd/MM/yyyy","yyyy-MM-dd")
-                    toTimestamp=timestamp
+                    endDate = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
+                    toTimestamp = normalizeTime(timestamp)
                     calculateDays()
                 }
-
             }
 
             ivBanner.setOnClickListener {
@@ -333,21 +339,29 @@ class AddBannerFragment : BaseFragment() {
 
     private fun setBannerPriceData() {
         binding?.apply {
-            if (bannerPriceList.isNotEmpty()) {
-                val perDayPrice = bannerPriceList?.get(0)?.perDayPrice ?: 0.0
-                val totalPrice = if (days > 0) days * perDayPrice else perDayPrice
-
-                tvTotalPrice.text = "${CommonMethod.formatPrice(totalPrice)} KD"
-                clDays.isVisible = days!=0
-                clPrice.isVisible = days!=0
-            }
-            else{
-                clDays.isVisible = false
-                clPrice.isVisible = false
+            if (bannerPriceList.isNotEmpty() && days > 0) {
+                val price = bannerPriceList[0].perDayPrice * days
+                tvTotalPrice.text = "${CommonMethod.formatPrice(price)} KD"
+                clDays.isVisible = true
+                clPrice.isVisible = true
             }
         }
     }
 
+    private fun resetBannerData() {
+        binding?.apply {
+            clPrice.isVisible = false
+            clDays.isVisible = false
+            etCategory.setText("")
+            etSubCategory.setText("")
+            endDate = null
+            etTo.setText("")
+            setDefaultFromDate()
+            days = 0
+            bannerUrl = null
+            ivBanner.setImageResource(R.drawable.ic_upload_banner)
+        }
+    }
 
     private fun calculateDays() {
         if (fromTimestamp > 0 && toTimestamp > 0 && toTimestamp >= fromTimestamp) {
@@ -471,5 +485,31 @@ class AddBannerFragment : BaseFragment() {
         return true
     }
 
+    private fun setDefaultFromDate() {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.HOUR_OF_DAY, 0)
+        cal.set(Calendar.MINUTE, 0)
+        cal.set(Calendar.SECOND, 0)
+        cal.set(Calendar.MILLISECOND, 0)
 
+        currentTimeStamp = cal.timeInMillis
+        fromTimestamp = cal.timeInMillis
+
+        val display = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(cal.time)
+        val api = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.time)
+
+        startDate = api
+        binding?.etFrom?.setText(display)
+    }
+
+
+    private fun normalizeTime(time: Long): Long {
+        val cal = Calendar.getInstance()
+        cal.timeInMillis = time
+        cal.set(Calendar.HOUR_OF_DAY, 0)
+        cal.set(Calendar.MINUTE, 0)
+        cal.set(Calendar.SECOND, 0)
+        cal.set(Calendar.MILLISECOND, 0)
+        return cal.timeInMillis
+    }
 }

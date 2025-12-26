@@ -105,16 +105,36 @@ class BannerDetailFragment : BaseFragment() {
 
                 "1" -> {
                     when (bannerData?.paymentStatus) {
-                        "0" -> {
+                        "0" -> {if (CommonMethod.isExpired(bannerData?.endDate.toString())) {
+                            tvStatusValue.text = "Expired"
+                            tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
+                            btnPay.isVisible = false
+                        }
+                        else {
                             tvStatusValue.text = "Confirmed"
                             tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
                             btnPay.isVisible = true
                         }
+                        }
 
                         "1" -> {
-                            tvStatusValue.text = "Active"
-                            CommonMethod.applyGradientText(tvStatusValue)
                             btnPay.isVisible = false
+                            when {
+                                CommonMethod.isUpcoming(bannerData?.startDate.toString()) -> {
+                                    tvStatusValue.text = "Upcoming"
+                                    tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
+                                }
+
+                                CommonMethod.isActive(bannerData?.startDate.toString(), bannerData?.endDate.toString()) -> {
+                                    tvStatusValue.text = "Active"
+                                    CommonMethod.applyGradientText(tvStatusValue)
+                                }
+
+                                CommonMethod.isExpired(bannerData?.endDate.toString()) -> {
+                                    tvStatusValue.text = "Expired"
+                                    tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
+                                }
+                            }
                         }
 
                         "2" -> {
@@ -186,4 +206,5 @@ class BannerDetailFragment : BaseFragment() {
 
     override fun observe() {
     }
+
 }

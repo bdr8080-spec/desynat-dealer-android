@@ -52,6 +52,7 @@ class BottomNavAdapter(var context:Context, var list: ArrayList<BottomNavItem>, 
             holder.binding.ivScanner.isVisible = true
         }
         else{
+            holder.binding.tvName.paint.shader = null
             holder.binding.ivImage.setImageResource(list[position].image)
             holder.binding.tvName.setTextColor(context.getColor(R.color.black))
             holder.binding.tvName.typeface = ResourcesCompat.getFont(context, R.font.poppins_regular)
