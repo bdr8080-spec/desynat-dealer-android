@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_8sdp"
+    android:layout_marginBottom="@dimen/_15sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/card_stroke_filled_background">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivStrokeCircle"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:scaleType="centerCrop"
+        app:strokeWidth="0.5dp"
+        app:strokeColor="#1A000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circle_image" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivUser"
+        android:layout_width="@dimen/_32sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_user"
+        app:layout_constraintStart_toStartOf="@+id/ivStrokeCircle"
+        app:layout_constraintEnd_toEndOf="@+id/ivStrokeCircle"
+        app:layout_constraintTop_toTopOf="@+id/ivStrokeCircle"
+        app:layout_constraintBottom_toBottomOf="@+id/ivStrokeCircle"
+        app:shapeAppearanceOverlay="@style/circle_image" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Max jacobson"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_11sdp"
+        app:layout_constraintEnd_toStartOf="@+id/tvStatus"
+        app:layout_constraintStart_toEndOf="@id/ivStrokeCircle"
+        app:layout_constraintTop_toTopOf="@id/ivStrokeCircle" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvLastMsg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Thank you, bro!"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_11sdp"
+        android:maxLines="2"
+        app:layout_constraintStart_toEndOf="@id/ivStrokeCircle"
+        app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Today 5 PM"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintStart_toEndOf="@id/ivStrokeCircle"
+        app:layout_constraintTop_toBottomOf="@id/tvLastMsg" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:text="New"
+        android:textColor="#EA9413"
+        android:backgroundTint="#1AEA9413"
+        android:background="@drawable/rounded_corner_4"
+        android:paddingHorizontal="@dimen/_8sdp"
+        android:paddingVertical="@dimen/_2sdp"
+        android:singleLine="true"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvName"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

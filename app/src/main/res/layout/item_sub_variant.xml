@@ -28,7 +28,7 @@
         android:focusable="false"
         android:editable="false"
         android:drawableEnd="@drawable/ic_drop_down"
-        android:paddingHorizontal="@dimen/_5sdp"
+        android:paddingHorizontal="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="@+id/tvSize"
         app:layout_constraintEnd_toStartOf="@+id/viewGap"
         app:layout_constraintTop_toBottomOf="@+id/tvSize"/>
@@ -95,7 +95,7 @@
             android:hint="Eg. 32"
             android:maxLength="2"
             android:inputType="number"
-            android:paddingHorizontal="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/etWaist"
             app:layout_constraintTop_toBottomOf="@+id/tvBust" />
@@ -122,7 +122,7 @@
             android:hint="Eg. 28"
             android:maxLength="2"
             android:inputType="number"
-            android:paddingHorizontal="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintTop_toTopOf="@+id/etBust"
             app:layout_constraintBottom_toBottomOf="@+id/etBust"
             app:layout_constraintEnd_toEndOf="parent"
@@ -151,7 +151,7 @@
             android:hint="Eg. 36"
             android:maxLength="2"
             android:inputType="number"
-            android:paddingHorizontal="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/etShoulder"
             app:layout_constraintTop_toBottomOf="@+id/tvHip" />
@@ -178,7 +178,7 @@
             android:hint="Eg. 16"
             android:inputType="number"
             android:maxLength="2"
-            android:paddingHorizontal="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintTop_toTopOf="@+id/etHip"
             app:layout_constraintBottom_toBottomOf="@+id/etHip"
             app:layout_constraintEnd_toEndOf="parent"
@@ -207,7 +207,7 @@
             android:hint="Eg. 22"
             android:maxLength="2"
             android:inputType="number"
-            android:paddingHorizontal="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/etLength"
             app:layout_constraintTop_toBottomOf="@+id/tvSleeveLength" />
@@ -234,7 +234,7 @@
             android:hint="Eg. 40"
             android:maxLength="3"
             android:inputType="number"
-            android:paddingHorizontal="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintTop_toTopOf="@+id/etSleeveLength"
             app:layout_constraintBottom_toBottomOf="@+id/etSleeveLength"
             app:layout_constraintEnd_toEndOf="parent"
@@ -265,7 +265,7 @@
         android:hint="Eg. 13208"
         android:inputType="number"
         android:maxLength="6"
-        android:paddingHorizontal="@dimen/_5sdp"
+        android:paddingHorizontal="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/etSku"
         app:layout_constraintTop_toBottomOf="@+id/tvTotalStocks" />
@@ -291,7 +291,7 @@
         android:background="@drawable/edit_back"
         android:hint="Enter SKU limit"
         android:inputType="number"
-        android:paddingHorizontal="@dimen/_5sdp"
+        android:paddingHorizontal="@dimen/_10sdp"
         app:layout_constraintTop_toTopOf="@+id/etTotalStocks"
         app:layout_constraintBottom_toBottomOf="@+id/etTotalStocks"
         app:layout_constraintEnd_toEndOf="parent"
@@ -319,7 +319,7 @@
         android:background="@drawable/edit_back"
         android:hint="200"
         android:inputType="number"
-        android:paddingHorizontal="@dimen/_5sdp"
+        android:paddingHorizontal="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="@+id/etTotalStocks"
         app:layout_constraintEnd_toEndOf="@+id/etTotalStocks"
         app:layout_constraintTop_toBottomOf="@+id/tvThreshold" />
@@ -347,9 +347,9 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:background="@drawable/edit_back"
-        android:maxLength="6"
+        android:maxLength="8"
         android:hint="Enter Actual Price"
-        android:inputType="number" />
+        android:inputType="numberDecimal" />
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/edit_text_title"
@@ -409,8 +409,8 @@
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:background="@drawable/edit_back"
         android:hint="Eg. 10%"
-        android:maxLength="6"
-        android:inputType="number" />
+        android:maxLength="3"
+        android:inputType="numberDecimal" />
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/edit_text_title"

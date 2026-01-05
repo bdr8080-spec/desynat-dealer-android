@@ -1,6 +1,7 @@
 package com.desynatdealer.adapter
 
 import android.content.Context
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -84,6 +85,8 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
 
             cbPercentage.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
+                    etDiscountedValue.setText("")
+                    etDiscountedValue.filters = arrayOf(InputFilter.LengthFilter(3))
                     cbFixedPrice.isChecked = false
                     variantData.discountType = "1"
 
@@ -96,6 +99,8 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
 
             cbFixedPrice.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
+                    etDiscountedValue.setText("")
+                    etDiscountedValue.filters = arrayOf(InputFilter.LengthFilter(6))
                     cbPercentage.isChecked = false
                     variantData.discountType = "2"
 
@@ -159,10 +164,10 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
 
         }*/
 
-        holder.discountValueWatcher = CommonMethod.getWatcher(position,true) { pos, value ->
+        holder.discountValueWatcher = CommonMethod.getWatcher(position,false) { pos, value ->
             variantList[pos].discountValue = value
             calculateFinalPrice(variantList[pos])
-            if (variantData.finalPrice!= "0"&&variantData.finalPrice!=variantData.actualPrice) {
+            if (variantData.finalPrice!= "0") {
                 holder.binding.etFinalPrice.setText(variantList[pos].finalPrice)
             }
             else{

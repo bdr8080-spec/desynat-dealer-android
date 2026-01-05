@@ -81,6 +81,11 @@
     <item name="cornerSize">@dimen/_4sdp</item>
 </style>
 
+<style name="rounded_corner2sdp" parent="">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSize">@dimen/_2sdp</item>
+</style>
+
 <style name="rounded_corner5sdp" parent="">
     <item name="cornerFamily">rounded</item>
     <item name="cornerSize">@dimen/_5sdp</item>

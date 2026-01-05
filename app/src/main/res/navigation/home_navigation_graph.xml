@@ -15,6 +15,10 @@
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profile"/>
 
+        <action
+            android:id="@+id/action_homeFragment_to_chatFragment"
+            app:destination="@id/chat"/>
+
     </fragment>
 
     <fragment
@@ -224,5 +228,46 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/orderManagementFragment"
+        android:name="com.desynatdealer.ui.home.orderManagement.OrderManagementFragment"
+        android:label="Order Management Fragment"
+        tools:layout="@layout/fragment_order_management"/>
+
+    <fragment
+        android:id="@+id/chatList"
+        android:name="com.desynatdealer.ui.home.chat.ChatListFragment"
+        android:label="Chat List Fragment"
+        tools:layout="@layout/fragment_chat_list">
+
+        <action
+            android:id="@+id/action_chatListFragment_to_chatFragment"
+            app:destination="@id/chat"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/chat"
+        android:name="com.desynatdealer.ui.home.chat.ChatFragment"
+        android:label="Chat Fragment"
+        tools:layout="@layout/fragment_chat"/>
+
+    <fragment
+        android:id="@+id/orderManagement"
+        android:name="com.desynatdealer.ui.home.orderManagement.OrderManagementFragment"
+        android:label="Order Management Fragment"
+        tools:layout="@layout/fragment_order_management">
+
+        <action
+            android:id="@+id/action_orderManagementFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetail"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/orderDetail"
+        android:name="com.desynatdealer.ui.home.orderManagement.OrderDetailFragment"
+        android:label="Order Detail Fragment"
+        tools:layout="@layout/fragment_order_detail"/>
 
 </navigation>

@@ -63,6 +63,10 @@ class HomeFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
             }
 
+            chatIcon.setOnClickListener {
+                findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
+            }
+
         }
     }
 

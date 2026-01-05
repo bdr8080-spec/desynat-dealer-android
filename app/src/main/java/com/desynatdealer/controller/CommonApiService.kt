@@ -171,4 +171,7 @@ interface CommonApiService {
 
     @POST(Constants.BANNER_PAYMENT)
     suspend fun bannerPayment(@Body map: HashMap<String, Any>): Response<AddBannerResponse>
+
+    @POST(Constants.GET_ALL_ORDER)
+    suspend fun getOrder(@Body map: HashMap<String, Any>): Response<GetAllProductResponse>
 }

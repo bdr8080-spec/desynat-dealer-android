@@ -268,4 +268,12 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
+    suspend fun getOrder(map: HashMap<String, Any>): ApiResult<GetAllProductResponse> {
+        return try {
+            networkCall(api.getOrder(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
 }

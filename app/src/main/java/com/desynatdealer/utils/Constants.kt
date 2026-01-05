@@ -50,4 +50,7 @@ object Constants {
     const val ADD_BANNER = "/api/seller/add-banner"
     const val GET_ALL_BANNER = "/api/seller/all-banners"
     const val BANNER_PAYMENT = "/api/seller/complete-banner-payment"
+
+    const val GET_ALL_ORDER = "/api/seller/all-order"
+
 }

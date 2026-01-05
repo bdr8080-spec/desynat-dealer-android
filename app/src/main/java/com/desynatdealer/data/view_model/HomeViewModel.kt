@@ -418,4 +418,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+
+    private val _getOrderResponse =
+        MutableLiveData<ApiResult<GetAllProductResponse>?>()
+    val getOrderResponse: MutableLiveData<ApiResult<GetAllProductResponse>?>
+        get() = _getOrderResponse
+
+    fun getOrder(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getOrderResponse.value = ApiResult.Loading
+            _getOrderResponse.value = repo.getOrder(map)
+        }
+    }
+
+
 }

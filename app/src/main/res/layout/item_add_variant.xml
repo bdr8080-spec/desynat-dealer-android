@@ -76,7 +76,7 @@
         android:focusable="false"
         android:editable="false"
         android:drawableEnd="@drawable/ic_drop_down"
-        android:paddingHorizontal="@dimen/_5sdp"
+        android:paddingHorizontal="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvColour" />

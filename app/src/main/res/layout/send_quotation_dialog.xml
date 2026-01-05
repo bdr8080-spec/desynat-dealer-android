@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottomsheet_bg"
+    android:backgroundTint="@color/white"
+    android:paddingBottom="@dimen/_15sdp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottomsheet_bg"
+        android:backgroundTint="#FFF7EA"
+        android:drawableEnd="@drawable/close_icon"
+        android:fontFamily="@font/poppins_medium"
+        android:paddingHorizontal="@dimen/_15sdp"
+        android:paddingVertical="@dimen/_15sdp"
+        android:text="Send Quotation"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13sdp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_15sdp"
+        android:background="@drawable/card_stroke_background"
+        android:paddingHorizontal="@dimen/_10sdp"
+        android:paddingVertical="@dimen/_15sdp"
+        app:layout_constraintTop_toBottomOf="@+id/tvToolbar">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPerItemPrice"
+            style="@style/edit_text_title"
+            android:layout_width="0dp"
+            android:text="Per Item Price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etPerItemPrice"
+            style="@style/edit_text"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/edit_back"
+            android:hint="Eg 20 KD"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPerItemPrice" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvShippingFee"
+            style="@style/edit_text_title"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:text="Shipping Fees"
+            app:layout_constraintEnd_toStartOf="@+id/tvTax"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPerItemPrice" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etShippingFee"
+            style="@style/edit_text"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:background="@drawable/edit_back"
+            android:hint="Eg 20 KD"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toStartOf="@+id/etTax"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvShippingFee" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTax"
+            style="@style/edit_text_title"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Tax"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvShippingFee"
+            app:layout_constraintTop_toBottomOf="@+id/etPerItemPrice" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etTax"
+            style="@style/edit_text"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/edit_back"
+            android:hint="Eg 20 KD"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/etShippingFee"
+            app:layout_constraintTop_toBottomOf="@+id/tvTax" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTotalAmount"
+            style="@style/edit_text_title"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Total Amount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etShippingFee" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etTotalAmount"
+            style="@style/edit_text"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/edit_back"
+            android:hint="Eg 20 KD"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalAmount" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:visibility="gone"
+            android:id="@+id/ivViewRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:paddingStart="@dimen/_15sdp"
+            android:src="@drawable/view_request_txt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etTotalAmount" />
+
+        <TextView
+            android:id="@+id/tvSend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/btn_background"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:paddingVertical="@dimen/_8sdp"
+            android:text="Confirm &amp; Send"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivViewRequest" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
