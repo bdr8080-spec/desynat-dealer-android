@@ -16,8 +16,8 @@
             app:destination="@id/profile"/>
 
         <action
-            android:id="@+id/action_homeFragment_to_chatFragment"
-            app:destination="@id/chat"/>
+            android:id="@+id/action_homeFragment_to_chatListFragment"
+            app:destination="@id/chatList"/>
 
     </fragment>
 

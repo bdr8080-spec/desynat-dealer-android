@@ -73,7 +73,7 @@ class HomeActivity : BaseActivity() {
         val bottomNavDestinations = setOf(
             R.id.home,
             R.id.productManagement,
-            R.id.orderManagement
+           // R.id.orderManagement
            /*
             R.id.profile,*/
         )
@@ -96,9 +96,9 @@ class HomeActivity : BaseActivity() {
                 R.id.productManagement -> {
                     bottomAdapter?.setSelectedItem(1)
                 }
-                R.id.orderManagement -> {
-                    bottomAdapter?.setSelectedItem(3)
-                }
+//                R.id.orderManagement -> {
+//                    bottomAdapter?.setSelectedItem(3)
+//                }
                /*
                 R.id.profile -> {
                     bottomAdapter?.setSelectedItem(4)
@@ -198,10 +198,10 @@ class HomeActivity : BaseActivity() {
                         ProgressDialogUtils.getInstance().hideProgress()
                         controller.navigate(R.id.productManagement)
                     }
-                    3 -> {
-                        ProgressDialogUtils.getInstance().hideProgress()
-                        controller.navigate(R.id.orderManagement)
-                    }
+//                    3 -> {
+//                        ProgressDialogUtils.getInstance().hideProgress()
+//                        controller.navigate(R.id.orderManagement)
+//                    }
                   /*
                     //2 -> controller.navigate(R.id.catalog)
                     3 -> controller.navigate(R.id.myBag)

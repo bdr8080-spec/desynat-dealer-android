@@ -108,11 +108,11 @@ class ResetPasswordFragment : BaseFragment() {
             showToast("Please enter new password")
             return false
         }
-        /* else if (!CommonMethod.isValidPassword(password)) {
+         else if (!CommonMethod.isValidPassword(password)) {
             CommonMethod.showAlertDialog(requireActivity(),"Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
            // showToast("Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
             return false
-        }*/
+        }
         else if (confirmPassword.isEmpty()) {
             showToast("Please enter confirm password")
             return false

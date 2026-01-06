@@ -6,19 +6,19 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.desynatdealer.databinding.ItemChatBinding
+import com.desynatdealer.databinding.ItemChatListBinding
 
 class ChatListAdapter(var context:Context, var chatList: ArrayList<String>, var chatClick:ChatClick) : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
 
     interface ChatClick{
         fun onChatClick(position: Int)
     }
-    inner class ViewHolder(val binding: ItemChatBinding) :
+    inner class ViewHolder(val binding: ItemChatListBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemChatBinding.inflate(
+            ItemChatListBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false)
         )
     }

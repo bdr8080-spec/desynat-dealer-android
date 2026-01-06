@@ -108,6 +108,7 @@ dependencies {
 
     implementation ("com.myfatoorah:myfatoorah:3.0.4")
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("io.getstream:photoview:1.0.2")
 
 
 }
