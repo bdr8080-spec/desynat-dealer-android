@@ -5,10 +5,15 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemChatListBinding
+import com.desynatdealer.ui.home.chat.response.GetChatListResponse
+import com.desynatdealer.utils.CommonMethod
 
-class ChatListAdapter(var context:Context, var chatList: ArrayList<String>, var chatClick:ChatClick) : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
+class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListResponse.Data>, var chatClick:ChatClick) : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
 
     interface ChatClick{
         fun onChatClick(position: Int)
@@ -31,25 +36,48 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<String>, var 
         val chatData = chatList[position]
         var status = "1"
         holder.binding.apply {
+            ivUser.load(chatData?.userDetails?.profileImage){
+                crossfade(true)
+                placeholder(R.drawable.ic_user)
+                error(R.drawable.ic_user)
+            }
+            tvName.text = chatData?.userDetails?.fullName
+            tvLastMsg.text = chatData?.lastChat
+            if (chatData.lastChatTime!=null&&chatData.lastChatTime!="null"&&chatData.lastChatTime!="") {
+                tvTime.text = CommonMethod.formatChatTime(
+                    chatData?.lastChatTime.toString()
+                )
 
-            //tvName.text = chatData?.productNameEn
-           when(status){
-                "1"->{
-                    tvStatus.text = "New"
-                    tvStatus.setTextColor(Color.parseColor("#EA9413"))
-                    tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1AEA9413"))
-                }
-                "2"->{
-                    tvStatus.text = "Quotation Sent"
-                    tvStatus.setTextColor(Color.parseColor("#172B85"))
-                    tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1A172B85"))
-                }
-                "3"->{
-                    tvStatus.text = "Quotation Accepted"
-                    tvStatus.setTextColor(Color.parseColor("#16B364"))
-                    tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1A16B364"))
+            }
+            if (chatData?.type=="2"){
+                tvStatus.isVisible = true
+                when(chatData?.action){
+                    "0"->{
+                        tvStatus.text = "New"
+                        tvStatus.setTextColor(Color.parseColor("#EA9413"))
+                        tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1AEA9413"))
+                    }
+                    "1"->{
+                        tvStatus.text = "Quotation Sent"
+                        tvStatus.setTextColor(Color.parseColor("#172B85"))
+                        tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1A172B85"))
+                    }
+                    "2"->{
+                        tvStatus.text = "Quotation Modified"
+                        tvStatus.setTextColor(Color.parseColor("#172B85"))
+                        tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1A172B85"))
+                    }
+                    "3"->{
+                        tvStatus.text = "Quotation Accepted"
+                        tvStatus.setTextColor(Color.parseColor("#16B364"))
+                        tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1A16B364"))
+                    }
                 }
             }
+            else{
+                tvStatus.isVisible = false
+            }
+
         }
 
         holder.itemView.setOnClickListener {

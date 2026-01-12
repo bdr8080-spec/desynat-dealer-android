@@ -22,7 +22,7 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentOrderManagementBinding
 import com.desynatdealer.databinding.OrderFilterDialogBinding
-import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.openCustomDatePicker
@@ -38,9 +38,10 @@ class OrderManagementFragment : BaseFragment() {
     private var binding : FragmentOrderManagementBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
     private var orderAdapter: OrderAdapter?=null
-    private var orderList = ArrayList<GetAllProductResponse.Data.AllProductData>()
-    private var orderData : GetAllProductResponse.Data? = null
-    private var type = 0
+    private var orderList = ArrayList<GetAllOrderResponse.Data.AllOrder>()
+    private var orderData : GetAllOrderResponse.Data? = null
+    private var type = 1 // 1 all 2 onging 3 Past Order
+    private var orderType = 1 // 1 Normal 2 Orders
     private var search: Job? = null
     private var lastQuery: String? = null
     private var orderFilter:String? = null
@@ -110,6 +111,61 @@ class OrderManagementFragment : BaseFragment() {
                 }
             })
         }
+
+     binding?.apply {
+         when(orderType){
+             1-> {
+                 orderType = 1
+                 tvNormal.setTextColor(requireActivity().getColor(R.color.white))
+                 tvCustomized.setTextColor(requireActivity().getColor(R.color.black))
+                 tvNormal.setBackgroundResource(R.drawable.selected_left_tab)
+                 tvCustomized.background = null
+             }
+
+                     2-> {
+                 orderType = 2
+                         tvNormal.setTextColor(requireActivity().getColor(R.color.black))
+                         tvCustomized.setTextColor(requireActivity().getColor(R.color.white))
+                         tvCustomized.setBackgroundResource(R.drawable.selected_right_tab)
+                         tvNormal.background = null
+             }
+         }
+         when(type){
+             1-> {
+                 type=1
+                 getOrder()
+                 tvAll.setTextColor(Color.parseColor("#875C3A"))
+                 viewAll.setBackgroundColor(Color.parseColor("#875C3A"))
+                 tvOngoing.setTextColor(Color.parseColor("#B3B3B3"))
+                 viewOngoing.setBackgroundColor(Color.parseColor("#B3B3B3"))
+                 tvPast.setTextColor(Color.parseColor("#B3B3B3"))
+                 viewPast.setBackgroundColor(Color.parseColor("#B3B3B3"))
+             }
+
+             2-> {
+                 type=2
+                 getOrder()
+                 tvAll.setTextColor(Color.parseColor("#B3B3B3"))
+                 viewAll.setBackgroundColor(Color.parseColor("#B3B3B3"))
+                 tvOngoing.setTextColor(Color.parseColor("#875C3A"))
+                 viewOngoing.setBackgroundColor(Color.parseColor("#875C3A"))
+                 tvPast.setTextColor(Color.parseColor("#B3B3B3"))
+                 viewPast.setBackgroundColor(Color.parseColor("#B3B3B3"))
+             }
+
+             3-> {
+                 type=3
+                 getOrder()
+                 tvAll.setTextColor(Color.parseColor("#B3B3B3"))
+                 viewAll.setBackgroundColor(Color.parseColor("#B3B3B3"))
+                 tvOngoing.setTextColor(Color.parseColor("#B3B3B3"))
+                 viewOngoing.setBackgroundColor(Color.parseColor("#B3B3B3"))
+                 tvPast.setTextColor(Color.parseColor("#875C3A"))
+                 viewPast.setBackgroundColor(Color.parseColor("#875C3A"))
+             }
+         }
+     }
+
     }
 
     override fun initControl() {
@@ -118,8 +174,26 @@ class OrderManagementFragment : BaseFragment() {
                 orderFilterDialog()
             }
 
+            tvNormal.setOnClickListener {
+                orderType = 1
+                getOrder()
+                tvNormal.setTextColor(requireActivity().getColor(R.color.white))
+                tvCustomized.setTextColor(requireActivity().getColor(R.color.black))
+                tvNormal.setBackgroundResource(R.drawable.selected_left_tab)
+                tvCustomized.background = null
+            }
+
+            tvCustomized.setOnClickListener {
+                orderType = 2
+                getOrder()
+                tvNormal.setTextColor(requireActivity().getColor(R.color.black))
+                tvCustomized.setTextColor(requireActivity().getColor(R.color.white))
+                tvCustomized.setBackgroundResource(R.drawable.selected_right_tab)
+                tvNormal.background = null
+            }
+
             tvAll.setOnClickListener {
-                type=0
+                type=1
                 getOrder()
                 tvAll.setTextColor(Color.parseColor("#875C3A"))
                 viewAll.setBackgroundColor(Color.parseColor("#875C3A"))
@@ -130,7 +204,7 @@ class OrderManagementFragment : BaseFragment() {
             }
 
             tvOngoing.setOnClickListener {
-                type=1
+                type=2
                 getOrder()
                 tvAll.setTextColor(Color.parseColor("#B3B3B3"))
                 viewAll.setBackgroundColor(Color.parseColor("#B3B3B3"))
@@ -141,7 +215,7 @@ class OrderManagementFragment : BaseFragment() {
             }
 
             tvPast.setOnClickListener {
-                type=2
+                type=3
                 getOrder()
                 tvAll.setTextColor(Color.parseColor("#B3B3B3"))
                 viewAll.setBackgroundColor(Color.parseColor("#B3B3B3"))
@@ -164,19 +238,19 @@ class OrderManagementFragment : BaseFragment() {
                     orderData = result.data?.data
                     orderList.clear()
                     when(type){
-                        0-> result.data?.data?.allProductData?.let { orderList.addAll(it) }
-                        1-> result.data?.data?.activeProduct?.let { orderList.addAll(it) }
-                        2-> result.data?.data?.inactiveProduct?.let { orderList.addAll(it) }
+                        1-> result.data?.data?.allOrder?.let { orderList.addAll(it) }
+                        2-> result.data?.data?.ongoingOrder?.let { orderList.addAll(it) }
+                        3-> result.data?.data?.pastOrder?.let { orderList.addAll(it) }
                     }
 
                     checkData()
                     orderAdapter?.notifyDataSetChanged()
-                    viewModel.getProductResponse.value = null
+                    viewModel.getOrderResponse.value = null
                 }
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
-                    viewModel.getProductResponse.value = null
+                    viewModel.getOrderResponse.value = null
                 }
                 else ->{
 
@@ -189,16 +263,16 @@ class OrderManagementFragment : BaseFragment() {
     private fun checkData() {
         binding?.apply {
             tvNoDataFound.isVisible = orderList.isEmpty()
-
-            tvAll.text = "All(${orderData?.allProductCount})"
-            tvOngoing.text = "Ongoing(${orderData?.activeProductCount})"
-            tvPast.text = "Past(${orderData?.inactiveProductCount})"
+            tvAll.text = "All(${orderData?.allOrder?.size?:0})"
+            tvOngoing.text = "Ongoing(${orderData?.ongoingOrder?.size?:0})"
+            tvPast.text = "Past(${orderData?.pastOrder?.size?:0})"
         }
     }
 
     private fun getOrder(){
         val map = HashMap<String,Any>()
-        map["type"] = type
+        map["tabs"] = type
+        map["type"] = orderType
         if (lastQuery!=null) {
             map["search"] = lastQuery.toString()
         }
@@ -206,12 +280,12 @@ class OrderManagementFragment : BaseFragment() {
             map["order_filter"] = orderFilter.toString()
         }
         if (fromDateText!=null&&fromDateText!="") {
-            map["from"] =
+            map["from_date"] =
                 CommonMethod.formatDate(fromDateText.toString(),"dd/MM/yyyy","yyyy-MM-dd")
 
         }
         if (toDateText!=null&&toDateText!="") {
-            map["to"] =
+            map["to_date"] =
                 CommonMethod.formatDate(toDateText.toString(),"dd/MM/yyyy","yyyy-MM-dd")
 
         }

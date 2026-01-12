@@ -84,8 +84,9 @@
                     android:layout_height="wrap_content"
                     android:text="All (0)"
                     android:textColor="@color/brown"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_11sdp"
                     android:gravity="center"
+                    android:singleLine="true"
                     android:fontFamily="@font/poppins_semi_bold"
                     android:layout_marginTop="@dimen/_15sdp"
                     app:layout_constraintTop_toTopOf="parent"
@@ -107,8 +108,9 @@
                     android:layout_height="wrap_content"
                     android:text="Ongoing (0)"
                     android:textColor="#B3B3B3"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_11sdp"
                     android:gravity="center"
+                    android:singleLine="true"
                     android:fontFamily="@font/poppins_semi_bold"
                     app:layout_constraintStart_toEndOf="@+id/tvAll"
                     app:layout_constraintEnd_toStartOf="@+id/tvPast"
@@ -130,10 +132,11 @@
                     android:text="Past (0)"
                     android:textColor="#B3B3B3"
                     android:textSize="@dimen/_12sdp"
-                    android:gravity="end"
+                    android:gravity="center"
+                    android:singleLine="true"
                     android:fontFamily="@font/poppins_semi_bold"
                     app:layout_constraintStart_toEndOf="@+id/tvOngoing"
-                    app:layout_constraintTop_toTopOf="@+id/tvOngoing"
+                    app:layout_constraintTop_toTopOf="@+id/tvAll"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <View
@@ -141,7 +144,7 @@
                     android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:background="#B3B3B3"
-                    app:layout_constraintTop_toBottomOf="@+id/tvPast"
+                    app:layout_constraintTop_toBottomOf="@+id/tvOngoing"
                     app:layout_constraintStart_toStartOf="@+id/tvPast"
                     app:layout_constraintEnd_toEndOf="@+id/tvPast"/>
 

@@ -1,6 +1,7 @@
 package com.desynatdealer.ui.home.chat
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,13 +17,18 @@ import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.adapter.ChatListAdapter
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.ChatFilterDialogBinding
 import com.desynatdealer.databinding.FragmentChatListBinding
 import com.desynatdealer.databinding.OrderFilterDialogBinding
+import com.desynatdealer.ui.home.chat.response.GetChatListResponse
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -33,7 +39,7 @@ class ChatListFragment : BaseFragment() {
     private var binding : FragmentChatListBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
     private var chatAdapter: ChatListAdapter?=null
-    private var chatList = ArrayList<String>()
+    private var chatList = ArrayList<GetChatListResponse.Data>()
     private var search: Job? = null
     private var lastQuery: String? = null
     private var chatFilter: String? = null
@@ -60,7 +66,11 @@ class ChatListFragment : BaseFragment() {
 
             chatAdapter = ChatListAdapter(requireActivity(),chatList,object :ChatListAdapter.ChatClick{
                 override fun onChatClick(position: Int) {
-                    findNavController().navigate(R.id.action_chatListFragment_to_chatFragment)
+                    val intent = Intent(requireContext(), ChatActivity::class.java).apply {
+                        putExtra("from", "chat")
+                        putExtra("chatData", Gson().toJson(chatList[position]))
+                    }
+                    startActivity(intent)
                 }
 
             })
@@ -89,14 +99,16 @@ class ChatListFragment : BaseFragment() {
                     lastQuery = query
                     search?.cancel()
                     search = lifecycleScope.launch {
-                        getChat()
                         delay(600)
+
+                        getChat()
 
                     }
                 }
             })
 
         }
+        getChat()
     }
 
     override fun initControl() {
@@ -112,11 +124,37 @@ class ChatListFragment : BaseFragment() {
     }
 
     override fun observe() {
+        viewModel.getAllChatListResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())                  }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    chatList.clear()
+                    result.data?.data?.let { chatList.addAll(it) }
+                    chatAdapter?.notifyDataSetChanged()
+                    viewModel.getAllChatListResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getAllChatListResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
 
     }
 
     private fun getChat(){
-
+        val map = HashMap<String, Any>()
+        if (lastQuery!=null){
+            map["search"] = lastQuery.toString()
+        }
+        viewModel.getAllChatList(map)
     }
 
     private fun chatFilterDialog() {

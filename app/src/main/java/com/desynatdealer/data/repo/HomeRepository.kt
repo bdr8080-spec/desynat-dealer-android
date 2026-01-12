@@ -13,6 +13,10 @@ import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceResponse
+import com.desynatdealer.ui.home.chat.response.GetChatListResponse
+import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
@@ -268,9 +272,40 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
-    suspend fun getOrder(map: HashMap<String, Any>): ApiResult<GetAllProductResponse> {
+    suspend fun getOrder(map: HashMap<String, Any>): ApiResult<GetAllOrderResponse> {
         return try {
             networkCall(api.getOrder(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun getOrderDetail(map: HashMap<String, Any>): ApiResult<GetSingleOrderResponse> {
+        return try {
+            networkCall(api.getOrderDetail(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+ suspend fun updateOrderStatus(map: HashMap<String, Any>): ApiResult<GetSingleOrderResponse> {
+        return try {
+            networkCall(api.updateOrderStatus(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+ suspend fun getAllChatList(map: HashMap<String, Any>): ApiResult<GetChatListResponse> {
+        return try {
+            networkCall(api.getAllChatList(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+ suspend fun modifySingleChat(map: HashMap<String, Any>): ApiResult<ModifySingleChatResponse> {
+        return try {
+            networkCall(api.modifySingleChat(map))
         } catch (e: Exception) {
             ApiResult.Error("Syntax Error")
         }

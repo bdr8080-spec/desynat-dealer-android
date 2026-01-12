@@ -10,6 +10,10 @@ import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceResponse
+import com.desynatdealer.ui.home.chat.response.GetChatListResponse
+import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
@@ -173,5 +177,18 @@ interface CommonApiService {
     suspend fun bannerPayment(@Body map: HashMap<String, Any>): Response<AddBannerResponse>
 
     @POST(Constants.GET_ALL_ORDER)
-    suspend fun getOrder(@Body map: HashMap<String, Any>): Response<GetAllProductResponse>
+    suspend fun getOrder(@Body map: HashMap<String, Any>): Response<GetAllOrderResponse>
+
+    @POST(Constants.GET_SINGLE_ORDER_DETAIL)
+    suspend fun getOrderDetail(@Body map: HashMap<String, Any>): Response<GetSingleOrderResponse>
+
+    @POST(Constants.UPDATE_SINGLE_ORDER_STATUS)
+    suspend fun updateOrderStatus(@Body map: HashMap<String, Any>): Response<GetSingleOrderResponse>
+
+    @POST(Constants.ALL_CHAT)
+    suspend fun getAllChatList(@Body map: HashMap<String, Any>): Response<GetChatListResponse>
+
+    @POST(Constants.MODIFY_SINGLE_CHAT)
+    suspend fun modifySingleChat(@Body map: HashMap<String, Any>): Response<ModifySingleChatResponse>
+
 }

@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemOrderProductBinding
-import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.utils.CommonMethod
 
-class ProductOrderAdapter(var context:Context, var productList: ArrayList<GetAllProductResponse.Data.AllProductData>) : RecyclerView.Adapter<ProductOrderAdapter.ViewHolder>() {
+class ProductOrderAdapter(var context:Context, var productList: ArrayList<GetSingleOrderResponse.Data>) : RecyclerView.Adapter<ProductOrderAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemOrderProductBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -28,7 +28,7 @@ class ProductOrderAdapter(var context:Context, var productList: ArrayList<GetAll
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var productData = productList[position]
-       /* holder.binding.apply {
+        holder.binding.apply {
             tvCount.text = if((position+1)<10) "0${(position+1)}" else (position+1).toString()
             tvProduct.text = productData?.productDetails?.productNameEn
             tvPrice.text = "${CommonMethod.formatPrice(productData?.amount?:0.0)} KD"
@@ -43,7 +43,7 @@ class ProductOrderAdapter(var context:Context, var productList: ArrayList<GetAll
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
             }
-        }*/
+        }
     }
 
 

@@ -11,6 +11,10 @@ import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceResponse
+import com.desynatdealer.ui.home.chat.response.GetChatListResponse
+import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
@@ -418,16 +422,62 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
-
     private val _getOrderResponse =
-        MutableLiveData<ApiResult<GetAllProductResponse>?>()
-    val getOrderResponse: MutableLiveData<ApiResult<GetAllProductResponse>?>
+        MutableLiveData<ApiResult<GetAllOrderResponse>?>()
+    val getOrderResponse: MutableLiveData<ApiResult<GetAllOrderResponse>?>
         get() = _getOrderResponse
 
     fun getOrder(map: HashMap<String, Any>) {
         viewModelScope.launch {
             _getOrderResponse.value = ApiResult.Loading
             _getOrderResponse.value = repo.getOrder(map)
+        }
+    }
+
+    private val _getOrderDetailResponse =
+        MutableLiveData<ApiResult<GetSingleOrderResponse>?>()
+    val getOrderDetailResponse: MutableLiveData<ApiResult<GetSingleOrderResponse>?>
+        get() = _getOrderDetailResponse
+
+    fun getOrderDetail(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getOrderDetailResponse.value = ApiResult.Loading
+            _getOrderDetailResponse.value = repo.getOrderDetail(map)
+        }
+    }
+
+    private val _updateOrderStatusResponse =
+        MutableLiveData<ApiResult<GetSingleOrderResponse>?>()
+    val updateOrderStatusResponse: MutableLiveData<ApiResult<GetSingleOrderResponse>?>
+        get() = _updateOrderStatusResponse
+
+    fun updateOrderStatus(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _updateOrderStatusResponse.value = ApiResult.Loading
+            _updateOrderStatusResponse.value = repo.updateOrderStatus(map)
+        }
+    }
+
+    private val _getAllChatListResponse =
+        MutableLiveData<ApiResult<GetChatListResponse>?>()
+    val getAllChatListResponse: MutableLiveData<ApiResult<GetChatListResponse>?>
+        get() = _getAllChatListResponse
+
+    fun getAllChatList(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getAllChatListResponse.value = ApiResult.Loading
+            _getAllChatListResponse.value = repo.getAllChatList(map)
+        }
+    }
+    private val _modifySingleChatResponse =
+        MutableLiveData<ApiResult<ModifySingleChatResponse>?>()
+    val modifySingleChatResponse: MutableLiveData<ApiResult<ModifySingleChatResponse>?>
+        get() = _modifySingleChatResponse
+
+    fun modifySingleChat(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _modifySingleChatResponse.value = ApiResult.Loading
+            _modifySingleChatResponse.value = repo.modifySingleChat(map)
         }
     }
 

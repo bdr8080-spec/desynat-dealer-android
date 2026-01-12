@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "89320198276",
+    "firebase_url": "https://desynat-default-rtdb.firebaseio.com",
+    "project_id": "desynat",
+    "storage_bucket": "desynat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89320198276:android:b765ae2132fc4bc99d32d1",
+        "android_client_info": {
+          "package_name": "com.desynatdealer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJKDAVeXi2TvmbKl3-i2bDdBvDHJez0KE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89320198276:android:70507ce6fa7a80fc9d32d1",
+        "android_client_info": {
+          "package_name": "com.desynatuser"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJKDAVeXi2TvmbKl3-i2bDdBvDHJez0KE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

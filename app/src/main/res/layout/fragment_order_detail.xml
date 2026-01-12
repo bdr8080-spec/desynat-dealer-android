@@ -158,6 +158,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tvOrderType" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
                     android:id="@+id/tvZone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -169,6 +170,7 @@
                     app:layout_constraintTop_toTopOf="@+id/tvOrderType"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
                     android:id="@+id/tvZoneValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -201,20 +203,20 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semi_bold"
-                        android:text="Customer Details"
                         android:singleLine="true"
+                        android:text="Customer Details"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/ivUser"
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_user"
-                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvDetail"
                         app:shapeAppearanceOverlay="@style/circle_image" />
@@ -225,8 +227,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="Jimmy wilson"
                         android:singleLine="true"
+                        android:text="Jimmy wilson"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_10sdp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -238,13 +240,11 @@
                         android:id="@+id/tvPhone"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10sdp"
                         android:fontFamily="@font/poppins_medium"
                         android:text="Phone :"
                         android:textColor="#80000000"
                         android:textSize="@dimen/_10sdp"
                         app:layout_constraintStart_toStartOf="@+id/tvName"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvName" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -256,19 +256,19 @@
                         android:text="123456789"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvPhone"
                         app:layout_constraintStart_toEndOf="@+id/tvPhone"
-                        app:layout_constraintTop_toTopOf="@+id/tvPhone"
-                        app:layout_constraintBottom_toBottomOf="@id/tvPhone" />
+                        app:layout_constraintTop_toTopOf="@+id/tvPhone" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvMail"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:fontFamily="@font/poppins_medium"
                         android:text="Mail Id :"
                         android:textColor="#80000000"
                         android:textSize="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvPhone" />
 
@@ -289,11 +289,11 @@
                         android:id="@+id/tvShippingLoc"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:fontFamily="@font/poppins_medium"
                         android:text="@string/shipping_location"
                         android:textColor="#80000000"
                         android:textSize="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvMail" />
 
@@ -301,11 +301,11 @@
                         android:id="@+id/tvShippingLocation"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:fontFamily="@font/poppins_medium"
                         android:text="Flat No.- 123, B Wing Khifayat Road, Oman, 112"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvShippingLoc" />
 
@@ -627,7 +627,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tvSubTotal" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvPaymentMethod"
+                    android:id="@+id/tvCouponApplied"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
@@ -641,7 +641,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tvItem" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvPaymentMethodValue"
+                    android:id="@+id/tvCouponAppliedValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_semi_bold"
@@ -650,10 +650,10 @@
                     android:textSize="@dimen/_11sdp"
                     android:textAlignment="textEnd"
                     android:layout_marginStart="@dimen/_10sdp"
-                    app:layout_constraintStart_toEndOf="@+id/tvPaymentMethod"
+                    app:layout_constraintStart_toEndOf="@+id/tvCouponApplied"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvPaymentMethod"
-                    app:layout_constraintTop_toTopOf="@id/tvPaymentMethod" />
+                    app:layout_constraintBottom_toBottomOf="@+id/tvCouponApplied"
+                    app:layout_constraintTop_toTopOf="@id/tvCouponApplied" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSaved"
@@ -665,7 +665,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvPaymentMethod" />
+                    app:layout_constraintTop_toBottomOf="@id/tvCouponApplied" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvShipping"

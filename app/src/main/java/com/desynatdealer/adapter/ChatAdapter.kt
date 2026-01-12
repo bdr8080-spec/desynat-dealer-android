@@ -1,14 +1,17 @@
 package com.desynatdealer.adapter
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemChatBinding
+import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.ui.home.chat.response.ChatMessage
 
-class ChatAdapter(var context:Context, var chatList: ArrayList<String>, var chatClick:ChatClick) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
+class ChatAdapter(var context:Context, var chatList: ArrayList<ChatMessage>, var chatClick:ChatClick) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     interface ChatClick{
         fun onChatClick(position: Int)
@@ -31,7 +34,55 @@ class ChatAdapter(var context:Context, var chatList: ArrayList<String>, var chat
         val chatData = chatList[position]
         holder.binding.apply {
 
-            //tvName.text = chatData?.productNameEn
+            if (chatData.by == "seller") {
+                relMy.isVisible = true
+                relOther.isVisible = false
+
+                if (chatData.type=="1"){
+                    ivMyMsg.isVisible = true
+                    tvMyMsg.isVisible = false
+                    ivMyMsg.load(chatData.message){
+                        crossfade(true)
+                        placeholder(R.drawable.ic_placeholder)
+                        error(R.drawable.ic_placeholder)
+                    }
+                }
+                else{
+                    ivMyMsg.isVisible = false
+                    tvMyMsg.isVisible = true
+                    tvMyMsg.text = chatData.message
+                }
+
+                if (chatData.read==1){
+                    ivRead.isVisible = true
+                }
+                else{
+                    ivRead.isVisible = false
+                }
+                tvMyMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mma")
+
+            }
+            else{
+                relMy.isVisible = false
+                relOther.isVisible = true
+                if (chatData.type=="1"){
+                    ivOtherMsg.isVisible = true
+                    tvOtherMsg.isVisible = false
+                    ivOtherMsg.load(chatData.message){
+                        crossfade(true)
+                        placeholder(R.drawable.ic_placeholder)
+                        error(R.drawable.ic_placeholder)
+                    }
+                }
+                else{
+                    ivOtherMsg.isVisible = false
+                    tvOtherMsg.isVisible = true
+                    tvOtherMsg.text = chatData.message
+                }
+                tvOtherMsg.text = chatData.message
+                tvOtherMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mma")
+            }
+
         }
 
         holder.itemView.setOnClickListener {
@@ -39,6 +90,5 @@ class ChatAdapter(var context:Context, var chatList: ArrayList<String>, var chat
         }
 
     }
-
 
 }

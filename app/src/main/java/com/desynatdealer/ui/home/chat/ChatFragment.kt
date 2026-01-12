@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.adapter.ChatAdapter
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentChatBinding
 import com.desynatdealer.databinding.SendQuotationDialogBinding
@@ -22,6 +23,8 @@ import com.desynatdealer.databinding.ViewQuotationRequestDialogBinding
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
+import com.desynatdealer.ui.home.chat.response.ChatMessage
+import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,8 +32,18 @@ class ChatFragment : BaseFragment() {
     private var binding : FragmentChatBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
     private var chatAdapter: ChatAdapter?=null
-    private var chatList = ArrayList<String>()
+    private var chatList = ArrayList<ChatMessage>()
+    var isObserver = false
+    var from = ""
+    var productId = ""
+    var storeName = ""
+    var productName = ""
+    var chatData: GetChatListResponse.Data?=null
+
+    private var uniqueId = ""
+    var isFirstMessageLoaded = false
     private var quotationDialog: Dialog?=null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,11 +106,26 @@ class ChatFragment : BaseFragment() {
     }
 
     override fun observe() {
+        viewModel.modifySingleChatResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())                  }
 
-    }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
 
-    private fun getChat(){
+                    viewModel.modifySingleChatResponse.value = null
+                }
 
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.modifySingleChatResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
     }
 
     private fun sendQuotationDialog(isModified:Boolean = false) {
@@ -139,6 +167,14 @@ class ChatFragment : BaseFragment() {
             }
 
              tvSend.setOnClickListener {
+                 val map = HashMap<String, Any>()
+                 map["unique_id"] = uniqueId.toString()
+                 map["price"] = etPerItemPrice.text?.trim().toString()
+                 map["quantity"] = etShippingFee.text?.trim().toString()
+                 map["tax"] = etTax.text?.trim().toString()
+                 map["total_amount"] = etTotalAmount.text?.trim().toString()
+
+                 sendQuotation(map)
                  if (isModified){
                      CommonMethod.showSuccessDialog(requireActivity(),"Modified successfully!"){
                          quotationDialog?.dismiss()
@@ -156,6 +192,10 @@ class ChatFragment : BaseFragment() {
             }
         }
         quotationDialog?.show()
+    }
+
+    private fun sendQuotation(map: HashMap<String, Any>) {
+        viewModel.modifySingleChat(map)
     }
 
     private fun viewQuotationRequestDialog() {

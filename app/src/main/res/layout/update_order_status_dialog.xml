@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bottomsheet_bg"
+    android:backgroundTint="#FFF7EA">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Select Status"
+        android:textSize="@dimen/_13sdp"
+        android:textColor="@color/black"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivBack"
+        app:layout_constraintBottom_toBottomOf="@+id/ivBack"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/close_icon"
+        android:paddingHorizontal="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        android:paddingTop="@dimen/_15sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="4"
+        android:paddingHorizontal="@dimen/_15sdp"
+        android:paddingVertical="@dimen/_15sdp"
+        android:orientation="vertical"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/ivBack">
+
+        <RadioButton
+            android:id="@+id/rbDelivered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivered"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:paddingVertical="@dimen/_8sdp"
+            android:button="@drawable/selector_radio_icon"
+            android:paddingStart="@dimen/_8sdp"
+            android:checked="false"
+            app:buttonTint="@null"
+            android:drawableTint="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="@dimen/_11sdp"/>
+
+
+        <RadioButton
+            android:id="@+id/rbReturn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Return"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:paddingVertical="@dimen/_8sdp"
+            android:button="@drawable/selector_radio_icon"
+            android:paddingStart="@dimen/_8sdp"
+            android:checked="false"
+            app:buttonTint="@null"
+            android:drawableTint="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="@dimen/_11sdp"/>
+
+        <RadioButton
+            android:id="@+id/rbExchange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Exchange"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:paddingVertical="@dimen/_8sdp"
+            android:button="@drawable/selector_radio_icon"
+            android:paddingStart="@dimen/_8sdp"
+            android:checked="false"
+            app:buttonTint="@null"
+            android:drawableTint="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="@dimen/_11sdp"/>
+
+        <RadioButton
+            android:id="@+id/rbCancelled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancelled"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:paddingVertical="@dimen/_8sdp"
+            android:button="@drawable/selector_radio_icon"
+            android:paddingStart="@dimen/_8sdp"
+            android:checked="false"
+            app:buttonTint="@null"
+            android:drawableTint="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="@dimen/_11sdp"/>
+
+    </RadioGroup>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,6 +51,12 @@ object Constants {
     const val GET_ALL_BANNER = "/api/seller/all-banners"
     const val BANNER_PAYMENT = "/api/seller/complete-banner-payment"
 
-    const val GET_ALL_ORDER = "/api/seller/all-order"
+    const val GET_ALL_ORDER = "/api/seller/all-orders"
+    const val GET_SINGLE_ORDER_DETAIL = "/api/seller/single-orders-data"
+    const val UPDATE_SINGLE_ORDER_STATUS = "/api/seller/update-single-order-status"
+    const val SEND_MESSAGE = "/api/send-message-in-chats"
+    const val ALL_CHAT = "/api/seller/all-chats-records"
+    const val SINGLE_CHAT = "/api/seller/single-chats-records"
+    const val MODIFY_SINGLE_CHAT = "/api/seller/Modify-single-chats-records"
 
 }
