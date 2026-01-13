@@ -65,7 +65,17 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
                     "2"->{
                         tvStatus.text = "Quotation Modified"
                         tvStatus.setTextColor(Color.parseColor("#172B85"))
-                        tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1A172B85"))
+                        tvStatus.backgroundTintList =
+                            ColorStateList.valueOf(Color.parseColor("#1A172B85"))
+                      /*  if(chatData?.productVariation?.productDetails?.readyToShip=="1"){
+                            tvStatus.isVisible = false
+                        }
+                        else {
+                            tvStatus.text = "Quotation Modified"
+                            tvStatus.setTextColor(Color.parseColor("#172B85"))
+                            tvStatus.backgroundTintList =
+                                ColorStateList.valueOf(Color.parseColor("#1A172B85"))
+                        }*/
                     }
                     "3"->{
                         tvStatus.text = "Quotation Accepted"

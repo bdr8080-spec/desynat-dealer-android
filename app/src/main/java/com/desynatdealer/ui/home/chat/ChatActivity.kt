@@ -19,13 +19,16 @@ import androidx.fragment.app.activityViewModels
 import coil.load
 import com.desynatdealer.R
 import com.desynatdealer.adapter.ChatAdapter
+import com.desynatdealer.adapter.ImagePreviewAdapter
 import com.desynatdealer.adapter.UploadMsgImageAdapter
 import com.desynatdealer.base.BaseActivity
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.ActivityChatBinding
+import com.desynatdealer.databinding.ImagePreviewDialogBinding
 import com.desynatdealer.databinding.SendQuotationDialogBinding
 import com.desynatdealer.databinding.ViewQuotationRequestDialogBinding
+import com.desynatdealer.ui.home.chat.response.ChatDetailResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
@@ -35,6 +38,7 @@ import com.desynatdealer.ui.home.chat.response.SendMessageRequest
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -50,13 +54,11 @@ class ChatActivity : BaseActivity() {
 
     private var chatAdapter: ChatAdapter?=null
     private var chatList = ArrayList<ChatMessage>()
-    var isObserver = false
     var from = ""
     var productId = ""
-    var storeName = ""
-    var productName = ""
     private var isModified = false
     var chatData: GetChatListResponse.Data?=null
+    var chatDetailData: ChatDetailResponse.Data.Record?=null
 
     private var uniqueId = ""
     var isFirstMessageLoaded = false
@@ -102,12 +104,12 @@ class ChatActivity : BaseActivity() {
                 if (!itemJson.isNullOrEmpty()) {
                     chatData = Gson().fromJson(itemJson, GetChatListResponse.Data::class.java)
                     uniqueId = chatData?.uniqueId.toString()
+                    getChat()
                 }
             tvToolbar.text = chatData?.userDetails?.fullName.toString()
-            setData()
             chatAdapter = ChatAdapter(this@ChatActivity,chatList,object : ChatAdapter.ChatClick{
                 override fun onChatClick(position: Int) {
-
+                    chatList[position].message?.let { imagePreviewDialog(it) }
                 }
 
             })
@@ -181,6 +183,13 @@ class ChatActivity : BaseActivity() {
                 }
             }
         }
+
+    }
+
+    private fun getChat() {
+        val map = HashMap<String, Any>()
+        map["unique_id"] = uniqueId
+        viewModel.getChatDetail(map)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -349,6 +358,29 @@ class ChatActivity : BaseActivity() {
             }
         }
 
+        viewModel.getChatDetailResponse.observe(this) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(this)
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    chatDetailData = result.data?.data?.record
+                    setData()
+                    viewModel.getChatDetailResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getChatDetailResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
         viewModel.modifySingleChatResponse.observe(this) { result ->
             when (result) {
                 ApiResult.Loading -> {
@@ -402,17 +434,23 @@ class ChatActivity : BaseActivity() {
         window.attributes = params
 
         dialogBinding.apply {
-            if (chatData?.action=="0"){
+            if (chatDetailData?.action=="0"){
                 isModified = false
                 tvToolbar.text = "Send Quotation"
                 tvSend.text = "Confirm & Send"
                 ivViewRequest.isVisible = false
             }
-            if (chatData?.action=="1"){
+            else if (chatDetailData?.action=="1"){
                 isModified = true
                 tvToolbar.text = "Modify Quotation"
                 tvSend.text = "Confirm & Modify"
                 ivViewRequest.isVisible = true
+            }
+            else if (chatDetailData?.action=="2"){
+                    isModified = true
+                    tvToolbar.text = "Modify Quotation"
+                    tvSend.text = "Confirm & Modify"
+                    ivViewRequest.isVisible = true
             }
 
             tvToolbar.setOnClickListener {
@@ -428,7 +466,7 @@ class ChatActivity : BaseActivity() {
                 map["unique_id"] = uniqueId
                 map["price"] = etPerItemPrice.text?.trim().toString()
                 map["shipping"] = etShippingFee.text?.trim().toString()
-                map["quantity"] = chatData?.quantity.toString()
+                map["quantity"] = chatDetailData?.quantity.toString()
                 map["tax"] = etTax.text?.trim().toString()
                 map["total_amount"] = etTotalAmount.text?.trim().toString()
 
@@ -456,18 +494,18 @@ class ChatActivity : BaseActivity() {
         window.attributes = params
 
         dialogBinding.apply {
-            ivProduct.load(chatData?.productVariation?.variantImage?.get(0)){
+            ivProduct.load(chatDetailData?.productVariation?.variantImage?.get(0)){
                 crossfade(true)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
             }
-            tvPrice.text = "${CommonMethod.formatPrice(chatData?.productVariation?.actualPrice?:0.0)} KD"
-            tvDiscountPrice.text = "${CommonMethod.formatPrice(chatData?.productVariation?.finalPrice?:0.0)} KD"
-            tvProductName.text =chatData?.productVariation?.productDetails?.productNameEn
-            tvSizeValue.text =chatData?.productVariation?.sizeId
-            tvTotalQuantityValue.text = chatData?.quantity.toString()
-            tvAddressValue.text = chatData?.deliveryAddress.toString()
-            tvCustomDetail.text = chatData?.customDetails.toString()
+            tvPrice.text = "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice?:0.0)} KD"
+            tvDiscountPrice.text = "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice?:0.0)} KD"
+            tvProductName.text =chatDetailData?.productVariation?.productDetails?.productNameEn
+            tvSizeValue.text =chatDetailData?.productVariation?.sizeId
+            tvTotalQuantityValue.text = chatDetailData?.quantity.toString()
+            tvAddressValue.text = chatDetailData?.deliveryDetails?.address.toString()
+            tvCustomDetail.text = chatDetailData?.customDetails.toString()
         }
         dialog?.show()
     }
@@ -475,26 +513,29 @@ class ChatActivity : BaseActivity() {
     private fun setData(){
         binding?.apply {
 
-            if (chatData?.type=="2"){
+            if (chatDetailData?.type=="2"){
                 toolbar.isVisible = false
                 clQuotation.isVisible = true
-                tvRequestId.text = "Request Id #${chatData?.id}"
-                ivProduct.load(chatData?.productVariation?.variantImage?.get(0)){
+                tvRequestId.text = "Request Id #${chatDetailData?.id}"
+                ivProduct.load(chatDetailData?.productVariation?.variantImage?.get(0)){
                     crossfade(true)
                     placeholder(R.drawable.ic_placeholder)
                     error(R.drawable.ic_placeholder)
                 }
-                tvPrice.text = "${CommonMethod.formatPrice(chatData?.productVariation?.actualPrice?:0.0)} KD"
-                tvDiscountPrice.text = "${CommonMethod.formatPrice(chatData?.productVariation?.finalPrice?:0.0)} KD"
-                tvProductName.text =chatData?.productVariation?.productDetails?.productNameEn
-                tvTotalQuantityValue.text = chatData?.quantity.toString()
-                tvCustomDetail.text = chatData?.customDetails.toString()
-                tvAddressValue.text = chatData?.deliveryAddress.toString()
-                tvPerItemPriceValue.text = "${CommonMethod.formatPrice(chatData?.price?:0.0)} KD"
-                tvTaxValue.text = "${CommonMethod.formatPrice(chatData?.tax?:0.0)} KD"
-                tvShippingFeesValue.text = "${CommonMethod.formatPrice(chatData?.shipping?:0.0)} KD"
-                tvTotalAmountValue.text = "${CommonMethod.formatPrice(chatData?.totalAmount?:0.0)} KD"
-                when (chatData?.action) {
+                tvSizeValue.text = chatDetailData?.productVariation?.size?.name.toString()
+                ivColor.setColorFilter(Color.parseColor(chatDetailData?.productVariation?.color?.hexCode))
+
+                tvPrice.text = "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice?:0.0)} KD"
+                tvDiscountPrice.text = "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice?:0.0)} KD"
+                tvProductName.text =chatDetailData?.productVariation?.productDetails?.productNameEn
+                tvTotalQuantityValue.text = chatDetailData?.quantity.toString()
+                tvCustomDetail.text = chatDetailData?.customDetails.toString()
+                tvAddressValue.text = chatDetailData?.deliveryDetails?.address.toString()
+                tvPerItemPriceValue.text = "${CommonMethod.formatPrice(chatDetailData?.price?:0.0)} KD"
+                tvTaxValue.text = "${CommonMethod.formatPrice(chatDetailData?.tax?:0.0)} KD"
+                tvShippingFeesValue.text = "${CommonMethod.formatPrice(chatDetailData?.shipping?:0.0)} KD"
+                tvTotalAmountValue.text = "${CommonMethod.formatPrice(chatDetailData?.totalAmount?:0.0)} KD"
+                when (chatDetailData?.action) {
                     "0" -> {
                         tvStatus.isVisible = false
                         ivViewRequest.isVisible = false
@@ -519,6 +560,23 @@ class ChatActivity : BaseActivity() {
                         tvStatus.text = "Pending"
                         tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                         btnSendQuotation.text = "Modify Quotation"
+                       /* if (chatDetailData?.productVariation?.productDetails?.readyToShip=="1"){
+                            tvStatus.isVisible = false
+                            ivViewRequest.isVisible = false
+                            clCustomerRequest.isVisible = false
+                            clQuotationDetail.isVisible = false
+                            btnSendQuotation.isVisible = false
+                        }
+                        else{
+                            tvStatus.isVisible = true
+                            ivViewRequest.isVisible = false
+                            clCustomerRequest.isVisible = false
+                            clQuotationDetail.isVisible = true
+                            tvStatus.text = "Pending"
+                            tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            btnSendQuotation.text = "Modify Quotation"
+                        }
+*/
                     }
                     "3" -> {
                         tvStatus.isVisible = true
@@ -541,6 +599,40 @@ class ChatActivity : BaseActivity() {
 
     private fun sendQuotation(map: HashMap<String, Any>) {
         viewModel.modifySingleChat(map)
+    }
+
+    private fun imagePreviewDialog(image: String) {
+        var imageList = arrayListOf(image)
+        val dialog = Dialog(this, R.style.CustomDialog)
+        val dialogBinding = ImagePreviewDialogBinding.inflate(LayoutInflater.from(this))
+        dialogBinding.root.let { dialog?.setContentView(it) }
+
+        val window: Window = dialog?.window!!
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        window.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog?.setCancelable(false)
+
+        val params: WindowManager.LayoutParams = window.attributes
+        params.gravity = Gravity.CENTER
+        window.attributes = params
+
+        dialogBinding.apply {
+
+            ivCross.setOnClickListener{
+                dialog?.dismiss()
+            }
+
+            dotsIndicator.isVisible = false
+
+            val imagePreviewAdapter = ImagePreviewAdapter(this@ChatActivity,imageList)
+            viewPager?.adapter = imagePreviewAdapter
+
+        }
+
+        dialog?.show()
     }
 
 }

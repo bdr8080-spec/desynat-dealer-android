@@ -53,7 +53,7 @@ class OrderAdapter(
             tvName.text = orderData?.userDetails?.fullName
             tvOrderIdValue.text = "#${orderData?.order?.id}"
             tvShippingLocation.text = orderData?.order?.deliveryDetails?.address
-            tvQuantityValue.text = orderData?.variationDetails?.size?.name
+            tvQuantityValue.text = orderData?.quantity
             tvProductName.text = orderData?.productDetails?.productNameEn
             tvOrderDateTime.text = CommonMethod.customizeChangeDateFormat(
                 orderData?.createdAt.toString(),
@@ -72,6 +72,14 @@ class OrderAdapter(
                     }
 
                     "2" -> {
+                        tvStatus.text = "Confirmed"
+                        tvStatus.setTextColor(Color.parseColor("#16B364"))
+                    }
+                    "2.1" -> {
+                        tvStatus.text = "Shipped"
+                        tvStatus.setTextColor(Color.parseColor("#16B364"))
+                    }
+                    "2.2" -> {
                         tvStatus.text = "Ongoing"
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
                     }

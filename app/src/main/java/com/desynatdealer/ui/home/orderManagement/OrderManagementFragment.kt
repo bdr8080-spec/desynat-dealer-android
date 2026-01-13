@@ -316,6 +316,10 @@ class OrderManagementFragment : BaseFragment() {
 
         dialogBinding.apply {
 
+            if (orderType==2){
+                rbExchange.isVisible = false
+            }
+
             if (orderFilter!=null) {
                 filter = orderFilter.toString()
                 when (orderFilter) {

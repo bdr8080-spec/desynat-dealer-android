@@ -291,7 +291,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="@string/shipping_location"
+                        android:text="@string/shipping_address"
                         android:textColor="#80000000"
                         android:textSize="@dimen/_10sdp"
                         app:layout_constraintStart_toStartOf="parent"

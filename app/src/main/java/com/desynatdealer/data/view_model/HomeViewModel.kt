@@ -11,6 +11,7 @@ import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceResponse
+import com.desynatdealer.ui.home.chat.response.ChatDetailResponse
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
@@ -469,6 +470,19 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
             _getAllChatListResponse.value = repo.getAllChatList(map)
         }
     }
+
+    private val _getChatDetailResponse =
+        MutableLiveData<ApiResult<ChatDetailResponse>?>()
+    val getChatDetailResponse: MutableLiveData<ApiResult<ChatDetailResponse>?>
+        get() = _getChatDetailResponse
+
+    fun getChatDetail(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getChatDetailResponse.value = ApiResult.Loading
+            _getChatDetailResponse.value = repo.getChatDetail(map)
+        }
+    }
+
     private val _modifySingleChatResponse =
         MutableLiveData<ApiResult<ModifySingleChatResponse>?>()
     val modifySingleChatResponse: MutableLiveData<ApiResult<ModifySingleChatResponse>?>

@@ -64,6 +64,8 @@ data class GetChatListResponse(
             val actualPrice: Double,
             @SerializedName("bust")
             val bust: Any,
+            @SerializedName("color")
+            val color: Color,
             @SerializedName("color_id")
             val colorId: String,
             @SerializedName("created_at")
@@ -88,6 +90,8 @@ data class GetChatListResponse(
             val productId: Int,
             @SerializedName("shoulder")
             val shoulder: Any,
+            @SerializedName("size")
+            val size: Size,
             @SerializedName("size_id")
             val sizeId: String,
             @SerializedName("sku")
@@ -107,6 +111,28 @@ data class GetChatListResponse(
             @SerializedName("waist")
             val waist: Any
         ) {
+            data class Color(
+                @SerializedName("created_at")
+                val createdAt: String,
+                @SerializedName("hex_code")
+                val hexCode: String,
+                @SerializedName("id")
+                val id: Int,
+                @SerializedName("name")
+                val name: String,
+                @SerializedName("updated_at")
+                val updatedAt: String
+            )
+            data class Size(
+                @SerializedName("created_at")
+                val createdAt: String,
+                @SerializedName("id")
+                val id: Int,
+                @SerializedName("name")
+                val name: String,
+                @SerializedName("updated_at")
+                val updatedAt: String
+            )
             data class ProductDetails(
                 @SerializedName("affiliated_commission")
                 val affiliatedCommission: Any,

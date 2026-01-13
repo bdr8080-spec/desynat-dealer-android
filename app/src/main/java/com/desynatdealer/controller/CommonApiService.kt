@@ -10,6 +10,7 @@ import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceResponse
+import com.desynatdealer.ui.home.chat.response.ChatDetailResponse
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
@@ -187,6 +188,9 @@ interface CommonApiService {
 
     @POST(Constants.ALL_CHAT)
     suspend fun getAllChatList(@Body map: HashMap<String, Any>): Response<GetChatListResponse>
+
+    @POST(Constants.SINGLE_CHAT)
+    suspend fun getChatDetail(@Body map: HashMap<String, Any>): Response<ChatDetailResponse>
 
     @POST(Constants.MODIFY_SINGLE_CHAT)
     suspend fun modifySingleChat(@Body map: HashMap<String, Any>): Response<ModifySingleChatResponse>

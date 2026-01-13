@@ -13,6 +13,7 @@ import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceResponse
+import com.desynatdealer.ui.home.chat.response.ChatDetailResponse
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
@@ -303,6 +304,15 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
             ApiResult.Error("Syntax Error")
         }
     }
+
+ suspend fun getChatDetail(map: HashMap<String, Any>): ApiResult<ChatDetailResponse> {
+        return try {
+            networkCall(api.getChatDetail(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
  suspend fun modifySingleChat(map: HashMap<String, Any>): ApiResult<ModifySingleChatResponse> {
         return try {
             networkCall(api.modifySingleChat(map))

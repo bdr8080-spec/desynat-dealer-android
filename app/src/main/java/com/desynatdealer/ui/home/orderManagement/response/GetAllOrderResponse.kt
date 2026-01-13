@@ -67,7 +67,7 @@ data class GetAllOrderResponse(
             @SerializedName("promocode_value")
             val promocodeValue: String,
             @SerializedName("quantity")
-            val quantity: Int,
+            val quantity: String,
             @SerializedName("r_e_approve")
             val rEApprove: String,
             @SerializedName("return_image")

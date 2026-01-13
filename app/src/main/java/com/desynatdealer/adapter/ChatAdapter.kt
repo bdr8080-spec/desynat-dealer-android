@@ -83,10 +83,14 @@ class ChatAdapter(var context:Context, var chatList: ArrayList<ChatMessage>, var
                 tvOtherMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mma")
             }
 
-        }
+            ivMyMsg.setOnClickListener {
+                chatClick.onChatClick(position)
+            }
 
-        holder.itemView.setOnClickListener {
-            chatClick.onChatClick(position)
+            ivOtherMsg.setOnClickListener {
+                chatClick.onChatClick(position)
+            }
+
         }
 
     }

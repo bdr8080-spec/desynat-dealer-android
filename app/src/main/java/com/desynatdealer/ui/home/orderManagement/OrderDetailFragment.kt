@@ -155,7 +155,7 @@ class OrderDetailFragment : BaseFragment() {
                     }
 
                     "2" -> {
-                        tvStatus.text = "Ongoing"
+                        tvStatus.text = "Confirmed"
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
                         etStatus.isVisible = true
                         btnUpdateStatus.isVisible = true
@@ -240,6 +240,10 @@ class OrderDetailFragment : BaseFragment() {
                     }
                 }
             }
+            tvDateTime.text = CommonMethod.customizeChangeDateFormat(
+                orderData?.createdAt.toString(),
+                outputFormat = "dd/MM/yyyy 'at' hh:mm a"
+            )
 
             tvZoneValue.text = orderDetailData?.deliveryBoyId
             tvName.text = orderDetailData?.order?.userDetails?.fullName
@@ -300,6 +304,10 @@ class OrderDetailFragment : BaseFragment() {
         window.attributes = params
 
         dialogBinding.apply {
+
+            if (orderDetailData?.order?.orderType=="2"){
+                rbExchange.isVisible = false
+            }
 
             ivBack.setOnClickListener {
                 dialog.dismiss()
