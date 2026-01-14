@@ -29,7 +29,7 @@ data class ChatDetailResponse(
             @SerializedName("id")
             val id: Int,
             @SerializedName("price")
-            val price: Double,
+            var price: Double,
             @SerializedName("product_id")
             val productId: String,
             @SerializedName("product_request")
@@ -43,11 +43,11 @@ data class ChatDetailResponse(
             @SerializedName("seller_id")
             val sellerId: Int,
             @SerializedName("shipping")
-            val shipping: Double,
+            var shipping: Double,
             @SerializedName("tax")
-            val tax: Double,
+            var tax: Double,
             @SerializedName("total_amount")
-            val totalAmount: Double,
+            var totalAmount: Double,
             @SerializedName("type")
             val type: String,
             @SerializedName("unique_id")

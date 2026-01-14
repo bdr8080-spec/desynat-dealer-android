@@ -65,7 +65,7 @@
         android:fontFamily="@font/poppins_medium"
         android:text="Today 5 PM"
         android:textColor="#80000000"
-        android:textSize="@dimen/_10sdp"
+        android:textSize="@dimen/_9sdp"
         app:layout_constraintStart_toEndOf="@id/ivStrokeCircle"
         app:layout_constraintTop_toBottomOf="@id/tvLastMsg" />
 

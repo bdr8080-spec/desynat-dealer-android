@@ -186,6 +186,9 @@ interface CommonApiService {
     @POST(Constants.UPDATE_SINGLE_ORDER_STATUS)
     suspend fun updateOrderStatus(@Body map: HashMap<String, Any>): Response<GetSingleOrderResponse>
 
+    @POST(Constants.UPDATE_RETURN_EXCHANGE_ORDER_STATUS)
+    suspend fun updateOrderExchangeReturnStatus(@Body map: HashMap<String, Any>): Response<GetSingleOrderResponse>
+
     @POST(Constants.ALL_CHAT)
     suspend fun getAllChatList(@Body map: HashMap<String, Any>): Response<GetChatListResponse>
 

@@ -23,7 +23,7 @@ data class ModifySingleChatResponse(
         @SerializedName("id")
         val id: Int,
         @SerializedName("price")
-        val price: String,
+        val price: Double,
         @SerializedName("product_id")
         val productId: String,
         @SerializedName("product_request")
@@ -35,11 +35,11 @@ data class ModifySingleChatResponse(
         @SerializedName("seller_id")
         val sellerId: Int,
         @SerializedName("shipping")
-        val shipping: String,
+        val shipping: Double,
         @SerializedName("tax")
-        val tax: String,
+        val tax: Double,
         @SerializedName("total_amount")
-        val totalAmount: String,
+        val totalAmount: Double,
         @SerializedName("type")
         val type: String,
         @SerializedName("unique_id")

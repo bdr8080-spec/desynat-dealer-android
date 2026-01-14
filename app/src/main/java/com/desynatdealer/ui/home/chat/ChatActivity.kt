@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -109,7 +111,7 @@ class ChatActivity : BaseActivity() {
             tvToolbar.text = chatData?.userDetails?.fullName.toString()
             chatAdapter = ChatAdapter(this@ChatActivity,chatList,object : ChatAdapter.ChatClick{
                 override fun onChatClick(position: Int) {
-                    chatList[position].message?.let { imagePreviewDialog(it) }
+                    chatList[position].message.toSafeString()?.let { imagePreviewDialog(it) }
                 }
 
             })
@@ -142,14 +144,14 @@ class ChatActivity : BaseActivity() {
                     chatAdapter?.notifyItemInserted(chatList.size - 1)
                     rvChat.scrollToPosition(chatList.size - 1)
 
-                    if (message.by != "seller" && message.read == 0 && message.id != null) {
-                        markMessageRead(uniqueId, message.id!!)
+                    if (message.by.toSafeString() != "seller" && message.read.toSafeInt() == 0 && message.id.toSafeString() != null) {
+                        markMessageRead(uniqueId, message.id.toSafeString())
                     }
                 },
                 onMessageUpdated = { updatedMessage ->
                     Log.e("update", "initView: ${updatedMessage}" )
 
-                    val index = chatList.indexOfFirst { it.id == updatedMessage.id }
+                    val index = chatList.indexOfFirst { it.id.toSafeString() == updatedMessage.id.toSafeString() }
                     Log.e("update", "id: ${index}" )
                     Log.e("update", "id: ${chatList[index]}" )
                     if (index != -1) {
@@ -219,7 +221,7 @@ class ChatActivity : BaseActivity() {
                     sendMessage(
                         uniqueId = uniqueId,
                         message = textMessage,
-                        type = "0"
+                        type = 0
                     )
                     etMessage.setText("")
                 }
@@ -229,7 +231,7 @@ class ChatActivity : BaseActivity() {
                         sendMessage(
                             uniqueId = uniqueId,
                             message = image.imageUrl,
-                            type = "1"
+                            type = 1
                         )
                     }
                     uploadImageList.clear()
@@ -256,7 +258,7 @@ class ChatActivity : BaseActivity() {
         FirebaseDatabase.getInstance().reference
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun sendMessage(uniqueId: String, message: String, type: String) {
+    fun sendMessage(uniqueId: String, message: String, type: Int) {
         val ref = database.child("chats").child(uniqueId).push()
         val messageId = ref.key ?: return
 
@@ -267,7 +269,7 @@ class ChatActivity : BaseActivity() {
             type = type,
             unique_id = uniqueId,
             times = Instant.now().toString(),
-            user_id = SharedPreference.get(this).getUser()?.id.toString(),
+            user_id = SharedPreference.get(this).getUser()?.id?.toLong()?:0,
             read = 0
         )
 
@@ -388,8 +390,14 @@ class ChatActivity : BaseActivity() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    chatDetailData?.price = result.data?.data?.price?:0.0
+                    chatDetailData?.tax = result.data?.data?.tax?:0.0
+                    chatDetailData?.shipping = result.data?.data?.shipping?:0.0
+                    chatDetailData?.totalAmount = result.data?.data?.totalAmount?:0.0
+                    chatDetailData?.action = result.data?.data?.action?:"0"
+                    setData()
                     if (isModified){
-                        CommonMethod.showSuccessDialog(this@ChatActivity,"Modified successfully!"){
+                        CommonMethod.showSuccessDialog(this@ChatActivity,"Quotation Modified successfully!"){
                             isModified = false
                             quotationDialog?.dismiss()
                         }
@@ -397,7 +405,7 @@ class ChatActivity : BaseActivity() {
                     else {
                         CommonMethod.showSuccessDialog(
                             this@ChatActivity,
-                            "Request Sent successfully!"
+                            "Quotation Sent successfully!"
                         ) {
                             quotationDialog?.dismiss()
                         }
@@ -445,13 +453,42 @@ class ChatActivity : BaseActivity() {
                 tvToolbar.text = "Modify Quotation"
                 tvSend.text = "Confirm & Modify"
                 ivViewRequest.isVisible = true
+
+                etPerItemPrice.setText(CommonMethod.formatPrice(chatDetailData?.price?:0.0))
+                etTax.setText(CommonMethod.formatPrice(chatDetailData?.tax?:0.0))
+                etShippingFee.setText(CommonMethod.formatPrice(chatDetailData?.shipping?:0.0))
+                etTotalAmount.setText(CommonMethod.formatPrice(chatDetailData?.totalAmount?:0.0))
             }
             else if (chatDetailData?.action=="2"){
                     isModified = true
                     tvToolbar.text = "Modify Quotation"
                     tvSend.text = "Confirm & Modify"
                     ivViewRequest.isVisible = true
+
+                etPerItemPrice.setText(CommonMethod.formatPrice(chatDetailData?.price?:0.0))
+                etTax.setText(CommonMethod.formatPrice(chatDetailData?.tax?:0.0))
+                etShippingFee.setText(CommonMethod.formatPrice(chatDetailData?.shipping?:0.0))
+                etTotalAmount.setText(CommonMethod.formatPrice(chatDetailData?.totalAmount?:0.0))
             }
+
+            val textWatcher = object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val total = calculateTotal(
+                        etPerItemPrice.text?.toString(),
+                        etShippingFee.text?.toString(),
+                        etTax.text?.toString())
+                    etTotalAmount.setText(total)
+                }
+
+                override fun afterTextChanged(s: Editable?) {}
+            }
+
+            etPerItemPrice.addTextChangedListener(textWatcher)
+            etShippingFee.addTextChangedListener(textWatcher)
+            etTax.addTextChangedListener(textWatcher)
+
 
             tvToolbar.setOnClickListener {
                 quotationDialog?.dismiss()
@@ -462,18 +499,43 @@ class ChatActivity : BaseActivity() {
             }
 
             tvSend.setOnClickListener {
-                val map = HashMap<String, Any>()
-                map["unique_id"] = uniqueId
-                map["price"] = etPerItemPrice.text?.trim().toString()
-                map["shipping"] = etShippingFee.text?.trim().toString()
-                map["quantity"] = chatDetailData?.quantity.toString()
-                map["tax"] = etTax.text?.trim().toString()
-                map["total_amount"] = etTotalAmount.text?.trim().toString()
-
-                sendQuotation(map)
+                if (etPerItemPrice.text?.trim()?.isEmpty() == true){
+                    showToast("Please enter per item price")
+                }
+                else if (etShippingFee.text?.trim()?.isEmpty() == true){
+                    showToast("Please enter shipping charge")
+                }
+                else if (etTax.text?.trim()?.isEmpty() == true){
+                    showToast("Please enter tax amount")
+                }
+                else {
+                    val map = HashMap<String, Any>()
+                    map["unique_id"] = uniqueId
+                    map["price"] = etPerItemPrice.text?.trim().toString()
+                    map["shipping"] = etShippingFee.text?.trim().toString()
+                    map["quantity"] = chatDetailData?.quantity.toString()
+                    map["tax"] = etTax.text?.trim().toString()
+                    map["total_amount"] = etTotalAmount.text?.trim().toString()
+                    sendQuotation(map)
+                }
             }
         }
         quotationDialog?.show()
+    }
+
+    private fun calculateTotal(
+        price: String?,
+        shipping: String?,
+        tax: String?,
+    ): String {
+
+        val itemPrice = price?.toDoubleOrNull() ?: 0.0
+        val shippingFee = shipping?.toDoubleOrNull() ?: 0.0
+        val taxAmount = tax?.toDoubleOrNull() ?: 0.0
+        val quantity = chatDetailData?.quantity?.toInt()?:1
+
+        val total = (itemPrice * quantity) + shippingFee + taxAmount
+        return CommonMethod.formatPrice(total)
     }
 
     private fun viewQuotationRequestDialog() {
@@ -548,8 +610,8 @@ class ChatActivity : BaseActivity() {
                         ivViewRequest.isVisible = false
                         clCustomerRequest.isVisible = false
                         clQuotationDetail.isVisible = true
-                        tvStatus.text = "Pending"
-                        tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                        tvStatus.text = "Quotation Sent"
+                        tvStatus.setTextColor(Color.parseColor("#172B85"))
                         btnSendQuotation.text = "Modify Quotation"
                     }
                     "2" -> {
@@ -557,28 +619,20 @@ class ChatActivity : BaseActivity() {
                         ivViewRequest.isVisible = false
                         clCustomerRequest.isVisible = false
                         clQuotationDetail.isVisible = true
-                        tvStatus.text = "Pending"
-                        tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                        tvStatus.text = "Quotation Sent"
+                        tvStatus.setTextColor(Color.parseColor("#172B85"))
                         btnSendQuotation.text = "Modify Quotation"
-                       /* if (chatDetailData?.productVariation?.productDetails?.readyToShip=="1"){
-                            tvStatus.isVisible = false
-                            ivViewRequest.isVisible = false
-                            clCustomerRequest.isVisible = false
-                            clQuotationDetail.isVisible = false
-                            btnSendQuotation.isVisible = false
-                        }
-                        else{
-                            tvStatus.isVisible = true
-                            ivViewRequest.isVisible = false
-                            clCustomerRequest.isVisible = false
-                            clQuotationDetail.isVisible = true
-                            tvStatus.text = "Pending"
-                            tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-                            btnSendQuotation.text = "Modify Quotation"
-                        }
-*/
                     }
-                    "3" -> {
+                    "4" -> {
+                        tvStatus.isVisible = true
+                        ivViewRequest.isVisible = true
+                        clCustomerRequest.isVisible = false
+                        clQuotationDetail.isVisible = true
+                        btnSendQuotation.isVisible = false
+                        tvStatus.text = "Rejected"
+                        tvStatus.setTextColor(Color.parseColor("#D53B36"))
+                    }
+                    "5" -> {
                         tvStatus.isVisible = true
                         ivViewRequest.isVisible = true
                         clCustomerRequest.isVisible = false
@@ -635,6 +689,34 @@ class ChatActivity : BaseActivity() {
         dialog?.show()
     }
 
+}
+
+fun Any?.toSafeString(): String {
+    return when (this) {
+        is String -> this
+        is Long -> this.toString()
+        is Int -> this.toString()
+        is Double -> this.toString()
+        else -> ""
+    }
+}
+
+fun Any?.toSafeInt(): Int {
+    return when (this) {
+        is Int -> this
+        is Long -> this.toInt()
+        is String -> this.toIntOrNull() ?: 0
+        else -> 0
+    }
+}
+
+fun Any?.toSafeLong(): Long {
+    return when (this) {
+        is Long -> this
+        is Int -> this.toLong()
+        is String -> this.toLongOrNull() ?: 0L
+        else -> 0L
+    }
 }
 
 

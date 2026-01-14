@@ -459,6 +459,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _updateOrderExchangeReturnStatusResponse =
+        MutableLiveData<ApiResult<GetSingleOrderResponse>?>()
+    val updateOrderExchangeReturnStatusResponse: MutableLiveData<ApiResult<GetSingleOrderResponse>?>
+        get() = _updateOrderExchangeReturnStatusResponse
+
+    fun updateOrderExchangeReturnStatus(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _updateOrderExchangeReturnStatusResponse.value = ApiResult.Loading
+            _updateOrderExchangeReturnStatusResponse.value = repo.updateOrderExchangeReturnStatus(map)
+        }
+    }
+
     private val _getAllChatListResponse =
         MutableLiveData<ApiResult<GetChatListResponse>?>()
     val getAllChatListResponse: MutableLiveData<ApiResult<GetChatListResponse>?>

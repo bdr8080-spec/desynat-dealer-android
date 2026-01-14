@@ -115,7 +115,9 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/edit_back"
             android:hint="Eg 20 KD"
-            android:inputType="numberDecimal"
+            android:editable="false"
+            android:clickable="false"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTotalAmount" />

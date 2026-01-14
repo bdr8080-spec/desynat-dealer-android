@@ -41,7 +41,7 @@ data class GetAllOrderResponse(
             @SerializedName("exchange_old_size")
             val exchangeOldSize: String,
             @SerializedName("exchange_reason")
-            val exchangeReason: Any,
+            val exchangeReason: String,
             @SerializedName("giftcard_amount")
             val giftcardAmount: String,
             @SerializedName("giftcard_id")

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.desynatdealer.R
@@ -65,7 +66,7 @@ class OrderAdapter(
                 tvStatus.setTextColor(Color.parseColor("#E70000"))
             }
             else {
-                when (orderData?.order?.deliveryStatus) {
+                when (orderData?.deliveryStatus) {
                     "1" -> {
                         tvStatus.text = "Confirmed"
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
@@ -80,13 +81,28 @@ class OrderAdapter(
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
                     }
                     "2.2" -> {
-                        tvStatus.text = "Ongoing"
+                        tvStatus.text = "Out for Delivery"
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
                     }
 
                     "3" -> {
-                        tvStatus.text = "Delivered"
-                        tvStatus.setTextColor(Color.parseColor("#047BD5"))
+                        when (orderData?.returnType) {
+                            "1" -> {
+                                tvStatus.text = "Return Req"
+                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+
+                            }
+
+                            "2" -> {
+                                tvStatus.text = "Exchange Req"
+                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            }
+
+                            else -> {
+                                tvStatus.text = "Delivered"
+                                tvStatus.setTextColor(Color.parseColor("#047BD5"))
+                            }
+                        }
                     }
 
                     "4" -> {
@@ -100,8 +116,26 @@ class OrderAdapter(
                     }
 
                     "7" -> {
-                        tvStatus.text = "Ongoing"
+                        tvStatus.text = "Out for Delivery"
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
+//                        when (orderData?.returnType) {
+//                            "1" -> {
+//                                tvStatus.text = "Return Req"
+//                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+//
+//                            }
+//
+//                            "2" -> {
+//                                tvStatus.text = "Exchange Req"
+//                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+//                            }
+//
+//                            else -> {
+//                                tvStatus.text = "Out for Delivery"
+//                                tvStatus.setTextColor(Color.parseColor("#16B364"))
+//                            }
+//                        }
+
                     }
 
                     "8" -> {

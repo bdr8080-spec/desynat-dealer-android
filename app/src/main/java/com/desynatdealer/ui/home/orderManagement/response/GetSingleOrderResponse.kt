@@ -72,11 +72,11 @@ data class GetSingleOrderResponse(
         @SerializedName("seller_id")
         val sellerId: String,
         @SerializedName("shipping_fees")
-        val shippingFees: String,
+        val shippingFees: Double,
         @SerializedName("status")
         val status: String,
         @SerializedName("tax")
-        val tax: String,
+        val tax: Double,
         @SerializedName("updated_at")
         val updatedAt: String,
         @SerializedName("user_id")
@@ -86,8 +86,9 @@ data class GetSingleOrderResponse(
         @SerializedName("variants_id")
         val variantsId: Int,
         @SerializedName("variation_details")
-        val variationDetails: VariationDetails
+        val variationDetails: VariationDetails,
     ) {
+
         data class UserRatingReviewProvide(
             @SerializedName("created_at")
             val createdAt: String,
@@ -138,7 +139,7 @@ data class GetSingleOrderResponse(
             @SerializedName("delivery_status")
             val deliveryStatus: String,
             @SerializedName("discount_mrp")
-            val discountMrp: String,
+            val discountMrp: Double,
             @SerializedName("giftcard_amount")
             val giftcardAmount: Any,
             @SerializedName("giftcard_id")
@@ -158,15 +159,15 @@ data class GetSingleOrderResponse(
             @SerializedName("promocode_status")
             val promocodeStatus: String,
             @SerializedName("promocode_value")
-            val promocodeValue: String,
+            val promocodeValue: Double,
             @SerializedName("shipping_fees")
-            val shippingFees: String,
+            val shippingFees: Double,
             @SerializedName("tax")
-            val tax: String,
+            val tax: Double,
             @SerializedName("total_amount")
-            val totalAmount: String,
+            val totalAmount: Double,
             @SerializedName("total_mrp")
-            val totalMrp: String,
+            val totalMrp: Double,
             @SerializedName("transaction_id")
             val transactionId: String,
             @SerializedName("updated_at")

@@ -297,6 +297,14 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
+ suspend fun updateOrderExchangeReturnStatus(map: HashMap<String, Any>): ApiResult<GetSingleOrderResponse> {
+        return try {
+            networkCall(api.updateOrderExchangeReturnStatus(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
  suspend fun getAllChatList(map: HashMap<String, Any>): ApiResult<GetChatListResponse> {
         return try {
             networkCall(api.getAllChatList(map))

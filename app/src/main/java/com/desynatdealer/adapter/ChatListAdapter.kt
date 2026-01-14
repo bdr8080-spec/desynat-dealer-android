@@ -42,12 +42,23 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
                 error(R.drawable.ic_user)
             }
             tvName.text = chatData?.userDetails?.fullName
+            if (chatData?.lastChat=="null"&&chatData?.lastChat==null&&chatData?.lastChat==""){
+                tvLastMsg.isVisible = false
+            }
+            else{
+                tvLastMsg.isVisible = true
+            }
             tvLastMsg.text = chatData?.lastChat
             if (chatData.lastChatTime!=null&&chatData.lastChatTime!="null"&&chatData.lastChatTime!="") {
                 tvTime.text = CommonMethod.formatChatTime(
                     chatData?.lastChatTime.toString()
                 )
 
+            }
+            else{
+                tvTime.text = CommonMethod.formatChatTime(CommonMethod.customizeChangeDateFormat(
+                    chatData?.updatedAt.toString(), outputFormat = "dd MMM yyyy, hh:mm a"
+                ) )
             }
             if (chatData?.type=="2"){
                 tvStatus.isVisible = true
@@ -67,17 +78,13 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
                         tvStatus.setTextColor(Color.parseColor("#172B85"))
                         tvStatus.backgroundTintList =
                             ColorStateList.valueOf(Color.parseColor("#1A172B85"))
-                      /*  if(chatData?.productVariation?.productDetails?.readyToShip=="1"){
-                            tvStatus.isVisible = false
-                        }
-                        else {
-                            tvStatus.text = "Quotation Modified"
-                            tvStatus.setTextColor(Color.parseColor("#172B85"))
-                            tvStatus.backgroundTintList =
-                                ColorStateList.valueOf(Color.parseColor("#1A172B85"))
-                        }*/
                     }
-                    "3"->{
+                    "4"->{
+                        tvStatus.text = "Quotation Rejected"
+                        tvStatus.setTextColor(Color.parseColor("#D53B36"))
+                        tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1AD53B36"))
+                    }
+                    "5"->{
                         tvStatus.text = "Quotation Accepted"
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
                         tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1A16B364"))

@@ -10,6 +10,8 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemChatBinding
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.ui.home.chat.response.ChatMessage
+import com.desynatdealer.ui.home.chat.toSafeInt
+import com.desynatdealer.ui.home.chat.toSafeString
 
 class ChatAdapter(var context:Context, var chatList: ArrayList<ChatMessage>, var chatClick:ChatClick) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
@@ -34,14 +36,14 @@ class ChatAdapter(var context:Context, var chatList: ArrayList<ChatMessage>, var
         val chatData = chatList[position]
         holder.binding.apply {
 
-            if (chatData.by == "seller") {
+            if (chatData.by.toSafeString() == "seller") {
                 relMy.isVisible = true
                 relOther.isVisible = false
 
-                if (chatData.type=="1"){
+                if (chatData.type.toSafeInt()==1){
                     ivMyMsg.isVisible = true
                     tvMyMsg.isVisible = false
-                    ivMyMsg.load(chatData.message){
+                    ivMyMsg.load(chatData.message.toSafeString()){
                         crossfade(true)
                         placeholder(R.drawable.ic_placeholder)
                         error(R.drawable.ic_placeholder)
@@ -50,25 +52,25 @@ class ChatAdapter(var context:Context, var chatList: ArrayList<ChatMessage>, var
                 else{
                     ivMyMsg.isVisible = false
                     tvMyMsg.isVisible = true
-                    tvMyMsg.text = chatData.message
+                    tvMyMsg.text = chatData.message.toSafeString()
                 }
 
-                if (chatData.read==1){
+                if (chatData.read.toSafeInt()==1){
                     ivRead.isVisible = true
                 }
                 else{
                     ivRead.isVisible = false
                 }
-                tvMyMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mma")
+                tvMyMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toSafeString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mm a")
 
             }
             else{
                 relMy.isVisible = false
                 relOther.isVisible = true
-                if (chatData.type=="1"){
+                if (chatData.type.toSafeInt()==1){
                     ivOtherMsg.isVisible = true
                     tvOtherMsg.isVisible = false
-                    ivOtherMsg.load(chatData.message){
+                    ivOtherMsg.load(chatData.message.toSafeString()){
                         crossfade(true)
                         placeholder(R.drawable.ic_placeholder)
                         error(R.drawable.ic_placeholder)
@@ -77,10 +79,10 @@ class ChatAdapter(var context:Context, var chatList: ArrayList<ChatMessage>, var
                 else{
                     ivOtherMsg.isVisible = false
                     tvOtherMsg.isVisible = true
-                    tvOtherMsg.text = chatData.message
+                    tvOtherMsg.text = chatData.message.toSafeString()
                 }
-                tvOtherMsg.text = chatData.message
-                tvOtherMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mma")
+                tvOtherMsg.text = chatData.message.toSafeString()
+                tvOtherMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toSafeString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mm a")
             }
 
             ivMyMsg.setOnClickListener {
