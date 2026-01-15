@@ -86,23 +86,33 @@ class OrderAdapter(
                     }
 
                     "3" -> {
-                        when (orderData?.returnType) {
-                            "1" -> {
-                                tvStatus.text = "Return Req"
-                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-
-                            }
-
-                            "2" -> {
-                                tvStatus.text = "Exchange Req"
-                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-                            }
-
-                            else -> {
-                                tvStatus.text = "Delivered"
-                                tvStatus.setTextColor(Color.parseColor("#047BD5"))
-                            }
+                        if (orderData?.r_e_type=="0"&&orderData?.p_orderdetails_id!="0") {
+                            tvStatus.text = "Exchanged"
+                            tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                         }
+                      else if (orderData?.rEApprove=="1"){
+                           tvStatus.text = "Confirmed"
+                           tvStatus.setTextColor(Color.parseColor("#16B364"))
+                       }
+                        else{
+                           when (orderData?.returnType) {
+                               "1" -> {
+                                   tvStatus.text = "Return Req"
+                                   tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+
+                               }
+
+                               "2" -> {
+                                   tvStatus.text = "Exchange Req"
+                                   tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                               }
+
+                               else -> {
+                                   tvStatus.text = "Delivered"
+                                   tvStatus.setTextColor(Color.parseColor("#047BD5"))
+                               }
+                           }
+                       }
                     }
 
                     "4" -> {

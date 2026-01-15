@@ -38,7 +38,7 @@
             android:name=".ui.home.chat.ChatActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.UpdateLocationActivity"
             android:exported="false"

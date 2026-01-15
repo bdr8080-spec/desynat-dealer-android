@@ -50,10 +50,7 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
             }
             tvLastMsg.text = chatData?.lastChat
             if (chatData.lastChatTime!=null&&chatData.lastChatTime!="null"&&chatData.lastChatTime!="") {
-                tvTime.text = CommonMethod.formatChatTime(
-                    chatData?.lastChatTime.toString()
-                )
-
+                tvTime.text = chatData?.lastChatTime.toString()
             }
             else{
                 tvTime.text = CommonMethod.formatChatTime(CommonMethod.customizeChangeDateFormat(

@@ -81,7 +81,7 @@ class OrderDetailFragment : BaseFragment() {
 
             btnUpdateStatus.setOnClickListener {
 
-                if (orderDetailData?.returnType=="2"){
+                if (orderDetailData?.returnType=="2"||orderDetailData?.returnType=="1"){
                     updateOrderExchangeReturnStatus(selectedStatus)
                 }
                 else {
@@ -146,6 +146,7 @@ class OrderDetailFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     orderDetailData?.deliveryStatus = result.data?.data?.deliveryStatus.toString()
+                    orderDetailData?.rEApprove = result.data?.data?.rEApprove.toString()
                     setData()
                     viewModel.updateOrderExchangeReturnStatusResponse.value = null
                 }
@@ -171,6 +172,31 @@ class OrderDetailFragment : BaseFragment() {
             if (orderDetailData?.paymentStatus == "2" || orderDetailData?.paymentStatus == "3") {
                 tvStatus.text = "Cancelled"
                 tvStatus.setTextColor(Color.parseColor("#E70000"))
+                tvStatus.text = "Cancelled"
+                tvStatus.setTextColor(Color.parseColor("#E70000"))
+                etStatus.isVisible = false
+                btnUpdateStatus.isVisible = false
+                llComplete.isVisible = false
+                llReturnDetail.isVisible = true
+                tvExchangeSize.isVisible = false
+                tvExchangeSizeValue.isVisible = false
+                tvUploadedImage.isVisible = false
+                relUploadImage.isVisible = false
+                tvReturnDetails.text = "Cancellation details"
+                tvReturnOn.text = "Cancelled on"
+                tvReturnRequestId.text = "Cancelled Request ID"
+                tvReturnRequestIdValue.text = "#"+orderDetailData?.id
+                tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
+
+                if (orderDetailData?.cancelReason!="null"&&orderDetailData?.cancelReason!=null&&orderDetailData?.cancelReason!=""){
+                    tvReturnReason.isVisible = false
+                    tvReturnReasonValue.isVisible = false
+                }
+                else{
+                    tvReturnReason.isVisible = true
+                    tvReturnReasonValue.isVisible = true
+                }
+                tvReturnReasonValue.text = orderDetailData?.cancelReason
             }
             else {
                 when (orderDetailData?.deliveryStatus) {
@@ -178,6 +204,7 @@ class OrderDetailFragment : BaseFragment() {
                         tvStatus.text = "Confirmed"
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
                         etStatus.isVisible = true
+                        etStatus.setText("")
                         btnUpdateStatus.isVisible = true
                         llComplete.isVisible = false
                     }
@@ -185,6 +212,7 @@ class OrderDetailFragment : BaseFragment() {
                     "2" -> {
                         tvStatus.text = "Confirmed"
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
+                        etStatus.setText("")
                         etStatus.isVisible = true
                         btnUpdateStatus.isVisible = true
                         llComplete.isVisible = false
@@ -205,78 +233,131 @@ class OrderDetailFragment : BaseFragment() {
                     }
 
                     "3" -> {
+                         if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id!="0"){
+                            tvStatus.text = "Exchanged"
+                            tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            etStatus.isVisible = true
+                            btnUpdateStatus.isVisible = true
+                            llComplete.isVisible = false
+                            llReturnDetail.isVisible = true
+                            tvExchangeSize.isVisible = true
+                            tvExchangeSizeValue.isVisible = true
+                            tvUploadedImage.isVisible = false
+                            relUploadImage.isVisible = false
+                            tvReturnDetails.text = "Exchange Details"
+                            tvReturnOn.text = "Exchange on"
+                            tvReturnRequestId.text = "Exchange Request ID"
+                            tvReturnRequestIdValue.text = "#" + orderDetailData?.id
+                            tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
+                                orderDetailData?.updatedAt.toString(),
+                                outputFormat = "dd/MM/yy 'at' hh:mm a"
+                            )
+                            tvExchangeSizeValue.text = orderDetailData?.exchangeNewSize
+                            tvReturnReasonValue.text = orderDetailData?.exchangeReason
 
-                        when (orderDetailData?.returnType) {
-                            "1" -> {
-                                tvStatus.text = "Return Req"
-                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-                                etStatus.isVisible = false
-                                btnUpdateStatus.isVisible = false
+                            if (orderDetailData?.userRatingReviewProvide != null) {
+                                llComplete.isVisible = true
+                                rbProductRating.rating =
+                                    orderDetailData?.userRatingReviewProvide?.productRating
+                                        ?: 0f
+                                rbStoreRating.rating =
+                                    orderDetailData?.userRatingReviewProvide?.storeRating
+                                        ?: 0f
+                                tvProductReview.text =
+                                    orderDetailData?.userRatingReviewProvide?.productReview
+                                tvSellerReview.text =
+                                    orderDetailData?.userRatingReviewProvide?.storeReview
+                            } else {
                                 llComplete.isVisible = false
-                                llReturnDetail.isVisible = true
-                                tvExchangeSize.isVisible = false
-                                tvExchangeSizeValue.isVisible = false
+                            }
+                        }
+                         else if (orderDetailData?.rEApprove=="1"){
+                             tvStatus.text = "Confirmed"
+                             tvStatus.setTextColor(Color.parseColor("#16B364"))
+                             etStatus.isVisible = false
+                             btnUpdateStatus.isVisible = false
+                             llComplete.isVisible = false
+                         }
+                        else {
+
+                            when (orderDetailData?.returnType) {
+                                "1" -> {
+                                    tvStatus.text = "Return Req"
+                                    tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                                    etStatus.isVisible = true
+                                    btnUpdateStatus.isVisible = true
+                                    llComplete.isVisible = false
+                                    llReturnDetail.isVisible = true
+                                    tvExchangeSize.isVisible = false
+                                    tvExchangeSizeValue.isVisible = false
 
 
-                                tvReturnRequestIdValue.text = "#"+orderDetailData?.id
-                                tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
-                                tvReturnReasonValue.text = orderDetailData?.returnReason
-                                if (orderDetailData?.returnImage != null && orderDetailData?.returnImage != "" && orderDetailData?.returnImage != "null"
-                                ) {
-                                    relUploadImage.isVisible = true
-                                    tvUploadedImage.isVisible = true
-                                    ivReturnImage.load(orderDetailData?.returnImage) {
-                                        crossfade(true)
-                                        placeholder(R.drawable.ic_placeholder)
-                                        kotlin.error(R.drawable.ic_placeholder)
+                                    tvReturnRequestIdValue.text = "#" + orderDetailData?.id
+                                    tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
+                                        orderDetailData?.updatedAt.toString(),
+                                        outputFormat = "dd/MM/yy 'at' hh:mm a"
+                                    )
+                                    tvReturnReasonValue.text = orderDetailData?.returnReason
+                                    if (orderDetailData?.returnImage?.size != 0
+                                    ) {
+                                        relUploadImage.isVisible = true
+                                        tvUploadedImage.isVisible = true
+                                        ivReturnImage.load(orderDetailData?.returnImage?.get(0)) {
+                                            crossfade(true)
+                                            placeholder(R.drawable.ic_placeholder)
+                                            placeholder(R.drawable.ic_placeholder)
+                                        }
+                                    } else {
+                                        tvUploadedImage.isVisible = false
+                                        relUploadImage.isVisible = false
                                     }
-                                } else {
+                                }
+
+                                "2" -> {
+                                    tvStatus.text = "Exchange Req"
+                                    tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                                    etStatus.isVisible = true
+                                    btnUpdateStatus.isVisible = true
+                                    llComplete.isVisible = false
+                                    llReturnDetail.isVisible = true
+                                    tvExchangeSize.isVisible = true
+                                    tvExchangeSizeValue.isVisible = true
                                     tvUploadedImage.isVisible = false
                                     relUploadImage.isVisible = false
+                                    tvReturnDetails.text = "Exchange Details"
+                                    tvReturnOn.text = "Exchange on"
+                                    tvReturnRequestId.text = "Exchange Request ID"
+                                    tvReturnRequestIdValue.text = "#" + orderDetailData?.id
+                                    tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
+                                        orderDetailData?.updatedAt.toString(),
+                                        outputFormat = "dd/MM/yy 'at' hh:mm a"
+                                    )
+                                    tvExchangeSizeValue.text = orderDetailData?.exchangeNewSize
+                                    tvReturnReasonValue.text = orderDetailData?.exchangeReason
                                 }
-                            }
 
-                            "2" -> {
-                                tvStatus.text = "Exchange Req"
-                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-                                etStatus.isVisible = true
-                                btnUpdateStatus.isVisible = true
-                                llComplete.isVisible = false
-                                llReturnDetail.isVisible = true
-                                tvExchangeSize.isVisible = true
-                                tvExchangeSizeValue.isVisible = true
-                                tvUploadedImage.isVisible = false
-                                relUploadImage.isVisible = false
-                                tvReturnDetails.text = "Exchange Details"
-                                tvReturnOn.text = "Exchange on"
-                                tvReturnRequestId.text = "Exchange Request ID"
-                                tvReturnRequestIdValue.text = "#"+orderDetailData?.id
-                                tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
-                                tvExchangeSizeValue.text =  orderDetailData?.exchangeNewSize
-                                tvReturnReasonValue.text =  orderDetailData?.exchangeReason
-                            }
-
-                            else -> {
-                                tvStatus.text = "Delivered"
-                                tvStatus.setTextColor(Color.parseColor("#047BD5"))
-                                etStatus.isVisible = false
-                                btnUpdateStatus.isVisible = false
+                                else -> {
+                                    tvStatus.text = "Delivered"
+                                    tvStatus.setTextColor(Color.parseColor("#047BD5"))
+                                    etStatus.isVisible = false
+                                    btnUpdateStatus.isVisible = false
 
 
-                                if (orderDetailData?.userRatingReviewProvide != null) {
-                                    llComplete.isVisible = true
-                                    rbProductRating.rating =
-                                        orderDetailData?.userRatingReviewProvide?.productRating
-                                            ?: 0f
-                                    rbStoreRating.rating =
-                                        orderDetailData?.userRatingReviewProvide?.productRating
-                                            ?: 0f
-                                    tvProductReview.text =
-                                        orderDetailData?.userRatingReviewProvide?.productReview
-                                    tvSellerReview.text =
-                                        orderDetailData?.userRatingReviewProvide?.storeReview
-                                } else {
-                                    llComplete.isVisible = false
+                                    if (orderDetailData?.userRatingReviewProvide != null) {
+                                        llComplete.isVisible = true
+                                        rbProductRating.rating =
+                                            orderDetailData?.userRatingReviewProvide?.productRating
+                                                ?: 0f
+                                        rbStoreRating.rating =
+                                            orderDetailData?.userRatingReviewProvide?.storeRating
+                                                ?: 0f
+                                        tvProductReview.text =
+                                            orderDetailData?.userRatingReviewProvide?.productReview
+                                        tvSellerReview.text =
+                                            orderDetailData?.userRatingReviewProvide?.storeReview
+                                    } else {
+                                        llComplete.isVisible = false
+                                    }
                                 }
                             }
                         }
@@ -299,10 +380,18 @@ class OrderDetailFragment : BaseFragment() {
                         tvReturnRequestIdValue.text = "#"+orderDetailData?.id
                         tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
                         tvReturnReasonValue.text = orderDetailData?.cancelReason
+                        if (orderDetailData?.cancelReason!="null"&&orderDetailData?.cancelReason!=null&&orderDetailData?.cancelReason!=""){
+                            tvReturnReason.isVisible = false
+                            tvReturnReasonValue.isVisible = false
+                        }
+                        else{
+                            tvReturnReason.isVisible = true
+                            tvReturnReasonValue.isVisible = true
+                        }
                     }
 
                     "5" -> {
-                        tvStatus.text = "Return Req"
+                        tvStatus.text = "Returned"
                         tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                         etStatus.isVisible = false
                         btnUpdateStatus.isVisible = false
@@ -315,11 +404,11 @@ class OrderDetailFragment : BaseFragment() {
                         tvReturnRequestIdValue.text = "#"+orderDetailData?.id
                         tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
                         tvReturnReasonValue.text = orderDetailData?.returnReason
-                        if (orderDetailData?.returnImage != null && orderDetailData?.returnImage != "" && orderDetailData?.returnImage != "null"
+                        if (orderDetailData?.returnImage?.size!=0
                         ) {
                             relUploadImage.isVisible = true
                             tvUploadedImage.isVisible = true
-                            ivReturnImage.load(orderDetailData?.returnImage) {
+                            ivReturnImage.load(orderDetailData?.returnImage?.get(0)) {
                                 crossfade(true)
                                 placeholder(R.drawable.ic_placeholder)
                                 kotlin.error(R.drawable.ic_placeholder)
@@ -347,7 +436,7 @@ class OrderDetailFragment : BaseFragment() {
                     }
 
                     "9" -> {
-                        tvStatus.text = "Exchange Req"
+                        tvStatus.text = "Exchanged"
                         tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                         etStatus.isVisible = true
                         btnUpdateStatus.isVisible = true
@@ -415,29 +504,63 @@ class OrderDetailFragment : BaseFragment() {
                 clBilling.isVisible = true
             }
 
-            tvPerItemPrice.text = "Item Price (${CommonMethod.formatPrice(orderDetailData?.amount?:0.0)} X ${orderDetailData?.quantity})"
-            tvPerItemPriceValue.text = "${CommonMethod.formatPrice((orderDetailData?.amount?:0.0 )* (orderDetailData?.quantity?:1))} KD"
-            tvShippingFees.text = "${CommonMethod.formatPrice(orderDetailData?.shippingFees?:0.0)} KD"
-            tvTaxValue.text = "${CommonMethod.formatPrice(orderDetailData?.tax?:0.0)} KD"
-            tvTotalAmountValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
+            val itemPrice = orderDetailData?.amount ?: 0.0
+            val quantity = orderDetailData?.quantity ?: 1
+            val tax = orderDetailData?.tax ?: 0.0
+            val shippingFees = orderDetailData?.shippingFees ?: 0.0
+
+            val subTotal = itemPrice * quantity
+            val totalAmount = subTotal + tax + shippingFees
+
+            tvPerItemPrice.text =
+                "Item Price (${CommonMethod.formatPrice(itemPrice)} KD X $quantity)"
+
+            tvPerItemPriceValue.text =
+                "${CommonMethod.formatPrice(subTotal)} KD"
+
+            tvShippingFeesValue.text =
+                "${CommonMethod.formatPrice(shippingFees)} KD"
+
+            tvTaxValue.text =
+                "${CommonMethod.formatPrice(tax)} KD"
+
+            tvTotalAmountValue.text =
+                "${CommonMethod.formatPrice(totalAmount)} KD"
+//            tvPerItemPrice.text = "Item Price (${CommonMethod.formatPrice(orderDetailData?.amount?:0.0)} X ${orderDetailData?.quantity})"
+//            tvPerItemPriceValue.text = "${CommonMethod.formatPrice((orderDetailData?.amount?:0.0 )* (orderDetailData?.quantity?:1))} KD"
+//            tvShippingFees.text = "${CommonMethod.formatPrice(orderDetailData?.shippingFees?:0.0)} KD"
+//            tvTaxValue.text = "${CommonMethod.formatPrice(orderDetailData?.tax?:0.0)} KD"
+//            tvTotalAmountValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
 
             tvItem.text = "${orderDetailData?.quantity} items"
             tvTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
             tvPaidByCustomerValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
             tvAdminCommissionValue.text = "${CommonMethod.formatPrice(orderDetailData?.adminCommission?:0.0)} KD"
-            tvSubTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.amount?:0.0)} KD"
+            tvSubTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalMrp?:0.0)} KD"
             tvShippingCharges.text = "${CommonMethod.formatPrice(orderDetailData?.order?.shippingFees?:0.0)} KD"
+            tvOrderTaxValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.tax?:0.0)} KD"
             if (orderDetailData?.order?.promocodeStatus=="yes"){
-                tvCouponAppliedValue.isVisible = true
                 tvCouponApplied.isVisible = true
-              //  tvCouponApplied.text = "Coupon Discount (${orderDetailData?.order?.promocodeDetails?.nameEnglish})"
+                tvCouponAppliedValue.isVisible = true
+                tvSaved.isVisible = true
                 tvCouponAppliedValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.promocodeValue?:0.0)} KD"
-                tvSaved.text = "Saved ${CommonMethod.formatPrice(orderDetailData?.order?.promocodeValue?:0.0)} KD"
 
             }
             else{
                 tvCouponApplied.isVisible = false
                 tvCouponAppliedValue.isVisible = false
+                tvSaved.isVisible = false
+            }
+
+            if (CommonMethod.formatPrice(orderDetailData?.order?.discountMrp?:0.0)!="0"){
+                tvDiscount.isVisible = true
+                tvDiscountPrice.isVisible = true
+                tvDiscountPrice.text = "${CommonMethod.formatPrice(orderDetailData?.order?.discountMrp?:0.0)} KD"
+
+            }
+            else{
+                tvDiscount.isVisible = false
+                tvDiscountPrice.isVisible = false
             }
 
         }
@@ -462,8 +585,11 @@ class OrderDetailFragment : BaseFragment() {
 
         dialogBinding.apply {
 
-            if (orderDetailData?.returnType=="2"){
-                rbShipped.text = "Exchange"
+            if (orderDetailData?.rEApprove == "1") {
+                rbShipped.text = "Shipped"
+            }
+            else if (orderDetailData?.returnType=="2"||orderDetailData?.returnType=="1"&&orderDetailData?.rEApprove!="1"){
+                rbShipped.text = "Confirm"
             }
             else{
                 rbShipped.text = "Shipped"
@@ -477,11 +603,16 @@ class OrderDetailFragment : BaseFragment() {
                 when (checkedId) {
                     R.id.rbShipped ->{
 
-                        if (orderDetailData?.returnType=="2"){
+                        if (orderDetailData?.rEApprove == "1") {
+                            selectedStatus = "2.1"
+                            binding?.etStatus?.setText("Shipped")
+                        } else if (
+                            orderDetailData?.returnType == "1" ||
+                            orderDetailData?.returnType == "2"
+                        ) {
                             selectedStatus = "1"
-                            binding?.etStatus?.setText("Exchange")
-                        }
-                        else{
+                            binding?.etStatus?.setText("Confirm")
+                        } else {
                             selectedStatus = "2.1"
                             binding?.etStatus?.setText("Shipped")
                         }

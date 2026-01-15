@@ -22,6 +22,8 @@ data class GetAllOrderResponse(
         data class AllOrder(
             @SerializedName("admin_commission")
             val adminCommission: Double,
+            @SerializedName("order_status")
+            val orderStatus: String,
             @SerializedName("amount")
             val amount: Double,
             @SerializedName("assign_date")
@@ -68,10 +70,12 @@ data class GetAllOrderResponse(
             val promocodeValue: String,
             @SerializedName("quantity")
             val quantity: String,
+            @SerializedName("r_e_type")
+            val r_e_type: String,
+            @SerializedName("p_orderdetails_id")
+            val p_orderdetails_id: String,
             @SerializedName("r_e_approve")
             val rEApprove: String,
-            @SerializedName("return_image")
-            val returnImage: String,
             @SerializedName("return_reason")
             val returnReason: String,
             @SerializedName("return_type")

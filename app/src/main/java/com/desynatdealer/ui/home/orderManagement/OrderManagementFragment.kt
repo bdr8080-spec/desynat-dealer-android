@@ -318,15 +318,17 @@ class OrderManagementFragment : BaseFragment() {
 
             if (orderType==2){
                 rbExchange.isVisible = false
+                rbReturn.isVisible = false
             }
 
             if (orderFilter!=null) {
                 filter = orderFilter.toString()
                 when (orderFilter) {
                     "1" -> rbConfirmed.isChecked = true
-                    "2" -> rbPacked.isChecked = true
-                    "3" -> rbShipped.isChecked = true
-                    "4" -> rbExchange.isChecked = true
+                    "2" -> rbShipped.isChecked = true
+                    "3" -> rbCancel.isChecked = true
+                    "4" -> rbReturn.isChecked = true
+                    "5" -> rbExchange.isChecked = true
                 }
             }
 
@@ -341,9 +343,10 @@ class OrderManagementFragment : BaseFragment() {
             radioGroup.setOnCheckedChangeListener { _, checkedId ->
                 filter = when (checkedId) {
                     R.id.rbConfirmed -> "1"
-                    R.id.rbPacked -> "2"
-                    R.id.rbShipped -> "3"
-                    R.id.rbExchange -> "4"
+                    R.id.rbShipped -> "2"
+                    R.id.rbCancel -> "3"
+                    R.id.rbReturn -> "3"
+                    R.id.rbExchange -> "5"
                     else -> null
                 }
             }

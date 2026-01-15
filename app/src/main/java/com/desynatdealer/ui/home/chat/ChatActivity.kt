@@ -16,6 +16,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import coil.load
@@ -93,6 +95,19 @@ class ChatActivity : BaseActivity() {
         enableEdgeToEdge()
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { v, insets ->
+            val imeInset = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+
+            v.setPadding(
+                v.paddingLeft,
+                v.paddingTop,
+                v.paddingRight,
+                imeInset
+            )
+            insets
+        }
+
         initView()
         initControl()
         observer()

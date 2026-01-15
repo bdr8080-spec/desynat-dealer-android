@@ -49,22 +49,6 @@
         android:textSize="@dimen/_11sdp"/>
 
         <RadioButton
-            android:id="@+id/rbPacked"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Packed"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:paddingVertical="@dimen/_8sdp"
-            android:button="@drawable/selector_radio_icon"
-            android:paddingStart="@dimen/_8sdp"
-            android:checked="false"
-            app:buttonTint="@null"
-            android:drawableTint="@null"
-            android:fontFamily="@font/poppins_medium"
-            android:textSize="@dimen/_11sdp"/>
-
-        <RadioButton
             android:id="@+id/rbShipped"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,6 +63,39 @@
             android:drawableTint="@null"
             android:fontFamily="@font/poppins_medium"
             android:textSize="@dimen/_11sdp"/>
+
+        <RadioButton
+            android:id="@+id/rbCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:paddingVertical="@dimen/_8sdp"
+            android:button="@drawable/selector_radio_icon"
+            android:paddingStart="@dimen/_8sdp"
+            android:checked="false"
+            app:buttonTint="@null"
+            android:drawableTint="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="@dimen/_11sdp"/>
+
+        <RadioButton
+            android:id="@+id/rbReturn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Return"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:paddingVertical="@dimen/_8sdp"
+            android:button="@drawable/selector_radio_icon"
+            android:paddingStart="@dimen/_8sdp"
+            android:checked="false"
+            app:buttonTint="@null"
+            android:drawableTint="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="@dimen/_11sdp"/>
+
 
         <RadioButton
             android:id="@+id/rbExchange"
