@@ -52,7 +52,7 @@ class OrderAdapter(
                 error(R.drawable.ic_placeholder)
             }
             tvName.text = orderData?.userDetails?.fullName
-            tvOrderIdValue.text = "#${orderData?.order?.id}"
+            tvOrderIdValue.text = "#${orderData?.id}"
             tvShippingLocation.text = orderData?.order?.deliveryDetails?.address
             tvQuantityValue.text = orderData?.quantity
             tvProductName.text = orderData?.productDetails?.productNameEn
@@ -68,8 +68,19 @@ class OrderAdapter(
             else {
                 when (orderData?.deliveryStatus) {
                     "1" -> {
-                        tvStatus.text = "Confirmed"
-                        tvStatus.setTextColor(Color.parseColor("#16B364"))
+                        if (orderData?.rEApprove=="1"&&orderData?.returnType=="1"&&orderData?.assignStatus=="0"){
+                            tvStatus.text = "Return Req Accepted"
+                            tvStatus.setTextColor(Color.parseColor("#16B364"))
+                        }
+                        else if (orderData?.rEApprove=="1"&&orderData?.returnType=="1"&&orderData?.assignStatus=="1"){
+                            tvStatus.text = "Out for Picked"
+                            tvStatus.setTextColor(Color.parseColor("#16B364"))
+                        }
+                        else{
+                            tvStatus.text = "Confirmed"
+                            tvStatus.setTextColor(Color.parseColor("#16B364"))
+                        }
+
                     }
 
                     "2" -> {
@@ -86,33 +97,42 @@ class OrderAdapter(
                     }
 
                     "3" -> {
-                        if (orderData?.r_e_type=="0"&&orderData?.p_orderdetails_id!="0") {
-                            tvStatus.text = "Exchanged"
+                        if (orderData?.r_e_type == "0" && orderData?.p_orderdetails_id == "0" && orderData?.rEApprove == "0" && orderData?.returnType == "0") {
+                            tvStatus.text = "Delivered"
+                            tvStatus.setTextColor(Color.parseColor("#047BD5"))
+                        }
+                        else if (orderData?.r_e_type == "0" && orderData?.p_orderdetails_id == "0" && orderData?.rEApprove == "1" && orderData?.returnType == "2") {
+
+                            if (orderData?.exchangeOrderDetails?.deliveryStatus=="7"){
+                                tvStatus.text = "Out For Drop"
+                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            }
+                            else if (orderData?.exchangeOrderDetails?.deliveryStatus=="3"){
+                                tvStatus.text = "Exchange Complete"
+                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            }
+                            else{
+                                tvStatus.text = "Exchange Req Accepted"
+                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            }
+                        }
+                        else if (orderData?.r_e_type == "0" && orderData?.p_orderdetails_id == "0" && orderData?.rEApprove == "0" && orderData?.returnType == "2") {
+                        tvStatus.text = "Exchange Req"
+                        tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                    }
+
+                        else if (orderData?.r_e_type=="0"&&orderData?.p_orderdetails_id=="0"&&orderData?.rEApprove=="0"&&orderData?.returnType=="1"){
+                            tvStatus.text = "Return Req"
                             tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                         }
-                      else if (orderData?.rEApprove=="1"){
-                           tvStatus.text = "Confirmed"
-                           tvStatus.setTextColor(Color.parseColor("#16B364"))
-                       }
-                        else{
-                           when (orderData?.returnType) {
-                               "1" -> {
-                                   tvStatus.text = "Return Req"
-                                   tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-
-                               }
-
-                               "2" -> {
-                                   tvStatus.text = "Exchange Req"
-                                   tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-                               }
-
-                               else -> {
-                                   tvStatus.text = "Delivered"
-                                   tvStatus.setTextColor(Color.parseColor("#047BD5"))
-                               }
-                           }
-                       }
+                        else if (orderData?.r_e_type=="0"&&orderData?.p_orderdetails_id=="0"&&orderData?.rEApprove=="1"&&orderData?.returnType=="1"){
+                            tvStatus.text = "Return Complete"
+                            tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                        }
+                          else{
+                            tvStatus.text = "Delivered"
+                            tvStatus.setTextColor(Color.parseColor("#047BD5"))
+                        }
                     }
 
                     "4" -> {
@@ -126,25 +146,23 @@ class OrderAdapter(
                     }
 
                     "7" -> {
-                        tvStatus.text = "Out for Delivery"
-                        tvStatus.setTextColor(Color.parseColor("#16B364"))
-//                        when (orderData?.returnType) {
-//                            "1" -> {
-//                                tvStatus.text = "Return Req"
-//                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-//
-//                            }
-//
-//                            "2" -> {
-//                                tvStatus.text = "Exchange Req"
-//                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-//                            }
-//
-//                            else -> {
-//                                tvStatus.text = "Out for Delivery"
-//                                tvStatus.setTextColor(Color.parseColor("#16B364"))
-//                            }
-//                        }
+                        when (orderData?.returnType) {
+                            "1" -> {
+                                tvStatus.text = "Picked Up"
+                                tvStatus.setTextColor(Color.parseColor("#16B364"))
+
+                            }
+
+                            "2" -> {
+                                tvStatus.text = "Picked Up"
+                                tvStatus.setTextColor(Color.parseColor("#16B364"))
+                            }
+
+                            else -> {
+                                tvStatus.text = "Out for Delivery"
+                                tvStatus.setTextColor(Color.parseColor("#16B364"))
+                            }
+                        }
 
                     }
 

@@ -79,15 +79,17 @@ class OrderDetailFragment : BaseFragment() {
                 updateDeliveryStatusDialog()
             }
 
+            tvAccept.setOnClickListener {
+                selectedStatus = "1"
+                updateOrderExchangeReturnStatus(selectedStatus)
+            }
+
+            tvReject.setOnClickListener {
+
+            }
+
             btnUpdateStatus.setOnClickListener {
-
-                if (orderDetailData?.returnType=="2"||orderDetailData?.returnType=="1"){
-                    updateOrderExchangeReturnStatus(selectedStatus)
-                }
-                else {
-                    updateOrderStatus(selectedStatus)
-                }
-
+                updateOrderStatus(selectedStatus)
             }
         }
     }
@@ -122,9 +124,7 @@ class OrderDetailFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
                 is ApiResult.Success -> {
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    orderDetailData?.deliveryStatus = result.data?.data?.deliveryStatus.toString()
-                    setData()
+                    getOrderDetail()
                     viewModel.updateOrderStatusResponse.value = null
                 }
                 is ApiResult.Error -> {
@@ -144,10 +144,7 @@ class OrderDetailFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
                 is ApiResult.Success -> {
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    orderDetailData?.deliveryStatus = result.data?.data?.deliveryStatus.toString()
-                    orderDetailData?.rEApprove = result.data?.data?.rEApprove.toString()
-                    setData()
+                   getOrderDetail()
                     viewModel.updateOrderExchangeReturnStatusResponse.value = null
                 }
                 is ApiResult.Error -> {
@@ -189,24 +186,116 @@ class OrderDetailFragment : BaseFragment() {
                 tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
 
                 if (orderDetailData?.cancelReason!="null"&&orderDetailData?.cancelReason!=null&&orderDetailData?.cancelReason!=""){
-                    tvReturnReason.isVisible = false
-                    tvReturnReasonValue.isVisible = false
-                }
-                else{
+
                     tvReturnReason.isVisible = true
                     tvReturnReasonValue.isVisible = true
+                }
+                else{
+                    tvReturnReason.isVisible = false
+                    tvReturnReasonValue.isVisible = false
                 }
                 tvReturnReasonValue.text = orderDetailData?.cancelReason
             }
             else {
                 when (orderDetailData?.deliveryStatus) {
                     "1" -> {
-                        tvStatus.text = "Confirmed"
-                        tvStatus.setTextColor(Color.parseColor("#16B364"))
-                        etStatus.isVisible = true
-                        etStatus.setText("")
-                        btnUpdateStatus.isVisible = true
-                        llComplete.isVisible = false
+
+                        if (orderDetailData?.rEApprove=="1"&&orderDetailData?.returnType=="1"&&orderDetailData?.assignStatus=="0"){
+                            tvStatus.text = "Return Req Accepted"
+                            tvStatus.setTextColor(Color.parseColor("#16B364"))
+                            etStatus.isVisible = true
+
+                            etStatus.isVisible = false
+                            btnUpdateStatus.isVisible = false
+                            clReturnExchange.isVisible = false
+                            if (orderDetailData?.userRatingReviewProvide != null) {
+                                llComplete.isVisible = true
+                                rbProductRating.rating =
+                                    orderDetailData?.userRatingReviewProvide?.productRating
+                                        ?: 0f
+                                rbStoreRating.rating =
+                                    orderDetailData?.userRatingReviewProvide?.storeRating
+                                        ?: 0f
+                                if (orderDetailData?.userRatingReviewProvide?.productReview!=null&&orderDetailData?.userRatingReviewProvide?.productReview!="null"&&orderDetailData?.userRatingReviewProvide?.productReview!=""){
+                                    tvProductReview.text =
+                                        orderDetailData?.userRatingReviewProvide?.productReview
+                                    tvProductReview.isVisible = true
+                                    tvReview.isVisible = true
+                                }
+                                else{
+                                    tvProductReview.isVisible = false
+                                    tvReview.isVisible = false
+                                }
+
+                                if (orderDetailData?.userRatingReviewProvide?.storeReview!=null&&orderDetailData?.userRatingReviewProvide?.storeReview!="null"&&orderDetailData?.userRatingReviewProvide?.storeReview!=""){
+                                    tvSellerReview.text =
+                                        orderDetailData?.userRatingReviewProvide?.storeReview
+                                    tvSellerReview.isVisible = true
+                                    tvStoreReview.isVisible = true
+                                }
+                                else{
+                                    tvSellerReview.isVisible = false
+                                    tvStoreReview.isVisible = false
+                                }
+
+
+                            } else {
+                                llComplete.isVisible = false
+                            }
+                        }
+                       else if (orderDetailData?.rEApprove=="1"&&orderDetailData?.returnType=="1"&&orderDetailData?.assignStatus=="1"){
+                            tvStatus.text = "Out for Picked"
+                            tvStatus.setTextColor(Color.parseColor("#16B364"))
+                            etStatus.isVisible = true
+
+                            etStatus.isVisible = false
+                            btnUpdateStatus.isVisible = false
+                            clReturnExchange.isVisible = false
+                            if (orderDetailData?.userRatingReviewProvide != null) {
+                                llComplete.isVisible = true
+                                rbProductRating.rating =
+                                    orderDetailData?.userRatingReviewProvide?.productRating
+                                        ?: 0f
+                                rbStoreRating.rating =
+                                    orderDetailData?.userRatingReviewProvide?.storeRating
+                                        ?: 0f
+                                if (orderDetailData?.userRatingReviewProvide?.productReview!=null&&orderDetailData?.userRatingReviewProvide?.productReview!="null"&&orderDetailData?.userRatingReviewProvide?.productReview!=""){
+                                    tvProductReview.text =
+                                        orderDetailData?.userRatingReviewProvide?.productReview
+                                    tvProductReview.isVisible = true
+                                    tvReview.isVisible = true
+                                }
+                                else{
+                                    tvProductReview.isVisible = false
+                                    tvReview.isVisible = false
+                                }
+
+                                if (orderDetailData?.userRatingReviewProvide?.storeReview!=null&&orderDetailData?.userRatingReviewProvide?.storeReview!="null"&&orderDetailData?.userRatingReviewProvide?.storeReview!=""){
+                                    tvSellerReview.text =
+                                        orderDetailData?.userRatingReviewProvide?.storeReview
+                                    tvSellerReview.isVisible = true
+                                    tvStoreReview.isVisible = true
+                                }
+                                else{
+                                    tvSellerReview.isVisible = false
+                                    tvStoreReview.isVisible = false
+                                }
+
+
+                            } else {
+                                llComplete.isVisible = false
+                            }
+                        }
+
+                        else{
+                            tvStatus.text = "Confirmed"
+                            tvStatus.setTextColor(Color.parseColor("#16B364"))
+                            etStatus.isVisible = true
+                            etStatus.setText("")
+                            btnUpdateStatus.isVisible = true
+                            llComplete.isVisible = false
+                        }
+
                     }
 
                     "2" -> {
@@ -233,12 +322,48 @@ class OrderDetailFragment : BaseFragment() {
                     }
 
                     "3" -> {
-                         if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id!="0"){
-                            tvStatus.text = "Exchanged"
-                            tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-                            etStatus.isVisible = true
-                            btnUpdateStatus.isVisible = true
+                        if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id=="0"&&orderDetailData?.rEApprove=="0"&&orderDetailData?.returnType=="0"){
+                            tvStatus.text = "Delivered"
+                            tvStatus.setTextColor(Color.parseColor("#047BD5"))
+                            etStatus.isVisible = false
+                            btnUpdateStatus.isVisible = false
+                            clReturnExchange.isVisible = false
+
+                            if (orderDetailData?.userRatingReviewProvide != null) {
+                                llComplete.isVisible = true
+                                rbProductRating.rating =
+                                    orderDetailData?.userRatingReviewProvide?.productRating
+                                        ?: 0f
+                                rbStoreRating.rating =
+                                    orderDetailData?.userRatingReviewProvide?.storeRating
+                                        ?: 0f
+                                tvProductReview.text =
+                                    orderDetailData?.userRatingReviewProvide?.productReview
+                                tvSellerReview.text =
+                                    orderDetailData?.userRatingReviewProvide?.storeReview
+                            } else {
+                                llComplete.isVisible = false
+                            }
+                        }
+                        else if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id=="0"&&orderDetailData?.rEApprove=="1"&&orderDetailData?.returnType=="2"){
+
+                            if (orderDetailData?.exchangeOrderDetails?.deliveryStatus=="7"){
+                                tvStatus.text = "Out For Drop"
+                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            }
+                           else if (orderDetailData?.exchangeOrderDetails?.deliveryStatus=="3"){
+                                tvStatus.text = "Exchange Complete"
+                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            }
+                            else{
+                                tvStatus.text = "Exchange Req Accepted"
+                                tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            }
+
+                            etStatus.isVisible = false
+                            btnUpdateStatus.isVisible = false
                             llComplete.isVisible = false
+                            clReturnExchange.isVisible = false
                             llReturnDetail.isVisible = true
                             tvExchangeSize.isVisible = true
                             tvExchangeSizeValue.isVisible = true
@@ -263,102 +388,170 @@ class OrderDetailFragment : BaseFragment() {
                                 rbStoreRating.rating =
                                     orderDetailData?.userRatingReviewProvide?.storeRating
                                         ?: 0f
+                                if (orderDetailData?.userRatingReviewProvide?.productReview!=null&&orderDetailData?.userRatingReviewProvide?.productReview!="null"&&orderDetailData?.userRatingReviewProvide?.productReview!=""){
+                                    tvProductReview.text =
+                                        orderDetailData?.userRatingReviewProvide?.productReview
+                                    tvProductReview.isVisible = true
+                                    tvReview.isVisible = true
+                                }
+                                else{
+                                    tvProductReview.isVisible = false
+                                    tvReview.isVisible = false
+                                }
+
+                                if (orderDetailData?.userRatingReviewProvide?.storeReview!=null&&orderDetailData?.userRatingReviewProvide?.storeReview!="null"&&orderDetailData?.userRatingReviewProvide?.storeReview!=""){
+                                    tvSellerReview.text =
+                                        orderDetailData?.userRatingReviewProvide?.storeReview
+                                    tvSellerReview.isVisible = true
+                                    tvStoreReview.isVisible = true
+                                }
+                                else{
+                                    tvSellerReview.isVisible = false
+                                    tvStoreReview.isVisible = false
+                                }
+
+
+                            } else {
+                                llComplete.isVisible = false
+                            }
+                        }
+
+                        else if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id=="0"&&orderDetailData?.rEApprove=="0"&&orderDetailData?.returnType=="2"){
+                             tvStatus.text = "Exchange Req"
+                             tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                             etStatus.isVisible = false
+                             btnUpdateStatus.isVisible = false
+                             clReturnExchange.isVisible = true
+                             llComplete.isVisible = false
+                             llReturnDetail.isVisible = true
+                             tvExchangeSize.isVisible = true
+                             tvExchangeSizeValue.isVisible = true
+                             tvUploadedImage.isVisible = false
+                             relUploadImage.isVisible = false
+                             tvReturnDetails.text = "Exchange Details"
+                             tvReturnOn.text = "Exchange on"
+                             tvReturnRequestId.text = "Exchange Request ID"
+                             tvReturnRequestIdValue.text = "#" + orderDetailData?.id
+                             tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
+                                 orderDetailData?.updatedAt.toString(),
+                                 outputFormat = "dd/MM/yy 'at' hh:mm a"
+                             )
+                             tvExchangeSizeValue.text = orderDetailData?.exchangeNewSize
+                             tvReturnReasonValue.text = orderDetailData?.exchangeReason
+                        }
+
+                        else if (orderDetailData?.r_e_type=="1"&&orderDetailData?.p_orderdetails_id=="1"&&orderDetailData?.rEApprove=="1"&&orderDetailData?.returnType=="2"){
+                            tvStatus.text = "Exchange Completed"
+                            tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            etStatus.isVisible = false
+                            btnUpdateStatus.isVisible = false
+                            clReturnExchange.isVisible = false
+                            llComplete.isVisible = false
+                            llReturnDetail.isVisible = true
+                            tvExchangeSize.isVisible = true
+                            tvExchangeSizeValue.isVisible = true
+                            tvUploadedImage.isVisible = false
+                            relUploadImage.isVisible = false
+                            tvReturnDetails.text = "Exchange Details"
+                            tvReturnOn.text = "Exchange on"
+                            tvReturnRequestId.text = "Exchange Request ID"
+                            tvReturnRequestIdValue.text = "#" + orderDetailData?.id
+                            tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
+                                orderDetailData?.updatedAt.toString(),
+                                outputFormat = "dd/MM/yy 'at' hh:mm a"
+                            )
+                            tvExchangeSizeValue.text = orderDetailData?.exchangeNewSize
+                            tvReturnReasonValue.text = orderDetailData?.exchangeReason
+                        }
+
+                        else if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id=="0"&&orderDetailData?.rEApprove=="0"&&orderDetailData?.returnType=="1"){
+                            tvStatus.text = "Return Req"
+                            tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            etStatus.isVisible = false
+                            btnUpdateStatus.isVisible = false
+                            clReturnExchange.isVisible = true
+                            llComplete.isVisible = false
+                            llReturnDetail.isVisible = true
+                            tvExchangeSize.isVisible = false
+                            tvExchangeSizeValue.isVisible = false
+
+
+                            tvReturnRequestIdValue.text = "#" + orderDetailData?.id
+                            tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
+                                orderDetailData?.updatedAt.toString(),
+                                outputFormat = "dd/MM/yy 'at' hh:mm a"
+                            )
+                            tvReturnReasonValue.text = orderDetailData?.returnReason
+                            if (orderDetailData?.returnImage?.size != 0 && orderDetailData?.returnImage!=null
+                            ) {
+                                relUploadImage.isVisible = true
+                                tvUploadedImage.isVisible = true
+                                ivReturnImage.load(orderDetailData?.returnImage?.get(0)) {
+                                    crossfade(true)
+                                    placeholder(R.drawable.ic_placeholder)
+                                    placeholder(R.drawable.ic_placeholder)
+                                }
+                            } else {
+                                tvUploadedImage.isVisible = false
+                                relUploadImage.isVisible = false
+                            }
+                       }
+
+                        else if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id=="0"&&orderDetailData?.rEApprove=="1"&&orderDetailData?.returnType=="1"){
+                            tvStatus.text = "Return Complete"
+                            tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
+                            etStatus.isVisible = false
+                            btnUpdateStatus.isVisible = false
+                            clReturnExchange.isVisible = false
+                            llComplete.isVisible = false
+                            llReturnDetail.isVisible = true
+                            tvExchangeSize.isVisible = false
+                            tvExchangeSizeValue.isVisible = false
+
+
+                            tvReturnRequestIdValue.text = "#" + orderDetailData?.id
+                            tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
+                                orderDetailData?.updatedAt.toString(),
+                                outputFormat = "dd/MM/yy 'at' hh:mm a"
+                            )
+                            tvReturnReasonValue.text = orderDetailData?.returnReason
+                            if (orderDetailData?.returnImage?.size != 0 && orderDetailData?.returnImage!=null
+                            ) {
+                                relUploadImage.isVisible = true
+                                tvUploadedImage.isVisible = true
+                                ivReturnImage.load(orderDetailData?.returnImage?.get(0)) {
+                                    crossfade(true)
+                                    placeholder(R.drawable.ic_placeholder)
+                                    placeholder(R.drawable.ic_placeholder)
+                                }
+                            } else {
+                                tvUploadedImage.isVisible = false
+                                relUploadImage.isVisible = false
+                            }
+                        }
+
+                        else{
+                            tvStatus.text = "Delivered"
+                            tvStatus.setTextColor(Color.parseColor("#047BD5"))
+                            etStatus.isVisible = false
+                            btnUpdateStatus.isVisible = false
+                            clReturnExchange.isVisible = false
+
+
+                            if (orderDetailData?.userRatingReviewProvide != null) {
+                                llComplete.isVisible = true
+                                rbProductRating.rating =
+                                    orderDetailData?.userRatingReviewProvide?.productRating
+                                        ?: 0f
+                                rbStoreRating.rating =
+                                    orderDetailData?.userRatingReviewProvide?.storeRating
+                                        ?: 0f
                                 tvProductReview.text =
                                     orderDetailData?.userRatingReviewProvide?.productReview
                                 tvSellerReview.text =
                                     orderDetailData?.userRatingReviewProvide?.storeReview
                             } else {
                                 llComplete.isVisible = false
-                            }
-                        }
-                         else if (orderDetailData?.rEApprove=="1"){
-                             tvStatus.text = "Confirmed"
-                             tvStatus.setTextColor(Color.parseColor("#16B364"))
-                             etStatus.isVisible = false
-                             btnUpdateStatus.isVisible = false
-                             llComplete.isVisible = false
-                         }
-                        else {
-
-                            when (orderDetailData?.returnType) {
-                                "1" -> {
-                                    tvStatus.text = "Return Req"
-                                    tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-                                    etStatus.isVisible = true
-                                    btnUpdateStatus.isVisible = true
-                                    llComplete.isVisible = false
-                                    llReturnDetail.isVisible = true
-                                    tvExchangeSize.isVisible = false
-                                    tvExchangeSizeValue.isVisible = false
-
-
-                                    tvReturnRequestIdValue.text = "#" + orderDetailData?.id
-                                    tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
-                                        orderDetailData?.updatedAt.toString(),
-                                        outputFormat = "dd/MM/yy 'at' hh:mm a"
-                                    )
-                                    tvReturnReasonValue.text = orderDetailData?.returnReason
-                                    if (orderDetailData?.returnImage?.size != 0
-                                    ) {
-                                        relUploadImage.isVisible = true
-                                        tvUploadedImage.isVisible = true
-                                        ivReturnImage.load(orderDetailData?.returnImage?.get(0)) {
-                                            crossfade(true)
-                                            placeholder(R.drawable.ic_placeholder)
-                                            placeholder(R.drawable.ic_placeholder)
-                                        }
-                                    } else {
-                                        tvUploadedImage.isVisible = false
-                                        relUploadImage.isVisible = false
-                                    }
-                                }
-
-                                "2" -> {
-                                    tvStatus.text = "Exchange Req"
-                                    tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-                                    etStatus.isVisible = true
-                                    btnUpdateStatus.isVisible = true
-                                    llComplete.isVisible = false
-                                    llReturnDetail.isVisible = true
-                                    tvExchangeSize.isVisible = true
-                                    tvExchangeSizeValue.isVisible = true
-                                    tvUploadedImage.isVisible = false
-                                    relUploadImage.isVisible = false
-                                    tvReturnDetails.text = "Exchange Details"
-                                    tvReturnOn.text = "Exchange on"
-                                    tvReturnRequestId.text = "Exchange Request ID"
-                                    tvReturnRequestIdValue.text = "#" + orderDetailData?.id
-                                    tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
-                                        orderDetailData?.updatedAt.toString(),
-                                        outputFormat = "dd/MM/yy 'at' hh:mm a"
-                                    )
-                                    tvExchangeSizeValue.text = orderDetailData?.exchangeNewSize
-                                    tvReturnReasonValue.text = orderDetailData?.exchangeReason
-                                }
-
-                                else -> {
-                                    tvStatus.text = "Delivered"
-                                    tvStatus.setTextColor(Color.parseColor("#047BD5"))
-                                    etStatus.isVisible = false
-                                    btnUpdateStatus.isVisible = false
-
-
-                                    if (orderDetailData?.userRatingReviewProvide != null) {
-                                        llComplete.isVisible = true
-                                        rbProductRating.rating =
-                                            orderDetailData?.userRatingReviewProvide?.productRating
-                                                ?: 0f
-                                        rbStoreRating.rating =
-                                            orderDetailData?.userRatingReviewProvide?.storeRating
-                                                ?: 0f
-                                        tvProductReview.text =
-                                            orderDetailData?.userRatingReviewProvide?.productReview
-                                        tvSellerReview.text =
-                                            orderDetailData?.userRatingReviewProvide?.storeReview
-                                    } else {
-                                        llComplete.isVisible = false
-                                    }
-                                }
                             }
                         }
                     }
@@ -420,11 +613,31 @@ class OrderDetailFragment : BaseFragment() {
                     }
 
                     "7" -> {
-                        tvStatus.text = "Out for Delivery"
-                        tvStatus.setTextColor(Color.parseColor("#16B364"))
-                        etStatus.isVisible = false
-                        btnUpdateStatus.isVisible = false
-                        llComplete.isVisible = false
+                        when (orderData?.returnType) {
+                            "1" -> {
+                                tvStatus.text = "Picked Up"
+                                tvStatus.setTextColor(Color.parseColor("#16B364"))
+                                etStatus.isVisible = false
+                                btnUpdateStatus.isVisible = false
+                                llComplete.isVisible = false
+                            }
+
+                            "2" -> {
+                                tvStatus.text = "Picked Up"
+                                tvStatus.setTextColor(Color.parseColor("#16B364"))
+                                etStatus.isVisible = false
+                                btnUpdateStatus.isVisible = false
+                                llComplete.isVisible = false
+                            }
+
+                            else -> {
+                                tvStatus.text = "Out for Delivery"
+                                tvStatus.setTextColor(Color.parseColor("#16B364"))
+                                etStatus.isVisible = false
+                                btnUpdateStatus.isVisible = false
+                                llComplete.isVisible = false
+                            }
+                        }
                     }
 
                     "8" -> {
@@ -471,7 +684,7 @@ class OrderDetailFragment : BaseFragment() {
                 placeholder(R.drawable.ic_user)
                 error(R.drawable.ic_user)
             }
-            tvOrderIdValue.text = "#${orderDetailData?.order?.id}"
+            tvOrderIdValue.text = "#${orderDetailData?.id}"
           //  tvOrderTypeValue.text = if (orderDetailData?.order?.orderType=="1") "Normal Order" else "Custom Order"
 
                 when(orderDetailData?.order?.paymentMethod){
@@ -498,10 +711,16 @@ class OrderDetailFragment : BaseFragment() {
             if (orderDetailData?.order?.orderType=="2"){
                 clCustomOrderBilling.isVisible = true
                 clBilling.isVisible = false
+                tvCustomDetail.isVisible = true
+                tvCustomDetailValue.isVisible = true
+                clCustomOrderDetail.isVisible = true
             }
             else{
                 clCustomOrderBilling.isVisible = false
                 clBilling.isVisible = true
+                tvCustomDetail.isVisible = false
+                tvCustomDetailValue.isVisible = false
+                clCustomOrderDetail.isVisible = false
             }
 
             val itemPrice = orderDetailData?.amount ?: 0.0
@@ -524,8 +743,11 @@ class OrderDetailFragment : BaseFragment() {
             tvTaxValue.text =
                 "${CommonMethod.formatPrice(tax)} KD"
 
-            tvTotalAmountValue.text =
-                "${CommonMethod.formatPrice(totalAmount)} KD"
+            tvTotalAmountValue.text = "${CommonMethod.formatPrice(totalAmount)} KD"
+            tvQuotedPrice.text = "${CommonMethod.formatPrice(subTotal)} KD"
+            tvCustomDetailValue.text = orderDetailData?.chatRoomrecords?.customDetails
+            tvTotalQuantityValue.text = quantity.toString()
+
 //            tvPerItemPrice.text = "Item Price (${CommonMethod.formatPrice(orderDetailData?.amount?:0.0)} X ${orderDetailData?.quantity})"
 //            tvPerItemPriceValue.text = "${CommonMethod.formatPrice((orderDetailData?.amount?:0.0 )* (orderDetailData?.quantity?:1))} KD"
 //            tvShippingFees.text = "${CommonMethod.formatPrice(orderDetailData?.shippingFees?:0.0)} KD"
@@ -584,17 +806,7 @@ class OrderDetailFragment : BaseFragment() {
         window.attributes = params
 
         dialogBinding.apply {
-
-            if (orderDetailData?.rEApprove == "1") {
-                rbShipped.text = "Shipped"
-            }
-            else if (orderDetailData?.returnType=="2"||orderDetailData?.returnType=="1"&&orderDetailData?.rEApprove!="1"){
-                rbShipped.text = "Confirm"
-            }
-            else{
-                rbShipped.text = "Shipped"
-            }
-
+            rbShipped.text = "Shipped"
             ivBack.setOnClickListener {
                 dialog.dismiss()
             }
@@ -603,19 +815,8 @@ class OrderDetailFragment : BaseFragment() {
                 when (checkedId) {
                     R.id.rbShipped ->{
 
-                        if (orderDetailData?.rEApprove == "1") {
-                            selectedStatus = "2.1"
-                            binding?.etStatus?.setText("Shipped")
-                        } else if (
-                            orderDetailData?.returnType == "1" ||
-                            orderDetailData?.returnType == "2"
-                        ) {
-                            selectedStatus = "1"
-                            binding?.etStatus?.setText("Confirm")
-                        } else {
-                            selectedStatus = "2.1"
-                            binding?.etStatus?.setText("Shipped")
-                        }
+                        selectedStatus = "2.1"
+                        binding?.etStatus?.setText("Shipped")
 
                         dialog.dismiss()
                     }

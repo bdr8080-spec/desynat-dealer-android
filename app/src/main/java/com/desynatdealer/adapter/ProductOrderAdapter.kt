@@ -36,7 +36,16 @@ class ProductOrderAdapter(var context:Context, var productList: ArrayList<GetSin
             tvSizeValue.text = productData?.variationDetails?.size?.name
             tvColorValue.text = productData?.variationDetails?.color?.name
             tvCategoryValue.text = productData?.productDetails?.category?.name
-            tvQuantityValue.text = productData?.quantity?.toString()
+            if (productData?.order?.orderType=="2"){
+                tvQuantity.text = "Per Item Price"
+                tvQuantityValue.text = "${CommonMethod.formatPrice(productData?.amount?:0.0)} KD"
+
+            }
+            else {
+                tvQuantity.text = "Quantity"
+                tvQuantityValue.text = productData?.quantity?.toString()
+
+            }
 
             ivProduct.load(productData?.variationDetails?.variantImage?.get(0)) {
                 crossfade(true)

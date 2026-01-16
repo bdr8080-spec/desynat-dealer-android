@@ -277,9 +277,11 @@ class OrderManagementFragment : BaseFragment() {
             map["search"] = lastQuery.toString()
         }
         if (orderFilter!=null&&orderFilter!="") {
-            map["order_filter"] = orderFilter.toString()
+            map["filter"] = orderFilter.toString()
         }
-        if (fromDateText!=null&&fromDateText!="") {
+
+
+                if (fromDateText!=null&&fromDateText!="") {
             map["from_date"] =
                 CommonMethod.formatDate(fromDateText.toString(),"dd/MM/yyyy","yyyy-MM-dd")
 
@@ -326,9 +328,9 @@ class OrderManagementFragment : BaseFragment() {
                 when (orderFilter) {
                     "1" -> rbConfirmed.isChecked = true
                     "2" -> rbShipped.isChecked = true
-                    "3" -> rbCancel.isChecked = true
-                    "4" -> rbReturn.isChecked = true
-                    "5" -> rbExchange.isChecked = true
+                    "4" -> rbCancel.isChecked = true
+                    "5" -> rbReturn.isChecked = true
+                    "3" -> rbExchange.isChecked = true
                 }
             }
 
@@ -340,13 +342,15 @@ class OrderManagementFragment : BaseFragment() {
             tempFromDateText?.let { etFrom.text = it }
             tempToDateText?.let { etTo.text = it }
 
-            radioGroup.setOnCheckedChangeListener { _, checkedId ->
+// "filter":"1" // 1 confirmed 2 packed 3 shipped 4 exchange
+
+                    radioGroup.setOnCheckedChangeListener { _, checkedId ->
                 filter = when (checkedId) {
                     R.id.rbConfirmed -> "1"
-                    R.id.rbShipped -> "2"
-                    R.id.rbCancel -> "3"
-                    R.id.rbReturn -> "3"
-                    R.id.rbExchange -> "5"
+                    R.id.rbShipped -> "3"
+                    R.id.rbCancel -> "4"
+                    R.id.rbReturn -> "5"
+                    R.id.rbExchange -> "3"
                     else -> null
                 }
             }

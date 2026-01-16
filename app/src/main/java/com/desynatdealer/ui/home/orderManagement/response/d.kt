@@ -14,30 +14,32 @@ data class d(
     data class Data(
         @SerializedName("admin_commission")
         val adminCommission: String,
-        @SerializedName("allOtherOrderVarient")
-        val allOtherOrderVarient: List<Any>,
         @SerializedName("amount")
         val amount: String,
         @SerializedName("assign_date")
-        val assignDate: Any,
+        val assignDate: String,
         @SerializedName("assign_status")
         val assignStatus: String,
         @SerializedName("cancel_reason")
         val cancelReason: Any,
-        @SerializedName("ChatroomRecordtable")
-        val chatroomRecordtable: ChatroomRecordtable,
+        @SerializedName("chat_roomrecords")
+        val chatRoomrecords: Any,
         @SerializedName("created_at")
         val createdAt: String,
         @SerializedName("delivery_boy_id")
-        val deliveryBoyId: Any,
+        val deliveryBoyId: String,
         @SerializedName("delivery_status")
         val deliveryStatus: String,
         @SerializedName("exchange_new_size")
-        val exchangeNewSize: Any,
+        val exchangeNewSize: String,
+        @SerializedName("exchange_new_size_data")
+        val exchangeNewSizeData: Any,
         @SerializedName("exchange_old_size")
         val exchangeOldSize: Any,
+        @SerializedName("exchange_order_details")
+        val exchangeOrderDetails: ExchangeOrderDetails,
         @SerializedName("exchange_reason")
-        val exchangeReason: Any,
+        val exchangeReason: String,
         @SerializedName("giftcard_amount")
         val giftcardAmount: Any,
         @SerializedName("giftcard_id")
@@ -52,6 +54,8 @@ data class d(
         val order: Order,
         @SerializedName("order_id")
         val orderId: Int,
+        @SerializedName("order_status")
+        val orderStatus: String,
         @SerializedName("p_orderdetails_id")
         val pOrderdetailsId: String,
         @SerializedName("payment_status")
@@ -76,6 +80,8 @@ data class d(
         val returnReason: Any,
         @SerializedName("return_type")
         val returnType: String,
+        @SerializedName("returntostore")
+        val returntostore: Any,
         @SerializedName("seller_id")
         val sellerId: String,
         @SerializedName("shipping_fees")
@@ -84,6 +90,8 @@ data class d(
         val status: String,
         @SerializedName("tax")
         val tax: String,
+        @SerializedName("unique_id")
+        val uniqueId: Any,
         @SerializedName("updated_at")
         val updatedAt: String,
         @SerializedName("user_id")
@@ -95,43 +103,83 @@ data class d(
         @SerializedName("variation_details")
         val variationDetails: VariationDetails
     ) {
-        data class ChatroomRecordtable(
-            @SerializedName("action")
-            val action: String,
+        data class ExchangeOrderDetails(
+            @SerializedName("admin_commission")
+            val adminCommission: String,
+            @SerializedName("amount")
+            val amount: String,
+            @SerializedName("assign_date")
+            val assignDate: String,
+            @SerializedName("assign_status")
+            val assignStatus: String,
+            @SerializedName("cancel_reason")
+            val cancelReason: Any,
             @SerializedName("created_at")
             val createdAt: String,
-            @SerializedName("custom_details")
-            val customDetails: String,
-            @SerializedName("delivery_address")
-            val deliveryAddress: String,
+            @SerializedName("delivery_boy_id")
+            val deliveryBoyId: String,
+            @SerializedName("delivery_status")
+            val deliveryStatus: String,
+            @SerializedName("exchange_new_size")
+            val exchangeNewSize: String,
+            @SerializedName("exchange_old_size")
+            val exchangeOldSize: Any,
+            @SerializedName("exchange_reason")
+            val exchangeReason: Any,
+            @SerializedName("giftcard_amount")
+            val giftcardAmount: Any,
+            @SerializedName("giftcard_id")
+            val giftcardId: Any,
             @SerializedName("id")
             val id: Int,
-            @SerializedName("price")
-            val price: String,
+            @SerializedName("is_picked")
+            val isPicked: String,
+            @SerializedName("not_delivered_reason")
+            val notDeliveredReason: Any,
+            @SerializedName("order_id")
+            val orderId: Int,
+            @SerializedName("order_status")
+            val orderStatus: Any,
+            @SerializedName("p_orderdetails_id")
+            val pOrderdetailsId: String,
+            @SerializedName("payment_status")
+            val paymentStatus: String,
             @SerializedName("product_id")
-            val productId: String,
-            @SerializedName("product_request")
-            val productRequest: String,
+            val productId: Int,
+            @SerializedName("promocode_id")
+            val promocodeId: Any,
+            @SerializedName("promocode_value")
+            val promocodeValue: Any,
             @SerializedName("quantity")
-            val quantity: String,
+            val quantity: Int,
+            @SerializedName("r_e_approve")
+            val rEApprove: String,
+            @SerializedName("r_e_type")
+            val rEType: String,
+            @SerializedName("return_image")
+            val returnImage: List<Any>,
+            @SerializedName("return_reason")
+            val returnReason: String,
+            @SerializedName("return_type")
+            val returnType: String,
+            @SerializedName("returntostore")
+            val returntostore: String,
             @SerializedName("seller_id")
-            val sellerId: Int,
-            @SerializedName("shipping")
-            val shipping: String,
+            val sellerId: String,
+            @SerializedName("shipping_fees")
+            val shippingFees: String,
+            @SerializedName("status")
+            val status: String,
             @SerializedName("tax")
             val tax: String,
-            @SerializedName("total_amount")
-            val totalAmount: String,
-            @SerializedName("type")
-            val type: String,
             @SerializedName("unique_id")
-            val uniqueId: String,
+            val uniqueId: Any,
             @SerializedName("updated_at")
             val updatedAt: String,
             @SerializedName("user_id")
             val userId: Int,
-            @SerializedName("variation_id")
-            val variationId: String
+            @SerializedName("variants_id")
+            val variantsId: Int
         )
 
         data class Order(
@@ -153,10 +201,8 @@ data class d(
             val deliveryStatus: String,
             @SerializedName("discount_mrp")
             val discountMrp: String,
-            @SerializedName("gift_card_details")
-            val giftCardDetails: Any,
             @SerializedName("giftcard_amount")
-            val giftcardAmount: Any,
+            val giftcardAmount: String,
             @SerializedName("giftcard_id")
             val giftcardId: Any,
             @SerializedName("id")
@@ -169,8 +215,6 @@ data class d(
             val paymentMethod: String,
             @SerializedName("payment_status")
             val paymentStatus: String,
-            @SerializedName("promocode_details")
-            val promocodeDetails: Any,
             @SerializedName("promocode_id")
             val promocodeId: Any,
             @SerializedName("promocode_status")
@@ -188,9 +232,11 @@ data class d(
             @SerializedName("transaction_id")
             val transactionId: Any,
             @SerializedName("unique_id")
-            val uniqueId: String,
+            val uniqueId: Any,
             @SerializedName("updated_at")
             val updatedAt: String,
+            @SerializedName("user_details")
+            val userDetails: UserDetails,
             @SerializedName("user_id")
             val userId: Int,
             @SerializedName("wallet_amount")
@@ -236,6 +282,43 @@ data class d(
                 @SerializedName("user_id")
                 val userId: Int
             )
+
+            data class UserDetails(
+                @SerializedName("banner_view")
+                val bannerView: String,
+                @SerializedName("country_code")
+                val countryCode: String,
+                @SerializedName("created_at")
+                val createdAt: String,
+                @SerializedName("device_token")
+                val deviceToken: Any,
+                @SerializedName("device_type")
+                val deviceType: String,
+                @SerializedName("email")
+                val email: String,
+                @SerializedName("email_verified_at")
+                val emailVerifiedAt: Any,
+                @SerializedName("full_name")
+                val fullName: String,
+                @SerializedName("id")
+                val id: Int,
+                @SerializedName("let")
+                val let: Any,
+                @SerializedName("long")
+                val long: Any,
+                @SerializedName("mobile")
+                val mobile: String,
+                @SerializedName("otp")
+                val otp: String,
+                @SerializedName("otp_verify")
+                val otpVerify: String,
+                @SerializedName("profile_image")
+                val profileImage: String,
+                @SerializedName("status")
+                val status: String,
+                @SerializedName("updated_at")
+                val updatedAt: String
+            )
         }
 
         data class ProductDetails(
@@ -270,9 +353,9 @@ data class d(
             @SerializedName("min_card_quantity")
             val minCardQuantity: String,
             @SerializedName("other_ar")
-            val otherAr: String,
+            val otherAr: Any,
             @SerializedName("other_en")
-            val otherEn: String,
+            val otherEn: Any,
             @SerializedName("product_active_status")
             val productActiveStatus: Int,
             @SerializedName("product_exchangable")
@@ -289,12 +372,8 @@ data class d(
             val returnDays: String,
             @SerializedName("review_rating")
             val reviewRating: String,
-            @SerializedName("seller_details")
-            val sellerDetails: SellerDetails,
             @SerializedName("seller_id")
             val sellerId: String,
-            @SerializedName("store")
-            val store: Store,
             @SerializedName("store_id")
             val storeId: String,
             @SerializedName("subcategory")
@@ -342,90 +421,6 @@ data class d(
                 val updatedAt: String
             )
 
-            data class SellerDetails(
-                @SerializedName("accept_terms")
-                val acceptTerms: String,
-                @SerializedName("admin_verify")
-                val adminVerify: String,
-                @SerializedName("affilate_commission")
-                val affilateCommission: String,
-                @SerializedName("bank_information")
-                val bankInformation: String,
-                @SerializedName("country_code")
-                val countryCode: String,
-                @SerializedName("created_at")
-                val createdAt: String,
-                @SerializedName("device_token")
-                val deviceToken: Any,
-                @SerializedName("device_type")
-                val deviceType: Any,
-                @SerializedName("email")
-                val email: String,
-                @SerializedName("first_name")
-                val firstName: String,
-                @SerializedName("id")
-                val id: Int,
-                @SerializedName("is_block")
-                val isBlock: Int,
-                @SerializedName("lang")
-                val lang: Any,
-                @SerializedName("last_name")
-                val lastName: String,
-                @SerializedName("mobile")
-                val mobile: String,
-                @SerializedName("otp")
-                val otp: String,
-                @SerializedName("otp_verify")
-                val otpVerify: String,
-                @SerializedName("password")
-                val password: String,
-                @SerializedName("profile_pic")
-                val profilePic: String,
-                @SerializedName("reject_reason")
-                val rejectReason: Any,
-                @SerializedName("store_information")
-                val storeInformation: String,
-                @SerializedName("updated_at")
-                val updatedAt: String
-            )
-
-            data class Store(
-                @SerializedName("address_line1")
-                val addressLine1: String,
-                @SerializedName("address_line2")
-                val addressLine2: String,
-                @SerializedName("bio")
-                val bio: String,
-                @SerializedName("country")
-                val country: String,
-                @SerializedName("country_code")
-                val countryCode: String,
-                @SerializedName("created_at")
-                val createdAt: String,
-                @SerializedName("id")
-                val id: Int,
-                @SerializedName("let")
-                val let: String,
-                @SerializedName("long")
-                val long: String,
-                @SerializedName("seller_id")
-                val sellerId: Int,
-                @SerializedName("store_address")
-                val storeAddress: String,
-                @SerializedName("Store_Availability")
-                val storeAvailability: Int,
-                @SerializedName("store_image")
-                val storeImage: String,
-                @SerializedName("store_mail_id")
-                val storeMailId: String,
-                @SerializedName("store_name")
-                val storeName: String,
-                @SerializedName("store_phone")
-                val storePhone: String,
-                @SerializedName("updated_at")
-                val updatedAt: String
-            )
-
             data class Subcategory(
                 @SerializedName("category_id")
                 val categoryId: Int,
@@ -433,7 +428,7 @@ data class d(
                 val createdAt: String,
                 @SerializedName("id")
                 val id: Int,
-                @SerializedName(" image")
+                @SerializedName("image")
                 val image: String,
                 @SerializedName("name_arabic")
                 val nameArabic: String,
