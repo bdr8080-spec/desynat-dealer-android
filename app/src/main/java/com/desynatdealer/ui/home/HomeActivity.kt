@@ -141,6 +141,13 @@ class HomeActivity : BaseActivity() {
 
                         }
                     )
+                    if (result.data?.data?.subcriptionPlan?.isEmpty() == true&&SharedPreference.get(this).isSubscription==false){
+
+                    }
+                    else{
+                        SharedPreference.get(this).isSubscription = true
+
+                    }
 
                     controller.graph = navGraph
                     binding?.viewWhite?.isVisible = false

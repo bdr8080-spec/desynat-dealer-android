@@ -1331,7 +1331,6 @@
                 android:id="@+id/tvReject"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/brown_stroke"
                 android:text="Reject"
                 android:textColor="@color/brown"

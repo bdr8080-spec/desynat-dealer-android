@@ -89,7 +89,13 @@ class OrderDetailFragment : BaseFragment() {
             }
 
             btnUpdateStatus.setOnClickListener {
-                updateOrderStatus(selectedStatus)
+                if (selectedStatus!=""){
+                    updateOrderStatus(selectedStatus)
+                }
+                else{
+                    showToast("Please select status")
+                }
+
             }
         }
     }
