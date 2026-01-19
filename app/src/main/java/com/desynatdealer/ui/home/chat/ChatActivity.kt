@@ -159,7 +159,7 @@ class ChatActivity : BaseActivity() {
                     chatAdapter?.notifyItemInserted(chatList.size - 1)
                     rvChat.scrollToPosition(chatList.size - 1)
 
-                    if (message.by.toSafeString() != "seller" && message.read.toSafeInt() == 0 && message.id.toSafeString() != null) {
+                    if (message.by.toSafeString() != "seller" && message.read.toSafeInt() == 0 && message.id.toSafeString() != null && message.id.toSafeString() != "") {
                         markMessageRead(uniqueId, message.id.toSafeString())
                     }
                 },
@@ -175,8 +175,6 @@ class ChatActivity : BaseActivity() {
                     }
                 }
             )
-
-
 
             uploadImageList.clear()
             uploadMsgImageAdapter = UploadMsgImageAdapter(this@ChatActivity,uploadImageList,object :UploadMsgImageAdapter.Click{
@@ -236,7 +234,7 @@ class ChatActivity : BaseActivity() {
                     sendMessage(
                         uniqueId = uniqueId,
                         message = textMessage,
-                        type = 0
+                        type = "0"
                     )
                     etMessage.setText("")
                 }
@@ -246,7 +244,7 @@ class ChatActivity : BaseActivity() {
                         sendMessage(
                             uniqueId = uniqueId,
                             message = image.imageUrl,
-                            type = 1
+                            type = "1"
                         )
                     }
                     uploadImageList.clear()
@@ -273,7 +271,7 @@ class ChatActivity : BaseActivity() {
         FirebaseDatabase.getInstance().reference
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun sendMessage(uniqueId: String, message: String, type: Int) {
+    fun sendMessage(uniqueId: String, message: String, type: String) {
         val ref = database.child("chats").child(uniqueId).push()
         val messageId = ref.key ?: return
 
@@ -619,6 +617,14 @@ class ChatActivity : BaseActivity() {
                         clCustomerRequest.isVisible = true
                         clQuotationDetail.isVisible = false
                         btnSendQuotation.text = "Send Quotation"
+                        if (chatDetailData?.customDetails!=null && chatDetailData?.customDetails!="null" &&chatDetailData?.customDetails!=""){
+                            clCustomerRequest.isVisible = true
+                            btnSendQuotation.isVisible = true
+                        }
+                        else{
+                            clCustomerRequest.isVisible = false
+                            btnSendQuotation.isVisible = false
+                        }
                     }
                     "1" -> {
                         tvStatus.isVisible = true

@@ -108,6 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:paddingVertical="@dimen/_2sdp"
             android:background="@drawable/brown_stroke_10"
             app:layout_constraintStart_toStartOf="parent"

@@ -154,6 +154,9 @@ class ChatListFragment : BaseFragment() {
         if (lastQuery!=null){
             map["search"] = lastQuery.toString()
         }
+        if (chatFilter!=null){
+            map["filters"] = chatFilter.toString()
+        }
         viewModel.getAllChatList(map)
     }
 
@@ -205,6 +208,7 @@ class ChatListFragment : BaseFragment() {
             tvClear.setOnClickListener {
                 filter = ""
                 chatFilter = null
+                getChat()
                 dialog.dismiss()
             }
 
@@ -216,6 +220,7 @@ class ChatListFragment : BaseFragment() {
                     return@setOnClickListener
                 }
                 else{
+                    getChat()
                     dialog.dismiss()
                 }
 

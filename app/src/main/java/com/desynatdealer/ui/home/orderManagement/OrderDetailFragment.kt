@@ -223,8 +223,7 @@ class OrderDetailFragment : BaseFragment() {
                                     orderDetailData?.userRatingReviewProvide?.storeRating
                                         ?: 0f
                                 if (orderDetailData?.userRatingReviewProvide?.productReview!=null&&orderDetailData?.userRatingReviewProvide?.productReview!="null"&&orderDetailData?.userRatingReviewProvide?.productReview!=""){
-                                    tvProductReview.text =
-                                        orderDetailData?.userRatingReviewProvide?.productReview
+                                    tvProductReview.text = orderDetailData?.userRatingReviewProvide?.productReview
                                     tvProductReview.isVisible = true
                                     tvReview.isVisible = true
                                 }
@@ -343,10 +342,26 @@ class OrderDetailFragment : BaseFragment() {
                                 rbStoreRating.rating =
                                     orderDetailData?.userRatingReviewProvide?.storeRating
                                         ?: 0f
-                                tvProductReview.text =
-                                    orderDetailData?.userRatingReviewProvide?.productReview
-                                tvSellerReview.text =
-                                    orderDetailData?.userRatingReviewProvide?.storeReview
+                                if (orderDetailData?.userRatingReviewProvide?.productReview!=null&&orderDetailData?.userRatingReviewProvide?.productReview!="null"&&orderDetailData?.userRatingReviewProvide?.productReview!=""){
+                                    tvProductReview.text = orderDetailData?.userRatingReviewProvide?.productReview
+                                    tvProductReview.isVisible = true
+                                    tvReview.isVisible = true
+                                }
+                                else{
+                                    tvProductReview.isVisible = false
+                                    tvReview.isVisible = false
+                                }
+
+                                if (orderDetailData?.userRatingReviewProvide?.storeReview!=null&&orderDetailData?.userRatingReviewProvide?.storeReview!="null"&&orderDetailData?.userRatingReviewProvide?.storeReview!=""){
+                                    tvSellerReview.text =
+                                        orderDetailData?.userRatingReviewProvide?.storeReview
+                                    tvSellerReview.isVisible = true
+                                    tvStoreReview.isVisible = true
+                                }
+                                else{
+                                    tvSellerReview.isVisible = false
+                                    tvStoreReview.isVisible = false
+                                }
                             } else {
                                 llComplete.isVisible = false
                             }
@@ -552,10 +567,26 @@ class OrderDetailFragment : BaseFragment() {
                                 rbStoreRating.rating =
                                     orderDetailData?.userRatingReviewProvide?.storeRating
                                         ?: 0f
-                                tvProductReview.text =
-                                    orderDetailData?.userRatingReviewProvide?.productReview
-                                tvSellerReview.text =
-                                    orderDetailData?.userRatingReviewProvide?.storeReview
+                                if (orderDetailData?.userRatingReviewProvide?.productReview!=null&&orderDetailData?.userRatingReviewProvide?.productReview!="null"&&orderDetailData?.userRatingReviewProvide?.productReview!=""){
+                                    tvProductReview.text = orderDetailData?.userRatingReviewProvide?.productReview
+                                    tvProductReview.isVisible = true
+                                    tvReview.isVisible = true
+                                }
+                                else{
+                                    tvProductReview.isVisible = false
+                                    tvReview.isVisible = false
+                                }
+
+                                if (orderDetailData?.userRatingReviewProvide?.storeReview!=null&&orderDetailData?.userRatingReviewProvide?.storeReview!="null"&&orderDetailData?.userRatingReviewProvide?.storeReview!=""){
+                                    tvSellerReview.text =
+                                        orderDetailData?.userRatingReviewProvide?.storeReview
+                                    tvSellerReview.isVisible = true
+                                    tvStoreReview.isVisible = true
+                                }
+                                else{
+                                    tvSellerReview.isVisible = false
+                                    tvStoreReview.isVisible = false
+                                }
                             } else {
                                 llComplete.isVisible = false
                             }
