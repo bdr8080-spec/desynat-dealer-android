@@ -516,7 +516,7 @@ class ChatActivity : BaseActivity() {
                     showToast("Please enter per item price")
                 }
                 else if (etShippingFee.text?.trim()?.isEmpty() == true){
-                    showToast("Please enter shipping charge")
+                    showToast("Please enter delivery charge")
                 }
                 else if (etTax.text?.trim()?.isEmpty() == true){
                     showToast("Please enter tax amount")

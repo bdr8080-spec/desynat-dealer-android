@@ -22,6 +22,6 @@
     <string name="policies">Policies</string>
     <string name="generic_error">Something went wrong!</string>
     <string name="product_description"><u>Product Description</u></string>
-    <string name="shipping_location"><u>Shipping Location</u></string>
-    <string name="shipping_address"><u>Shipping Address</u></string>
+    <string name="shipping_location"><u>Delivery Location</u></string>
+    <string name="shipping_address"><u>Delivery Address</u></string>
 </resources>

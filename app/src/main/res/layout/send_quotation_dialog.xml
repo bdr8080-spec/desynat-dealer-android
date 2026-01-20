@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:text="Shipping Fees"
+            android:text="Delivery Fees"
             app:layout_constraintEnd_toStartOf="@+id/tvTax"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etPerItemPrice" />
