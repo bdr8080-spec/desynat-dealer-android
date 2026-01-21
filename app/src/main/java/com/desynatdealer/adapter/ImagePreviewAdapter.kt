@@ -11,7 +11,17 @@ import com.desynatdealer.databinding.ItemPreviewImageBinding
 class ImagePreviewAdapter(var context:Context, var productList: ArrayList<String>) : RecyclerView.Adapter<ImagePreviewAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemPreviewImageBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+            val productData = productList[position]
+                ivProduct.load(productData) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_placeholder)
+                    error(R.drawable.ic_placeholder)
+                }
+
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -25,15 +35,7 @@ class ImagePreviewAdapter(var context:Context, var productList: ArrayList<String
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val productData = productList[position]
-        holder.binding.apply {
-            ivProduct.load(productData) {
-                crossfade(true)
-                placeholder(R.drawable.ic_placeholder)
-                error(R.drawable.ic_placeholder)
-            }
-
-        }
+        holder.bind(position)
 
     }
 

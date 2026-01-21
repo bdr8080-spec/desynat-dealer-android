@@ -22,6 +22,62 @@ class VariantAdapter(var context:Context, var isWomen: Boolean=false, var varian
     }
     inner class ViewHolder(val binding: ItemAddVariantBinding) :
         RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+            val variantData = variantList[position]
+
+                if (!from&&position==0){
+                    tvVariant.isVisible = false
+                }
+
+                ivDelete.isVisible = variantList.size > 1
+
+                etColour.setText(colorList.find { it.id.toString() == variantData.colorId }?.name)
+                tvVariant.text = "Variant ${position+1}"
+
+            etColour.setOnClickListener {
+                showColorDropdown(etColour,position)
+            }
+
+            ivImage.setOnClickListener {
+                variantClick.onVariantClick(position,2)
+            }
+
+            ivDelete.setOnClickListener {
+                variantClick.onVariantClick(position,3)
+            }
+
+            root.setOnClickListener {
+                variantClick.onVariantClick(position,1)
+            }
+
+            rvImageList.apply {
+                layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+                adapter = VariantImageAdapter(context = context, productImageList = variantList[position].variantImage,object : VariantImageAdapter.ClickOnItem{
+                    override fun onClickItem(imgPosition: Int) {
+                        variantClick.onVariantClick(position,4,imgPosition)
+                    }
+
+                })
+                setHasFixedSize(true)
+                isNestedScrollingEnabled = false
+            }
+
+            Log.e("listprint", "bindHolder: ${ variantList[position].productVariation.size}" )
+
+            rvSubVariant.apply {
+                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                adapter = SubVariantAdapter(context = context,isWomen,variantList[position].productVariation,colorList,sizeList,false,object:SubVariantAdapter.SubVariantClick{
+                    override fun onSubVariantClick(subPosition: Int, type: Int) {
+                        when(type){
+
+                        }
+                    }
+
+                })
+                setHasFixedSize(true)
+                isNestedScrollingEnabled = false
+            }
+        }
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,64 +92,7 @@ class VariantAdapter(var context:Context, var isWomen: Boolean=false, var varian
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val variantData = variantList[position]
-        holder.binding.apply {
-
-            if (!from&&position==0){
-                tvVariant.isVisible = false
-            }
-
-            ivDelete.isVisible = variantList.size > 1
-
-            etColour.setText(colorList.find { it.id.toString() == variantData.colorId }?.name)
-            tvVariant.text = "Variant ${position+1}"
-
-        }
-
-        holder.binding.etColour.setOnClickListener {
-            showColorDropdown(holder.binding.etColour,position)
-        }
-
-        holder.binding.ivImage.setOnClickListener {
-            variantClick.onVariantClick(position,2)
-        }
-
-holder.binding.ivDelete.setOnClickListener {
-            variantClick.onVariantClick(position,3)
-        }
-
-        holder.itemView.setOnClickListener {
-            variantClick.onVariantClick(position,1)
-        }
-
-        holder.binding.rvImageList.apply {
-            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-            adapter = VariantImageAdapter(context = context, productImageList = variantList[position].variantImage,object : VariantImageAdapter.ClickOnItem{
-                override fun onClickItem(imgPosition: Int) {
-                    variantClick.onVariantClick(position,4,imgPosition)
-                }
-
-            })
-            setHasFixedSize(true)
-            isNestedScrollingEnabled = false
-        }
-
-        Log.e("listprint", "bindHolder: ${ variantList[position].productVariation.size}" )
-
-        holder.binding.rvSubVariant.apply {
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = SubVariantAdapter(context = context,isWomen,variantList[position].productVariation,colorList,sizeList,false,object:SubVariantAdapter.SubVariantClick{
-                override fun onSubVariantClick(subPosition: Int, type: Int) {
-                    when(type){
-
-                    }
-                }
-
-            })
-            setHasFixedSize(true)
-            isNestedScrollingEnabled = false
-        }
-
+        holder.bind(position)
     }
 
     private fun showColorDropdown(view: AppCompatEditText, position: Int) {

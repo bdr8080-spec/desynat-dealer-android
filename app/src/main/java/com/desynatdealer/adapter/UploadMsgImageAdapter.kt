@@ -13,7 +13,14 @@ class UploadMsgImageAdapter(var context:Context, var imageList: ArrayList<Upload
         fun onClick(position: Int)
     }
     inner class ViewHolder(val binding: ItemSendImgBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+                ivImage.setImageURI(imageList[position].image)
+           ivImage.setOnClickListener {
+                click.onClick(position)
+            }
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -27,13 +34,7 @@ class UploadMsgImageAdapter(var context:Context, var imageList: ArrayList<Upload
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.apply {
-            ivImage.setImageURI(imageList[position].image)
-        }
-
-        holder.binding.ivImage.setOnClickListener {
-            click.onClick(position)
-        }
+       holder.bind(position)
     }
 
 

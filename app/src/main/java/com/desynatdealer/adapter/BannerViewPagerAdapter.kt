@@ -9,7 +9,13 @@ class BannerViewPagerAdapter(private val bannerList: List<BannerData>) :
     RecyclerView.Adapter<BannerViewPagerAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemBannerBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+            ivBanner.setImageResource(bannerList[position].image)
+            tvTitle.text = bannerList[position].title
+            tvDescription.text = bannerList[position].description
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -18,10 +24,7 @@ class BannerViewPagerAdapter(private val bannerList: List<BannerData>) :
         )
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.ivBanner.setImageResource(bannerList[position].image)
-        holder.binding.tvTitle.text = bannerList[position].title
-        holder.binding.tvDescription.text = bannerList[position].description
-
+       holder.bind(position)
     }
 
     override fun getItemCount(): Int = bannerList.size

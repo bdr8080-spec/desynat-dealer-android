@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemProductImageBinding
+
 class ProductImageAdapter(var context:Context, var productList: ArrayList<String>,var click:OnClick) : RecyclerView.Adapter<ProductImageAdapter.ViewHolder>() {
 
     interface OnClick{
@@ -14,7 +15,20 @@ class ProductImageAdapter(var context:Context, var productList: ArrayList<String
     }
 
     inner class ViewHolder(val binding: ItemProductImageBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+            val productData = productList[position]
+                ivProduct.load(productData) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_placeholder)
+                    error(R.drawable.ic_placeholder)
+                }
+
+                ivProduct.setOnClickListener {
+                    click.onClick(position)
+                }
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -28,21 +42,7 @@ class ProductImageAdapter(var context:Context, var productList: ArrayList<String
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val productData = productList[position]
-        holder.binding.apply {
-            ivProduct.load(productData) {
-                crossfade(true)
-                placeholder(R.drawable.ic_placeholder)
-                error(R.drawable.ic_placeholder)
-            }
-
-            ivProduct.setOnClickListener {
-                click.onClick(position)
-            }
-
-        }
-
+        holder.bind(position)
     }
-
 
 }

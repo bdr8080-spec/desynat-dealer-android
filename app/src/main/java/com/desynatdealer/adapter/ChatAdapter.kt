@@ -19,7 +19,69 @@ class ChatAdapter(var context:Context, var chatList: ArrayList<ChatMessage>, var
         fun onChatClick(position: Int)
     }
     inner class ViewHolder(val binding: ItemChatBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+            val chatData = chatList[position]
+
+                if (chatData.by.toSafeString() == "seller") {
+                    relMy.isVisible = true
+                    relOther.isVisible = false
+
+                    if (chatData.type.toSafeInt()==1){
+                        ivMyMsg.isVisible = true
+                        tvMyMsg.isVisible = false
+                        ivMyMsg.load(chatData.message.toSafeString()){
+                            crossfade(true)
+                            placeholder(R.drawable.ic_placeholder)
+                            error(R.drawable.ic_placeholder)
+                        }
+                    }
+                    else{
+                        ivMyMsg.isVisible = false
+                        tvMyMsg.isVisible = true
+                        tvMyMsg.text = chatData.message.toSafeString()
+                    }
+
+                    if (chatData.read.toSafeInt()==1){
+                        ivRead.isVisible = true
+                    }
+                    else{
+                        ivRead.isVisible = false
+                    }
+                    tvMyMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toSafeString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mm a")
+
+                }
+                else{
+                    relMy.isVisible = false
+                    relOther.isVisible = true
+                    if (chatData.type.toSafeInt()==1){
+                        ivOtherMsg.isVisible = true
+                        tvOtherMsg.isVisible = false
+                        ivOtherMsg.load(chatData.message.toSafeString()){
+                            crossfade(true)
+                            placeholder(R.drawable.ic_placeholder)
+                            error(R.drawable.ic_placeholder)
+                        }
+                    }
+                    else{
+                        ivOtherMsg.isVisible = false
+                        tvOtherMsg.isVisible = true
+                        tvOtherMsg.text = chatData.message.toSafeString()
+                    }
+                    tvOtherMsg.text = chatData.message.toSafeString()
+                    tvOtherMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toSafeString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mm a")
+                }
+
+                ivMyMsg.setOnClickListener {
+                    chatClick.onChatClick(position)
+                }
+
+                ivOtherMsg.setOnClickListener {
+                    chatClick.onChatClick(position)
+                }
+
+            }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -33,67 +95,7 @@ class ChatAdapter(var context:Context, var chatList: ArrayList<ChatMessage>, var
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val chatData = chatList[position]
-        holder.binding.apply {
-
-            if (chatData.by.toSafeString() == "seller") {
-                relMy.isVisible = true
-                relOther.isVisible = false
-
-                if (chatData.type.toSafeInt()==1){
-                    ivMyMsg.isVisible = true
-                    tvMyMsg.isVisible = false
-                    ivMyMsg.load(chatData.message.toSafeString()){
-                        crossfade(true)
-                        placeholder(R.drawable.ic_placeholder)
-                        error(R.drawable.ic_placeholder)
-                    }
-                }
-                else{
-                    ivMyMsg.isVisible = false
-                    tvMyMsg.isVisible = true
-                    tvMyMsg.text = chatData.message.toSafeString()
-                }
-
-                if (chatData.read.toSafeInt()==1){
-                    ivRead.isVisible = true
-                }
-                else{
-                    ivRead.isVisible = false
-                }
-                tvMyMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toSafeString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mm a")
-
-            }
-            else{
-                relMy.isVisible = false
-                relOther.isVisible = true
-                if (chatData.type.toSafeInt()==1){
-                    ivOtherMsg.isVisible = true
-                    tvOtherMsg.isVisible = false
-                    ivOtherMsg.load(chatData.message.toSafeString()){
-                        crossfade(true)
-                        placeholder(R.drawable.ic_placeholder)
-                        error(R.drawable.ic_placeholder)
-                    }
-                }
-                else{
-                    ivOtherMsg.isVisible = false
-                    tvOtherMsg.isVisible = true
-                    tvOtherMsg.text = chatData.message.toSafeString()
-                }
-                tvOtherMsg.text = chatData.message.toSafeString()
-                tvOtherMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toSafeString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mm a")
-            }
-
-            ivMyMsg.setOnClickListener {
-                chatClick.onChatClick(position)
-            }
-
-            ivOtherMsg.setOnClickListener {
-                chatClick.onChatClick(position)
-            }
-
-        }
+       holder.bind(position)
 
     }
 

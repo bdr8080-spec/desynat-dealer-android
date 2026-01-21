@@ -4,16 +4,9 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.desynatdealer.R
-import com.desynatdealer.databinding.ItemColorBinding
-import com.desynatdealer.databinding.ItemProductBinding
 import com.desynatdealer.databinding.ItemSizeBinding
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
-import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
-import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 
 class SizeAdapter(var context:Context, var productSizeList: ArrayList<AddProductRequest.Product.ProductVariation>, var sizeList:ArrayList<GetSizeResponse.Data>,var onClick:OnClick) : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
@@ -22,7 +15,27 @@ class SizeAdapter(var context:Context, var productSizeList: ArrayList<AddProduct
         fun onClickItem(position: Int)
     }
     inner class ViewHolder(val binding: ItemSizeBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+                val productSize = productSizeList[position].sizeId
+                val matchedSize = sizeList.find { it.id.toString() == productSize }
+
+                tvSize.text = matchedSize?.name
+
+                if (selectedPos==position){
+                    tvSize.setTextColor(Color.parseColor("#000000"))
+                }
+                else{
+                    tvSize.setTextColor(Color.parseColor("#E6E6E6"))
+                }
+
+            root.setOnClickListener {
+                selectedPos = position
+                onClick.onClickItem(position)
+                notifyDataSetChanged()
+            }
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -36,26 +49,7 @@ class SizeAdapter(var context:Context, var productSizeList: ArrayList<AddProduct
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.apply {
-            val productSize = productSizeList[position].sizeId
-            val matchedSize = sizeList.find { it.id.toString() == productSize }
-
-            tvSize.text = matchedSize?.name
-
-            if (selectedPos==position){
-                tvSize.setTextColor(Color.parseColor("#000000"))
-            }
-            else{
-                tvSize.setTextColor(Color.parseColor("#E6E6E6"))
-            }
-        }
-
-        holder.itemView.setOnClickListener {
-            selectedPos = position
-            onClick.onClickItem(position)
-            notifyDataSetChanged()
-        }
-
+        holder.bind(position)
     }
 
     fun updateData(pos:Int){

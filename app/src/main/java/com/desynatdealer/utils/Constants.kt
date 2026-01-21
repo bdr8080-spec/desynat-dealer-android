@@ -60,4 +60,6 @@ object Constants {
     const val MODIFY_SINGLE_CHAT = "/api/seller/Modify-single-chats-records"
     const val UPDATE_RETURN_EXCHANGE_ORDER_STATUS = "/api/seller/update-order-exchange-return-status"
 
+    const val GET_All_DEAL = "/api/seller/get_deal"
+
 }

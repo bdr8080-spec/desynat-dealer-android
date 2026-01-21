@@ -198,4 +198,7 @@ interface CommonApiService {
     @POST(Constants.MODIFY_SINGLE_CHAT)
     suspend fun modifySingleChat(@Body map: HashMap<String, Any>): Response<ModifySingleChatResponse>
 
+    @POST(Constants.GET_All_DEAL)
+    suspend fun getDeal(@Body map: HashMap<String, Any>): Response<GetAllBannerResponse>
+
 }

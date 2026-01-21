@@ -126,7 +126,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_regular"
         android:layout_marginStart="@dimen/_4sdp"
-        android:text="20% off"
+        android:text=""
         android:textColor="#E70000"
         android:textSize="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"

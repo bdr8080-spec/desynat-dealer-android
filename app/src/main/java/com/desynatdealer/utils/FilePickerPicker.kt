@@ -82,6 +82,7 @@ class FilePickerPicker(
 
     fun onCameraResult(success: Boolean) {
         if (success) callback(cameraImageUri) else callback(null)
+        cameraImageUri = null
     }
 
     fun onGalleryResult(uri: Uri?) {

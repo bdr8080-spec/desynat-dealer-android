@@ -6,10 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.desynatdealer.databinding.ItemCountryBinding
-import com.desynatdealer.databinding.ItemPlanBinding
-import com.desynatdealer.databinding.ItemPlanFeatureBinding
 import com.desynatdealer.model.country.GetCountryResponse
-import com.desynatdealer.ui.home.response.GetAllPlanResponse
 
 class CustomCountryPickerAdapter(var context:Context, var countryList: ArrayList<GetCountryResponse.Data>, var onClick:ClickOnItem) : RecyclerView.Adapter<CustomCountryPickerAdapter.ViewHolder>() {
 
@@ -17,7 +14,16 @@ class CustomCountryPickerAdapter(var context:Context, var countryList: ArrayList
         fun onClickItem(position: Int)
     }
     inner class ViewHolder(val binding: ItemCountryBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+                tvCountry.text = "${countryList[position].name} (${countryList[position].dialCode})"
+                ivFlag.load(countryList[position].flag1)
+
+            root.setOnClickListener {
+                onClick.onClickItem(position)
+            }
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -31,15 +37,7 @@ class CustomCountryPickerAdapter(var context:Context, var countryList: ArrayList
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.apply {
-            tvCountry.text = "${countryList[position].name} (${countryList[position].dialCode})"
-            ivFlag.load(countryList[position].flag1)
-        }
-
-        holder.itemView.setOnClickListener {
-            onClick.onClickItem(position)
-        }
-
+        holder.bind(position)
     }
 
 

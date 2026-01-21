@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.databinding.ItemRatingBinding
-import com.desynatdealer.databinding.ItemSpecificationBinding
-import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 
 class ReviewAdapter(var context:Context, var reviewListList: ArrayList<String>) : RecyclerView.Adapter<ReviewAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemRatingBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -25,10 +27,7 @@ class ReviewAdapter(var context:Context, var reviewListList: ArrayList<String>) 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.apply {
-
-
-        }
+        holder.bind(position)
     }
 
 

@@ -507,5 +507,17 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _getDealResponse =
+        MutableLiveData<ApiResult<GetAllBannerResponse>?>()
+    val getDealResponse: MutableLiveData<ApiResult<GetAllBannerResponse>?>
+        get() = _getDealResponse
+
+    fun getDeal(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getDealResponse.value = ApiResult.Loading
+            _getDealResponse.value = repo.getDeal(map)
+        }
+    }
+
 
 }

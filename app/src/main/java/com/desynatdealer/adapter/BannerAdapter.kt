@@ -18,7 +18,123 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
         fun onItemClick(position: Int,type:Int)
     }
     inner class ViewHolder(val binding: ItemAddBannerBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+            val bannerData = bannerList[position]
+
+                ivBanner.load(bannerData?.uploadBanner) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_placeholder)
+                    error(R.drawable.ic_placeholder)
+                }
+
+                tvRequestId.text = "#${bannerData?.orderId}"
+                tvTotalAmount.text = "${CommonMethod.formatPrice(bannerData?.price?:0.0)} KD"
+                tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(bannerData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+                when(bannerData?.adminVerify){
+                    "0" ->{
+                        tvStatusValue.text = "Pending"
+                        tvStatusValue.paint.shader = null
+                        tvStatusValue.setTextColor(Color.parseColor("#E28F12"))
+                        btnPay.isVisible = false
+                        tvReason.isVisible = false
+                        tvRejectedReason.isVisible = false
+                    }
+                    "1" ->{
+                        when(bannerData?.paymentStatus){
+                            "0"->{
+                                if (CommonMethod.isExpired(bannerData?.endDate.toString())) {
+                                    tvStatusValue.text = "Expired"
+                                    tvStatusValue.paint.shader = null
+                                    tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
+                                    btnPay.isVisible = false
+                                }
+                                else{
+                                    tvStatusValue.text = "Confirmed"
+                                    tvStatusValue.paint.shader = null
+                                    tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
+                                    btnPay.isVisible = true
+                                    tvReason.isVisible = false
+                                    tvRejectedReason.isVisible = false
+                                }
+
+                            }
+                            "1"->{
+                                btnPay.isVisible = false
+                                tvReason.isVisible = false
+                                tvRejectedReason.isVisible = false
+                                when {
+                                    CommonMethod.isUpcoming(bannerData?.startDate.toString()) -> {
+                                        tvStatusValue.text = "Upcoming"
+                                        tvStatusValue.paint.shader = null
+                                        tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
+                                        CommonMethod.applyGradientText(tvStatusValue)
+                                    }
+
+                                    CommonMethod.isActive(bannerData?.startDate.toString(), bannerData?.endDate.toString()) -> {
+                                        tvStatusValue.text = "Active"
+                                        CommonMethod.applyGradientText(tvStatusValue)
+                                        CommonMethod.applyGradientText(tvStatusValue)
+                                    }
+
+                                    CommonMethod.isExpired(bannerData?.endDate.toString()) -> {
+                                        tvStatusValue.paint.shader = null
+                                        tvStatusValue.text = "Expired"
+                                        tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
+                                    }
+                                }
+                            }
+                            "2"->{
+                                tvStatusValue.text = "Rejected"
+                                tvStatusValue.paint.shader = null
+                                tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
+                                btnPay.isVisible = false
+                                tvReason.isVisible = true
+                                tvRejectedReason.isVisible = true
+                                tvRejectedReason.text = bannerData?.cancelledReason
+                            }
+                        }
+                    }
+                    "2"->{
+                        tvStatusValue.text = "Rejected"
+                        tvStatusValue.paint.shader = null
+                        tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
+                        btnPay.isVisible = false
+                        if (bannerData?.cancelledReason!=null) {
+                            tvReason.isVisible = true
+                            tvRejectedReason.isVisible = true
+                            tvRejectedReason.text = bannerData?.cancelledReason
+                        }
+                    }
+                }
+
+                when(bannerData?.bannerPosition){
+                    "3"->{
+                        tvCategoryValue.text = bannerData?.categoryDetails?.name
+                        tvSubCategoryValue.text = bannerData?.subcategoryDetails?.nameEnglish
+                        tvCategory.isVisible = false
+                        tvCategoryValue.isVisible = false
+                        tvSubCategory.isVisible = false
+                        tvSubCategoryValue.isVisible = false
+                    }
+                    else ->{
+                        tvCategory.isVisible = false
+                        tvCategoryValue.isVisible = false
+                        tvSubCategory.isVisible = false
+                        tvSubCategoryValue.isVisible = false
+                    }
+                }
+
+                btnPay.setOnClickListener {
+                    onClick.onItemClick(position,2)
+                }
+
+            root.setOnClickListener {
+                onClick.onItemClick(position,1)
+            }
+
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -32,121 +148,7 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val bannerData = bannerList[position]
-        holder.binding.apply {
-
-            ivBanner.load(bannerData?.uploadBanner) {
-                crossfade(true)
-                placeholder(R.drawable.ic_placeholder)
-                error(R.drawable.ic_placeholder)
-            }
-
-            tvRequestId.text = "#${bannerData?.orderId}"
-            tvTotalAmount.text = "${CommonMethod.formatPrice(bannerData?.price?:0.0)} KD"
-            tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(bannerData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
-            when(bannerData?.adminVerify){
-                "0" ->{
-                    tvStatusValue.text = "Pending"
-                    tvStatusValue.paint.shader = null
-                    tvStatusValue.setTextColor(Color.parseColor("#E28F12"))
-                    btnPay.isVisible = false
-                    tvReason.isVisible = false
-                    tvRejectedReason.isVisible = false
-                }
-                "1" ->{
-                    when(bannerData?.paymentStatus){
-                        "0"->{
-                            if (CommonMethod.isExpired(bannerData?.endDate.toString())) {
-                                    tvStatusValue.text = "Expired"
-                                tvStatusValue.paint.shader = null
-                                    tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
-                                btnPay.isVisible = false
-                            }
-                            else{
-                                tvStatusValue.text = "Confirmed"
-                                tvStatusValue.paint.shader = null
-                                tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
-                                btnPay.isVisible = true
-                                tvReason.isVisible = false
-                                tvRejectedReason.isVisible = false
-                            }
-
-                        }
-                        "1"->{
-                            btnPay.isVisible = false
-                            tvReason.isVisible = false
-                            tvRejectedReason.isVisible = false
-                            when {
-                                CommonMethod.isUpcoming(bannerData?.startDate.toString()) -> {
-                                    tvStatusValue.text = "Upcoming"
-                                    tvStatusValue.paint.shader = null
-                                    tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
-                                    CommonMethod.applyGradientText(tvStatusValue)
-                                }
-
-                                CommonMethod.isActive(bannerData?.startDate.toString(), bannerData?.endDate.toString()) -> {
-                                    tvStatusValue.text = "Active"
-                                    CommonMethod.applyGradientText(tvStatusValue)
-                                    CommonMethod.applyGradientText(tvStatusValue)
-                                }
-
-                                CommonMethod.isExpired(bannerData?.endDate.toString()) -> {
-                                    tvStatusValue.paint.shader = null
-                                    tvStatusValue.text = "Expired"
-                                    tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
-                                }
-                            }
-                        }
-                        "2"->{
-                            tvStatusValue.text = "Rejected"
-                            tvStatusValue.paint.shader = null
-                            tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
-                            btnPay.isVisible = false
-                            tvReason.isVisible = true
-                            tvRejectedReason.isVisible = true
-                            tvRejectedReason.text = bannerData?.cancelledReason
-                        }
-                    }
-                }
-                "2"->{
-                    tvStatusValue.text = "Rejected"
-                    tvStatusValue.paint.shader = null
-                    tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
-                    btnPay.isVisible = false
-                    if (bannerData?.cancelledReason!=null) {
-                        tvReason.isVisible = true
-                        tvRejectedReason.isVisible = true
-                        tvRejectedReason.text = bannerData?.cancelledReason
-                    }
-                }
-            }
-
-            when(bannerData?.bannerPosition){
-                "3"->{
-                    tvCategoryValue.text = bannerData?.categoryDetails?.name
-                    tvSubCategoryValue.text = bannerData?.subcategoryDetails?.nameEnglish
-                    tvCategory.isVisible = false
-                    tvCategoryValue.isVisible = false
-                    tvSubCategory.isVisible = false
-                    tvSubCategoryValue.isVisible = false
-                }
-                else ->{
-                    tvCategory.isVisible = false
-                    tvCategoryValue.isVisible = false
-                    tvSubCategory.isVisible = false
-                    tvSubCategoryValue.isVisible = false
-                }
-            }
-
-            btnPay.setOnClickListener {
-                onClick.onItemClick(position,2)
-            }
-        }
-
-        holder.itemView.setOnClickListener {
-            onClick.onItemClick(position,1)
-        }
-
+      holder.bind(position)
     }
 
 

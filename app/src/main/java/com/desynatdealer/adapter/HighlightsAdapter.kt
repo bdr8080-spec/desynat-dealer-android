@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.databinding.ItemHighlightsBinding
-import com.desynatdealer.databinding.ItemReelBinding
 
 class HighlightsAdapter(var context:Context, var highlightList: ArrayList<String>, var onClick:OnClick) : RecyclerView.Adapter<HighlightsAdapter.ViewHolder>() {
 
@@ -14,22 +13,8 @@ class HighlightsAdapter(var context:Context, var highlightList: ArrayList<String
         fun onItemClick(position: Int,type:Int)
     }
     inner class ViewHolder(val binding: ItemHighlightsBinding) :
-        RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            ItemHighlightsBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false)
-        )
-    }
-
-    override fun getItemCount(): Int {
-        return highlightList.size
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.apply {
-
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
             if (position==0){
                 ivAdd.isVisible = true
                 ivHighlight.isVisible = false
@@ -49,8 +34,21 @@ class HighlightsAdapter(var context:Context, var highlightList: ArrayList<String
                 onClick.onItemClick(position,2)
             }
         }
+        }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
+            ItemHighlightsBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
+    override fun getItemCount(): Int {
+        return highlightList.size
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(position)
+    }
 
 }

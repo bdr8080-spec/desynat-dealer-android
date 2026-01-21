@@ -246,7 +246,6 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
-
     suspend fun getBanner(map: HashMap<String, Any>): ApiResult<GetAllBannerResponse> {
         return try {
             networkCall(api.getBanner(map))
@@ -255,7 +254,6 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
-
     suspend fun getBannerPrice(map: HashMap<String, Any>): ApiResult<GetBannerPriceResponse> {
         return try {
             networkCall(api.getBannerPrice(map))
@@ -263,7 +261,6 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
             ApiResult.Error("Syntax Error")
         }
     }
-
 
     suspend fun bannerPayment(map: HashMap<String, Any>): ApiResult<AddBannerResponse> {
         return try {
@@ -328,5 +325,14 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
             ApiResult.Error("Syntax Error")
         }
     }
+
+    suspend fun getDeal(map: HashMap<String, Any>): ApiResult<GetAllBannerResponse> {
+        return try {
+            networkCall(api.getDeal(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
 
 }

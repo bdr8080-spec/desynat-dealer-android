@@ -10,7 +10,12 @@ import com.desynatdealer.ui.home.productManagement.response.GetAllProductRespons
 class SpecificationAdapter(var context:Context, var specificationList: ArrayList<GetAllProductResponse.Data.AllProductData.ProductSpecification>) : RecyclerView.Adapter<SpecificationAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemSpecificationBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+            tvDescription.text = "${specificationList[position].nameEn} - ${specificationList[position].featureEn}"
+
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -24,11 +29,7 @@ class SpecificationAdapter(var context:Context, var specificationList: ArrayList
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.apply {
-            tvDescription.text = "${specificationList[position].nameEn} - ${specificationList[position].featureEn}"
-
-        }
+        holder.bind(position)
     }
-
 
 }

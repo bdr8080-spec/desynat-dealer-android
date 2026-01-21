@@ -13,11 +13,11 @@
 
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profile"/>
+            app:destination="@id/profile" />
 
         <action
             android:id="@+id/action_homeFragment_to_chatListFragment"
-            app:destination="@id/chatList"/>
+            app:destination="@id/chatList" />
 
     </fragment>
 
@@ -29,11 +29,11 @@
 
         <action
             android:id="@+id/action_subscriptionFragment_to_paymentMethodFragment"
-            app:destination="@id/paymentMethod"/>
+            app:destination="@id/paymentMethod" />
 
         <action
             android:id="@+id/action_subscriptionFragment_to_HomeFragment"
-            app:destination="@id/home"/>
+            app:destination="@id/home" />
 
     </fragment>
 
@@ -45,13 +45,13 @@
 
         <action
             android:id="@+id/action_paymentMethodFragment_to_AddCardFragment"
-            app:destination="@id/addCard"/>
+            app:destination="@id/addCard" />
 
         <action
             android:id="@+id/action_paymentMethodFragment_to_HomeFragment"
             app:destination="@id/home"
             app:popUpTo="@id/home_navigation_graph"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
 
     </fragment>
 
@@ -65,7 +65,7 @@
             android:id="@+id/action_addCardFragment_to_HomeFragment"
             app:destination="@id/home"
             app:popUpTo="@id/home_navigation_graph"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
 
     </fragment>
 
@@ -77,11 +77,11 @@
 
         <action
             android:id="@+id/action_productManagementFragment_to_productDetailFragment"
-            app:destination="@id/productDetail"/>
+            app:destination="@id/productDetail" />
 
         <action
             android:id="@+id/action_productManagementFragment_to_addProductFragment"
-            app:destination="@id/addProduct"/>
+            app:destination="@id/addProduct" />
 
     </fragment>
 
@@ -93,7 +93,7 @@
 
         <action
             android:id="@+id/action_productDetailFragment_to_editProductFragment"
-            app:destination="@id/editProduct"/>
+            app:destination="@id/editProduct" />
 
     </fragment>
 
@@ -101,13 +101,13 @@
         android:id="@+id/addProduct"
         android:name="com.desynatdealer.ui.home.productManagement.AddProductFragment"
         android:label="Add Product Fragment"
-        tools:layout="@layout/fragment_add_product"/>
+        tools:layout="@layout/fragment_add_product" />
 
     <fragment
         android:id="@+id/editProduct"
         android:name="com.desynatdealer.ui.home.productManagement.EditProductFragment"
         android:label="Edit Product Fragment"
-        tools:layout="@layout/fragment_edit_product"/>
+        tools:layout="@layout/fragment_edit_product" />
 
 
     <fragment
@@ -116,21 +116,21 @@
         android:label="Profile Fragment"
         tools:layout="@layout/fragment_profile">
 
-    <action
-        android:id="@+id/action_profileFragment_to_inventoryProductManagementFragment"
-        app:destination="@id/inventoryProductManagement"/>
+        <action
+            android:id="@+id/action_profileFragment_to_inventoryProductManagementFragment"
+            app:destination="@id/inventoryProductManagement" />
 
         <action
-        android:id="@+id/action_profileFragment_to_affiliatedCommissionFragment"
-        app:destination="@id/affiliatedCommission"/>
+            android:id="@+id/action_profileFragment_to_affiliatedCommissionFragment"
+            app:destination="@id/affiliatedCommission" />
 
         <action
-        android:id="@+id/action_profileFragment_to_viewProfileFragment"
-        app:destination="@id/viewProfile"/>
+            android:id="@+id/action_profileFragment_to_viewProfileFragment"
+            app:destination="@id/viewProfile" />
 
         <action
             android:id="@+id/action_profileFragment_to_bannerManagementFragment"
-            app:destination="@id/bannerManagement"/>
+            app:destination="@id/bannerManagement" />
 
     </fragment>
 
@@ -142,7 +142,7 @@
 
         <action
             android:id="@+id/action_inventoryProductManagementFragment_to_inventoryProductDetailFragment"
-            app:destination="@id/inventoryProductDetail"/>
+            app:destination="@id/inventoryProductDetail" />
 
 
     </fragment>
@@ -155,7 +155,7 @@
 
         <action
             android:id="@+id/action_inventoryProductDetailFragment_to_editInventoryFragment"
-            app:destination="@id/editInventory"/>
+            app:destination="@id/editInventory" />
 
     </fragment>
 
@@ -163,13 +163,13 @@
         android:id="@+id/editInventory"
         android:name="com.desynatdealer.ui.home.inventoryManagement.EditInventoryProductFragment"
         android:label="Edit Inventory Fragment"
-        tools:layout="@layout/fragment_edit_inventory_product"/>
+        tools:layout="@layout/fragment_edit_inventory_product" />
 
     <fragment
         android:id="@+id/affiliatedCommission"
         android:name="com.desynatdealer.ui.home.fragment.AffiliatedCommissionFragment"
         android:label="Affiliated Commission Fragment"
-        tools:layout="@layout/fragment_affiliated_commission"/>
+        tools:layout="@layout/fragment_affiliated_commission" />
 
     <fragment
         android:id="@+id/viewProfile"
@@ -179,7 +179,7 @@
 
         <action
             android:id="@+id/action_viewProfileFragment_to_editProfileFragment"
-            app:destination="@id/editProfile"/>
+            app:destination="@id/editProfile" />
 
 
     </fragment>
@@ -188,7 +188,7 @@
         android:id="@+id/editProfile"
         android:name="com.desynatdealer.ui.home.profile.EditProfileFragment"
         android:label="Edit Profile Fragment"
-        tools:layout="@layout/fragment_edit_profile"/>
+        tools:layout="@layout/fragment_edit_profile" />
 
     <fragment
         android:id="@+id/bannerManagement"
@@ -196,17 +196,17 @@
         android:label="Banner Management Fragment"
         tools:layout="@layout/fragment_banner_management">
 
-    <action
-        android:id="@+id/action_bannerManagementFragment_to_addBannerFragment"
-        app:destination="@id/addBanner"/>
+        <action
+            android:id="@+id/action_bannerManagementFragment_to_addBannerFragment"
+            app:destination="@id/addBanner" />
 
-    <action
-        android:id="@+id/action_bannerManagementFragment_to_bannerDetailFragment"
-        app:destination="@id/bannerDetail"/>
+        <action
+            android:id="@+id/action_bannerManagementFragment_to_bannerDetailFragment"
+            app:destination="@id/bannerDetail" />
 
         <action
             android:id="@+id/action_bannerManagementFragment_to_paymentMethodFragment"
-            app:destination="@id/paymentMethod"/>
+            app:destination="@id/paymentMethod" />
 
     </fragment>
 
@@ -214,7 +214,7 @@
         android:id="@+id/addBanner"
         android:name="com.desynatdealer.ui.home.bannerManagement.AddBannerFragment"
         android:label="Add Banner Fragment"
-        tools:layout="@layout/fragment_add_banner"/>
+        tools:layout="@layout/fragment_add_banner" />
 
     <fragment
         android:id="@+id/bannerDetail"
@@ -224,7 +224,7 @@
 
         <action
             android:id="@+id/action_bannerDetailFragment_to_paymentMethodFragment"
-            app:destination="@id/paymentMethod"/>
+            app:destination="@id/paymentMethod" />
 
     </fragment>
 
@@ -232,7 +232,7 @@
         android:id="@+id/orderManagementFragment"
         android:name="com.desynatdealer.ui.home.orderManagement.OrderManagementFragment"
         android:label="Order Management Fragment"
-        tools:layout="@layout/fragment_order_management"/>
+        tools:layout="@layout/fragment_order_management" />
 
     <fragment
         android:id="@+id/chatList"
@@ -242,7 +242,7 @@
 
         <action
             android:id="@+id/action_chatListFragment_to_chatFragment"
-            app:destination="@id/chat"/>
+            app:destination="@id/chat" />
 
     </fragment>
 
@@ -250,7 +250,7 @@
         android:id="@+id/chat"
         android:name="com.desynatdealer.ui.home.chat.ChatFragment"
         android:label="Chat Fragment"
-        tools:layout="@layout/fragment_chat"/>
+        tools:layout="@layout/fragment_chat" />
 
     <fragment
         android:id="@+id/orderManagement"
@@ -260,7 +260,7 @@
 
         <action
             android:id="@+id/action_orderManagementFragment_to_orderDetailFragment"
-            app:destination="@id/orderDetail"/>
+            app:destination="@id/orderDetail" />
 
     </fragment>
 
@@ -268,6 +268,38 @@
         android:id="@+id/orderDetail"
         android:name="com.desynatdealer.ui.home.orderManagement.OrderDetailFragment"
         android:label="Order Detail Fragment"
-        tools:layout="@layout/fragment_order_detail"/>
+        tools:layout="@layout/fragment_order_detail" />
 
-</navigation>
+
+    <fragment
+        android:id="@+id/dealListedFragment"
+        android:name="com.desynatdealer.ui.home.dealManagement.DealListedFragment"
+        android:label="Deal Listed Fragment"
+        tools:layout="@layout/fragment_deal_listed">
+
+        <action
+            android:id="@+id/action_dealListedFragment_to_DealDetailFragment"
+            app:destination="@id/dealDetail" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/dealDetail"
+        android:name="com.desynatdealer.ui.home.dealManagement.DealDetailFragment"
+        android:label="Deal Detail Fragment"
+        tools:layout="@layout/fragment_deal_detail" >
+
+    <action
+        android:id="@+id/action_dealDetailFragment_to_selectDealProductFragment"
+        app:destination="@id/dealProduct" />
+
+    </fragment>
+
+   <fragment
+       android:id="@+id/dealProduct"
+       android:label="Deal Product Fragment"
+       android:name="com.desynatdealer.ui.home.dealManagement.SelectDealProductFragment"
+       tools:layout="@layout/fragment_select_deal_product" />
+
+
+    </navigation>

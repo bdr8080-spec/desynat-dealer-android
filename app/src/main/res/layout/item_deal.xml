@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/card_stroke_background"
+    android:paddingBottom="@dimen/_12sdp"
+    android:layout_marginBottom="@dimen/_15sdp"
+    android:orientation="vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivDeal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_120sdp"
+        android:src="@drawable/ic_placeholder"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/rounded_corner_top_10sdp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvStartFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="Starts From - 2nd July 2025"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_gravity="center_horizontal" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clDealInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStartsOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Starts On"
+            android:textColor="#80000000"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStartsOnValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="2nd July 2026"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvStartsOn"
+            app:layout_constraintBottom_toBottomOf="@+id/tvStartsOn"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="From"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:textColor="#80000000"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStartsOn" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvFromValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="6:00 Pm to 9:00 Pm"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvFrom"
+            app:layout_constraintBottom_toBottomOf="@+id/tvFrom"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvProductsAdded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Products added"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:textColor="#80000000"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFrom" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvProductsAddedValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="20"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvProductsAdded"
+            app:layout_constraintBottom_toBottomOf="@+id/tvProductsAdded"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Status"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:textColor="#80000000"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductsAdded" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatusValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Active"
+            android:textColor="#68CA44"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvStatus"
+            app:layout_constraintBottom_toBottomOf="@+id/tvStatus"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
+            android:id="@+id/tvReason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Rejected Reason"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStatus"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
+            android:id="@+id/tvRejectedReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sed do eiusmod tempor Lorem ipsum dolor sit amet,  consectetur adipiscing elit, sed do eiusmod"
+            android:textColor="#80000000"
+            android:textSize="@dimen/_9sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvReason"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
+            android:id="@+id/btnPay"
+            style="@style/button"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_40sdp"
+            android:text="Pay Now"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRejectedReason"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

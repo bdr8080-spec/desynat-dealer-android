@@ -193,8 +193,6 @@ class BannerManagementFragment : BaseFragment() {
                 else -> {}
             }
         }
-
-
     }
 
     private fun checkData(){

@@ -14,7 +14,23 @@ class FilterBrandAdapter(var context:Context, var brandList: ArrayList<GetSeller
         fun onClickItem(position: Int)
     }
     inner class ViewHolder(val binding: ItemBrandBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+            tvBrand.text = brandList[position].nameEnglish
+
+            if (brandList[position].isSelected){
+                ivImage.setImageResource(R.drawable.ic_checkbox)
+            }
+            else{
+                ivImage.setImageResource(R.drawable.ic_checkbox_unselected)
+            }
+
+            root.setOnClickListener {
+                brandList[position].isSelected = !brandList[position].isSelected
+                notifyDataSetChanged()
+            }
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -28,24 +44,7 @@ class FilterBrandAdapter(var context:Context, var brandList: ArrayList<GetSeller
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.apply {
-
-            tvBrand.text = brandList[position].nameEnglish
-
-            if (brandList[position].isSelected){
-                ivImage.setImageResource(R.drawable.ic_checkbox)
-            }
-            else{
-                ivImage.setImageResource(R.drawable.ic_checkbox_unselected)
-            }
-
-        }
-
-
-        holder.itemView.setOnClickListener {
-            brandList[position].isSelected = !brandList[position].isSelected
-                        notifyDataSetChanged()
-        }
+       holder.bind(position)
 
     }
 

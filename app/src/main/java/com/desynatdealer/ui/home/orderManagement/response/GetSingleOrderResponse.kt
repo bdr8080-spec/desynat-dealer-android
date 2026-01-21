@@ -1,6 +1,5 @@
 package com.desynatdealer.ui.home.orderManagement.response
 
-
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse.Data.Order.UserDetails
 import com.google.gson.annotations.SerializedName
 

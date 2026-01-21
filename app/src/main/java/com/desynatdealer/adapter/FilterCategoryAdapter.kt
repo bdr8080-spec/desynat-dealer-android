@@ -15,7 +15,26 @@ class FilterCategoryAdapter(var context:Context, var categoryList: ArrayList<Get
         fun onClickItem(position: Int)
     }
     inner class ViewHolder(val binding: ItemBrandBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+
+                tvBrand.text = categoryList[position].name
+
+                if (selectedPos==position){
+                    ivImage.setImageResource(R.drawable.ic_checkbox)
+                }
+                else{
+                    ivImage.setImageResource(R.drawable.ic_checkbox_unselected)
+                }
+
+            root.setOnClickListener {
+                selectedPos = position
+                onClick.onClickItem(position)
+                notifyDataSetChanged()
+            }
+
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -29,24 +48,7 @@ class FilterCategoryAdapter(var context:Context, var categoryList: ArrayList<Get
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.apply {
-
-            tvBrand.text = categoryList[position].name
-
-            if (selectedPos==position){
-                ivImage.setImageResource(R.drawable.ic_checkbox)
-            }
-            else{
-                ivImage.setImageResource(R.drawable.ic_checkbox_unselected)
-            }
-        }
-
-        holder.itemView.setOnClickListener {
-            selectedPos = position
-            onClick.onClickItem(position)
-            notifyDataSetChanged()
-        }
-
+        holder.bind(position)
     }
 
     fun setSelectedCategoryId(id: Int?) {

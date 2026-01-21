@@ -22,7 +22,28 @@ class VariantColorAdapter(var context:Context, var productColorList: ArrayList<A
         fun onClickItem(position: Int)
     }
     inner class ViewHolder(val binding: ItemVariantColorBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) = with(binding){
+            val productColor = productColorList[position].colorId
+            val matchedColor = colorList.find { it.id.toString() == productColor }
+
+            val colorCode = matchedColor?.hexCode ?: "#000000"
+            cbColor.text = matchedColor?.name
+
+            if(selectedPos==position){
+                cbColor.isChecked = true
+            }
+            else{
+                cbColor.isChecked = false
+            }
+
+            root.setOnClickListener {
+                selectedPos = position
+                onClick.onClickItem(position)
+                notifyDataSetChanged()
+            }
+        }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -36,31 +57,7 @@ class VariantColorAdapter(var context:Context, var productColorList: ArrayList<A
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.apply {
-
-
-            val productColor = productColorList[position].colorId
-            val matchedColor = colorList.find { it.id.toString() == productColor }
-
-            val colorCode = matchedColor?.hexCode ?: "#000000"
-            cbColor.text = matchedColor?.name
-
-            if(selectedPos==position){
-                cbColor.isChecked = true
-            }
-            else{
-                cbColor.isChecked = false
-            }
-        }
-
-        holder.itemView.setOnClickListener {
-            selectedPos = position
-            onClick.onClickItem(position)
-            notifyDataSetChanged()
-        }
-
-
+           holder.bind(position)
     }
-
 
 }
