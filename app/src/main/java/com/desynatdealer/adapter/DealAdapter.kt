@@ -18,7 +18,7 @@ class DealAdapter(
     var onClick: OnClick
 ) : RecyclerView.Adapter<DealAdapter.ViewHolder>() {
 
-    var dealType = "1"
+    private var dealType = "1"
 
     interface OnClick {
         fun onItemClick(position: Int, type: Int)
