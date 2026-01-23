@@ -74,7 +74,6 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
                                     CommonMethod.isActive(bannerData?.startDate.toString(), bannerData?.endDate.toString()) -> {
                                         tvStatusValue.text = "Active"
                                         CommonMethod.applyGradientText(tvStatusValue)
-                                        CommonMethod.applyGradientText(tvStatusValue)
                                     }
 
                                     CommonMethod.isExpired(bannerData?.endDate.toString()) -> {

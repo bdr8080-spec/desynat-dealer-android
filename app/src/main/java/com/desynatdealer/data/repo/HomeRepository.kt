@@ -16,6 +16,8 @@ import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceRespons
 import com.desynatdealer.ui.home.chat.response.ChatDetailResponse
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
+import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
+import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
@@ -326,9 +328,44 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
-    suspend fun getDeal(map: HashMap<String, Any>): ApiResult<GetAllBannerResponse> {
+    suspend fun getDeal(map: HashMap<String, Any>): ApiResult<GetAllDealResponse> {
         return try {
             networkCall(api.getDeal(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun getDealDetail(map: HashMap<String, Any>): ApiResult<GetDealDetailResponse> {
+        return try {
+            networkCall(api.getDealDetail(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+
+    suspend fun addProductInDeal(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.addProductInDeal(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+
+    suspend fun removeProductInDeal(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.removeProductInDeal(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+
+    suspend fun showProductInDealCategorySubcategory(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.showProductInDealCategorySubcategory(map))
         } catch (e: Exception) {
             ApiResult.Error("Syntax Error")
         }

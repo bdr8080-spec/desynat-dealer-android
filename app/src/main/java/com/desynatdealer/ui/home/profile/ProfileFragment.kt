@@ -83,7 +83,7 @@ class ProfileFragment : BaseFragment() {
             }
 
             rlDeal.setOnClickListener {
-
+                findNavController().navigate(R.id.action_profileFragment_to_dealListedFragment)
             }
 
             relLogout.setOnClickListener {

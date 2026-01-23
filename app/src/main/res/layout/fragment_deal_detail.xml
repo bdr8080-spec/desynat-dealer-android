@@ -168,7 +168,6 @@
                     app:layout_constraintTop_toTopOf="@+id/tvSubCategory"
                     app:layout_constraintBottom_toBottomOf="@+id/tvSubCategory"/>
 
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvDetail"
                     android:layout_width="0dp"
@@ -256,11 +255,24 @@
                 android:ellipsize="end"
                 android:hint="Search"
                 android:paddingHorizontal="@dimen/_10sdp"
-                android:paddingVertical="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_10sdp"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="#5B6163"
                 android:textSize="@dimen/_11sdp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
+                android:id="@+id/tvNoDataFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/_30sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/poppins_regular"
+                android:text="No Products Found"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvProduct"
@@ -277,7 +289,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnAddMore"
                 style="@style/button"
-                android:layout_marginBottom="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="Add More Products"
@@ -287,10 +299,14 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnAdd"
                 style="@style/button"
-                android:layout_marginBottom="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="Add to Deals"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp"/>
 
         </LinearLayout>
 

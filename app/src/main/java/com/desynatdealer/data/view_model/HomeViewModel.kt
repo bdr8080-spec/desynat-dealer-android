@@ -14,6 +14,8 @@ import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceRespons
 import com.desynatdealer.ui.home.chat.response.ChatDetailResponse
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
+import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
+import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
@@ -508,14 +510,62 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     }
 
     private val _getDealResponse =
-        MutableLiveData<ApiResult<GetAllBannerResponse>?>()
-    val getDealResponse: MutableLiveData<ApiResult<GetAllBannerResponse>?>
+        MutableLiveData<ApiResult<GetAllDealResponse>?>()
+    val getDealResponse: MutableLiveData<ApiResult<GetAllDealResponse>?>
         get() = _getDealResponse
 
     fun getDeal(map: HashMap<String, Any>) {
         viewModelScope.launch {
             _getDealResponse.value = ApiResult.Loading
             _getDealResponse.value = repo.getDeal(map)
+        }
+    }
+
+    private val _getDealDetailResponse =
+        MutableLiveData<ApiResult<GetDealDetailResponse>?>()
+    val getDealDetailResponse: MutableLiveData<ApiResult<GetDealDetailResponse>?>
+        get() = _getDealDetailResponse
+
+    fun getDealDetail(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getDealDetailResponse.value = ApiResult.Loading
+            _getDealDetailResponse.value = repo.getDealDetail(map)
+        }
+    }
+
+ private val _addProductInDealResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val addProductInDealResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _addProductInDealResponse
+
+    fun addProductInDeal(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _addProductInDealResponse.value = ApiResult.Loading
+            _addProductInDealResponse.value = repo.addProductInDeal(map)
+        }
+    }
+
+ private val _removeProductInDealResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val removeProductInDealResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _removeProductInDealResponse
+
+    fun removeProductInDeal(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _removeProductInDealResponse.value = ApiResult.Loading
+            _removeProductInDealResponse.value = repo.removeProductInDeal(map)
+        }
+    }
+
+ private val _showProductInDealCategorySubcategoryResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val showProductInDealCategorySubcategoryResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _showProductInDealCategorySubcategoryResponse
+
+    fun showProductInDealCategorySubcategory(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _showProductInDealCategorySubcategoryResponse.value = ApiResult.Loading
+            _showProductInDealCategorySubcategoryResponse.value = repo.showProductInDealCategorySubcategory(map)
         }
     }
 

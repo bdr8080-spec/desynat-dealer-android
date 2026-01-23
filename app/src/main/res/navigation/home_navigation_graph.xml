@@ -131,6 +131,9 @@
         <action
             android:id="@+id/action_profileFragment_to_bannerManagementFragment"
             app:destination="@id/bannerManagement" />
+        <action
+            android:id="@+id/action_profileFragment_to_dealListedFragment"
+            app:destination="@id/dealListedFragment" />
 
     </fragment>
 

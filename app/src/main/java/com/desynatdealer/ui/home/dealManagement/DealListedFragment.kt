@@ -13,7 +13,7 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentDealListedBinding
-import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
+import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
@@ -24,7 +24,7 @@ class DealListedFragment : BaseFragment() {
     private var binding : FragmentDealListedBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
     private var dealAdapter: DealAdapter?=null
-    private var dealList = ArrayList<GetAllBannerResponse.Data>()
+    private var dealList = ArrayList<GetAllDealResponse.Data.ListedDeal>()
     private var dealType = "1"
 
     override fun onCreateView(
@@ -103,7 +103,7 @@ class DealListedFragment : BaseFragment() {
         binding?.apply {
             dealType = "1"
             clSearch.isVisible = false
-            dealAdapter?.setDealType(dealType)
+            getDeal()
             tvListed.setTextColor(requireActivity().getColor(R.color.white))
             tvEnrolled.setTextColor(requireActivity().getColor(R.color.black))
             tvExpired.setTextColor(requireActivity().getColor(R.color.black))
@@ -118,7 +118,7 @@ class DealListedFragment : BaseFragment() {
         binding?.apply {
             clSearch.isVisible = true
             dealType = "3"
-            dealAdapter?.setDealType(dealType)
+            getDeal()
             tvListed.setTextColor(requireActivity().getColor(R.color.black))
             tvEnrolled.setTextColor(requireActivity().getColor(R.color.black))
             tvExpired.setTextColor(requireActivity().getColor(R.color.white))
@@ -132,7 +132,7 @@ class DealListedFragment : BaseFragment() {
     private fun enrolled() {
         binding?.apply {  clSearch.isVisible = true
             dealType = "2"
-            dealAdapter?.setDealType(dealType)
+           getDeal()
             tvListed.setTextColor(requireActivity().getColor(R.color.black))
             tvEnrolled.setTextColor(requireActivity().getColor(R.color.white))
             tvExpired.setTextColor(requireActivity().getColor(R.color.black))
@@ -152,11 +152,26 @@ class DealListedFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     dealList.clear()
-
-                    result.data?.data?.let {
-                        dealList.addAll(it)
+                    when(dealType){
+                        "1"->{
+                            result.data?.data?.listedDeal?.let {
+                                dealList.addAll(it)
+                            }
+                        }
+                        "2"->{
+                            result.data?.data?.enrolled?.let {
+                                dealList.addAll(it)
+                            }
+                        }
+                        "3"->{
+                            result.data?.data?.expiredDeal?.let {
+                                dealList.addAll(it)
+                            }
+                        }
                     }
+
                     dealAdapter?.notifyDataSetChanged()
+                    dealAdapter?.setDealType(dealType)
                     checkData()
                     viewModel.getDealResponse.value = null
                 }
@@ -180,6 +195,5 @@ class DealListedFragment : BaseFragment() {
         val map = HashMap<String,Any>()
         viewModel.getDeal(map)
     }
-
 
 }
