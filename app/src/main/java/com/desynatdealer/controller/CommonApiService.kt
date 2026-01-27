@@ -14,6 +14,7 @@ import com.desynatdealer.ui.home.chat.response.ChatDetailResponse
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
+import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
@@ -213,6 +214,6 @@ interface CommonApiService {
     suspend fun removeProductInDeal(@Body map: HashMap<String, Any>): Response<CommonResponse>
 
     @POST(Constants.SHOW_ALL_PRODUCT_DEAL)
-    suspend fun showProductInDealCategorySubcategory(@Body map: HashMap<String, Any>): Response<CommonResponse>
+    suspend fun showProductInDealCategorySubcategory(@Body map: HashMap<String, Any>): Response<GetDealAllProductResponse>
 
 }

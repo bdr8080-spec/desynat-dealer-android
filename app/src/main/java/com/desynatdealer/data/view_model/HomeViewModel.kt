@@ -15,6 +15,7 @@ import com.desynatdealer.ui.home.chat.response.ChatDetailResponse
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
+import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
@@ -558,8 +559,8 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     }
 
  private val _showProductInDealCategorySubcategoryResponse =
-        MutableLiveData<ApiResult<CommonResponse>?>()
-    val showProductInDealCategorySubcategoryResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        MutableLiveData<ApiResult<GetDealAllProductResponse>?>()
+    val showProductInDealCategorySubcategoryResponse: MutableLiveData<ApiResult<GetDealAllProductResponse>?>
         get() = _showProductInDealCategorySubcategoryResponse
 
     fun showProductInDealCategorySubcategory(map: HashMap<String, Any>) {

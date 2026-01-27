@@ -39,7 +39,7 @@ data class GetAllDealResponse(
             @SerializedName("seller_deal_count")
             val sellerDealCount: String,
             @SerializedName("seller_dealrecord")
-            val sellerDealrecord: SellerDealrecord,
+            val sellerDealrecord: List<SellerDealrecord>,
             @SerializedName("status")
             val status: Int,
             @SerializedName("sub_category_id")

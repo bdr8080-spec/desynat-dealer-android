@@ -42,7 +42,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Listed Deals"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_11sdp"
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:background="@drawable/selected_left_tab"/>
@@ -60,7 +60,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Enrolled"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_11sdp"
                     android:gravity="center"
                     android:textColor="@color/black"/>
 
@@ -77,7 +77,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Expired"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_11sdp"
                     android:gravity="center"
                     android:textColor="@color/black" />
 
@@ -153,7 +153,7 @@
         android:textColor="@color/black"
         android:fontFamily="@font/poppins_medium"
         android:textSize="@dimen/_13sdp"
-        android:text="No product found"
+        android:text="No data found"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,10 +1,14 @@
 package com.desynatdealer.ui.home.dealManagement
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.adapter.DealProductAdapter
@@ -19,6 +23,9 @@ import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SelectDealProductFragment : BaseFragment() {
@@ -28,7 +35,8 @@ class SelectDealProductFragment : BaseFragment() {
     private var productList = ArrayList<GetDealDetailResponse.Data.RemainingProduct>()
     private var dealId = ""
     private var selectedProduct = ArrayList<String>()
-
+    private var search: Job? = null
+    private var lastQuery: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,13 +71,52 @@ class SelectDealProductFragment : BaseFragment() {
         binding?.apply {
             toolbar.tvToolbar.text = "Select Product"
 
+            etSearch.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    val query = s.toString().trim()
+                    if (query == lastQuery) return
+                    lastQuery = query
+                    search?.cancel()
+                    search = lifecycleScope.launch {
+                   //     delay(600)
+                        dealProductAdapter?.filter?.filter(lastQuery)
+
+                    }
+                }
+            })
+
             dealProductAdapter = DealProductAdapter(requireActivity(),productList,"1",object :
                 DealProductAdapter.OnClick{
                 override fun onItemClick(position: Int, type: Int) {
 
                 }
 
-            })
+                override fun onSelectionChanged(isAnySelected: Boolean) {
+                    btnAdd.isVisible = isAnySelected
+                }
+
+            },
+                object : DealProductAdapter.OnFilterResult {
+                    override fun onResult(isEmpty: Boolean) {
+                        binding?.tvNoDataFound?.isVisible = isEmpty
+                    }
+                })
 
             rvProduct.adapter = dealProductAdapter
         }
@@ -107,6 +154,7 @@ class SelectDealProductFragment : BaseFragment() {
                 }
 
                 is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
                     CommonMethod.showSuccessDialog(requireActivity(),"Products added to deals successfully !"){
                         findNavController().popBackStack()
                     }
@@ -122,6 +170,35 @@ class SelectDealProductFragment : BaseFragment() {
                 else -> {}
             }
         }
+
+        viewModel.showProductInDealCategorySubcategoryResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    productList.clear()
+                    result.data?.data?.let { productList.addAll(it) }
+                    dealProductAdapter?.notifyDataSetChanged()
+                    checkData()
+                    viewModel.showProductInDealCategorySubcategoryResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.showProductInDealCategorySubcategoryResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    private fun checkData() {
+        binding?.tvNoDataFound?.isVisible = productList.size!=0
     }
 
     private fun addProductInDeal() {
@@ -129,6 +206,15 @@ class SelectDealProductFragment : BaseFragment() {
         map["deal_id"] = dealId
         map["product_ids"] = selectedProduct
         viewModel.addProductInDeal(map)
+    }
+
+    private fun getDealProduct() {
+        val map = HashMap<String,Any>()
+        map["deal_id"] = dealId
+        if (lastQuery!=null){
+            map["search"] = lastQuery.toString()
+        }
+        viewModel.showProductInDealCategorySubcategory(map)
     }
 
 }

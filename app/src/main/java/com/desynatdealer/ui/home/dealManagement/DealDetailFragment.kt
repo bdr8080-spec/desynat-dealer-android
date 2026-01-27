@@ -1,14 +1,18 @@
 package com.desynatdealer.ui.home.dealManagement
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.desynatdealer.R
+import com.desynatdealer.adapter.DealAdapter
 import com.desynatdealer.adapter.DealProductAdapter
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
@@ -21,6 +25,9 @@ import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DealDetailFragment : BaseFragment() {
@@ -36,7 +43,8 @@ class DealDetailFragment : BaseFragment() {
     private var isProductAdded = false
     private var isProductRemove = false
     private var selectedProduct = ArrayList<String>()
-
+    private var search: Job? = null
+    private var lastQuery: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,6 +70,37 @@ class DealDetailFragment : BaseFragment() {
                 getDealDetail()
             }
 
+            etSearch.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    val query = s.toString().trim()
+                    if (query == lastQuery) return
+                    lastQuery = query
+                    search?.cancel()
+                    search = lifecycleScope.launch {
+                      //  delay(600)
+
+                        dealProductAdapter?.filter?.filter(lastQuery)
+
+                    }
+                }
+            })
+
             when(dealType){
                 "1"->{
                     toolbar.tvToolbar.text = "Listed Deals"
@@ -84,7 +123,16 @@ class DealDetailFragment : BaseFragment() {
                     }
                 }
 
-            })
+                override fun onSelectionChanged(isAnySelected: Boolean) {
+                    btnAdd.isVisible = isAnySelected
+                }
+
+            },
+                object : DealProductAdapter.OnFilterResult {
+                    override fun onResult(isEmpty: Boolean) {
+                        binding?.tvNoDataFound?.isVisible = isEmpty
+                    }
+                })
 
             rvProduct.adapter = dealProductAdapter
         }
@@ -116,7 +164,7 @@ class DealDetailFragment : BaseFragment() {
                      if (remainingProductList.isNotEmpty()){
                         dealProductAdapter?.setDealType(dealType)
                          dealProductAdapter?.notifyDataSetChanged()
-                        btnAdd.isVisible = true
+                        btnAdd.isVisible = false
                         btnAddMore.isVisible = false
                     }
 
@@ -142,41 +190,37 @@ class DealDetailFragment : BaseFragment() {
                         btnAdd.isVisible = false
                         btnAddMore.isVisible = false
                     }
-
+                    dealProductAdapter?.updateList(productList)
                     clRevenue.isVisible = false
                 }
-                "2" ->{
+                "2" -> {
                     dealDetailData?.addedProducts?.let { addedProductList.addAll(it) }
                     dealDetailData?.remainingProduct?.let { remainingProductList.addAll(it) }
-                    if (dealDetailData?.addedProducts?.size!=0){
-                        for(i in 0 until dealDetailData?.addedProducts?.size!!){
-                            dealDetailData?.addedProducts?.let { productList.add(it[i].productDetails) }
-                        }
-                    }
-                    if (addedProductList.isNotEmpty()){
+
+                    dealDetailData?.addedProducts
+                        ?.map { it.productDetails }
+                        ?.let { productList.addAll(it) }
+
+                    if (addedProductList.isNotEmpty()) {
                         dealProductAdapter?.setDealType("2")
-                        dealProductAdapter?.notifyDataSetChanged()
                         btnAdd.isVisible = false
-                        if (remainingProductList.isNotEmpty()){
-                            btnAddMore.isVisible = true
-                        }
-                        else{
-                            btnAddMore.isVisible = false
-                        }
+                        btnAddMore.isVisible = remainingProductList.isNotEmpty()
                     }
-                    else if (remainingProductList.isNotEmpty()){
-                        dealDetailData?.remainingProduct?.let { productList.addAll(it) }
+                    else if (remainingProductList.isNotEmpty()) {
+                        productList.addAll(remainingProductList)
                         dealProductAdapter?.setDealType("1")
-                        dealProductAdapter?.notifyDataSetChanged()
-                        btnAdd.isVisible = true
-                        btnAddMore.isVisible = false
-                    }
-                    else{
                         btnAdd.isVisible = false
                         btnAddMore.isVisible = false
                     }
+                    else {
+                        btnAdd.isVisible = false
+                        btnAddMore.isVisible = false
+                    }
+                    dealProductAdapter?.updateList(productList)
+                    dealProductAdapter?.notifyDataSetChanged()
                     clRevenue.isVisible = false
                 }
+
                 "3" ->{
                     dealDetailData?.addedProducts?.let { addedProductList.addAll(it) }
                     if (dealDetailData?.addedProducts?.size!=0){
@@ -184,6 +228,7 @@ class DealDetailFragment : BaseFragment() {
                             dealDetailData?.addedProducts?.let { productList.add(it[i].productDetails) }
                         }
                     }
+                    dealProductAdapter?.updateList(productList)
                     dealProductAdapter?.notifyDataSetChanged()
                     btnAddMore.isVisible = false
                     btnAdd.isVisible = false
@@ -269,8 +314,19 @@ class DealDetailFragment : BaseFragment() {
                 }
 
                 is ApiResult.Success -> {
+                    if (dealType=="2"){
                     isProductAdded = true
                     getDealDetail()
+                    }
+                    else{
+                        findNavController().previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("deal_type", "2")
+                        CommonMethod.showSuccessDialog(requireActivity(),"Products added to deals successfully !"){
+                            findNavController().popBackStack()
+                        }
+                    }
+
                     viewModel.addProductInDealResponse.value = null
                 }
 
@@ -305,6 +361,30 @@ class DealDetailFragment : BaseFragment() {
                 else -> {}
             }
         }
+
+        viewModel.showProductInDealCategorySubcategoryResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+
+                    dealDetailData?.remainingProduct = result?.data?.data?: emptyList()
+                    setData()
+                    viewModel.showProductInDealCategorySubcategoryResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.showProductInDealCategorySubcategoryResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
     }
 
     private fun getDealDetail() {
@@ -326,4 +406,14 @@ class DealDetailFragment : BaseFragment() {
         map["id"] = addedProductList[position].id
         viewModel.removeProductInDeal(map)
     }
+
+    private fun getDealProduct() {
+        val map = HashMap<String,Any>()
+        map["deal_id"] = dealData?.id.toString()
+        if (lastQuery!=null){
+            map["search"] = lastQuery.toString()
+        }
+        viewModel.showProductInDealCategorySubcategory(map)
+    }
+
 }

@@ -20,15 +20,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <RelativeLayout
+        android:id="@+id/relCheckBox"
         android:visibility="visible"
-        android:id="@+id/ivCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_10sdp"
-        android:src="@drawable/ic_checkbox_unselected"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/rounded_corner_4"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_checkbox_unselected"/>
+
+    </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:visibility="gone"
@@ -41,6 +50,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:visibility="gone"
         android:id="@+id/ivShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,6 +63,7 @@
         app:layout_constraintEnd_toStartOf="@+id/ivLiked"/>
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:visibility="gone"
         android:id="@+id/ivLiked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

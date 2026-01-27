@@ -17,7 +17,7 @@ data class GetDealDetailResponse(
         @SerializedName("deal_data")
         val dealData: DealData,
         @SerializedName("remaining_Product")
-        val remainingProduct: List<RemainingProduct>
+        var remainingProduct: List<RemainingProduct>
     ) {
         data class DealData(
             @SerializedName("category_details")
@@ -125,6 +125,8 @@ data class GetDealDetailResponse(
             val otherEn: Any,
             @SerializedName("product_active_status")
             val productActiveStatus: Int,
+            @SerializedName("avg_product_rating")
+            val avgProductRating: Float,
             @SerializedName("product_exchangable")
             val productExchangable: String,
             @SerializedName("product_name_ar")

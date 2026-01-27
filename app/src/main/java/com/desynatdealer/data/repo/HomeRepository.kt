@@ -17,6 +17,7 @@ import com.desynatdealer.ui.home.chat.response.ChatDetailResponse
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
+import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
@@ -332,7 +333,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getDeal(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -363,7 +364,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     }
 
 
-    suspend fun showProductInDealCategorySubcategory(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+    suspend fun showProductInDealCategorySubcategory(map: HashMap<String, Any>): ApiResult<GetDealAllProductResponse> {
         return try {
             networkCall(api.showProductInDealCategorySubcategory(map))
         } catch (e: Exception) {

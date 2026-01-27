@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Discounted %"
+                    android:text="Discount %"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:textColor="#80000000"
                     android:textSize="@dimen/_10sdp"
@@ -239,7 +239,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Products"
+                android:text="Select Products"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp"/>
 
@@ -266,7 +266,7 @@
                 android:id="@+id/tvNoDataFound"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/_30sdp"
+                android:paddingVertical="@dimen/_50sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/poppins_regular"
@@ -287,6 +287,7 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:id="@+id/btnAddMore"
                 style="@style/button"
                 android:layout_marginBottom="@dimen/_10sdp"
@@ -297,6 +298,7 @@
                 android:background="@drawable/brown_stroke"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:id="@+id/btnAdd"
                 style="@style/button"
                 android:layout_marginBottom="@dimen/_10sdp"
