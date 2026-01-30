@@ -141,7 +141,8 @@ class SignUpFragment : BaseFragment() {
                         "confirm_password" to binding?.etConfirmPassword?.text.toString(),
                         "accept_terms" to "1",
                         "device_type" to "1",
-                        "device_token" to "123456"
+                        "device_token" to "123456",
+                        "lang" to SharedPreference.get(requireActivity()).language
                     )
                     viewModel.createAccount(
                         hashMapOf(
@@ -155,7 +156,8 @@ class SignUpFragment : BaseFragment() {
                             "confirm_password" to binding?.etConfirmPassword?.text.toString(),
                             "accept_terms" to "1",
                             "device_type" to "1",
-                            "device_token" to "123456"
+                            "device_token" to "123456",
+                            "lang" to SharedPreference.get(requireActivity()).language
                         )
                     )
 

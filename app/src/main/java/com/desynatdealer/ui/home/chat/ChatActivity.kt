@@ -20,6 +20,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.desynatdealer.R
 import com.desynatdealer.adapter.ChatAdapter
@@ -42,6 +43,9 @@ import com.desynatdealer.ui.home.chat.response.SendMessageRequest
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.translation.ChatLanguageDetector
+import com.desynatdealer.utils.translation.TranslateRequest
+import com.desynatdealer.utils.translation.TranslatorRetrofit
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -49,6 +53,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.time.Instant
 
 @AndroidEntryPoint
@@ -231,19 +236,40 @@ class ChatActivity : BaseActivity() {
                 }
 
                 if (hasText) {
+                    val isArabic = ChatLanguageDetector.isArabic(textMessage)
+
+                    if (isArabic) {
+                        // Arabic typed → translate to English
+                        callGoogleTranslatorApi(
+                            input = textMessage,
+                            source = "ar",
+                            target = "en"
+                        )
+                    } else {
+                        // English typed → translate to Arabic
+                        callGoogleTranslatorApi(
+                            input = textMessage,
+                            source = "en",
+                            target = "ar"
+                        )
+                    }
+                }
+
+                /*if (hasText) {
                     sendMessage(
                         uniqueId = uniqueId,
                         message = textMessage,
                         type = "0"
                     )
                     etMessage.setText("")
-                }
+                }*/
 
                 if (hasImages) {
                     uploadImageList.forEach { image ->
                         sendMessage(
                             uniqueId = uniqueId,
                             message = image.imageUrl,
+                            messageAr = image.imageUrl,
                             type = "1"
                         )
                     }
@@ -271,7 +297,7 @@ class ChatActivity : BaseActivity() {
         FirebaseDatabase.getInstance().reference
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun sendMessage(uniqueId: String, message: String, type: String) {
+    fun sendMessage(uniqueId: String, message: String,messageAr:String?=null, type: String) {
         val ref = database.child("chats").child(uniqueId).push()
         val messageId = ref.key ?: return
 
@@ -279,6 +305,7 @@ class ChatActivity : BaseActivity() {
             id = messageId,
             by = "seller",
             message = message,
+            messageAr = messageAr,
             type = type,
             unique_id = uniqueId,
             times = Instant.now().toString(),
@@ -708,6 +735,58 @@ class ChatActivity : BaseActivity() {
         }
 
         dialog?.show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun callGoogleTranslatorApi(input: String, source: String, target: String) {
+        ProgressDialogUtils.getInstance().showProgress(this)
+
+        lifecycleScope.launch {
+            try {
+                val response = TranslatorRetrofit.api.googleTranslator(
+                    apiKey = getString(R.string.google_translator_api_key),
+                    request = TranslateRequest(
+                        q = input,
+                        source = source,
+                        target = target
+                    )
+                )
+                ProgressDialogUtils.getInstance().hideProgress()
+                if (response.isSuccessful) {
+                    val translatedText =
+                        response.body()
+                            ?.data
+                            ?.translations
+                            ?.firstOrNull()
+                            ?.translatedText
+
+                    if (source == "ar") {
+                        sendMessage(
+                            uniqueId = uniqueId,
+                            message = translatedText.toString(),   // English
+                            messageAr = input,          // Arabic
+                            type = "0"
+                        )
+                    } else {
+                        sendMessage(
+                            uniqueId = uniqueId,
+                            message = input,            // English
+                            messageAr = translatedText.toString(), // Arabic
+                            type = "0"
+                        )
+                    }
+
+                    binding?.etMessage?.setText("")
+                    Log.e("chat_response", translatedText ?: "No translation")
+                } else {
+                    Log.e("chat_response", "API Error: ${response.errorBody()?.string()}")
+                }
+
+            } catch (e: Exception) {
+                ProgressDialogUtils.getInstance().hideProgress()
+                Log.e("VISION_ERROR", e.message ?: "Error")
+            }
+        }
     }
 
 }

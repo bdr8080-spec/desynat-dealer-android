@@ -502,13 +502,14 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etMessage"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/edit_text"
             android:background="@null"
             android:hint="Type Here..."
             android:singleLine="true"
             android:paddingVertical="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ivAttachment"
             app:layout_constraintTop_toBottomOf="@+id/rvUploadImg"/>
 

@@ -133,6 +133,7 @@ class LoginFragment : BaseFragment() {
         map["email_mobile"] = binding?.etEmailMobile?.text?.trim().toString()
         map["password"] = binding?.etPassword?.text?.trim().toString()
         map["type"] = type
+        map["lang"] = SharedPreference.get(requireActivity()).language
 
         viewModel.login(map)
 

@@ -31,6 +31,8 @@ import com.desynatdealer.ui.home.response.CreateSubscriptionPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.Constants
+import com.desynatdealer.utils.translation.TranslateRequest
+import com.desynatdealer.utils.translation.TranslateResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -215,5 +217,11 @@ interface CommonApiService {
 
     @POST(Constants.SHOW_ALL_PRODUCT_DEAL)
     suspend fun showProductInDealCategorySubcategory(@Body map: HashMap<String, Any>): Response<GetDealAllProductResponse>
+
+    @POST("https://translation.googleapis.com/language/translate/v2")
+    suspend fun googleTranslator(
+        @Query("key") apiKey: String,
+        @Body request: TranslateRequest
+    ): Response<TranslateResponse>
 
 }
