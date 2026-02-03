@@ -32,6 +32,8 @@ data class GetSingleOrderResponse(
         val deliveryBoyId: String,
         @SerializedName("delivery_status")
         var deliveryStatus: String,
+        @SerializedName("order_type")
+        val orderType: String,
         @SerializedName("exchange_new_size")
         val exchangeNewSize: String,
         @SerializedName("exchange_old_size")

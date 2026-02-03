@@ -722,7 +722,7 @@ class OrderDetailFragment : BaseFragment() {
                 error(R.drawable.ic_user)
             }
             tvOrderIdValue.text = "#${orderDetailData?.id}"
-          //  tvOrderTypeValue.text = if (orderDetailData?.order?.orderType=="1") "Normal Order" else "Custom Order"
+          //  tvOrderTypeValue.text = if (orderDetailData?.orderType=="1") "Normal Order" else "Custom Order"
 
                 when(orderDetailData?.order?.paymentMethod){
                     "1"-> {
@@ -745,7 +745,7 @@ class OrderDetailFragment : BaseFragment() {
             tvTransactionId.text = "#${orderDetailData?.order?.transactionId}"
             tvCustomTransactionId.text = "#${orderDetailData?.order?.transactionId}"
 
-            if (orderDetailData?.order?.orderType=="2"){
+            if (orderDetailData?.orderType=="2"){
                 clCustomOrderBilling.isVisible = true
                 clBilling.isVisible = false
                 tvCustomDetail.isVisible = true
@@ -784,12 +784,6 @@ class OrderDetailFragment : BaseFragment() {
             tvQuotedPrice.text = "${CommonMethod.formatPrice(subTotal)} KD"
             tvCustomDetailValue.text = orderDetailData?.chatRoomrecords?.customDetails
             tvTotalQuantityValue.text = quantity.toString()
-
-//            tvPerItemPrice.text = "Item Price (${CommonMethod.formatPrice(orderDetailData?.amount?:0.0)} X ${orderDetailData?.quantity})"
-//            tvPerItemPriceValue.text = "${CommonMethod.formatPrice((orderDetailData?.amount?:0.0 )* (orderDetailData?.quantity?:1))} KD"
-//            tvShippingFees.text = "${CommonMethod.formatPrice(orderDetailData?.shippingFees?:0.0)} KD"
-//            tvTaxValue.text = "${CommonMethod.formatPrice(orderDetailData?.tax?:0.0)} KD"
-//            tvTotalAmountValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
 
             tvItem.text = "${orderDetailData?.quantity} items"
             tvTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"

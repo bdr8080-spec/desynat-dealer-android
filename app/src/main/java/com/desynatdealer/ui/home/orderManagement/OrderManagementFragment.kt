@@ -40,7 +40,7 @@ class OrderManagementFragment : BaseFragment() {
     private var orderAdapter: OrderAdapter?=null
     private var orderList = ArrayList<GetAllOrderResponse.Data.AllOrder>()
     private var orderData : GetAllOrderResponse.Data? = null
-    private var type = 1 // 1 all 2 onging 3 Past Order
+    private var type = 1 // 1 all 2 ongoing 3 Past Order
     private var orderType = 1 // 1 Normal 2 Orders
     private var search: Job? = null
     private var lastQuery: String? = null
@@ -272,7 +272,7 @@ class OrderManagementFragment : BaseFragment() {
     private fun getOrder(){
         val map = HashMap<String,Any>()
         map["tabs"] = type
-        map["type"] = orderType
+      //  map["type"] = orderType
         if (lastQuery!=null) {
             map["search"] = lastQuery.toString()
         }

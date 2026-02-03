@@ -137,21 +137,6 @@ class ChatActivity : BaseActivity() {
             })
             rvChat.adapter = chatAdapter
 
-          /*  listenMessages(uniqueId = uniqueId) { message ->
-                if (!isFirstMessageLoaded) {
-                    pbLoader.isVisible = false
-                    isFirstMessageLoaded = true
-                }
-
-                chatList.add(message)
-                chatAdapter?.notifyItemInserted(chatList.size - 1)
-                rvChat?.scrollToPosition(chatList.size - 1)
-
-                if (message.by != "user" && message.read == 0 && message.id != null) {
-                    markMessageRead(uniqueId, message.id!!)
-                }
-            }*/
-
             listenMessages(
                 uniqueId = uniqueId,
                 onMessageAdded = { message ->
