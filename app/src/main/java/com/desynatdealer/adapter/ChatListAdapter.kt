@@ -57,7 +57,7 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
                             tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1A172B85"))
                         }
                         "2"->{
-                            tvStatus.text = "Quotation Modified"
+                            tvStatus.text = "Quotation Sent"
                             tvStatus.setTextColor(Color.parseColor("#172B85"))
                             tvStatus.backgroundTintList =
                                 ColorStateList.valueOf(Color.parseColor("#1A172B85"))
@@ -68,9 +68,21 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
                             tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1AD53B36"))
                         }
                         "5"->{
-                            tvStatus.text = "Quotation Accepted"
-                            tvStatus.setTextColor(Color.parseColor("#16B364"))
-                            tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1A16B364"))
+                            if (chatData?.productBuyStatus=="1"){
+                                tvStatus.text = "Order Placed"
+                                tvStatus.setTextColor(Color.parseColor("#16B364"))
+                                tvStatus.backgroundTintList =
+                                    ColorStateList.valueOf(Color.parseColor("#1A16B364"))
+                            }
+                            else{
+                                tvStatus.text = "Quotation Accepted"
+                                tvStatus.setTextColor(Color.parseColor("#16B364"))
+                                tvStatus.backgroundTintList =
+                                    ColorStateList.valueOf(Color.parseColor("#1A16B364"))
+                            }
+                        }
+                        else ->{
+                            tvStatus.isVisible = false
                         }
                     }
                 }

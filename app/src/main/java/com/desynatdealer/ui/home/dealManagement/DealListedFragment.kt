@@ -14,6 +14,7 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -43,7 +44,7 @@ class DealListedFragment : BaseFragment() {
     private var dealAdapter: DealAdapter?=null
     private var dealList = ArrayList<GetAllDealResponse.Data.ListedDeal>()
     private var dealType = "1"
-
+    private var isFromSwipe = false
     private var fromTimestamp: Long? = null
     private var toTimestamp: Long? = null
     private var fromDateText: String? = null
@@ -78,7 +79,17 @@ class DealListedFragment : BaseFragment() {
                 ?.getLiveData<String>("deal_type")
                 ?.observe(viewLifecycleOwner) { type ->
                     dealType = type
-                    enrolled()
+                    when(dealType){
+                        "1"->{
+                            listedDeal()
+                        }
+                        "2"->{
+                            enrolled()
+                        }
+                        "3"->{
+                            expired()
+                        }
+                    }
                 }
 
             toolbar.tvToolbar.text = "Listed Deals"
@@ -131,6 +142,14 @@ class DealListedFragment : BaseFragment() {
                 })
             rvDeal.adapter = dealAdapter
 
+            swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(requireActivity(), R.color.brown)
+            )
+            swipeRefreshLayout.setOnRefreshListener {
+                isFromSwipe = true
+                getDeal()
+            }
+
             when(dealType){
                 "1"->{
                     listedDeal()
@@ -142,7 +161,6 @@ class DealListedFragment : BaseFragment() {
                     expired()
                 }
             }
-
             getDeal()
         }
     }
@@ -154,14 +172,17 @@ class DealListedFragment : BaseFragment() {
             }
 
             tvListed.setOnClickListener {
+                getDeal()
                listedDeal()
             }
 
             tvEnrolled.setOnClickListener {
+                getDeal()
                enrolled()
             }
 
             tvExpired.setOnClickListener {
+                getDeal()
                 expired()
             }
 
@@ -176,7 +197,6 @@ class DealListedFragment : BaseFragment() {
         binding?.apply {
             dealType = "1"
             clSearch.isVisible = true
-            getDeal()
             tvListed.setTextColor(requireActivity().getColor(R.color.white))
             tvEnrolled.setTextColor(requireActivity().getColor(R.color.black))
             tvExpired.setTextColor(requireActivity().getColor(R.color.black))
@@ -191,7 +211,6 @@ class DealListedFragment : BaseFragment() {
         binding?.apply {
             clSearch.isVisible = true
             dealType = "3"
-            getDeal()
             tvListed.setTextColor(requireActivity().getColor(R.color.black))
             tvEnrolled.setTextColor(requireActivity().getColor(R.color.black))
             tvExpired.setTextColor(requireActivity().getColor(R.color.white))
@@ -205,7 +224,6 @@ class DealListedFragment : BaseFragment() {
     private fun enrolled() {
         binding?.apply {  clSearch.isVisible = true
             dealType = "2"
-           getDeal()
             tvListed.setTextColor(requireActivity().getColor(R.color.black))
             tvEnrolled.setTextColor(requireActivity().getColor(R.color.white))
             tvExpired.setTextColor(requireActivity().getColor(R.color.black))
@@ -219,11 +237,16 @@ class DealListedFragment : BaseFragment() {
         viewModel.getDealResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
-                }
+                    if (!isFromSwipe){
+                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    }                }
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    if (isFromSwipe){
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                        isFromSwipe = false
+                    }
                     dealList.clear()
                     when(dealType){
                         "1"->{
@@ -254,7 +277,9 @@ class DealListedFragment : BaseFragment() {
                     viewModel.getDealResponse.value = null
                 }
 
-                else -> {}
+                else -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                }
             }
         }
     }

@@ -52,6 +52,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvPerItemPrice" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
             android:id="@+id/tvShippingFee"
             style="@style/edit_text_title"
             android:layout_width="0dp"
@@ -63,6 +64,7 @@
             app:layout_constraintTop_toBottomOf="@+id/etPerItemPrice" />
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:visibility="gone"
             android:id="@+id/etShippingFee"
             style="@style/edit_text"
             android:layout_width="0dp"
@@ -76,6 +78,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvShippingFee" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
             android:id="@+id/tvTax"
             style="@style/edit_text_title"
             android:layout_width="0dp"
@@ -87,6 +90,7 @@
             app:layout_constraintTop_toBottomOf="@+id/etPerItemPrice" />
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:visibility="gone"
             android:id="@+id/etTax"
             style="@style/edit_text"
             android:layout_width="0dp"

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.bumptech.glide.Glide
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemAddBannerBinding
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
@@ -22,11 +23,7 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
         fun bind(position: Int) = with(binding){
             val bannerData = bannerList[position]
 
-                ivBanner.load(bannerData?.uploadBanner) {
-                    crossfade(true)
-                    placeholder(R.drawable.ic_placeholder)
-                    error(R.drawable.ic_placeholder)
-                }
+            Glide.with(context).load(bannerData?.uploadBanner).placeholder(R.drawable.ic_placeholder).into(ivBanner)
 
                 tvRequestId.text = "#${bannerData?.orderId}"
                 tvTotalAmount.text = "${CommonMethod.formatPrice(bannerData?.price?:0.0)} KD"

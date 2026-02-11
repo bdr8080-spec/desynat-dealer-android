@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="@dimen/_15sdp"
+    android:background="@drawable/bottomsheet_bg"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/_15sdp"
+        android:paddingHorizontal="@dimen/_15sdp"
+        android:background="@drawable/bottomsheet_bg"
+        android:backgroundTint="#FFF7EA"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Send new live request"
+        android:textColor="@color/black"
+        android:drawableEnd="@drawable/close_icon"
+        android:textSize="@dimen/_13sdp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChooseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Total Coverages- 03"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_11sdp"
+            android:layout_marginHorizontal="@dimen/_15sdp" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etFrom"
+            style="@style/edit_text"
+            android:layout_width="match_parent"
+            android:paddingVertical="@dimen/_9sdp"
+            android:drawablePadding="@dimen/_5sdp"
+            android:hint="  //  //"
+            android:editable="false"
+            android:clickable="true"
+            android:background="@drawable/card_stroke_filled_background"
+            android:focusable="false"
+            android:layout_marginTop="5dp"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/poppins_light"
+            android:drawableEnd="@drawable/calendar_ic"
+            android:layout_marginHorizontal="@dimen/_15sdp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSelectTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Select Time"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_11sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTimeSlot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        android:layout_marginStart="@dimen/_15sdp"
+        tools:listitem="@layout/item_time_slot"/>
+
+    <TextView
+        android:id="@+id/btnSend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_gradient"
+        android:gravity="center"
+        android:text="Send Request"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/poppins_medium"
+        android:paddingVertical="@dimen/_8sdp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"/>
+
+</LinearLayout>

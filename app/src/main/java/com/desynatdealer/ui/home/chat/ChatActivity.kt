@@ -58,22 +58,22 @@ import java.time.Instant
 
 @AndroidEntryPoint
 class ChatActivity : BaseActivity() {
-    private var binding: ActivityChatBinding? =null
+    private var binding: ActivityChatBinding? = null
     private val viewModel: HomeViewModel by viewModels()
 
-    private var chatAdapter: ChatAdapter?=null
+    private var chatAdapter: ChatAdapter? = null
     private var chatList = ArrayList<ChatMessage>()
     var from = ""
     var productId = ""
     private var isModified = false
-    var chatData: GetChatListResponse.Data?=null
-    var chatDetailData: ChatDetailResponse.Data.Record?=null
+    var chatData: GetChatListResponse.Data? = null
+    var chatDetailData: ChatDetailResponse.Data.Record? = null
 
     private var uniqueId = ""
     var isFirstMessageLoaded = false
-    private var quotationDialog: Dialog?=null
+    private var quotationDialog: Dialog? = null
 
-    private var uploadMsgImageAdapter: UploadMsgImageAdapter?=null
+    private var uploadMsgImageAdapter: UploadMsgImageAdapter? = null
     private var uploadImageList = ArrayList<UploadImageType>()
 
     private var imageUri: Uri? = null
@@ -117,19 +117,20 @@ class ChatActivity : BaseActivity() {
         initControl()
         observer()
     }
+
     override fun initView() {
 
         binding?.apply {
             CommonMethod.detectGestureMode(root, viewBottom)
 
             val itemJson = intent?.getStringExtra("chatData")
-                if (!itemJson.isNullOrEmpty()) {
-                    chatData = Gson().fromJson(itemJson, GetChatListResponse.Data::class.java)
-                    uniqueId = chatData?.uniqueId.toString()
-                    getChat()
-                }
+            if (!itemJson.isNullOrEmpty()) {
+                chatData = Gson().fromJson(itemJson, GetChatListResponse.Data::class.java)
+                uniqueId = chatData?.uniqueId.toString()
+                getChat()
+            }
             tvToolbar.text = chatData?.userDetails?.fullName.toString()
-            chatAdapter = ChatAdapter(this@ChatActivity,chatList,object : ChatAdapter.ChatClick{
+            chatAdapter = ChatAdapter(this@ChatActivity, chatList, object : ChatAdapter.ChatClick {
                 override fun onChatClick(position: Int) {
                     chatList[position].message.toSafeString()?.let { imagePreviewDialog(it) }
                 }
@@ -154,11 +155,12 @@ class ChatActivity : BaseActivity() {
                     }
                 },
                 onMessageUpdated = { updatedMessage ->
-                    Log.e("update", "initView: ${updatedMessage}" )
+                    Log.e("update", "initView: ${updatedMessage}")
 
-                    val index = chatList.indexOfFirst { it.id.toSafeString() == updatedMessage.id.toSafeString() }
-                    Log.e("update", "id: ${index}" )
-                    Log.e("update", "id: ${chatList[index]}" )
+                    val index =
+                        chatList.indexOfFirst { it.id.toSafeString() == updatedMessage.id.toSafeString() }
+                    Log.e("update", "id: ${index}")
+                    Log.e("update", "id: ${chatList[index]}")
                     if (index != -1) {
                         chatList[index] = updatedMessage
                         chatAdapter?.notifyItemChanged(index)
@@ -167,13 +169,16 @@ class ChatActivity : BaseActivity() {
             )
 
             uploadImageList.clear()
-            uploadMsgImageAdapter = UploadMsgImageAdapter(this@ChatActivity,uploadImageList,object :UploadMsgImageAdapter.Click{
-                override fun onClick(position: Int) {
-                    uploadImageList.removeAt(position)
-                    uploadMsgImageAdapter?.notifyDataSetChanged()
-                }
+            uploadMsgImageAdapter = UploadMsgImageAdapter(
+                this@ChatActivity,
+                uploadImageList,
+                object : UploadMsgImageAdapter.Click {
+                    override fun onClick(position: Int) {
+                        uploadImageList.removeAt(position)
+                        uploadMsgImageAdapter?.notifyDataSetChanged()
+                    }
 
-            })
+                })
             rvUploadImg.adapter = uploadMsgImageAdapter
 
             imagePicker = ImagePicker(
@@ -184,7 +189,9 @@ class ChatActivity : BaseActivity() {
             ) { uri ->
                 uri?.let {
                     imageUri = it
-                    viewModel.upload(CommonMethod.uriToFile(this@ChatActivity, it).toMultiPartBody("image"))
+                    viewModel.upload(
+                        CommonMethod.uriToFile(this@ChatActivity, it).toMultiPartBody("image")
+                    )
                 }
             }
         }
@@ -282,7 +289,7 @@ class ChatActivity : BaseActivity() {
         FirebaseDatabase.getInstance().reference
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun sendMessage(uniqueId: String, message: String,messageAr:String?=null, type: String) {
+    fun sendMessage(uniqueId: String, message: String, messageAr: String? = null, type: String) {
         val ref = database.child("chats").child(uniqueId).push()
         val messageId = ref.key ?: return
 
@@ -294,7 +301,7 @@ class ChatActivity : BaseActivity() {
             type = type,
             unique_id = uniqueId,
             times = Instant.now().toString(),
-            user_id = SharedPreference.get(this).getUser()?.id?.toLong()?:0,
+            user_id = SharedPreference.get(this).getUser()?.id?.toLong() ?: 0,
             read = 0
         )
 
@@ -366,7 +373,14 @@ class ChatActivity : BaseActivity() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    imageUri?.let { result.data?.data?.url?.let { it1 -> UploadImageType(it, it1) } }
+                    imageUri?.let {
+                        result.data?.data?.url?.let { it1 ->
+                            UploadImageType(
+                                it,
+                                it1
+                            )
+                        }
+                    }
                         ?.let { uploadImageList.add(it) }
 
                     uploadMsgImageAdapter?.notifyDataSetChanged()
@@ -411,23 +425,26 @@ class ChatActivity : BaseActivity() {
         viewModel.modifySingleChatResponse.observe(this) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(this)                  }
+                    ProgressDialogUtils.getInstance().showProgress(this)
+                }
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    chatDetailData?.price = result.data?.data?.price?:0.0
-                    chatDetailData?.tax = result.data?.data?.tax?:0.0
-                    chatDetailData?.shipping = result.data?.data?.shipping?:0.0
-                    chatDetailData?.totalAmount = result.data?.data?.totalAmount?:0.0
-                    chatDetailData?.action = result.data?.data?.action?:"0"
+                    chatDetailData?.price = result.data?.data?.price ?: 0.0
+                    chatDetailData?.tax = result.data?.data?.tax ?: 0.0
+                    chatDetailData?.shipping = result.data?.data?.shipping ?: 0.0
+                    chatDetailData?.totalAmount = result.data?.data?.totalAmount ?: 0.0
+                    chatDetailData?.action = result.data?.data?.action ?: "0"
                     setData()
-                    if (isModified){
-                        CommonMethod.showSuccessDialog(this@ChatActivity,"Quotation Modified successfully!"){
+                    if (isModified) {
+                        CommonMethod.showSuccessDialog(
+                            this@ChatActivity,
+                            "Quotation Modified successfully!"
+                        ) {
                             isModified = false
                             quotationDialog?.dismiss()
                         }
-                    }
-                    else {
+                    } else {
                         CommonMethod.showSuccessDialog(
                             this@ChatActivity,
                             "Quotation Sent successfully!"
@@ -467,43 +484,48 @@ class ChatActivity : BaseActivity() {
         window.attributes = params
 
         dialogBinding.apply {
-            if (chatDetailData?.action=="0"){
+            if (chatDetailData?.action == "0") {
                 isModified = false
                 tvToolbar.text = "Send Quotation"
                 tvSend.text = "Confirm & Send"
                 ivViewRequest.isVisible = false
-            }
-            else if (chatDetailData?.action=="1"){
+            } else if (chatDetailData?.action == "1") {
                 isModified = true
                 tvToolbar.text = "Modify Quotation"
                 tvSend.text = "Confirm & Modify"
                 ivViewRequest.isVisible = true
 
-                etPerItemPrice.setText(CommonMethod.formatPrice(chatDetailData?.price?:0.0))
-                etTax.setText(CommonMethod.formatPrice(chatDetailData?.tax?:0.0))
-                etShippingFee.setText(CommonMethod.formatPrice(chatDetailData?.shipping?:0.0))
-                etTotalAmount.setText(CommonMethod.formatPrice(chatDetailData?.totalAmount?:0.0))
-            }
-            else if (chatDetailData?.action=="2"){
-                    isModified = true
-                    tvToolbar.text = "Modify Quotation"
-                    tvSend.text = "Confirm & Modify"
-                    ivViewRequest.isVisible = true
+                etPerItemPrice.setText(CommonMethod.formatPrice(chatDetailData?.price ?: 0.0))
+                etTax.setText(CommonMethod.formatPrice(chatDetailData?.tax ?: 0.0))
+                etShippingFee.setText(CommonMethod.formatPrice(chatDetailData?.shipping ?: 0.0))
+                etTotalAmount.setText(CommonMethod.formatPrice(chatDetailData?.totalAmount ?: 0.0))
+            } else if (chatDetailData?.action == "2") {
+                isModified = true
+                tvToolbar.text = "Modify Quotation"
+                tvSend.text = "Confirm & Modify"
+                ivViewRequest.isVisible = true
 
-                etPerItemPrice.setText(CommonMethod.formatPrice(chatDetailData?.price?:0.0))
-                etTax.setText(CommonMethod.formatPrice(chatDetailData?.tax?:0.0))
-                etShippingFee.setText(CommonMethod.formatPrice(chatDetailData?.shipping?:0.0))
-                etTotalAmount.setText(CommonMethod.formatPrice(chatDetailData?.totalAmount?:0.0))
+                etPerItemPrice.setText(CommonMethod.formatPrice(chatDetailData?.price ?: 0.0))
+                //  etTax.setText(CommonMethod.formatPrice(chatDetailData?.tax?:0.0))
+                //  etShippingFee.setText(CommonMethod.formatPrice(chatDetailData?.shipping?:0.0))
+                etTotalAmount.setText(CommonMethod.formatPrice(chatDetailData?.totalAmount ?: 0.0))
             }
 
             val textWatcher = object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val total = calculateTotal(
                         etPerItemPrice.text?.toString(),
                         etShippingFee.text?.toString(),
-                        etTax.text?.toString())
+                        etTax.text?.toString()
+                    )
                     etTotalAmount.setText(total)
                 }
 
@@ -524,22 +546,22 @@ class ChatActivity : BaseActivity() {
             }
 
             tvSend.setOnClickListener {
-                if (etPerItemPrice.text?.trim()?.isEmpty() == true){
+                if (etPerItemPrice.text?.trim()?.isEmpty() == true) {
                     showToast("Please enter per item price")
                 }
-                else if (etShippingFee.text?.trim()?.isEmpty() == true){
-                    showToast("Please enter delivery charge")
-                }
-                else if (etTax.text?.trim()?.isEmpty() == true){
-                    showToast("Please enter tax amount")
-                }
+                /* else if (etShippingFee.text?.trim()?.isEmpty() == true){
+                     showToast("Please enter delivery charge")
+                 }
+                 else if (etTax.text?.trim()?.isEmpty() == true){
+                     showToast("Please enter tax amount")
+                 }*/
                 else {
                     val map = HashMap<String, Any>()
                     map["unique_id"] = uniqueId
                     map["price"] = etPerItemPrice.text?.trim().toString()
-                    map["shipping"] = etShippingFee.text?.trim().toString()
+                    //  map["shipping"] = etShippingFee.text?.trim().toString()
                     map["quantity"] = chatDetailData?.quantity.toString()
-                    map["tax"] = etTax.text?.trim().toString()
+                    //   map["tax"] = etTax.text?.trim().toString()
                     map["total_amount"] = etTotalAmount.text?.trim().toString()
                     sendQuotation(map)
                 }
@@ -557,7 +579,7 @@ class ChatActivity : BaseActivity() {
         val itemPrice = price?.toDoubleOrNull() ?: 0.0
         val shippingFee = shipping?.toDoubleOrNull() ?: 0.0
         val taxAmount = tax?.toDoubleOrNull() ?: 0.0
-        val quantity = chatDetailData?.quantity?.toInt()?:1
+        val quantity = chatDetailData?.quantity?.toInt() ?: 1
 
         val total = (itemPrice * quantity) + shippingFee + taxAmount
         return CommonMethod.formatPrice(total)
@@ -581,30 +603,40 @@ class ChatActivity : BaseActivity() {
         window.attributes = params
 
         dialogBinding.apply {
-            ivProduct.load(chatDetailData?.productVariation?.variantImage?.get(0)){
+            ivProduct.load(chatDetailData?.productVariation?.variantImage?.get(0)) {
                 crossfade(true)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
             }
-            tvPrice.text = "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice?:0.0)} KD"
-            tvDiscountPrice.text = "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice?:0.0)} KD"
-            tvProductName.text =chatDetailData?.productVariation?.productDetails?.productNameEn
-            tvSizeValue.text =chatDetailData?.productVariation?.sizeId
+            tvPrice.text =
+                "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice ?: 0.0)} KD"
+            tvDiscountPrice.text =
+                "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice ?: 0.0)} KD"
+            tvProductName.text = chatDetailData?.productVariation?.productDetails?.productNameEn
+            tvSizeValue.text = chatDetailData?.productVariation?.sizeId
             tvTotalQuantityValue.text = chatDetailData?.quantity.toString()
-            tvAddressValue.text = chatDetailData?.deliveryDetails?.address.toString()
+            if (chatDetailData?.orderCreateStatus?.order?.deliveryAddress != null) {
+                tvAddress.isVisible = true
+                tvAddressValue.isVisible = true
+                tvAddressValue.text =
+                    chatDetailData?.orderCreateStatus?.order?.deliveryDetails?.address.toString()
+            } else {
+                tvAddress.isVisible = false
+                tvAddressValue.isVisible = false
+            }
             tvCustomDetail.text = chatDetailData?.customDetails.toString()
         }
         dialog?.show()
     }
 
-    private fun setData(){
+    private fun setData() {
         binding?.apply {
 
-            if (chatDetailData?.type=="2"){
+            if (chatDetailData?.type == "2") {
                 toolbar.isVisible = false
                 clQuotation.isVisible = true
                 tvRequestId.text = "Request Id #${chatDetailData?.id}"
-                ivProduct.load(chatDetailData?.productVariation?.variantImage?.get(0)){
+                ivProduct.load(chatDetailData?.productVariation?.variantImage?.get(0)) {
                     crossfade(true)
                     placeholder(R.drawable.ic_placeholder)
                     error(R.drawable.ic_placeholder)
@@ -612,16 +644,20 @@ class ChatActivity : BaseActivity() {
                 tvSizeValue.text = chatDetailData?.productVariation?.size?.name.toString()
                 ivColor.setColorFilter(Color.parseColor(chatDetailData?.productVariation?.color?.hexCode))
 
-                tvPrice.text = "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice?:0.0)} KD"
-                tvDiscountPrice.text = "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice?:0.0)} KD"
-                tvProductName.text =chatDetailData?.productVariation?.productDetails?.productNameEn
+                tvPrice.text =
+                    "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice ?: 0.0)} KD"
+                tvDiscountPrice.text =
+                    "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice ?: 0.0)} KD"
+                tvProductName.text = chatDetailData?.productVariation?.productDetails?.productNameEn
                 tvTotalQuantityValue.text = chatDetailData?.quantity.toString()
                 tvCustomDetail.text = chatDetailData?.customDetails.toString()
-                tvAddressValue.text = chatDetailData?.deliveryDetails?.address.toString()
-                tvPerItemPriceValue.text = "${CommonMethod.formatPrice(chatDetailData?.price?:0.0)} KD"
-                tvTaxValue.text = "${CommonMethod.formatPrice(chatDetailData?.tax?:0.0)} KD"
-                tvShippingFeesValue.text = "${CommonMethod.formatPrice(chatDetailData?.shipping?:0.0)} KD"
-                tvTotalAmountValue.text = "${CommonMethod.formatPrice(chatDetailData?.totalAmount?:0.0)} KD"
+                //  tvAddressValue.text = chatDetailData?.deliveryDetails?.address.toString()
+                tvPerItemPriceValue.text =
+                    "${CommonMethod.formatPrice(chatDetailData?.price ?: 0.0)} KD"
+                //  tvTaxValue.text = "${CommonMethod.formatPrice(chatDetailData?.tax?:0.0)} KD"
+                //   tvShippingFeesValue.text = "${CommonMethod.formatPrice(chatDetailData?.shipping?:0.0)} KD"
+                tvTotalAmountValue.text =
+                    "${CommonMethod.formatPrice(chatDetailData?.totalAmount ?: 0.0)} KD"
                 when (chatDetailData?.action) {
                     "0" -> {
                         tvStatus.isVisible = false
@@ -629,15 +665,15 @@ class ChatActivity : BaseActivity() {
                         clCustomerRequest.isVisible = true
                         clQuotationDetail.isVisible = false
                         btnSendQuotation.text = "Send Quotation"
-                        if (chatDetailData?.customDetails!=null && chatDetailData?.customDetails!="null" &&chatDetailData?.customDetails!=""){
+                        if (chatDetailData?.customDetails != null && chatDetailData?.customDetails != "null" && chatDetailData?.customDetails != "") {
                             clCustomerRequest.isVisible = true
                             btnSendQuotation.isVisible = true
-                        }
-                        else{
+                        } else {
                             clCustomerRequest.isVisible = false
                             btnSendQuotation.isVisible = false
                         }
                     }
+
                     "1" -> {
                         tvStatus.isVisible = true
                         ivViewRequest.isVisible = false
@@ -647,6 +683,7 @@ class ChatActivity : BaseActivity() {
                         tvStatus.setTextColor(Color.parseColor("#172B85"))
                         btnSendQuotation.text = "Modify Quotation"
                     }
+
                     "2" -> {
                         tvStatus.isVisible = true
                         ivViewRequest.isVisible = false
@@ -656,6 +693,7 @@ class ChatActivity : BaseActivity() {
                         tvStatus.setTextColor(Color.parseColor("#172B85"))
                         btnSendQuotation.text = "Modify Quotation"
                     }
+
                     "4" -> {
                         tvStatus.isVisible = true
                         ivViewRequest.isVisible = true
@@ -665,18 +703,23 @@ class ChatActivity : BaseActivity() {
                         tvStatus.text = "Rejected"
                         tvStatus.setTextColor(Color.parseColor("#D53B36"))
                     }
+
                     "5" -> {
+                        if (chatDetailData?.productBuyStatus == "1") {
+                            tvStatus.text = "Order Placed"
+                        } else {
+                            tvStatus.text = "Accepted"
+                        }
                         tvStatus.isVisible = true
                         ivViewRequest.isVisible = true
                         clCustomerRequest.isVisible = false
                         clQuotationDetail.isVisible = true
                         btnSendQuotation.isVisible = false
-                        tvStatus.text = "Accepted"
                         tvStatus.setTextColor(Color.parseColor("#68CA44"))
+
                     }
                 }
-            }
-            else{
+            } else {
                 clQuotation.isVisible = false
                 toolbar.isVisible = true
             }
@@ -708,13 +751,13 @@ class ChatActivity : BaseActivity() {
 
         dialogBinding.apply {
 
-            ivCross.setOnClickListener{
+            ivCross.setOnClickListener {
                 dialog?.dismiss()
             }
 
             dotsIndicator.isVisible = false
 
-            val imagePreviewAdapter = ImagePreviewAdapter(this@ChatActivity,imageList)
+            val imagePreviewAdapter = ImagePreviewAdapter(this@ChatActivity, imageList)
             viewPager?.adapter = imagePreviewAdapter
 
         }
@@ -806,6 +849,6 @@ fun Any?.toSafeLong(): Long {
 
 
 data class UploadImageType(
-    var image:Uri,
-    var imageUrl:String
+    var image: Uri,
+    var imageUrl: String
 )

@@ -108,7 +108,14 @@ class SelectDealProductFragment : BaseFragment() {
                 }
 
                 override fun onSelectionChanged(isAnySelected: Boolean) {
-                    btnAdd.isVisible = isAnySelected
+                    if (isAnySelected){
+                        btnAdd.alpha = 1f
+                        btnAdd.isClickable = true
+                    }
+                    else{
+                        btnAdd.alpha = 0.5f
+                        btnAdd.isClickable = false
+                    }
                 }
 
             },

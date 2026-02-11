@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -50,6 +51,8 @@ class BannerManagementFragment : BaseFragment() {
     private var toTimestamp: Long? = null
     private var fromDateText: String? = null
     private var toDateText: String? = null
+    private var isFromSwipe = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -123,6 +126,14 @@ class BannerManagementFragment : BaseFragment() {
             })
             rvBanner.adapter = bannerAdapter
 
+            swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(requireActivity(), R.color.brown)
+            )
+            swipeRefreshLayout.setOnRefreshListener {
+                isFromSwipe = true
+                getBanner()
+            }
+
            getBanner()
 
         }
@@ -169,11 +180,16 @@ class BannerManagementFragment : BaseFragment() {
         viewModel.getBannerResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
-                }
+                    if (!isFromSwipe){
+                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    }                }
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    if (isFromSwipe){
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                        isFromSwipe = false
+                    }
                     bannerList.clear()
 
                     result.data?.data?.let {

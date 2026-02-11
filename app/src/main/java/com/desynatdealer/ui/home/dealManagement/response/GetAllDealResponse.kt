@@ -1,6 +1,7 @@
 package com.desynatdealer.ui.home.dealManagement.response
 
 
+import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
 import com.google.gson.annotations.SerializedName
 
 data class GetAllDealResponse(
@@ -43,7 +44,7 @@ data class GetAllDealResponse(
             @SerializedName("status")
             val status: Int,
             @SerializedName("sub_category_id")
-            val subCategoryId: Int,
+            val subCategoryId: List<String>,
             @SerializedName("to")
             val to: String,
             @SerializedName("updated_at")

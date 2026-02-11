@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -223,7 +224,6 @@ class OrderDetailFragment : BaseFragment() {
                                     orderDetailData?.userRatingReviewProvide?.storeRating
                                         ?: 0f
                                 if (orderDetailData?.userRatingReviewProvide?.productReview!=null&&orderDetailData?.userRatingReviewProvide?.productReview!="null"&&orderDetailData?.userRatingReviewProvide?.productReview!=""){
-                                    tvProductReview.text = orderDetailData?.userRatingReviewProvide?.productReview
                                     tvProductReview.isVisible = true
                                     tvReview.isVisible = true
                                 }
@@ -722,76 +722,75 @@ class OrderDetailFragment : BaseFragment() {
                 error(R.drawable.ic_user)
             }
             tvOrderIdValue.text = "#${orderDetailData?.id}"
-          //  tvOrderTypeValue.text = if (orderDetailData?.orderType=="1") "Normal Order" else "Custom Order"
+            tvOrderTypeValue.text = if (orderDetailData?.orderType=="2") "Custom Order" else "Normal Order"
 
                 when(orderDetailData?.order?.paymentMethod){
                     "1"-> {
                         tvPaidBy.text = "By Card"
-                        tvCustomPaidBy.text = "By Card"
                     }
                     "2"->{
                         tvPaidBy.text ="By Wallet"
-                        tvCustomPaidBy.text ="By Wallet"
                     }
                     "3"-> {
                         tvTransaction.isVisible = false
                         tvTransactionId.isVisible = false
-                        tvCustomTransaction.isVisible = false
-                        tvCustomTransactionId.isVisible = false
                         tvPaidBy.text ="Via COD"
-                        tvCustomPaidBy.text ="Via COD"
                     }
                 }
             tvTransactionId.text = "#${orderDetailData?.order?.transactionId}"
-            tvCustomTransactionId.text = "#${orderDetailData?.order?.transactionId}"
 
-            if (orderDetailData?.orderType=="2"){
-                clCustomOrderBilling.isVisible = true
-                clBilling.isVisible = false
+            if (orderDetailData?.orderType=="2") {
                 tvCustomDetail.isVisible = true
                 tvCustomDetailValue.isVisible = true
                 clCustomOrderDetail.isVisible = true
+
+                tvQuotedPrice.text = "${CommonMethod.formatPrice(orderDetailData?.chatRoomrecords?.totalAmount?.toDoubleOrNull()?:0.0)} KD"
+                tvCustomDetailValue.text = orderDetailData?.chatRoomrecords?.customDetails
+                tvTotalQuantityValue.text = orderDetailData?.chatRoomrecords?.quantity
+
+                val subTotal = orderDetailData?.chatRoomrecords?.totalAmount?.toDouble() ?: 0.0
+                val tax = orderDetailData?.tax?.toDouble() ?: 0.0
+                val shippingFees = orderDetailData?.shippingFees?.toDouble() ?: 0.0
+                var promoCode = 0.0
+                if (orderDetailData?.order?.promocodeStatus=="yes"){
+                    promoCode = orderDetailData?.order?.promocodeValue?:0.0
+                }
+                val totalAmount = subTotal + tax + shippingFees - promoCode
+
+                tvItem.isVisible = false
+                tvSubTotal.text =  "Item Price (${CommonMethod.formatPrice(orderDetailData?.amount ?: 0.0)} KD X ${orderDetailData?.quantity ?: 1})"
+                tvSubTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.chatRoomrecords?.totalAmount?.toDoubleOrNull()?:0.0)} KD"
+                tvTotalValue.text = "${CommonMethod.formatPrice(totalAmount)} KD"
+                tvPaidByCustomerValue.text = "${CommonMethod.formatPrice(totalAmount)} KD"
+                tvDiscount.isVisible = false
+                tvDiscountPrice.isVisible = false
             }
             else{
-                clCustomOrderBilling.isVisible = false
-                clBilling.isVisible = true
                 tvCustomDetail.isVisible = false
                 tvCustomDetailValue.isVisible = false
                 clCustomOrderDetail.isVisible = false
+                tvItem.isVisible = true
+                tvSubTotal.text = "Sub Total"
+                tvSubTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalMrp?:0.0)} KD"
+                tvTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
+                tvPaidByCustomerValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
+                if (CommonMethod.formatPrice(orderDetailData?.order?.discountMrp?:0.0)!="0"){
+                    tvDiscount.isVisible = true
+                    tvDiscountPrice.isVisible = true
+                    tvDiscountPrice.text = "${CommonMethod.formatPrice(orderDetailData?.order?.discountMrp?:0.0)} KD"
+
+                }
+                else{
+                    tvDiscount.isVisible = false
+                    tvDiscountPrice.isVisible = false
+                }
             }
 
-            val itemPrice = orderDetailData?.amount ?: 0.0
-            val quantity = orderDetailData?.quantity ?: 1
-            val tax = orderDetailData?.tax ?: 0.0
-            val shippingFees = orderDetailData?.shippingFees ?: 0.0
-
-            val subTotal = itemPrice * quantity
-            val totalAmount = subTotal + tax + shippingFees
-
-            tvPerItemPrice.text =
-                "Item Price (${CommonMethod.formatPrice(itemPrice)} KD X $quantity)"
-
-            tvPerItemPriceValue.text =
-                "${CommonMethod.formatPrice(subTotal)} KD"
-
-            tvShippingFeesValue.text =
-                "${CommonMethod.formatPrice(shippingFees)} KD"
-
-            tvTaxValue.text =
-                "${CommonMethod.formatPrice(tax)} KD"
-
-            tvTotalAmountValue.text = "${CommonMethod.formatPrice(totalAmount)} KD"
-            tvQuotedPrice.text = "${CommonMethod.formatPrice(subTotal)} KD"
-            tvCustomDetailValue.text = orderDetailData?.chatRoomrecords?.customDetails
-            tvTotalQuantityValue.text = quantity.toString()
-
             tvItem.text = "${orderDetailData?.quantity} items"
-            tvTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
-            tvPaidByCustomerValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
+
             tvAdminCommissionValue.text = "${CommonMethod.formatPrice(orderDetailData?.adminCommission?:0.0)} KD"
-            tvSubTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalMrp?:0.0)} KD"
             tvShippingCharges.text = "${CommonMethod.formatPrice(orderDetailData?.order?.shippingFees?:0.0)} KD"
-            tvOrderTaxValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.tax?:0.0)} KD"
+            tvOrderTaxValue.text = "${CommonMethod.formatPrice(orderDetailData?.tax?:0.0)} KD"
             if (orderDetailData?.order?.promocodeStatus=="yes"){
                 tvCouponApplied.isVisible = true
                 tvCouponAppliedValue.isVisible = true
@@ -804,18 +803,6 @@ class OrderDetailFragment : BaseFragment() {
                 tvCouponAppliedValue.isVisible = false
                 tvSaved.isVisible = false
             }
-
-            if (CommonMethod.formatPrice(orderDetailData?.order?.discountMrp?:0.0)!="0"){
-                tvDiscount.isVisible = true
-                tvDiscountPrice.isVisible = true
-                tvDiscountPrice.text = "${CommonMethod.formatPrice(orderDetailData?.order?.discountMrp?:0.0)} KD"
-
-            }
-            else{
-                tvDiscount.isVisible = false
-                tvDiscountPrice.isVisible = false
-            }
-
         }
     }
 

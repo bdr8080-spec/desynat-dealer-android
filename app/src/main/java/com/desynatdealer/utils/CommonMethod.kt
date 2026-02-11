@@ -19,6 +19,7 @@ import android.text.TextPaint
 import android.text.TextWatcher
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -35,11 +36,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.desynatdealer.R
 import com.desynatdealer.adapter.CountryPickerAdapter
+import com.desynatdealer.adapter.ImagePreviewAdapter
 import com.desynatdealer.databinding.AlertDialogLayoutBinding
 import com.desynatdealer.databinding.CustomCountryPickerBinding
 import com.desynatdealer.databinding.DeleteDialogLayoutBinding
+import com.desynatdealer.databinding.ImagePreviewDialogBinding
 import com.desynatdealer.databinding.SuccessDialogLayoutBinding
 import com.desynatdealer.model.country.GetCountryResponse
+import com.google.android.material.tabs.TabLayoutMediator
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -666,5 +670,42 @@ object CommonMethod {
             }
         }
     }
+
+    fun imagePreviewDialog(context: Context,imageList: ArrayList<String>) {
+        val dialog = Dialog(context, R.style.CustomDialog)
+        val dialogBinding = ImagePreviewDialogBinding.inflate(LayoutInflater.from(context))
+        dialogBinding.root.let { dialog?.setContentView(it) }
+
+        val window: Window = dialog?.window!!
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        window.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog?.setCancelable(false)
+
+        val params: WindowManager.LayoutParams = window.attributes
+        params.gravity = Gravity.CENTER
+        window.attributes = params
+
+        dialogBinding.apply {
+
+            ivCross.setOnClickListener{
+                dialog?.dismiss()
+            }
+
+            val imagePreviewAdapter = ImagePreviewAdapter(context,imageList)
+            viewPager?.adapter = imagePreviewAdapter
+
+            if (imageList.size>1){
+                TabLayoutMediator(dotsIndicator, viewPager) { _, _ -> }.attach()
+
+            }
+
+        }
+
+        dialog?.show()
+    }
+
 
 }

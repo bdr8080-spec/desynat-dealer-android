@@ -29,7 +29,7 @@ data class GetAllBannerResponse(
         @SerializedName("end_date")
         val endDate: String,
         @SerializedName("id")
-        val id: Int,
+        val id: String,
         @SerializedName("order_id")
         val orderId: String,
         @SerializedName("payment_status")

@@ -22,6 +22,10 @@ data class GetChatListResponse(
         val deliveryAddress: String,
         @SerializedName("id")
         val id: String,
+        @SerializedName("addtocardStatus")
+        val addToCartStatus: String,
+        @SerializedName("product_buy_status")
+        val productBuyStatus: String,
         @SerializedName("last_chat")
         val lastChat: String,
         @SerializedName("last_chat_time")

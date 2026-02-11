@@ -124,7 +124,14 @@ class DealDetailFragment : BaseFragment() {
                 }
 
                 override fun onSelectionChanged(isAnySelected: Boolean) {
-                    btnAdd.isVisible = isAnySelected
+                    if (isAnySelected){
+                        btnAdd.alpha = 1f
+                        btnAdd.isClickable = true
+                    }
+                    else{
+                        btnAdd.alpha = 0.5f
+                        btnAdd.isClickable = false
+                    }
                 }
 
             },
@@ -149,7 +156,7 @@ class DealDetailFragment : BaseFragment() {
             tvDiscountValue.text = "${dealDetailData?.dealData?.discount}%"
             tvDetail.text = dealDetailData?.dealData?.nameEnglish
             tvCategoryValue.text = dealDetailData?.dealData?.categoryDetails?.name
-            tvSubCategoryValue.text = dealDetailData?.dealData?.subCategoryDetails?.nameEnglish
+            tvSubCategoryValue.text = dealDetailData?.dealData?.subCategoryDetails?.joinToString(", ") { it.nameEnglish }
             tvStartsOnValue.text = CommonMethod.customizeChangeDateFormat(dealDetailData?.dealData?.from.toString(),"yyyy-MM-dd","dd/MM/yyyy")
             tvDurationValue.text = CommonMethod.customizeChangeDateFormat(dealDetailData?.dealData?.from.toString(),"yyyy-MM-dd","dd/MM/yyyy")+" - "+CommonMethod.customizeChangeDateFormat(dealDetailData?.dealData?.to.toString(),"yyyy-MM-dd","dd/MM/yyyy")
             productList.clear()
@@ -164,7 +171,9 @@ class DealDetailFragment : BaseFragment() {
                      if (remainingProductList.isNotEmpty()){
                         dealProductAdapter?.setDealType(dealType)
                          dealProductAdapter?.notifyDataSetChanged()
-                        btnAdd.isVisible = false
+                         btnAdd.alpha = 0.5f
+                         btnAdd.isClickable = false
+                         btnAdd.isVisible = true
                         btnAddMore.isVisible = false
                     }
 
@@ -187,7 +196,9 @@ class DealDetailFragment : BaseFragment() {
                     }
 
                     else{
-                        btnAdd.isVisible = false
+                         btnAdd.alpha = 0.5f
+                         btnAdd.isClickable = false
+                         btnAdd.isVisible = false
                         btnAddMore.isVisible = false
                     }
                     dealProductAdapter?.updateList(productList)
@@ -209,7 +220,9 @@ class DealDetailFragment : BaseFragment() {
                     else if (remainingProductList.isNotEmpty()) {
                         productList.addAll(remainingProductList)
                         dealProductAdapter?.setDealType("1")
-                        btnAdd.isVisible = false
+                        btnAdd.alpha = 0.5f
+                        btnAdd.isClickable = false
+                        btnAdd.isVisible = true
                         btnAddMore.isVisible = false
                     }
                     else {
@@ -246,6 +259,12 @@ class DealDetailFragment : BaseFragment() {
 
             toolbar.tvToolbar.setOnClickListener {
                 findNavController().popBackStack()
+            }
+
+            ivDeal.setOnClickListener {
+                val list = ArrayList<String>()
+                list.add(dealDetailData?.dealData?.image?:"")
+                CommonMethod.imagePreviewDialog(requireActivity(), imageList =list )
             }
 
             btnAdd.setOnClickListener {

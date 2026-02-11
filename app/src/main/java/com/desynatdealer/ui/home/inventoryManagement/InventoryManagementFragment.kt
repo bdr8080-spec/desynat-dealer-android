@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -38,11 +39,11 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class InventoryManagementFragment : BaseFragment() {
-    private var binding : FragmentInventoryManagementBinding?=null
+    private var binding: FragmentInventoryManagementBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
-    private var inventoryAdapter: InventoryAdapter?=null
+    private var inventoryAdapter: InventoryAdapter? = null
     private var productList = ArrayList<GetAllProductResponse.Data.AllProductData>()
-
+    private var isFromSwipe = false
     var type = 0
     var selectedCategory = -1
     var selectedCategoryName = "Men"
@@ -51,7 +52,7 @@ class InventoryManagementFragment : BaseFragment() {
     private var brandList = ArrayList<GetSellerBrandResponse.Data>()
     private var sizeList = ArrayList<GetSizeResponse.Data>()
 
-    private var productData :GetAllProductResponse.Data?=null
+    private var productData: GetAllProductResponse.Data? = null
     var selectedPos = -1
 
     private var search: Job? = null
@@ -63,8 +64,8 @@ class InventoryManagementFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View?{
-        binding = FragmentInventoryManagementBinding.inflate(layoutInflater, container,false)
+    ): View? {
+        binding = FragmentInventoryManagementBinding.inflate(layoutInflater, container, false)
         return binding?.root
     }
 
@@ -81,71 +82,79 @@ class InventoryManagementFragment : BaseFragment() {
         binding?.apply {
             toolbar.tvToolbar.text = "Inventory Management"
 
-                inventoryAdapter = InventoryAdapter(
-                    requireActivity(),
-                    productList,
-                    colorList,
-                    object : InventoryAdapter.ProductClick {
-                        override fun onProductClick(position: Int, type: Int) {
-                            when (type) {
-                                1 -> {
-                                    val bundle = Bundle().apply {
-                                        putString(
-                                            "productData",
-                                            Gson().toJson(productList[position])
-                                        )
-                                    }
-                                    findNavController().navigate(
-                                        R.id.action_inventoryProductManagementFragment_to_inventoryProductDetailFragment,
-                                        bundle
+            inventoryAdapter = InventoryAdapter(
+                requireActivity(),
+                productList,
+                colorList,
+                object : InventoryAdapter.ProductClick {
+                    override fun onProductClick(position: Int, type: Int) {
+                        when (type) {
+                            1 -> {
+                                val bundle = Bundle().apply {
+                                    putString(
+                                        "productData",
+                                        Gson().toJson(productList[position])
                                     )
                                 }
+                                findNavController().navigate(
+                                    R.id.action_inventoryProductManagementFragment_to_inventoryProductDetailFragment,
+                                    bundle
+                                )
+                            }
 
-                                2 -> {
-                                    selectedPos = position
-                                    updateInventoryProductStatus()
-                                }
+                            2 -> {
+                                selectedPos = position
+                                updateInventoryProductStatus()
                             }
                         }
-
-                    })
-                rvProduct.adapter = inventoryAdapter
-
-                etSearch.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
                     }
 
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                    }
-
-                    override fun afterTextChanged(s: Editable?) {
-                        val query = s.toString().trim()
-                        if (query == lastQuery) return
-                        lastQuery = query
-                        search?.cancel()
-                        search = lifecycleScope.launch {
-                            delay(600)
-
-                            getAllInventoryProduct()
-
-                        }
-                    }
                 })
+            rvProduct.adapter = inventoryAdapter
 
-                getProductInfo()
+            etSearch.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
-            when(selectedCategoryName){
-                "Women"->{
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    val query = s.toString().trim()
+                    if (query == lastQuery) return
+                    lastQuery = query
+                    search?.cancel()
+                    search = lifecycleScope.launch {
+                        delay(600)
+
+                        getAllInventoryProduct()
+
+                    }
+                }
+            })
+
+            swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(requireActivity(), R.color.brown)
+            )
+            swipeRefreshLayout.setOnRefreshListener {
+                isFromSwipe = true
+                getAllInventoryProduct()
+            }
+
+            getProductInfo()
+
+            when (selectedCategoryName) {
+                "Women" -> {
                     selectedCategoryName = "Women"
                     getAllInventoryProduct()
                     tvWomen.setTextColor(requireActivity().getColor(R.color.white))
@@ -156,7 +165,8 @@ class InventoryManagementFragment : BaseFragment() {
                     tvMen.background = null
                     tvKids.background = null
                 }
-                "Men" ->{
+
+                "Men" -> {
                     selectedCategoryName = "Men"
                     getAllInventoryProduct()
                     tvWomen.setTextColor(requireActivity().getColor(R.color.black))
@@ -167,7 +177,8 @@ class InventoryManagementFragment : BaseFragment() {
                     tvKids.background = null
                     tvWomen.background = null
                 }
-                "Kids" ->{
+
+                "Kids" -> {
                     selectedCategoryName = "Kids"
                     getAllInventoryProduct()
                     tvWomen.setTextColor(requireActivity().getColor(R.color.black))
@@ -231,7 +242,7 @@ class InventoryManagementFragment : BaseFragment() {
             }
 
             tvAll.setOnClickListener {
-                type=0
+                type = 0
                 getAllInventoryProduct()
                 tvAll.setTextColor(Color.parseColor("#875C3A"))
                 viewAll.setBackgroundColor(Color.parseColor("#875C3A"))
@@ -242,7 +253,7 @@ class InventoryManagementFragment : BaseFragment() {
             }
 
             tvActive.setOnClickListener {
-                type=1
+                type = 1
                 getAllInventoryProduct()
                 tvAll.setTextColor(Color.parseColor("#B3B3B3"))
                 viewAll.setBackgroundColor(Color.parseColor("#B3B3B3"))
@@ -253,7 +264,7 @@ class InventoryManagementFragment : BaseFragment() {
             }
 
             tvInactive.setOnClickListener {
-                type=2
+                type = 2
                 getAllInventoryProduct()
                 tvAll.setTextColor(Color.parseColor("#B3B3B3"))
                 viewAll.setBackgroundColor(Color.parseColor("#B3B3B3"))
@@ -266,41 +277,53 @@ class InventoryManagementFragment : BaseFragment() {
     }
 
     override fun observe() {
-        viewModel.getInventoryProductResponse.observe(viewLifecycleOwner){result->
-            when(result){
+        viewModel.getInventoryProductResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    if (!isFromSwipe) {
+                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    }
                 }
+
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    if (isFromSwipe) {
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                        isFromSwipe = false
+                    }
                     productData = result.data?.data
                     productList.clear()
-                    when(type){
-                        0-> result.data?.data?.allProductData?.let { productList.addAll(it) }
-                        1-> result.data?.data?.activeProduct?.let { productList.addAll(it) }
-                        2-> result.data?.data?.inactiveProduct?.let { productList.addAll(it) }
+                    when (type) {
+                        0 -> result.data?.data?.allProductData?.let { productList.addAll(it) }
+                        1 -> result.data?.data?.activeProduct?.let { productList.addAll(it) }
+                        2 -> result.data?.data?.inactiveProduct?.let { productList.addAll(it) }
                     }
 
                     checkData()
                     inventoryAdapter?.notifyDataSetChanged()
                     viewModel.getInventoryProductResponse.value = null
                 }
+
                 is ApiResult.Error -> {
+                    binding?.swipeRefreshLayout?.isRefreshing = false
+                    isFromSwipe = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getInventoryProductResponse.value = null
                 }
-                else ->{
+
+                else -> {
 
                 }
             }
         }
 
-        viewModel.categoryResponse.observe(viewLifecycleOwner){result->
-            when(result){
+        viewModel.categoryResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
                 ApiResult.Loading -> {
 
                 }
+
                 is ApiResult.Success -> {
                     categoryList.clear()
                     result.data?.data?.let { categoryList.addAll(it) }
@@ -308,106 +331,122 @@ class InventoryManagementFragment : BaseFragment() {
                     viewModel.categoryResponse.value = null
                     getAllInventoryProduct()
                 }
+
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.categoryResponse.value = null
                 }
-                else ->{
+
+                else -> {
 
                 }
             }
         }
 
-        viewModel.updateInventoryProductStatusResponse.observe(viewLifecycleOwner){result->
-            when(result){
+        viewModel.updateInventoryProductStatusResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
                 ApiResult.Loading -> {
                     ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
+
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     result.data?.message?.let { showToast(it) }
 
-                    if (result.data?.data?.productActiveStatus==1){
+                    if (result.data?.data?.productActiveStatus == 1) {
                         productData?.activeProductCount = productData?.activeProductCount?.plus(1)
-                        productData?.inactiveProductCount = productData?.inactiveProductCount?.minus(1)
-                    }
-                    else{
-                        productData?.inactiveProductCount = productData?.inactiveProductCount?.plus(1)
+                        productData?.inactiveProductCount =
+                            productData?.inactiveProductCount?.minus(1)
+                    } else {
+                        productData?.inactiveProductCount =
+                            productData?.inactiveProductCount?.plus(1)
                         productData?.activeProductCount = productData?.activeProductCount?.minus(1)
                     }
 
-                    if (type==0){
-                        productList[selectedPos].productActiveStatus = result.data?.data?.productActiveStatus!!
+                    if (type == 0) {
+                        productList[selectedPos].productActiveStatus =
+                            result.data?.data?.productActiveStatus!!
                         inventoryAdapter?.notifyItemChanged(selectedPos)
                         selectedPos = -1
-                    }
-                    else{
+                    } else {
                         productList.removeAt(selectedPos)
                         inventoryAdapter?.notifyItemRemoved(selectedPos)
-                        inventoryAdapter?.notifyItemRangeChanged(selectedPos, productList.size - selectedPos)
+                        inventoryAdapter?.notifyItemRangeChanged(
+                            selectedPos,
+                            productList.size - selectedPos
+                        )
                         selectedPos = -1
                     }
                     checkData()
                     viewModel.updateInventoryProductStatusResponse.value = null
                 }
+
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.updateInventoryProductStatusResponse.value = null
                 }
-                else ->{
+
+                else -> {
 
                 }
             }
         }
 
-        viewModel.sizeResponse.observe(viewLifecycleOwner){result->
-            when(result){
+        viewModel.sizeResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
                 ApiResult.Loading -> {
                 }
+
                 is ApiResult.Success -> {
                     sizeList.clear()
                     result.data?.data?.let { sizeList.addAll(it) }
                     viewModel.sizeList.value = sizeList
                     viewModel.sizeResponse.value = null
                 }
+
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.sizeResponse.value = null
                 }
-                else ->{
+
+                else -> {
 
                 }
             }
         }
 
-        viewModel.brandResponse.observe(viewLifecycleOwner){result->
-            when(result){
+        viewModel.brandResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
                 ApiResult.Loading -> {
                 }
+
                 is ApiResult.Success -> {
                     brandList.clear()
                     result.data?.data?.let { brandList.addAll(it) }
                     viewModel.brandList.value = brandList
                     viewModel.brandResponse.value = null
                 }
+
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.brandResponse.value = null
                 }
-                else ->{
+
+                else -> {
 
                 }
             }
         }
 
-        viewModel.colorResponse.observe(viewLifecycleOwner){result->
-            when(result){
+        viewModel.colorResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
                 ApiResult.Loading -> {
                 }
+
                 is ApiResult.Success -> {
                     colorList.clear()
                     result.data?.data?.let { colorList.addAll(it) }
@@ -415,12 +454,14 @@ class InventoryManagementFragment : BaseFragment() {
                     inventoryAdapter?.notifyDataSetChanged()
                     viewModel.colorResponse.value = null
                 }
+
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.colorResponse.value = null
                 }
-                else ->{
+
+                else -> {
 
                 }
             }
@@ -439,15 +480,15 @@ class InventoryManagementFragment : BaseFragment() {
 
     }
 
-    private fun getAllInventoryProduct(){
-        for(i in 0 until categoryList.size){
-            if (categoryList[i].name==selectedCategoryName){
+    private fun getAllInventoryProduct() {
+        for (i in 0 until categoryList.size) {
+            if (categoryList[i].name == selectedCategoryName) {
                 selectedCategory = categoryList[i].id
             }
         }
 
-        val map = HashMap<String,Any>()
-        if (lastQuery!=null) {
+        val map = HashMap<String, Any>()
+        if (lastQuery != null) {
             map["search"] = lastQuery.toString()
         }
         map["type"] = type
@@ -466,8 +507,8 @@ class InventoryManagementFragment : BaseFragment() {
         ProgressDialogUtils.getInstance().showProgress(requireActivity())
     }
 
-    private fun updateInventoryProductStatus(){
-        val map = HashMap<String,Any>()
+    private fun updateInventoryProductStatus() {
+        val map = HashMap<String, Any>()
         map["product_id"] = productList[selectedPos].id.toString()
         viewModel.updateInventoryProductStatus(map)
     }
@@ -502,8 +543,8 @@ class InventoryManagementFragment : BaseFragment() {
                 }
             }
 
-            filterBrandAdapter = FilterBrandAdapter(requireActivity(), brandList,object :
-                FilterBrandAdapter.OnClick{
+            filterBrandAdapter = FilterBrandAdapter(requireActivity(), brandList, object :
+                FilterBrandAdapter.OnClick {
                 override fun onClickItem(position: Int) {
 
                 }
@@ -521,9 +562,9 @@ class InventoryManagementFragment : BaseFragment() {
                 dialog.dismiss()
             }
 
-            tvApply.setOnClickListener{
+            tvApply.setOnClickListener {
                 selectedBrandList.clear()
-                for(i in 0 until brandList.size){
+                for (i in 0 until brandList.size) {
                     if (brandList[i].isSelected) {
                         selectedBrandList.add(brandList[i])
                     }

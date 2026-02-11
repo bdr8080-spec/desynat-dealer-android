@@ -38,6 +38,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
         android:maxLines="2"
+        android:layout_marginEnd="@dimen/_10sdp"
         app:layout_constraintStart_toEndOf="@+id/ivProduct"
         app:layout_constraintEnd_toStartOf="@+id/tvPrice"
         app:layout_constraintTop_toTopOf="@+id/ivProduct" />

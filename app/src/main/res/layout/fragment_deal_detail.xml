@@ -14,7 +14,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/relButton"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <LinearLayout
@@ -35,6 +35,7 @@
                     android:layout_height="@dimen/_120sdp"
                     android:src="@drawable/ic_placeholder"
                     android:scaleType="centerCrop"
+                    android:layout_margin="0.5dp"
                     app:shapeAppearanceOverlay="@style/rounded_corner_top_10sdp"
                     app:layout_constraintTop_toTopOf="parent"/>
 
@@ -131,13 +132,16 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvCategoryValue"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Men"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    android:gravity="end"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    app:layout_constraintStart_toEndOf="@+id/tvCategory"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvCategory"
                     app:layout_constraintBottom_toBottomOf="@+id/tvCategory"/>
@@ -153,20 +157,22 @@
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvCategoryValue" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSubCategoryValue"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Traditional"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
+                    android:gravity="end"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintStart_toEndOf="@+id/tvSubCategory"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvSubCategory"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvSubCategory"/>
+                    app:layout_constraintTop_toTopOf="@+id/tvSubCategory"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvDetail"
@@ -286,26 +292,6 @@
                 tools:itemCount="4"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:visibility="gone"
-                android:id="@+id/btnAddMore"
-                style="@style/button"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginHorizontal="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="Add More Products"
-                android:textColor="#6E4527"
-                android:background="@drawable/brown_stroke"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:visibility="gone"
-                android:id="@+id/btnAdd"
-                style="@style/button"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginHorizontal="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="Add to Deals"/>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_20sdp"/>
@@ -313,5 +299,35 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:id="@+id/relButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
+            android:id="@+id/btnAddMore"
+            style="@style/button"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:text="Add More Products"
+            android:textColor="#6E4527"
+            android:background="@drawable/brown_stroke"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
+            android:id="@+id/btnAdd"
+            style="@style/button"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:text="Add to Deals"
+            android:alpha="0.5"
+            android:clickable="false"/>
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,10 +40,10 @@ data class GetDealDetailResponse(
             val nameEnglish: String,
             @SerializedName("status")
             val status: Int,
-            @SerializedName("sub_category_details")
-            val subCategoryDetails: SubCategoryDetails,
+            @SerializedName("subCategory_details")
+            val subCategoryDetails: List<SubCategoryDetails>,
             @SerializedName("sub_category_id")
-            val subCategoryId: Int,
+            val subCategoryId: List<String>,
             @SerializedName("to")
             val to: String,
             @SerializedName("updated_at")

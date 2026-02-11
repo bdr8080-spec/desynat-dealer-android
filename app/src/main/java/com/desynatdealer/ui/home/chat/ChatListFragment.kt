@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -36,19 +37,20 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ChatListFragment : BaseFragment() {
-    private var binding : FragmentChatListBinding?=null
+    private var binding: FragmentChatListBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
-    private var chatAdapter: ChatListAdapter?=null
+    private var chatAdapter: ChatListAdapter? = null
     private var chatList = ArrayList<GetChatListResponse.Data>()
     private var search: Job? = null
     private var lastQuery: String? = null
     private var chatFilter: String? = null
+    private var isFromSwipe = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentChatListBinding.inflate(layoutInflater, container,false)
+        binding = FragmentChatListBinding.inflate(layoutInflater, container, false)
         return binding?.root
     }
 
@@ -64,17 +66,25 @@ class ChatListFragment : BaseFragment() {
         binding?.apply {
             toolbar.tvToolbar.text = "Chat"
 
-            chatAdapter = ChatListAdapter(requireActivity(),chatList,object :ChatListAdapter.ChatClick{
-                override fun onChatClick(position: Int) {
-                    val intent = Intent(requireContext(), ChatActivity::class.java).apply {
-                        putExtra("from", "chat")
-                        putExtra("chatData", Gson().toJson(chatList[position]))
+            chatAdapter = ChatListAdapter(requireActivity(), chatList, object : ChatListAdapter.ChatClick {
+                    override fun onChatClick(position: Int) {
+                        val intent = Intent(requireContext(), ChatActivity::class.java).apply {
+                            putExtra("from", "chat")
+                            putExtra("chatData", Gson().toJson(chatList[position]))
+                        }
+                        startActivity(intent)
                     }
-                    startActivity(intent)
-                }
 
-            })
+                })
             rvChat.adapter = chatAdapter
+
+            swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(requireActivity(), R.color.brown)
+            )
+            swipeRefreshLayout.setOnRefreshListener {
+                isFromSwipe = true
+                getChat()
+            }
 
             etSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
@@ -108,6 +118,10 @@ class ChatListFragment : BaseFragment() {
             })
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
         getChat()
     }
 
@@ -127,10 +141,17 @@ class ChatListFragment : BaseFragment() {
         viewModel.getAllChatListResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())                  }
+                    if (!isFromSwipe) {
+                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    }
+                }
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    if (isFromSwipe) {
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                        isFromSwipe = false
+                    }
                     chatList.clear()
                     result.data?.data?.let { chatList.addAll(it) }
                     chatAdapter?.notifyDataSetChanged()
@@ -138,6 +159,8 @@ class ChatListFragment : BaseFragment() {
                 }
 
                 is ApiResult.Error -> {
+                    binding?.swipeRefreshLayout?.isRefreshing = false
+                    isFromSwipe = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getAllChatListResponse.value = null
@@ -149,19 +172,19 @@ class ChatListFragment : BaseFragment() {
 
     }
 
-    private fun getChat(){
+    private fun getChat() {
         val map = HashMap<String, Any>()
-        if (lastQuery!=null){
+        if (lastQuery != null) {
             map["search"] = lastQuery.toString()
         }
-        if (chatFilter!=null){
+        if (chatFilter != null) {
             map["filters"] = chatFilter.toString()
         }
         viewModel.getAllChatList(map)
     }
 
     private fun chatFilterDialog() {
-        var filter:String? = null
+        var filter: String? = null
         val dialog = Dialog(requireActivity(), R.style.CustomDialog)
         val dialogBinding = ChatFilterDialogBinding.inflate(LayoutInflater.from(context))
         dialogBinding.root.let { dialog.setContentView(it) }
@@ -180,7 +203,7 @@ class ChatListFragment : BaseFragment() {
 
         dialogBinding.apply {
 
-            if (chatFilter!=null) {
+            if (chatFilter != null) {
                 filter = chatFilter.toString()
                 when (chatFilter) {
                     "1" -> rbAll.isChecked = true
@@ -215,11 +238,10 @@ class ChatListFragment : BaseFragment() {
             tvApply.setOnClickListener {
 
                 chatFilter = filter
-                if (chatFilter==null) {
+                if (chatFilter == null) {
                     showToast("Please select chat status")
                     return@setOnClickListener
-                }
-                else{
+                } else {
                     getChat()
                     dialog.dismiss()
                 }

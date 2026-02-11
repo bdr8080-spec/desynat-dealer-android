@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="@dimen/_15sdp"
+    android:layout_marginBottom="@dimen/_15sdp"
+    android:background="@drawable/card_stroke_background">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Request Id"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRequestId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="#5372821"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvRequest"
+        app:layout_constraintBottom_toBottomOf="@+id/tvRequest"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRequestedOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Requested On"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRequest" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRequestedOnValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="21/09/2026 at 10:15 AM"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvRequestedOn"
+        app:layout_constraintBottom_toBottomOf="@+id/tvRequestedOn"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvLive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Live Request"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRequestedOn" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvLiveRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="21/09/2026 at 10:15 AM"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvLive"
+        app:layout_constraintBottom_toBottomOf="@+id/tvLive"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Status"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLive" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvStatusValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Confirmed"
+        android:textColor="#68CA44"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvStatus"
+        app:layout_constraintBottom_toBottomOf="@+id/tvStatus"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:visibility="gone"
+        android:id="@+id/tvRejectedOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Rejected On"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:visibility="gone"
+        android:id="@+id/tvRejectedOnValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="21/09/2026 at 10:15 AM"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvRejectedOn"
+        app:layout_constraintBottom_toBottomOf="@+id/tvRejectedOn"/>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:visibility="gone"
+        android:id="@+id/tvReason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Rejected Reason"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRejectedOn"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:visibility="gone"
+        android:id="@+id/tvRejectedReason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sed do eiusmod tempor Lorem ipsum dolor sit amet,  consectetur adipiscing elit, sed do eiusmod"
+        android:textColor="#80000000"
+        android:textSize="@dimen/_9sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvReason"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:visibility="gone"
+        android:id="@+id/btnCancelRequest"
+        style="@style/button"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginHorizontal="@dimen/_40sdp"
+        android:padding="@dimen/_8sdp"
+        android:text="Cancel Request"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRejectedReason"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

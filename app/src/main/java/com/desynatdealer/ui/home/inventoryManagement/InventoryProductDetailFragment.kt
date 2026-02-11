@@ -25,6 +25,7 @@ import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.google.android.material.tabs.TabLayoutMediator
@@ -110,7 +111,7 @@ class InventoryProductDetailFragment : BaseFragment() {
                 ProductImageAdapter(requireActivity(),
                     variantImageList,object:ProductImageAdapter.OnClick{
                         override fun onClick(position: Int) {
-                            imagePreviewDialog(position)
+                            CommonMethod.imagePreviewDialog(requireActivity(),variantImageList)
                         }
 
                     }
@@ -331,39 +332,6 @@ class InventoryProductDetailFragment : BaseFragment() {
                     )
                 }
         )
-    }
-
-    private fun imagePreviewDialog(position: Int) {
-        val dialog = Dialog(requireActivity(), R.style.CustomDialog)
-        val dialogBinding = ImagePreviewDialogBinding.inflate(LayoutInflater.from(context))
-        dialogBinding.root.let { dialog?.setContentView(it) }
-
-        val window: Window = dialog?.window!!
-        window.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        window.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog?.setCancelable(false)
-
-        val params: WindowManager.LayoutParams = window.attributes
-        params.gravity = Gravity.CENTER
-        window.attributes = params
-
-        dialogBinding.apply {
-
-            ivCross.setOnClickListener{
-                dialog?.dismiss()
-            }
-
-            val imagePreviewAdapter = ImagePreviewAdapter(requireActivity(),variantImageList)
-            viewPager?.adapter = imagePreviewAdapter
-
-            TabLayoutMediator(dotsIndicator, viewPager) { _, _ -> }.attach()
-
-        }
-
-        dialog?.show()
     }
 
 }

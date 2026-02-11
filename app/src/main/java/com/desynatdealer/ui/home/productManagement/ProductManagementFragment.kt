@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -60,6 +61,7 @@ class ProductManagementFragment : BaseFragment() {
     private var filterCategoryAdapter: FilterCategoryAdapter? = null
     private var selectedBrandList = ArrayList<GetSellerBrandResponse.Data>()
     private var selectedCategory: GetCategoryResponse.Data?=null
+    private var isFromSwipe = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,6 +100,14 @@ class ProductManagementFragment : BaseFragment() {
 
             })
             rvProduct.adapter = productAdapter
+
+            swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(requireActivity(), R.color.brown)
+            )
+            swipeRefreshLayout.setOnRefreshListener {
+                isFromSwipe = true
+                getAllProduct()
+            }
 
             etSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
@@ -185,10 +195,16 @@ class ProductManagementFragment : BaseFragment() {
         viewModel.getProductResponse.observe(viewLifecycleOwner){result->
             when(result){
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    if (!isFromSwipe){
+                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    }
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    if (isFromSwipe){
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                        isFromSwipe = false
+                    }
                     productData = result.data?.data
                     productList.clear()
                     when(type){

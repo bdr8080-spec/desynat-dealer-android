@@ -18,19 +18,24 @@ class ProductOrderAdapter(var context:Context, var productList: ArrayList<GetSin
             val productData = productList[position]
                 tvCount.text = if((position+1)<10) "0${(position+1)}" else (position+1).toString()
                 tvProduct.text = productData?.productDetails?.productNameEn
-                tvPrice.text = "${CommonMethod.formatPrice(productData?.amount?:0.0)} KD"
+
                 tvFabric.text = productData?.productDetails?.brand?.nameEnglish
                 tvSizeValue.text = productData?.variationDetails?.size?.name
                 tvColorValue.text = productData?.variationDetails?.color?.name
                 tvCategoryValue.text = productData?.productDetails?.category?.name
-                if (productData?.order?.orderType=="2"){
+                if (productData?.orderType=="2"){
+                    tvPrice.text = "${CommonMethod.formatPrice(productData?.chatRoomrecords?.totalAmount?.toDoubleOrNull()?:0.0) } KD"
                     tvQuantity.text = "Per Item Price"
                     tvQuantityValue.text = "${CommonMethod.formatPrice(productData?.amount?:0.0)} KD"
 
                 }
                 else {
+                    val itemPrice = productData?.amount ?: 0.0
+                    val quantity = productData?.quantity ?: 1
+                    val subTotal = itemPrice * quantity
+                    tvPrice.text = "${CommonMethod.formatPrice(subTotal)} KD"
                     tvQuantity.text = "Quantity"
-                    tvQuantityValue.text = productData?.quantity?.toString()
+                    tvQuantityValue.text = "${CommonMethod.formatPrice(productData?.amount?:0.0)} KD X ${productData?.quantity?.toString()}"
 
                 }
 
