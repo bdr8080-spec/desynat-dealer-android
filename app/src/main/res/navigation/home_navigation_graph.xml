@@ -131,9 +131,14 @@
         <action
             android:id="@+id/action_profileFragment_to_bannerManagementFragment"
             app:destination="@id/bannerManagement" />
+
         <action
             android:id="@+id/action_profileFragment_to_dealListedFragment"
             app:destination="@id/dealListedFragment" />
+
+          <action
+            android:id="@+id/action_profileFragment_to_liveCoverageFragment"
+            app:destination="@id/liveCoverage" />
 
     </fragment>
 
@@ -183,7 +188,6 @@
         <action
             android:id="@+id/action_viewProfileFragment_to_editProfileFragment"
             app:destination="@id/editProfile" />
-
 
     </fragment>
 
@@ -304,5 +308,10 @@
        android:name="com.desynatdealer.ui.home.dealManagement.SelectDealProductFragment"
        tools:layout="@layout/fragment_select_deal_product" />
 
+    <fragment
+        android:id="@+id/liveCoverage"
+        android:label="Live Coverage Fragment"
+        android:name="com.desynatdealer.ui.home.liveCoverage.LiveCoverageFragment"
+        tools:layout="@layout/fragment_live_coverage" />
 
     </navigation>

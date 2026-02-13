@@ -33,6 +33,7 @@ import com.desynatdealer.R
 import com.desynatdealer.adapter.TimeSlotAdapter
 import com.desynatdealer.databinding.SendLiveRequestDialogBinding
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.openCustomDatePicker
 
 @AndroidEntryPoint
 class LiveCoverageFragment : BaseFragment() {
@@ -46,11 +47,11 @@ class LiveCoverageFragment : BaseFragment() {
     private var reasonAdapter: ReasonAdapter? = null
     private var timeSlotList = ArrayList<String>()
     private var timeSlotAdapter: TimeSlotAdapter? = null
+    var currentTimeStamp = 0L
 
     private val calendar = Calendar.getInstance()
     private lateinit var calendarAdapter: CalendarAdapter
     private val daysList = mutableListOf<CalendarDay>()
-
     private val months = listOf(
         "January", "February", "March", "April",
         "May", "June", "July", "August",
@@ -87,6 +88,8 @@ class LiveCoverageFragment : BaseFragment() {
                 val format = SimpleDateFormat("EEE, MMM dd", Locale.getDefault())
 
                 tvCalendarDate.text = format.format(selectedCal.time)
+                timeSlotDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedCal.time)
+
             }
 
             rvCalendar.layoutManager = GridLayoutManager(requireContext(), 7)
@@ -97,7 +100,7 @@ class LiveCoverageFragment : BaseFragment() {
 
             val todayFormat = SimpleDateFormat("EEE, MMM dd", Locale.getDefault())
             binding?.tvCalendarDate?.text = todayFormat.format(Calendar.getInstance().time)
-
+            timeSlotDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
 
             liveCoverageRequestAdapter = LiveCoverageRequestAdapter(requireActivity(),liveCoverageRequestList,object :
                 LiveCoverageRequestAdapter.OnClick{
@@ -146,7 +149,7 @@ class LiveCoverageFragment : BaseFragment() {
         val today = Calendar.getInstance()
         val firstDayOfWeek = tempCalendar.get(Calendar.DAY_OF_WEEK) - 1
         val maxDays = tempCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-
+        currentTimeStamp = today.timeInMillis
         repeat(firstDayOfWeek) {
             daysList.add(CalendarDay(0, false))
         }
@@ -212,8 +215,7 @@ class LiveCoverageFragment : BaseFragment() {
 
             val format = SimpleDateFormat("EEE, MMM dd", Locale.getDefault())
             binding?.tvCalendarDate?.text = format.format(selectedCalendar?.time)
-            timeSlotDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                .format(selectedCalendar?.time)
+            timeSlotDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedCalendar?.time)
 
         }
 
@@ -300,6 +302,7 @@ class LiveCoverageFragment : BaseFragment() {
     }
 
     private fun sendRequestDialog() {
+        var newDate = ""
         sendRequestDialog = Dialog(requireActivity(), R.style.CustomDialog)
         val dialogBinding = SendLiveRequestDialogBinding.inflate(LayoutInflater.from(context))
         dialogBinding.root.let { sendRequestDialog?.setContentView(it) }
@@ -316,7 +319,9 @@ class LiveCoverageFragment : BaseFragment() {
         params.gravity = Gravity.BOTTOM
         window.attributes = params
 
+
         dialogBinding.apply {
+           etFrom.setText(CommonMethod.formatDate(timeSlotDate.toString(),"yyyy-MM-dd","dd/MM/yyy"))
             timeSlotList.clear()
             timeSlotAdapter = TimeSlotAdapter(requireActivity(), timeSlotList, object :
                 TimeSlotAdapter.OnClick {
@@ -327,13 +332,25 @@ class LiveCoverageFragment : BaseFragment() {
             })
             rvTimeSlot.adapter = timeSlotAdapter
 
+            etFrom.setOnClickListener {
+                openCustomDatePicker(requireActivity(), minDate = currentTimeStamp) { date, timestamp ->
+                    etFrom.setText(date)
+                    newDate = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
+                }
+            }
+
             tvToolbar.setOnClickListener {
                 sendRequestDialog?.dismiss()
             }
 
             btnSend.setOnClickListener {
-                CommonMethod.showSuccessDialog(requireActivity(),"Request sent successfully"){
-
+                if (etFrom.text?.isEmpty() == true){
+                    showToast("Please select date")
+                }
+                else{
+                    CommonMethod.showSuccessDialog(requireActivity(),"Request sent successfully"){
+                        sendRequestDialog?.dismiss()
+                    }
                 }
             }
         }

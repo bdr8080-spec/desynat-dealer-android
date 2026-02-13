@@ -86,6 +86,10 @@ class ProfileFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_profileFragment_to_dealListedFragment)
             }
 
+            rlLiveCoverage.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_liveCoverageFragment)
+            }
+
             relLogout.setOnClickListener {
                     viewModel.logout()
             }

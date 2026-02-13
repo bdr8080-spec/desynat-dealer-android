@@ -789,7 +789,13 @@ class OrderDetailFragment : BaseFragment() {
             tvItem.text = "${orderDetailData?.quantity} items"
 
             tvAdminCommissionValue.text = "${CommonMethod.formatPrice(orderDetailData?.adminCommission?:0.0)} KD"
-            tvShippingCharges.text = "${CommonMethod.formatPrice(orderDetailData?.order?.shippingFees?:0.0)} KD"
+            if (CommonMethod.formatPrice(orderDetailData?.order?.shippingFees?:0.0)=="0"){
+                tvShippingCharges.text = "Free Delivery"
+            }
+            else{
+                tvShippingCharges.text = "${CommonMethod.formatPrice(orderDetailData?.order?.shippingFees?:0.0)} KD"
+            }
+
             tvOrderTaxValue.text = "${CommonMethod.formatPrice(orderDetailData?.tax?:0.0)} KD"
             if (orderDetailData?.order?.promocodeStatus=="yes"){
                 tvCouponApplied.isVisible = true
