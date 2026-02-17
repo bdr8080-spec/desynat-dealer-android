@@ -221,6 +221,9 @@
             tools:itemCount="3"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"/>
 
     </LinearLayout>
 

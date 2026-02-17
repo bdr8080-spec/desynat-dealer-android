@@ -37,7 +37,7 @@
             android:text="Total Coverages- 03"
             android:textColor="@color/black"
             android:textSize="@dimen/_11sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp" />
+            android:layout_marginHorizontal="@dimen/_10sdp" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etFrom"
@@ -54,7 +54,7 @@
             android:layout_centerVertical="true"
             android:fontFamily="@font/poppins_light"
             android:drawableEnd="@drawable/calendar_ic"
-            android:layout_marginHorizontal="@dimen/_15sdp"/>
+            android:layout_marginHorizontal="@dimen/_10sdp"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvSelectTime"
@@ -65,7 +65,7 @@
         android:text="Select Time"
         android:textColor="@color/black"
         android:textSize="@dimen/_11sdp"
-        android:layout_marginHorizontal="@dimen/_15sdp" />
+        android:layout_marginHorizontal="@dimen/_10sdp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTimeSlot"
@@ -74,8 +74,21 @@
         android:layout_marginTop="@dimen/_5sdp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_10sdp"
         tools:listitem="@layout/item_time_slot"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tvNoDataFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="No Slots Available"
+            android:fontFamily="@font/poppins_regular"
+            android:paddingVertical="@dimen/_30sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"/>
 
     <TextView
         android:id="@+id/btnSend"
@@ -89,7 +102,7 @@
         android:paddingVertical="@dimen/_8sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_12sdp"
-        android:layout_marginHorizontal="@dimen/_15sdp"/>
+        android:layout_marginHorizontal="@dimen/_10sdp"/>
 
 </LinearLayout>
 

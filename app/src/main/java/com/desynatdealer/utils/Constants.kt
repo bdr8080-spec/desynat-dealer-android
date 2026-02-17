@@ -66,4 +66,9 @@ object Constants {
     const val REMOVE_PRODUCT_IN_DEAL = "/api/seller/remove-products-in-deal"
     const val SHOW_ALL_PRODUCT_DEAL = "/api/seller/show-allproduct-deal-catgeory-subCatgory"
 
+    const val GET_TIME_SLOT = "/api/seller/get_timeslots"
+    const val GET_LIVE_REQUEST = "/api/seller/get_live_requests"
+    const val CANCEL_LIVE_REQUEST = "/api/seller/cancel_live_request"
+    const val SEND_LIVE_REQUEST = "/api/seller/send_live_request"
+
 }

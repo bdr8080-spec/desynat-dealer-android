@@ -17,6 +17,8 @@ import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
+import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
+import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
@@ -557,7 +559,6 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
             _removeProductInDealResponse.value = repo.removeProductInDeal(map)
         }
     }
-
  private val _showProductInDealCategorySubcategoryResponse =
         MutableLiveData<ApiResult<GetDealAllProductResponse>?>()
     val showProductInDealCategorySubcategoryResponse: MutableLiveData<ApiResult<GetDealAllProductResponse>?>
@@ -567,6 +568,54 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _showProductInDealCategorySubcategoryResponse.value = ApiResult.Loading
             _showProductInDealCategorySubcategoryResponse.value = repo.showProductInDealCategorySubcategory(map)
+        }
+    }
+
+    private val _getTimeSlotResponse =
+        MutableLiveData<ApiResult<GetTimeSlotResponse>?>()
+    val getTimeSlotResponse: MutableLiveData<ApiResult<GetTimeSlotResponse>?>
+        get() = _getTimeSlotResponse
+
+    fun getTimeSlot(date: String) {
+        viewModelScope.launch {
+            _getTimeSlotResponse.value = ApiResult.Loading
+            _getTimeSlotResponse.value = repo.getTimeSlot(date)
+        }
+    }
+
+ private val _getLiveRequestResponse =
+        MutableLiveData<ApiResult<GetLiveRequestResponse>?>()
+    val getLiveRequestResponse: MutableLiveData<ApiResult<GetLiveRequestResponse>?>
+        get() = _getLiveRequestResponse
+
+    fun getLiveRequest() {
+        viewModelScope.launch {
+            _getLiveRequestResponse.value = ApiResult.Loading
+            _getLiveRequestResponse.value = repo.getLiveRequest()
+        }
+    }
+
+    private val _cancelLiveRequestResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val cancelLiveRequestResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _cancelLiveRequestResponse
+
+    fun cancelLiveRequest(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _cancelLiveRequestResponse.value = ApiResult.Loading
+            _cancelLiveRequestResponse.value = repo.cancelLiveRequest(map)
+        }
+    }
+
+    private val _sendLiveRequestResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val sendLiveRequestResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _sendLiveRequestResponse
+
+    fun sendLiveRequest(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _sendLiveRequestResponse.value = ApiResult.Loading
+            _sendLiveRequestResponse.value = repo.sendLiveRequest(map)
         }
     }
 

@@ -16,6 +16,8 @@ import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
+import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
+import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
@@ -223,5 +225,17 @@ interface CommonApiService {
         @Query("key") apiKey: String,
         @Body request: TranslateRequest
     ): Response<TranslateResponse>
+
+    @GET(Constants.GET_TIME_SLOT)
+    suspend fun getTimeSlot( @Query("date") date: String,): Response<GetTimeSlotResponse>
+
+    @GET(Constants.GET_LIVE_REQUEST)
+    suspend fun getLiveRequest(): Response<GetLiveRequestResponse>
+
+    @POST(Constants.CANCEL_LIVE_REQUEST)
+    suspend fun cancelLiveRequest(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.SEND_LIVE_REQUEST)
+    suspend fun sendLiveRequest(@Body map: HashMap<String, Any>): Response<CommonResponse>
 
 }

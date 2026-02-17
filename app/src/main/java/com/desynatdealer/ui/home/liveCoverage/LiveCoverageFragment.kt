@@ -21,7 +21,6 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.CancelRequestDialogBinding
 import com.desynatdealer.databinding.FragmentLiveCoverageBinding
-import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +30,10 @@ import java.util.Locale
 import kotlin.getValue
 import com.desynatdealer.R
 import com.desynatdealer.adapter.TimeSlotAdapter
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.databinding.SendLiveRequestDialogBinding
+import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
+import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.openCustomDatePicker
 
@@ -40,12 +42,13 @@ class LiveCoverageFragment : BaseFragment() {
     private var binding : FragmentLiveCoverageBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
     private var liveCoverageRequestAdapter: LiveCoverageRequestAdapter?=null
-    private var liveCoverageRequestList = ArrayList<GetAllBannerResponse.Data>()
+    private var liveCoverageRequestList = ArrayList<GetLiveRequestResponse.Data.Data>()
     private var cancelDialog: Dialog?=null
+    private var dialogBinding: SendLiveRequestDialogBinding?=null
     private var sendRequestDialog: Dialog?=null
     private var reasonList = ArrayList<String>()
     private var reasonAdapter: ReasonAdapter? = null
-    private var timeSlotList = ArrayList<String>()
+    private var timeSlotList = ArrayList<GetTimeSlotResponse.Data>()
     private var timeSlotAdapter: TimeSlotAdapter? = null
     var currentTimeStamp = 0L
 
@@ -58,7 +61,9 @@ class LiveCoverageFragment : BaseFragment() {
         "September", "October", "November", "December"
     )
     private var selectedCalendar: Calendar? = null
-    var timeSlotDate: String? = null
+    private var timeSlotDate: String? = null
+    private var type = 0
+    private var selectedTimeSlot : GetTimeSlotResponse.Data?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,7 +94,7 @@ class LiveCoverageFragment : BaseFragment() {
 
                 tvCalendarDate.text = format.format(selectedCal.time)
                 timeSlotDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedCal.time)
-
+            //    getTimeSlot(timeSlotDate.toString())
             }
 
             rvCalendar.layoutManager = GridLayoutManager(requireContext(), 7)
@@ -101,6 +106,7 @@ class LiveCoverageFragment : BaseFragment() {
             val todayFormat = SimpleDateFormat("EEE, MMM dd", Locale.getDefault())
             binding?.tvCalendarDate?.text = todayFormat.format(Calendar.getInstance().time)
             timeSlotDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
+         //   getTimeSlot(timeSlotDate.toString())
 
             liveCoverageRequestAdapter = LiveCoverageRequestAdapter(requireActivity(),liveCoverageRequestList,object :
                 LiveCoverageRequestAdapter.OnClick{
@@ -118,6 +124,8 @@ class LiveCoverageFragment : BaseFragment() {
             })
             rvRequest.adapter = liveCoverageRequestAdapter
         }
+
+        getLiveRequest()
 
     }
 
@@ -137,7 +145,127 @@ class LiveCoverageFragment : BaseFragment() {
         }
     }
 
+    private fun getLiveRequest(){
+        viewModel.getLiveRequest()
+    }
+
+    private fun getTimeSlot(date: String){
+        viewModel.getTimeSlot(date)
+    }
+
+    private fun sendLiveRequest(id: String){
+        val map = HashMap<String,Any>()
+        map["timeslot_id"] = id
+        viewModel.sendLiveRequest(map)
+    }
+
+    private fun cancelLiveRequest(reason: String,id:String){
+        val map = HashMap<String,Any>()
+        map["id"] = id
+        map["cancel_reason"] = reason
+        viewModel.cancelLiveRequest(map)
+    }
+
     override fun observe() {
+
+        viewModel.getLiveRequestResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    when(type){
+                        1->{
+                            CommonMethod.showSuccessDialog(requireActivity(),"Request Sent Successfully !")
+                        }
+                        2->{
+                            CommonMethod.showSuccessDialog(requireActivity(),"Request Cancelled Successfully !")
+                        }
+                    }
+                    type = 0
+                    liveCoverageRequestList.clear()
+                    result.data?.data?.data?.let { liveCoverageRequestList.addAll(it) }
+                    liveCoverageRequestAdapter?.notifyDataSetChanged()
+                    viewModel.getLiveRequestResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getLiveRequestResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
+        viewModel.getTimeSlotResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    timeSlotList.clear()
+                    result.data?.data?.let { timeSlotList.addAll(it) }
+                    timeSlotAdapter?.notifyDataSetChanged()
+                    dialogBinding?.tvNoDataFound?.isVisible = timeSlotList.isEmpty()
+                    viewModel.getTimeSlotResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getTimeSlotResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
+        viewModel.cancelLiveRequestResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    type = 2
+                    getLiveRequest()
+                    viewModel.cancelLiveRequestResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.cancelLiveRequestResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
+        viewModel.sendLiveRequestResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    sendRequestDialog?.dismiss()
+                    type = 1
+                    getLiveRequest()
+                    viewModel.sendLiveRequestResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.sendLiveRequestResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
     }
 
     private fun loadCalendar() {
@@ -216,7 +344,7 @@ class LiveCoverageFragment : BaseFragment() {
             val format = SimpleDateFormat("EEE, MMM dd", Locale.getDefault())
             binding?.tvCalendarDate?.text = format.format(selectedCalendar?.time)
             timeSlotDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedCalendar?.time)
-
+           // getTimeSlot(timeSlotDate.toString())
         }
 
         binding?.rvCalendar?.adapter = calendarAdapter
@@ -259,6 +387,8 @@ class LiveCoverageFragment : BaseFragment() {
 
         dialogBinding.apply {
             reasonList.clear()
+          //  reasonList.add("Other")
+            etReason.isVisible = true
             reasonAdapter = ReasonAdapter(requireActivity(), reasonList,object :
                 ReasonAdapter.OnClick{
                 override fun onClickItem(position: Int) {
@@ -286,14 +416,14 @@ class LiveCoverageFragment : BaseFragment() {
                     }
                     else{
                         reason = etReason.text?.trim().toString()
-                        cancelRequest(reason,id)
+                        cancelLiveRequest(reason,id)
                     }
                 }
                 else if(reason==""){
                     showToast("Please select reason")
                 }
                 else {
-                    cancelRequest(reason,id)
+                    cancelLiveRequest(reason,id)
                 }
             }
         }
@@ -304,8 +434,8 @@ class LiveCoverageFragment : BaseFragment() {
     private fun sendRequestDialog() {
         var newDate = ""
         sendRequestDialog = Dialog(requireActivity(), R.style.CustomDialog)
-        val dialogBinding = SendLiveRequestDialogBinding.inflate(LayoutInflater.from(context))
-        dialogBinding.root.let { sendRequestDialog?.setContentView(it) }
+        dialogBinding = SendLiveRequestDialogBinding.inflate(LayoutInflater.from(context))
+        dialogBinding?.root.let { it?.let { it1 -> sendRequestDialog?.setContentView(it1) } }
 
         val window: Window = sendRequestDialog?.window!!
         window.setLayout(
@@ -320,22 +450,24 @@ class LiveCoverageFragment : BaseFragment() {
         window.attributes = params
 
 
-        dialogBinding.apply {
+        dialogBinding?.apply {
            etFrom.setText(CommonMethod.formatDate(timeSlotDate.toString(),"yyyy-MM-dd","dd/MM/yyy"))
-            timeSlotList.clear()
             timeSlotAdapter = TimeSlotAdapter(requireActivity(), timeSlotList, object :
                 TimeSlotAdapter.OnClick {
                 override fun onClickItem(position: Int) {
-
+                    selectedTimeSlot = timeSlotList[position]
                 }
 
             })
             rvTimeSlot.adapter = timeSlotAdapter
 
+            getTimeSlot(timeSlotDate.toString())
+
             etFrom.setOnClickListener {
                 openCustomDatePicker(requireActivity(), minDate = currentTimeStamp) { date, timestamp ->
                     etFrom.setText(date)
                     newDate = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
+                    getTimeSlot(newDate.toString())
                 }
             }
 
@@ -348,9 +480,7 @@ class LiveCoverageFragment : BaseFragment() {
                     showToast("Please select date")
                 }
                 else{
-                    CommonMethod.showSuccessDialog(requireActivity(),"Request sent successfully"){
-                        sendRequestDialog?.dismiss()
-                    }
+                    sendLiveRequest(selectedTimeSlot?.id.toString())
                 }
             }
         }
@@ -358,11 +488,4 @@ class LiveCoverageFragment : BaseFragment() {
         sendRequestDialog?.show()
     }
 
-
-    private fun cancelRequest(reason: String,id:String) {
-        val map = HashMap<String,Any>()
-        map["id"] = id.toString()
-        map["reason"] = reason
-      //  viewModel.cancelRequest(map)
-    }
 }

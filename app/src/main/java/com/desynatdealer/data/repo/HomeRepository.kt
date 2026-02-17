@@ -19,6 +19,8 @@ import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
+import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
+import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
@@ -354,7 +356,6 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
-
     suspend fun removeProductInDeal(map: HashMap<String, Any>): ApiResult<CommonResponse> {
         return try {
             networkCall(api.removeProductInDeal(map))
@@ -363,10 +364,38 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
-
     suspend fun showProductInDealCategorySubcategory(map: HashMap<String, Any>): ApiResult<GetDealAllProductResponse> {
         return try {
             networkCall(api.showProductInDealCategorySubcategory(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun getTimeSlot(date: String): ApiResult<GetTimeSlotResponse> {
+        return try {
+            networkCall(api.getTimeSlot(date))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+    suspend fun getLiveRequest(): ApiResult<GetLiveRequestResponse> {
+        return try {
+            networkCall(api.getLiveRequest())
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+    suspend fun cancelLiveRequest(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.cancelLiveRequest(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+    suspend fun sendLiveRequest(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.sendLiveRequest(map))
         } catch (e: Exception) {
             ApiResult.Error("Syntax Error")
         }

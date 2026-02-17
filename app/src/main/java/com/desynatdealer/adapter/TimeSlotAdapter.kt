@@ -1,16 +1,14 @@
 package com.desynatdealer.adapter
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.desynatdealer.databinding.ItemReasonBinding
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemTimeSlotBinding
+import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
 
-class TimeSlotAdapter(var context:Context, var timeSlotList: ArrayList<String>, var onClick: OnClick) : RecyclerView.Adapter<TimeSlotAdapter.ViewHolder>() {
+class TimeSlotAdapter(var context:Context, var timeSlotList: ArrayList<GetTimeSlotResponse.Data>, var onClick: OnClick) : RecyclerView.Adapter<TimeSlotAdapter.ViewHolder>() {
     var isSelected = -1
     interface OnClick{
         fun onClickItem(position: Int)
@@ -19,6 +17,7 @@ class TimeSlotAdapter(var context:Context, var timeSlotList: ArrayList<String>, 
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
 
+            tvTime.text = "${timeSlotList[position]?.from} TO ${timeSlotList[position]?.to}"
             if (isSelected==position){
                 tvTime.setTextColor(context.getColor(R.color.white))
                 tvTime.background = context.getDrawable(R.drawable.selected_time_slot_gradient_bg)
