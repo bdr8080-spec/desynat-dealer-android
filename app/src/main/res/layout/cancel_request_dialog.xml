@@ -27,10 +27,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/tvToolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="visible"
             android:id="@+id/clReason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +44,6 @@
                 android:layout_height="wrap_content"
                 app:layout_constrainedHeight="true"
                 app:layout_constraintHeight_max="@dimen/_250sdp"
-                android:layout_marginTop="@dimen/_5sdp"
                 tools:listitem="@layout/item_reason"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +51,6 @@
                 tools:itemCount="10"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         <androidx.appcompat.widget.AppCompatEditText
             android:visibility="gone"

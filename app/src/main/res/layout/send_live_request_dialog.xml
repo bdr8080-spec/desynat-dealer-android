@@ -85,7 +85,7 @@
             android:layout_gravity="center"
             android:text="No Slots Available"
             android:fontFamily="@font/poppins_regular"
-            android:paddingVertical="@dimen/_30sdp"
+            android:paddingVertical="@dimen/_20sdp"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_10sdp"/>

@@ -588,10 +588,10 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     val getLiveRequestResponse: MutableLiveData<ApiResult<GetLiveRequestResponse>?>
         get() = _getLiveRequestResponse
 
-    fun getLiveRequest() {
+    fun getLiveRequest(map: HashMap<String, Any>) {
         viewModelScope.launch {
             _getLiveRequestResponse.value = ApiResult.Loading
-            _getLiveRequestResponse.value = repo.getLiveRequest()
+            _getLiveRequestResponse.value = repo.getLiveRequest(map)
         }
     }
 

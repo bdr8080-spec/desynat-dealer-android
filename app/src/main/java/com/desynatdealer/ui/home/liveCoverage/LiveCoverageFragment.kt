@@ -2,6 +2,8 @@ package com.desynatdealer.ui.home.liveCoverage
 
 import android.app.Dialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +11,10 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.desynatdealer.adapter.LiveCoverageRequestAdapter
@@ -31,11 +35,16 @@ import kotlin.getValue
 import com.desynatdealer.R
 import com.desynatdealer.adapter.TimeSlotAdapter
 import com.desynatdealer.controller.ApiResult
+import com.desynatdealer.databinding.LiveRequestFilterDialogBinding
+import com.desynatdealer.databinding.OrderFilterDialogBinding
 import com.desynatdealer.databinding.SendLiveRequestDialogBinding
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.openCustomDatePicker
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LiveCoverageFragment : BaseFragment() {
@@ -64,6 +73,16 @@ class LiveCoverageFragment : BaseFragment() {
     private var timeSlotDate: String? = null
     private var type = 0
     private var selectedTimeSlot : GetTimeSlotResponse.Data?=null
+
+    private var requestFilter: String? = null
+    private var fromTimestamp: Long? = null
+    private var toTimestamp: Long? = null
+    private var fromDateText: String? = null
+    private var toDateText: String? = null
+
+    private var search: Job? = null
+    private var lastQuery: String? = null
+    private var isFromSwipe = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -123,6 +142,45 @@ class LiveCoverageFragment : BaseFragment() {
 
             })
             rvRequest.adapter = liveCoverageRequestAdapter
+
+            swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(requireActivity(), R.color.brown)
+            )
+            swipeRefreshLayout.setOnRefreshListener {
+                isFromSwipe = true
+                getLiveRequest()
+            }
+
+            etSearch.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    val query = s.toString().trim()
+                    if (query == lastQuery) return
+                    lastQuery = query
+                    search?.cancel()
+                    search = lifecycleScope.launch {
+                        delay(600)
+
+                        getLiveRequest()
+
+                    }
+                }
+            })
         }
 
         getLiveRequest()
@@ -136,17 +194,50 @@ class LiveCoverageFragment : BaseFragment() {
             }
 
             ivFilter.setOnClickListener {
-
+                requestFilterDialog()
             }
 
             ivAddRequest.setOnClickListener {
                 sendRequestDialog()
             }
+
+            ivNext.setOnClickListener {
+                calendar.add(Calendar.MONTH, 1)
+                loadCalendar()
+                setupCalendarAdapter()
+            }
+
+            ivPrevious.setOnClickListener {
+                calendar.add(Calendar.MONTH, -1)
+                loadCalendar()
+                setupCalendarAdapter()
+            }
+
+            tvMonthYear.setOnClickListener {
+                openMonthPopup(tvMonthYear)
+            }
         }
     }
 
     private fun getLiveRequest(){
-        viewModel.getLiveRequest()
+        val map = HashMap<String,Any>()
+        if (lastQuery != null) {
+            map["search"] = lastQuery.toString()
+        }
+        if (requestFilter != null && requestFilter != "") {
+            map["filter"] = requestFilter.toString()
+        }
+        if (fromDateText != null && fromDateText != "") {
+            map["from"] =
+                CommonMethod.formatDate(fromDateText.toString(), "dd/MM/yyyy", "yyyy-MM-dd")
+
+        }
+        if (toDateText != null && toDateText != "") {
+            map["to"] =
+                CommonMethod.formatDate(toDateText.toString(), "dd/MM/yyyy", "yyyy-MM-dd")
+
+        }
+        viewModel.getLiveRequest(map)
     }
 
     private fun getTimeSlot(date: String){
@@ -171,10 +262,16 @@ class LiveCoverageFragment : BaseFragment() {
         viewModel.getLiveRequestResponse.observe(viewLifecycleOwner){result->
             when(result){
                 ApiResult.Loading -> {
-
+                    if (!isFromSwipe) {
+                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    }
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    if (isFromSwipe) {
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                        isFromSwipe = false
+                    }
                     when(type){
                         1->{
                             CommonMethod.showSuccessDialog(requireActivity(),"Request Sent Successfully !")
@@ -187,6 +284,7 @@ class LiveCoverageFragment : BaseFragment() {
                     liveCoverageRequestList.clear()
                     result.data?.data?.data?.let { liveCoverageRequestList.addAll(it) }
                     liveCoverageRequestAdapter?.notifyDataSetChanged()
+                    checkData()
                     viewModel.getLiveRequestResponse.value = null
                 }
                 is ApiResult.Error -> {
@@ -230,6 +328,7 @@ class LiveCoverageFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
                 is ApiResult.Success -> {
+                    cancelDialog?.dismiss()
                     type = 2
                     getLiveRequest()
                     viewModel.cancelLiveRequestResponse.value = null
@@ -386,9 +485,11 @@ class LiveCoverageFragment : BaseFragment() {
         window.attributes = params
 
         dialogBinding.apply {
+            tvToolbar.text = "Reason"
             reasonList.clear()
           //  reasonList.add("Other")
             etReason.isVisible = true
+            clReason.isVisible = false
             reasonAdapter = ReasonAdapter(requireActivity(), reasonList,object :
                 ReasonAdapter.OnClick{
                 override fun onClickItem(position: Int) {
@@ -486,6 +587,135 @@ class LiveCoverageFragment : BaseFragment() {
         }
 
         sendRequestDialog?.show()
+    }
+
+    private fun requestFilterDialog() {
+        var filter: String? = null
+        var tempFromTimestamp: Long? = null
+        var tempToTimestamp: Long? = null
+        var tempFromDateText: String? = null
+        var tempToDateText: String? = null
+        val dialog = Dialog(requireActivity(), R.style.CustomDialog)
+        val dialogBinding = LiveRequestFilterDialogBinding.inflate(LayoutInflater.from(context))
+        dialogBinding.root.let { dialog.setContentView(it) }
+
+        val window: Window = dialog.window!!
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        window.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+
+        val params: WindowManager.LayoutParams = window.attributes
+        params.gravity = Gravity.BOTTOM
+        window.attributes = params
+
+        dialogBinding.apply {
+            if (requestFilter != null) {
+                filter = requestFilter.toString()
+                when (requestFilter) {
+                    "1" -> rbPending.isChecked = true
+                    "2" -> rbCompleted.isChecked = true
+                    "3" -> rbCancelled.isChecked = true
+                    "4" -> rbRejected.isChecked = true
+                }
+            }
+
+            tempFromTimestamp = fromTimestamp
+            tempToTimestamp = toTimestamp
+            tempFromDateText = fromDateText
+            tempToDateText = toDateText
+
+            tempFromDateText?.let { etFrom.text = it }
+            tempToDateText?.let { etTo.text = it }
+          //  "filter":1 //1-pending,2-completed,3-cancelled,4-rejected
+            radioGroup.setOnCheckedChangeListener { _, checkedId ->
+                filter = when (checkedId) {
+                    R.id.rbPending -> "1"
+                    R.id.rbCompleted -> "2"
+                    R.id.rbCancelled -> "3"
+                    R.id.rbRejected -> "4"
+                    else -> null
+                }
+            }
+
+            tvToolbar.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            etFrom.setOnClickListener {
+                openCustomDatePicker(requireActivity()) { date, timestamp ->
+                    tempFromTimestamp = timestamp
+                    tempFromDateText = date
+                    etFrom.text = date
+
+                    tempToTimestamp = null
+                    tempToDateText = null
+                    etTo.text = ""
+                }
+            }
+
+            etTo.setOnClickListener {
+                if (tempFromTimestamp == null) {
+                    showToast("Please select From date first")
+                    return@setOnClickListener
+                }
+
+                openCustomDatePicker(
+                    requireActivity(),
+                    minDate = tempFromTimestamp
+                ) { date, timestamp ->
+                    tempToTimestamp = timestamp
+                    tempToDateText = date
+                    etTo.text = date
+                }
+            }
+
+            tvClear.setOnClickListener {
+                filter = ""
+                requestFilter = null
+
+                fromTimestamp = null
+                toTimestamp = null
+                fromDateText = null
+                toDateText = null
+
+                tempFromTimestamp = null
+                tempToTimestamp = null
+                tempFromDateText = null
+                tempToDateText = null
+
+                getLiveRequest()
+                dialog.dismiss()
+            }
+
+            tvApply.setOnClickListener {
+
+                requestFilter = filter
+
+                fromTimestamp = tempFromTimestamp
+                toTimestamp = tempToTimestamp
+                fromDateText = tempFromDateText
+                toDateText = tempToDateText
+
+                if (requestFilter == null && fromDateText == null && toDateText == null) {
+                    showToast("Please select request status")
+                    return@setOnClickListener
+                } else {
+                    getLiveRequest()
+                    dialog.dismiss()
+                }
+
+            }
+
+        }
+
+        dialog.show()
+    }
+
+    private fun checkData(){
+        binding?.tvNoDataFound?.isVisible = liveCoverageRequestList.isEmpty()
     }
 
 }

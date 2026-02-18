@@ -306,12 +306,10 @@ class OrderManagementFragment : BaseFragment() {
         if (fromDateText != null && fromDateText != "") {
             map["from_date"] =
                 CommonMethod.formatDate(fromDateText.toString(), "dd/MM/yyyy", "yyyy-MM-dd")
-
         }
         if (toDateText != null && toDateText != "") {
             map["to_date"] =
                 CommonMethod.formatDate(toDateText.toString(), "dd/MM/yyyy", "yyyy-MM-dd")
-
         }
         viewModel.getOrder(map)
     }

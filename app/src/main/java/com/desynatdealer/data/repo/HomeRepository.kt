@@ -379,9 +379,9 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
             ApiResult.Error("Syntax Error")
         }
     }
-    suspend fun getLiveRequest(): ApiResult<GetLiveRequestResponse> {
+    suspend fun getLiveRequest(map: HashMap<String, Any>): ApiResult<GetLiveRequestResponse> {
         return try {
-            networkCall(api.getLiveRequest())
+            networkCall(api.getLiveRequest(map))
         } catch (e: Exception) {
             ApiResult.Error("Syntax Error")
         }

@@ -367,8 +367,6 @@ class ProductManagementFragment : BaseFragment() {
             tvActive.text = "Active(${productData?.activeProductCount})"
             tvInactive.text = "Inactive(${productData?.inactiveProductCount})"
         }
-
-
     }
 
     private fun getAllProduct(){

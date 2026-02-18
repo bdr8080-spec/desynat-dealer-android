@@ -46,6 +46,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface CommonApiService {
 
@@ -227,10 +228,10 @@ interface CommonApiService {
     ): Response<TranslateResponse>
 
     @GET(Constants.GET_TIME_SLOT)
-    suspend fun getTimeSlot( @Query("date") date: String,): Response<GetTimeSlotResponse>
+    suspend fun getTimeSlot( @Query("date") date: String): Response<GetTimeSlotResponse>
 
     @GET(Constants.GET_LIVE_REQUEST)
-    suspend fun getLiveRequest(): Response<GetLiveRequestResponse>
+    suspend fun getLiveRequest(@QueryMap map: HashMap<String, Any>): Response<GetLiveRequestResponse>
 
     @POST(Constants.CANCEL_LIVE_REQUEST)
     suspend fun cancelLiveRequest(@Body map: HashMap<String, Any>): Response<CommonResponse>

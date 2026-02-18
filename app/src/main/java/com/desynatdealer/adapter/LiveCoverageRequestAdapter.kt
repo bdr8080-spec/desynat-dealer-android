@@ -13,6 +13,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: ArrayList<GetLiveRequestResponse.Data.Data>, var onClick:OnClick) : RecyclerView.Adapter<LiveCoverageRequestAdapter.ViewHolder>() {
 
@@ -25,7 +26,9 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
             val liveRequestData = liveRequestList[position]
 
                 tvRequestId.text = "#${liveRequestData?.orderId}"
-                tvLiveRequest.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+                tvLiveRequest.text = "${
+                    CommonMethod.customizeChangeDateFormat(liveRequestData?.timeslotDetails?.date.toString(), inputFormat = "yyyy-MM-dd", outputFormat = "dd/MM/yyyy")} at ${liveRequestData?.timeslotDetails?.from.toString()}"
+
                 tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
                 when(liveRequestData?.adminVerify){
                     "0" ->{
@@ -62,7 +65,7 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
                             tvRejectedReason.isVisible = true
                             tvRejectedReason.text = liveRequestData?.rejectReason
                         }
-                        tvRejectedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+                        tvRejectedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.updatedAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
                     }
                     "3"->{
                         tvStatusValue.text = "Cancelled"
@@ -77,7 +80,7 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
                             tvRejectedReason.isVisible = true
                             tvRejectedReason.text = liveRequestData?.cancelReason
                         }
-                        tvRejectedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+                        tvRejectedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.updatedAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
                     }
                 }
 
@@ -114,7 +117,7 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
     ): String {
 
         val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+        val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
 
         val sessionDate = LocalDate.parse(dateStr, dateFormatter)
         val fromTime = LocalTime.parse(fromTimeStr, timeFormatter)
