@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bottomsheet_bg">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/_15sdp"
+        android:paddingHorizontal="@dimen/_15sdp"
+        android:background="@drawable/bottomsheet_bg"
+        android:backgroundTint="#FFF7EA"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Select Month &amp; Year"
+        android:textColor="@color/black"
+        android:drawableEnd="@drawable/close_icon"
+        android:textSize="@dimen/_12sdp"/>
+
+    <NumberPicker
+        android:id="@+id/monthPicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_11sdp"
+        android:textColor="@color/black"
+        android:layout_marginHorizontal="@dimen/_20sdp"
+        android:fontFamily="@font/poppins_medium"/>
+
+    <NumberPicker
+        android:id="@+id/yearPicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_11sdp"
+        android:textColor="@color/black"
+        android:layout_marginHorizontal="@dimen/_20sdp"
+        android:fontFamily="@font/poppins_medium"/>
+
+    <Button
+        android:id="@+id/btnApply"
+        style="@style/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        android:layout_marginHorizontal="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_20sdp"/>
+
+</LinearLayout>

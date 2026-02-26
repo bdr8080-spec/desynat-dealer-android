@@ -35,6 +35,7 @@ import kotlin.getValue
 import com.desynatdealer.R
 import com.desynatdealer.adapter.TimeSlotAdapter
 import com.desynatdealer.controller.ApiResult
+import com.desynatdealer.databinding.DialogMonthYearPickerBinding
 import com.desynatdealer.databinding.LiveRequestFilterDialogBinding
 import com.desynatdealer.databinding.OrderFilterDialogBinding
 import com.desynatdealer.databinding.SendLiveRequestDialogBinding
@@ -213,8 +214,12 @@ class LiveCoverageFragment : BaseFragment() {
                 setupCalendarAdapter()
             }
 
+//            tvMonthYear.setOnClickListener {
+//                openMonthPopup(tvMonthYear)
+//            }
+
             tvMonthYear.setOnClickListener {
-                openMonthPopup(tvMonthYear)
+                openMonthYearPicker()
             }
         }
     }
@@ -443,6 +448,7 @@ class LiveCoverageFragment : BaseFragment() {
             val format = SimpleDateFormat("EEE, MMM dd", Locale.getDefault())
             binding?.tvCalendarDate?.text = format.format(selectedCalendar?.time)
             timeSlotDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedCalendar?.time)
+            sendRequestDialog()
            // getTimeSlot(timeSlotDate.toString())
         }
 
@@ -466,6 +472,55 @@ class LiveCoverageFragment : BaseFragment() {
         popup.show()
     }
 
+    private fun openMonthYearPicker() {
+
+        val dialog = Dialog(requireContext(), R.style.CustomDialog)
+
+        val dialogBinding = DialogMonthYearPickerBinding.inflate(layoutInflater)
+
+        dialog.setContentView(dialogBinding.root)
+
+        dialog.window?.apply {
+            setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+
+            setBackgroundDrawableResource(android.R.color.transparent)
+            attributes.gravity = Gravity.BOTTOM
+        }
+        dialog.setCancelable(true)
+
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH)
+
+        dialogBinding.tvToolbar.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.monthPicker.apply {
+            minValue = 0
+            maxValue = months.size - 1
+            displayedValues = months.toTypedArray()
+            value = currentMonth
+        }
+
+        dialogBinding.yearPicker.apply {
+            minValue = 2020
+            maxValue = 2060
+            value = currentYear
+        }
+
+        dialogBinding.btnApply.setOnClickListener {
+            calendar.set(Calendar.MONTH, dialogBinding.monthPicker.value)
+            calendar.set(Calendar.YEAR, dialogBinding.yearPicker.value)
+
+            loadCalendar()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
     private fun cancelRequestDialog(id:String) {
         var reason = ""
         cancelDialog = Dialog(requireActivity(), R.style.CustomDialog)
@@ -557,6 +612,7 @@ class LiveCoverageFragment : BaseFragment() {
                 TimeSlotAdapter.OnClick {
                 override fun onClickItem(position: Int) {
                     selectedTimeSlot = timeSlotList[position]
+                    btnSend.alpha = 1f
                 }
 
             })
@@ -569,6 +625,8 @@ class LiveCoverageFragment : BaseFragment() {
                     etFrom.setText(date)
                     newDate = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
                     getTimeSlot(newDate.toString())
+                    selectedTimeSlot = null
+                    btnSend.alpha = 0.5f
                 }
             }
 
@@ -577,12 +635,15 @@ class LiveCoverageFragment : BaseFragment() {
             }
 
             btnSend.setOnClickListener {
-                if (etFrom.text?.isEmpty() == true){
-                    showToast("Please select date")
+                if (selectedTimeSlot!=null){
+                    if (etFrom.text?.isEmpty() == true){
+                        showToast("Please select date")
+                    }
+                    else{
+                        sendLiveRequest(selectedTimeSlot?.id.toString())
+                    }
                 }
-                else{
-                    sendLiveRequest(selectedTimeSlot?.id.toString())
-                }
+
             }
         }
 
@@ -680,20 +741,16 @@ class LiveCoverageFragment : BaseFragment() {
                 toTimestamp = null
                 fromDateText = null
                 toDateText = null
-
                 tempFromTimestamp = null
                 tempToTimestamp = null
                 tempFromDateText = null
                 tempToDateText = null
-
                 getLiveRequest()
                 dialog.dismiss()
             }
 
             tvApply.setOnClickListener {
-
                 requestFilter = filter
-
                 fromTimestamp = tempFromTimestamp
                 toTimestamp = tempToTimestamp
                 fromDateText = tempFromDateText
@@ -706,11 +763,8 @@ class LiveCoverageFragment : BaseFragment() {
                     getLiveRequest()
                     dialog.dismiss()
                 }
-
             }
-
         }
-
         dialog.show()
     }
 

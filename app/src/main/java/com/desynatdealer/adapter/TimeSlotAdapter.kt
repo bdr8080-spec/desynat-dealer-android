@@ -17,7 +17,7 @@ class TimeSlotAdapter(var context:Context, var timeSlotList: ArrayList<GetTimeSl
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
 
-            tvTime.text = "${timeSlotList[position]?.from} TO ${timeSlotList[position]?.to}"
+            tvTime.text = "${timeSlotList[position]?.from} - ${timeSlotList[position]?.to}"
             if (isSelected==position){
                 tvTime.setTextColor(context.getColor(R.color.white))
                 tvTime.background = context.getDrawable(R.drawable.selected_time_slot_gradient_bg)

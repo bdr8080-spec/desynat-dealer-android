@@ -304,9 +304,10 @@ fun openCustomDatePicker(
             selectedCal.set(Calendar.MILLISECOND, 0)
 
             val selectedDate = "$dayOfMonth/${month + 1}/$year"
+            val formattedDate = String.format("%02d/%02d/%04d", dayOfMonth, month + 1, year)
             val timestamp = selectedCal.timeInMillis
 
-            onClick(selectedDate, timestamp)
+            onClick(formattedDate, timestamp)
         },
         today.get(Calendar.YEAR),
         today.get(Calendar.MONTH),

@@ -129,7 +129,7 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
         val currentDateTime = LocalDateTime.now()
 
         return when {
-            currentDateTime.isBefore(startDateTime) -> "Upcoming"
+            currentDateTime.isBefore(startDateTime) -> "Confirmed"
             currentDateTime.isAfter(endDateTime) -> "Completed"
             else -> "Live"
         }
