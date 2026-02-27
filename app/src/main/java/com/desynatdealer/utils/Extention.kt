@@ -32,7 +32,9 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 fun AppCompatActivity.statusBarTransparentWithWhite() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -281,6 +283,39 @@ fun EditText.togglePasswordVisibility(passwordToggle: ImageView) {
         this.setSelection(pass.length)
         passwordVisible = newVisibility
     }
+}
+
+fun openCustomPreSelectedDatePicker(
+    context: Context,
+    minDate: Long? = null,
+    initialDate: Long? = null,
+    onClick: (date: String, timestamp: Long) -> Unit
+) {
+    val today = Calendar.getInstance()
+    val cal = Calendar.getInstance()
+
+    // If initialDate is provided, set calendar to it
+    if (initialDate != null) {
+        cal.timeInMillis = initialDate
+    }
+
+    val datePickerDialog = DatePickerDialog(
+        context,R.style.DialogTheme,
+        { _, year, month, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, month)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            val selectedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(cal.time)
+            onClick(selectedDate, cal.timeInMillis)
+        },
+        cal.get(Calendar.YEAR),
+        cal.get(Calendar.MONTH),
+        cal.get(Calendar.DAY_OF_MONTH)
+    )
+
+    minDate?.let { datePickerDialog.datePicker.minDate = it }
+
+    datePickerDialog.show()
 }
 
 fun openCustomDatePicker(

@@ -43,6 +43,7 @@ import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.openCustomDatePicker
+import com.desynatdealer.utils.openCustomPreSelectedDatePicker
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -199,7 +200,11 @@ class LiveCoverageFragment : BaseFragment() {
             }
 
             ivAddRequest.setOnClickListener {
-                sendRequestDialog()
+              //  sendRequestDialog()
+                openCustomDatePicker(requireActivity(), minDate = currentTimeStamp) { date, timestamp ->
+                    timeSlotDate = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
+                    sendRequestDialog()
+                }
             }
 
             ivNext.setOnClickListener {
@@ -706,7 +711,8 @@ class LiveCoverageFragment : BaseFragment() {
             }
 
             etFrom.setOnClickListener {
-                openCustomDatePicker(requireActivity()) { date, timestamp ->
+                val initialDate = tempFromTimestamp ?: currentTimeStamp
+                openCustomPreSelectedDatePicker(requireActivity(), initialDate = initialDate) { date, timestamp ->
                     tempFromTimestamp = timestamp
                     tempFromDateText = date
                     etFrom.text = date
@@ -723,9 +729,10 @@ class LiveCoverageFragment : BaseFragment() {
                     return@setOnClickListener
                 }
 
-                openCustomDatePicker(
+                val initialDate = tempToTimestamp ?: tempFromTimestamp
+                openCustomPreSelectedDatePicker(
                     requireActivity(),
-                    minDate = tempFromTimestamp
+                    minDate = tempFromTimestamp,initialDate
                 ) { date, timestamp ->
                     tempToTimestamp = timestamp
                     tempToDateText = date
