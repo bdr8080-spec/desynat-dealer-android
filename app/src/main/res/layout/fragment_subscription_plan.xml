@@ -60,6 +60,7 @@
             android:layout_height="wrap_content"
             tools:listitem="@layout/item_plan"
             android:orientation="horizontal"
+            tools:itemCount="5"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </LinearLayout>

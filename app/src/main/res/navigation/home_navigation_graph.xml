@@ -19,6 +19,10 @@
             android:id="@+id/action_homeFragment_to_chatListFragment"
             app:destination="@id/chatList" />
 
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notification" />
+
     </fragment>
 
     <fragment
@@ -139,6 +143,10 @@
           <action
             android:id="@+id/action_profileFragment_to_liveCoverageFragment"
             app:destination="@id/liveCoverage" />
+
+          <action
+            android:id="@+id/action_profileFragment_to_mySubscriptionFragment"
+            app:destination="@id/mySubscription" />
 
     </fragment>
 
@@ -313,5 +321,36 @@
         android:label="Live Coverage Fragment"
         android:name="com.desynatdealer.ui.home.liveCoverage.LiveCoverageFragment"
         tools:layout="@layout/fragment_live_coverage" />
+
+    <fragment
+        android:id="@+id/notification"
+        android:label="Notification Fragment"
+        android:name="com.desynatdealer.ui.home.fragment.NotificationFragment"
+        tools:layout="@layout/fragment_notification" />
+
+    <fragment
+        android:id="@+id/mySubscription"
+        android:label="My Subscription Fragment"
+        android:name="com.desynatdealer.ui.home.mySubscriptionPlan.MySubscriptionPlanListFragment"
+        tools:layout="@layout/fragment_my_subscription_plan_list">
+
+        <action
+            android:id="@+id/action_mySubscriptionFragment_to_subscriptionDetailFragment"
+            app:destination="@id/subscriptionDetail" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/subscriptionDetail"
+        android:label="Subscription Detail Fragment"
+        android:name="com.desynatdealer.ui.home.mySubscriptionPlan.PlanDetailFragment"
+        tools:layout="@layout/fragment_plan_detail">
+
+        <action
+            android:id="@+id/action_subscriptionDetailFragment_to_paymentMethodFragment"
+            app:destination="@id/paymentMethod" />
+
+
+    </fragment>
 
     </navigation>

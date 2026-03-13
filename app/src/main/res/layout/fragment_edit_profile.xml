@@ -62,7 +62,6 @@
 
             </LinearLayout>
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:visibility="visible"
                 android:id="@+id/clPersonalInfo"

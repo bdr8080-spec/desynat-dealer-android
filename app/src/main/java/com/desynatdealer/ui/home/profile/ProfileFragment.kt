@@ -90,6 +90,10 @@ class ProfileFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_profileFragment_to_liveCoverageFragment)
             }
 
+            rlSubscription.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_mySubscriptionFragment)
+            }
+
             relLogout.setOnClickListener {
                     viewModel.logout()
             }

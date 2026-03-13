@@ -42,7 +42,7 @@ class SubscriptionPlanFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
-           if (SharedPreference.get(requireActivity()).isSubscription==false){
+           if (!SharedPreference.get(requireActivity()).isSubscription){
                ivBack.isVisible = false
                tvSkip.isVisible = true
            }
