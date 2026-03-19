@@ -235,6 +235,22 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
+    suspend fun changeNumber(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.changeNumber(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun otpVerification(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.otpVerification(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
     suspend fun updateBankDetail(map: HashMap<String, Any>): ApiResult<CommonResponse> {
         return try {
             networkCall(api.updateBankDetail(map))
@@ -396,6 +412,14 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     suspend fun sendLiveRequest(map: HashMap<String, Any>): ApiResult<CommonResponse> {
         return try {
             networkCall(api.sendLiveRequest(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun changePassword(map: HashMap<String, String>): ApiResult<Unit> {
+        return try {
+            networkCall(api.changePassword(map))
         } catch (e: Exception) {
             ApiResult.Error("Syntax Error")
         }

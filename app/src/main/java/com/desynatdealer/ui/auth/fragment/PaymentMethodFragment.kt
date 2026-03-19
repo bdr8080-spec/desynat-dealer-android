@@ -73,7 +73,7 @@ class PaymentMethodFragment : BaseFragment() {
        // cardStyling()
         from = arguments?.getString("from").toString()
         when(from){
-            "subscription"->{
+            "subscription","mySubscription"->{
                 val itemJson = arguments?.getString("subscriptionData")
                 if (!itemJson.isNullOrEmpty()) {
                     subscriptionData = Gson().fromJson(itemJson, GetAllPlanResponse.Data::class.java)
@@ -91,7 +91,7 @@ class PaymentMethodFragment : BaseFragment() {
         binding?.apply {
             toolbar.tvToolbar.text = "Payment Method"
             when(from) {
-                "subscription" -> {
+                "subscription" ,"mySubscription"-> {
                     tvTotalAmount.text = "${CommonMethod.formatPrice(subscriptionData?.price?:0.0)} KD"
                     when(subscriptionData?.durationType){
                         1 -> {
@@ -123,7 +123,7 @@ class PaymentMethodFragment : BaseFragment() {
 
             btnPay.setOnClickListener {
                 if(isLoad) {
-                    executeRedirectPayment(2,if (from=="subscription") subscriptionData?.price?:0.0 else bannerData?.price?:0.0)
+                    executeRedirectPayment(2,if (from=="subscription") subscriptionData?.price?:0.0 else if (from=="mySubscription") subscriptionData?.price?:0.0 else bannerData?.price?:0.0)
                   //  executeEmbeddedPayment()
                 }
             }
@@ -159,8 +159,15 @@ class PaymentMethodFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     CommonMethod.showSuccessDialog(requireActivity(),"Plan purchased successfully !"){
-                        SharedPreference.get(requireActivity()).isSubscription = true
-                        findNavController().navigate(R.id.action_paymentMethodFragment_to_HomeFragment)
+                        if (from=="mySubscription"){
+                            SharedPreference.get(requireActivity()).isSubscription = true
+                            findNavController().popBackStack()
+                        }
+                        else{
+                            SharedPreference.get(requireActivity()).isSubscription = true
+                            findNavController().navigate(R.id.action_paymentMethodFragment_to_HomeFragment)
+                        }
+
                     }
                     viewModel.buySubscriptionPlanResponse.value = null
                 }

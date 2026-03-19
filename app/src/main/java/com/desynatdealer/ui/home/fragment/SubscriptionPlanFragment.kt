@@ -18,6 +18,7 @@ import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
+import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 
 class SubscriptionPlanFragment : BaseFragment() {
     private var binding: FragmentSubscriptionPlanBinding? = null
@@ -61,7 +62,23 @@ class SubscriptionPlanFragment : BaseFragment() {
                 }
 
             })
+            //rvPlan.adapter = subscriptionAdapter
             rvPlan.adapter = subscriptionAdapter
+            rvPlan.set3DItem(false)
+            rvPlan.setIntervalRatio(0.4f)
+            rvPlan.setInfinite(false)
+            rvPlan.setAlpha(false)
+            rvPlan.setFlat(true)
+            rvPlan.setIsScrollingEnabled(true)
+
+            val carouselLayoutManager = rvPlan.getCarouselLayoutManager()
+            val currentlyCenterPosition = rvPlan.getSelectedPosition()
+
+            rvPlan.setItemSelectListener(object : CarouselLayoutManager.OnSelected {
+                override fun onItemSelected(position: Int) {
+
+                }
+            })
         }
 
         getSubscriptionPlan()

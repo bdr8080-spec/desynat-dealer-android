@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_marginBottom="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_8sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -12,10 +12,10 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_regular"
         android:text="Number of Products: "
-        android:textSize="@dimen/_11sdp"
+        android:textSize="@dimen/_10sdp"
         android:textColor="@color/black"
         android:drawableStart="@drawable/ic_feature"
-        android:drawablePadding="@dimen/_5sdp"
+        android:drawablePadding="@dimen/_8sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_bold"
         android:text=""
-        android:textSize="@dimen/_11sdp"
+        android:textSize="@dimen/_10sdp"
         android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/tvFeature"
         app:layout_constraintTop_toTopOf="parent"/>

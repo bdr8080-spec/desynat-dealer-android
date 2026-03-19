@@ -173,6 +173,12 @@ interface CommonApiService {
     @POST(Constants.UPDATE_STORE_INFO)
     suspend fun updateStoreInfo(@Body map: HashMap<String, Any>): Response<CommonResponse>
 
+    @POST(Constants.CHANGE_NUMBER_EMAIL)
+    suspend fun changeNumber(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.OTP_VERIFICATION)
+    suspend fun otpVerification(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
     @POST(Constants.ADD_BANNER)
     suspend fun addBanner(@Body request: AddBannerRequest): Response<AddBannerResponse>
 

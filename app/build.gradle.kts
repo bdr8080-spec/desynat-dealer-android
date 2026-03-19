@@ -114,4 +114,10 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation ("com.google.firebase:firebase-database-ktx")
     implementation ("com.google.firebase:firebase-auth-ktx")
+    implementation("com.github.sparrow007:carouselrecyclerview:1.2.6")
+
+    implementation("com.google.firebase:firebase-analytics")
+
+    implementation ("com.google.firebase:firebase-messaging:25.0.1")
+    implementation ("org.greenrobot:eventbus:3.3.1")
 }

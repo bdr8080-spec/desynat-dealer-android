@@ -133,12 +133,26 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvMobile"
+                    android:layout_width="0dp"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="Mobile Number"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvChangeNumber"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etLastName" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeNumber"
+                    android:layout_width="wrap_content"
+                    style="@style/edit_text_title"
+                    android:text="Change Number"
+                    android:textColor="#9E7853"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:textSize="@dimen/_10sdp"
+                    android:paddingVertical="@dimen/_5sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvMobile"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMobile" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clMobile"
@@ -202,11 +216,25 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvEmail"
                     style="@style/edit_text_title"
+                    android:layout_width="0dp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="Email Address"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvChangeEmail"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clMobile" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeEmail"
+                    android:layout_width="wrap_content"
+                    style="@style/edit_text_title"
+                    android:text="Change Email"
+                    android:textColor="#9E7853"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:textSize="@dimen/_10sdp"
+                    android:paddingVertical="@dimen/_5sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvEmail"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvEmail"/>
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etEmail"
@@ -221,6 +249,7 @@
                     android:drawablePadding="@dimen/_10sdp"
                     android:hint="Enter Email Address"
                     android:inputType="textEmailAddress"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
                 <com.google.android.material.imageview.ShapeableImageView
@@ -417,9 +446,6 @@
                     android:background="@drawable/edit_back"
                     android:hint="Enter Store mail Id"
                     android:inputType="textEmailAddress"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:clickable="false"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreEmail" />
 
                 <androidx.appcompat.widget.AppCompatTextView

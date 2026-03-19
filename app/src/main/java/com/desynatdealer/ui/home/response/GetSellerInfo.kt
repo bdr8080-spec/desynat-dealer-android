@@ -19,7 +19,7 @@ data class GetSellerInfo(
         @SerializedName("bank_information")
         val bankInformation: String,
         @SerializedName("country_code")
-        val countryCode: String,
+        var countryCode: String,
         @SerializedName("created_at")
         val createdAt: String,
         @SerializedName("device_token")
@@ -27,7 +27,7 @@ data class GetSellerInfo(
         @SerializedName("device_type")
         val deviceType: String,
         @SerializedName("email")
-        val email: String,
+        var email: String,
         @SerializedName("first_name")
         val firstName: String,
         @SerializedName("id")
@@ -39,7 +39,7 @@ data class GetSellerInfo(
         @SerializedName("last_name")
         val lastName: String,
         @SerializedName("mobile")
-        val mobile: String,
+        var mobile: String,
         @SerializedName("otp")
         val otp: String,
         @SerializedName("otp_verify")

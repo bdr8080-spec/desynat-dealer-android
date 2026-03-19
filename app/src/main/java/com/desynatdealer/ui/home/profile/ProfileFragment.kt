@@ -97,6 +97,25 @@ class ProfileFragment : BaseFragment() {
             relLogout.setOnClickListener {
                     viewModel.logout()
             }
+
+//            rlFaq.setOnClickListener {
+//                findNavController().navigate(R.id.action_profileFragment_to_faqFragment)
+//            }
+//
+//            rlLanguage.setOnClickListener {
+//                val bundle = Bundle().apply {
+//                    putString("from", "profile")
+//                }
+//                findNavController().navigate(R.id.action_profileFragment_to_languageFragment,bundle)
+//            }
+//
+//            rlSupport.setOnClickListener {
+//                findNavController().navigate(R.id.action_profileFragment_to_supportFragment)
+//            }
+//
+//            rlSetting.setOnClickListener {
+//                findNavController().navigate(R.id.action_profileFragment_to_settingFragment)
+//            }
         }
     }
 

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemPlanBinding
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
+import com.desynatdealer.utils.CommonMethod
 
 class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<GetAllPlanResponse.Data>, var subscriptionClick:SubscriptionClick) : RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemPlanBinding) :
@@ -22,7 +23,7 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
                 }
 
                 tvPackage.text = subscriptionData.planNameEnglish
-                tvPrice.text = "KD ${subscriptionData.price}"
+                tvPrice.text = "KD ${CommonMethod.formatPrice(subscriptionData.price)}"
                 when(subscriptionData.durationType){
                     1 -> {
                         tvDuration.text = "for ${subscriptionData.duration} Month"

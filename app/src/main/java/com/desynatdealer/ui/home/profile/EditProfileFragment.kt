@@ -35,9 +35,10 @@ class EditProfileFragment : BaseFragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private var userInfo : GetSellerInfo.Data?=null
     private var selectedType = 1 //1-personal,2-bank
-    var imageType = -1
-    var isEdit = false
-    var isBank = false
+    private var imageType = -1
+    private var clickType = -1
+    private var isEdit = false
+    private var isBank = false
     private lateinit var imagePicker: ImagePicker
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
@@ -236,6 +237,25 @@ class EditProfileFragment : BaseFragment() {
                 imagePicker.showImageSourceDialog()
             }
 
+            tvChangeEmail.setOnClickListener {
+                val map = HashMap<String,Any>()
+                map["for"] = "email" //mobile,email
+                map["email"] = binding?.etEmail?.text?.trim().toString()
+                map["type"] = 0 //0-old,1-new
+                clickType = 1
+                changeMobileOrEmail(map)
+            }
+
+            tvChangeNumber.setOnClickListener {
+                val map = HashMap<String,Any>()
+                map["for"] = "mobile" //mobile,email
+                map["country_code"] = userInfo?.countryCode.toString()
+                map["mobile"] = userInfo?.mobile.toString()
+                map["type"] = 0 //0-old,1-new
+                clickType = 0
+                changeMobileOrEmail(map)
+            }
+
             tvPersonalInfo.setOnClickListener {
                 scrollView.post {
                     scrollView.smoothScrollTo(0, 0)
@@ -393,6 +413,45 @@ class EditProfileFragment : BaseFragment() {
             }
         }
 
+        viewModel.changeNumberResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.data?.message.toString())
+                    if (clickType==0){
+                        val bundle = Bundle().apply {
+                            putString("mobileNumber", userInfo?.mobile)
+                            putString("countryCode", userInfo?.countryCode)
+                            putString("from", "edit")
+                           // putString("userId", response.data.id)
+                        }
+                        findNavController().navigate(R.id.action_editProfileFragment_to_otpFragment,bundle)
+                        viewModel.changeNumberResponse.value = null
+                    }
+                    else if (clickType==1){
+                        val bundle = Bundle().apply {
+                            putString("email", userInfo?.email)
+                            putString("from", "edit")
+                      //      putString("userId",response.data.id)
+                        }
+                        findNavController().navigate(R.id.action_editProfileFragment_to_otpFragment,bundle)
+                        viewModel.changeNumberResponse.value = null
+                    }
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.changeNumberResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
     }
 
    private fun updateStoreInfo(){
@@ -417,6 +476,11 @@ class EditProfileFragment : BaseFragment() {
        }
     }
 
+    private fun changeMobileOrEmail(map:HashMap<String,Any>){
+        viewModel.changeNumber(map)
+        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+
+    }
     private fun updateBankDetail(){
         binding?.apply {
             val map = HashMap<String, Any>()

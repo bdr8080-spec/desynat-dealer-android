@@ -12,14 +12,19 @@ import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
+import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentOtpVerificationBinding
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
+import kotlin.text.get
 
 class OtpVerificationFragment : BaseFragment() {
 
     private var binding: FragmentOtpVerificationBinding? = null
     private val viewModel: AuthViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
     var mobileNumber = ""
     var countryCode = ""
     var email = ""
@@ -89,14 +94,24 @@ class OtpVerificationFragment : BaseFragment() {
 
                     else -> {
 
-                        viewModel.verifyOtp(
-                            hashMapOf(
-                                "user_id" to arguments?.getString("id").toString(),
-                                "otp" to otp,
-                                "type" to if (from == "signUp") "0" else "1",
-                            )
-                        )
-
+                        when(from){
+                            "edit", "change" ->{
+                                homeViewModel.otpVerification(
+                                    hashMapOf(
+                                        "id" to arguments?.getString("id").toString(),
+                                        "otp" to otp)
+                                )
+                            }
+                            else ->{
+                                viewModel.verifyOtp(
+                                    hashMapOf(
+                                        "user_id" to arguments?.getString("id").toString(),
+                                        "otp" to otp,
+                                        "type" to if (from == "signUp") "0" else "1",
+                                    )
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -163,6 +178,52 @@ class OtpVerificationFragment : BaseFragment() {
             }
         }
 
+        homeViewModel.otpVerificationResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    when(from){
+                        "change" -> {
+                            val data = SharedPreference.get(requireActivity()).getUser()
+                            if (type==1) {
+                              //  data?.email = response.data.email
+                            }
+                            else{
+                              //  data?.mobile = response.data.mobile
+                              //  data?.countryCode = response.data.countryCode
+                            }
+                            if (data != null) {
+                                SharedPreference.get(requireActivity()).saveUser(data)
+                            }
+                            CommonMethod.showSuccessDialog(requireActivity(),  if (from=="email")"Email Address Changed successfully !" else "Mobile Number Changed successfully !"){
+                                findNavController().popBackStack(R.id.editProfile, false)
+                            }
+                        }
+                        "edit" -> {
+                            showToast("OTP verified successfully")
+                            val bundle = Bundle().apply {
+                                putString("from", if (type==1)"email" else "mobile")
+                            }
+                            findNavController().navigate(R.id.action_otpFragment_to_changeMobileFragment,bundle)
+                        }
+                    }
+
+                    homeViewModel.otpVerificationResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    homeViewModel.otpVerificationResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
 
         viewModel.resendOtpResponse.observe(viewLifecycleOwner) { result ->
             when (result) {

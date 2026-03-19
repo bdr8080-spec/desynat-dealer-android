@@ -7,16 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.databinding.FragmentLanguageBinding
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 
 class LanguageFragment : BaseFragment() {
     private var binding: FragmentLanguageBinding?=null
+    private var from =""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,6 +36,7 @@ class LanguageFragment : BaseFragment() {
     }
 
     override fun initView() {
+        from = arguments?.getString("from").toString()
         requestPermissions()
         binding?.apply {
             Constants.language = SharedPreference.get(requireActivity()).language
@@ -44,11 +48,29 @@ class LanguageFragment : BaseFragment() {
                 cbEnglish.isChecked = false
                 cbArabic.isChecked = true
             }
+
+            if (from=="profile"){
+                btnContinue.text = "Save"
+                tvToolbar.isVisible = true
+                tvSelectLanguage.isVisible = false
+                tvInfo.isVisible = false
+            }
+            else{
+                btnContinue.text = "Continue"
+                tvToolbar.isVisible = false
+                tvSelectLanguage.isVisible = true
+                tvInfo.isVisible = true
+            }
         }
     }
 
     override fun initControl() {
         binding?.apply {
+
+            tvToolbar.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
             cbArabic.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     cbEnglish.isChecked = false
@@ -77,15 +99,23 @@ class LanguageFragment : BaseFragment() {
                 if (Constants.language==""){
                     showToast("Please select language")
                 }
-                else{
-                    SharedPreference.get(requireActivity()).language = Constants.language
-                    if (SharedPreference.get(requireActivity()).isTutorial){
-                        findNavController().navigate(R.id.action_languageFragment_to_loginFragment)
-                    }
-                    else{
-                        findNavController().navigate(R.id.action_languageFragment_to_onBoardingFragment)
+                else {
+                    if (from=="profile"){
+                        CommonMethod.showSuccessDialog(requireActivity(),"Language changed successfully"){
+                            findNavController().popBackStack()
+                        }
                     }
 
+                    else{
+                        SharedPreference.get(requireActivity()).language = Constants.language
+                        if (SharedPreference.get(requireActivity()).isTutorial){
+                            findNavController().navigate(R.id.action_languageFragment_to_loginFragment)
+                        }
+                        else{
+                            findNavController().navigate(R.id.action_languageFragment_to_onBoardingFragment)
+                        }
+
+                    }
                 }
             }
         }

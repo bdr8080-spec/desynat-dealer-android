@@ -148,6 +148,22 @@
             android:id="@+id/action_profileFragment_to_mySubscriptionFragment"
             app:destination="@id/mySubscription" />
 
+          <action
+            android:id="@+id/action_profileFragment_to_faqFragment"
+            app:destination="@id/faq" />
+
+          <action
+            android:id="@+id/action_profileFragment_to_languageFragment"
+            app:destination="@id/language" />
+
+          <action
+            android:id="@+id/action_profileFragment_to_supportFragment"
+            app:destination="@id/support" />
+
+          <action
+            android:id="@+id/action_profileFragment_to_settingFragment"
+            app:destination="@id/setting" />
+
     </fragment>
 
     <fragment
@@ -203,7 +219,37 @@
         android:id="@+id/editProfile"
         android:name="com.desynatdealer.ui.home.profile.EditProfileFragment"
         android:label="Edit Profile Fragment"
-        tools:layout="@layout/fragment_edit_profile" />
+        tools:layout="@layout/fragment_edit_profile">
+
+        <action
+            android:id="@+id/action_editProfileFragment_to_otpFragment"
+            app:destination="@id/otp" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/changeMobile"
+        android:name="com.desynatdealer.ui.home.profile.ChangeMobileFragment"
+        android:label="Change Mobile Fragment"
+        tools:layout="@layout/fragment_change_mobile">
+
+        <action
+            android:id="@+id/action_changeMobileEmailFragment_to_otpFragment"
+            app:destination="@id/otp" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/otp"
+        android:name="com.desynatdealer.ui.auth.fragment.OtpVerificationFragment"
+        android:label="Otp Verification Fragment"
+        tools:layout="@layout/fragment_otp_verification">
+
+        <action
+            android:id="@+id/action_otpFragment_to_changeMobileFragment"
+            app:destination="@id/changeMobile" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/bannerManagement"
@@ -285,7 +331,6 @@
         android:label="Order Detail Fragment"
         tools:layout="@layout/fragment_order_detail" />
 
-
     <fragment
         android:id="@+id/dealListedFragment"
         android:name="com.desynatdealer.ui.home.dealManagement.DealListedFragment"
@@ -338,6 +383,10 @@
             android:id="@+id/action_mySubscriptionFragment_to_subscriptionDetailFragment"
             app:destination="@id/subscriptionDetail" />
 
+        <action
+            android:id="@+id/action_mySubscription_to_paymentMethodFragment"
+            app:destination="@id/paymentMethod" />
+
     </fragment>
 
     <fragment
@@ -350,7 +399,64 @@
             android:id="@+id/action_subscriptionDetailFragment_to_paymentMethodFragment"
             app:destination="@id/paymentMethod" />
 
+    </fragment>
+
+    <fragment
+        android:id="@+id/changePassword"
+        android:label="Change Password Fragment"
+        android:name="com.desynatdealer.ui.home.cms.ChangePasswordFragment"
+        tools:layout="@layout/fragment_change_password" />
+
+    <fragment
+        android:id="@+id/faq"
+        android:label="Faq Fragment"
+        android:name="com.desynatdealer.ui.home.cms.FaqFragment"
+        tools:layout="@layout/fragment_faq" />
+
+    <fragment
+        android:id="@+id/setting"
+        android:label="Setting Fragment"
+        android:name="com.desynatdealer.ui.home.cms.SettingFragment"
+        tools:layout="@layout/fragment_setting">
+
+        <action
+            android:id="@+id/action_settingFragment_to_notificationSettingFragment"
+            app:destination="@id/notificationSetting" />
+
+        <action
+            android:id="@+id/action_settingFragment_to_changePasswordFragment"
+            app:destination="@id/changePassword" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/notificationSetting"
+        android:label="Notification Setting Fragment"
+        android:name="com.desynatdealer.ui.home.cms.NotificationSettingFragment"
+        tools:layout="@layout/fragment_notification" />
+
+    <fragment
+        android:id="@+id/support"
+        android:label="Support Fragment"
+        android:name="com.desynatdealer.ui.home.cms.SupportFragment"
+        tools:layout="@layout/fragment_support">
+
+        <action
+            android:id="@+id/action_supportFragment_to_ticketDetailFragment"
+            app:destination="@id/ticketDetail" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/ticketDetail"
+        android:label="Ticket Detail Fragment"
+        android:name="com.desynatdealer.ui.home.cms.TicketDetailFragment"
+        tools:layout="@layout/fragment_ticket_detail" />
+
+    <fragment
+        android:id="@+id/language"
+        android:name="com.desynatdealer.ui.auth.fragment.LanguageFragment"
+        android:label="Language Fragment"
+        tools:layout="@layout/fragment_language"/>
 
     </navigation>

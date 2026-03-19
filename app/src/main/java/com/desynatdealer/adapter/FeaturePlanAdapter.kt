@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemPlanFeatureBinding
 
 class FeaturePlanAdapter(var context:Context, var featureList: ArrayList<SubscriptionAdapter.FeatureList>) : RecyclerView.Adapter<FeaturePlanAdapter.ViewHolder>() {
@@ -12,6 +13,7 @@ class FeaturePlanAdapter(var context:Context, var featureList: ArrayList<Subscri
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             tvFeature.text = featureList[position].feature
+            tvFeature.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_feature,0,0,0)
             if (featureList[position].count!=0) {
                 tvCount.text = featureList[position].count.toString()
             }

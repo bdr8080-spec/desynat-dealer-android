@@ -368,6 +368,30 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _changeNumberResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val changeNumberResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _changeNumberResponse
+
+    fun changeNumber(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _changeNumberResponse.value = ApiResult.Loading
+            _changeNumberResponse.value = repo.changeNumber(map)
+        }
+    }
+
+    private val _otpVerificationResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val otpVerificationResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _otpVerificationResponse
+
+    fun otpVerification(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _otpVerificationResponse.value = ApiResult.Loading
+            _otpVerificationResponse.value = repo.otpVerification(map)
+        }
+    }
+
     private val _updateBankDetailResponse =
         MutableLiveData<ApiResult<CommonResponse>?>()
     val updateBankDetailResponse: MutableLiveData<ApiResult<CommonResponse>?>
@@ -616,6 +640,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _sendLiveRequestResponse.value = ApiResult.Loading
             _sendLiveRequestResponse.value = repo.sendLiveRequest(map)
+        }
+    }
+
+    private val _changePasswordResponse =
+        MutableLiveData<ApiResult<Unit>?>()
+    val changePasswordResponse: MutableLiveData<ApiResult<Unit>?>
+        get() = _changePasswordResponse
+
+    fun changePassword(req: HashMap<String, String>) {
+        viewModelScope.launch {
+            _changePasswordResponse.value = ApiResult.Loading
+            _changePasswordResponse.value = repo.changePassword(req)
         }
     }
 

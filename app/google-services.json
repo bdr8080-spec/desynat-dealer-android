@@ -8,9 +8,47 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:89320198276:android:dbb5b4e422de5a659d32d1",
+        "android_client_info": {
+          "package_name": "com.desynatadmin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJKDAVeXi2TvmbKl3-i2bDdBvDHJez0KE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:89320198276:android:b765ae2132fc4bc99d32d1",
         "android_client_info": {
           "package_name": "com.desynatdealer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJKDAVeXi2TvmbKl3-i2bDdBvDHJez0KE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89320198276:android:a8c48ad9a1517e9c9d32d1",
+        "android_client_info": {
+          "package_name": "com.desynatdriver"
         }
       },
       "oauth_client": [],

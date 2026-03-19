@@ -44,6 +44,8 @@ object Constants {
     const val UPDATE_INVENTORY_STOCK = "/api/seller/update-stock-inventory"
     const val UPDATE_AFFILIATE_COMMISSION = "/api/seller/update-affilate-commission"
     const val UPDATE_STORE_INFO = "/api/seller/update-store-information"
+    const val CHANGE_NUMBER_EMAIL = "/api/seller/update-store-information"
+    const val OTP_VERIFICATION = "/api/seller/update-store-information"
     const val UPDATE_STORE_BANK_DETAIL = "/api/seller/update-store-bank-details"
 
     const val GET_BANNER_PRICE = "/api/seller/get-seller-banner-price"
@@ -70,5 +72,7 @@ object Constants {
     const val GET_LIVE_REQUEST = "/api/seller/get_live_requests"
     const val CANCEL_LIVE_REQUEST = "/api/seller/cancel_live_request"
     const val SEND_LIVE_REQUEST = "/api/seller/send_live_request"
+
+    const val CHANGE_PASSWORD = "/api/seller/change_password"
 
 }

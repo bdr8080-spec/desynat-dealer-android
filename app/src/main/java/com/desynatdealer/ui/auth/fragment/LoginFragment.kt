@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,8 @@ import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.utils.togglePasswordVisibility
+import com.google.firebase.messaging.FirebaseMessaging
+import kotlin.text.get
 
 class LoginFragment : BaseFragment() {
 
@@ -56,6 +59,16 @@ class LoginFragment : BaseFragment() {
     }
 
     override fun initView() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.e("FCM_ERROR", "Token failed", task.exception)
+                return@addOnCompleteListener
+            }
+
+            val token = task.result
+            Log.d("FCM_TOKEN", token)
+            SharedPreference.get(requireActivity()).deviceToken = token
+        }
         binding?.apply {
             getCountry()
             CommonMethod.removeAllTextSpaces(etEmailMobile)
