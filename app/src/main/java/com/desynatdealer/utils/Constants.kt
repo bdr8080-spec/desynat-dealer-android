@@ -73,6 +73,11 @@ object Constants {
     const val CANCEL_LIVE_REQUEST = "/api/seller/cancel_live_request"
     const val SEND_LIVE_REQUEST = "/api/seller/send_live_request"
 
-    const val CHANGE_PASSWORD = "/api/seller/change_password"
+    const val GET_NOTIFICATION_LIST = "/api/seller/get_my_notifications_list"
+    const val READ_NOTIFICATION = "/api/seller/mark_notification_as_read"
+    const val READ_ALL_NOTIFICATION = "/api/seller/mark_all_notification_as_read"
+
+    const val GET_MY_SUBSCRIPTION_PLAN = "/api/seller/my_plans"
+    const val RENEW_SUBSCRIPTION_PLAN = "/api/seller/renew_subcription_plan_buy"
 
 }

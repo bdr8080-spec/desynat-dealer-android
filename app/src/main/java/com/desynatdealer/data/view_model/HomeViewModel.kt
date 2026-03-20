@@ -19,6 +19,8 @@ import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductRespon
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
+import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
+import com.desynatdealer.ui.home.mySubscriptionPlan.response.RenewSubscriptionPlanResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
@@ -630,7 +632,6 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
             _cancelLiveRequestResponse.value = repo.cancelLiveRequest(map)
         }
     }
-
     private val _sendLiveRequestResponse =
         MutableLiveData<ApiResult<CommonResponse>?>()
     val sendLiveRequestResponse: MutableLiveData<ApiResult<CommonResponse>?>
@@ -642,7 +643,6 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
             _sendLiveRequestResponse.value = repo.sendLiveRequest(map)
         }
     }
-
     private val _changePasswordResponse =
         MutableLiveData<ApiResult<Unit>?>()
     val changePasswordResponse: MutableLiveData<ApiResult<Unit>?>
@@ -654,6 +654,68 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
             _changePasswordResponse.value = repo.changePassword(req)
         }
     }
+
+    private val _getNotificationListResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val getNotificationListResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _getNotificationListResponse
+
+    fun getNotificationList(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getNotificationListResponse.value = ApiResult.Loading
+            _getNotificationListResponse.value = repo.getNotificationList(map)
+        }
+    }
+
+
+    private val _readNotificationResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val readNotificationResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _readNotificationResponse
+
+    fun readNotification(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _readNotificationResponse.value = ApiResult.Loading
+            _readNotificationResponse.value = repo.readNotification(map)
+        }
+    }
+
+    private val _readAllNotificationResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val readAllNotificationResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _readAllNotificationResponse
+
+    fun readAllNotification(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _readAllNotificationResponse.value = ApiResult.Loading
+            _readAllNotificationResponse.value = repo.readAllNotification(map)
+        }
+    }
+
+    private val _renewSubscriptionPlanResponse =
+        MutableLiveData<ApiResult<RenewSubscriptionPlanResponse>?>()
+    val renewSubscriptionPlanResponse: MutableLiveData<ApiResult<RenewSubscriptionPlanResponse>?>
+        get() = _renewSubscriptionPlanResponse
+
+    fun renewSubscriptionPlan(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _renewSubscriptionPlanResponse.value = ApiResult.Loading
+            _renewSubscriptionPlanResponse.value = repo.renewSubscriptionPlan(map)
+        }
+    }
+
+   private val _getMyPlanResponse =
+        MutableLiveData<ApiResult<GetMyPlanResponse>?>()
+    val getMyPlanResponse: MutableLiveData<ApiResult<GetMyPlanResponse>?>
+        get() = _getMyPlanResponse
+
+    fun getMyPlan(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getMyPlanResponse.value = ApiResult.Loading
+            _getMyPlanResponse.value = repo.getMyPlan(map)
+        }
+    }
+
 
 
 }

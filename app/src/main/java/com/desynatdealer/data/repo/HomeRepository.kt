@@ -21,6 +21,8 @@ import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductRespon
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
+import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
+import com.desynatdealer.ui.home.mySubscriptionPlan.response.RenewSubscriptionPlanResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
@@ -420,6 +422,46 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     suspend fun changePassword(map: HashMap<String, String>): ApiResult<Unit> {
         return try {
             networkCall(api.changePassword(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun getNotificationList(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.getNotificationList(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun readNotification(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.readNotification(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun readAllNotification(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.readAllNotification(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun renewSubscriptionPlan(map: HashMap<String, Any>): ApiResult<RenewSubscriptionPlanResponse> {
+        return try {
+            networkCall(api.renewSubscriptionPlan(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun getMyPlan(map: HashMap<String, Any>): ApiResult<GetMyPlanResponse> {
+        return try {
+            networkCall(api.getMyPlan(map))
         } catch (e: Exception) {
             ApiResult.Error("Syntax Error")
         }

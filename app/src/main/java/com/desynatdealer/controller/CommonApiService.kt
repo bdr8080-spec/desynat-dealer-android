@@ -18,6 +18,8 @@ import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductRespon
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
+import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
+import com.desynatdealer.ui.home.mySubscriptionPlan.response.RenewSubscriptionPlanResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
@@ -86,7 +88,6 @@ interface CommonApiService {
 
     @POST("api/seller/create_password")
     suspend fun changePassword(@Body map: HashMap<String, String>): Response<Unit>
-
 
     @POST("api/seller/resend_otp")
     suspend fun resendOtp(@Body map: HashMap<String, String>): Response<Unit>
@@ -244,5 +245,20 @@ interface CommonApiService {
 
     @POST(Constants.SEND_LIVE_REQUEST)
     suspend fun sendLiveRequest(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @GET(Constants.GET_NOTIFICATION_LIST)
+    suspend fun getNotificationList(@QueryMap map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.READ_NOTIFICATION)
+    suspend fun readNotification(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.READ_ALL_NOTIFICATION)
+    suspend fun readAllNotification(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.RENEW_SUBSCRIPTION_PLAN)
+    suspend fun renewSubscriptionPlan(@Body map: HashMap<String, Any>): Response<RenewSubscriptionPlanResponse>
+
+    @GET(Constants.GET_MY_SUBSCRIPTION_PLAN)
+    suspend fun getMyPlan(@QueryMap map: HashMap<String, Any>): Response<GetMyPlanResponse>
 
 }

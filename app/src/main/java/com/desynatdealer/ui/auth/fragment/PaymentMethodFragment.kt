@@ -14,6 +14,7 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentPaymentMethodBinding
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
+import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.CommonMethod
@@ -46,6 +47,7 @@ class PaymentMethodFragment : BaseFragment() {
     private var binding: FragmentPaymentMethodBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
     private var subscriptionData: GetAllPlanResponse.Data?=null
+    private var mySubscriptionData: GetMyPlanResponse.Data.Data?=null
     private var bannerData: GetAllBannerResponse.Data?=null
     private var profileData:GetSellerInfo.Data?=null
     private var paymentData: MFGetPaymentStatusResponse?=null
@@ -80,6 +82,13 @@ class PaymentMethodFragment : BaseFragment() {
 
                 }
             }
+            "renew"->{
+                val itemJson = arguments?.getString("mySubscriptionData")
+                if (!itemJson.isNullOrEmpty()) {
+                    mySubscriptionData = Gson().fromJson(itemJson, GetMyPlanResponse.Data.Data::class.java)
+
+                }
+            }
             "banner"-> {
                 val itemJson = arguments?.getString("bannerData")
                 if (!itemJson.isNullOrEmpty()) {
@@ -99,6 +108,17 @@ class PaymentMethodFragment : BaseFragment() {
                         }
                         else -> {
                             tvDays.text = "for ${subscriptionData?.duration} Days"
+                        }
+                    }
+                }
+                "renew" -> {
+                    tvTotalAmount.text = "${CommonMethod.formatPrice(mySubscriptionData?.planInfo?.price?.toDoubleOrNull()?:0.0)} KD"
+                    when(mySubscriptionData?.planInfo?.durationType){
+                        1 -> {
+                            tvDays.text = "for ${mySubscriptionData?.planInfo?.duration} Month"
+                        }
+                        else -> {
+                            tvDays.text = "for ${mySubscriptionData?.planInfo?.duration} Days"
                         }
                     }
                 }
@@ -123,7 +143,7 @@ class PaymentMethodFragment : BaseFragment() {
 
             btnPay.setOnClickListener {
                 if(isLoad) {
-                    executeRedirectPayment(2,if (from=="subscription") subscriptionData?.price?:0.0 else if (from=="mySubscription") subscriptionData?.price?:0.0 else bannerData?.price?:0.0)
+                    executeRedirectPayment(2,if (from=="subscription") subscriptionData?.price?:0.0 else if (from=="mySubscription") subscriptionData?.price?:0.0 else if (from=="renew") mySubscriptionData?.planInfo?.price?.toDoubleOrNull()?:0.0 else bannerData?.price?:0.0)
                   //  executeEmbeddedPayment()
                 }
             }
@@ -151,6 +171,26 @@ class PaymentMethodFragment : BaseFragment() {
             }
         }
 
+viewModel.renewSubscriptionPlanResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    result.data?.data?.transactionId?.let { buySubscriptionPlan(it) }
+                    viewModel.renewSubscriptionPlanResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.renewSubscriptionPlanResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
         viewModel.buySubscriptionPlanResponse.observe(viewLifecycleOwner){result->
             when(result){
                 ApiResult.Loading -> {
@@ -158,17 +198,29 @@ class PaymentMethodFragment : BaseFragment() {
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Plan purchased successfully !"){
-                        if (from=="mySubscription"){
-                            SharedPreference.get(requireActivity()).isSubscription = true
-                            findNavController().popBackStack()
-                        }
-                        else{
-                            SharedPreference.get(requireActivity()).isSubscription = true
-                            findNavController().navigate(R.id.action_paymentMethodFragment_to_HomeFragment)
-                        }
 
+                    when (from) {
+                        "renew" -> {
+                            CommonMethod.showSuccessDialog(requireActivity(), "Plan renewed successfully !") {
+                                SharedPreference.get(requireActivity()).isSubscription = true
+                                findNavController().popBackStack()
+                            }
+                        }
+                        "mySubscription" -> {
+                            CommonMethod.showSuccessDialog(requireActivity(), "Plan purchased successfully !") {
+                                SharedPreference.get(requireActivity()).isSubscription = true
+                                findNavController().popBackStack()
+                            }
+
+                        }
+                        else -> {
+                            CommonMethod.showSuccessDialog(requireActivity(), "Plan purchased successfully !") {
+                                SharedPreference.get(requireActivity()).isSubscription = true
+                                findNavController().navigate(R.id.action_paymentMethodFragment_to_HomeFragment)
+                            }
+                        }
                     }
+
                     viewModel.buySubscriptionPlanResponse.value = null
                 }
                 is ApiResult.Error -> {
@@ -334,9 +386,14 @@ class PaymentMethodFragment : BaseFragment() {
                                     if (from=="subscription"){
                                         createSubscriptionPlan()
                                     }
+                                    else if (from=="mySubscription"){
+                                        createSubscriptionPlan()
+                                    }
+                                    else if (from=="renew"){
+                                        renewSubscriptionPlan()
+                                    }
                                     else{
                                         payForBanner()
-
                                     }
 
                                 }
@@ -389,9 +446,19 @@ class PaymentMethodFragment : BaseFragment() {
         viewModel.createSubscriptionPlan(map)
     }
 
+    private fun renewSubscriptionPlan() {
+        val map = HashMap<String,Any>()
+        map["plan_id"] = mySubscriptionData?.planId.toString()
+        viewModel.renewSubscriptionPlan(map)
+    }
     fun buySubscriptionPlan(transactionId: String) {
         val map = HashMap<String,Any>()
-        map["plan_id"]=subscriptionData?.id.toString()
+        if (from=="renew"){
+            map["plan_id"]=mySubscriptionData?.planId.toString()
+        }
+        else{
+            map["plan_id"]=subscriptionData?.id.toString()
+        }
         map["transaction_id"]=transactionId
         map["payment_status"]=1// 1 paid 2 reject
         if(paymentData!=null){
@@ -445,9 +512,14 @@ class PaymentMethodFragment : BaseFragment() {
                     if (from=="subscription"){
                         createSubscriptionPlan()
                     }
+                    else if (from=="mySubscription"){
+                        createSubscriptionPlan()
+                    }
+                    else if (from=="renew"){
+                        renewSubscriptionPlan()
+                    }
                     else{
                         payForBanner()
-
                     }
                 }
                 is MFResult.Fail -> {

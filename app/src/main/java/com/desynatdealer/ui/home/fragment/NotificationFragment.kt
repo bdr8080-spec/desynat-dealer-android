@@ -11,9 +11,11 @@ import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.adapter.NotificationAdapter
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentNotificationBinding
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 import kotlin.getValue
@@ -43,7 +45,6 @@ class NotificationFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
-            toolbar.tvToolbar.text = "My Notifications"
 
             notificationAdapter = NotificationAdapter(requireActivity(),notificationList,object :
                 NotificationAdapter.ClickOnItem{
@@ -58,24 +59,125 @@ class NotificationFragment : BaseFragment() {
             )
             swipeRefreshLayout.setOnRefreshListener {
                 isFromSwipe = true
-                getNotification(false)
+                getNotification()
             }
         }
     }
 
     override fun initControl() {
         binding?.apply {
-            toolbar.tvToolbar.setOnClickListener {
+            ivBack.setOnClickListener {
                 findNavController().popBackStack()
+            }
+
+            tvReadAll.setOnClickListener {
+                readAllNotification()
             }
         }
     }
 
-    private fun getNotification(isLoading: Boolean=true){
-        if (isLoading){
-            ProgressDialogUtils.getInstance().showProgress(requireActivity())
-        }
+    private fun getNotification(){
+        val map = HashMap<String,Any>()
+        viewModel.getNotificationList(map)
     }
+
+    private fun readNotification(){
+        val idList = arrayListOf("1", "2")
+        val map = HashMap<String,Any>()
+        map["notification_id"] = idList
+        viewModel.readNotification(map)
+    }
+
+    private fun readAllNotification(){
+        val map = HashMap<String,Any>()
+        map["receiver_type"] = 3
+        viewModel.readAllNotification(map)
+    }
+
     override fun observe() {
+
+        viewModel.getNotificationListResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    if (!isFromSwipe){
+                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    }
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    notificationList.clear()
+                  //  result.data?.data?.let { notificationList.addAll(it) }
+                    notificationAdapter?.notifyDataSetChanged()
+                    checkData()
+
+                    viewModel.getNotificationListResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getNotificationListResponse.value = null
+                }
+
+                else -> {
+
+                }
+            }
+        }
+
+        viewModel.readNotificationResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+
+                    viewModel.readNotificationResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.readNotificationResponse.value = null
+                }
+
+                else -> {
+
+                }
+            }
+        }
+
+        viewModel.readAllNotificationResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+
+                    viewModel.readAllNotificationResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.readAllNotificationResponse.value = null
+                }
+
+                else -> {
+
+                }
+            }
+        }
+
+    }
+
+    private fun checkData(){
+        binding?.tvNoDataFound?.isVisible = notificationList.isEmpty()
+        binding?.tvReadAll?.isVisible = notificationList.isNotEmpty()
     }
 }
