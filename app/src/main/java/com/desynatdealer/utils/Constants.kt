@@ -2,7 +2,9 @@ package com.desynatdealer.utils
 
 object Constants {
 
-    const val BASE_URL = "http://157.241.119.72"
+   // const val BASE_URL = "http://157.241.119.72" //old
+//    const val BASE_URL = "http://65.2.12.223" //new
+    const val BASE_URL = "https://desynat.com"
 
     var language=""
     const val ENGLISH = "en"

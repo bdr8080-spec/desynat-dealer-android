@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentPlanDetailBinding
+import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
@@ -19,6 +23,7 @@ class PlanDetailFragment : BaseFragment() {
 
     private var binding: FragmentPlanDetailBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
+    private var mySubscriptionData: GetMyPlanResponse.Data.Data?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +43,12 @@ class PlanDetailFragment : BaseFragment() {
     override fun initView() {
         binding?.apply {
             toolbar.tvToolbar.text = "Details"
+
+            val itemJson = arguments?.getString("mySubscriptionData")
+            if (!itemJson.isNullOrEmpty()) {
+                mySubscriptionData = Gson().fromJson(itemJson, GetMyPlanResponse.Data.Data::class.java)
+                setData()
+            }
         }
     }
 
@@ -58,17 +69,59 @@ class PlanDetailFragment : BaseFragment() {
 
     private fun setData(){
         binding?.apply {
-//            if (status=="Active"){
-//                tvStatus.text = "Active"
-//                btnUpgrade.text = "Upgrade Plan"
-//                CommonMethod.applyGradientText(tvStatus)
-//            }
-//            else{
-//                tvStatus.paint.shader = null
-//                tvStatus.setTextColor(requireActivity().getColor(R.color.black))
-//                tvStatus.text = "Expired"
-//                btnUpgrade.text = "Renew Plan"
-//            }
+            if (mySubscriptionData?.isExpired=="0"){
+                tvStatus.text = "Active"
+                btnUpgrade.text = "Upgrade Plan"
+                btnUpgrade.isVisible = false
+                CommonMethod.applyGradientText(tvStatus)
+            }
+            else{
+                tvStatus.paint.shader = null
+                tvStatus.setTextColor(requireActivity().getColor(R.color.black))
+                tvStatus.text = "Expired"
+                btnUpgrade.text = "Renew Plan"
+            }
+
+            tvPlanName.text = if (Constants.language=="ar") mySubscriptionData?.planInfo?.planNameArabic else mySubscriptionData?.planInfo?.planNameEnglish
+            tvAmountValue.text = "${CommonMethod.formatPrice(mySubscriptionData?.planInfo?.price?.toDoubleOrNull()?:0.0)} KD"
+            tvPaidAmount.text = "${CommonMethod.formatPrice(mySubscriptionData?.planInfo?.price?.toDoubleOrNull()?:0.0)} KD"
+            tvPurchaseOn.text = CommonMethod.customizeChangeDateFormat(mySubscriptionData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+            tvExpiredOn.text = CommonMethod.customizeChangeDateFormat(mySubscriptionData?.planEndDate.toString(), inputFormat = "yyyy-MM-dd hh:mm:ss", outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+            tvTransactionId.text = "${mySubscriptionData?.transactionId}"
+
+            when(mySubscriptionData?.paymentMethod){
+                "1"->{
+                    tvPaymentType.text = "Paid By Card"
+                    ivPaymentType.setImageResource(R.drawable.ic_visa_card)
+                }
+                "2"->{
+                    tvPaymentType.text = "Paid By Wallet"
+                    ivPaymentType.setImageResource(R.drawable.ic_wallet)
+                }
+            }
+
+            when(mySubscriptionData?.planInfo?.durationType){
+                1 -> {
+                    tvDurationValue.text = "for ${mySubscriptionData?.planInfo?.duration} Month"
+                }
+                2 -> {
+                    tvDurationValue.text = "for ${mySubscriptionData?.planInfo?.duration} Year"
+                }
+                else -> {
+                    tvDurationValue.text = "for ${mySubscriptionData?.planInfo?.duration} Month"
+                }
+            }
+
+            btnUpgrade.setOnClickListener {
+                if (mySubscriptionData?.isExpired=="1"){
+                    val bundle = Bundle().apply {
+                        putString("mySubscriptionData", Gson().toJson(mySubscriptionData))
+                        putString("from", "renew")
+                    }
+                    findNavController().navigate(R.id.action_subscriptionDetailFragment_to_paymentMethodFragment,bundle)
+                }
+            }
+
         }
 
     }

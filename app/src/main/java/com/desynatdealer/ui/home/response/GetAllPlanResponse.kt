@@ -45,6 +45,8 @@ data class GetAllPlanResponse(
         @SerializedName("stories")
         val stories: Int,
         @SerializedName("updated_at")
-        val updatedAt: String
+        val updatedAt: String,
+        @SerializedName("isPurchased")
+        var isPurchased: Boolean=false
     )
 }

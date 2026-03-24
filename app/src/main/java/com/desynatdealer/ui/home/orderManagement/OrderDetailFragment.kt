@@ -25,6 +25,7 @@ import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.setImage
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -716,11 +717,12 @@ class OrderDetailFragment : BaseFragment() {
             tvPhoneNumber.text = orderDetailData?.order?.userDetails?.countryCode+ " "+orderDetailData?.order?.userDetails?.mobile
             tvMailId.text = orderDetailData?.order?.userDetails?.email
             tvShippingLocation.text = orderDetailData?.order?.deliveryDetails?.address
-            ivUser.load(orderDetailData?.order?.userDetails?.profileImage) {
-                crossfade(true)
-                placeholder(R.drawable.ic_user)
-                error(R.drawable.ic_user)
-            }
+            ivUser.setImage(orderDetailData?.order?.userDetails?.profileImage,R.drawable.ic_user)
+//            ivUser.load(orderDetailData?.order?.userDetails?.profileImage) {
+//                crossfade(true)
+//                placeholder(R.drawable.ic_user)
+//                error(R.drawable.ic_user)
+//            }
             tvOrderIdValue.text = "#${orderDetailData?.id}"
             tvOrderTypeValue.text = if (orderDetailData?.orderType=="2") "Custom Order" else "Normal Order"
 

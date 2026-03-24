@@ -12,6 +12,7 @@ import com.desynatdealer.databinding.ItemProductBinding
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.setImage
 
 class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProductResponse.Data.AllProductData>,var colorList:ArrayList<GetColorResponse.Data>, var productClick:ProductClick) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
@@ -33,11 +34,14 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
                 }
 
                 tvDate.text = "Added on- ${CommonMethod.customizeChangeDateFormat(productData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
-                ivProduct.load(productData?.productVariants?.get(0)?.variantImage?.get(0)) {
-                    crossfade(true)
-                    placeholder(R.drawable.ic_placeholder)
-                    error(R.drawable.ic_placeholder)
-                }
+//                ivProduct.load(productData?.productVariants?.get(0)?.variantImage?.get(0)) {
+//                    crossfade(true)
+//                    placeholder(R.drawable.ic_placeholder)
+//                    error(R.drawable.ic_placeholder)
+//                }
+
+
+            ivProduct.setImage(productData?.productVariants?.get(0)?.variantImage?.get(0),R.drawable.ic_placeholder)
 
                 if(productData.productActiveStatus==1){
                     tvSwitch.text = "Active"

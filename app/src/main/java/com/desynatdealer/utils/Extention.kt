@@ -364,5 +364,5 @@ fun ImageView.setImage(
     link: String?,
     placeholder: Int = R.drawable.ic_placeholder,
 ) {
-    Glide.with(this).load(link).error(placeholder).into(this)
+    Glide.with(this).load(link).placeholder(placeholder).error(placeholder).into(this)
 }

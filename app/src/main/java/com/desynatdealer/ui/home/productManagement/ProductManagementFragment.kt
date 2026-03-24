@@ -97,7 +97,6 @@ class ProductManagementFragment : BaseFragment() {
                         }
                     }
                 }
-
             })
             rvProduct.adapter = productAdapter
 
@@ -117,7 +116,6 @@ class ProductManagementFragment : BaseFragment() {
                     after: Int
                 ) {
                 }
-
                 override fun onTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -125,7 +123,6 @@ class ProductManagementFragment : BaseFragment() {
                     count: Int
                 ) {
                 }
-
                 override fun afterTextChanged(s: Editable?) {
                     val query = s.toString().trim()
                     if (query == lastQuery) return
@@ -133,13 +130,10 @@ class ProductManagementFragment : BaseFragment() {
                     search?.cancel()
                     search = lifecycleScope.launch {
                         delay(600)
-
                         getAllProduct()
-
                     }
                 }
             })
-
         }
         getProductInfo()
         getAllProduct()

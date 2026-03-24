@@ -53,6 +53,7 @@ class PaymentMethodFragment : BaseFragment() {
     private var paymentData: MFGetPaymentStatusResponse?=null
     private var isLoad = false
     private var from = ""
+    private var transactionId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,6 +78,7 @@ class PaymentMethodFragment : BaseFragment() {
         when(from){
             "subscription","mySubscription"->{
                 val itemJson = arguments?.getString("subscriptionData")
+                transactionId = arguments?.getString("transactionId").toString()
                 if (!itemJson.isNullOrEmpty()) {
                     subscriptionData = Gson().fromJson(itemJson, GetAllPlanResponse.Data::class.java)
 
@@ -84,6 +86,7 @@ class PaymentMethodFragment : BaseFragment() {
             }
             "renew"->{
                 val itemJson = arguments?.getString("mySubscriptionData")
+                transactionId = arguments?.getString("transactionId").toString()
                 if (!itemJson.isNullOrEmpty()) {
                     mySubscriptionData = Gson().fromJson(itemJson, GetMyPlanResponse.Data.Data::class.java)
 
@@ -384,13 +387,13 @@ viewModel.renewSubscriptionPlanResponse.observe(viewLifecycleOwner){result->
                                     )
                                     paymentData = result.response
                                     if (from=="subscription"){
-                                        createSubscriptionPlan()
+                                        buySubscriptionPlan(transactionId)
                                     }
                                     else if (from=="mySubscription"){
-                                        createSubscriptionPlan()
+                                        buySubscriptionPlan(transactionId)
                                     }
                                     else if (from=="renew"){
-                                        renewSubscriptionPlan()
+                                        buySubscriptionPlan(transactionId)
                                     }
                                     else{
                                         payForBanner()
@@ -510,13 +513,13 @@ viewModel.renewSubscriptionPlanResponse.observe(viewLifecycleOwner){result->
                     Log.d("executeRedirectPayment", "Success: ${Gson().toJson(result.response)}")
                     paymentData = result.response
                     if (from=="subscription"){
-                        createSubscriptionPlan()
+                        buySubscriptionPlan(transactionId)
                     }
                     else if (from=="mySubscription"){
-                        createSubscriptionPlan()
+                        buySubscriptionPlan(transactionId)
                     }
                     else if (from=="renew"){
-                        renewSubscriptionPlan()
+                        buySubscriptionPlan(transactionId)
                     }
                     else{
                         payForBanner()

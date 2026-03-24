@@ -153,9 +153,4 @@
         android:name="com.desynatdealer.ui.auth.fragment.ProductFragment"
         android:label="Products" />
 
-    <fragment
-        android:id="@+id/paymentsFragment"
-        android:name="com.desynatdealer.ui.auth.fragment.PaymentsFragment"
-        android:label="Payments" />
-
 </navigation>

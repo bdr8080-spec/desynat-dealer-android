@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemMyPlanBinding
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
-import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
 
@@ -33,7 +32,7 @@ class MySubscriptionAdapter(var context:Context, var subscriptionList: ArrayList
             }
 
             tvPlanName.text = if (Constants.language=="ar") subscriptionData?.planInfo?.planNameArabic else subscriptionData?.planInfo?.planNameEnglish
-            tvAmountValue.text = "KD ${CommonMethod.formatPrice(subscriptionData.planInfo?.price?.toDoubleOrNull()?:0.0)}"
+            tvAmountValue.text = "${CommonMethod.formatPrice(subscriptionData.planInfo?.price?.toDoubleOrNull()?:0.0)} KD"
             tvPurchaseOn.text = CommonMethod.customizeChangeDateFormat(subscriptionData.createdAt, outputFormat = "dd/MM/yyyy 'at' hh:mm a")
                 when(subscriptionData?.planInfo?.durationType){
                     1 -> {
@@ -49,11 +48,15 @@ class MySubscriptionAdapter(var context:Context, var subscriptionList: ArrayList
 
             btnRenew.setOnClickListener {
                 if (subscriptionData?.isExpired=="0"){
-                    subscriptionClick.onSubscriptionClick(position,"1")
+                  //  subscriptionClick.onSubscriptionClick(position,"1")
                 }
                 else{
                     subscriptionClick.onSubscriptionClick(position,"2")
                 }
+            }
+
+            root.setOnClickListener {
+                subscriptionClick.onSubscriptionClick(position,"1")
             }
         }
         }

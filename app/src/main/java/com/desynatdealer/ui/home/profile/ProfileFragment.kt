@@ -101,20 +101,28 @@ class ProfileFragment : BaseFragment() {
 //            rlFaq.setOnClickListener {
 //                findNavController().navigate(R.id.action_profileFragment_to_faqFragment)
 //            }
-//
+
 //            rlLanguage.setOnClickListener {
 //                val bundle = Bundle().apply {
 //                    putString("from", "profile")
 //                }
 //                findNavController().navigate(R.id.action_profileFragment_to_languageFragment,bundle)
 //            }
-//
+
 //            rlSupport.setOnClickListener {
 //                findNavController().navigate(R.id.action_profileFragment_to_supportFragment)
 //            }
-//
+
 //            rlSetting.setOnClickListener {
 //                findNavController().navigate(R.id.action_profileFragment_to_settingFragment)
+//            }
+
+//            rlRefund.setOnClickListener {
+//                findNavController().navigate(R.id.action_profileFragment_to_refundFragment)
+//            }
+
+//            rlStaffManagement.setOnClickListener {
+//                findNavController().navigate(R.id.action_profileFragment_to_staffManagementFragment)
 //            }
         }
     }

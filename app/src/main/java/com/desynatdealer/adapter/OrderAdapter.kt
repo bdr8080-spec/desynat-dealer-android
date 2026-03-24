@@ -10,6 +10,7 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemOrderBinding
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.setImage
 
 class OrderAdapter(
     var context: Context,
@@ -26,11 +27,12 @@ class OrderAdapter(
         fun bind(position: Int) = with(binding){
             val orderData = orderList[position]
 
-                ivUser.load(orderData?.userDetails?.profileImage) {
-                    crossfade(true)
-                    placeholder(R.drawable.ic_user)
-                    error(R.drawable.ic_user)
-                }
+//                ivUser.load(orderData?.userDetails?.profileImage) {
+//                    crossfade(true)
+//                    placeholder(R.drawable.ic_user)
+//                    error(R.drawable.ic_user)
+//                }
+            ivUser.setImage(orderData?.userDetails?.profileImage,R.drawable.ic_user)
                 ivProduct.load(orderData?.variationDetails?.variantImage?.get(0)) {
                     crossfade(true)
                     placeholder(R.drawable.ic_placeholder)

@@ -132,7 +132,7 @@
             android:background="@drawable/btn_gradient"
             android:layout_marginHorizontal="@dimen/_40sdp"
             android:textSize="@dimen/_11sdp"
-            android:padding="@dimen/_6sdp"
+            android:padding="@dimen/_7sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

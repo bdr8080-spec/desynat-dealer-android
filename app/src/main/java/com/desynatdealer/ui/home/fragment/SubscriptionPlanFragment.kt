@@ -25,6 +25,7 @@ class SubscriptionPlanFragment : BaseFragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private var subscriptionList = ArrayList<GetAllPlanResponse.Data>()
     private var subscriptionAdapter: SubscriptionAdapter?= null
+    private var selectedPos = -1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,11 +55,8 @@ class SubscriptionPlanFragment : BaseFragment() {
 
             subscriptionAdapter = SubscriptionAdapter(requireActivity(),subscriptionList,object :SubscriptionAdapter.SubscriptionClick{
                 override fun onSubscriptionClick(position: Int) {
-                    val bundle = Bundle().apply {
-                        putString("subscriptionData", Gson().toJson(subscriptionList[position]))
-                        putString("from", "subscription")
-                    }
-                    findNavController().navigate(R.id.action_subscriptionFragment_to_paymentMethodFragment,bundle)
+                    selectedPos = position
+                    createSubscriptionPlan(subscriptionList[position].id.toString())
                 }
 
             })
@@ -127,6 +125,32 @@ class SubscriptionPlanFragment : BaseFragment() {
             }
         }
 
+        viewModel.createSubscriptionPlanResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    val bundle = Bundle().apply {
+                        putString("subscriptionData", Gson().toJson(subscriptionList[selectedPos]))
+                        putString("transactionId", result.data?.data?.transactionId)
+                        putString("from", "subscription")
+                    }
+                    findNavController().navigate(R.id.action_subscriptionFragment_to_paymentMethodFragment,bundle)
+                    selectedPos = -1
+                    viewModel.createSubscriptionPlanResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.createSubscriptionPlanResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
     }
 
     private fun getSubscriptionPlan() {
@@ -134,6 +158,13 @@ class SubscriptionPlanFragment : BaseFragment() {
         viewModel.getSubscriptionPlan()
 
     }
+
+    fun createSubscriptionPlan(id: String){
+        val map = HashMap<String,Any>()
+        map["plan_id"]=id
+        viewModel.createSubscriptionPlan(map)
+    }
+
 
 
 }

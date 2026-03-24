@@ -62,6 +62,8 @@ class NotificationFragment : BaseFragment() {
                 getNotification()
             }
         }
+
+        getNotification()
     }
 
     override fun initControl() {
@@ -106,6 +108,10 @@ class NotificationFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    if (isFromSwipe) {
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                        isFromSwipe = false
+                    }
                     notificationList.clear()
                   //  result.data?.data?.let { notificationList.addAll(it) }
                     notificationAdapter?.notifyDataSetChanged()

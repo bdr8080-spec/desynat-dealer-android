@@ -164,6 +164,14 @@
             android:id="@+id/action_profileFragment_to_settingFragment"
             app:destination="@id/setting" />
 
+          <action
+            android:id="@+id/action_profileFragment_to_refundFragment"
+            app:destination="@id/refund" />
+
+          <action
+            android:id="@+id/action_profileFragment_to_staffManagementFragment"
+            app:destination="@id/staffManagement" />
+
     </fragment>
 
     <fragment
@@ -458,5 +466,51 @@
         android:name="com.desynatdealer.ui.auth.fragment.LanguageFragment"
         android:label="Language Fragment"
         tools:layout="@layout/fragment_language"/>
+
+    <fragment
+        android:id="@+id/refund"
+        android:name="com.desynatdealer.ui.home.refundManagement.RefundManagementFragment"
+        android:label="Refund Management Fragment"
+        tools:layout="@layout/fragment_refund_management"/>
+
+    <fragment
+        android:id="@+id/payment"
+        android:name="com.desynatdealer.ui.home.paymentManagement.PaymentManagementFragment"
+        android:label="Payment Management Fragment"
+        tools:layout="@layout/fragment_payment_management"/>
+
+    <fragment
+        android:id="@+id/staffManagement"
+        android:name="com.desynatdealer.ui.home.staffManagement.StaffManagementFragment"
+        android:label="Staff Management Fragment"
+        tools:layout="@layout/fragment_staff_management">
+
+        <action
+            android:id="@+id/action_staffManagementFragment_to_addStaffFragment"
+            app:destination="@id/addStaff" />
+
+        <action
+            android:id="@+id/action_staffManagementFragment_to_staffDetailFragment"
+            app:destination="@id/staffDetail" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/staffDetail"
+        android:name="com.desynatdealer.ui.home.staffManagement.StaffDetailFragment"
+        android:label="Staff Detail Fragment"
+        tools:layout="@layout/fragment_staff_detail">
+
+        <action
+            android:id="@+id/action_staffDetailFragment_to_addStaffFragment"
+            app:destination="@id/addStaff" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addStaff"
+        android:name="com.desynatdealer.ui.home.staffManagement.AddStaffFragment"
+        android:label="Add Staff Fragment"
+        tools:layout="@layout/fragment_add_staff"/>
 
     </navigation>

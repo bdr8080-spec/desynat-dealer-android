@@ -3,6 +3,8 @@ package com.desynatdealer.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.R
@@ -15,6 +17,13 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             var subscriptionData = subscriptionList[position]
+
+            if (subscriptionData.isPurchased){
+                btnContinue.isInvisible = true
+            }
+            else{
+                btnContinue.isVisible = true
+            }
                 when(position){
                     0->tvPackage.setBackgroundResource(R.drawable.pro)
                     1->tvPackage.setBackgroundResource(R.drawable.plus)
@@ -23,7 +32,7 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
                 }
 
                 tvPackage.text = subscriptionData.planNameEnglish
-                tvPrice.text = "KD ${CommonMethod.formatPrice(subscriptionData.price)}"
+                tvPrice.text = "${CommonMethod.formatPrice(subscriptionData.price)} KD"
                 when(subscriptionData.durationType){
                     1 -> {
                         tvDuration.text = "for ${subscriptionData.duration} Month"

@@ -34,6 +34,8 @@ class MySubscriptionPlanListFragment : BaseFragment() {
     private var subscriptionAdapter: SubscriptionAdapter? = null
     private var mySubscriptionAdapter: MySubscriptionAdapter? = null
     private var selectedType = 1
+    private var selectedPos = -1
+    private var mySelectedPos = -1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,11 +60,8 @@ class MySubscriptionPlanListFragment : BaseFragment() {
                 subscriptionList,
                 object : SubscriptionAdapter.SubscriptionClick {
                     override fun onSubscriptionClick(position: Int) {
-                        val bundle = Bundle().apply {
-                            putString("subscriptionData", Gson().toJson(subscriptionList[position]))
-                            putString("from", "mySubscription")
-                        }
-                        findNavController().navigate(R.id.action_mySubscription_to_paymentMethodFragment,bundle)
+                        selectedPos = position
+                        createSubscriptionPlan(subscriptionList[position].id.toString())
                     }
 
                 })
@@ -93,14 +92,14 @@ class MySubscriptionPlanListFragment : BaseFragment() {
                     override fun onSubscriptionClick(position: Int,type: String) {
                         when(type){
                             "1"->{
-
-                            }
-                            "2"->{
                                 val bundle = Bundle().apply {
                                     putString("mySubscriptionData", Gson().toJson(mySubscriptionList[position]))
-                                    putString("from", "renew")
                                 }
-                                findNavController().navigate(R.id.action_mySubscription_to_paymentMethodFragment,bundle)
+                                findNavController().navigate(R.id.action_mySubscriptionFragment_to_subscriptionDetailFragment,bundle)
+                            }
+                            "2"->{
+                                mySelectedPos = position
+                                renewSubscriptionPlan()
                             }
                         }
                     }
@@ -175,7 +174,8 @@ class MySubscriptionPlanListFragment : BaseFragment() {
                     subscriptionList.clear()
                     result.data?.data?.let { subscriptionList.addAll(it) }
                     subscriptionAdapter?.notifyDataSetChanged()
-
+                //    getMyPlan()
+                    checkData()
                     viewModel.subscriptionPlanResponse.value = null
                 }
 
@@ -202,6 +202,16 @@ class MySubscriptionPlanListFragment : BaseFragment() {
                     result.data?.data?.data?.let { mySubscriptionList.addAll(it) }
                     mySubscriptionAdapter?.notifyDataSetChanged()
 
+//                    val purchasedPlanIds = mySubscriptionList.map { it.planId }
+//
+//                    // Update subscription list purchase status
+//                    subscriptionList.forEach { plan ->
+//                        plan.isPurchased = purchasedPlanIds.contains(plan.id)
+//                    }
+//                    subscriptionAdapter?.notifyDataSetChanged()
+
+                    checkData()
+
                     viewModel.getMyPlanResponse.value = null
                 }
 
@@ -216,17 +226,90 @@ class MySubscriptionPlanListFragment : BaseFragment() {
                 }
             }}
 
+        viewModel.createSubscriptionPlanResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    val bundle = Bundle().apply {
+                        putString("subscriptionData", Gson().toJson(subscriptionList[selectedPos]))
+                        putString("transactionId", result.data?.data?.transactionId)
+                        putString("from", "mySubscription")
+                    }
+                    findNavController().navigate(R.id.action_mySubscription_to_paymentMethodFragment,bundle)
+                    selectedPos = -1
+                    viewModel.createSubscriptionPlanResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.createSubscriptionPlanResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
+        viewModel.renewSubscriptionPlanResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    val bundle = Bundle().apply {
+                        putString("mySubscriptionData", Gson().toJson(mySubscriptionList[mySelectedPos]))
+                        putString("transactionId", result.data?.data?.transactionId)
+                        putString("from", "renew")
+                    }
+                    findNavController().navigate(R.id.action_mySubscription_to_paymentMethodFragment,bundle)
+                    viewModel.renewSubscriptionPlanResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.renewSubscriptionPlanResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
     }
 
     private fun getSubscriptionPlan() {
         viewModel.getSubscriptionPlan()
     }
 
-
-
     private fun getMyPlan() {
         val map = HashMap<String,Any>()
         viewModel.getMyPlan(map)
     }
 
+    fun createSubscriptionPlan(id: String){
+        val map = HashMap<String,Any>()
+        map["plan_id"]=id
+        viewModel.createSubscriptionPlan(map)
+    }
+
+    private fun renewSubscriptionPlan() {
+        val map = HashMap<String,Any>()
+        map["plan_id"] = mySubscriptionList[mySelectedPos]?.planId.toString()
+        viewModel.renewSubscriptionPlan(map)
+    }
+
+    private fun checkData(){
+        when(selectedType){
+            1->{
+                binding?.tvNoDataFound?.isVisible = subscriptionList.isEmpty()
+            }
+            2->{
+                binding?.tvNoDataFound?.isVisible = mySubscriptionList.isEmpty()
+            }
+        }
+
+
+    }
 }
