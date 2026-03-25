@@ -9,11 +9,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentPlanDetailBinding
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
+import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
@@ -59,13 +62,52 @@ class PlanDetailFragment : BaseFragment() {
             }
 
             btnUpgrade.setOnClickListener {
-
+                renewSubscriptionPlan()
             }
         }
     }
 
     override fun observe() {
+        viewModel.renewSubscriptionPlanResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    val bundle = Bundle().apply {
+                        putString(
+                            "mySubscriptionData",
+                            Gson().toJson(mySubscriptionData)
+                        )
+                        putString("transactionId", result.data?.data?.transactionId)
+                        putString("from", "renew")
+                    }
+                    findNavController().navigate(
+                        R.id.action_mySubscription_to_paymentMethodFragment,
+                        bundle
+                    )
+                    viewModel.renewSubscriptionPlanResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.renewSubscriptionPlanResponse.value = null
+                }
+
+                else -> {
+
+                }
+            }
+        }
     }
+
+        private fun renewSubscriptionPlan() {
+            val map = HashMap<String,Any>()
+            map["plan_id"] = mySubscriptionData?.planId.toString()
+            viewModel.renewSubscriptionPlan(map)
+        }
 
     private fun setData(){
         binding?.apply {

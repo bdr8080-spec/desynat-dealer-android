@@ -17,6 +17,7 @@ import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
+import com.desynatdealer.ui.home.fragment.response.GetUserNotificationResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
@@ -656,8 +657,8 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     }
 
     private val _getNotificationListResponse =
-        MutableLiveData<ApiResult<CommonResponse>?>()
-    val getNotificationListResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        MutableLiveData<ApiResult<GetUserNotificationResponse>?>()
+    val getNotificationListResponse: MutableLiveData<ApiResult<GetUserNotificationResponse>?>
         get() = _getNotificationListResponse
 
     fun getNotificationList(map: HashMap<String, Any>) {

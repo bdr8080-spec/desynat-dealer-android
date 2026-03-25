@@ -147,6 +147,8 @@ class LoginFragment : BaseFragment() {
         map["password"] = binding?.etPassword?.text?.trim().toString()
         map["type"] = type
         map["lang"] = SharedPreference.get(requireActivity()).language
+        map["device_type"] = Constants.DEVICE_TYPE
+        map["fcm_token"] = SharedPreference.get(requireActivity()).deviceToken
 
         viewModel.login(map)
 

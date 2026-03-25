@@ -13,7 +13,7 @@ object Constants {
     var location=""
     var latitude=0.0
     var longitude=0.0
-    var DEVICE_TYPE=1
+    var DEVICE_TYPE=2
     var isLogout = false
 
     const val LOGOUT = "/api/seller/logout"
