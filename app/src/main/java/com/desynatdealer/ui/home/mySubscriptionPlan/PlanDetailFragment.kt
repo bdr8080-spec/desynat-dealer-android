@@ -134,7 +134,7 @@ class PlanDetailFragment : BaseFragment() {
             when(mySubscriptionData?.paymentMethod){
                 "1"->{
                     tvPaymentType.text = "Paid By Card"
-                    ivPaymentType.setImageResource(R.drawable.ic_visa_card)
+                    ivPaymentType.setImageResource(R.drawable.ic_card)
                 }
                 "2"->{
                     tvPaymentType.text = "Paid By Wallet"

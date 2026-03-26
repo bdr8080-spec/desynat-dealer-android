@@ -16,6 +16,7 @@ import com.desynatdealer.data.view_model.DealerRegistrationViewModel
 import com.desynatdealer.databinding.FragmentPreviewBinding
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.setImage
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -139,6 +140,7 @@ class PreviewFragment : BaseFragment() {
                     viewModel.storeDocumentAndBankDetailsResponse.value = null
                     val map = HashMap<String, String>()
                         map["user_id"] = userId
+                        map["fcm_token"] = SharedPreference.get(requireActivity()).deviceToken
                     viewModel.sellerStoreSubmitRequest(map)
                 }
 
