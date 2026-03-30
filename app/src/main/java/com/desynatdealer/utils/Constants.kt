@@ -78,6 +78,7 @@ object Constants {
     const val GET_NOTIFICATION_LIST = "/api/seller/get_my_notifications_list"
     const val READ_NOTIFICATION = "/api/seller/mark_notification_as_read"
     const val READ_ALL_NOTIFICATION = "/api/seller/mark_all_notification_as_read"
+    const val NOTIFICATION_COUNT = "api/seller/get_seller_notifications_count"
 
     const val GET_MY_SUBSCRIPTION_PLAN = "/api/seller/my_plans"
     const val RENEW_SUBSCRIPTION_PLAN = "/api/seller/renew_subcription_plan_buy"

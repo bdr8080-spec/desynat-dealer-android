@@ -120,4 +120,6 @@ dependencies {
 
     implementation ("com.google.firebase:firebase-messaging:25.0.1")
     implementation ("org.greenrobot:eventbus:3.3.1")
+    implementation("me.leolin:ShortcutBadger:1.1.22@aar")
+
 }

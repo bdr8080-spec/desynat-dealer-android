@@ -20,6 +20,12 @@ import com.desynatdealer.ui.home.HomeActivity
 import com.desynatdealer.utils.SharedPreference
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.google.gson.Gson
+import me.leolin.shortcutbadger.ShortcutBadger
+import org.greenrobot.eventbus.EventBus
+import org.json.JSONObject
+import kotlin.collections.get
+import kotlin.inc
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -34,61 +40,54 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.e("onMessageReceived: ", remoteMessage?.data.toString())
         Log.e("onMessageReceived: ", remoteMessage?.notification.toString())
 
-      /*  Log.e("onMessageReceived", "From: ${remoteMessage.from}")
+        Log.e("onMessageReceived", "From: ${remoteMessage.from}")
         Log.e("onMessageReceived", "MessageId: ${remoteMessage.messageId}")
         Log.e("onMessageReceived", "SentTime: ${remoteMessage.sentTime}")
         Log.e("onMessageReceived", "TTL: ${remoteMessage.ttl}")
         Log.e("onMessageReceived", "CollapseKey: ${remoteMessage.collapseKey}")
 
-        // Notification payload
-        remoteMessage.notification?.let {
-            Log.e("onMessageReceived", "Notification Title: ${it.title}")
-            Log.e("onMessageReceived", "Notification Body: ${it.body}")
-            Log.e("onMessageReceived", "Notification Tag: ${it.tag}")
-            Log.e("onMessageReceived", "Notification ChannelId: ${it.channelId}")
-            Log.e("onMessageReceived", "Notification ClickAction: ${it.clickAction}")
-        }
-
-        // Data payload
         if (remoteMessage.data.isNotEmpty()) {
-            Log.e("onMessageReceived", "Data Payload:")
-            for ((key, value) in remoteMessage.data) {
-                Log.e("onMessageReceived", "Key: $key  Value: $value")
-            }
-        }*/
+            val obj = JSONObject(remoteMessage.data as Map<String, String>).toString()
+            val notificationData = Gson().fromJson(obj, NotificationInfoModel::class.java)
+            // sendNotification(notificationData)
+            sendNotification(notificationData.title.toString(),notificationData.body.toString(),notificationData?.badge?:0)
+//            if (Constants.currentScreen=="home"||Constants.currentScreen=="notification") {
+//                EventBus.getDefault().post(notificationData?.title.toString())
+//            }
+        }
+        else{
+            remoteMessage.notification?.let {
+                Log.e("onMessageReceived", "Notification Title: ${it.title}")
+                Log.e("onMessageReceived", "Notification Body: ${it.body}")
+                Log.e("onMessageReceived", "Notification Tag: ${it.tag}")
+                Log.e("onMessageReceived", "Notification ChannelId: ${it.channelId}")
+                Log.e("onMessageReceived", "Notification ClickAction: ${it.clickAction}")
+                var badgeCount = SharedPreference.get(applicationContext).badgeCount
+                badgeCount++
+                sendNotification(it.title.toString(),it.body.toString(),badgeCount )
 
-//        val obj = JSONObject(remoteMessage.data as Map<String, String>).toString()
-//        val notificationData = Gson().fromJson(obj, NotificationInfoModel::class.java)
-//        sendNotification(notificationData)
-//        Log.e("onMessageReceived: data", notificationData.toString())
-//
-//        if (Constants.currentScreen=="OrderDetail"||Constants.currentScreen=="Order"){
-//            EventBus.getDefault().post(notificationData)
-//              /*  when(notificationData.title){
-//
-//                    "Confirmed"->{
-//
-//                    }
-//                    "Preparing"->{
-//
-//                    }
-//                    "Completed"->{
-//
-//                    }
-//                    else ->{
-//
-//                    }
-//                }*/
-//        }
+//                if (Constants.currentScreen=="home"||Constants.currentScreen=="notification") {
+//                    EventBus.getDefault().post(it.title.toString())
+//                }
+            }
+
+        }
 
     }
 
     @SuppressLint("InvalidWakeLockTag")
-    private fun sendNotification(notificationData: NotificationInfoModel) {
+    private fun sendNotification(titleText: String, body: String,badge: Int) {
+        //   private fun sendNotification(notificationData: NotificationInfoModel) {
+        var  badgeCount = badge
+
+
+        SharedPreference.get(applicationContext).badgeCount = badgeCount
+
+        //   private fun sendNotification(notificationData: NotificationInfoModel) {
 
         val intent = Intent(this, HomeActivity::class.java)
         intent.putExtra("from", "push")
-        intent.putExtra("notificationData", notificationData)
+        //   intent.putExtra("notificationData", notificationData)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         var pendingIntent: PendingIntent? = null
@@ -110,8 +109,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             )
         }
 
-        val message = notificationData.body
-        val title = getString(R.string.app_name)
+        val message = body
+        val title = titleText
+
+//        val message = notificationData.body
+//        val title = notificationData.title
+        //  val title = getString(R.string.app_name)
         val channelId = getString(R.string.channel)
         val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
@@ -133,6 +136,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE)
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
+            .setNumber(badgeCount)
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
             .setStyle(
                 NotificationCompat.BigTextStyle()
                     .bigText(message)
@@ -152,10 +159,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
             channel.description = getString(R.string.channel_description)
             channel.setSound(defaultSoundUri, null)
-
+            channel.setShowBadge(true)
             CoreApplication.notificationManager?.createNotificationChannel(channel)
         }
-        val notificationId = System.currentTimeMillis().toInt()
-        CoreApplication.notificationManager?.notify(notificationId, notificationBuilder.build())
+        //  val notificationId = System.currentTimeMillis().toInt()
+        val notificationId = 1
+        val notification = notificationBuilder.build()
+        notification.number = badgeCount
+        CoreApplication.notificationManager?.notify(notificationId, notification)
+        ShortcutBadger.applyCount(applicationContext, badgeCount)
     }
 }

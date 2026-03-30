@@ -54,7 +54,14 @@ class ViewProfileFragment : BaseFragment() {
             reelList.addAll(arrayListOf("","","","","","",""))
             reelAdapter = ReelAdapter(requireActivity(),reelList,object: ReelAdapter.OnClick{
                 override fun onItemClick(position: Int, type: Int) {
+                    when(type){
+                        1->{
 
+                        }
+                        2->{
+
+                        }
+                    }
                 }
 
             })
@@ -64,7 +71,14 @@ class ViewProfileFragment : BaseFragment() {
             highlightList.addAll(arrayListOf("","","","","","",""))
             highlightsAdapter = HighlightsAdapter(requireActivity(),highlightList,object: HighlightsAdapter.OnClick{
                 override fun onItemClick(position: Int, type: Int) {
+                    when(type){
+                        1->{
 
+                        }
+                        2->{
+
+                        }
+                    }
                 }
 
             })

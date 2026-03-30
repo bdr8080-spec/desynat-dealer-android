@@ -77,6 +77,10 @@ class SharedPreference(context: Context) {
         get() = preference["deviceToken", ""]!!
         set(value) = preference.set("deviceToken", value)
 
+    var badgeCount: Int
+        get() = preference["badgeCount", 0]!!
+        set(value) = preference.set("badgeCount", value)
+
     fun saveCountryList(countryList: List<GetCountryResponse.Data>) {
         val json = Gson().toJson(countryList)
         preference.set("countryList", json)

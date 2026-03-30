@@ -24,7 +24,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ChangeMobileFragment : BaseFragment() {
     private var binding: FragmentChangeMobileBinding?=null
     private val viewModel: HomeViewModel by viewModels()
-    var isObserver = false
     var from = "mobile"
     var countryList = ArrayList<GetCountryResponse.Data>()
 
@@ -178,7 +177,6 @@ class ChangeMobileFragment : BaseFragment() {
         map["type"] = 1 //0-old,1-new
         viewModel.changeNumber(map)
         ProgressDialogUtils.getInstance().showProgress(requireActivity())
-        isObserver = true
     }
 
     private fun setCountry() {

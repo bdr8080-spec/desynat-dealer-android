@@ -16,6 +16,7 @@ import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
+import com.desynatdealer.ui.home.fragment.response.GetNotificationCountResponse
 import com.desynatdealer.ui.home.fragment.response.GetUserNotificationResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
@@ -249,6 +250,9 @@ interface CommonApiService {
 
     @GET(Constants.GET_NOTIFICATION_LIST)
     suspend fun getNotificationList(@QueryMap map: HashMap<String, Any>): Response<GetUserNotificationResponse>
+
+ @GET(Constants.NOTIFICATION_COUNT)
+    suspend fun getNotificationCount(): Response<GetNotificationCountResponse>
 
     @POST(Constants.READ_NOTIFICATION)
     suspend fun readNotification(@Body map: HashMap<String, Any>): Response<CommonResponse>

@@ -22,6 +22,8 @@ import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.myfatoorah.sdk.views.MFSDK
 import dagger.hilt.android.AndroidEntryPoint
+import me.leolin.shortcutbadger.ShortcutBadger
+import kotlin.collections.get
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity() {
@@ -219,6 +221,14 @@ class HomeActivity : BaseActivity() {
         })
         binding?.rvBottomNav?.adapter = bottomAdapter
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        SharedPreference.get(this).badgeCount = 0
+        ShortcutBadger.removeCount(this)
+        //   NotificationManagerCompat.from(this).cancelAll()
     }
 
 }

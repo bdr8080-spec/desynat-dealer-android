@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
@@ -42,6 +43,7 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initView() {
+        getNotificationCount()
         userInfo = SharedPreference.get(requireActivity()).getUser()
         updateStatus()
         binding?.apply {
@@ -104,6 +106,30 @@ class HomeFragment : BaseFragment() {
                 }
             }
         }
+
+        viewModel.getNotificationCountResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    if (result.data?.data!=0){
+                        setNotificationCount(result.data?.data?:0)
+                    }
+
+                    viewModel.getNotificationCountResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getNotificationCountResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
     }
 
     private fun updateStatus(){
@@ -125,5 +151,14 @@ class HomeFragment : BaseFragment() {
 
     private fun storeAvailability() {
         viewModel.storeOnOff()
+    }
+
+    private fun getNotificationCount(){
+        viewModel.getNotificationCount()
+    }
+
+    private fun setNotificationCount(data: Int) {
+        binding?.relCount?.isVisible = true
+        binding?.tvCount?.text = data.toString()
     }
 }

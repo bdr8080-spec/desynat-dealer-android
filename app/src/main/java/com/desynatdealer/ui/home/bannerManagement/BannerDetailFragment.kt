@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -47,7 +48,7 @@ class BannerDetailFragment : BaseFragment() {
             ?.getLiveData<Boolean>("bannerPaymentDone")
             ?.observe(viewLifecycleOwner) { isPaid ->
                 if (isPaid == true) {
-                    binding?.btnPay?.isVisible = false
+                    binding?.btnPay?.isInvisible = true
 
                     binding?.tvStatusValue?.text = "Active"
                     binding?.tvStatusValue?.let { CommonMethod.applyGradientText(it) }
@@ -100,7 +101,7 @@ class BannerDetailFragment : BaseFragment() {
                 "0" -> {
                     tvStatusValue.text = "Pending"
                     tvStatusValue.setTextColor(Color.parseColor("#E28F12"))
-                    btnPay.isVisible = false
+                    btnPay.isInvisible = true
                 }
 
                 "1" -> {
@@ -108,7 +109,7 @@ class BannerDetailFragment : BaseFragment() {
                         "0" -> {if (CommonMethod.isExpired(bannerData?.endDate.toString())) {
                             tvStatusValue.text = "Expired"
                             tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
-                            btnPay.isVisible = false
+                            btnPay.isInvisible = true
                         }
                         else {
                             tvStatusValue.text = "Confirmed"
@@ -118,7 +119,7 @@ class BannerDetailFragment : BaseFragment() {
                         }
 
                         "1" -> {
-                            btnPay.isVisible = false
+                            btnPay.isInvisible = true
                             when {
                                 CommonMethod.isUpcoming(bannerData?.startDate.toString()) -> {
                                     tvStatusValue.text = "Upcoming"
@@ -140,14 +141,14 @@ class BannerDetailFragment : BaseFragment() {
                         "2" -> {
                             tvStatusValue.text = "Rejected"
                             tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
-                            btnPay.isVisible = false
+                            btnPay.isInvisible = true
                         }
                     }
                 }
                 "2" -> {
                     tvStatusValue.text = "Rejected"
                     tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
-                    btnPay.isVisible = false
+                    btnPay.isInvisible = true
                     if (bannerData?.cancelledReason!=null) {
                         tvReason.isVisible = true
                         tvRejectedReason.isVisible = true

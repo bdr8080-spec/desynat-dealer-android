@@ -17,6 +17,7 @@ import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
+import com.desynatdealer.ui.home.fragment.response.GetNotificationCountResponse
 import com.desynatdealer.ui.home.fragment.response.GetUserNotificationResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
@@ -665,6 +666,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _getNotificationListResponse.value = ApiResult.Loading
             _getNotificationListResponse.value = repo.getNotificationList(map)
+        }
+    }
+
+    private val _getNotificationCountResponse =
+        MutableLiveData<ApiResult<GetNotificationCountResponse>?>()
+    val getNotificationCountResponse: MutableLiveData<ApiResult<GetNotificationCountResponse>?>
+        get() = _getNotificationCountResponse
+
+    fun getNotificationCount() {
+        viewModelScope.launch {
+            _getNotificationCountResponse.value = ApiResult.Loading
+            _getNotificationCountResponse.value = repo.getNotificationCount()
         }
     }
 
