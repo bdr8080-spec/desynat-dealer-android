@@ -83,4 +83,19 @@ object Constants {
     const val GET_MY_SUBSCRIPTION_PLAN = "/api/seller/my_plans"
     const val RENEW_SUBSCRIPTION_PLAN = "/api/seller/renew_subcription_plan_buy"
 
+    const val ADD_STORY = "/api/seller/add_story"
+    const val GET_STORY = "/api/seller/get_my_stories"
+    const val DELETE_STORY = "/api/seller/delete_story"
+    const val ADD_REEL = "/api/seller/add_reels"
+    const val GET_REEL = "/api/seller/get_my_reels"
+    const val DELETE_REEL = "/api/seller/delete_reel"
+    const val UPDATE_REEL = "/api/seller/update_reel"
+    const val UPDATE_REEL_STATUS = "/api/seller/update_reel_status"
+    const val ADD_HIGHLIGHTS = "/api/seller/add_highlights"
+    const val GET_HIGHLIGHTS = "/api/seller/get_my_highlights"
+    const val DELETE_HIGHLIGHTS = "/api/seller/delete_highlight"
+    const val UPLOAD_VIDEO_IMAGE = "/api/uploadFile"
+    const val UPLOAD_WITH_RESOLUTION = "/api/uploadWithResolution"
+
+
 }

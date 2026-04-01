@@ -33,6 +33,8 @@ import com.desynatdealer.ui.home.productManagement.response.GetProductDetailResp
 import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponse
+import com.desynatdealer.ui.home.profile.response.UpdateReelResponse
 import com.desynatdealer.ui.home.response.CommonResponse
 import com.desynatdealer.ui.home.response.CreateSubscriptionPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
@@ -730,6 +732,163 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+
+
+    private val _getStoryResponse =
+        MutableLiveData<ApiResult<GetStoryResponse>?>()
+    val getStoryResponse: MutableLiveData<ApiResult<GetStoryResponse>?>
+        get() = _getStoryResponse
+
+    fun getStory(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getStoryResponse.value = ApiResult.Loading
+            _getStoryResponse.value = repo.getStory(map)
+        }
+    }
+
+    private val _getHighlightsResponse =
+        MutableLiveData<ApiResult<GetStoryResponse>?>()
+    val getHighlightsResponse: MutableLiveData<ApiResult<GetStoryResponse>?>
+        get() = _getHighlightsResponse
+
+    fun getHighlights(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getHighlightsResponse.value = ApiResult.Loading
+            _getHighlightsResponse.value = repo.getHighlights(map)
+        }
+    }
+
+    private val _getReelResponse =
+        MutableLiveData<ApiResult<GetStoryResponse>?>()
+    val getReelResponse: MutableLiveData<ApiResult<GetStoryResponse>?>
+        get() = _getReelResponse
+
+    fun getReel(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getReelResponse.value = ApiResult.Loading
+            _getReelResponse.value = repo.getReel(map)
+        }
+    }
+
+    private val _updateReelStatusResponse =
+        MutableLiveData<ApiResult<UpdateReelResponse>?>()
+    val updateReelStatusResponse: MutableLiveData<ApiResult<UpdateReelResponse>?>
+        get() = _updateReelStatusResponse
+
+    fun updateReelStatus(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _updateReelStatusResponse.value = ApiResult.Loading
+            _updateReelStatusResponse.value = repo.updateReelStatus(map)
+        }
+    }
+
+    private val _updateReelResponse =
+        MutableLiveData<ApiResult<UpdateReelResponse>?>()
+    val updateReelResponse: MutableLiveData<ApiResult<UpdateReelResponse>?>
+        get() = _updateReelResponse
+
+    fun updateReel(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _updateReelResponse.value = ApiResult.Loading
+            _updateReelResponse.value = repo.updateReel(map)
+        }
+    }
+
+    private val _deleteReelResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val deleteReelResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _deleteReelResponse
+
+    fun deleteReel(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _deleteReelResponse.value = ApiResult.Loading
+            _deleteReelResponse.value = repo.deleteReel(map)
+        }
+    }
+
+    private val _deleteHighlightsResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val deleteHighlightsResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _deleteHighlightsResponse
+
+    fun deleteHighlights(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _deleteHighlightsResponse.value = ApiResult.Loading
+            _deleteHighlightsResponse.value = repo.deleteHighlights(map)
+        }
+    }
+
+    private val _deleteStoryResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val deleteStoryResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _deleteStoryResponse
+
+    fun deleteStory(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _deleteStoryResponse.value = ApiResult.Loading
+            _deleteStoryResponse.value = repo.deleteStory(map)
+        }
+    }
+
+    private val _addReelResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val addReelResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _addReelResponse
+
+    fun addReel(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _addReelResponse.value = ApiResult.Loading
+            _addReelResponse.value = repo.addReel(map)
+        }
+    }
+
+    private val _addHighlightsResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val addHighlightsResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _addHighlightsResponse
+
+    fun addHighlights(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _addHighlightsResponse.value = ApiResult.Loading
+            _addHighlightsResponse.value = repo.addHighlights(map)
+        }
+    }
+
+    private val _addStoryResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val addStoryResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _addStoryResponse
+
+    fun addStory(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _addStoryResponse.value = ApiResult.Loading
+            _addStoryResponse.value = repo.addStory(map)
+        }
+    }
+
+    private val _uploadVideoImageResponse =
+        MutableLiveData<ApiResult<UploadResponse>?>()
+    val uploadVideoImageResponse: MutableLiveData<ApiResult<UploadResponse>?>
+        get() = _uploadVideoImageResponse
+
+    fun uploadVideoImage(file: MultipartBody.Part?,) {
+        viewModelScope.launch {
+            _uploadVideoImageResponse.value = ApiResult.Loading
+            _uploadVideoImageResponse.value = repo.uploadVideoImage(file)
+        }
+    }
+
+    private val _uploadWithResolutionResponse =
+        MutableLiveData<ApiResult<UploadResponse>?>()
+    val uploadWithResolutionResponse: MutableLiveData<ApiResult<UploadResponse>?>
+        get() = _uploadWithResolutionResponse
+
+    fun uploadWithResolution(file: MultipartBody.Part?,type: String) {
+        viewModelScope.launch {
+            _uploadWithResolutionResponse.value = ApiResult.Loading
+            _uploadWithResolutionResponse.value = repo.uploadWithResolution(file,type)
+        }
+    }
 
 
 }

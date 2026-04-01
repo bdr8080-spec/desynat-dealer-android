@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemReelBinding
+import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 
-class ReelAdapter(var context:Context, var reelList: ArrayList<String>,var onClick:OnClick) : RecyclerView.Adapter<ReelAdapter.ViewHolder>() {
+class ReelAdapter(var context:Context, var reelList: ArrayList<GetStoryResponse.Data>, var onClick:OnClick) : RecyclerView.Adapter<ReelAdapter.ViewHolder>() {
 
     interface OnClick{
         fun onItemClick(position: Int,type:Int)
@@ -15,7 +18,7 @@ class ReelAdapter(var context:Context, var reelList: ArrayList<String>,var onCli
     inner class ViewHolder(val binding: ItemReelBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
-
+            val reelData = reelList[position]
                 if (position==0){
                     clAdd.isVisible = true
                     ivReel.isVisible = false
@@ -25,7 +28,9 @@ class ReelAdapter(var context:Context, var reelList: ArrayList<String>,var onCli
                     clAdd.isVisible = false
                     ivReel.isVisible = true
                     ivPlay.isVisible = true
+                    Glide.with(context).load(reelData?.file).placeholder(R.drawable.ic_placeholder).into(ivReel)
                 }
+
 
                 clAdd.setOnClickListener {
                     onClick.onItemClick(position,1)

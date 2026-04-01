@@ -19,6 +19,8 @@ import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import me.leolin.shortcutbadger.ShortcutBadger
+import kotlin.text.get
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
@@ -117,6 +119,11 @@ class HomeFragment : BaseFragment() {
                     if (result.data?.data!=0){
                         setNotificationCount(result.data?.data?:0)
                     }
+                    else{
+                        SharedPreference.get(requireActivity()).badgeCount = 0
+                        ShortcutBadger.removeCount(requireActivity())
+
+                    }
 
                     viewModel.getNotificationCountResponse.value = null
                 }
@@ -160,5 +167,6 @@ class HomeFragment : BaseFragment() {
     private fun setNotificationCount(data: Int) {
         binding?.relCount?.isVisible = true
         binding?.tvCount?.text = data.toString()
+        ShortcutBadger.applyCount(requireActivity(), data)
     }
 }

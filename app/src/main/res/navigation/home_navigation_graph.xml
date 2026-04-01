@@ -221,6 +221,28 @@
             android:id="@+id/action_viewProfileFragment_to_editProfileFragment"
             app:destination="@id/editProfile" />
 
+        <action
+            android:id="@+id/action_viewProfileFragment_to_addStoryFragment"
+            app:destination="@id/addStory" />
+        <action
+            android:id="@+id/action_viewProfileFragment_to_addHighlightsFragment"
+            app:destination="@id/addHighlights" />
+
+        <action
+            android:id="@+id/action_viewProfileFragment_to_viewStoryFragment"
+            app:destination="@id/viewStory" />
+        <action
+            android:id="@+id/action_viewProfileFragment_to_viewReelFragment"
+            app:destination="@id/viewReel" />
+
+  <action
+            android:id="@+id/action_viewProfileFragment_to_AddReelFragment"
+            app:destination="@id/addReel" />
+
+  <action
+            android:id="@+id/action_viewProfileFragment_to_AddNewReelFragment"
+            app:destination="@id/addNewReel" />
+
     </fragment>
 
     <fragment
@@ -512,5 +534,69 @@
         android:name="com.desynatdealer.ui.home.staffManagement.AddStaffFragment"
         android:label="Add Staff Fragment"
         tools:layout="@layout/fragment_add_staff"/>
+
+    <fragment
+        android:id="@+id/addStory"
+        android:name="com.desynatdealer.ui.home.profile.AddStoryFragment"
+        android:label="Add Story Fragment"
+        tools:layout="@layout/fragment_add_story">
+
+        <action
+            android:id="@+id/action_addStoryFragment_to_addPreviewStoryFragment"
+            app:destination="@id/addPreviewStory" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addHighlights"
+        android:name="com.desynatdealer.ui.home.profile.AddNewHighlightsFragment"
+        android:label="Add Highlight Fragment"
+        tools:layout="@layout/fragment_add_new_highlights"/>
+
+    <fragment
+        android:id="@+id/addPreviewStory"
+        android:name="com.desynatdealer.ui.home.profile.PreviewStoryFragment"
+        android:label="Preview Story Fragment"
+        tools:layout="@layout/fragment_preview_story"/>
+
+    <fragment
+        android:id="@+id/viewStory"
+        android:name="com.desynatdealer.ui.home.profile.ViewStoryFragment"
+        android:label="View Story Fragment"
+        tools:layout="@layout/fragment_view_story"/>
+
+    <fragment
+        android:id="@+id/viewReel"
+        android:name="com.desynatdealer.ui.home.profile.ViewMyReelFragment"
+        android:label="View Reel Fragment"
+        tools:layout="@layout/fragment_view_my_reel">
+
+    <action
+        android:id="@+id/action_viewReelFragment_to_AddReelFragment"
+        app:destination="@id/addReel" />
+
+    <action
+        android:id="@+id/action_viewReelFragment_to_AddNewReelFragment"
+        app:destination="@id/addNewReel" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addReel"
+        android:name="com.desynatdealer.ui.home.profile.AddReelFragment"
+        android:label="Add Reel Fragment"
+        tools:layout="@layout/fragment_add_reel"/>
+
+    <fragment
+        android:id="@+id/addNewReel"
+        android:name="com.desynatdealer.ui.home.profile.AddNewReelFragment"
+        android:label="Add New Reel Fragment"
+        tools:layout="@layout/fragment_add_new_reel"/>
+
+    <fragment
+        android:id="@+id/liveStreaming"
+        android:name="com.desynatdealer.ui.home.liveStreaming.LiveStreamingFragment"
+        android:label="Live Streaming Fragment"
+        tools:layout="@layout/fragment_live_streaming"/>
 
     </navigation>

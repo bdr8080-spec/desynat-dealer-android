@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.profile.ViewProfileFragment">
 
@@ -72,14 +73,38 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivProfileImage"
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
                     android:src="@drawable/ic_user"
                     android:scaleType="centerCrop"
                     android:clipToOutline="true"
                     app:shapeAppearanceOverlay="@style/circle_image"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivHighlightStory"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:src="@drawable/ic_highlight_story"
+                    android:scaleType="centerCrop"
+                    android:clipToOutline="true"
+                    app:shapeAppearanceOverlay="@style/circle_image"
+                    app:layout_constraintStart_toStartOf="@+id/ivProfileImage"
+                    app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
+                    app:layout_constraintEnd_toEndOf="@+id/ivProfileImage"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivAddStory"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_add"
+                    android:layout_marginEnd="-2dp"
+                    android:layout_marginBottom="-5dp"
+                    app:shapeAppearanceOverlay="@style/circle_image"
+                    app:layout_constraintEnd_toEndOf="@+id/ivProfileImage"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvName"

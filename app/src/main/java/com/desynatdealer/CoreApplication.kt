@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.NotificationManager
 import android.util.Log
 import com.desynatdealer.utils.SharedPreference
+import com.desynatdealer.utils.agora.AgoraManager
 import com.google.android.libraries.places.api.Places
 import com.google.firebase.messaging.FirebaseMessaging
 import com.myfatoorah.sdk.enums.MFCountry
@@ -23,7 +24,6 @@ class CoreApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-
 
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, getString(R.string.map_key))
@@ -52,5 +52,7 @@ class CoreApplication : Application() {
             Log.d("FCM_TOKEN", token)
             SharedPreference.get(this).deviceToken = token
         }
+
+        AgoraManager.initialize(this, getString(R.string.agora_app_id))
     }
 }

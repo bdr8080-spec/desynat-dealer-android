@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemHighlightsBinding
+import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 
-class HighlightsAdapter(var context:Context, var highlightList: ArrayList<String>, var onClick:OnClick) : RecyclerView.Adapter<HighlightsAdapter.ViewHolder>() {
+class HighlightsAdapter(var context:Context, var highlightList: ArrayList<GetStoryResponse.Data>, var onClick:OnClick) : RecyclerView.Adapter<HighlightsAdapter.ViewHolder>() {
 
     interface OnClick{
         fun onItemClick(position: Int,type:Int)
@@ -15,6 +18,7 @@ class HighlightsAdapter(var context:Context, var highlightList: ArrayList<String
     inner class ViewHolder(val binding: ItemHighlightsBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
+            val highlightData = highlightList[position]
             if (position==0){
                 ivAdd.isVisible = true
                 ivHighlight.isVisible = false
@@ -24,6 +28,8 @@ class HighlightsAdapter(var context:Context, var highlightList: ArrayList<String
                 ivAdd.isVisible = false
                 ivHighlight.isVisible = true
                 tvHighlight.isVisible = true
+                Glide.with(context).load(highlightData?.file).placeholder(R.drawable.ic_placeholder).into(ivHighlight)
+                tvHighlight.text = highlightData.title
             }
 
             ivAdd.setOnClickListener {

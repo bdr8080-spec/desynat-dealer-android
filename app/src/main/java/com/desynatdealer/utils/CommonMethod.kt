@@ -707,5 +707,36 @@ object CommonMethod {
         dialog?.show()
     }
 
+    fun uriToFileForStory(context: Context, uri: Uri): File? {
+        val mimeType = context.contentResolver.getType(uri)
+
+        val extension = when {
+            mimeType == null -> "bin" // fallback
+            mimeType.startsWith("image") -> "jpg"
+            mimeType.startsWith("video") -> "mp4"
+            mimeType == "application/pdf" -> "pdf"
+            else -> "bin"
+        }
+
+        val file = File(context.cacheDir, "picked_file_${System.currentTimeMillis()}.$extension")
+
+        context.contentResolver.openInputStream(uri)?.use { input ->
+            file.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        /* if (extension=="mp4") {
+             val maxSize = 5 * 1024 * 1024 // 5 MB in bytes
+             if (file.length() > maxSize) {
+                 file.delete()
+                 context.showToast("Upload size exceed to 5 MB")
+                 return null
+             }
+         }*/
+
+        return file
+    }
+
 
 }

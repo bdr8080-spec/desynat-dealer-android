@@ -35,10 +35,13 @@ import com.desynatdealer.ui.home.productManagement.response.GetProductDetailResp
 import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponse
+import com.desynatdealer.ui.home.profile.response.UpdateReelResponse
 import com.desynatdealer.ui.home.response.CommonResponse
 import com.desynatdealer.ui.home.response.CreateSubscriptionPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
+import com.desynatdealer.utils.toPlainRequestBody
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
@@ -477,5 +480,112 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
+    suspend fun getStory(map: HashMap<String, Any>): ApiResult<GetStoryResponse> {
+        return try {
+            networkCall(api.getStory(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun getHighlights(map: HashMap<String, Any>): ApiResult<GetStoryResponse> {
+        return try {
+            networkCall(api.getHighlights(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun getReel(map: HashMap<String, Any>): ApiResult<GetStoryResponse> {
+        return try {
+            networkCall(api.getReel(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun addStory(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.addStory(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun addReel(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.addReel(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun addHighlights(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.addHighlights(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun deleteStory(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.deleteStory(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun deleteReel(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.deleteReel(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun deleteHighlights(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.deleteHighlights(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun updateReel(map: HashMap<String, Any>): ApiResult<UpdateReelResponse> {
+        return try {
+            networkCall(api.updateReel(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun updateReelStatus(map: HashMap<String, Any>): ApiResult<UpdateReelResponse> {
+        return try {
+            networkCall(api.updateReelStatus(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun uploadVideoImage(
+        file: MultipartBody.Part?,
+    ): ApiResult<UploadResponse> {
+        return try {
+            networkCall(api.uploadVideoImage(file))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun uploadWithResolution(
+        file: MultipartBody.Part?,type:String
+    ): ApiResult<UploadResponse> {
+        return try {
+            networkCall(api.uploadWithResolution(file,type.toPlainRequestBody()))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
 
 }

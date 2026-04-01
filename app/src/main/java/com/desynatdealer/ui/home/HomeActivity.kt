@@ -76,6 +76,7 @@ class HomeActivity : BaseActivity() {
             R.id.home,
             R.id.productManagement,
             R.id.orderManagement,
+            R.id.liveStreaming,
           //  R.id.payment,
         )
 
@@ -99,6 +100,9 @@ class HomeActivity : BaseActivity() {
                 }
                 R.id.orderManagement -> {
                     bottomAdapter?.setSelectedItem(3)
+                }
+                R.id.liveStreaming -> {
+                    bottomAdapter?.setSelectedItem(2)
                 }
 //                R.id.payment -> {
 //                    bottomAdapter?.setSelectedItem(4)
@@ -205,6 +209,10 @@ class HomeActivity : BaseActivity() {
                         ProgressDialogUtils.getInstance().hideProgress()
                         controller.navigate(R.id.productManagement)
                     }
+                    2 -> {
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        controller.navigate(R.id.liveStreaming)
+                    }
                     3 -> {
                         ProgressDialogUtils.getInstance().hideProgress()
                         controller.navigate(R.id.orderManagement)
@@ -226,8 +234,8 @@ class HomeActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
 
-        SharedPreference.get(this).badgeCount = 0
-        ShortcutBadger.removeCount(this)
+//        SharedPreference.get(this).badgeCount = 0
+//        ShortcutBadger.removeCount(this)
         //   NotificationManagerCompat.from(this).cancelAll()
     }
 

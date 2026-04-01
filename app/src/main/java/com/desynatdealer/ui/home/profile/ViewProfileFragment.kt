@@ -12,11 +12,16 @@ import com.desynatdealer.R
 import com.desynatdealer.adapter.HighlightsAdapter
 import com.desynatdealer.adapter.ReelAdapter
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentViewProfileBinding
+import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
+import com.desynatdealer.utils.showToast
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,9 +29,12 @@ class ViewProfileFragment : BaseFragment() {
     private var binding : FragmentViewProfileBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
     private var userInfo : GetSellerInfo.Data?=null
-    private var reelList = ArrayList<String>()
+    private var storyList = ArrayList<GetStoryResponse.Data>()
+    private var reelList = ArrayList<GetStoryResponse.Data>()
+    private var originalReelList = ArrayList<GetStoryResponse.Data>()
     private var reelAdapter : ReelAdapter?=null
-    private var highlightList = ArrayList<String>()
+    private var originalHighlightList = ArrayList<GetStoryResponse.Data>()
+    private var highlightList = ArrayList<GetStoryResponse.Data>()
     private var highlightsAdapter : HighlightsAdapter?=null
 
     override fun onCreateView(
@@ -47,19 +55,31 @@ class ViewProfileFragment : BaseFragment() {
 
     override fun initView() {
         userInfo = SharedPreference.get(requireActivity()).getUser()
+        getStory()
+        getReel()
+        getHighlights()
         setData()
 
         binding?.apply {
             reelList.clear()
-            reelList.addAll(arrayListOf("","","","","","",""))
             reelAdapter = ReelAdapter(requireActivity(),reelList,object: ReelAdapter.OnClick{
                 override fun onItemClick(position: Int, type: Int) {
                     when(type){
                         1->{
-
+                          //  findNavController().navigate(R.id.action_viewProfileFragment_to_AddReelFragment)
+                            findNavController().navigate(R.id.action_viewProfileFragment_to_AddNewReelFragment)
                         }
                         2->{
-
+                            if (originalReelList.size!=0) {
+                                val bundle = Bundle().apply {
+                                    putString("from", "reel")
+                                    putString("storyData", Gson().toJson(reelList[position]))
+                                }
+                                findNavController().navigate(
+                                    R.id.action_viewProfileFragment_to_viewReelFragment,
+                                    bundle
+                                )
+                            }
                         }
                     }
                 }
@@ -67,16 +87,25 @@ class ViewProfileFragment : BaseFragment() {
             })
             rvReel.adapter = reelAdapter
 
-            highlightList.clear()
-            highlightList.addAll(arrayListOf("","","","","","",""))
             highlightsAdapter = HighlightsAdapter(requireActivity(),highlightList,object: HighlightsAdapter.OnClick{
                 override fun onItemClick(position: Int, type: Int) {
                     when(type){
                         1->{
-
+                            findNavController().navigate(R.id.action_viewProfileFragment_to_addHighlightsFragment)
                         }
                         2->{
-
+                            val dummyList = ArrayList<GetStoryResponse.Data>()
+                            dummyList.add(highlightList[position])
+                            if (originalHighlightList.size!=0) {
+                                val bundle = Bundle().apply {
+                                    putString("from", "highlights")
+                                    putString("storyData", Gson().toJson(dummyList))
+                                }
+                                findNavController().navigate(
+                                    R.id.action_viewProfileFragment_to_viewStoryFragment,
+                                    bundle
+                                )
+                            }
                         }
                     }
                 }
@@ -156,6 +185,25 @@ class ViewProfileFragment : BaseFragment() {
                 findNavController().popBackStack()
             }
 
+            ivProfileImage.setOnClickListener {
+                if (storyList.size!=0) {
+                    val bundle = Bundle().apply {
+                        putString("from", "story")
+                        putString("storyData", Gson().toJson(storyList))
+                    }
+                    findNavController().navigate(
+                        R.id.action_viewProfileFragment_to_viewStoryFragment,
+                        bundle
+                    )
+                }
+
+            }
+
+            ivAddStory.setOnClickListener {
+                findNavController().navigate(R.id.action_viewProfileFragment_to_addStoryFragment)
+
+            }
+
             ivEdit.setOnClickListener {
                 findNavController().navigate(R.id.action_viewProfileFragment_to_editProfileFragment)
             }
@@ -181,7 +229,101 @@ class ViewProfileFragment : BaseFragment() {
     }
 
     override fun observe() {
+        viewModel.getStoryResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    storyList.clear()
+                    result?.data?.data?.let { storyList.addAll(it) }
+                    viewModel.getStoryResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getStoryResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+        viewModel.getReelResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    reelList.clear()
+                    originalReelList.clear()
+                    reelList.add(GetStoryResponse.Data())
+                    result?.data?.data?.let { reelList.addAll(it) }
+                    result?.data?.data?.let { originalReelList.addAll(it) }
+                    reelAdapter?.notifyDataSetChanged()
+                    viewModel.getReelResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getReelResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+        viewModel.getHighlightsResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    highlightList.clear()
+                    originalHighlightList.clear()
+                    highlightList.add(GetStoryResponse.Data())
+                    result?.data?.data?.let { highlightList.addAll(it) }
+                    result?.data?.data?.let { originalHighlightList.addAll(it) }
+                    highlightsAdapter?.notifyDataSetChanged()
+                    viewModel.getHighlightsResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getHighlightsResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
     }
+
+    private fun getStory() {
+        val map = HashMap<String,Any>()
+
+        viewModel.getStory(map)
+    }
+
+    private fun getReel() {
+        val map = HashMap<String,Any>()
+
+        viewModel.getReel(map)
+    }
+
+    private fun getHighlights() {
+        val map = HashMap<String,Any>()
+
+        viewModel.getHighlights(map)
+    }
+
 
 
 }

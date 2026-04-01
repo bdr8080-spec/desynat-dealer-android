@@ -32,6 +32,8 @@ import com.desynatdealer.ui.home.productManagement.response.GetProductDetailResp
 import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponse
+import com.desynatdealer.ui.home.profile.response.UpdateReelResponse
 import com.desynatdealer.ui.home.response.CommonResponse
 import com.desynatdealer.ui.home.response.CreateSubscriptionPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
@@ -40,6 +42,7 @@ import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.translation.TranslateRequest
 import com.desynatdealer.utils.translation.TranslateResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -265,5 +268,53 @@ interface CommonApiService {
 
     @GET(Constants.GET_MY_SUBSCRIPTION_PLAN)
     suspend fun getMyPlan(@QueryMap map: HashMap<String, Any>): Response<GetMyPlanResponse>
+
+    @POST(Constants.ADD_STORY)
+    suspend fun addStory(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.ADD_REEL)
+    suspend fun addReel(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.ADD_HIGHLIGHTS)
+    suspend fun addHighlights(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.DELETE_STORY)
+    suspend fun deleteStory(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.DELETE_REEL)
+    suspend fun deleteReel(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.DELETE_HIGHLIGHTS)
+    suspend fun deleteHighlights(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @GET(Constants.GET_STORY)
+    suspend fun getStory(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
+
+    @GET(Constants.GET_REEL)
+    suspend fun getReel(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
+
+    @GET(Constants.GET_HIGHLIGHTS)
+    suspend fun getHighlights(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
+
+    @POST(Constants.UPDATE_REEL)
+    suspend fun updateReel(@Body map: HashMap<String, Any>): Response<UpdateReelResponse>
+
+    @POST(Constants.UPDATE_REEL_STATUS)
+    suspend fun updateReelStatus(@Body map: HashMap<String, Any>): Response<UpdateReelResponse>
+
+    @Multipart
+    @POST(Constants.UPLOAD_VIDEO_IMAGE)
+    suspend fun uploadVideoImage(
+        @Part file: MultipartBody.Part? = null
+    ): Response<UploadResponse>
+
+
+    @Multipart
+    @POST(Constants.UPLOAD_WITH_RESOLUTION)
+    suspend fun uploadWithResolution(
+        @Part file: MultipartBody.Part? = null,
+        @Part("type") type: RequestBody? = null
+    ): Response<UploadResponse>
+
 
 }
