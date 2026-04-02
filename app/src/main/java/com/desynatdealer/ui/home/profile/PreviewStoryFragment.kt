@@ -84,7 +84,35 @@ class PreviewStoryFragment : BaseFragment() {
                 } else {
                     videoView.isVisible = true
                     videoView.setVideoURI( Uri.parse(uri))
-                    videoView.start()
+
+                    videoView.setOnPreparedListener { mp ->
+                        val videoWidth = mp.videoWidth
+                        val videoHeight = mp.videoHeight
+
+                        val viewWidth = videoView.width
+                        val viewHeight = videoView.height
+
+                        val videoProportion = videoWidth.toFloat() / videoHeight.toFloat()
+                        val viewProportion = viewWidth.toFloat() / viewHeight.toFloat()
+
+                        val layoutParams = videoView.layoutParams
+
+                        if (videoProportion > viewProportion) {
+                            layoutParams.width = viewWidth
+                            layoutParams.height = (viewWidth / videoProportion).toInt()
+                        } else {
+                            layoutParams.height = viewHeight
+                            layoutParams.width = (viewHeight * videoProportion).toInt()
+                        }
+
+                        videoView.layoutParams = layoutParams
+
+
+                        mp.isLooping = false
+                        val duration = mp.duration.toLong()
+
+                        videoView.start()
+                    }
                 }
 
 

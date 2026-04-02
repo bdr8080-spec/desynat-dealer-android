@@ -117,7 +117,11 @@ class AddNewReelFragment : BaseFragment() {
                     if (type == "image") {
                         ivStory.setImageURI(it)
                     } else {
-                        ivStory.setImageResource(R.drawable.ic_add_reel)
+                        Glide.with(requireActivity())
+                            .load(imageUri)
+                            .placeholder(R.drawable.ic_placeholder)
+                            .into(ivStory)
+                      //  ivStory.setImageResource(R.drawable.ic_add_reel)
                     }
 
                 }
@@ -129,7 +133,7 @@ class AddNewReelFragment : BaseFragment() {
 
     private fun setData() {
         binding?.apply {
-            etCaption.setText(reelData?.title)
+            etCaption.setText(reelData?.caption)
             Glide.with(requireActivity())
                 .load(reelData?.file)
                 .into(ivStory)
@@ -256,7 +260,7 @@ class AddNewReelFragment : BaseFragment() {
     private fun addReel(story: String) {
         val map = HashMap<String,Any>()
         map["file"] = story
-        map["title"] = binding?.etCaption?.text?.trim().toString()
+        map["caption"] = binding?.etCaption?.text?.trim().toString()
         if (reelData!=null){
             viewModel.updateReel(map)
         }

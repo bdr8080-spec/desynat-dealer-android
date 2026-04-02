@@ -31,6 +31,20 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:visibility="gone"
+            android:id="@+id/ivHighlightStory"
+            android:layout_width="@dimen/_43sdp"
+            android:layout_height="@dimen/_43sdp"
+            android:src="@drawable/ic_highlight_story"
+            android:scaleType="centerCrop"
+            android:clipToOutline="true"
+            app:shapeAppearanceOverlay="@style/circle_image"
+            app:layout_constraintStart_toStartOf="@+id/ivProfileImage"
+            app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
+            app:layout_constraintEnd_toEndOf="@+id/ivProfileImage"
+            app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvName"
             android:layout_width="0dp"

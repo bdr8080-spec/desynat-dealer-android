@@ -96,6 +96,7 @@ object Constants {
     const val DELETE_HIGHLIGHTS = "/api/seller/delete_highlight"
     const val UPLOAD_VIDEO_IMAGE = "/api/uploadFile"
     const val UPLOAD_WITH_RESOLUTION = "/api/uploadWithResolution"
-
+    const val GET_LIVE_ROOM_RECORD = "/api/seller/live_room_records"
+    const val GET_AGORA_TOKEN = "/api/agora/token"
 
 }

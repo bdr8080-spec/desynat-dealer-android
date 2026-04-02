@@ -133,6 +133,9 @@ object CommonMethod {
             "jpg", "jpeg" -> "image/jpeg"
             "png" -> "image/png"
             "pdf" -> "application/pdf"
+            "mp4" -> "video/mp4"
+            "gif"->"image/gif"
+            "webp"->"image/webp"
             else -> throw IllegalArgumentException("Unsupported file type: $extension")
         }
         val requestFile = asRequestBody(mimeType.toMediaTypeOrNull())

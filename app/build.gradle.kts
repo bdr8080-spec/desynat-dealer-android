@@ -40,6 +40,16 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("armeabi-v7a", "arm64-v8a")
+            isUniversalApk = false
+        }
+    }
+
 }
 
 dependencies {
@@ -77,8 +87,6 @@ dependencies {
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
-
     // passing primitive as RequestBody: retrofit
     implementation(libs.converter.scalars)
 
@@ -94,8 +102,6 @@ dependencies {
     //glide
     implementation(libs.glide)
 
-//    for opt
-    implementation(libs.ccp)
 
     implementation("io.github.chaosleung:pinview:1.4.4")
 

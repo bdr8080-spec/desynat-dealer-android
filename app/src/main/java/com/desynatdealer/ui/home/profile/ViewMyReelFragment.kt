@@ -109,9 +109,9 @@ class ViewMyReelFragment : BaseFragment() {
             }
 
 
-            if (!reelData?.title.isNullOrEmpty() && reelData?.title != "null") {
+            if (!reelData?.caption.isNullOrEmpty() && reelData?.caption != "null") {
                 tvTitle.isVisible = true
-                tvTitle.text = reelData?.title
+                tvTitle.text = reelData?.caption
             } else {
                 tvTitle.isVisible = true
             }

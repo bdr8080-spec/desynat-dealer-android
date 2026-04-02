@@ -62,6 +62,8 @@ class ViewProfileFragment : BaseFragment() {
 
         binding?.apply {
             reelList.clear()
+            originalReelList.clear()
+            reelList.add(GetStoryResponse.Data())
             reelAdapter = ReelAdapter(requireActivity(),reelList,object: ReelAdapter.OnClick{
                 override fun onItemClick(position: Int, type: Int) {
                     when(type){
@@ -87,11 +89,27 @@ class ViewProfileFragment : BaseFragment() {
             })
             rvReel.adapter = reelAdapter
 
+            highlightList.clear()
+            originalHighlightList.clear()
+            highlightList.add(GetStoryResponse.Data())
             highlightsAdapter = HighlightsAdapter(requireActivity(),highlightList,object: HighlightsAdapter.OnClick{
                 override fun onItemClick(position: Int, type: Int) {
                     when(type){
                         1->{
-                            findNavController().navigate(R.id.action_viewProfileFragment_to_addHighlightsFragment)
+                            if (originalHighlightList.size!=0) {
+                                val bundle = Bundle().apply {
+                                    putString("from", "highlights")
+                                    putString("highlightsData", Gson().toJson(originalHighlightList))
+                                }
+                                findNavController().navigate(
+                                    R.id.action_viewProfileFragment_to_addHighlightsFragment,
+                                    bundle
+                                )
+                            }
+                            else{
+                                findNavController().navigate(R.id.action_viewProfileFragment_to_addHighlightsFragment)
+
+                            }
                         }
                         2->{
                             val dummyList = ArrayList<GetStoryResponse.Data>()
@@ -239,12 +257,13 @@ class ViewProfileFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().hideProgress()
                     storyList.clear()
                     result?.data?.data?.let { storyList.addAll(it) }
+                    setStory()
                     viewModel.getStoryResponse.value = null
                 }
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
+             //       showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getStoryResponse.value = null
                 }
 
@@ -270,7 +289,7 @@ class ViewProfileFragment : BaseFragment() {
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
+                  //  showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getReelResponse.value = null
                 }
 
@@ -297,7 +316,7 @@ class ViewProfileFragment : BaseFragment() {
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
+                   // showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getHighlightsResponse.value = null
                 }
 
@@ -324,6 +343,8 @@ class ViewProfileFragment : BaseFragment() {
         viewModel.getHighlights(map)
     }
 
-
+    private fun setStory() {
+        binding?.ivHighlightStory?.isVisible = storyList.isNotEmpty()
+    }
 
 }

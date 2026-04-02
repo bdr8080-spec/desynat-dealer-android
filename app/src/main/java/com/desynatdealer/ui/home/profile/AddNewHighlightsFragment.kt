@@ -14,19 +14,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.desynatdealer.R
 import com.desynatdealer.adapter.GalleryAdapter
+import com.desynatdealer.adapter.PreviousHighlightsAdapter
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentAddNewHighlightsBinding
 import com.desynatdealer.ui.home.profile.response.GalleryMedia
+import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.StoryMediaPicker
 import com.desynatdealer.utils.showToast
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.otaliastudios.transcoder.Transcoder
 import com.otaliastudios.transcoder.TranscoderListener
 import com.otaliastudios.transcoder.resize.AtMostResizer
@@ -46,8 +52,12 @@ class AddNewHighlightsFragment : BaseFragment() {
     private val imageList = mutableListOf<Uri>()
     private var offset = 0
     private var isLoading = false
-    private lateinit var imageUri: Uri
+    private var imageUri: Uri?=null
+    private var imageUrl: String?=null
     private val PAGE_SIZE = 40
+    private var isMediaSelected = false
+    private val highlightList = ArrayList<GetStoryResponse.Data>()
+
 
     private var compressedVideoFile: File? = null
 
@@ -97,8 +107,20 @@ class AddNewHighlightsFragment : BaseFragment() {
     }
 
     override fun initView() {
-        binding?.apply {
 
+        val json = arguments?.getString("highlightsData")
+
+        if (!json.isNullOrEmpty()) {
+            val type = object : TypeToken<ArrayList<GetStoryResponse.Data>>() {}.type
+            val highlightsData: ArrayList<GetStoryResponse.Data> =
+                Gson().fromJson(json, type)
+
+            highlightList.clear()
+            highlightList.addAll(highlightsData)
+        }
+        binding?.apply {
+            rvGallery?.visibility = View.VISIBLE
+            rvPrevious?.visibility = View.GONE
             toolbar.tvToolbar.text = "Add New Highlight"
 
             galleryAdapter = GalleryAdapter(requireActivity(),mutableListOf()) { media ->
@@ -106,13 +128,25 @@ class AddNewHighlightsFragment : BaseFragment() {
                     is GalleryMedia.Image -> {
                         mediaType = "image"
                         imageUri = media.uri
-                        ivAddStory.setImageURI(imageUri)
+                        isMediaSelected = true
+
+                     //   ivAddStory.setImageURI(imageUri)
+                        Glide.with(requireActivity())
+                            .load(imageUri)
+                            .placeholder(R.drawable.ic_placeholder)
+                            .into(ivAddStory)
+
                     }
                     is GalleryMedia.Video -> {
                         if(isVideoWithinLimit(media.uri,30)) {
                             mediaType = "video"
                             imageUri = media.uri
-                            ivAddStory.setImageURI(imageUri)
+                            isMediaSelected = true
+                            Glide.with(requireActivity())
+                                .load(imageUri)
+                                .placeholder(R.drawable.ic_placeholder)
+                                .into(ivAddStory)
+                         //   ivAddStory.setImageURI(imageUri)
                         }
                         else{
                             showToast("Please select a video of 30 seconds or less.")
@@ -127,6 +161,24 @@ class AddNewHighlightsFragment : BaseFragment() {
                 addOnScrollListener(scrollListener)
             }
 
+
+            val previousAdapter = PreviousHighlightsAdapter(requireActivity(),highlightList) { item ->
+                Glide.with(requireActivity())
+                    .load(item.file )
+                    .into(ivAddStory)
+                isMediaSelected = true
+
+
+                item.file?.let { mediaType = if (it.endsWith(".mp4")) "video" else "image" }
+                imageUrl = item.file
+            }
+
+            rvPrevious.apply {
+                layoutManager = GridLayoutManager(requireContext(), 3)
+                adapter = previousAdapter
+                addOnScrollListener(scrollListener)
+            }
+
             storyMediaPicker = StoryMediaPicker(
                 requireActivity(),
                 cameraLauncher,
@@ -138,6 +190,8 @@ class AddNewHighlightsFragment : BaseFragment() {
                 uri?.let {
                     mediaType = type
                     imageUri = it
+                    isMediaSelected = true
+
                     if (type == "image") {
                         binding?.ivAddStory?.setImageURI(it)
                     } else {
@@ -154,6 +208,31 @@ class AddNewHighlightsFragment : BaseFragment() {
     override fun initControl() {
         binding?.apply {
 
+            rgHighlights?.setOnCheckedChangeListener { _, checkedId ->
+                ivAddStory?.setImageResource(R.drawable.ic_upload_highlights)
+                imageUrl = null
+                imageUri = null
+                mediaType = ""
+                isMediaSelected = false
+
+                when (checkedId) {
+
+                    R.id.cbAddNew -> {
+                        binding?.rvGallery?.visibility = View.VISIBLE
+                        binding?.rvPrevious?.visibility = View.GONE
+
+                        binding?.tvSelectFromGallery?.text = "Select From Gallery"
+                    }
+
+                    R.id.cbPrevious -> {
+                        binding?.rvGallery?.visibility = View.GONE
+                        binding?.rvPrevious?.visibility = View.VISIBLE
+
+                        binding?.tvSelectFromGallery?.text = "Select From Previous"
+                    }
+                }
+            }
+
             toolbar.tvToolbar.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -164,20 +243,32 @@ class AddNewHighlightsFragment : BaseFragment() {
 
             tvAdd.setOnClickListener {
 
-                if (imageUri==null){
+
+                if (!isMediaSelected) {
+                    showToast("Please select image")
+                }
+                else if (imageUri==null&&imageUrl==null){
                     showToast("Please select image")
                 }
                 else if (etName.text?.trim().toString().isEmpty()){
                     showToast("Please enter name")
                 }
                 else{
-                    if (mediaType == "image") {
-                        val file = CommonMethod.uriToFileForStory(requireActivity(), uri = imageUri)
-                        val image = file?.toMultiPartBody("file")
-                        viewModel.uploadVideoImage(image)
-                    }
-                    else{
-                        compressAndUploadVideo(imageUri)
+
+                    if (imageUrl!=null) {
+                        addHighlights(imageUri.toString())
+                    } else {
+                        if (mediaType == "image") {
+                            if (imageUri != null) {
+                                val file = CommonMethod.uriToFileForStory(requireActivity(), imageUri!!)
+                                val image = file?.toMultiPartBody("file")
+                                viewModel.uploadVideoImage(image)
+                            }
+                        } else {
+                            if (imageUri != null) {
+                                compressAndUploadVideo(imageUri!!)
+                            }
+                        }
                     }
                 }
 

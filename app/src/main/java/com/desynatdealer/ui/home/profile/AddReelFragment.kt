@@ -166,7 +166,7 @@ class AddReelFragment : BaseFragment() {
 
     private fun setData() {
         binding?.apply {
-            etCaption.setText(reelData?.title)
+            etCaption.setText(reelData?.caption)
             Glide.with(requireActivity())
                 .load(reelData?.file)
                 .into(ivAddStory)
@@ -293,7 +293,7 @@ class AddReelFragment : BaseFragment() {
     private fun addReel(story: String) {
         val map = HashMap<String,Any>()
         map["file"] = story
-        map["title"] = binding?.etCaption?.text?.trim().toString()
+        map["caption"] = binding?.etCaption?.text?.trim().toString()
         if (reelData!=null){
             viewModel.updateReel(map)
         }

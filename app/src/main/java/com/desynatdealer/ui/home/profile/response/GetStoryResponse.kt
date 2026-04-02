@@ -24,6 +24,8 @@ data class GetStoryResponse(
         var status: String?="",
         @SerializedName("title")
         val title: String?="",
+        @SerializedName("caption")
+        val caption: String?="",
         @SerializedName("type")
         val type: String?="",
         @SerializedName("updated_at")

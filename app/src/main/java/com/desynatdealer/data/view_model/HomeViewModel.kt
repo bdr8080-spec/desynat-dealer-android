@@ -21,6 +21,7 @@ import com.desynatdealer.ui.home.fragment.response.GetNotificationCountResponse
 import com.desynatdealer.ui.home.fragment.response.GetUserNotificationResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.RenewSubscriptionPlanResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
@@ -887,6 +888,19 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _uploadWithResolutionResponse.value = ApiResult.Loading
             _uploadWithResolutionResponse.value = repo.uploadWithResolution(file,type)
+        }
+    }
+
+
+    private val _getLiveRoomRecordsResponse =
+        MutableLiveData<ApiResult<GetLiveStreamingRoomResponse>?>()
+    val getLiveRoomRecordsResponse: MutableLiveData<ApiResult<GetLiveStreamingRoomResponse>?>
+        get() = _getLiveRoomRecordsResponse
+
+    fun getLiveRoomRecords() {
+        viewModelScope.launch {
+            _getLiveRoomRecordsResponse.value = ApiResult.Loading
+            _getLiveRoomRecordsResponse.value = repo.getLiveRoomRecords()
         }
     }
 

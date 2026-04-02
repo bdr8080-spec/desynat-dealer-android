@@ -121,6 +121,10 @@
         tools:layout="@layout/fragment_profile">
 
         <action
+            android:id="@+id/action_profileFragment_to_viewStoryFragment"
+            app:destination="@id/viewStory" />
+
+        <action
             android:id="@+id/action_profileFragment_to_inventoryProductManagementFragment"
             app:destination="@id/inventoryProductManagement" />
 

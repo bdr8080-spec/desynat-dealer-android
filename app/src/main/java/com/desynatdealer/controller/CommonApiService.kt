@@ -20,6 +20,8 @@ import com.desynatdealer.ui.home.fragment.response.GetNotificationCountResponse
 import com.desynatdealer.ui.home.fragment.response.GetUserNotificationResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetAgoraTokenResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.RenewSubscriptionPlanResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
@@ -48,6 +50,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.HTTP
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -316,5 +319,15 @@ interface CommonApiService {
         @Part("type") type: RequestBody? = null
     ): Response<UploadResponse>
 
+    @GET(Constants.GET_LIVE_ROOM_RECORD)
+    suspend fun getLiveRoomRecords(): Response<GetLiveStreamingRoomResponse>
 
+    @GET(Constants.GET_AGORA_TOKEN)
+    suspend fun getAgoraToken(): Response<GetLiveStreamingRoomResponse>
+
+    @POST(Constants.GET_AGORA_TOKEN)
+    suspend fun getAgoraToken(
+        @Header("Authorization") token: String,
+        @Body  map: HashMap<String, Any>
+    ): Response<GetAgoraTokenResponse>
 }

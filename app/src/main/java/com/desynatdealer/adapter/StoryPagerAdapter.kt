@@ -2,20 +2,31 @@ package com.desynatdealer.adapter
 
 import android.media.MediaPlayer
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.databinding.ItemStoryBinding
+import kotlin.div
+import kotlin.text.toFloat
+import kotlin.text.toInt
+import kotlin.times
 
 class StoryPagerAdapter(
     private val stories: List<GetStoryResponse.Data>,private val click:OnClick,private val onVideoReady: (position: Int, duration: Long) -> Unit
     , private val onVideoFinished: (Int) -> Unit
 ) : RecyclerView.Adapter<StoryPagerAdapter.StoryViewHolder>() {
 
-    interface OnClick{
+    private var pressStartTime = 0L
+    private val LONG_PRESS_THRESHOLD = 200L
+    interface OnClick {
         fun clickOnItem(position: Int)
+        fun onNext(position: Int)
+        fun onPrevious(position: Int)
+        fun onPause(position: Int)
+        fun onResume(position: Int)
     }
 
     inner class StoryViewHolder(val binding: ItemStoryBinding) :
@@ -46,6 +57,28 @@ class StoryPagerAdapter(
             holder.binding.videoStory.setVideoPath(url)
 
             holder.binding.videoStory.setOnPreparedListener { mp ->
+                val videoWidth = mp.videoWidth
+                val videoHeight = mp.videoHeight
+
+                val viewWidth = holder.binding.videoStory.width
+                val viewHeight = holder.binding.videoStory.height
+
+                val videoProportion = videoWidth.toFloat() / videoHeight.toFloat()
+                val viewProportion = viewWidth.toFloat() / viewHeight.toFloat()
+
+                val layoutParams = holder.binding.videoStory.layoutParams
+
+                if (videoProportion > viewProportion) {
+                    layoutParams.width = viewWidth
+                    layoutParams.height = (viewWidth / videoProportion).toInt()
+                } else {
+                    layoutParams.height = viewHeight
+                    layoutParams.width = (viewHeight * videoProportion).toInt()
+                }
+
+                holder.binding.videoStory.layoutParams = layoutParams
+
+
                 mp.isLooping = false
                 holder.binding.videoLoader.isVisible = false
                 val duration = mp.duration.toLong()
@@ -106,6 +139,80 @@ class StoryPagerAdapter(
         holder.binding.videoStory.setOnCompletionListener {
             onVideoFinished(position)
         }
+
+
+
+        holder.binding.rightClick.setOnTouchListener { _, event ->
+            when (event.action) {
+
+                MotionEvent.ACTION_DOWN -> {
+                    pressStartTime = System.currentTimeMillis()
+                    holder.binding.videoStory.pause()
+                    click.onPause(position)
+                    true
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    val pressDuration = System.currentTimeMillis() - pressStartTime
+
+                    holder.binding.videoStory.start()
+                    click.onResume(position)
+
+                    // ✅ ONLY SHORT TAP triggers next
+                    if (pressDuration < LONG_PRESS_THRESHOLD) {
+                        click.onNext(position)
+                    }
+
+                    true
+                }
+
+                MotionEvent.ACTION_CANCEL -> {
+                    holder.binding.videoStory.start()
+                    click.onResume(position)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        holder.binding.leftClick.setOnTouchListener { _, event ->
+            when (event.action) {
+
+                MotionEvent.ACTION_DOWN -> {
+                    pressStartTime = System.currentTimeMillis()
+                    holder.binding.videoStory.pause()
+                    click.onPause(position)
+                    true
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    val pressDuration = System.currentTimeMillis() - pressStartTime
+
+                    holder.binding.videoStory.start()
+                    click.onResume(position)
+
+                    // ✅ ONLY SHORT TAP triggers previous
+                    if (pressDuration < LONG_PRESS_THRESHOLD) {
+                        click.onPrevious(position)
+                    }
+
+                    true
+                }
+
+                MotionEvent.ACTION_CANCEL -> {
+                    holder.binding.videoStory.start()
+                    click.onResume(position)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+//        holder.binding.leftClick.setOnClickListener {
+//            click.onPrevious(position)
+//        }
 
         holder.binding.ivDelete.setOnClickListener{
             click.clickOnItem(position)
