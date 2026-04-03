@@ -73,19 +73,20 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivProfileImage"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                    android:layout_width="@dimen/_54sdp"
+                    android:layout_height="@dimen/_54sdp"
                     android:src="@drawable/ic_user"
                     android:scaleType="centerCrop"
                     android:clipToOutline="true"
+                    android:padding="@dimen/_3sdp"
                     app:shapeAppearanceOverlay="@style/circle_image"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivHighlightStory"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                    android:layout_width="@dimen/_54sdp"
+                    android:layout_height="@dimen/_54sdp"
                     android:src="@drawable/ic_highlight_story"
                     android:scaleType="centerCrop"
                     android:clipToOutline="true"

@@ -23,6 +23,7 @@ import com.desynatdealer.ui.home.fragment.response.GetNotificationCountResponse
 import com.desynatdealer.ui.home.fragment.response.GetUserNotificationResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetAgoraTokenResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.RenewSubscriptionPlanResponse
@@ -574,8 +575,13 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     ): ApiResult<UploadResponse> {
         return try {
             networkCall(api.uploadVideoImage(file))
-        } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+        }
+//        catch (e: Exception) {
+//            ApiResult.Error("Syntax Error")
+//        }
+        catch (e: Exception) {
+            e.printStackTrace()
+            ApiResult.Error(e.message ?: "Unknown Error")
         }
     }
 
@@ -592,6 +598,13 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     suspend fun getLiveRoomRecords(): ApiResult<GetLiveStreamingRoomResponse> {
         return try {
             networkCall(api.getLiveRoomRecords())
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+  suspend fun getAgoraToken(map: HashMap<String, Any>): ApiResult<GetAgoraTokenResponse> {
+        return try {
+            networkCall(api.getAgoraToken(map))
         } catch (e: Exception) {
             ApiResult.Error("Syntax Error")
         }

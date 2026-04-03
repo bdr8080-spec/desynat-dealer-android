@@ -58,6 +58,13 @@ class AddNewHighlightsFragment : BaseFragment() {
     private var isMediaSelected = false
     private val highlightList = ArrayList<GetStoryResponse.Data>()
 
+    private var thumbnailFile: File? = null
+    private var uploadImageVideo = ""
+    private var uploadThumbnail = ""
+
+    private var isThumbnailUploading = false
+    private var isVideoUploading = false
+
 
     private var compressedVideoFile: File? = null
 
@@ -266,6 +273,9 @@ class AddNewHighlightsFragment : BaseFragment() {
                             }
                         } else {
                             if (imageUri != null) {
+                                thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(),
+                                    imageUri!!
+                                )
                                 compressAndUploadVideo(imageUri!!)
                             }
                         }
@@ -278,6 +288,49 @@ class AddNewHighlightsFragment : BaseFragment() {
     }
 
     override fun observe() {
+
+
+
+        viewModel.uploadVideoImageResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is ApiResult.Success -> {
+
+                    val url = result.data?.data?.url ?: ""
+
+                    when {
+                        isThumbnailUploading -> {
+                            uploadThumbnail = url
+                            isThumbnailUploading = false
+
+                            isVideoUploading = true
+                            uploadCompressedVideo(compressedVideoFile)
+                        }
+
+                        isVideoUploading -> {
+                            uploadImageVideo = url
+                            isVideoUploading = false
+
+                            addHighlights(uploadImageVideo)
+                        }
+
+                        else -> {
+                            addHighlights(url) // image case
+                        }
+                    }
+
+                    viewModel.uploadVideoImageResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    showToast(result.message ?: "Error")
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    viewModel.uploadVideoImageResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
         viewModel.uploadVideoImageResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
@@ -326,16 +379,32 @@ class AddNewHighlightsFragment : BaseFragment() {
         }
     }
 
-    private fun uploadCompressedVideo(file: File) {
-        if (!file.exists()) {
-            showToast("Compressed file not found")
-            return
+    private fun uploadCompressedVideo(file: File?) {
+        file?.exists()?.let {
+            if (!it) {
+                showToast("Compressed file not found")
+                return
+            }
+        }
+        val image = file?.toMultiPartBody("file")
+        viewModel.uploadVideoImage(image)
+    }
+
+    private fun uploadThumbnailApi(file: File?) {
+        file?.exists()?.let {
+            if (!it) {
+                showToast("Thumbnail not found")
+                return
+            }
         }
         val image = file?.toMultiPartBody("file")
         viewModel.uploadVideoImage(image)
     }
     private fun addHighlights(story: String) {
         val map = HashMap<String,Any>()
+        if (mediaType!="image"&&uploadThumbnail!=""){
+            map["thumbnail"] = uploadThumbnail
+        }
         map["file"] = story
         map["title"] = binding?.etName?.text?.trim().toString()
         viewModel.addHighlights(map)
@@ -486,13 +555,13 @@ class AddNewHighlightsFragment : BaseFragment() {
             .setVideoTrackStrategy(
                 DefaultVideoStrategy.Builder()
                     .addResizer(AtMostResizer(1280)) // 720p
-                    .bitRate(1_500_000)              // 1.5 Mbps
+                    .bitRate(500_000)              // 1.5 Mbps
                     .frameRate(30)
                     .build()
             )
             .setAudioTrackStrategy(
                 DefaultAudioStrategy.Builder()
-                    .bitRate(96_000)
+                    .bitRate(64_000)
                     .build()
             )
             .setListener(object : TranscoderListener {
@@ -505,7 +574,9 @@ class AddNewHighlightsFragment : BaseFragment() {
                         ProgressDialogUtils.getInstance().hideProgress()
 
                         compressedVideoFile = outputFile
-                        uploadCompressedVideo(outputFile)
+
+                        isThumbnailUploading = true
+                        uploadThumbnailApi(thumbnailFile)
                     }
                 }
 

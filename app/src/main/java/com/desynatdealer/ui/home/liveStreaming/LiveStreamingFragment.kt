@@ -26,12 +26,14 @@ import io.agora.rtc2.Constants
 import io.agora.rtc2.video.VideoCanvas
 import kotlinx.coroutines.launch
 import kotlin.text.get
+import kotlin.text.toIntOrNull
 
 @AndroidEntryPoint
 class LiveStreamingFragment : BaseFragment() {
     private var binding : FragmentLiveStreamingBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
     private var channelId = ""
+    private var appId = ""
     private var token = ""
     private var uid = 0
 
@@ -74,17 +76,15 @@ class LiveStreamingFragment : BaseFragment() {
                     if (result.data?.data!=null){
                         if (result.data?.data?.currentRequests?.isNotEmpty() == true){
                             channelId = result.data?.data?.currentRequests?.get(0)?.channelId.toString()
-                            if (result.data?.data?.currentRequests?.get(0)?.liveToken==null){
-                                getAgoraLiveTokenApi(result.data.data.currentRequests[0].id.toString())
-                            }
-                            else{
+                            if (result.data?.data?.currentRequests?.get(0)?.liveToken!=null&&result.data?.data?.currentRequests?.get(0)?.liveToken!="null"&&result.data?.data?.currentRequests?.get(0)?.liveToken!=""){
                                 token = result.data?.data?.currentRequests?.get(0)?.liveToken.toString()
                                 val uidValue = result.data?.data?.currentRequests?.get(0)?.uid.toString()
                                 uid = uidValue.toIntOrNull() ?: 0
                                 checkPermission()
                             }
-
-
+                            else{
+                                getAgoraToken(result.data.data.currentRequests[0].id.toString())
+                            }
                         }
                         else{
                             showNoDataUIWaiting()
@@ -106,6 +106,38 @@ class LiveStreamingFragment : BaseFragment() {
                 else -> {}
             }
         }
+
+        viewModel.getAgoraTokenResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    if (result.data?.data!=null){
+                        token = result.data?.data?.token.toString()
+                        uid = result.data?.data?.uid?.toIntOrNull()?:0
+                        channelId = result.data?.data?.channel.toString()
+                        appId = result.data?.data?.appId.toString()
+                        checkPermission()
+                    }
+                    else{
+                        showNoDataUIWaiting()
+                    }
+                    viewModel.getAgoraTokenResponse.value = null
+
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getAgoraTokenResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
 
     }
 
@@ -165,6 +197,12 @@ class LiveStreamingFragment : BaseFragment() {
 
         viewModel.getLiveRoomRecords()
     }
+    private fun getAgoraToken(id: String) {
+        val map = HashMap<String,Any>()
+        map["id"] = id
+        map["role"] = 1
+        viewModel.getAgoraToken(map)
+    }
 
     private fun checkPermission(){
         permissionLauncher.launch(
@@ -176,37 +214,13 @@ class LiveStreamingFragment : BaseFragment() {
 
     }
 
-    private fun showNoDataUIWaiting(isShow: Boolean=false) {
+    private fun showNoDataUIWaiting(isShow: Boolean=true) {
         binding?.apply {
             tvNoDataFound.isVisible = isShow
             tvToolbar.isVisible = isShow
             tvLive.isVisible = !isShow
+            ivSwitchCamera.isVisible = !isShow
             tvNoDataFound.text = "No live event found"
-        }
-    }
-
-    private fun getAgoraLiveTokenApi(id: String){
-        val map = HashMap<String,Any>()
-        map["id"] = id
-        lifecycleScope.launch {
-            try {
-                val response = AgoraRetrofit.api.getAgoraToken(
-                    SharedPreference.get(requireActivity()).accessToken,
-                    map
-                )
-                ProgressDialogUtils.getInstance().hideProgress()
-                Log.e("AGORA_TOKEN_RESPONSE", response.body().toString() ?: "Error")
-
-                token = response.body()?.token.toString()
-                val uidValue = response.body()?.uid.toString()
-                uid = uidValue.toIntOrNull() ?: 0
-                checkPermission()
-
-
-            } catch (e: Exception) {
-                ProgressDialogUtils.getInstance().hideProgress()
-                Log.e("AGORA_TOKEN_ERROR", e.message ?: "Error")
-            }
         }
     }
 

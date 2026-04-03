@@ -4,10 +4,16 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
+import android.media.MediaExtractor
+import android.media.MediaFormat
+import android.media.MediaMetadataRetriever
+import android.media.MediaMuxer
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
@@ -19,6 +25,7 @@ import android.text.TextPaint
 import android.text.TextWatcher
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Size
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -48,6 +55,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.nio.ByteBuffer
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -134,6 +142,9 @@ object CommonMethod {
             "png" -> "image/png"
             "pdf" -> "application/pdf"
             "mp4" -> "video/mp4"
+            "mov" -> "video/mov"
+            "avi" -> "video/avi"
+            "mkv" -> "video/mkv"
             "gif"->"image/gif"
             "webp"->"image/webp"
             else -> throw IllegalArgumentException("Unsupported file type: $extension")
@@ -739,6 +750,103 @@ object CommonMethod {
          }*/
 
         return file
+    }
+
+
+    fun getVideoThumbnail(context: Context, uri: Uri): Bitmap? {
+        return try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                context.contentResolver.loadThumbnail(uri, Size(200, 200), null)
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun getVideoThumbnailFile(context: Context, uri: Uri): File? {
+        val retriever = MediaMetadataRetriever()
+
+        return try {
+            retriever.setDataSource(context, uri)
+
+            val bitmap = retriever.getFrameAtTime(0) // first frame
+
+            bitmap?.let {
+                val file = File(
+                    context.cacheDir,
+                    "thumb_${System.currentTimeMillis()}.jpg"
+                )
+
+                val fos = file.outputStream()
+                it.compress(Bitmap.CompressFormat.JPEG, 80, fos)
+                fos.flush()
+                fos.close()
+
+                file
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        } finally {
+            retriever.release()
+        }
+    }
+
+    fun trimVideoTo30SecWithMediaMuxer(context:Context,inputUri: Uri, outputFile: File) {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(context, inputUri)
+        val durationMs = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull() ?: 0
+        retriever.release()
+
+        val trimEndMs = minOf(30_000L, durationMs) * 1000 // convert to microseconds for MediaExtractor
+
+        val extractor = MediaExtractor()
+        extractor.setDataSource(context, inputUri, null)
+
+        val muxer = MediaMuxer(outputFile.absolutePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
+
+        val trackIndexMap = mutableMapOf<Int, Int>()
+        for (i in 0 until extractor.trackCount) {
+            val format = extractor.getTrackFormat(i)
+            val mime = format.getString(MediaFormat.KEY_MIME) ?: continue
+            val trackIndex = muxer.addTrack(format)
+            trackIndexMap[i] = trackIndex
+        }
+
+        muxer.start()
+
+        val buffer = ByteBuffer.allocate(1024 * 1024)
+        val bufferInfo = android.media.MediaCodec.BufferInfo()
+
+        for (i in 0 until extractor.trackCount) {
+            extractor.selectTrack(i)
+            var sampleTime: Long
+            do {
+                bufferInfo.offset = 0
+                bufferInfo.size = extractor.readSampleData(buffer, 0)
+                sampleTime = extractor.sampleTime
+
+                if (bufferInfo.size < 0 || sampleTime > trimEndMs) {
+                    bufferInfo.size = 0
+                    break
+                }
+
+                bufferInfo.presentationTimeUs = sampleTime
+                bufferInfo.flags = extractor.sampleFlags
+                muxer.writeSampleData(trackIndexMap[i]!!, buffer, bufferInfo)
+                extractor.advance()
+            } while (true)
+
+            extractor.unselectTrack(i)
+        }
+
+        muxer.stop()
+        muxer.release()
+        extractor.release()
     }
 
 

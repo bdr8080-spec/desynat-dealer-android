@@ -1,6 +1,7 @@
 package com.desynatdealer.ui.home.profile
 
 import android.Manifest
+import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
@@ -41,10 +42,15 @@ class AddNewReelFragment : BaseFragment() {
 
     private lateinit var storyMediaPicker: StoryMediaPicker
     private var mediaType = ""
-    private lateinit var imageUri: Uri
+    private  var imageUri: Uri?=null
     private val PAGE_SIZE = 40
 
     private var compressedVideoFile: File? = null
+    private var thumbnailFile: File? = null
+    private var uploadImageVideo = ""
+    private var isThumbnailUploading = false
+    private var isVideoUploading = false
+    private var uploadThumbnail = ""
 
     private var reelData: GetStoryResponse.Data?=null
 
@@ -99,6 +105,8 @@ class AddNewReelFragment : BaseFragment() {
 
             if (!itemJson.isNullOrEmpty()) {
                 reelData = Gson().fromJson(itemJson, GetStoryResponse.Data::class.java)
+                tvToolbar.text = "Edit Reel"
+                tvAdd.text = "Update"
                 setData()
             }
 
@@ -133,10 +141,33 @@ class AddNewReelFragment : BaseFragment() {
 
     private fun setData() {
         binding?.apply {
+            val url = reelData?.file ?: ""
+
             etCaption.setText(reelData?.caption)
-            Glide.with(requireActivity())
-                .load(reelData?.file)
-                .into(ivStory)
+            uploadImageVideo = url
+
+            val isVideo = url.endsWith(".mp4", true) ||
+                    url.endsWith(".mov", true)||
+                    url.endsWith(".avi", true)||
+                    url.endsWith(".mkv", true)
+
+            if (isVideo) {
+                mediaType = "video"
+
+                uploadThumbnail = reelData?.thumbnail.toString()
+
+                Glide.with(requireActivity())
+                    .load(url)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .into(ivStory)
+
+            } else {
+                mediaType = "image"
+
+                Glide.with(requireActivity())
+                    .load(url)
+                    .into(ivStory)
+            }
         }
     }
 
@@ -151,27 +182,73 @@ class AddNewReelFragment : BaseFragment() {
                 storyMediaPicker.showReelPicker()
             }
 
+//            tvAdd.setOnClickListener {
+//
+//                if (etCaption.text?.trim().toString().isEmpty()){
+//                    showToast("Please enter caption")
+//                    return@setOnClickListener
+//                }
+//
+//                if (imageUri == null && reelData != null) {
+//                    addReel(uploadImageVideo)
+//                    return@setOnClickListener
+//                }
+//
+//                if (mediaType == "image") {
+//                    val file = CommonMethod.uriToFileForStory(requireActivity(), uri = imageUri!!)
+//                    val image = file?.toMultiPartBody("file")
+//                    viewModel.uploadVideoImage(image)
+//                } else {
+//                    if (!isVideoWithinLimit(imageUri!!, 30)) {
+//                        showToast("Video longer than 30 sec, trimming automatically...")
+//
+//                    } else {
+//                        val outputFile = File(requireContext().cacheDir, "story_trimmed_${System.currentTimeMillis()}.mp4")
+//
+//                        CommonMethod.trimVideoTo30SecWithMediaMuxer(requireActivity(),imageUri!!,outputFile)
+//                        thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(), imageUri!!)
+//                        compressAndUploadVideo(imageUri!!)
+//                    }
+////                    thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(), imageUri!!)
+////                    compressAndUploadVideo(imageUri!!)
+//                }
+//            }
+
             tvAdd.setOnClickListener {
 
-                if (imageUri==null){
-                    showToast("Please select image")
-                }
-                else if (etCaption.text?.trim().toString().isEmpty()){
+                if (etCaption.text?.trim().toString().isEmpty()) {
                     showToast("Please enter caption")
-                }
-                else{
-                    if (mediaType == "image") {
-                        val file = CommonMethod.uriToFileForStory(requireActivity(), uri = imageUri)
-                        val image = file?.toMultiPartBody("file")
-                        viewModel.uploadVideoImage(image)
-                    }
-                    else{
-                        compressAndUploadVideo(imageUri)
-                    }
+                    return@setOnClickListener
                 }
 
+                if (imageUri == null && reelData != null) {
+                    addReel(uploadImageVideo)
+                    return@setOnClickListener
+                }
+
+                if (mediaType == "image") {
+                    val file = CommonMethod.uriToFileForStory(requireActivity(), uri = imageUri!!)
+                    val image = file?.toMultiPartBody("file")
+                    viewModel.uploadVideoImage(image)
+                } else {
+
+//                    if (!isVideoWithinLimit(imageUri!!, 30)) {
+//                        showToast("Video must not be more than 30 seconds")
+//                        return@setOnClickListener
+//                    }
+
+               /*     val outputFile = File(
+                        requireContext().cacheDir,
+                        "story_trimmed_${System.currentTimeMillis()}.mp4"
+                    )
+
+                    CommonMethod.trimVideoTo30SecWithMediaMuxer(requireContext(), imageUri!!, outputFile)
+                    compressAndUploadVideo(Uri.fromFile(outputFile))
+*/
+                    thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(), imageUri!!)
+                    compressAndUploadVideo(imageUri!!)
+                }
             }
-
         }
     }
 
@@ -179,30 +256,51 @@ class AddNewReelFragment : BaseFragment() {
         viewModel.uploadVideoImageResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    if (!isVideoUploading){
+                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    }
                 }
-
                 is ApiResult.Success -> {
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    addReel(result.data?.data?.url.toString())
-                    compressedVideoFile?.delete()
+
+                    val url = result.data?.data?.url ?: ""
+
+                    when {
+                        isThumbnailUploading -> {
+                            uploadThumbnail = url
+                            isThumbnailUploading = false
+
+                            isVideoUploading = true
+                            uploadCompressedVideo(compressedVideoFile)
+                        }
+
+                        isVideoUploading -> {
+                            uploadImageVideo = url
+                            isVideoUploading = false
+
+                            addReel(uploadImageVideo)
+                        }
+
+                        else -> {
+                            addReel(url) // image case
+                        }
+                    }
+
                     viewModel.uploadVideoImageResponse.value = null
                 }
 
                 is ApiResult.Error -> {
+                    showToast(result.message ?: "Error")
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.uploadVideoImageResponse.value = null
                 }
 
                 else -> {}
             }
         }
-
         viewModel.addReelResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                 //   ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
 
                 is ApiResult.Success -> {
@@ -249,19 +347,37 @@ class AddNewReelFragment : BaseFragment() {
 
     }
 
-    private fun uploadCompressedVideo(file: File) {
-        if (!file.exists()) {
-            showToast("Compressed file not found")
-            return
+    private fun uploadCompressedVideo(file: File?) {
+        file?.exists()?.let {
+            if (!it) {
+                showToast("Compressed file not found")
+                return
+            }
         }
         val image = file?.toMultiPartBody("file")
         viewModel.uploadVideoImage(image)
     }
+
+    private fun uploadThumbnailApi(file: File?) {
+        file?.exists()?.let {
+            if (!it) {
+                showToast("Thumbnail not found")
+                return
+            }
+        }
+        val image = file?.toMultiPartBody("file")
+        viewModel.uploadVideoImage(image)
+    }
+
     private fun addReel(story: String) {
         val map = HashMap<String,Any>()
+        if (mediaType!="image"&&uploadThumbnail!=""){
+            map["thumbnail"] = uploadThumbnail
+        }
         map["file"] = story
         map["caption"] = binding?.etCaption?.text?.trim().toString()
         if (reelData!=null){
+            map["reel_id"] = reelData?.id.toString()
             viewModel.updateReel(map)
         }
         else{
@@ -275,7 +391,7 @@ class AddNewReelFragment : BaseFragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             galleryPermissionLauncher.launch(
                 arrayOf(
-                    Manifest.permission.READ_MEDIA_IMAGES,
+//                    Manifest.permission.READ_MEDIA_IMAGES,
                     Manifest.permission.READ_MEDIA_VIDEO
                 )
             )
@@ -292,17 +408,20 @@ class AddNewReelFragment : BaseFragment() {
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
 
             val granted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val imageGranted = permissions[Manifest.permission.READ_MEDIA_IMAGES] ?: false
+            //    val imageGranted = permissions[Manifest.permission.READ_MEDIA_IMAGES] ?: false
                 val videoGranted = permissions[Manifest.permission.READ_MEDIA_VIDEO] ?: false
-                imageGranted || videoGranted
+              //  imageGranted ||
+                        videoGranted
             } else {
                 permissions[Manifest.permission.READ_EXTERNAL_STORAGE] ?: false
             }
 
             if (granted) {
-
             } else {
-                showToast("Permission required to access images and videos")
+                if (!shouldShowRequestPermissionRationale(Manifest.permission.READ_MEDIA_VIDEO)) {
+                    showToast("Permission permanently denied. Please allow from settings.")
+                } else {
+                }
             }
         }
 
@@ -326,6 +445,80 @@ class AddNewReelFragment : BaseFragment() {
         }
     }
 
+    //5 mb limit
+    private fun compressAndUploadVideo5mb(inputUri: Uri) {
+        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(requireContext(), inputUri)
+
+        val durationMs = retriever.extractMetadata(
+            MediaMetadataRetriever.METADATA_KEY_DURATION
+        )?.toLongOrNull() ?: 0
+
+        retriever.release()
+
+        val durationSec = durationMs / 1000.0
+
+        // 🎯 Target: 5MB
+        val targetSizeBytes = 5 * 1024 * 1024
+        val targetBitrate = ((targetSizeBytes * 8) / durationSec).toLong()
+
+        val outputFile = File(
+            requireContext().cacheDir,
+            "story_${System.currentTimeMillis()}.mp4"
+        )
+
+        Transcoder.into(outputFile.absolutePath)
+            .addDataSource(requireContext(), inputUri)
+            .setVideoTrackStrategy(
+                DefaultVideoStrategy.Builder()
+                    .addResizer(AtMostResizer(720)) // reduce resolution
+                    .bitRate(targetBitrate)         // 🔥 dynamic bitrate
+                    .frameRate(24)
+                    .build()
+            )
+            .setAudioTrackStrategy(
+                DefaultAudioStrategy.Builder()
+                    .bitRate(64_000)
+                    .build()
+            )
+            .setListener(object : TranscoderListener {
+
+                override fun onTranscodeCompleted(successCode: Int) {
+                    requireActivity().runOnUiThread {
+                        ProgressDialogUtils.getInstance().hideProgress()
+
+                        // ✅ Final safety check
+                        val fileSizeMB = outputFile.length() / (1024 * 1024)
+
+                        if (fileSizeMB > 5) {
+                            showToast("Video still too large, try shorter video")
+                            return@runOnUiThread
+                        }
+
+                        compressedVideoFile = outputFile
+
+                        isThumbnailUploading = true
+                        uploadThumbnailApi(thumbnailFile)
+                    }
+                }
+
+                override fun onTranscodeCanceled() {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast("Compression cancelled")
+                }
+
+                override fun onTranscodeFailed(exception: Throwable) {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast("Compression failed")
+                }
+
+                override fun onTranscodeProgress(progress: Double) {}
+            })
+            .transcode()
+    }
+
     private fun compressAndUploadVideo(inputUri: Uri) {
         ProgressDialogUtils.getInstance().showProgress(requireActivity())
 
@@ -339,13 +532,13 @@ class AddNewReelFragment : BaseFragment() {
             .setVideoTrackStrategy(
                 DefaultVideoStrategy.Builder()
                     .addResizer(AtMostResizer(1280)) // 720p
-                    .bitRate(1_500_000)              // 1.5 Mbps
+                    .bitRate(500_000)              // 1.5 Mbps
                     .frameRate(30)
                     .build()
             )
             .setAudioTrackStrategy(
                 DefaultAudioStrategy.Builder()
-                    .bitRate(96_000)
+                    .bitRate(64_000)
                     .build()
             )
             .setListener(object : TranscoderListener {
@@ -358,7 +551,9 @@ class AddNewReelFragment : BaseFragment() {
                         ProgressDialogUtils.getInstance().hideProgress()
 
                         compressedVideoFile = outputFile
-                        uploadCompressedVideo(outputFile)
+
+                        isThumbnailUploading = true
+                        uploadThumbnailApi(thumbnailFile)
                     }
                 }
 
@@ -379,5 +574,6 @@ class AddNewReelFragment : BaseFragment() {
             })
             .transcode()
     }
+
 
 }

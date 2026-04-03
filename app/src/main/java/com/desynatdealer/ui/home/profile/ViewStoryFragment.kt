@@ -271,7 +271,7 @@ class ViewStoryFragment : BaseFragment() {
                 val url = myStories[index].file ?: ""
 
                 // Skip video/gif
-                if (url.endsWith(".mp4") || url.endsWith(".mov") || url.endsWith(".gif")) {
+                if (url.endsWith(".mp4") || url.endsWith(".mov") ||url.endsWith(".avi") || url.endsWith(".mkv") || url.endsWith(".gif")) {
                     return
                 }
 

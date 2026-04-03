@@ -447,13 +447,13 @@ class AddReelFragment : BaseFragment() {
             .setVideoTrackStrategy(
                 DefaultVideoStrategy.Builder()
                     .addResizer(AtMostResizer(1280)) // 720p
-                    .bitRate(1_500_000)              // 1.5 Mbps
+                    .bitRate(500_000)              // 1.5 Mbps
                     .frameRate(30)
                     .build()
             )
             .setAudioTrackStrategy(
                 DefaultAudioStrategy.Builder()
-                    .bitRate(96_000)
+                    .bitRate(64_000)
                     .build()
             )
             .setListener(object : TranscoderListener {

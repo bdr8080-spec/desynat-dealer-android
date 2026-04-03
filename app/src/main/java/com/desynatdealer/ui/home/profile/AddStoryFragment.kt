@@ -24,6 +24,7 @@ import com.desynatdealer.ui.home.profile.response.GalleryMedia
 import com.desynatdealer.utils.StoryMediaPicker
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 import kotlin.getValue
 
 @AndroidEntryPoint

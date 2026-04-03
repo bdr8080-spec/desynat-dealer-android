@@ -21,6 +21,7 @@ import com.desynatdealer.ui.home.fragment.response.GetNotificationCountResponse
 import com.desynatdealer.ui.home.fragment.response.GetUserNotificationResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetAgoraTokenResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.RenewSubscriptionPlanResponse
@@ -901,6 +902,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _getLiveRoomRecordsResponse.value = ApiResult.Loading
             _getLiveRoomRecordsResponse.value = repo.getLiveRoomRecords()
+        }
+    }
+
+    private val _getAgoraTokenResponse =
+        MutableLiveData<ApiResult<GetAgoraTokenResponse>?>()
+    val getAgoraTokenResponse: MutableLiveData<ApiResult<GetAgoraTokenResponse>?>
+        get() = _getAgoraTokenResponse
+
+    fun getAgoraToken(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getAgoraTokenResponse.value = ApiResult.Loading
+            _getAgoraTokenResponse.value = repo.getAgoraToken(map)
         }
     }
 

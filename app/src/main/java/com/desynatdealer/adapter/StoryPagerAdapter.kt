@@ -46,7 +46,7 @@ class StoryPagerAdapter(
         val story = stories[position]
         val url = story.file ?: ""
 
-        val isVideo = url.endsWith(".mp4") || url.endsWith(".mov")
+        val isVideo = url.endsWith(".mp4") || url.endsWith(".mov") ||url.endsWith(".avi") || url.endsWith(".mkv")
         val isGif = url.endsWith(".gif")
 
         if (isVideo) {

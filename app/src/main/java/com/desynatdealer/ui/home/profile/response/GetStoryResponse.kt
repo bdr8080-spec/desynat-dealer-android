@@ -16,6 +16,8 @@ data class GetStoryResponse(
         val createdAt: String?="",
         @SerializedName("file")
         val `file`: String?="",
+        @SerializedName("thumbnail")
+        val `thumbnail`: String?="",
         @SerializedName("id")
         val id: String?="",
         @SerializedName("seller_id")

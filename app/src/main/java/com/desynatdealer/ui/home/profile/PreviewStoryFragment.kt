@@ -1,5 +1,6 @@
 package com.desynatdealer.ui.home.profile
 
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -39,6 +40,13 @@ class PreviewStoryFragment : BaseFragment() {
     private var name=""
 
     private var compressedVideoFile: File? = null
+
+    private var thumbnailFile: File? = null
+    private var uploadImageVideo = ""
+    private var uploadThumbnail = ""
+
+    private var isThumbnailUploading = false
+    private var isVideoUploading = false
 
 
     override fun onCreateView(
@@ -133,6 +141,11 @@ class PreviewStoryFragment : BaseFragment() {
                     viewModel.uploadVideoImage(image)
                 }
                 else{
+                    if (!isVideoWithinLimit(Uri.parse(uri), 30)) {
+                        showToast("Video must not be more than 30 seconds")
+                        return@setOnClickListener
+                    }
+                    thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(), Uri.parse(uri))
                     compressAndUploadVideo(Uri.parse(uri))
                 }
 
@@ -143,26 +156,44 @@ class PreviewStoryFragment : BaseFragment() {
     override fun observe() {
         viewModel.uploadVideoImageResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
-                ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
-                }
-
                 is ApiResult.Success -> {
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    addStory(result.data?.data?.url.toString())
-                    compressedVideoFile?.delete()
+
+                    val url = result.data?.data?.url ?: ""
+
+                    when {
+                        isThumbnailUploading -> {
+                            uploadThumbnail = url
+                            isThumbnailUploading = false
+
+                            isVideoUploading = true
+                            uploadCompressedVideo(compressedVideoFile)
+                        }
+
+                        isVideoUploading -> {
+                            uploadImageVideo = url
+                            isVideoUploading = false
+
+                            addStory(uploadImageVideo)
+                        }
+
+                        else -> {
+                            addStory(url) // image case
+                        }
+                    }
+
                     viewModel.uploadVideoImageResponse.value = null
                 }
 
                 is ApiResult.Error -> {
+                    showToast(result.message ?: "Error")
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.uploadVideoImageResponse.value = null
                 }
 
                 else -> {}
             }
         }
+
 
         viewModel.addStoryResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -201,13 +232,13 @@ class PreviewStoryFragment : BaseFragment() {
             .setVideoTrackStrategy(
                 DefaultVideoStrategy.Builder()
                     .addResizer(AtMostResizer(1280)) // 720p
-                    .bitRate(1_500_000)              // 1.5 Mbps
+                    .bitRate(500_000)              // 1.5 Mbps
                     .frameRate(30)
                     .build()
             )
             .setAudioTrackStrategy(
                 DefaultAudioStrategy.Builder()
-                    .bitRate(96_000)
+                    .bitRate(64_000)
                     .build()
             )
             .setListener(object : TranscoderListener {
@@ -220,7 +251,9 @@ class PreviewStoryFragment : BaseFragment() {
                         ProgressDialogUtils.getInstance().hideProgress()
 
                         compressedVideoFile = outputFile
-                        uploadCompressedVideo(outputFile)
+
+                        isThumbnailUploading = true
+                        uploadThumbnailApi(thumbnailFile)
                     }
                 }
 
@@ -242,10 +275,23 @@ class PreviewStoryFragment : BaseFragment() {
             .transcode()
     }
 
-    private fun uploadCompressedVideo(file: File) {
-        if (!file.exists()) {
-            showToast("Compressed file not found")
-            return
+    private fun uploadCompressedVideo(file: File?) {
+        file?.exists()?.let {
+            if (!it) {
+                showToast("Compressed file not found")
+                return
+            }
+        }
+        val image = file?.toMultiPartBody("file")
+        viewModel.uploadVideoImage(image)
+    }
+
+    private fun uploadThumbnailApi(file: File?) {
+        file?.exists()?.let {
+            if (!it) {
+                showToast("Thumbnail not found")
+                return
+            }
         }
         val image = file?.toMultiPartBody("file")
         viewModel.uploadVideoImage(image)
@@ -253,8 +299,32 @@ class PreviewStoryFragment : BaseFragment() {
 
     private fun addStory(story: String) {
         val map = HashMap<String,Any>()
+        if (mediaType!="image"&&uploadThumbnail!=""){
+            map["thumbnail"] = uploadThumbnail
+        }
         map["file"] = story
         viewModel.addStory(map)
     }
+
+    fun isVideoWithinLimit(uri: Uri, maxDurationSec: Int = 30): Boolean {
+        val retriever = MediaMetadataRetriever()
+        return try {
+            retriever.setDataSource(requireContext(), uri)
+
+            val durationMs = retriever.extractMetadata(
+                MediaMetadataRetriever.METADATA_KEY_DURATION
+            )?.toLongOrNull()
+
+            durationMs != null && durationMs <= maxDurationSec * 1000
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false   // treat invalid video as not allowed
+        } finally {
+            try {
+                retriever.release()
+            } catch (e: Exception) { }
+        }
+    }
+
 
 }

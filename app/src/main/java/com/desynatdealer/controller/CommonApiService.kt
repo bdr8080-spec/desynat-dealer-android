@@ -322,12 +322,9 @@ interface CommonApiService {
     @GET(Constants.GET_LIVE_ROOM_RECORD)
     suspend fun getLiveRoomRecords(): Response<GetLiveStreamingRoomResponse>
 
-    @GET(Constants.GET_AGORA_TOKEN)
-    suspend fun getAgoraToken(): Response<GetLiveStreamingRoomResponse>
 
     @POST(Constants.GET_AGORA_TOKEN)
     suspend fun getAgoraToken(
-        @Header("Authorization") token: String,
         @Body  map: HashMap<String, Any>
     ): Response<GetAgoraTokenResponse>
 }
