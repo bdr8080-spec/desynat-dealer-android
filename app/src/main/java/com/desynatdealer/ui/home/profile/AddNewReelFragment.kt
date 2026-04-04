@@ -1,7 +1,6 @@
 package com.desynatdealer.ui.home.profile
 
 import android.Manifest
-import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
@@ -460,7 +459,7 @@ class AddNewReelFragment : BaseFragment() {
 
         val durationSec = durationMs / 1000.0
 
-        // 🎯 Target: 5MB
+        // Target: 5MB
         val targetSizeBytes = 5 * 1024 * 1024
         val targetBitrate = ((targetSizeBytes * 8) / durationSec).toLong()
 
@@ -473,8 +472,8 @@ class AddNewReelFragment : BaseFragment() {
             .addDataSource(requireContext(), inputUri)
             .setVideoTrackStrategy(
                 DefaultVideoStrategy.Builder()
-                    .addResizer(AtMostResizer(720)) // reduce resolution
-                    .bitRate(targetBitrate)         // 🔥 dynamic bitrate
+                    .addResizer(AtMostResizer(720))
+                    .bitRate(targetBitrate)
                     .frameRate(24)
                     .build()
             )
@@ -489,7 +488,6 @@ class AddNewReelFragment : BaseFragment() {
                     requireActivity().runOnUiThread {
                         ProgressDialogUtils.getInstance().hideProgress()
 
-                        // ✅ Final safety check
                         val fileSizeMB = outputFile.length() / (1024 * 1024)
 
                         if (fileSizeMB > 5) {

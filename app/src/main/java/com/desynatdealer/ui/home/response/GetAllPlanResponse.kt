@@ -47,6 +47,12 @@ data class GetAllPlanResponse(
         @SerializedName("updated_at")
         val updatedAt: String,
         @SerializedName("isPurchased")
-        var isPurchased: Boolean=false
+        var isPurchased: Boolean=false,
+        @SerializedName("product_type")
+        val productType: Int=1,//0-defined,1-unlimited
+        @SerializedName("is_free_months")
+        val isFreeMonths: Int=0, //0-no,1-yes
+        @SerializedName("no_of_free_months")
+        val noOfFreeMonths: String? = null //if is_free_month is 1
     )
 }

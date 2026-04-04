@@ -44,6 +44,24 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:visibility="gone"
+        android:id="@+id/tvJoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Join"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins_medium"
+        android:background="@drawable/btn_gradient"
+        android:paddingHorizontal="@dimen/_30sdp"
+        android:paddingVertical="@dimen/_6sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:visibility="gone"
         android:id="@+id/tvLive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,6 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:visibility="gone"
         android:id="@+id/ivSwitchCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,5 +105,55 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/relMute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:paddingVertical="@dimen/_15sdp"
+        android:background="#1A000000"
+        android:elevation="@dimen/_2sdp"
+        android:paddingHorizontal="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvMute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Mute"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:background="@drawable/btn_background"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_alignParentStart="true"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLeave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Leave"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/brown"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:background="@drawable/brown_stroke"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_alignParentEnd="true"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

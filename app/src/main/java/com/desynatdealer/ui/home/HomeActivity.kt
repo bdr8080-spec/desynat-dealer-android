@@ -76,7 +76,7 @@ class HomeActivity : BaseActivity() {
             R.id.home,
             R.id.productManagement,
             R.id.orderManagement,
-            R.id.liveStreaming,
+          //  R.id.liveStreaming,
           //  R.id.payment,
         )
 

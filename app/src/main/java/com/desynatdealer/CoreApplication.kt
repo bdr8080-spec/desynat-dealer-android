@@ -53,6 +53,6 @@ class CoreApplication : Application() {
             SharedPreference.get(this).deviceToken = token
         }
 
-        AgoraManager.initialize(this, getString(R.string.agora_app_id))
+//        AgoraManager.initialize(this, getString(R.string.agora_app_id))
     }
 }

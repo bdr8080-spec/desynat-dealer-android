@@ -2,30 +2,26 @@ package com.desynatdealer.ui.home.liveStreaming
 
 import android.Manifest
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentLiveStreamingBinding
 import com.desynatdealer.utils.ProgressDialogUtils
-import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.agora.AgoraManager
-import com.desynatdealer.utils.agora.AgoraRetrofit
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import io.agora.rtc2.ChannelMediaOptions
 import io.agora.rtc2.Constants
+import io.agora.rtc2.RtcEngine
 import io.agora.rtc2.video.VideoCanvas
-import kotlinx.coroutines.launch
-import kotlin.text.get
 import kotlin.text.toIntOrNull
 
 @AndroidEntryPoint
@@ -36,6 +32,9 @@ class LiveStreamingFragment : BaseFragment() {
     private var appId = ""
     private var token = ""
     private var uid = 0
+
+    private var isMuted = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +61,40 @@ class LiveStreamingFragment : BaseFragment() {
             ivSwitchCamera.setOnClickListener {
                 AgoraManager.getEngine()?.switchCamera()
             }
+
+            tvJoin.setOnClickListener {
+               tvNoDataFound.isVisible = false
+               tvToolbar.isVisible = false
+                ivBack.isVisible = false
+               tvJoin.isVisible = false
+               ivSwitchCamera.isVisible = true
+               relMute.isVisible = true
+               tvLive.isVisible = true
+                startLiveStream()
+            }
+
+            tvLeave.setOnClickListener {
+                AgoraManager.getEngine()?.apply {
+                    stopPreview()
+                    leaveChannel()
+                }
+
+                findNavController().popBackStack()
+            }
+
+            tvMute.setOnClickListener {
+                val engine = AgoraManager.getEngine()
+
+                isMuted = !isMuted
+
+                engine?.muteLocalAudioStream(isMuted)
+
+                if (isMuted) {
+                    binding?.tvMute?.text = "Unmute"
+                } else {
+                    binding?.tvMute?.text = "Mute"
+                }
+            }
         }
     }
 
@@ -76,15 +109,16 @@ class LiveStreamingFragment : BaseFragment() {
                     if (result.data?.data!=null){
                         if (result.data?.data?.currentRequests?.isNotEmpty() == true){
                             channelId = result.data?.data?.currentRequests?.get(0)?.channelId.toString()
-                            if (result.data?.data?.currentRequests?.get(0)?.liveToken!=null&&result.data?.data?.currentRequests?.get(0)?.liveToken!="null"&&result.data?.data?.currentRequests?.get(0)?.liveToken!=""){
-                                token = result.data?.data?.currentRequests?.get(0)?.liveToken.toString()
-                                val uidValue = result.data?.data?.currentRequests?.get(0)?.uid.toString()
-                                uid = uidValue.toIntOrNull() ?: 0
-                                checkPermission()
-                            }
-                            else{
-                                getAgoraToken(result.data.data.currentRequests[0].id.toString())
-                            }
+//                            if (result.data?.data?.currentRequests?.get(0)?.liveToken!=null&&result.data?.data?.currentRequests?.get(0)?.liveToken!="null"&&result.data?.data?.currentRequests?.get(0)?.liveToken!=""){
+//                                token = result.data?.data?.currentRequests?.get(0)?.liveToken.toString()
+//                                val uidValue = result.data?.data?.currentRequests?.get(0)?.uid.toString()
+//                                uid = uidValue.toIntOrNull() ?: 0
+//                                checkPermission()
+//                            }
+//                            else{
+//                                getAgoraToken(result.data.data.currentRequests[0].id.toString())
+//                            }
+                            getAgoraToken(result.data.data.currentRequests[0].id.toString())
                         }
                         else{
                             showNoDataUIWaiting()
@@ -159,7 +193,8 @@ class LiveStreamingFragment : BaseFragment() {
             val micGranted = permissions[Manifest.permission.RECORD_AUDIO] ?: false
 
             if (cameraGranted && micGranted) {
-                startLiveStream()
+                AgoraManager.initialize(requireActivity(), appId)
+                binding?.tvJoin?.isVisible = true
             } else {
                 requireContext().showToast("Camera and microphone permission required")
             }
@@ -170,15 +205,16 @@ class LiveStreamingFragment : BaseFragment() {
 
         engine?.enableVideo()
 
-        val surfaceView = io.agora.rtc2.RtcEngine.CreateRendererView(requireContext())
-
+        val surfaceView = RtcEngine.CreateRendererView(requireContext())
         binding?.videoContainer?.addView(surfaceView)
 
         engine?.setupLocalVideo(
-            VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, 0)
+            VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid)
         )
 
         engine?.startPreview()
+
+        engine?.setClientRole(Constants.CLIENT_ROLE_BROADCASTER)
 
         val options = ChannelMediaOptions().apply {
             clientRoleType = Constants.CLIENT_ROLE_BROADCASTER
@@ -192,7 +228,6 @@ class LiveStreamingFragment : BaseFragment() {
             options
         )
     }
-
     private fun getLiveRoomRecords() {
 
         viewModel.getLiveRoomRecords()
@@ -217,8 +252,10 @@ class LiveStreamingFragment : BaseFragment() {
     private fun showNoDataUIWaiting(isShow: Boolean=true) {
         binding?.apply {
             tvNoDataFound.isVisible = isShow
+            ivBack.isVisible = isShow
             tvToolbar.isVisible = isShow
             tvLive.isVisible = !isShow
+            relMute.isVisible = !isShow
             ivSwitchCamera.isVisible = !isShow
             tvNoDataFound.text = "No live event found"
         }

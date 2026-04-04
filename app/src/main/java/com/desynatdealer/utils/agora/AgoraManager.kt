@@ -1,6 +1,8 @@
 package com.desynatdealer.utils.agora
 
 import android.content.Context
+import android.util.Log
+import io.agora.rtc2.Constants
 import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.RtcEngine
 
@@ -9,7 +11,39 @@ object AgoraManager {
     private var rtcEngine: RtcEngine? = null
 
     fun initialize(context: Context, appId: String) {
-        rtcEngine = RtcEngine.create(context, appId, object : IRtcEngineEventHandler() {})
+        if (rtcEngine != null) return
+        val rtcEventHandler = object : IRtcEngineEventHandler() {
+
+            override fun onJoinChannelSuccess(channel: String?, uid: Int, elapsed: Int) {
+                Log.d("Agora", "Joined channel successfully: $channel, uid: $uid")
+            }
+
+            override fun onConnectionStateChanged(state: Int, reason: Int) {
+                Log.d("Agora", "Connection state: $state, reason: $reason")
+
+                if (state == Constants.CONNECTION_STATE_CONNECTED) {
+                    Log.d("Agora", "✅ Connected to Agora server")
+                }
+            }
+
+            override fun onLocalVideoStateChanged(
+                source: Constants.VideoSourceType,
+                state: Int,
+                error: Int
+            ) {
+                Log.d("Agora", "Local video state: $state")
+
+                if (state == Constants.LOCAL_VIDEO_STREAM_STATE_ENCODING) {
+                    Log.d("Agora", "🎥 Video is being sent")
+                }
+            }
+
+            override fun onError(err: Int) {
+                Log.e("Agora", "Error: $err")
+            }
+        }
+
+        rtcEngine = RtcEngine.create(context, appId, rtcEventHandler)
     }
 
     fun getEngine(): RtcEngine? {

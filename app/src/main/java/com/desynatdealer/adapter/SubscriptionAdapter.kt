@@ -60,6 +60,8 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
                 if (noOfProducts != 0)
                     featureList.add(FeatureList("Number of Products: ", noOfProducts))
 
+                else  featureList.add(FeatureList("Number of Products: ", 0))
+
                 if (noOfVideos != 0)
                     featureList.add(FeatureList("Number of Videos (Reels): ", noOfVideos))
 
@@ -83,6 +85,10 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
                         featureList.add(FeatureList("Commission: $formattedCommission", 0))
                     }
                 }
+
+                if (noOfFreeMonths != null&&noOfFreeMonths != "null"&&noOfFreeMonths != "")
+                    featureList.add(FeatureList("Number of Free Month: ", noOfFreeMonths.toIntOrNull()))
+
             }
 
             rvFeature.apply {
@@ -95,7 +101,7 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
                 setRecycledViewPool(null)
             }
 
-            root.setOnClickListener {
+            btnContinue.setOnClickListener {
                 subscriptionClick.onSubscriptionClick(position)
             }
         }

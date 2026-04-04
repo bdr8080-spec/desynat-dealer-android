@@ -90,12 +90,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFeature"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
-            android:nestedScrollingEnabled="false"
+            android:layout_height="@dimen/_170sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_12sdp"
-            tools:itemCount="6"
+            tools:itemCount="7"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_plan_feature"/>
 
