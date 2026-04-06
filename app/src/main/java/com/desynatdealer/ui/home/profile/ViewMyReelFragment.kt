@@ -65,10 +65,39 @@ class ViewMyReelFragment : BaseFragment() {
 
                 videoStory.setVideoPath(url)
 
+//                videoStory.setOnPreparedListener { mp ->
+//                    mp.isLooping = false
+//                    videoLoader.isVisible = false
+//
+//                    videoStory.start()
+//                }
+
                 videoStory.setOnPreparedListener { mp ->
+
+                    val videoWidth = mp.videoWidth
+                    val videoHeight = mp.videoHeight
+
+                    val viewWidth = videoStory.width
+                    val viewHeight = videoStory.height
+
+                    val videoRatio = videoWidth.toFloat() / videoHeight
+                    val viewRatio = viewWidth.toFloat() / viewHeight
+
+                    val layoutParams = videoStory.layoutParams
+
+                    if (videoRatio > viewRatio) {
+                        // 👉 video is wider → scale by HEIGHT (crop left/right)
+                        layoutParams.height = viewHeight
+                        layoutParams.width = (viewHeight * videoRatio).toInt()
+                    } else {
+                        // 👉 video is taller → scale by WIDTH (crop top/bottom)
+                        layoutParams.width = viewWidth
+                        layoutParams.height = (viewWidth / videoRatio).toInt()
+                    }
+
+                   videoStory.layoutParams = layoutParams
                     mp.isLooping = false
                     videoLoader.isVisible = false
-
                     videoStory.start()
                 }
 
@@ -129,6 +158,16 @@ class ViewMyReelFragment : BaseFragment() {
         binding?.apply {
             ivBack.setOnClickListener {
                 findNavController().popBackStack()
+            }
+
+            videoStory.setOnClickListener {
+                val dummyList = ArrayList<GetStoryResponse.Data>()
+                reelData?.let { e -> dummyList.add(e) }
+               val bundle = Bundle().apply {
+                    putString("from", "reel")
+                    putString("storyData", Gson().toJson(dummyList))
+                }
+                findNavController().navigate(R.id.action_viewReelFragment_to_ViewStoryFragment,bundle)
             }
 
             ivDelete.setOnClickListener {

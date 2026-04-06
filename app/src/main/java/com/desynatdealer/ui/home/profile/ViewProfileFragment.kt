@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -117,7 +118,7 @@ class ViewProfileFragment : BaseFragment() {
                             if (originalHighlightList.size!=0) {
                                 val bundle = Bundle().apply {
                                     putString("from", "highlights")
-                                    putString("storyData", Gson().toJson(dummyList))
+                                    putString("storyData", Gson().toJson(originalHighlightList))
                                 }
                                 findNavController().navigate(
                                     R.id.action_viewProfileFragment_to_viewStoryFragment,
@@ -344,6 +345,11 @@ class ViewProfileFragment : BaseFragment() {
     }
 
     private fun setStory() {
+      /*  binding?.storyRing?.apply {
+            segmentCount = storyList.size
+            invalidate()
+         //   ivHighlightStory?.isVisible = storyList.isNotEmpty()
+        }*/
         binding?.ivHighlightStory?.isVisible = storyList.isNotEmpty()
     }
 

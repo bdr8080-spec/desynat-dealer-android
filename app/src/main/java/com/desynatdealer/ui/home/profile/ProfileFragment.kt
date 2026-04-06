@@ -202,7 +202,12 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun setStory() {
-        binding?.ivHighlightStory?.isVisible = storyList.isNotEmpty()
+//        binding?.storyRing?.apply {
+//            segmentCount = storyList.size
+//            invalidate()
+//        }
+           binding?.ivHighlightStory?.isVisible = storyList.isNotEmpty()
+
     }
 
     private fun getStory() {

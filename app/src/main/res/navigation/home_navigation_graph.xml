@@ -23,6 +23,10 @@
             android:id="@+id/action_homeFragment_to_notificationFragment"
             app:destination="@id/notification" />
 
+        <action
+            android:id="@+id/action_homeFragment_to_viewStoryFragment"
+            app:destination="@id/viewStory" />
+
     </fragment>
 
     <fragment
@@ -582,6 +586,10 @@
     <action
         android:id="@+id/action_viewReelFragment_to_AddNewReelFragment"
         app:destination="@id/addNewReel" />
+
+    <action
+        android:id="@+id/action_viewReelFragment_to_ViewStoryFragment"
+        app:destination="@id/viewStory" />
 
     </fragment>
 

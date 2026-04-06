@@ -129,6 +129,28 @@ class ViewStoryFragment : BaseFragment() {
                 else -> {}
             }
         }
+        viewModel.deleteReelResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    CommonMethod.showSuccessDialog(requireActivity(),"Reel deleted successfully!"){
+                        findNavController().popBackStack()
+                    }
+                    viewModel.deleteReelResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.deleteReelResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
     }
 
     private fun handleStoryDeletion() {
@@ -166,6 +188,12 @@ class ViewStoryFragment : BaseFragment() {
         viewModel.deleteHighlights(map)
     }
 
+    private fun deleteReel(id: String){
+        val map = HashMap<String,Any>()
+        map["reel_id"] = id
+        viewModel.deleteReel(map)
+    }
+
             private fun setupAdapter() {
 
                 storyPagerAdapter = StoryPagerAdapter(
@@ -179,7 +207,8 @@ class ViewStoryFragment : BaseFragment() {
                             viewHolder?.binding?.videoStory?.pause()
                             when (from) {
                                 "story" -> deleteStory(myStories[position].id.toString())
-                                "highlights" -> deleteHighlights(myStories[position].id.toString()) }
+                                "highlights" -> deleteHighlights(myStories[position].id.toString())
+                                "reel" -> deleteReel(myStories[position].id.toString()) }
                         }
 
 

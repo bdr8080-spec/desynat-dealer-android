@@ -1,6 +1,7 @@
 package com.desynatdealer.ui.home.profile
 
 import android.Manifest
+import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
@@ -58,9 +59,24 @@ class AddNewReelFragment : BaseFragment() {
             storyMediaPicker.onImageCameraResult(success)
         }
 
-    private val galleryLauncher =
+    /*private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             storyMediaPicker.onImageGalleryResult(uri)
+        }*/
+
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                try {
+                    requireContext().contentResolver.takePersistableUriPermission(
+                        it,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            storyMediaPicker.onVideoGalleryResult(uri)
         }
 
     private val permissionLauncher =
@@ -75,11 +91,25 @@ class AddNewReelFragment : BaseFragment() {
             )
         }
 
-
     private val videoGalleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                try {
+                    requireContext().contentResolver.takePersistableUriPermission(
+                        it,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
             storyMediaPicker.onVideoGalleryResult(uri)
         }
+
+   /* private val videoGalleryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            storyMediaPicker.onVideoGalleryResult(uri)
+        }*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,7 +124,7 @@ class AddNewReelFragment : BaseFragment() {
         initView()
         initControl()
         observe()
-        checkPermission()
+     //   checkPermission()
     }
 
     override fun initView() {
@@ -119,6 +149,8 @@ class AddNewReelFragment : BaseFragment() {
                 permissionLauncher
             ) { uri, type ->
                 uri?.let {
+
+
                     mediaType = type
                     imageUri = it
                     if (type == "image") {
@@ -225,7 +257,7 @@ class AddNewReelFragment : BaseFragment() {
                     return@setOnClickListener
                 }
 
-                if (mediaType == "image") {
+                if (mediaType == "image"&&imageUri!= null) {
                     val file = CommonMethod.uriToFileForStory(requireActivity(), uri = imageUri!!)
                     val image = file?.toMultiPartBody("file")
                     viewModel.uploadVideoImage(image)
@@ -244,6 +276,11 @@ class AddNewReelFragment : BaseFragment() {
                     CommonMethod.trimVideoTo30SecWithMediaMuxer(requireContext(), imageUri!!, outputFile)
                     compressAndUploadVideo(Uri.fromFile(outputFile))
 */
+
+                    if (imageUri == null) {
+                        showToast("Please select video first")
+                        return@setOnClickListener
+                    }
                     thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(), imageUri!!)
                     compressAndUploadVideo(imageUri!!)
                 }
@@ -305,7 +342,11 @@ class AddNewReelFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     CommonMethod.showSuccessDialog(requireContext(), "Reel added successfully!"){
-                        findNavController().popBackStack()
+
+                        if (isAdded && !isDetached) {
+                            findNavController().popBackStack()
+                        }
+                    //    findNavController().popBackStack()
                     }
                     viewModel.addReelResponse.value = null
                 }

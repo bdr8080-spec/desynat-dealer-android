@@ -490,6 +490,14 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
+    suspend fun getAdminStory(map: HashMap<String, Any>): ApiResult<GetStoryResponse> {
+        return try {
+            networkCall(api.getAdminStory(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
     suspend fun getHighlights(map: HashMap<String, Any>): ApiResult<GetStoryResponse> {
         return try {
             networkCall(api.getHighlights(map))

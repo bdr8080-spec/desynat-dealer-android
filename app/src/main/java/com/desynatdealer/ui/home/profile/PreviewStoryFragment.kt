@@ -313,18 +313,18 @@ class PreviewStoryFragment : BaseFragment() {
 
             val durationMs = retriever.extractMetadata(
                 MediaMetadataRetriever.METADATA_KEY_DURATION
-            )?.toLongOrNull()
+            )?.toLongOrNull() ?: return false
 
-            durationMs != null && durationMs <= maxDurationSec * 1000
+            val allowedMs = (maxDurationSec * 1000) + 1000
+
+            durationMs <= allowedMs
+
         } catch (e: Exception) {
             e.printStackTrace()
-            false   // treat invalid video as not allowed
+            false
         } finally {
-            try {
-                retriever.release()
-            } catch (e: Exception) { }
+            retriever.release()
         }
     }
-
 
 }

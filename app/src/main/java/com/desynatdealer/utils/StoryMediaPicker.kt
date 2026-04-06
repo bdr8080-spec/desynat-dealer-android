@@ -32,10 +32,10 @@ class StoryMediaPicker(
 
     private var pendingAction = PendingAction.NONE
 
-    fun showCameraStoryPicker() {
+    fun showCameraStoryPicker(title: String?="Add Story") {
         val options = arrayOf("Camera Photo", "Record Video")
         AlertDialog.Builder(context)
-            .setTitle("Add Story")
+            .setTitle(title)
             .setItems(options) { _, which ->
                 when (which) {
                     0 -> openCameraImage()
@@ -44,10 +44,24 @@ class StoryMediaPicker(
             }.show()
     }
 
-    fun showReelPicker() {
+    fun showAllStoryPicker(title: String?="Add Story") {
+        val options = arrayOf("Camera Photo", "Record Video","Gallery Image","Gallery Video")
+        AlertDialog.Builder(context)
+            .setTitle(title)
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> openCameraImage()
+                    1 -> openCameraVideo()
+                    2 -> openGalleryImage()
+                    3 -> openGalleryVideo()
+                }
+            }.show()
+    }
+
+    fun showReelPicker(title: String?="Add Story") {
         val options = arrayOf("Gallery Video", "Record Video")
         AlertDialog.Builder(context)
-            .setTitle("Add Story")
+            .setTitle(title)
             .setItems(options) { _, which ->
                 when (which) {
                     0 -> openGalleryVideo()
@@ -150,11 +164,39 @@ class StoryMediaPicker(
         cameraUri = null
     }
 
+   /* fun onImageGalleryResult(uri: Uri?) {
+        callback(uri, "image")
+    }
+*/
     fun onImageGalleryResult(uri: Uri?) {
+        uri?.let {
+            try {
+                context.contentResolver.takePersistableUriPermission(
+                    it,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
         callback(uri, "image")
     }
 
+   /* fun onVideoGalleryResult(uri: Uri?) {
+        callback(uri, "video")
+    }
+*/
     fun onVideoGalleryResult(uri: Uri?) {
+        uri?.let {
+            try {
+                context.contentResolver.takePersistableUriPermission(
+                    it,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
         callback(uri, "video")
     }
 

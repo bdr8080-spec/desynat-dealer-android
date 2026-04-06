@@ -293,6 +293,9 @@ interface CommonApiService {
     @GET(Constants.GET_STORY)
     suspend fun getStory(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
 
+    @GET(Constants.GET_ADMIN_STORY)
+    suspend fun getAdminStory(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
+
     @GET(Constants.GET_REEL)
     suspend fun getReel(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
 

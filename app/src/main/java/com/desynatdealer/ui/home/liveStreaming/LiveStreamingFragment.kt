@@ -58,6 +58,16 @@ class LiveStreamingFragment : BaseFragment() {
 
     override fun initControl() {
         binding?.apply {
+
+            ivBack.setOnClickListener {
+                AgoraManager.getEngine()?.apply {
+                    stopPreview()
+                    leaveChannel()
+                }
+
+                findNavController().popBackStack()
+            }
+
             ivSwitchCamera.setOnClickListener {
                 AgoraManager.getEngine()?.switchCamera()
             }

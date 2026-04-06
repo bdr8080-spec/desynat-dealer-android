@@ -748,6 +748,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _getAdminStoryResponse =
+        MutableLiveData<ApiResult<GetStoryResponse>?>()
+    val getAdminStoryResponse: MutableLiveData<ApiResult<GetStoryResponse>?>
+        get() = _getAdminStoryResponse
+
+    fun getAdminStory(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getAdminStoryResponse.value = ApiResult.Loading
+            _getAdminStoryResponse.value = repo.getAdminStory(map)
+        }
+    }
+
     private val _getHighlightsResponse =
         MutableLiveData<ApiResult<GetStoryResponse>?>()
     val getHighlightsResponse: MutableLiveData<ApiResult<GetStoryResponse>?>

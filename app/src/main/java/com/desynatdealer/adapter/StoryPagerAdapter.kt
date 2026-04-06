@@ -56,7 +56,7 @@ class StoryPagerAdapter(
 
             holder.binding.videoStory.setVideoPath(url)
 
-            holder.binding.videoStory.setOnPreparedListener { mp ->
+       /*     holder.binding.videoStory.setOnPreparedListener { mp ->
                 val videoWidth = mp.videoWidth
                 val videoHeight = mp.videoHeight
 
@@ -84,6 +84,39 @@ class StoryPagerAdapter(
                 val duration = mp.duration.toLong()
 
                 onVideoReady(position, duration)
+                holder.binding.videoStory.start()
+            }*/
+
+            holder.binding.videoStory.setOnPreparedListener { mp ->
+
+                val videoWidth = mp.videoWidth
+                val videoHeight = mp.videoHeight
+
+                val viewWidth = holder.binding.videoStory.width
+                val viewHeight = holder.binding.videoStory.height
+
+                val videoRatio = videoWidth.toFloat() / videoHeight
+                val viewRatio = viewWidth.toFloat() / viewHeight
+
+                val layoutParams = holder.binding.videoStory.layoutParams
+
+                if (videoRatio > viewRatio) {
+                    // 👉 video is wider → scale by HEIGHT (crop left/right)
+                    layoutParams.height = viewHeight
+                    layoutParams.width = (viewHeight * videoRatio).toInt()
+                } else {
+                    layoutParams.width = viewWidth
+                    layoutParams.height = (viewWidth / videoRatio).toInt()
+                }
+
+                holder.binding.videoStory.layoutParams = layoutParams
+
+                mp.isLooping = false
+                holder.binding.videoLoader.isVisible = false
+
+                val duration = mp.duration.toLong()
+                onVideoReady(position, duration)
+
                 holder.binding.videoStory.start()
             }
 

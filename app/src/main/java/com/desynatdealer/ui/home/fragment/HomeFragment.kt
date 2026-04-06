@@ -14,12 +14,15 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentHomeBinding
+import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import me.leolin.shortcutbadger.ShortcutBadger
+import kotlin.math.log
 import kotlin.text.get
 
 @AndroidEntryPoint
@@ -27,6 +30,7 @@ class HomeFragment : BaseFragment() {
     private var binding : FragmentHomeBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
     private var status = 1
+    var adminStoryList = ArrayList<GetStoryResponse.Data>()
     private var userInfo : GetSellerInfo.Data?=null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +50,7 @@ class HomeFragment : BaseFragment() {
 
     override fun initView() {
         getNotificationCount()
+        getAdminStory()
         userInfo = SharedPreference.get(requireActivity()).getUser()
         updateStatus()
         binding?.apply {
@@ -59,6 +64,20 @@ class HomeFragment : BaseFragment() {
 
     override fun initControl() {
         binding?.apply {
+
+            logoImage.setOnClickListener {
+                if (adminStoryList.size!=0) {
+                    val bundle = Bundle().apply {
+                        putString("from", "admin")
+                        putString("storyData", Gson().toJson(adminStoryList))
+                    }
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_viewStoryFragment,
+                        bundle
+                    )
+                }
+            }
+
             tvSwitch.setOnClickListener {
                 storeAvailability()
             }
@@ -79,6 +98,54 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun observe() {
+
+        viewModel.getAdminStoryResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    adminStoryList.clear()
+                    result?.data?.data?.let { adminStoryList.addAll(it) }
+                    setStoryData()
+                    viewModel.getAdminStoryResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    // showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getAdminStoryResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+
+        viewModel.getStoryResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+
+                    viewModel.getStoryResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    // showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getStoryResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
 
         viewModel.storeOnOffResponse.observe(viewLifecycleOwner){result->
             when(result){
@@ -139,6 +206,20 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun setStoryData() {
+//        binding?.apply {
+//            if (adminStoryList.size!=0){
+//                logoImage.setImageResource(R.drawable.ic_admin_highlight_story)
+//            }
+//            else{
+//                logoImage.setImageResource(R.drawable.logo)
+//            }
+//        }
+
+        binding?.ivHighlightStory?.isVisible = adminStoryList.isNotEmpty()
+
+    }
+
     private fun updateStatus(){
         binding?.apply {
             if(userInfo?.storeInfo?.storeAvailability==1){
@@ -169,4 +250,17 @@ class HomeFragment : BaseFragment() {
         binding?.tvCount?.text = data.toString()
         ShortcutBadger.applyCount(requireActivity(), data)
     }
+
+    private fun getStory() {
+        val map = HashMap<String,Any>()
+
+        viewModel.getStory(map)
+    }
+
+    private fun getAdminStory() {
+        val map = HashMap<String,Any>()
+
+        viewModel.getAdminStory(map)
+    }
+
 }

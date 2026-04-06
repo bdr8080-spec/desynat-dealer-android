@@ -2,6 +2,7 @@ package com.desynatdealer.ui.home.profile
 
 import android.Manifest
 import android.content.ContentUris
+import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -9,8 +10,11 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,12 +22,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.desynatdealer.R
+import com.desynatdealer.adapter.CountryPickerAdapter
 import com.desynatdealer.adapter.GalleryAdapter
+import com.desynatdealer.adapter.HighlightPickerAdapter
 import com.desynatdealer.adapter.PreviousHighlightsAdapter
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
+import com.desynatdealer.databinding.CustomCountryPickerBinding
 import com.desynatdealer.databinding.FragmentAddNewHighlightsBinding
+import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.ui.home.profile.response.GalleryMedia
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.utils.CommonMethod
@@ -173,11 +181,13 @@ class AddNewHighlightsFragment : BaseFragment() {
                 Glide.with(requireActivity())
                     .load(item.file )
                     .into(ivAddStory)
+                imageUrl = item.file
                 isMediaSelected = true
 
 
                 item.file?.let { mediaType = if (it.endsWith(".mp4")) "video" else "image" }
                 imageUrl = item.file
+                uploadThumbnail = item.thumbnail.toString()
             }
 
             rvPrevious.apply {
@@ -227,15 +237,25 @@ class AddNewHighlightsFragment : BaseFragment() {
                     R.id.cbAddNew -> {
                         binding?.rvGallery?.visibility = View.VISIBLE
                         binding?.rvPrevious?.visibility = View.GONE
+                        binding?.etCaption?.visibility = View.GONE
+                        binding?.etName?.visibility = View.VISIBLE
+                        etCaption.setText("")
+                        etName.setText("")
+
 
                         binding?.tvSelectFromGallery?.text = "Select From Gallery"
+                        checkData()
                     }
 
                     R.id.cbPrevious -> {
                         binding?.rvGallery?.visibility = View.GONE
                         binding?.rvPrevious?.visibility = View.VISIBLE
-
+                        binding?.etCaption?.visibility = View.VISIBLE
+                        binding?.etName?.visibility = View.GONE
+                        etCaption.setText("")
+                        etName.setText("")
                         binding?.tvSelectFromGallery?.text = "Select From Previous"
+                        checkData()
                     }
                 }
             }
@@ -244,8 +264,18 @@ class AddNewHighlightsFragment : BaseFragment() {
                 findNavController().popBackStack()
             }
 
+            etCaption.setOnClickListener {
+                showHighlightPicker(requireActivity(),etCaption)
+            }
+
             ivAddStory.setOnClickListener {
-                storyMediaPicker.showCameraStoryPicker()
+                if (rvGallery.isVisible){
+                    storyMediaPicker.showCameraStoryPicker("Add Highlights")
+
+                }
+                else{
+                    storyMediaPicker.showAllStoryPicker("Add Highlights")
+                }
             }
 
             tvAdd.setOnClickListener {
@@ -263,7 +293,7 @@ class AddNewHighlightsFragment : BaseFragment() {
                 else{
 
                     if (imageUrl!=null) {
-                        addHighlights(imageUri.toString())
+                        addHighlights(imageUrl.toString())
                     } else {
                         if (mediaType == "image") {
                             if (imageUri != null) {
@@ -596,6 +626,47 @@ class AddNewHighlightsFragment : BaseFragment() {
                 }
             })
             .transcode()
+    }
+
+    private fun checkData(){
+        binding?.apply {
+            if (rvPrevious.isVisible){
+                tvNoDataFound.isVisible = highlightList.isEmpty()
+
+            }
+            else{
+                tvNoDataFound.isVisible = false
+            }
+        }
+
+    }
+
+    fun showHighlightPicker(
+        context: Context,
+        anchor: View) {
+        val dialogBinding = CustomCountryPickerBinding.inflate(LayoutInflater.from(context))
+
+        val popupWindow = PopupWindow(
+            dialogBinding?.root,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.isOutsideTouchable = true
+        popupWindow.elevation = 20f
+        popupWindow.showAsDropDown(anchor)
+
+        dialogBinding.rvCountry.adapter = HighlightPickerAdapter(
+            context, highlightList,
+            object : HighlightPickerAdapter.ClickOnItem {
+                override fun onClickItem(position: Int) {
+                    binding?.etName?.setText(highlightList[position].title)
+                    binding?.etCaption?.setText(highlightList[position].title)
+                    popupWindow.dismiss()
+                }
+            }
+        )
     }
 
 
