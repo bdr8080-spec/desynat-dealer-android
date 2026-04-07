@@ -84,7 +84,8 @@ object Constants {
     const val RENEW_SUBSCRIPTION_PLAN = "/api/seller/renew_subcription_plan_buy"
 
     const val ADD_STORY = "/api/seller/add_story"
-    const val GET_STORY = "/api/seller/get_my_stories"
+    const val GET_STORY_ALL_STORY = "/api/seller/get_my_stories"
+    const val GET_STORY = "/api/seller/get_my_stories_today"
     const val DELETE_STORY = "/api/seller/delete_story"
     const val ADD_REEL = "/api/seller/add_reels"
     const val GET_REEL = "/api/seller/get_my_reels"

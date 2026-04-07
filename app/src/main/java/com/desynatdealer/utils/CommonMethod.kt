@@ -58,6 +58,10 @@ import java.io.File
 import java.nio.ByteBuffer
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -847,6 +851,38 @@ object CommonMethod {
         muxer.stop()
         muxer.release()
         extractor.release()
+    }
+
+    fun getTimeAgo(timestamp: String): String {
+        val time = ZonedDateTime.parse(timestamp, DateTimeFormatter.ISO_DATE_TIME)
+        val now = ZonedDateTime.now(ZoneId.systemDefault())
+
+        val localTime = time.withZoneSameInstant(ZoneId.systemDefault())
+
+        val today = now.toLocalDate()
+        val date = localTime.toLocalDate()
+
+        val minutes = ChronoUnit.MINUTES.between(localTime, now)
+        val hours = ChronoUnit.HOURS.between(localTime, now)
+
+        return when {
+            minutes < 1 -> "Just now"
+            minutes < 60 -> "$minutes min ago"
+
+            date.isEqual(today.minusDays(1)) -> {
+                "Yesterday, ${localTime.format(DateTimeFormatter.ofPattern("hh:mm a"))}"
+            }
+
+            date.isEqual(today) -> "$hours hr ago"
+
+            ChronoUnit.DAYS.between(date, today) < 7 -> {
+                "${ChronoUnit.DAYS.between(date, today)} days ago"
+            }
+
+            else -> {
+                localTime.format(DateTimeFormatter.ofPattern("dd MMM, hh:mm a"))
+            }
+        }
     }
 
 

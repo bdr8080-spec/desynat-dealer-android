@@ -1,5 +1,8 @@
 package com.desynatdealer.adapter
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -7,8 +10,13 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.databinding.ItemStoryBinding
+import com.desynatdealer.utils.CommonMethod
 import kotlin.div
 import kotlin.text.toFloat
 import kotlin.text.toInt
@@ -51,6 +59,7 @@ class StoryPagerAdapter(
 
         if (isVideo) {
             holder.binding.videoLoader.isVisible = true
+            holder.binding.videoLoader.indeterminateTintList = ColorStateList.valueOf(Color.WHITE)
             holder.binding.ivStory.isVisible = false
             holder.binding.videoStory.isVisible = true
 
@@ -137,10 +146,47 @@ class StoryPagerAdapter(
             }
 
         } else {
-            holder.binding.videoLoader.isVisible = false
+            holder.binding.videoLoader.isVisible = true
+            holder.binding.videoLoader.indeterminateTintList = ColorStateList.valueOf(Color.BLACK)
             holder.binding.ivStory.isVisible = true
             holder.binding.videoStory.isVisible = false
 
+            val requestListener = object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    p2: com.bumptech.glide.request.target.Target<Drawable>,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    holder.binding.videoLoader.isVisible = false
+                    return false
+                }
+
+                override fun onResourceReady(
+                    p0: Drawable,
+                    p1: Any,
+                    p2: Target<Drawable>,
+                    p3: DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    holder.binding.videoLoader.isVisible = false
+                    return false
+                }
+            }
+
+            if (isGif) {
+                Glide.with(holder.itemView.context)
+                    .asGif()
+                    .load(url)
+                    // .listener(requestListener)
+                    .into(holder.binding.ivStory)
+            } else {
+                Glide.with(holder.itemView.context)
+                    .load(url)
+                    .listener(requestListener)
+                    .into(holder.binding.ivStory)
+            }
+/*
             if (isGif) {
                 Glide.with(holder.itemView.context)
                     .asGif()
@@ -150,7 +196,7 @@ class StoryPagerAdapter(
                 Glide.with(holder.itemView.context)
                     .load(url)
                     .into(holder.binding.ivStory)
-            }
+            }*/
         }
 
         if (position + 1 < stories.size) {
@@ -162,18 +208,19 @@ class StoryPagerAdapter(
                 .preload()
         }
 
+        holder.binding.tvTime.text = CommonMethod.getTimeAgo(story?.createdAt.toString())
         if (!story.title.isNullOrEmpty() && story.title != "null") {
             holder.binding.tvTitle.isVisible = true
+            holder.binding.viewTitle.isVisible = true
             holder.binding.tvTitle.text = story.title
         } else {
             holder.binding.tvTitle.isVisible = false
+            holder.binding.viewTitle.isVisible = true
         }
 
         holder.binding.videoStory.setOnCompletionListener {
             onVideoFinished(position)
         }
-
-
 
         holder.binding.rightClick.setOnTouchListener { _, event ->
             when (event.action) {

@@ -25,6 +25,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_50sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:visibility="gone"
@@ -42,9 +49,34 @@
         android:paddingVertical="@dimen/_2sdp"
         android:paddingHorizontal="@dimen/_8sdp"
         android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_50sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+        <View
+            android:visibility="gone"
+            android:id="@+id/viewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_5sdp"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:visibility="visible"
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/search_bg"
+        android:backgroundTint="#0D000000"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="@dimen/_10sdp"
+        android:textColor="@color/white"
+        android:elevation="@dimen/_2sdp"
+        android:paddingVertical="@dimen/_2sdp"
+        android:paddingHorizontal="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewTitle"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/videoLoader"
@@ -66,7 +98,7 @@
         android:padding="@dimen/_15sdp"
         android:elevation="@dimen/_4sdp"
         android:layout_marginTop="@dimen/_35sdp"
-        app:layout_constraintStart_toEndOf="@+id/tvTitle"
+        app:layout_constraintStart_toEndOf="@+id/clTitle"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <View
