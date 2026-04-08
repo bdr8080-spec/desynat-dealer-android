@@ -165,7 +165,7 @@ class AddProductFragment : BaseFragment() {
                 permissionLauncher
             ) { uri ->
                 uri?.let {
-                    val image = CommonMethod.uriToFile(requireActivity(), it).toMultiPartBody("image")
+                    val image = CommonMethod.uriToFile(requireActivity(), it).toMultiPartBody("file")
                     viewModel.upload(image)
                 }
             }

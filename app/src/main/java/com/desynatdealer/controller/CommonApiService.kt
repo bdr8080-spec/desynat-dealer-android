@@ -2,7 +2,6 @@ package com.desynatdealer.controller
 
 import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.model.create_account.CreateAccountRes
-import com.desynatdealer.model.login.req.LoginReq
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
@@ -43,14 +42,14 @@ import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.translation.TranslateRequest
 import com.desynatdealer.utils.translation.TranslateResponse
+import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
+import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.HTTP
-import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -65,7 +64,8 @@ interface CommonApiService {
 
 
     @Multipart
-    @POST("api/upload")
+  //  @POST("api/upload")
+    @POST(Constants.UPLOAD_VIDEO_IMAGE)
     suspend fun upload(
         @Part file: MultipartBody.Part?
     ): Response<UploadResponse>
@@ -330,4 +330,16 @@ interface CommonApiService {
     suspend fun getAgoraToken(
         @Body  map: HashMap<String, Any>
     ): Response<GetAgoraTokenResponse>
+
+    @GET(Constants.GET_RAISED_TICKET)
+    suspend fun getRaisedTicket(@QueryMap map: HashMap<String, Any>): Response<GetAllRaisedTicketResponse>
+
+    @POST(Constants.RAISE_TICKET)
+    suspend fun raiseTicket(
+        @Body  map: HashMap<String, Any>
+    ): Response<CommonResponse>
+
+    @GET(Constants.GET_TICKET_TYPE)
+    suspend fun getTicketType(): Response<GetTicketTypeResponse>
+
 }

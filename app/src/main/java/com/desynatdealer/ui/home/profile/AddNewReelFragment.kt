@@ -282,7 +282,9 @@ class AddNewReelFragment : BaseFragment() {
                         return@setOnClickListener
                     }
                     thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(), imageUri!!)
-                    compressAndUploadVideo(imageUri!!)
+                    isThumbnailUploading = true
+                    uploadThumbnailApi(thumbnailFile)
+                   // compressAndUploadVideo(imageUri!!)
                 }
             }
         }
@@ -306,7 +308,9 @@ class AddNewReelFragment : BaseFragment() {
                             isThumbnailUploading = false
 
                             isVideoUploading = true
-                            uploadCompressedVideo(compressedVideoFile)
+                            val file = CommonMethod.uriToFileForStory(requireActivity(), imageUri!!)
+                         //   val video = file?.toMultiPartBody("file")
+                            uploadCompressedVideo(file)
                         }
 
                         isVideoUploading -> {
@@ -390,7 +394,7 @@ class AddNewReelFragment : BaseFragment() {
     private fun uploadCompressedVideo(file: File?) {
         file?.exists()?.let {
             if (!it) {
-                showToast("Compressed file not found")
+                showToast("Video not found")
                 return
             }
         }
@@ -485,79 +489,6 @@ class AddNewReelFragment : BaseFragment() {
         }
     }
 
-    //5 mb limit
-    private fun compressAndUploadVideo5mb(inputUri: Uri) {
-        ProgressDialogUtils.getInstance().showProgress(requireActivity())
-
-        val retriever = MediaMetadataRetriever()
-        retriever.setDataSource(requireContext(), inputUri)
-
-        val durationMs = retriever.extractMetadata(
-            MediaMetadataRetriever.METADATA_KEY_DURATION
-        )?.toLongOrNull() ?: 0
-
-        retriever.release()
-
-        val durationSec = durationMs / 1000.0
-
-        // Target: 5MB
-        val targetSizeBytes = 5 * 1024 * 1024
-        val targetBitrate = ((targetSizeBytes * 8) / durationSec).toLong()
-
-        val outputFile = File(
-            requireContext().cacheDir,
-            "story_${System.currentTimeMillis()}.mp4"
-        )
-
-        Transcoder.into(outputFile.absolutePath)
-            .addDataSource(requireContext(), inputUri)
-            .setVideoTrackStrategy(
-                DefaultVideoStrategy.Builder()
-                    .addResizer(AtMostResizer(720))
-                    .bitRate(targetBitrate)
-                    .frameRate(24)
-                    .build()
-            )
-            .setAudioTrackStrategy(
-                DefaultAudioStrategy.Builder()
-                    .bitRate(64_000)
-                    .build()
-            )
-            .setListener(object : TranscoderListener {
-
-                override fun onTranscodeCompleted(successCode: Int) {
-                    requireActivity().runOnUiThread {
-                        ProgressDialogUtils.getInstance().hideProgress()
-
-                        val fileSizeMB = outputFile.length() / (1024 * 1024)
-
-                        if (fileSizeMB > 5) {
-                            showToast("Video still too large, try shorter video")
-                            return@runOnUiThread
-                        }
-
-                        compressedVideoFile = outputFile
-
-                        isThumbnailUploading = true
-                        uploadThumbnailApi(thumbnailFile)
-                    }
-                }
-
-                override fun onTranscodeCanceled() {
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    showToast("Compression cancelled")
-                }
-
-                override fun onTranscodeFailed(exception: Throwable) {
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    showToast("Compression failed")
-                }
-
-                override fun onTranscodeProgress(progress: Double) {}
-            })
-            .transcode()
-    }
-
     private fun compressAndUploadVideo(inputUri: Uri) {
         ProgressDialogUtils.getInstance().showProgress(requireActivity())
 
@@ -570,20 +501,19 @@ class AddNewReelFragment : BaseFragment() {
             .addDataSource(requireContext(), inputUri)
             .setVideoTrackStrategy(
                 DefaultVideoStrategy.Builder()
-                    .addResizer(AtMostResizer(1280)) // 720p
-                    .bitRate(500_000)              // 1.5 Mbps
+
+                    .bitRate(2_500_000)
                     .frameRate(30)
                     .build()
             )
             .setAudioTrackStrategy(
                 DefaultAudioStrategy.Builder()
-                    .bitRate(64_000)
+                    .bitRate(128_000)
                     .build()
             )
             .setListener(object : TranscoderListener {
 
-                override fun onTranscodeProgress(progress: Double) {
-                }
+                override fun onTranscodeProgress(progress: Double) {}
 
                 override fun onTranscodeCompleted(successCode: Int) {
                     requireActivity().runOnUiThread {
@@ -613,6 +543,5 @@ class AddNewReelFragment : BaseFragment() {
             })
             .transcode()
     }
-
 
 }

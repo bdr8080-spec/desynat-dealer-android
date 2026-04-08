@@ -124,7 +124,7 @@ class StoreInformationFragment : BaseFragment() {
                 uri?.let {
                     storeImage = CommonMethod.uriToFile(requireActivity(), it)
                     ivStoreImage.setImageURI(it)
-                    val image = storeImage?.toMultiPartBody("image")
+                    val image = storeImage?.toMultiPartBody("file")
                     viewModel.upload(image)
                 }
             }

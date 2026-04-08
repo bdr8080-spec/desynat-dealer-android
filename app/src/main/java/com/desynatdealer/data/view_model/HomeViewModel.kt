@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.repo.HomeRepository
-import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.upload.UploadResponse
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
@@ -41,6 +40,8 @@ import com.desynatdealer.ui.home.response.CommonResponse
 import com.desynatdealer.ui.home.response.CreateSubscriptionPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
+import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
+import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -926,6 +927,41 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _getAgoraTokenResponse.value = ApiResult.Loading
             _getAgoraTokenResponse.value = repo.getAgoraToken(map)
+        }
+    }
+
+    private val _getRaisedTicketResponse =
+        MutableLiveData<ApiResult<GetAllRaisedTicketResponse>?>()
+    val getRaisedTicketResponse: MutableLiveData<ApiResult<GetAllRaisedTicketResponse>?>
+        get() = _getRaisedTicketResponse
+
+    fun getRaisedTicket(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getRaisedTicketResponse.value = ApiResult.Loading
+            _getRaisedTicketResponse.value = repo.getRaisedTicket(map)
+        }
+    }
+
+    private val _raiseTicketResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val raiseTicketResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _raiseTicketResponse
+
+    fun raiseTicket(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _raiseTicketResponse.value = ApiResult.Loading
+            _raiseTicketResponse.value = repo.raiseTicket(map)
+        }
+    }
+    private val _getTicketTypeResponse =
+        MutableLiveData<ApiResult<GetTicketTypeResponse>?>()
+    val getTicketTypeResponse: MutableLiveData<ApiResult<GetTicketTypeResponse>?>
+        get() = _getTicketTypeResponse
+
+    fun getTicketType() {
+        viewModelScope.launch {
+            _getTicketTypeResponse.value = ApiResult.Loading
+            _getTicketTypeResponse.value = repo.getTicketType()
         }
     }
 

@@ -108,7 +108,7 @@ class EditProfileFragment : BaseFragment() {
                         }
                     }
 
-                    val image = img?.toMultiPartBody("image")
+                    val image = img?.toMultiPartBody("file")
                     viewModel.upload(image)
                 }
         }

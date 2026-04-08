@@ -105,7 +105,7 @@ class AddBannerFragment : BaseFragment() {
                 uri?.let {
                     bannerImage = CommonMethod.uriToFile(requireActivity(), it)
                     ivBanner.setImageURI(it)
-                    val image = bannerImage?.toMultiPartBody("image")
+                    val image = bannerImage?.toMultiPartBody("file")
                     viewModel.upload(image)
                 }
             }

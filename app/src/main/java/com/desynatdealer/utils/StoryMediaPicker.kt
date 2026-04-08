@@ -119,7 +119,7 @@ class StoryMediaPicker(
 
         val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE).apply {
             putExtra(MediaStore.EXTRA_OUTPUT, cameraUri)
-            putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30)
+        //    putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30)
             putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
 
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)

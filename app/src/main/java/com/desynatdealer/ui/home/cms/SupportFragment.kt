@@ -16,20 +16,30 @@ import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.adapter.TicketAdapter
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentSupportBinding
 import com.desynatdealer.databinding.RaiseTicketDialogBinding
 import com.desynatdealer.utils.showToast
+import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
+import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
+import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.CommonMethod.toMultiPartBody
+import com.desynatdealer.utils.ImagePicker
+import com.desynatdealer.utils.ProgressDialogUtils
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -37,11 +47,44 @@ class SupportFragment : BaseFragment() {
     private var binding: FragmentSupportBinding? = null
     private val viewModel: HomeViewModel by viewModels()
     private var isObserver = false
-    private var ticketList = ArrayList<String>()
+    private var ticketList = ArrayList<GetAllRaisedTicketResponse.Data.Data>()
     private var ticketAdapter: TicketAdapter?=null
     private var search: Job? = null
     private var lastQuery: String? = null
     private var type = 0
+
+    private var ticketTypeList = ArrayList<GetTicketTypeResponse.Data>()
+
+    private var currentPage = 1
+    private var lastPage = 1
+    private var totalPage = 0
+    private var totalItem=0
+    private var pageLimit=10
+    private var pagination=false
+    private var isRaised=false
+
+    private var dialog: Dialog?=null
+    private var dialogBinding: RaiseTicketDialogBinding?=null
+
+    private lateinit var imagePicker: ImagePicker
+    private var imageFile: File? = null
+    private var imageUrl:String?=null
+    private val cameraLauncher =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            imagePicker.onCameraResult(success)
+        }
+
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            imagePicker.onGalleryResult(uri)
+        }
+
+    private val permissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            imagePicker.onPermissionResult(granted)
+        }
+
+    private var selectedTicketType: GetTicketTypeResponse.Data?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,7 +118,8 @@ class SupportFragment : BaseFragment() {
                     search = lifecycleScope.launch {
                         delay(600)
                         if (!isObserver){
-
+                            currentPage = 1
+                            getAllTicket()
                         }
                     }
 
@@ -84,18 +128,51 @@ class SupportFragment : BaseFragment() {
 
             ticketAdapter = TicketAdapter(requireActivity(),ticketList,object : TicketAdapter.OnClick{
                 override fun click(position: Int, type: Int) {
-                    findNavController().navigate(R.id.action_supportFragment_to_ticketDetailFragment)
+                    val bundle = Bundle().apply {
+                        putString("ticketData", Gson().toJson(ticketList[position]))
+                    }
+                    findNavController().navigate(R.id.action_supportFragment_to_ticketDetailFragment,bundle)
                 }
 
             })
             rvTicket.adapter = ticketAdapter
 
+            nestedScrollView.setOnScrollChangeListener { nestedScrollView: NestedScrollView, _, scrollY, _, oldScrollY ->
+                val lastChild = nestedScrollView.getChildAt(nestedScrollView.childCount - 1)
+
+                if (lastChild != null) {
+                    val diff = lastChild.bottom - (nestedScrollView.height + scrollY)
+                    if (diff == 0 && scrollY > oldScrollY) {
+                        if(totalItem==0)
+                            return@setOnScrollChangeListener
+                        if (!isObserver && !pagination && currentPage < lastPage) {
+                            pagination = true
+                            currentPage += 1
+                            getAllTicket()
+                            binding?.progressBar?.isVisible = true
+                        }
+                    }
+                }
+            }
+
             when(type){
                 0->{
-                   contact()
+                    contact()
                 }
                 1->{
-                   ticketManagement()
+                    ticketManagement()
+                }
+            }
+
+            imagePicker = ImagePicker(
+                requireActivity(),
+                cameraLauncher,
+                galleryLauncher,
+                permissionLauncher
+            ) { uri ->
+                uri?.let {
+                    imageFile = CommonMethod.uriToFile(requireActivity(), it)
+                    dialogBinding?.ivDoc?.setImageURI(it)
                 }
             }
         }
@@ -159,11 +236,130 @@ class SupportFragment : BaseFragment() {
     }
 
     override fun observe() {
+
+        viewModel.uploadResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                  //  ProgressDialogUtils.getInstance().hideProgress()
+                    imageUrl = result.data?.data?.url
+                    raiseTicket()
+                    viewModel.uploadResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.uploadResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+        viewModel.getTicketTypeResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    ticketTypeList.clear()
+                    result?.data?.data?.let { ticketTypeList.addAll(it) }
+                    viewModel.getTicketTypeResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getTicketTypeResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
+        viewModel.getRaisedTicketResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    if (isRaised==false) {
+                        if (pagination) {
+                            binding?.progressBar?.isVisible = true
+                        } else {
+                            ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                        }
+                    }
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    if (isRaised){
+                        isRaised = false
+
+                        CommonMethod.showSuccessDialog(requireActivity(),"Ticket Raised Successfully!")
+                    }
+                    if (pagination) {
+                        binding?.progressBar?.isVisible = false
+                        pagination = false
+                    }
+                    else{
+                        ticketList.clear()
+                    }
+
+                    result.data?.data?.data?.let { ticketList.addAll(it) }
+                    ticketAdapter?.notifyDataSetChanged()
+                    checkData()
+                    viewModel.getRaisedTicketResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getRaisedTicketResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
+        viewModel.raiseTicketResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    isRaised = true
+                    selectedTicketType = null
+                    imageUrl = null
+                    imageFile = null
+                    currentPage = 1
+                    getAllTicket()
+                    viewModel.raiseTicketResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.raiseTicketResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
     }
 
     private fun ticketManagement(){
         binding?.apply {
             type = 1
+            currentPage = 1
+            getAllTicket()
+            if (ticketList.isEmpty()){
+                getTicketType()
+            }
             llTicket.isVisible = true
             llContact.isVisible = false
             tvContact.background = null
@@ -217,35 +413,106 @@ class SupportFragment : BaseFragment() {
         }
 
     private fun raiseTicketDialog() {
-        val dialog = Dialog(requireActivity(), R.style.CustomDialog)
-        val dialogBinding = RaiseTicketDialogBinding.inflate(LayoutInflater.from(context))
-        dialogBinding.root.let { dialog.setContentView(it) }
+        dialog = Dialog(requireActivity(), R.style.CustomDialog)
+        dialogBinding = RaiseTicketDialogBinding.inflate(LayoutInflater.from(context))
+        dialogBinding?.root.let { it?.let { it1 -> dialog?.setContentView(it1) } }
 
-        val window: Window = dialog.window!!
+        val window: Window = dialog?.window!!
         window.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         )
         window.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setCancelable(false)
+        dialog?.setCancelable(false)
 
         val params: WindowManager.LayoutParams = window.attributes
         params.gravity = Gravity.BOTTOM
         window.attributes = params
 
-        dialogBinding.apply {
+        dialogBinding?.apply {
+
+            ivDoc.setOnClickListener {
+                imagePicker.showImageSourceDialog()
+            }
 
             tvToolbar.setOnClickListener {
-                dialog.dismiss()
+                dialog?.dismiss()
+            }
+
+            etTicketType.setOnClickListener {
+                showTicketTypePopup(dialogBinding)
             }
 
             btnSubmit.setOnClickListener{
-                dialog.dismiss()
+
+                if (imageFile!=null){
+                    uploadFile()
+                }
+                else{
+                    raiseTicket()
+                }
+
+
+                dialog?.dismiss()
             }
 
         }
 
-        dialog.show()
+        dialog?.show()
+    }
+
+    private fun getAllTicket(){
+        val map = HashMap<String,Any>()
+        if (lastQuery!=null){
+            map["search"] = lastQuery.toString()
+        }
+        map["limit"] = "10"
+        map["page"] = currentPage
+        viewModel.getRaisedTicket(map)
+    }
+
+    private fun raiseTicket() {
+        val map = HashMap<String,Any>()
+        map["ticket_type_id"] = selectedTicketType?.id.toString()
+        map["title"] = dialogBinding?.etTitle?.text?.trim().toString()
+        map["description"] = dialogBinding?.etDescription?.text?.trim().toString()
+        if (imageUrl!=null){
+            map["file"] = imageUrl.toString()
+        }
+
+        viewModel.raiseTicket(map)
+    }
+
+    fun uploadFile(){
+        val image = imageFile?.toMultiPartBody("file")
+        viewModel.upload(image)
+    }
+
+    private fun getTicketType(){
+        viewModel.getTicketType()
+    }
+
+    private fun checkData(){
+        binding?.tvNoDataFound?.isVisible = ticketList.isEmpty()
+    }
+
+    private fun showTicketTypePopup(dialogBinding: RaiseTicketDialogBinding?) {
+
+        val popup = android.widget.PopupMenu(requireContext(), dialogBinding?.etTicketType)
+
+        ticketTypeList.forEachIndexed { index, item ->
+            popup.menu.add(0, index, index, item.name) // use correct field name
+        }
+
+        popup.setOnMenuItemClickListener { menuItem ->
+            selectedTicketType = ticketTypeList[menuItem.itemId]
+
+            dialogBinding?.etTicketType?.setText(selectedTicketType?.name)
+
+            true
+        }
+
+        popup.show()
     }
 
 

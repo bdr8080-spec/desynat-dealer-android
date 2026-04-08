@@ -103,7 +103,7 @@ class AddStoryFragment : BaseFragment() {
                         findNavController().navigate(R.id.action_addStoryFragment_to_addPreviewStoryFragment,bundle)
                     }
                     is GalleryMedia.Video -> {
-                        if(isVideoWithinLimit(media.uri,30)) {
+//                        if(isVideoWithinLimit(media.uri,30)) {
                             mediaType = "video"
                             val bundle = Bundle().apply {
                                 putString("mediaType", mediaType)
@@ -111,10 +111,10 @@ class AddStoryFragment : BaseFragment() {
                                 putString("from","story")
                             }
                             findNavController().navigate(R.id.action_addStoryFragment_to_addPreviewStoryFragment,bundle)
-                        }
-                        else{
-                            showToast("Please select a video of 30 seconds or less.")
-                        }
+//                        }
+//                        else{
+//                            showToast("Please select a video of 30 seconds or less.")
+//                        }
                     }
                 }
             }

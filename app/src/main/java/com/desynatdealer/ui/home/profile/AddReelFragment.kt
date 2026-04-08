@@ -123,13 +123,13 @@ class AddReelFragment : BaseFragment() {
                     }
 
                     is GalleryMedia.Video -> {
-                        if (isVideoWithinLimit(media.uri, 30)) {
+                       // if (isVideoWithinLimit(media.uri, 30)) {
                             mediaType = "video"
                             imageUri = media.uri
                             ivAddStory.setImageURI(imageUri)
-                        } else {
-                            showToast("Please select a video of 30 seconds or less.")
-                        }
+//                        } else {
+//                            showToast("Please select a video of 30 seconds or less.")
+//                        }
                     }
                 }
             }

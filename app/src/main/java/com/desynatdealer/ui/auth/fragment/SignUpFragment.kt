@@ -106,7 +106,7 @@ class SignUpFragment : BaseFragment() {
                 uri?.let {
                     profileImage = CommonMethod.uriToFile(requireActivity(), it)
                     ivProfile.setImageURI(it)
-                    val image = profileImage?.toMultiPartBody("image")
+                    val image = profileImage?.toMultiPartBody("file")
                     viewModel.upload(image)
                 }
             }

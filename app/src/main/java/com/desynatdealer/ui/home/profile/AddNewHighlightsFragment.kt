@@ -153,7 +153,7 @@ class AddNewHighlightsFragment : BaseFragment() {
 
                     }
                     is GalleryMedia.Video -> {
-                        if(isVideoWithinLimit(media.uri,30)) {
+                      //  if(isVideoWithinLimit(media.uri,30)) {
                             mediaType = "video"
                             imageUri = media.uri
                             isMediaSelected = true
@@ -162,10 +162,10 @@ class AddNewHighlightsFragment : BaseFragment() {
                                 .placeholder(R.drawable.ic_placeholder)
                                 .into(ivAddStory)
                          //   ivAddStory.setImageURI(imageUri)
-                        }
-                        else{
-                            showToast("Please select a video of 30 seconds or less.")
-                        }
+//                        }
+//                        else{
+//                            showToast("Please select a video of 30 seconds or less.")
+//                        }
                     }
                 }
             }
@@ -306,7 +306,9 @@ class AddNewHighlightsFragment : BaseFragment() {
                                 thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(),
                                     imageUri!!
                                 )
-                                compressAndUploadVideo(imageUri!!)
+                                isThumbnailUploading = true
+                                uploadThumbnailApi(thumbnailFile)
+                              //  compressAndUploadVideo(imageUri!!)
                             }
                         }
                     }
@@ -323,6 +325,10 @@ class AddNewHighlightsFragment : BaseFragment() {
 
         viewModel.uploadVideoImageResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
+                ApiResult.Loading -> {
+                    if (!isVideoUploading){
+                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    }                }
                 is ApiResult.Success -> {
 
                     val url = result.data?.data?.url ?: ""
@@ -333,7 +339,8 @@ class AddNewHighlightsFragment : BaseFragment() {
                             isThumbnailUploading = false
 
                             isVideoUploading = true
-                            uploadCompressedVideo(compressedVideoFile)
+                            val file = CommonMethod.uriToFileForStory(requireActivity(), imageUri!!)
+                            uploadCompressedVideo(file)
                         }
 
                         isVideoUploading -> {
@@ -387,7 +394,7 @@ class AddNewHighlightsFragment : BaseFragment() {
         viewModel.addHighlightsResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+              //      ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
 
                 is ApiResult.Success -> {
@@ -412,7 +419,7 @@ class AddNewHighlightsFragment : BaseFragment() {
     private fun uploadCompressedVideo(file: File?) {
         file?.exists()?.let {
             if (!it) {
-                showToast("Compressed file not found")
+                showToast("Video not found")
                 return
             }
         }
@@ -584,14 +591,14 @@ class AddNewHighlightsFragment : BaseFragment() {
             .addDataSource(requireContext(), inputUri)
             .setVideoTrackStrategy(
                 DefaultVideoStrategy.Builder()
-                    .addResizer(AtMostResizer(1280)) // 720p
-                    .bitRate(500_000)              // 1.5 Mbps
+
+                    .bitRate(2_500_000)
                     .frameRate(30)
                     .build()
             )
             .setAudioTrackStrategy(
                 DefaultAudioStrategy.Builder()
-                    .bitRate(64_000)
+                    .bitRate(128_000)
                     .build()
             )
             .setListener(object : TranscoderListener {

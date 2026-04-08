@@ -102,7 +102,7 @@ class AddStaffFragment : BaseFragment() {
                     else{
                         ivProfile.setImageURI(it)
                     }
-                    val image = profileImage?.toMultiPartBody("image")
+                    val image = profileImage?.toMultiPartBody("file")
                     viewModel.upload(image)
                 }
             }

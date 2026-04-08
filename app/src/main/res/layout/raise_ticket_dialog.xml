@@ -39,15 +39,18 @@
             android:text="Ticket Type"/>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etAddQuantity"
+            android:id="@+id/etTicketType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/edit_text"
             android:fontFamily="@font/poppins_regular"
             android:textSize="@dimen/_10sdp"
             android:inputType="text"
+            android:editable="false"
+            android:focusable="false"
+            android:clickable="true"
             android:background="@drawable/edit_back"
-            android:hint="Payment"
+            android:hint="Select Ticket Type"
             android:drawableEnd="@drawable/ic_drop_down"
             android:drawablePadding="@dimen/_5sdp"
             android:gravity="start"/>

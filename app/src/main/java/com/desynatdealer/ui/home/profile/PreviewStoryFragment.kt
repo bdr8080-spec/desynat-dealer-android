@@ -141,12 +141,14 @@ class PreviewStoryFragment : BaseFragment() {
                     viewModel.uploadVideoImage(image)
                 }
                 else{
-                    if (!isVideoWithinLimit(Uri.parse(uri), 30)) {
-                        showToast("Video must not be more than 30 seconds")
-                        return@setOnClickListener
-                    }
+//                    if (!isVideoWithinLimit(Uri.parse(uri), 30)) {
+//                        showToast("Video must not be more than 30 seconds")
+//                        return@setOnClickListener
+//                    }
                     thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(), Uri.parse(uri))
-                    compressAndUploadVideo(Uri.parse(uri))
+                    isThumbnailUploading = true
+                    uploadThumbnailApi(thumbnailFile)
+                 //   compressAndUploadVideo(Uri.parse(uri))
                 }
 
             }
@@ -156,6 +158,11 @@ class PreviewStoryFragment : BaseFragment() {
     override fun observe() {
         viewModel.uploadVideoImageResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
+                ApiResult.Loading -> {
+                    if (!isVideoUploading){
+                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    }
+                }
                 is ApiResult.Success -> {
 
                     val url = result.data?.data?.url ?: ""
@@ -166,7 +173,8 @@ class PreviewStoryFragment : BaseFragment() {
                             isThumbnailUploading = false
 
                             isVideoUploading = true
-                            uploadCompressedVideo(compressedVideoFile)
+                            val file = CommonMethod.uriToFileForStory(requireActivity(), Uri.parse(uri))
+                            uploadCompressedVideo(file)
                         }
 
                         isVideoUploading -> {
@@ -198,7 +206,7 @@ class PreviewStoryFragment : BaseFragment() {
         viewModel.addStoryResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    //ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
 
                 is ApiResult.Success -> {
@@ -231,14 +239,14 @@ class PreviewStoryFragment : BaseFragment() {
             .addDataSource(requireContext(), inputUri)
             .setVideoTrackStrategy(
                 DefaultVideoStrategy.Builder()
-                    .addResizer(AtMostResizer(1280)) // 720p
-                    .bitRate(500_000)              // 1.5 Mbps
+
+                    .bitRate(2_500_000)
                     .frameRate(30)
                     .build()
             )
             .setAudioTrackStrategy(
                 DefaultAudioStrategy.Builder()
-                    .bitRate(64_000)
+                    .bitRate(128_000)
                     .build()
             )
             .setListener(object : TranscoderListener {
@@ -278,7 +286,7 @@ class PreviewStoryFragment : BaseFragment() {
     private fun uploadCompressedVideo(file: File?) {
         file?.exists()?.let {
             if (!it) {
-                showToast("Compressed file not found")
+                showToast("Video not found")
                 return
             }
         }

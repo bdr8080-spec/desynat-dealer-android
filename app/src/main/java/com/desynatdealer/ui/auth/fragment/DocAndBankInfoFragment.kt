@@ -151,35 +151,35 @@ class DocAndBankInfoFragment : BaseFragment() {
                         1 -> {
                             ownerDoc1 = CommonMethod.uriToFile(requireActivity(), it)
                             ivDoc1.setImageURI(it)
-                            val image = ownerDoc1?.toMultiPartBody("image")
+                            val image = ownerDoc1?.toMultiPartBody("file")
                             viewModel.upload(image)
                         }
 
                         2 -> {
                             ownerDoc2 = CommonMethod.uriToFile(requireActivity(), it)
                             ivDoc2.setImageURI(it)
-                            val image = ownerDoc2?.toMultiPartBody("image")
+                            val image = ownerDoc2?.toMultiPartBody("file")
                             viewModel.upload(image)
                         }
 
                         3 -> {
                             storeDoc1 = CommonMethod.uriToFile(requireActivity(), it)
                             ivStoreDoc1.setImageURI(it)
-                            val image = storeDoc1?.toMultiPartBody("image")
+                            val image = storeDoc1?.toMultiPartBody("file")
                             viewModel.upload(image)
                         }
 
                         4 -> {
                             storeDoc2 = CommonMethod.uriToFile(requireActivity(), it)
                             ivStoreDoc2.setImageURI(it)
-                            val image = storeDoc2?.toMultiPartBody("image")
+                            val image = storeDoc2?.toMultiPartBody("file")
                             viewModel.upload(image)
                         }
 
                         5 -> {
                             bankDoc = CommonMethod.uriToFile(requireActivity(), it)
                             ivBank.setImageURI(it)
-                            val image = bankDoc?.toMultiPartBody("image")
+                            val image = bankDoc?.toMultiPartBody("file")
                             viewModel.upload(image)
                         }
                     }
@@ -201,7 +201,7 @@ class DocAndBankInfoFragment : BaseFragment() {
                         5 -> {
                             bankDoc = CommonMethod.uriToFile(requireActivity(), it)
                             ivBank.setImageURI(it)
-                            val image = bankDoc?.toMultiPartBody("image")
+                            val image = bankDoc?.toMultiPartBody("file")
                             viewModel.upload(image)
                         }
                     }

@@ -190,7 +190,7 @@ class ChatActivity : BaseActivity() {
                 uri?.let {
                     imageUri = it
                     viewModel.upload(
-                        CommonMethod.uriToFile(this@ChatActivity, it).toMultiPartBody("image")
+                        CommonMethod.uriToFile(this@ChatActivity, it).toMultiPartBody("file")
                     )
                 }
             }

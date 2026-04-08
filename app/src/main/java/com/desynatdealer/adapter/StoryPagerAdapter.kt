@@ -215,7 +215,7 @@ class StoryPagerAdapter(
             holder.binding.tvTitle.text = story.title
         } else {
             holder.binding.tvTitle.isVisible = false
-            holder.binding.viewTitle.isVisible = true
+            holder.binding.viewTitle.isVisible = false
         }
 
         holder.binding.videoStory.setOnCompletionListener {
