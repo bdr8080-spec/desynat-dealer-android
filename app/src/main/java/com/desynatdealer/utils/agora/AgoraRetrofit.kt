@@ -19,7 +19,7 @@ object AgoraRetrofit {
             .build()
 
         Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl("https://api.agora.io/dev/v1/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

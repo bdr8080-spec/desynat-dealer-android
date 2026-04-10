@@ -128,9 +128,9 @@ class ProfileFragment : BaseFragment() {
 //                findNavController().navigate(R.id.action_profileFragment_to_languageFragment,bundle)
 //            }
 
-//            rlSupport.setOnClickListener {
-//                findNavController().navigate(R.id.action_profileFragment_to_supportFragment)
-//            }
+            rlSupport.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_supportFragment)
+            }
 
 //            rlSetting.setOnClickListener {
 //                findNavController().navigate(R.id.action_profileFragment_to_settingFragment)

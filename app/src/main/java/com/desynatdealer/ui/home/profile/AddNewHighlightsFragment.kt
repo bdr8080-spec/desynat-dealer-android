@@ -399,15 +399,34 @@ class AddNewHighlightsFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireContext(), "Highlights added successfully!"){
-                        findNavController().popBackStack(R.id.viewProfile, false)
+                    if (result.statusCode==499){
+                        CommonMethod.showAlertDialog(requireActivity(),result?.message.toString()){
+                            findNavController().navigate(R.id.action_addPreviewStoryFragment_to_SubscriptionPlanFragment)
+                        }
+
+                    }
+                    else {
+                        CommonMethod.showSuccessDialog(
+                            requireContext(),
+                            "Highlights added successfully!"
+                        ) {
+                            findNavController().popBackStack(R.id.viewProfile, false)
+                        }
                     }
                     viewModel.addHighlightsResponse.value = null
                 }
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
+                    if (result.message=="You have no active plan"){
+                        CommonMethod.showAlertDialog(requireActivity(),result.message){
+                            findNavController().navigate(R.id.action_addHighlightsFragment_to_SubscriptionPlanFragment)
+                        }
+
+                    }
+                    else{
+                        showToast(result.message ?: getString(R.string.generic_error))
+                    }
                     viewModel.addHighlightsResponse.value = null
                 }
 

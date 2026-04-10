@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
@@ -39,6 +41,10 @@ class HomeActivity : BaseActivity() {
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.black)
+        WindowCompat.getInsetsController(window, window.decorView)
+            .isAppearanceLightNavigationBars = false
+
         MFSDK.setUpActionBar(isShowToolBar = false)
         initView()
         initControl()
@@ -76,7 +82,7 @@ class HomeActivity : BaseActivity() {
             R.id.home,
             R.id.productManagement,
             R.id.orderManagement,
-          //  R.id.liveStreaming,
+            R.id.event,
           //  R.id.payment,
         )
 
@@ -211,7 +217,7 @@ class HomeActivity : BaseActivity() {
                     }
                     2 -> {
                         ProgressDialogUtils.getInstance().hideProgress()
-                        controller.navigate(R.id.liveStreaming)
+                        controller.navigate(R.id.event)
                     }
                     3 -> {
                         ProgressDialogUtils.getInstance().hideProgress()

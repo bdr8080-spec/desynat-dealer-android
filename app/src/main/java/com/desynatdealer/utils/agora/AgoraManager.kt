@@ -15,14 +15,14 @@ object AgoraManager {
         val rtcEventHandler = object : IRtcEngineEventHandler() {
 
             override fun onJoinChannelSuccess(channel: String?, uid: Int, elapsed: Int) {
-                Log.d("Agora", "Joined channel successfully: $channel, uid: $uid")
+                Log.d("HOST_TEST", "Joined channel successfully: $channel, uid: $uid")
             }
 
             override fun onConnectionStateChanged(state: Int, reason: Int) {
-                Log.d("Agora", "Connection state: $state, reason: $reason")
+                Log.d("HOST_TEST", "Connection state: $state, reason: $reason")
 
                 if (state == Constants.CONNECTION_STATE_CONNECTED) {
-                    Log.d("Agora", "✅ Connected to Agora server")
+                    Log.d("HOST_TEST", "Connected to Agora server")
                 }
             }
 
@@ -31,15 +31,15 @@ object AgoraManager {
                 state: Int,
                 error: Int
             ) {
-                Log.d("Agora", "Local video state: $state")
+                Log.d("HOST_TEST", "Local video state: $state")
 
                 if (state == Constants.LOCAL_VIDEO_STREAM_STATE_ENCODING) {
-                    Log.d("Agora", "🎥 Video is being sent")
+                    Log.d("HOST_TEST", "🎥 Video is being sent")
                 }
             }
 
             override fun onError(err: Int) {
-                Log.e("Agora", "Error: $err")
+                Log.e("HOST_TEST", "Error: $err")
             }
         }
 

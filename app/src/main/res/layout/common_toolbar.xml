@@ -16,6 +16,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_13sdp"
         android:textAlignment="center"
+        android:drawablePadding="@dimen/_15sdp"
         android:drawableStart="@drawable/ic_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

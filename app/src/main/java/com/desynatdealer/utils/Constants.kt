@@ -98,6 +98,8 @@ object Constants {
     const val UPLOAD_VIDEO_IMAGE = "/api/uploadFile"
     const val UPLOAD_WITH_RESOLUTION = "/api/uploadWithResolution"
     const val GET_LIVE_ROOM_RECORD = "/api/seller/live_room_records"
+    const val GET_OTHER_LIVE_ROOM_RECORD = "/api/seller/other-seller-live-room-records"
+    const val GET_LIVE_EVENT_COUNT = "/api/seller/other-seller-live-room-records"
     const val GET_AGORA_TOKEN = "/api/agora/token"
     const val GET_ADMIN_STORY = "/api/seller/get_Seller_admin_stories"
 

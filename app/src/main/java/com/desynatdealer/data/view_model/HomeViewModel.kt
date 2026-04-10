@@ -42,6 +42,7 @@ import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -915,6 +916,31 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _getLiveRoomRecordsResponse.value = ApiResult.Loading
             _getLiveRoomRecordsResponse.value = repo.getLiveRoomRecords()
+        }
+    }
+
+
+    private val _getWatchLiveRoomRecordsResponse =
+        MutableLiveData<ApiResult<GetOtherLiveStreamingRoomResponse>?>()
+    val getWatchLiveRoomRecordsResponse: MutableLiveData<ApiResult<GetOtherLiveStreamingRoomResponse>?>
+        get() = _getWatchLiveRoomRecordsResponse
+
+    fun getOtherLiveStreaming() {
+        viewModelScope.launch {
+            _getWatchLiveRoomRecordsResponse.value = ApiResult.Loading
+            _getWatchLiveRoomRecordsResponse.value = repo.getOtherLiveStreaming()
+        }
+    }
+
+    private val _getLiveEventUserCountResponse =
+        MutableLiveData<ApiResult<GetOtherLiveStreamingRoomResponse>?>()
+    val getLiveEventUserCountResponse: MutableLiveData<ApiResult<GetOtherLiveStreamingRoomResponse>?>
+        get() = _getLiveEventUserCountResponse
+
+    fun getLiveEventUserCount() {
+        viewModelScope.launch {
+            _getLiveEventUserCountResponse.value = ApiResult.Loading
+            _getLiveEventUserCountResponse.value = repo.getLiveEventUserCount()
         }
     }
 

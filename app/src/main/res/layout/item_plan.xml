@@ -15,6 +15,7 @@
         android:paddingVertical="@dimen/_10sdp"
         android:text="Pro Package"
         android:textAlignment="center"
+        android:gravity="center"
         android:elevation="@dimen/_3sdp"
         android:background="@drawable/plus"
         android:textSize="@dimen/_13sdp"

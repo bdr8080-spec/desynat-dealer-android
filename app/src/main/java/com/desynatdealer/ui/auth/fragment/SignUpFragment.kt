@@ -349,6 +349,7 @@ class SignUpFragment : BaseFragment() {
 
         applySpan(getString(R.string.terms_conditions)) {
 
+
         }
         applySpan(getString(R.string.policies)) {
 

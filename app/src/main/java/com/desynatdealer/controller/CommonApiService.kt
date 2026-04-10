@@ -44,16 +44,20 @@ import com.desynatdealer.utils.translation.TranslateRequest
 import com.desynatdealer.utils.translation.TranslateResponse
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetLiveUserCountResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.HTTP
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
@@ -326,6 +330,14 @@ interface CommonApiService {
     suspend fun getLiveRoomRecords(): Response<GetLiveStreamingRoomResponse>
 
 
+    @GET(Constants.GET_OTHER_LIVE_ROOM_RECORD)
+    suspend fun getOtherLiveStreaming(): Response<GetOtherLiveStreamingRoomResponse>
+
+
+    @GET(Constants.GET_LIVE_EVENT_COUNT)
+    suspend fun getLiveEventUserCount(): Response<GetOtherLiveStreamingRoomResponse>
+
+
     @POST(Constants.GET_AGORA_TOKEN)
     suspend fun getAgoraToken(
         @Body  map: HashMap<String, Any>
@@ -341,5 +353,15 @@ interface CommonApiService {
 
     @GET(Constants.GET_TICKET_TYPE)
     suspend fun getTicketType(): Response<GetTicketTypeResponse>
+
+    @GET("channel/user/{appid}/{channelName}")
+    suspend fun getLiveUserCount(
+        @Header("Authorization") auth: String,
+        @Path("appid") appid: String,
+        @Path("channelName") channelName: String
+    )
+    : Response<GetLiveUserCountResponse>
+
+
 
 }

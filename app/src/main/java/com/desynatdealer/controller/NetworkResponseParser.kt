@@ -8,8 +8,8 @@ import retrofit2.Response
 
 suspend fun <T : Any> networkCall(response: Response<T>): ApiResult<T> {
     return if (response.isSuccessful) {
-        response.body()?.let { ApiResult.Success(response.body()) }
-            ?: ApiResult.Error("Empty response body")
+        response.body()?.let { ApiResult.Success(response.body(), response.code()) }
+            ?: ApiResult.Error("Empty response body", response.code())
     } else {
         val errorBody = response.errorBody()?.string()
         val messageCode = try {
@@ -29,6 +29,6 @@ suspend fun <T : Any> networkCall(response: Response<T>): ApiResult<T> {
         } catch (e: Exception) {
             "Network Error"
         }
-        ApiResult.Error(messageCode as String)
+        ApiResult.Error(messageCode as String,response.code())
     }
 }

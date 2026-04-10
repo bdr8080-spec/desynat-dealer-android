@@ -211,15 +211,33 @@ class PreviewStoryFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireContext(), "Story added successfully!"){
-                        findNavController().popBackStack(R.id.viewProfile, false)
+                    if (result.message=="You have no active plan"){
+                        CommonMethod.showAlertDialog(requireActivity(),result.message){
+                            findNavController().navigate(R.id.action_addPreviewStoryFragment_to_SubscriptionPlanFragment)
+                        }
+
                     }
+                    else{
+                        CommonMethod.showSuccessDialog(requireContext(), "Story added successfully!"){
+                            findNavController().popBackStack(R.id.viewProfile, false)
+                        }
+                    }
+
                     viewModel.addStoryResponse.value = null
                 }
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
+                    if (result.statusCode==499){
+                        CommonMethod.showAlertDialog(requireActivity(),result?.message.toString()){
+                            findNavController().navigate(R.id.action_addPreviewStoryFragment_to_SubscriptionPlanFragment)
+                        }
+
+                    }
+                    else{
+                        showToast(result.message ?: getString(R.string.generic_error))
+                    }
+
                     viewModel.addStoryResponse.value = null
                 }
 

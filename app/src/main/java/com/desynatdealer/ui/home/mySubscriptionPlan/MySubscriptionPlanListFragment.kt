@@ -139,6 +139,7 @@ class MySubscriptionPlanListFragment : BaseFragment() {
     private fun myPlan() {
         binding?.apply {
             llSubscriptionPlan.isVisible = false
+            tvNoDataFound.isVisible = false
             llMyPlan.isVisible = true
             selectedType = 2
             getMyPlan()
@@ -152,6 +153,7 @@ class MySubscriptionPlanListFragment : BaseFragment() {
     private fun allPlan(){
         binding?.apply {
             llSubscriptionPlan.isVisible = true
+            tvNoDataFound.isVisible = false
             llMyPlan.isVisible = false
             selectedType = 1
             getSubscriptionPlan()

@@ -559,13 +559,27 @@
         android:id="@+id/addHighlights"
         android:name="com.desynatdealer.ui.home.profile.AddNewHighlightsFragment"
         android:label="Add Highlight Fragment"
-        tools:layout="@layout/fragment_add_new_highlights"/>
+        tools:layout="@layout/fragment_add_new_highlights">
+
+
+        <action
+            android:id="@+id/action_addHighlightsFragment_to_SubscriptionPlanFragment"
+            app:destination="@id/mySubscription" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/addPreviewStory"
         android:name="com.desynatdealer.ui.home.profile.PreviewStoryFragment"
         android:label="Preview Story Fragment"
-        tools:layout="@layout/fragment_preview_story"/>
+        tools:layout="@layout/fragment_preview_story">
+
+        <action
+            android:id="@+id/action_addPreviewStoryFragment_to_SubscriptionPlanFragment"
+            app:destination="@id/mySubscription" />
+
+
+    </fragment>
 
     <fragment
         android:id="@+id/viewStory"
@@ -603,12 +617,40 @@
         android:id="@+id/addNewReel"
         android:name="com.desynatdealer.ui.home.profile.AddNewReelFragment"
         android:label="Add New Reel Fragment"
-        tools:layout="@layout/fragment_add_new_reel"/>
+        tools:layout="@layout/fragment_add_new_reel">
+
+        <action
+            android:id="@+id/action_addNewReelFragment_to_SubscriptionPlanFragment"
+            app:destination="@id/mySubscription" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/event"
+        android:name="com.desynatdealer.ui.home.liveStreaming.EventFragment"
+        android:label="Event Fragment"
+        tools:layout="@layout/fragment_event">
+
+        <action
+            android:id="@+id/action_eventFragment_to_liveEventFragment"
+            app:destination="@id/liveStreaming" />
+
+        <action
+            android:id="@+id/action_eventFragment_to_watchLiveFragment"
+            app:destination="@id/watchLive" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/liveStreaming"
         android:name="com.desynatdealer.ui.home.liveStreaming.LiveStreamingFragment"
         android:label="Live Streaming Fragment"
         tools:layout="@layout/fragment_live_streaming"/>
+
+    <fragment
+        android:id="@+id/watchLive"
+        android:name="com.desynatdealer.ui.home.liveStreaming.WatchLiveEventFragment"
+        android:label="Watch Live Event Fragment"
+        tools:layout="@layout/fragment_watch_live_event"/>
 
     </navigation>

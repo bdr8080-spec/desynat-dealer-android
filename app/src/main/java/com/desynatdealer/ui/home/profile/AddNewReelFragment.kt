@@ -345,19 +345,38 @@ class AddNewReelFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireContext(), "Reel added successfully!"){
-
-                        if (isAdded && !isDetached) {
-                            findNavController().popBackStack()
+                    if (result.message=="You have no active plan"){
+                        CommonMethod.showAlertDialog(requireActivity(),result.message){
+                            findNavController().navigate(R.id.action_addNewReelFragment_to_SubscriptionPlanFragment)
                         }
-                    //    findNavController().popBackStack()
+
+                    }
+                    else {
+                        CommonMethod.showSuccessDialog(
+                            requireContext(),
+                            "Reel added successfully!"
+                        ) {
+
+                            if (isAdded && !isDetached) {
+                                findNavController().popBackStack()
+                            }
+                            //    findNavController().popBackStack()
+                        }
                     }
                     viewModel.addReelResponse.value = null
                 }
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
+                    if (result.statusCode==499){
+                        CommonMethod.showAlertDialog(requireActivity(),result?.message.toString()){
+                            findNavController().navigate(R.id.action_addNewReelFragment_to_SubscriptionPlanFragment)
+                        }
+
+                    }
+                    else{
+                        showToast(result.message ?: getString(R.string.generic_error))
+                    }
                     viewModel.addReelResponse.value = null
                 }
 

@@ -41,6 +41,7 @@ import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.toPlainRequestBody
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
@@ -607,6 +608,23 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
             ApiResult.Error("Syntax Error")
         }
     }
+
+    suspend fun getOtherLiveStreaming(): ApiResult<GetOtherLiveStreamingRoomResponse> {
+        return try {
+            networkCall(api.getOtherLiveStreaming())
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+    suspend fun getLiveEventUserCount(): ApiResult<GetOtherLiveStreamingRoomResponse> {
+        return try {
+            networkCall(api.getLiveEventUserCount())
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
   suspend fun getAgoraToken(map: HashMap<String, Any>): ApiResult<GetAgoraTokenResponse> {
         return try {
             networkCall(api.getAgoraToken(map))

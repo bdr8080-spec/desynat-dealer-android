@@ -309,6 +309,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_20sdp"/>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
+                android:id="@+id/tvNoDataFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:fontFamily="@font/poppins_medium"
+                android:textSize="@dimen/_13sdp"
+                android:text="No ticket found"
+                android:layout_marginTop="@dimen/_100sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
         </LinearLayout>
 
         </LinearLayout>
@@ -326,21 +342,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:indeterminate="true"
         android:indeterminateTint="@color/brown" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:visibility="gone"
-        android:id="@+id/tvNoDataFound"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:fontFamily="@font/poppins_medium"
-        android:textSize="@dimen/_13sdp"
-        android:text="No ticket found"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

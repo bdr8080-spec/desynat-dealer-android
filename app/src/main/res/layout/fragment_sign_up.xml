@@ -340,6 +340,7 @@
             android:paddingVertical="@dimen/_10sdp"
             android:text="@string/already_have_an_account_sign_in"
             android:textAlignment="center"
+            android:gravity="center_horizontal"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@+id/btnContinue" />

@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.enableEdgeToEdge
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import com.desynatdealer.R
 import com.desynatdealer.base.BaseActivity
 import com.desynatdealer.databinding.ActivitySplashBinding
 import com.desynatdealer.ui.auth.AuthActivity
 import com.desynatdealer.ui.home.HomeActivity
-import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
 
 class SplashActivity : BaseActivity() {
@@ -20,6 +22,10 @@ class SplashActivity : BaseActivity() {
         enableEdgeToEdge()
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.black)
+        WindowCompat.getInsetsController(window, window.decorView)
+            .isAppearanceLightNavigationBars = false
+
         initView()
         initControl()
         observer()
