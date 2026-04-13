@@ -15,6 +15,7 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentEventBinding
+import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
@@ -28,6 +29,9 @@ class EventFragment : BaseFragment() {
     private val viewModel: HomeViewModel by viewModels()
     private var isObserver = true
     private var eventAdapter : EventAdapter?=null
+    var isLive = false
+    var isLiveIndexData:GetLiveStreamingRoomResponse.Data.CurrentRequest?=null
+
     private var eventList = ArrayList<GetOtherLiveStreamingRoomResponse.Data>()
 
     override fun onCreateView(
@@ -47,7 +51,7 @@ class EventFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
-
+            getLiveRoomRecords()
             eventList.clear()
             eventAdapter = EventAdapter(requireActivity(),eventList,object : EventAdapter.OnCLick{
                 override fun onClick(position: Int) {
@@ -69,13 +73,65 @@ class EventFragment : BaseFragment() {
     override fun initControl() {
         binding?.apply {
             tvGoLive.setOnClickListener {
-                findNavController().navigate(R.id.action_eventFragment_to_liveEventFragment)
-            }
+                if (isLiveIndexData!=null){
+                    val bundle = Bundle().apply {
+                        putString("eventData", Gson().toJson(isLiveIndexData))
+                    }
+                        findNavController().navigate(R.id.action_eventFragment_to_liveEventFragment,bundle)
+                    }
+                }
         }
     }
 
     override fun observe() {
-            viewModel.getWatchLiveRoomRecordsResponse.observe(viewLifecycleOwner) { result ->
+
+        viewModel.getLiveRoomRecordsResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+
+                    val currentList = result.data?.data?.currentRequests
+
+                    if (!currentList.isNullOrEmpty()) {
+
+                        val liveIndex = currentList.indexOfFirst { item ->
+                            isLiveTime(item.timeslotDetails)
+                        }
+
+                        if (liveIndex != -1) {
+                            isLive = true
+
+                            isLiveIndexData = currentList[liveIndex]
+
+                            showGoLiveButton(isLive)
+
+                        } else {
+                            isLive = false
+                            showGoLiveButton(isLive)
+                        }
+
+                    } else {
+                        showGoLiveButton(false)
+                    }
+                    viewModel.getLiveRoomRecordsResponse.value = null
+
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getLiveRoomRecordsResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+
+        viewModel.getWatchLiveRoomRecordsResponse.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     ApiResult.Loading -> {
                         ProgressDialogUtils.getInstance().showProgress(requireActivity(),false)
@@ -110,5 +166,40 @@ class EventFragment : BaseFragment() {
 
     private fun  checkData(){
         binding?.tvNoDataFound?.isVisible = eventList.isEmpty()
+    }
+
+    private fun showGoLiveButton(isShow: Boolean) {
+        binding?.tvGoLive?.apply {
+            alpha = if (isShow) 1f else 0.4f
+            isClickable = isShow
+            isEnabled = isShow
+        }
+
+        isLive = false
+    }
+
+    private fun getLiveRoomRecords() {
+
+        viewModel.getLiveRoomRecords()
+    }
+    private fun isLiveTime(timeslot: GetLiveStreamingRoomResponse.Data.CurrentRequest.TimeslotDetails): Boolean {
+        return try {
+            val date = timeslot.date
+            val fromTime = timeslot.from
+            val toTime = timeslot.to
+
+            val formatter = java.text.SimpleDateFormat("yyyy-MM-dd hh:mm a", java.util.Locale.ENGLISH)
+
+            val startDateTime = formatter.parse("$date $fromTime")
+            val endDateTime = formatter.parse("$date $toTime")
+
+            val currentTime = java.util.Date()
+
+            currentTime.after(startDateTime) && currentTime.before(endDateTime)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
     }
 }

@@ -19,10 +19,13 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentLiveStreamingBinding
+import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.agora.AgoraManager
 import com.desynatdealer.utils.agora.AgoraRetrofit
 import com.desynatdealer.utils.showToast
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import io.agora.rtc2.ChannelMediaOptions
 import io.agora.rtc2.Constants
@@ -37,11 +40,15 @@ class LiveStreamingFragment : BaseFragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private var channelId = ""
     private var appId = ""
+
     private var token = ""
     private var uid = 0
+    var isLive = false
 
     private var isMuted = false
     var basicAuth = ""
+    var eventData:GetLiveStreamingRoomResponse.Data.CurrentRequest?=null
+
 
     private val userCountHandler = Handler(Looper.getMainLooper())
     private val userCountRunnable = object : Runnable {
@@ -68,8 +75,12 @@ class LiveStreamingFragment : BaseFragment() {
     }
 
     override fun initView() {
-
-        getLiveRoomRecords()
+        val itemJson = arguments?.getString("eventData")
+        if (!itemJson.isNullOrEmpty()) {
+            eventData = Gson().fromJson(itemJson, GetLiveStreamingRoomResponse.Data.CurrentRequest::class.java)
+            getAgoraToken(eventData?.id.toString())
+        }
+      //  getLiveRoomRecords()
     }
 
     override fun initControl() {
@@ -133,7 +144,7 @@ class LiveStreamingFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    if (result.data?.data!=null){
+          /*          if (result.data?.data!=null){
                         if (result.data?.data?.currentRequests?.isNotEmpty() == true){
                             channelId = result.data?.data?.currentRequests?.get(0)?.channelId.toString()
 //                            if (result.data?.data?.currentRequests?.get(0)?.liveToken!=null&&result.data?.data?.currentRequests?.get(0)?.liveToken!="null"&&result.data?.data?.currentRequests?.get(0)?.liveToken!=""){
@@ -152,6 +163,31 @@ class LiveStreamingFragment : BaseFragment() {
                         }
                     }
                     else{
+                        showNoDataUIWaiting()
+                    }
+*/
+
+                    val currentList = result.data?.data?.currentRequests
+
+                    if (!currentList.isNullOrEmpty()) {
+
+                        val liveIndex = currentList.indexOfFirst { item ->
+                            isLiveTime(item.timeslotDetails)
+                        }
+
+                        if (liveIndex != -1) {
+                            isLive = true
+
+                            val liveItem = currentList[liveIndex]
+
+                            getAgoraToken(liveItem.id.toString())
+
+                        } else {
+                            isLive = false
+                            showNoDataUIWaiting()
+                        }
+
+                    } else {
                         showNoDataUIWaiting()
                     }
                     viewModel.getLiveRoomRecordsResponse.value = null
@@ -246,14 +282,23 @@ class LiveStreamingFragment : BaseFragment() {
 
             if (cameraGranted && micGranted) {
                 AgoraManager.initialize(requireActivity(), appId)
-                binding?.tvJoin?.isVisible = true
+                binding?.apply {
+                    tvNoDataFound.isVisible = false
+                    tvToolbar.isVisible = false
+                    ivBack.isVisible = false
+                    tvJoin.isVisible = false
+                    ivSwitchCamera.isVisible = true
+                    relMute.isVisible = true
+                    tvLive.isVisible = true
+                    tvAudienceCount.isVisible = true
+                }
+                startLiveStream()
             } else {
                 requireContext().showToast("Camera and microphone permission required")
             }
         }
 
     private fun startLiveStream() {
-
         val engine = AgoraManager.getEngine()
 
         engine?.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
@@ -373,6 +418,27 @@ class LiveStreamingFragment : BaseFragment() {
         println(base64Encoded)
         basicAuth = "Basic " + base64Encoded
         Log.d("LIVE_TEST", "base64Encoded: $base64Encoded")
+    }
+
+    private fun isLiveTime(timeslot: GetLiveStreamingRoomResponse.Data.CurrentRequest.TimeslotDetails): Boolean {
+        return try {
+            val date = timeslot.date
+            val fromTime = timeslot.from
+            val toTime = timeslot.to
+
+            val formatter = java.text.SimpleDateFormat("yyyy-MM-dd hh:mm a", java.util.Locale.ENGLISH)
+
+            val startDateTime = formatter.parse("$date $fromTime")
+            val endDateTime = formatter.parse("$date $toTime")
+
+            val currentTime = java.util.Date()
+
+            currentTime.after(startDateTime) && currentTime.before(endDateTime)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
     }
 
 }
