@@ -3,7 +3,6 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- 🔒 Base Styling -->
     <style>
         html, body {
             margin: 0;
@@ -14,7 +13,7 @@
             overflow: hidden;
         }
 
-        /* ❌ Hide floating button */
+        /* ❌ Hide launcher button */
         #tidio-chat-button,
         .tidio-chat-button {
             display: none !important;
@@ -29,15 +28,13 @@
             visibility: hidden !important;
         }
 
-        /* ✅ Force fullscreen chat */
+        /* ✅ Fullscreen chat */
         iframe[src*="tidio"] {
             position: fixed !important;
             top: 0 !important;
             left: 0 !important;
             width: 100vw !important;
             height: 100vh !important;
-            max-width: 100vw !important;
-            max-height: 100vh !important;
             border-radius: 0 !important;
             z-index: 999999 !important;
         }
@@ -50,28 +47,38 @@
 <body>
 
 <script>
-    document.addEventListener("tidioChat-ready", function () {
+    let isTidioReady = false;
 
-        if (!window.tidioChatApi) return;
+    // ✅ Called from Android
+    function setUserData(name, email, userId,role) {
 
-        // 👤 Set user data (replace dynamically if needed)
-        window.tidioChatApi.setVisitorData({
-            name: "Nidhi Chauhan",
-            email: "nidhi@email.com",
-            distinct_id: "seller_nidhi@email.com",
-            role: "seller"
-        });
+        function applyUserData() {
+            if (!window.tidioChatApi) return;
 
-        // 🔥 Function to always open chat
-        function openChatAlways() {
-            window.tidioChatApi.show();
-            window.tidioChatApi.open();
+            window.tidioChatApi.setVisitorData({
+                name: name,
+                email: email,
+                distinct_id: userId,
+                role: role
+            });
+
+            openChat();
         }
 
-         setTimeout(openChat, 100);
+        if (isTidioReady) {
+            applyUserData();
+        } else {
+            document.addEventListener("tidioChat-ready", function () {
+                isTidioReady = true;
+                applyUserData();
+            });
+        }
+    }
 
+    function openChat() {
+        if (!window.tidioChatApi) return;
 
-        // 👁 Show widget again after hidden
+        // 👁 Show chat
         const style = document.createElement('style');
         style.innerHTML = `
             iframe[src*="tidio"],
@@ -84,18 +91,24 @@
         `;
         document.head.appendChild(style);
 
-        // 🚀 First open
-        setTimeout(openChatAlways, 100);
+        setTimeout(() => {
+            window.tidioChatApi.show();
+            window.tidioChatApi.open();
+        }, 500);
 
-        // 🔁 Prevent going back to launcher/home
+        // 🔁 Always reopen if user closes
         window.tidioChatApi.on("close", function () {
-          if (window.AndroidInterface) {
-            window.AndroidInterface.onChatClosed();
-        }
-            setTimeout(openChatAlways, 100);
+            setTimeout(() => {
+                window.tidioChatApi.open();
+            }, 300);
         });
+    }
 
+    // Track ready state
+    document.addEventListener("tidioChat-ready", function () {
+        isTidioReady = true;
     });
+
 </script>
 
 </body>

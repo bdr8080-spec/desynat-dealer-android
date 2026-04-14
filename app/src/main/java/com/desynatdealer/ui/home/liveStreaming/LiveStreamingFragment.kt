@@ -20,7 +20,7 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentLiveStreamingBinding
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResponse
-import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetLiveUserCountResponse
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.agora.AgoraManager
 import com.desynatdealer.utils.agora.AgoraRetrofit
@@ -387,7 +387,10 @@ class LiveStreamingFragment : BaseFragment() {
               //  val count = response.body()?.data?.audienceTotal ?: 0
                 val count = response.body()?.data?.audience?.size ?: 0
 
+
                 activity?.runOnUiThread {
+
+                    showLog(response.body()?.data)
                     setUserCountData(count)
                 }
 
@@ -395,6 +398,10 @@ class LiveStreamingFragment : BaseFragment() {
                 Log.e("LIVE_TEST", e.message ?: "Error")
             }
         }
+    }
+
+    private fun showLog(data: GetLiveUserCountResponse.Data?) {
+        Log.e("LIVE_TEST",  data.toString())
     }
 
     private fun setUserCountData(audienceTotal: Int?) {

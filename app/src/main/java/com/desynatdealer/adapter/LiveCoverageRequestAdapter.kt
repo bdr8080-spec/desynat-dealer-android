@@ -12,6 +12,8 @@ import com.desynatdealer.utils.CommonMethod
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -27,7 +29,7 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
 
                 tvRequestId.text = "#${liveRequestData?.orderId}"
                 tvLiveRequest.text = "${
-                    CommonMethod.customizeChangeDateFormat(liveRequestData?.timeslotDetails?.date.toString(), inputFormat = "yyyy-MM-dd", outputFormat = "dd/MM/yyyy")} at ${liveRequestData?.timeslotDetails?.from.toString()}"
+                    CommonMethod.customizeChangeDateFormat(liveRequestData?.timeslotDetails?.date.toString(), inputFormat = "yyyy-MM-dd", outputFormat = "dd/MM/yyyy")} at ${CommonMethod.customizeChangeDateFormatZone(liveRequestData?.timeslotDetails?.from.toString(),"hh:mm a","hh:mm a")}"
 
                 tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
                 when(liveRequestData?.adminVerify){
@@ -116,24 +118,29 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
         toTimeStr: String
     ): String {
 
-        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
+        return try {
+            val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
 
-        val sessionDate = LocalDate.parse(dateStr, dateFormatter)
-        val fromTime = LocalTime.parse(fromTimeStr, timeFormatter)
-        val toTime = LocalTime.parse(toTimeStr, timeFormatter)
+            val sessionDate = LocalDate.parse(dateStr, dateFormatter)
+            val fromTime = LocalTime.parse(fromTimeStr, timeFormatter)
+            val toTime = LocalTime.parse(toTimeStr, timeFormatter)
 
-        val startDateTime = LocalDateTime.of(sessionDate, fromTime)
-        val endDateTime = LocalDateTime.of(sessionDate, toTime)
+            val startDateTime = LocalDateTime.of(sessionDate, fromTime)
+            val endDateTime = LocalDateTime.of(sessionDate, toTime)
 
-        val currentDateTime = LocalDateTime.now()
+            val currentDateTime = LocalDateTime.now()
 
-        return when {
-            currentDateTime.isBefore(startDateTime) -> "Confirmed"
-            currentDateTime.isAfter(endDateTime) -> "Completed"
-            else -> "Live"
+            when {
+                currentDateTime.isBefore(startDateTime) -> "Confirmed"
+                currentDateTime.isAfter(endDateTime) -> "Completed"
+                else -> "Live"
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            "Confirmed" // fallback (you can change this)
         }
     }
-
 
 }

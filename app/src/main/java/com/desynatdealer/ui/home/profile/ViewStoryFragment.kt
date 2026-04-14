@@ -248,6 +248,7 @@ class ViewStoryFragment : BaseFragment() {
                             progressAnimator?.resume()
                         }
                     },
+                    from,
 
                     onVideoReady = { position, duration ->
                         startVideoProgress(position, duration)
@@ -332,8 +333,11 @@ class ViewStoryFragment : BaseFragment() {
                 stopProgress()
 
                 progressAnimator = ValueAnimator.ofInt(0, 100).apply {
-                    this.duration = duration
+                //    this.duration = duration
 
+                    val safeDuration = if (duration > 0) duration else 10000L
+
+                    this.duration = safeDuration
                     addUpdateListener {
                         progressBars[index].progress = it.animatedValue as Int
                     }

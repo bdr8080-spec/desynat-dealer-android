@@ -23,7 +23,7 @@ import kotlin.text.toInt
 import kotlin.times
 
 class StoryPagerAdapter(
-    private val stories: List<GetStoryResponse.Data>,private val click:OnClick,private val onVideoReady: (position: Int, duration: Long) -> Unit
+    private val stories: List<GetStoryResponse.Data>,private val click:OnClick,val from :String,private val onVideoReady: (position: Int, duration: Long) -> Unit
     , private val onVideoFinished: (Int) -> Unit
 ) : RecyclerView.Adapter<StoryPagerAdapter.StoryViewHolder>() {
 
@@ -50,11 +50,23 @@ class StoryPagerAdapter(
     override fun getItemCount(): Int = stories.size
 
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
+
+        if (from=="admin"){
+            holder.binding.ivDelete.isVisible = false
+        }
+        else{
+            holder.binding.ivDelete.isVisible = true
+        }
         holder.binding.videoStory.stopPlayback()
         val story = stories[position]
         val url = story.file ?: ""
 
-        val isVideo = url.endsWith(".mp4") || url.endsWith(".mov") ||url.endsWith(".avi") || url.endsWith(".mkv")
+        val cleanUrl = url.substringBefore("?").lowercase()
+
+        val isVideo = cleanUrl.endsWith(".mp4") ||
+                cleanUrl.endsWith(".mov") ||
+                cleanUrl.endsWith(".avi") ||
+                cleanUrl.endsWith(".mkv")
         val isGif = url.endsWith(".gif")
 
         if (isVideo) {

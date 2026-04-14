@@ -17,10 +17,16 @@ import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentEventBinding
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -188,12 +194,15 @@ class EventFragment : BaseFragment() {
             val fromTime = timeslot.from
             val toTime = timeslot.to
 
-            val formatter = java.text.SimpleDateFormat("yyyy-MM-dd hh:mm a", java.util.Locale.ENGLISH)
+            val formatter = SimpleDateFormat("yyyy-MM-dd hh:mm a", java.util.Locale.ENGLISH)
 
-            val startDateTime = formatter.parse("$date $fromTime")
-            val endDateTime = formatter.parse("$date $toTime")
+            val fromTimeDefault = CommonMethod.customizeChangeDateFormatZone(fromTime,"hh:mm a","hh:mm a")
+            val toTimeDefault = CommonMethod.customizeChangeDateFormatZone(toTime,"hh:mm a","hh:mm a")
 
-            val currentTime = java.util.Date()
+            val startDateTime = formatter.parse("$date $fromTimeDefault")
+            val endDateTime = formatter.parse("$date $toTimeDefault")
+
+            val currentTime = Date()
 
             currentTime.after(startDateTime) && currentTime.before(endDateTime)
 
