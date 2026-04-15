@@ -94,6 +94,10 @@ class HomeFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_homeFragment_to_notificationFragment)
             }
 
+            ivSupportBot.setOnClickListener {
+                findNavController().navigate(R.id.action_homeFragment_to_TidioChatFragment)
+            }
+
         }
     }
 
@@ -106,6 +110,7 @@ class HomeFragment : BaseFragment() {
                 }
 
                 is ApiResult.Success -> {
+                    binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     adminStoryList.clear()
                     result?.data?.data?.let { adminStoryList.addAll(it) }
@@ -114,6 +119,7 @@ class HomeFragment : BaseFragment() {
                 }
 
                 is ApiResult.Error -> {
+                    binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     // showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getAdminStoryResponse.value = null
@@ -132,11 +138,12 @@ class HomeFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-
+                    binding?.progressBar?.isVisible = false
                     viewModel.getStoryResponse.value = null
                 }
 
                 is ApiResult.Error -> {
+                    binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     // showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getStoryResponse.value = null
@@ -150,9 +157,11 @@ class HomeFragment : BaseFragment() {
         viewModel.storeOnOffResponse.observe(viewLifecycleOwner){result->
             when(result){
                 ApiResult.Loading -> {
+                    binding?.progressBar?.isVisible = true
                     ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
                 is ApiResult.Success -> {
+                    binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.data?.message.toString())
                     if (userInfo?.storeInfo?.storeAvailability==1){
@@ -166,6 +175,7 @@ class HomeFragment : BaseFragment() {
                     viewModel.storeOnOffResponse.value = null
                 }
                 is ApiResult.Error -> {
+                    binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.storeOnOffResponse.value = null
@@ -179,9 +189,11 @@ class HomeFragment : BaseFragment() {
         viewModel.getNotificationCountResponse.observe(viewLifecycleOwner){result->
             when(result){
                 ApiResult.Loading -> {
+                    binding?.progressBar?.isVisible = true
                     ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
                 is ApiResult.Success -> {
+                    binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     if (result.data?.data!=0){
                         setNotificationCount(result.data?.data?:0)
@@ -195,6 +207,7 @@ class HomeFragment : BaseFragment() {
                     viewModel.getNotificationCountResponse.value = null
                 }
                 is ApiResult.Error -> {
+                    binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getNotificationCountResponse.value = null

@@ -167,6 +167,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:fontFamily="@font/poppins_medium"
+                android:text="Title"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_15sdp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/poppins_regular"
+                android:background="@drawable/grey_stroke"
+                android:padding="@dimen/_10sdp"
+                android:text="lorem ipsum dolor sit amet, co adipisicing elit, sed do eiusmod tincididunt ut labore et dolore magnliqua. Ut enim ad minim veniam, quis."
+                android:textColor="#80000000"
+                android:textSize="@dimen/_11sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/poppins_medium"
                 android:text="Description"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp"

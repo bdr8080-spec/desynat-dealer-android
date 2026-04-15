@@ -208,12 +208,12 @@ class StoreInformationFragment : BaseFragment() {
             val pincode = data?.getStringExtra("pincode") ?: ""
             val houseno = data?.getStringExtra("houseno") ?: ""
             address = data?.getStringExtra("addressH") ?: ""
-            Constants.latitude = data?.getStringExtra("latitudeD")?.toDoubleOrNull() ?: 0.0
-            Constants.longitude = data?.getStringExtra("longitudeD")?.toDoubleOrNull() ?: 0.0
+            Constants.latitude = data?.getStringExtra("lat")?.toDoubleOrNull() ?: 0.0
+            Constants.longitude = data?.getStringExtra("lng")?.toDoubleOrNull() ?: 0.0
             Constants.location = address.toString()
             val addressH = data?.getStringExtra("addressH") ?: "N/A"
-            lat = data?.getStringExtra("latitudeD")?.toDoubleOrNull().toString()
-            long = data?.getStringExtra("longitudeD")?.toDoubleOrNull().toString()
+            lat = data?.getStringExtra("lat")?.toDoubleOrNull().toString()
+            long = data?.getStringExtra("lng")?.toDoubleOrNull().toString()
             binding?.etStoreAddress?.setText(address)
 
             val addressLine1 = "$houseno, $street".trim().trim(',')

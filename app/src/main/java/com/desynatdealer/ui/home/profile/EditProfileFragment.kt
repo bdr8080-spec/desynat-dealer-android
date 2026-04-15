@@ -172,6 +172,11 @@ class EditProfileFragment : BaseFragment() {
                 bankDoc = userInfo?.sellerBankDetails?.uploadProof
             }
 
+            if (lat==null){
+                lat = userInfo?.storeInfo?.let
+                long = userInfo?.storeInfo?.long
+            }
+
             etStoreName.setText(userInfo?.storeInfo?.storeName)
             etStoreEmail.setText(userInfo?.storeInfo?.storeMailId)
             etStoreMobile.setText(userInfo?.storeInfo?.storePhone)
@@ -284,6 +289,10 @@ class EditProfileFragment : BaseFragment() {
 
             etStoreAddress.setOnClickListener {
                 val intent = Intent(requireActivity(), UpdateLocationActivity::class.java)
+                intent.putExtra("savedLat", lat?.toDoubleOrNull())
+                intent.putExtra("savedLng", long?.toDoubleOrNull())
+                intent.putExtra("savedAddress", address)
+                Log.e("send", "initControl: $address $lat $address" )
                 locationResultLauncher.launch(intent)
             }
 
@@ -470,8 +479,8 @@ class EditProfileFragment : BaseFragment() {
            map["store_phone"] = etStoreMobile.text.toString()
            map["store_mail_id"] = etStoreEmail.text.toString()
            map["bio"] = etBio.text.toString()
-           map["let"] = userInfo?.storeInfo?.let.toString()
-           map["long"] = userInfo?.storeInfo?.long.toString()
+           map["let"] = lat.toString()
+           map["long"] = long.toString()
            viewModel.updateStoreInfo(map)
        }
     }

@@ -16,6 +16,10 @@
             app:destination="@id/profile" />
 
         <action
+            android:id="@+id/action_homeFragment_to_TidioChatFragment"
+            app:destination="@id/tidioChat"/>
+
+        <action
             android:id="@+id/action_homeFragment_to_chatListFragment"
             app:destination="@id/chatList" />
 

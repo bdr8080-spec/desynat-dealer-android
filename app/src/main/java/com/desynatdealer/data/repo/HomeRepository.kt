@@ -40,6 +40,7 @@ import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.toPlainRequestBody
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
+import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import okhttp3.MultipartBody
@@ -644,6 +645,14 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
  suspend fun raiseTicket(map: HashMap<String, Any>): ApiResult<CommonResponse> {
         return try {
             networkCall(api.raiseTicket(map))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
+ suspend fun contactUs(map: HashMap<String, Any>): ApiResult<GetContactResponse> {
+        return try {
+            networkCall(api.contactUs(map))
         } catch (e: Exception) {
             ApiResult.Error("Syntax Error")
         }

@@ -29,6 +29,7 @@ import com.desynatdealer.databinding.FragmentSupportBinding
 import com.desynatdealer.databinding.RaiseTicketDialogBinding
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
+import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
@@ -52,6 +53,7 @@ class SupportFragment : BaseFragment() {
     private var search: Job? = null
     private var lastQuery: String? = null
     private var type = 0
+    private var whatsappNumber = ""
 
     private var ticketTypeList = ArrayList<GetTicketTypeResponse.Data>()
 
@@ -205,7 +207,7 @@ class SupportFragment : BaseFragment() {
             }
 
             clWhatsapp.setOnClickListener {
-                val number = tvSupportMobileNumber.text.trim()
+                val number = whatsappNumber
                 val intent = Intent(Intent.ACTION_VIEW).apply {
                     data = Uri.parse("https://wa.me/${number}")
                 }
@@ -324,11 +326,12 @@ class SupportFragment : BaseFragment() {
             }
         }
 
-        viewModel.raiseTicketResponse.observe(viewLifecycleOwner){result->
-            when(result){
+        viewModel.raiseTicketResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
                 ApiResult.Loading -> {
                     ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
+
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     isRaised = true
@@ -339,15 +342,37 @@ class SupportFragment : BaseFragment() {
                     getAllTicket()
                     viewModel.raiseTicketResponse.value = null
                 }
+
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.raiseTicketResponse.value = null
                 }
-                else ->{
+
+                else -> {
 
                 }
             }
+        }
+
+            viewModel.contactUsResponse.observe(viewLifecycleOwner){result->
+                when(result){
+                    ApiResult.Loading -> {
+                    }
+                    is ApiResult.Success -> {
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        setContactUsData(result?.data?.data?.contentEnglish)
+                        viewModel.contactUsResponse.value = null
+                    }
+                    is ApiResult.Error -> {
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        showToast(result.message ?: getString(R.string.generic_error))
+                        viewModel.contactUsResponse.value = null
+                    }
+                    else ->{
+
+                    }
+                }
         }
 
     }
@@ -372,6 +397,7 @@ class SupportFragment : BaseFragment() {
     private fun contact(){
         binding?.apply {
             type = 0
+            getContactUs()
             llTicket.isVisible = false
             llContact.isVisible = true
             tvContact.setBackgroundResource(R.drawable.selected_left_tab)
@@ -379,6 +405,12 @@ class SupportFragment : BaseFragment() {
             tvTicketManagement.setTextColor(requireActivity().getColor(R.color.black))
             tvTicketManagement.background = null
         }
+    }
+
+    private fun getContactUs(){
+        val map = HashMap<String, Any>()
+        map["type"] = 2
+        viewModel.contactUs(map)
     }
 
 
@@ -430,7 +462,8 @@ class SupportFragment : BaseFragment() {
         window.attributes = params
 
         dialogBinding?.apply {
-
+            CommonMethod.removeSpace(etTitle)
+            CommonMethod.removeSpace(etDescription)
             ivDoc.setOnClickListener {
                 imagePicker.showImageSourceDialog()
             }
@@ -444,21 +477,39 @@ class SupportFragment : BaseFragment() {
             }
 
             btnSubmit.setOnClickListener{
+                if (validation()) {
+                    if (imageFile != null) {
+                        uploadFile()
+                    } else {
+                        raiseTicket()
+                    }
 
-                if (imageFile!=null){
-                    uploadFile()
+
+                    dialog?.dismiss()
                 }
-                else{
-                    raiseTicket()
-                }
-
-
-                dialog?.dismiss()
             }
 
         }
 
         dialog?.show()
+    }
+
+    private fun validation():Boolean{
+
+        if (dialogBinding?.etTicketType?.text?.isEmpty() == true) {
+            showToast("Please select ticket type")
+            return false
+        }
+        else if (dialogBinding?.etTitle?.text?.isEmpty() == true) {
+            showToast("Please enter title")
+            return false
+        }
+        else if (dialogBinding?.etDescription?.text?.isEmpty() == true) {
+            showToast("Please enter description")
+            return false
+        }
+
+        return true
     }
 
     private fun getAllTicket(){
@@ -515,5 +566,12 @@ class SupportFragment : BaseFragment() {
         popup.show()
     }
 
+    private fun setContactUsData(contactData: GetContactResponse.Data.ContentEnglish?) {
+        binding?.apply {
+            tvSupportEmailAddress.text = contactData?.email
+            tvSupportMobileNumber.text = contactData?.mobile
+            whatsappNumber = contactData?.whatsapp.toString()
+        }
+    }
 
 }

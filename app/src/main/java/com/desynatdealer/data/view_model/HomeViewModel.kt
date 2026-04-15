@@ -41,6 +41,7 @@ import com.desynatdealer.ui.home.response.CreateSubscriptionPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
+import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -988,6 +989,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _getTicketTypeResponse.value = ApiResult.Loading
             _getTicketTypeResponse.value = repo.getTicketType()
+        }
+    }
+
+    private val _contactUsResponse =
+        MutableLiveData<ApiResult<GetContactResponse>?>()
+    val contactUsResponse: MutableLiveData<ApiResult<GetContactResponse>?>
+        get() = _contactUsResponse
+
+    fun contactUs(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _contactUsResponse.value = ApiResult.Loading
+            _contactUsResponse.value = repo.contactUs(map)
         }
     }
 

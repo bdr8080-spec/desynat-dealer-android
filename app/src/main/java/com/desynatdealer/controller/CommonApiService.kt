@@ -43,6 +43,7 @@ import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.translation.TranslateRequest
 import com.desynatdealer.utils.translation.TranslateResponse
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
+import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveUserCountResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
@@ -362,6 +363,7 @@ interface CommonApiService {
     )
     : Response<GetLiveUserCountResponse>
 
-
+    @GET(Constants.CONTACT_US)
+    suspend fun contactUs(@QueryMap map: HashMap<String, Any>): Response<GetContactResponse>
 
 }
