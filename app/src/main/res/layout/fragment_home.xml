@@ -44,12 +44,25 @@
             app:layout_constraintEnd_toEndOf="@+id/logoImage"
             app:layout_constraintBottom_toBottomOf="@+id/logoImage"/>
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivSupportBot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/support_bot_icon"
+            android:paddingVertical="@dimen/_5sdp"
+            android:paddingStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/desynat_title"
+            app:layout_constraintEnd_toStartOf="@+id/chat_icon"
+            app:layout_constraintTop_toTopOf="@+id/desynat_title" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/chat_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_12sdp"
+            android:paddingVertical="@dimen/_12sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_5sdp"
             android:src="@drawable/chat_icon"
             app:layout_constraintBottom_toBottomOf="@+id/desynat_title"
             app:layout_constraintEnd_toStartOf="@+id/notification_icon"
@@ -59,8 +72,10 @@
             android:id="@+id/notification_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
+            android:paddingVertical="@dimen/_12sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:src="@drawable/notification_icon"
             app:layout_constraintBottom_toBottomOf="@+id/desynat_title"
             app:layout_constraintEnd_toStartOf="@+id/profilePic"
@@ -73,8 +88,8 @@
             android:layout_height="wrap_content"
             android:elevation="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="-28dp"
-            android:layout_marginStart="-28dp"
+            android:layout_marginBottom="-25dp"
+            android:layout_marginStart="-21dp"
             app:layout_constraintStart_toEndOf="@+id/notification_icon"
             app:layout_constraintBottom_toTopOf="@+id/notification_icon">
 
@@ -1015,15 +1030,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:indeterminate="true"
         android:indeterminateTint="@color/brown" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivSupportBot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_support_bot"
-        android:layout_marginBottom="@dimen/_20sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

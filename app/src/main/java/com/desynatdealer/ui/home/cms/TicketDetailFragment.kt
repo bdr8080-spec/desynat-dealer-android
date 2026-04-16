@@ -58,6 +58,10 @@ class TicketDetailFragment : BaseFragment() {
             ivBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+
+            ivDoc.setOnClickListener {
+                CommonMethod.imagePreviewDialog(requireActivity(),arrayListOf(ticketData?.file.toString()))
+            }
         }
     }
 
