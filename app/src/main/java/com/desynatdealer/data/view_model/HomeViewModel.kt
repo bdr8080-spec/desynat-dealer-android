@@ -43,7 +43,10 @@ import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
 import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
+import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdriver.ui.home.cms.response.GetCmsResponse
+import com.desynatdriver.ui.home.cms.response.GetFaqResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -992,6 +995,30 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _notificationOnOffResponse =
+        MutableLiveData<ApiResult<UpdateNotificationResponse>?>()
+    val notificationOnOffResponse: MutableLiveData<ApiResult<UpdateNotificationResponse>?>
+        get() = _notificationOnOffResponse
+
+    fun notificationOnOff(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _notificationOnOffResponse.value = ApiResult.Loading
+            _notificationOnOffResponse.value = repo.notificationOnOff(map)
+        }
+    }
+
+    private val _appNotificationOnOffResponse =
+        MutableLiveData<ApiResult<UpdateNotificationResponse>?>()
+    val appNotificationOnOffResponse: MutableLiveData<ApiResult<UpdateNotificationResponse>?>
+        get() = _appNotificationOnOffResponse
+
+    fun appNotificationOnOff(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _appNotificationOnOffResponse.value = ApiResult.Loading
+            _appNotificationOnOffResponse.value = repo.appNotificationOnOff(map)
+        }
+    }
+
     private val _contactUsResponse =
         MutableLiveData<ApiResult<GetContactResponse>?>()
     val contactUsResponse: MutableLiveData<ApiResult<GetContactResponse>?>
@@ -1001,6 +1028,91 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _contactUsResponse.value = ApiResult.Loading
             _contactUsResponse.value = repo.contactUs(map)
+        }
+    }
+
+    private val _faqResponse =
+        MutableLiveData<ApiResult<GetFaqResponse>?>()
+    val faqResponse: MutableLiveData<ApiResult<GetFaqResponse>?>
+        get() = _faqResponse
+
+    fun faq(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _faqResponse.value = ApiResult.Loading
+            _faqResponse.value = repo.faq(map)
+        }
+    }
+
+
+    private val _termsAndConditionResponse =
+        MutableLiveData<ApiResult<GetCmsResponse>?>()
+    val termsAndConditionResponse: MutableLiveData<ApiResult<GetCmsResponse>?>
+        get() = _termsAndConditionResponse
+
+    fun termsAndCondition(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _termsAndConditionResponse.value = ApiResult.Loading
+            _termsAndConditionResponse.value = repo.termsAndCondition(map)
+        }
+    }
+
+    private val _privacyPolicyResponse =
+        MutableLiveData<ApiResult<GetCmsResponse>?>()
+    val privacyPolicyResponse: MutableLiveData<ApiResult<GetCmsResponse>?>
+        get() = _privacyPolicyResponse
+
+    fun privacyPolicy(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _privacyPolicyResponse.value = ApiResult.Loading
+            _privacyPolicyResponse.value = repo.privacyPolicy(map)
+        }
+    }
+
+    private val _aboutUsResponse =
+        MutableLiveData<ApiResult<GetCmsResponse>?>()
+    val aboutUsResponse: MutableLiveData<ApiResult<GetCmsResponse>?>
+        get() = _aboutUsResponse
+
+    fun aboutUs(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _aboutUsResponse.value = ApiResult.Loading
+            _aboutUsResponse.value = repo.aboutUs(map)
+        }
+    }
+
+    private val _cancellationPolicyResponse =
+        MutableLiveData<ApiResult<GetCmsResponse>?>()
+    val cancellationPolicyResponse: MutableLiveData<ApiResult<GetCmsResponse>?>
+        get() = _cancellationPolicyResponse
+
+    fun cancellationPolicy(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _cancellationPolicyResponse.value = ApiResult.Loading
+            _cancellationPolicyResponse.value = repo.cancellationPolicy(map)
+        }
+    }
+
+    private val _exchangePolicyResponse =
+        MutableLiveData<ApiResult<GetCmsResponse>?>()
+    val exchangePolicyResponse: MutableLiveData<ApiResult<GetCmsResponse>?>
+        get() = _exchangePolicyResponse
+
+    fun exchangePolicy(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _exchangePolicyResponse.value = ApiResult.Loading
+            _exchangePolicyResponse.value = repo.exchangePolicy(map)
+        }
+    }
+
+    private val _returnPolicyResponse =
+        MutableLiveData<ApiResult<GetCmsResponse>?>()
+    val returnPolicyResponse: MutableLiveData<ApiResult<GetCmsResponse>?>
+        get() = _returnPolicyResponse
+
+    fun returnPolicy(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _returnPolicyResponse.value = ApiResult.Loading
+            _returnPolicyResponse.value = repo.returnPolicy(map)
         }
     }
 

@@ -6,10 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.desynatdealer.R
 import com.desynatdealer.adapter.FaqAdapter
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentFaqBinding
+import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.showToast
+import com.desynatdriver.ui.home.cms.response.GetFaqResponse
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 import kotlin.getValue
@@ -20,7 +25,7 @@ class FaqFragment : BaseFragment() {
     private val viewModel: HomeViewModel by viewModels()
     private var isObserver = false
     private var faqAdapter: FaqAdapter?=null
-    private var faqList = ArrayList<String>()
+    private var faqList = ArrayList<GetFaqResponse.Data>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +54,8 @@ class FaqFragment : BaseFragment() {
             })
             rvFaq.adapter = faqAdapter
         }
+
+        getFaq()
     }
 
     override fun initControl() {
@@ -61,5 +68,34 @@ class FaqFragment : BaseFragment() {
     }
 
     override fun observe() {
+        viewModel.faqResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    faqList.clear()
+                    result?.data?.data?.let { faqList.addAll(it) }
+                    faqAdapter?.notifyDataSetChanged()
+                    viewModel.faqResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.faqResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    fun getFaq(){
+        val map = HashMap<String, Any>()
+        map["type"] = 3
+        viewModel.faq(map)
     }
 }

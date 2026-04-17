@@ -117,9 +117,44 @@ class ProfileFragment : BaseFragment() {
                     viewModel.logout()
             }
 
-//            rlFaq.setOnClickListener {
-//                findNavController().navigate(R.id.action_profileFragment_to_faqFragment)
-//            }
+            rlFaq.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_faqFragment)
+            }
+
+            rlTerms.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putInt("type", 1)
+                }
+                findNavController().navigate(R.id.action_profileFragment_to_cmsContentFragment,bundle)
+            }
+
+            relAbout.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putInt("type", 3)
+                }
+                findNavController().navigate(R.id.action_profileFragment_to_cmsContentFragment,bundle)
+            }
+
+            rlCancellationPolicy.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putInt("type", 6)
+                }
+                findNavController().navigate(R.id.action_profileFragment_to_cmsContentFragment,bundle)
+            }
+
+            rlExchange.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putInt("type", 5)
+                }
+                findNavController().navigate(R.id.action_profileFragment_to_cmsContentFragment,bundle)
+            }
+
+            rlReturnPolicy.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putInt("type", 4)
+                }
+                findNavController().navigate(R.id.action_profileFragment_to_cmsContentFragment,bundle)
+            }
 
 //            rlLanguage.setOnClickListener {
 //                val bundle = Bundle().apply {
@@ -132,9 +167,9 @@ class ProfileFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_profileFragment_to_supportFragment)
             }
 
-//            rlSetting.setOnClickListener {
-//                findNavController().navigate(R.id.action_profileFragment_to_settingFragment)
-//            }
+            rlSetting.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_settingFragment)
+            }
 
 //            rlRefund.setOnClickListener {
 //                findNavController().navigate(R.id.action_profileFragment_to_refundFragment)

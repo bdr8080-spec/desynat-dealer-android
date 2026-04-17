@@ -42,7 +42,10 @@ import com.desynatdealer.utils.toPlainRequestBody
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
 import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
+import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdriver.ui.home.cms.response.GetCmsResponse
+import com.desynatdriver.ui.home.cms.response.GetFaqResponse
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
@@ -52,23 +55,23 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getSubscriptionPlan())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
-    suspend fun createSubscriptionPlan(map:HashMap<String,Any>): ApiResult<CreateSubscriptionPlanResponse> {
+    suspend fun createSubscriptionPlan(map: HashMap<String, Any>): ApiResult<CreateSubscriptionPlanResponse> {
         return try {
             networkCall(api.createSubscriptionPlan(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
-    suspend fun buySubscriptionPlan(map:HashMap<String,Any>): ApiResult<CommonResponse> {
+    suspend fun buySubscriptionPlan(map: HashMap<String, Any>): ApiResult<CommonResponse> {
         return try {
             networkCall(api.buySubscriptionPlan(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -77,7 +80,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.logout())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -85,7 +88,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getSellerInfo())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -93,15 +96,15 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getCategory())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
-    suspend fun getSubCategory(categoryId:String): ApiResult<GetSubCategoryResponse> {
+    suspend fun getSubCategory(categoryId: String): ApiResult<GetSubCategoryResponse> {
         return try {
             networkCall(api.getSubCategory(categoryId))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -109,7 +112,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getColor())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -117,7 +120,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getBrand())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -125,7 +128,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.addProduct(request))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -133,7 +136,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.editProduct(request))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -141,7 +144,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getSize())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -149,7 +152,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getAllProduct(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -157,7 +160,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getProductDetail(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -165,7 +168,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.updateProductStatus(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -173,7 +176,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.deleteProduct(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -181,7 +184,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.storeOnOff())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -191,7 +194,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.upload(file))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -199,7 +202,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getAllInventoryProduct(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -207,7 +210,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getInventoryProductDetail(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -215,7 +218,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.updateInventoryProductStatus(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -223,7 +226,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.updateInventoryProductStock(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -231,7 +234,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.updateAffiliateCommission(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -239,7 +242,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.updateStoreInfo(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -247,7 +250,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.changeNumber(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -255,7 +258,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.otpVerification(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -263,15 +266,15 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.updateBankDetail(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
-    suspend fun addBanner(request:AddBannerRequest): ApiResult<AddBannerResponse> {
+    suspend fun addBanner(request: AddBannerRequest): ApiResult<AddBannerResponse> {
         return try {
             networkCall(api.addBanner(request))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -279,7 +282,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getBanner(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -287,7 +290,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getBannerPrice(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -295,7 +298,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.bannerPayment(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -303,7 +306,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getOrder(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -311,47 +314,47 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getOrderDetail(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
- suspend fun updateOrderStatus(map: HashMap<String, Any>): ApiResult<GetSingleOrderResponse> {
+    suspend fun updateOrderStatus(map: HashMap<String, Any>): ApiResult<GetSingleOrderResponse> {
         return try {
             networkCall(api.updateOrderStatus(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
- suspend fun updateOrderExchangeReturnStatus(map: HashMap<String, Any>): ApiResult<GetSingleOrderResponse> {
+    suspend fun updateOrderExchangeReturnStatus(map: HashMap<String, Any>): ApiResult<GetSingleOrderResponse> {
         return try {
             networkCall(api.updateOrderExchangeReturnStatus(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
- suspend fun getAllChatList(map: HashMap<String, Any>): ApiResult<GetChatListResponse> {
+    suspend fun getAllChatList(map: HashMap<String, Any>): ApiResult<GetChatListResponse> {
         return try {
             networkCall(api.getAllChatList(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
- suspend fun getChatDetail(map: HashMap<String, Any>): ApiResult<ChatDetailResponse> {
+    suspend fun getChatDetail(map: HashMap<String, Any>): ApiResult<ChatDetailResponse> {
         return try {
             networkCall(api.getChatDetail(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
- suspend fun modifySingleChat(map: HashMap<String, Any>): ApiResult<ModifySingleChatResponse> {
+    suspend fun modifySingleChat(map: HashMap<String, Any>): ApiResult<ModifySingleChatResponse> {
         return try {
             networkCall(api.modifySingleChat(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -367,7 +370,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getDealDetail(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -376,7 +379,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.addProductInDeal(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -384,7 +387,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.removeProductInDeal(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -392,7 +395,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.showProductInDealCategorySubcategory(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -400,28 +403,31 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getTimeSlot(date))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
+
     suspend fun getLiveRequest(map: HashMap<String, Any>): ApiResult<GetLiveRequestResponse> {
         return try {
             networkCall(api.getLiveRequest(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
+
     suspend fun cancelLiveRequest(map: HashMap<String, Any>): ApiResult<CommonResponse> {
         return try {
             networkCall(api.cancelLiveRequest(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
+
     suspend fun sendLiveRequest(map: HashMap<String, Any>): ApiResult<CommonResponse> {
         return try {
             networkCall(api.sendLiveRequest(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -429,7 +435,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.changePassword(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -437,7 +443,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getNotificationList(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -445,7 +451,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getNotificationCount())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -453,7 +459,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.readNotification(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -461,7 +467,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.readAllNotification(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -469,7 +475,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.renewSubscriptionPlan(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -477,7 +483,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getMyPlan(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -485,7 +491,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getStory(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -493,7 +499,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getAdminStory(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -501,7 +507,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getHighlights(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -509,7 +515,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getReel(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -517,7 +523,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.addStory(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -525,7 +531,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.addReel(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -533,7 +539,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.addHighlights(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -541,7 +547,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.deleteStory(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -549,7 +555,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.deleteReel(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -557,7 +563,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.deleteHighlights(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -565,7 +571,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.updateReel(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -573,7 +579,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.updateReelStatus(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -584,7 +590,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
             networkCall(api.uploadVideoImage(file))
         }
 //        catch (e: Exception) {
-//            ApiResult.Error("Syntax Error")
+//            ApiResult.Error(e.message.toString())
 //        }
         catch (e: Exception) {
             e.printStackTrace()
@@ -593,12 +599,12 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     }
 
     suspend fun uploadWithResolution(
-        file: MultipartBody.Part?,type:String
+        file: MultipartBody.Part?, type: String
     ): ApiResult<UploadResponse> {
         return try {
-            networkCall(api.uploadWithResolution(file,type.toPlainRequestBody()))
+            networkCall(api.uploadWithResolution(file, type.toPlainRequestBody()))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -606,7 +612,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getLiveRoomRecords())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -614,7 +620,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getOtherLiveStreaming())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -622,47 +628,121 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getLiveEventUserCount())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
-  suspend fun getAgoraToken(map: HashMap<String, Any>): ApiResult<GetAgoraTokenResponse> {
+    suspend fun getAgoraToken(map: HashMap<String, Any>): ApiResult<GetAgoraTokenResponse> {
         return try {
             networkCall(api.getAgoraToken(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
- suspend fun getRaisedTicket(map: HashMap<String, Any>): ApiResult<GetAllRaisedTicketResponse> {
+    suspend fun getRaisedTicket(map: HashMap<String, Any>): ApiResult<GetAllRaisedTicketResponse> {
         return try {
             networkCall(api.getRaisedTicket(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
- suspend fun raiseTicket(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+    suspend fun raiseTicket(map: HashMap<String, Any>): ApiResult<CommonResponse> {
         return try {
             networkCall(api.raiseTicket(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
- suspend fun contactUs(map: HashMap<String, Any>): ApiResult<GetContactResponse> {
+    suspend fun notificationOnOff(map: HashMap<String, Any>): ApiResult<UpdateNotificationResponse> {
+        return try {
+            networkCall(api.notificationOnOff(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun appNotificationOnOff(map: HashMap<String, Any>): ApiResult<UpdateNotificationResponse> {
+        return try {
+            networkCall(api.appNotificationOnOff(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun contactUs(map: HashMap<String, Any>): ApiResult<GetContactResponse> {
         return try {
             networkCall(api.contactUs(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
+
+    suspend fun faq(map: HashMap<String, Any>): ApiResult<GetFaqResponse> {
+        return try {
+            networkCall(api.faq(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun aboutUs(map: HashMap<String, Any>): ApiResult<GetCmsResponse> {
+        return try {
+            networkCall(api.aboutUs(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+
+    suspend fun privacyPolicy(map: HashMap<String, Any>): ApiResult<GetCmsResponse> {
+        return try {
+            networkCall(api.privacyPolicy(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun termsAndCondition(map: HashMap<String, Any>): ApiResult<GetCmsResponse> {
+        return try {
+            networkCall(api.termsAndCondition(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun cancellationPolicy(map: HashMap<String, Any>): ApiResult<GetCmsResponse> {
+        return try {
+            networkCall(api.cancellationPolicy(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun exchangePolicy(map: HashMap<String, Any>): ApiResult<GetCmsResponse> {
+        return try {
+            networkCall(api.exchangePolicy(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun returnPolicy(map: HashMap<String, Any>): ApiResult<GetCmsResponse> {
+        return try {
+            networkCall(api.returnPolicy(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
 
     suspend fun getTicketType(): ApiResult<GetTicketTypeResponse> {
         return try {
             networkCall(api.getTicketType())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 

@@ -65,7 +65,11 @@ data class GetSellerInfo(
         @SerializedName("subcription_plan")
         val subcriptionPlan: List<Any>,
         @SerializedName("updated_at")
-        val updatedAt: String
+        val updatedAt: String,
+        @SerializedName("app_notification")
+        var appNotification: Int,
+        @SerializedName("notification")
+        var notification: Int
     ) {
         data class OwnerDocument(
             @SerializedName("created_at")

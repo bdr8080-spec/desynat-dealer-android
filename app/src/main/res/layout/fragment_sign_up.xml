@@ -314,12 +314,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15sdp"
-            android:button="@drawable/selector_checkbox_icon"
             android:padding="@dimen/_8sdp"
-            android:text="@string/i_accept_the_terms_conditions_and_policies"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:button="@drawable/selector_checkbox_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/relConfirmPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/relConfirmPassword"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTermsPolicy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_8sdp"
+            android:text="@string/i_accept_the_terms_conditions_and_policies"
+            app:layout_constraintStart_toEndOf="@+id/cbTermsPolicy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cbTermsPolicy"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btnContinue"

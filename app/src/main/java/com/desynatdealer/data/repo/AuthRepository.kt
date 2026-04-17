@@ -18,7 +18,7 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.login(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -28,7 +28,7 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.upload(file))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -38,7 +38,7 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.createAccount(req))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -48,7 +48,7 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.verifyOtp(req))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -58,7 +58,7 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.storeInformation(req))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -66,7 +66,7 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.storeDocumentAndBankDetails(req))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -74,7 +74,7 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.sellerStoreSubmitRequest(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -82,7 +82,7 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.forgotPassword(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -90,7 +90,7 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.changePassword(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -98,7 +98,7 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.resendOtp(map))
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 
@@ -106,7 +106,7 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
         return try {
             networkCall(api.getCountry())
         } catch (e: Exception) {
-            ApiResult.Error("Syntax Error")
+            ApiResult.Error(e.message.toString())
         }
     }
 }

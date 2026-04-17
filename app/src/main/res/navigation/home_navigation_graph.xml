@@ -184,6 +184,10 @@
             android:id="@+id/action_profileFragment_to_staffManagementFragment"
             app:destination="@id/staffManagement" />
 
+          <action
+            android:id="@+id/action_profileFragment_to_cmsContentFragment"
+            app:destination="@id/cmsContent" />
+
     </fragment>
 
     <fragment
@@ -666,5 +670,11 @@
         android:name="com.desynatdealer.ui.home.liveStreaming.WatchLiveEventFragment"
         android:label="Watch Live Event Fragment"
         tools:layout="@layout/fragment_watch_live_event"/>
+
+    <fragment
+        android:id="@+id/cmsContent"
+        android:name="com.desynatdealer.ui.home.cms.CmsContentFragment"
+        android:label="Cms Content Fragment"
+        tools:layout="@layout/fragment_cms_content"/>
 
     </navigation>
