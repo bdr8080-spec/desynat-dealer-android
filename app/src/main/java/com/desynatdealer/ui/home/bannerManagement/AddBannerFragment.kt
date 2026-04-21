@@ -106,7 +106,8 @@ class AddBannerFragment : BaseFragment() {
                     bannerImage = CommonMethod.uriToFile(requireActivity(), it)
                     ivBanner.setImageURI(it)
                     val image = bannerImage?.toMultiPartBody("file")
-                    viewModel.upload(image)
+//                    viewModel.upload(image)
+                    viewModel.uploadWithResolutionPromotionalApi(image)
                 }
             }
 
@@ -221,6 +222,30 @@ class AddBannerFragment : BaseFragment() {
     }
 
     override fun observe() {
+        viewModel.uploadWithResolutionPromotionalResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    bannerUrl = result.data?.data?.url
+                    viewModel.uploadResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.uploadResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+
+/*
         viewModel.uploadResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
@@ -242,6 +267,7 @@ class AddBannerFragment : BaseFragment() {
                 else -> {}
             }
         }
+*/
 
         viewModel.addBannerResponse.observe(viewLifecycleOwner) { result ->
             when (result) {

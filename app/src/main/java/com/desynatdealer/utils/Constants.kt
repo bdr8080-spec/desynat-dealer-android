@@ -96,6 +96,7 @@ object Constants {
     const val GET_HIGHLIGHTS = "/api/seller/get_my_highlights"
     const val DELETE_HIGHLIGHTS = "/api/seller/delete_highlight"
     const val UPLOAD_VIDEO_IMAGE = "/api/uploadFile"
+    const val uploadWithResolutionPromotional = "/api/uploadWithResolutionPromotional"
     const val UPLOAD_WITH_RESOLUTION = "/api/uploadWithResolution"
     const val GET_LIVE_ROOM_RECORD = "/api/seller/live_room_records"
     const val GET_OTHER_LIVE_ROOM_RECORD = "/api/seller/other-seller-live-room-records"

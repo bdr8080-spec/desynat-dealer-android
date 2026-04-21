@@ -76,6 +76,14 @@ interface CommonApiService {
     ): Response<UploadResponse>
 
 
+
+  @Multipart
+    @POST(Constants.uploadWithResolutionPromotional)
+    suspend fun uploadWithResolutionPromotional(
+        @Part file: MultipartBody.Part?
+    ): Response<UploadResponse>
+
+
     @POST("api/seller/create_account")
     suspend fun createAccount(@Body req: HashMap<String, String>): Response<CreateAccountRes>
 

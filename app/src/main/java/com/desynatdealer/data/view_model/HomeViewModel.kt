@@ -280,6 +280,20 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _uploadWithResolutionPromotionalResponse =
+        MutableLiveData<ApiResult<UploadResponse>?>()
+    val uploadWithResolutionPromotionalResponse: MutableLiveData<ApiResult<UploadResponse>?>
+        get() = _uploadWithResolutionPromotionalResponse
+
+    fun uploadWithResolutionPromotionalApi(
+        file: MultipartBody.Part?,
+    ) {
+        viewModelScope.launch {
+            _uploadWithResolutionPromotionalResponse.value = ApiResult.Loading
+            _uploadWithResolutionPromotionalResponse.value = repo.uploadWithResolutionPromotional(file)
+        }
+    }
+
     private val _addProductResponse =
         MutableLiveData<ApiResult<CommonResponse>?>()
     val addProductResponse: MutableLiveData<ApiResult<CommonResponse>?>

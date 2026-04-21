@@ -195,6 +195,17 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
+
+    suspend fun uploadWithResolutionPromotional(
+        file: MultipartBody.Part?,
+    ): ApiResult<UploadResponse> {
+        return try {
+            networkCall(api.uploadWithResolutionPromotional(file))
+        } catch (e: Exception) {
+            ApiResult.Error("Syntax Error")
+        }
+    }
+
     suspend fun getAllInventoryProduct(map: HashMap<String, Any>): ApiResult<GetAllProductResponse> {
         return try {
             networkCall(api.getAllInventoryProduct(map))
