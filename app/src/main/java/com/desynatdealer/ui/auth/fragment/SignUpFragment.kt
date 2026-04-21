@@ -95,7 +95,9 @@ class SignUpFragment : BaseFragment() {
 
             etPassword.togglePasswordVisibility(ivPasswordVisible)
             etConfirmPassword.togglePasswordVisibility(ivConfirmPasswordVisible)
-            cbTermsPolicy.text = spannableText()
+            tvTermsPolicy.text = spannableText()
+            tvTermsPolicy?.movementMethod = LinkMovementMethod.getInstance()
+            tvTermsPolicy?.highlightColor = Color.TRANSPARENT
 
             imagePicker = ImagePicker(
                 requireActivity(),
@@ -348,8 +350,10 @@ class SignUpFragment : BaseFragment() {
         }
 
         applySpan(getString(R.string.terms_conditions)) {
-
-
+            val bundle = Bundle().apply {
+                putInt("type", 1)
+            }
+            findNavController().navigate(R.id.action_signUpFragment_to_cmsContentFragment,bundle)
         }
         applySpan(getString(R.string.policies)) {
 

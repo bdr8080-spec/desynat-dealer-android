@@ -128,7 +128,7 @@ class EventFragment : BaseFragment() {
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
+                 //   showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getLiveRoomRecordsResponse.value = null
                 }
 

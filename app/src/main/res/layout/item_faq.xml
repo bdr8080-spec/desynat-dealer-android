@@ -12,7 +12,6 @@
         android:id="@+id/clQuestion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/_10sdp"
         android:paddingTop="@dimen/_10sdp"
         android:paddingBottom="@dimen/_5sdp"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +26,8 @@
             android:text="Q1. Lorem ipsum dolor sit amet."
             android:textColor="#1C1C1C"
             android:textSize="@dimen/_11sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ivDropDown"/>
@@ -36,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_faq_down_arrow"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_4sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvQuestion"/>

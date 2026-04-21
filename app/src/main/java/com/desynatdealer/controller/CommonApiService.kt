@@ -45,8 +45,11 @@ import com.desynatdealer.utils.translation.TranslateResponse
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
 import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
+import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveUserCountResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdriver.ui.home.cms.response.GetCmsResponse
+import com.desynatdriver.ui.home.cms.response.GetFaqResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -371,7 +374,34 @@ interface CommonApiService {
     )
     : Response<GetLiveUserCountResponse>
 
+    @POST(Constants.NOTIFICATION_ON_OFF)
+    suspend fun notificationOnOff(@QueryMap map: HashMap<String, Any>): Response<UpdateNotificationResponse>
+
+    @POST(Constants.APP_NOTIFICATION_ON_OFF)
+    suspend fun appNotificationOnOff(@QueryMap map: HashMap<String, Any>): Response<UpdateNotificationResponse>
+
     @GET(Constants.CONTACT_US)
     suspend fun contactUs(@QueryMap map: HashMap<String, Any>): Response<GetContactResponse>
+
+    @GET(Constants.FAQ)
+    suspend fun faq(@QueryMap map: HashMap<String, Any>): Response<GetFaqResponse>
+
+    @GET(Constants.ABOUT_US)
+    suspend fun aboutUs(@QueryMap map: HashMap<String, Any>): Response<GetCmsResponse>
+
+    @GET(Constants.TERMS_CONDITION)
+    suspend fun termsAndCondition(@QueryMap map: HashMap<String, Any>): Response<GetCmsResponse>
+
+    @GET(Constants.PRIVACY_POLICY)
+    suspend fun privacyPolicy(@QueryMap map: HashMap<String, Any>): Response<GetCmsResponse>
+
+    @GET(Constants.RETURN_POLICY)
+    suspend fun returnPolicy(@QueryMap map: HashMap<String, Any>): Response<GetCmsResponse>
+
+    @GET(Constants.CANCELLATION_POLICY)
+    suspend fun cancellationPolicy(@QueryMap map: HashMap<String, Any>): Response<GetCmsResponse>
+
+    @GET(Constants.EXCHANGE_POLICY)
+    suspend fun exchangePolicy(@QueryMap map: HashMap<String, Any>): Response<GetCmsResponse>
 
 }

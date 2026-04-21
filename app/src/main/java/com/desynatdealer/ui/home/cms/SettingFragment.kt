@@ -11,9 +11,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.DeleteAccountDialogBinding
 import com.desynatdealer.databinding.FragmentSettingBinding
+import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
@@ -93,5 +97,6 @@ class SettingFragment : BaseFragment() {
 
         dialog.show()
     }
+
 
 }
