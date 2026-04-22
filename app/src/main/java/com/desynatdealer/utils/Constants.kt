@@ -117,5 +117,14 @@ object Constants {
     const val RETURN_POLICY = "/api/return_policy"
     const val EXCHANGE_POLICY = "/api/exchange_policy"
     const val CANCELLATION_POLICY = "/api/cancellation_policy"
+    const val GET_REFUND_ORDER = "/api/seller/get_refund_orders"
+    const val ADD_NEW_STAFF = "/api/seller/add-new-staff"
+    const val UPDATE_STAFF = "/api/seller/add-new-staff"
+    const val DELETE_STAFF = "/api/seller/staff-delete-staff"
+    const val UPDATE_STAFF_STATUS = "/api/seller/staff-active-inactive"
+    const val STAFF_CATEGORY_TYPE = "/api/seller/new-staff-category-type"
+    const val SELLER_ALL_MENU = "/api/seller/seller-all-menu"
+    const val GET_ALL_STAFF_LIST = "/api/seller/All-staff-details"
+    const val VIEW_SINGLE_STAFF_DETAIL = "/api/seller/view-single-staff-details"
 
 }

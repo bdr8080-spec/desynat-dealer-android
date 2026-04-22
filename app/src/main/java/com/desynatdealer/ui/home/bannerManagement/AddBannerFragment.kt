@@ -32,6 +32,7 @@ import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MultipartBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -55,6 +56,8 @@ class AddBannerFragment : BaseFragment() {
     private var bannerPriceList = ArrayList<GetBannerPriceResponse.Data>()
     private lateinit var imagePicker: ImagePicker
     private var bannerImage: File? = null
+    private var image: MultipartBody.Part?=null
+
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             imagePicker.onCameraResult(success)
@@ -105,9 +108,8 @@ class AddBannerFragment : BaseFragment() {
                 uri?.let {
                     bannerImage = CommonMethod.uriToFile(requireActivity(), it)
                     ivBanner.setImageURI(it)
-                    val image = bannerImage?.toMultiPartBody("file")
+                    image = bannerImage?.toMultiPartBody("image")
 //                    viewModel.upload(image)
-                    viewModel.uploadWithResolutionPromotionalApi(image)
                 }
             }
 
@@ -153,7 +155,8 @@ class AddBannerFragment : BaseFragment() {
 
             btnSendRequest.setOnClickListener {
                 if (validation()){
-                    addBanner()
+                    viewModel.uploadWithResolutionPromotionalApi(image)
+
                 }
             }
 
@@ -231,13 +234,14 @@ class AddBannerFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     bannerUrl = result.data?.data?.url
-                    viewModel.uploadResponse.value = null
+                    addBanner()
+                    viewModel.uploadWithResolutionPromotionalResponse.value = null
                 }
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
-                    viewModel.uploadResponse.value = null
+                    viewModel.uploadWithResolutionPromotionalResponse.value = null
                 }
 
                 else -> {}
@@ -503,7 +507,7 @@ class AddBannerFragment : BaseFragment() {
             return false
         }
 
-        if (bannerUrl.isNullOrEmpty()) {
+        if (image==null) {
             showToast("Please upload banner image")
             return false
         }
