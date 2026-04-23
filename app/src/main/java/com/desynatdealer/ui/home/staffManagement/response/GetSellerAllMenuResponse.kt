@@ -19,7 +19,7 @@ data class GetSellerAllMenuResponse(
         @SerializedName("icon")
         val icon: String,
         @SerializedName("id")
-        val id: Int,
+        val id: String,
         @SerializedName("order_by")
         val orderBy: Int,
         @SerializedName("parent_id")

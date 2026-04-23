@@ -171,13 +171,13 @@ class ProfileFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_profileFragment_to_settingFragment)
             }
 
-//            rlRefund.setOnClickListener {
-//                findNavController().navigate(R.id.action_profileFragment_to_refundFragment)
-//            }
+            rlRefund.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_refundFragment)
+            }
 
-//            rlStaffManagement.setOnClickListener {
-//                findNavController().navigate(R.id.action_profileFragment_to_staffManagementFragment)
-//            }
+            rlStaffManagement.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_staffManagementFragment)
+            }
         }
     }
 

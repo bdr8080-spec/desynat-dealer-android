@@ -21,14 +21,20 @@ data class AddNewStaffRequest(
     @SerializedName("profile_pic")
     val profilePic: String,
     @SerializedName("select_category")
-    val selectCategory: String
+    val selectCategory: String,
+    @SerializedName("id")
+    val id: String?=null
 ) {
     data class MenuId(
+        @SerializedName("name")
+        val title: String,
         @SerializedName("can_action")
-        val canAction: Int,
+        var canAction: Int,
         @SerializedName("can_view")
-        val canView: Int,
+        var canView: Int,
         @SerializedName("id")
-        val id: Int
+        val id: String,
+        @SerializedName("is_selected")
+        var isSelected: Boolean = false
     )
 }

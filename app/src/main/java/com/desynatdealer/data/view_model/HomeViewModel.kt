@@ -45,6 +45,12 @@ import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
+import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
+import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
+import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
+import com.desynatdealer.ui.home.staffManagement.response.GetStaffCategoryResponse
+import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
 import com.desynatdriver.ui.home.cms.response.GetCmsResponse
 import com.desynatdriver.ui.home.cms.response.GetFaqResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -1130,5 +1136,113 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _getAllStaffResponse =
+        MutableLiveData<ApiResult<GetAllStaffResponse>?>()
+    val getAllStaffResponse: MutableLiveData<ApiResult<GetAllStaffResponse>?>
+        get() = _getAllStaffResponse
+
+    fun getAllStaff(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getAllStaffResponse.value = ApiResult.Loading
+            _getAllStaffResponse.value = repo.getAllStaff(map)
+        }
+    }
+
+    private val _getSellerAllMenuResponse =
+        MutableLiveData<ApiResult<GetSellerAllMenuResponse>?>()
+    val getSellerAllMenuResponse: MutableLiveData<ApiResult<GetSellerAllMenuResponse>?>
+        get() = _getSellerAllMenuResponse
+
+    fun getSellerAllMenu() {
+        viewModelScope.launch {
+            _getSellerAllMenuResponse.value = ApiResult.Loading
+            _getSellerAllMenuResponse.value = repo.getSellerAllMenu()
+        }
+    }
+
+    private val _getStaffRoleResponse =
+        MutableLiveData<ApiResult<GetStaffCategoryResponse>?>()
+    val getStaffRoleResponse: MutableLiveData<ApiResult<GetStaffCategoryResponse>?>
+        get() = _getStaffRoleResponse
+
+    fun getStaffRole() {
+        viewModelScope.launch {
+            _getStaffRoleResponse.value = ApiResult.Loading
+            _getStaffRoleResponse.value = repo.getStaffRole()
+        }
+    }
+
+    private val _deleteStaffResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val deleteStaffResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _deleteStaffResponse
+
+    fun deleteStaff(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _deleteStaffResponse.value = ApiResult.Loading
+            _deleteStaffResponse.value = repo.deleteStaff(map)
+        }
+    }
+
+
+    private val _getStaffDetailResponse =
+        MutableLiveData<ApiResult<ViewStaffDetailResponse>?>()
+    val getStaffDetailResponse: MutableLiveData<ApiResult<ViewStaffDetailResponse>?>
+        get() = _getStaffDetailResponse
+
+    fun getStaffDetail(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getStaffDetailResponse.value = ApiResult.Loading
+            _getStaffDetailResponse.value = repo.getStaffDetail(map)
+        }
+    }
+
+    private val _updateStaffStatusResponse =
+        MutableLiveData<ApiResult<GetAllStaffResponse>?>()
+    val updateStaffStatusResponse: MutableLiveData<ApiResult<GetAllStaffResponse>?>
+        get() = _updateStaffStatusResponse
+
+    fun updateStaffStatus(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _updateStaffStatusResponse.value = ApiResult.Loading
+            _updateStaffStatusResponse.value = repo.updateStaffStatus(map)
+        }
+    }
+
+    private val _getRefundOrderResponse =
+        MutableLiveData<ApiResult<GetRefundOrderResponse>?>()
+    val getRefundOrderResponse: MutableLiveData<ApiResult<GetRefundOrderResponse>?>
+        get() = _getRefundOrderResponse
+
+    fun getRefundOrder(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getRefundOrderResponse.value = ApiResult.Loading
+            _getRefundOrderResponse.value = repo.getRefundOrder(map)
+        }
+    }
+
+    private val _addStaffResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val addStaffResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _addStaffResponse
+
+    fun addNewStaff(request: AddNewStaffRequest) {
+        viewModelScope.launch {
+            _addStaffResponse.value = ApiResult.Loading
+            _addStaffResponse.value = repo.addNewStaff(request)
+        }
+    }
+
+    private val _updateStaffResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val updateStaffResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _updateStaffResponse
+
+    fun updateStaff(request: AddNewStaffRequest) {
+        viewModelScope.launch {
+            _updateStaffResponse.value = ApiResult.Loading
+            _updateStaffResponse.value = repo.updateStaff(request)
+        }
+    }
 
 }

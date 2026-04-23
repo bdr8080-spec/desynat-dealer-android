@@ -44,6 +44,12 @@ import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
+import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
+import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
+import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
+import com.desynatdealer.ui.home.staffManagement.response.GetStaffCategoryResponse
+import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
 import com.desynatdriver.ui.home.cms.response.GetCmsResponse
 import com.desynatdriver.ui.home.cms.response.GetFaqResponse
 import okhttp3.MultipartBody
@@ -752,6 +758,78 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     suspend fun getTicketType(): ApiResult<GetTicketTypeResponse> {
         return try {
             networkCall(api.getTicketType())
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getAllStaff(map: HashMap<String, Any>): ApiResult<GetAllStaffResponse> {
+        return try {
+            networkCall(api.getAllStaff(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getSellerAllMenu(): ApiResult<GetSellerAllMenuResponse> {
+        return try {
+            networkCall(api.getSellerAllMenu())
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getStaffRole(): ApiResult<GetStaffCategoryResponse> {
+        return try {
+            networkCall(api.getStaffRole())
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun addNewStaff(request: AddNewStaffRequest): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.addNewStaff(request))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun updateStaff(request: AddNewStaffRequest): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.updateStaff(request))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun updateStaffStatus(map: HashMap<String, Any>): ApiResult<GetAllStaffResponse> {
+        return try {
+            networkCall(api.updateStaffStatus(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun deleteStaff(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.deleteStaff(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getStaffDetail(map: HashMap<String, Any>): ApiResult<ViewStaffDetailResponse> {
+        return try {
+            networkCall(api.getStaffDetail(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getRefundOrder(map: HashMap<String, Any>): ApiResult<GetRefundOrderResponse> {
+        return try {
+            networkCall(api.getRefundOrder(map))
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }

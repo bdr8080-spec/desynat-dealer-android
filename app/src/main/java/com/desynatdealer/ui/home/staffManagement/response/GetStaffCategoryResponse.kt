@@ -13,9 +13,9 @@ data class GetStaffCategoryResponse(
 ) {
     data class Data(
         @SerializedName("created_at")
-        val createdAt: Any,
+        val createdAt: String,
         @SerializedName("id")
-        val id: Int,
+        val id: String,
         @SerializedName("name_ar")
         val nameAr: String,
         @SerializedName("name_en")
@@ -23,6 +23,6 @@ data class GetStaffCategoryResponse(
         @SerializedName("status")
         val status: String,
         @SerializedName("updated_at")
-        val updatedAt: Any
+        val updatedAt: String
     )
 }

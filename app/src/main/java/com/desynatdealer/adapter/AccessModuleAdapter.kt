@@ -4,9 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemAccessModuleBinding
+import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
+import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
+import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
 
-class AccessModuleAdapter(var context:Context, var moduleList: ArrayList<String>, var onClick:OnClick) : RecyclerView.Adapter<AccessModuleAdapter.ViewHolder>() {
+class AccessModuleAdapter(var context:Context, var moduleList: ArrayList<GetAllStaffResponse.Data.RoleAction>, var onClick:OnClick) : RecyclerView.Adapter<AccessModuleAdapter.ViewHolder>() {
 
     interface OnClick{
         fun ClickOnItem(position: Int,type: String)
@@ -16,6 +20,10 @@ class AccessModuleAdapter(var context:Context, var moduleList: ArrayList<String>
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             var moduleData = moduleList[position]
+            tvModule.text = moduleData?.sellermenu?.get(0)?.title
+            tvModule.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_radio_selected,0, 0 ,0)
+            rbView.isChecked = moduleData.canView==1
+            rbAction.isChecked = moduleData.canAction==1
 
         }
         }

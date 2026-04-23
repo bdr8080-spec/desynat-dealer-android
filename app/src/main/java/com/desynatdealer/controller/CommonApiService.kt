@@ -48,6 +48,12 @@ import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveUserCountResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
+import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
+import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
+import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
+import com.desynatdealer.ui.home.staffManagement.response.GetStaffCategoryResponse
+import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
 import com.desynatdriver.ui.home.cms.response.GetCmsResponse
 import com.desynatdriver.ui.home.cms.response.GetFaqResponse
 import okhttp3.MultipartBody
@@ -403,5 +409,33 @@ interface CommonApiService {
 
     @GET(Constants.EXCHANGE_POLICY)
     suspend fun exchangePolicy(@QueryMap map: HashMap<String, Any>): Response<GetCmsResponse>
+
+    @GET(Constants.SELLER_ALL_MENU)
+    suspend fun getSellerAllMenu(): Response<GetSellerAllMenuResponse>
+
+    @GET(Constants.STAFF_CATEGORY_TYPE)
+    suspend fun getStaffRole(): Response<GetStaffCategoryResponse>
+
+    @POST(Constants.GET_ALL_STAFF_LIST)
+    suspend fun getAllStaff(@Body map: HashMap<String, Any>): Response<GetAllStaffResponse>
+
+    @POST(Constants.ADD_NEW_STAFF)
+    suspend fun addNewStaff(@Body request: AddNewStaffRequest): Response<CommonResponse>
+
+    @POST(Constants.UPDATE_STAFF)
+    suspend fun updateStaff(@Body request: AddNewStaffRequest): Response<CommonResponse>
+
+    @POST(Constants.UPDATE_STAFF_STATUS)
+    suspend fun updateStaffStatus(@Body map: HashMap<String, Any>): Response<GetAllStaffResponse>
+
+    @POST(Constants.DELETE_STAFF)
+    suspend fun deleteStaff(@Body map: HashMap<String, Any>): Response<CommonResponse>
+
+    @POST(Constants.VIEW_SINGLE_STAFF_DETAIL)
+    suspend fun getStaffDetail(@Body map: HashMap<String, Any>): Response<ViewStaffDetailResponse>
+
+    @GET(Constants.GET_REFUND_ORDER)
+    suspend fun getRefundOrder(@QueryMap map: HashMap<String, Any>): Response<GetRefundOrderResponse>
+
 
 }

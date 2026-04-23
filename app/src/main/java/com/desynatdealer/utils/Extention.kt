@@ -17,6 +17,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
@@ -281,6 +282,27 @@ fun EditText.togglePasswordVisibility(passwordToggle: ImageView) {
         passwordToggle.setImageResource(if (newVisibility)  com.google.android.material.R.drawable.avd_hide_password else com.google.android.material.R.drawable.avd_show_password)
         this.transformationMethod = transformationMethod
         this.setSelection(pass.length)
+        passwordVisible = newVisibility
+    }
+}
+
+fun TextView.togglePasswordVisibility(passwordToggle: ImageView) {
+    var passwordVisible = false
+
+    passwordToggle.setOnClickListener {
+        val newVisibility = !passwordVisible
+
+        this.transformationMethod =
+            if (newVisibility) null
+            else PasswordTransformationMethod.getInstance()
+
+        passwordToggle.setImageResource(
+            if (newVisibility)
+                com.google.android.material.R.drawable.avd_hide_password
+            else
+                com.google.android.material.R.drawable.avd_show_password
+        )
+
         passwordVisible = newVisibility
     }
 }

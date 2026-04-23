@@ -119,7 +119,7 @@ object Constants {
     const val CANCELLATION_POLICY = "/api/cancellation_policy"
     const val GET_REFUND_ORDER = "/api/seller/get_refund_orders"
     const val ADD_NEW_STAFF = "/api/seller/add-new-staff"
-    const val UPDATE_STAFF = "/api/seller/add-new-staff"
+    const val UPDATE_STAFF = "/api/seller/edit-new-staff"
     const val DELETE_STAFF = "/api/seller/staff-delete-staff"
     const val UPDATE_STAFF_STATUS = "/api/seller/staff-active-inactive"
     const val STAFF_CATEGORY_TYPE = "/api/seller/new-staff-category-type"

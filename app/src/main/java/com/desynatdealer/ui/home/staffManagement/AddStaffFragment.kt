@@ -8,18 +8,27 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.desynatdealer.R
-import com.desynatdealer.adapter.AccessModuleAdapter
+import com.desynatdealer.adapter.AddAccessModuleAdapter
+import com.desynatdealer.adapter.StaffRoleAdapter
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentAddStaffBinding
+import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
+import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
+import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
+import com.desynatdealer.ui.home.staffManagement.response.GetStaffCategoryResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
+import com.desynatdealer.utils.togglePasswordVisibility
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MultipartBody
 import java.io.File
 import kotlin.getValue
 
@@ -29,11 +38,18 @@ class AddStaffFragment : BaseFragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private var isEdit: Boolean = false
 
-    private var accessModuleAdapter: AccessModuleAdapter?=null
-    private var accessModuleList = ArrayList<String>()
+    private var accessModuleAdapter: AddAccessModuleAdapter?=null
+    private var accessModuleList = ArrayList<AddNewStaffRequest.MenuId>()
+    private var previousAccessModuleList = ArrayList<GetAllStaffResponse.Data.RoleAction>()
+
+    private var staffData: GetAllStaffResponse.Data?=null
+
+    private var staffRoleAdapter: StaffRoleAdapter?=null
+    private var staffRoleList = ArrayList<GetStaffCategoryResponse.Data>()
+    private var staffRoleId: String=""
     private var profileImage: File? = null
     private var profileImageUrl: String?=null
-
+    private var image: MultipartBody.Part?=null
     private lateinit var imagePicker: ImagePicker
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
@@ -67,13 +83,25 @@ class AddStaffFragment : BaseFragment() {
 
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
+
+        val itemJson = arguments?.getString("staffData")
+        if (!itemJson.isNullOrEmpty()) {
+            staffData = Gson().fromJson(itemJson, GetAllStaffResponse.Data::class.java)
+            setData()
+        }
         binding?.apply {
 
             CommonMethod.applyArabicOnlyFilter(etFullNameArabic)
             CommonMethod.removeSpace(etFullNameEnglish)
             CommonMethod.removeSpace(etEmailID)
 
-            if (isEdit){
+            CommonMethod.removeAllTextSpaces(etPassword)
+            CommonMethod.removeAllTextSpaces(etConfirmPassword)
+
+            etPassword.togglePasswordVisibility(ivPasswordVisible)
+            etConfirmPassword.togglePasswordVisibility(ivConfirmPasswordVisible)
+
+            if (staffData!=null){
                 toolbar.tvToolbar.text = "Edit"
                 tvAdd.text = "Save Changes"
                 ivProfileImage.isVisible = true
@@ -102,19 +130,63 @@ class AddStaffFragment : BaseFragment() {
                     else{
                         ivProfile.setImageURI(it)
                     }
-                    val image = profileImage?.toMultiPartBody("file")
-                    viewModel.upload(image)
+                    image = profileImage?.toMultiPartBody("file")
+
                 }
             }
 
-            accessModuleAdapter = AccessModuleAdapter(requireActivity(),accessModuleList,object :AccessModuleAdapter.OnClick{
+            staffRoleAdapter = StaffRoleAdapter(requireActivity(),staffRoleList,object :
+                StaffRoleAdapter.OnClick{
                 override fun ClickOnItem(position: Int, type: String) {
 
                 }
 
             })
+            rvRole.adapter = staffRoleAdapter
+
+            accessModuleAdapter = AddAccessModuleAdapter(requireActivity(),accessModuleList,object :AddAccessModuleAdapter.OnClick{
+                override fun ClickOnItem(position: Int, type: String) {
+                    val item = accessModuleList[position]
+
+                    when (type) {
+
+                        "module" -> {
+                            item.isSelected = !item.isSelected
+
+                            if (!item.isSelected) {
+                                item.canView = 0
+                                item.canAction = 0
+                            }
+                        }
+
+                        "view" -> {
+                            item.isSelected = true
+                            item.canView = if (item.canView == 1) 0 else 1
+
+                            if (item.canView == 1) {
+                                item.canAction = 0
+                            }
+                        }
+
+                        "action" -> {
+                            item.isSelected = true
+                            item.canAction = if (item.canAction == 1) 0 else 1
+
+                            if (item.canAction == 1) {
+                                item.canView = 0
+                            }
+                        }
+                    }
+
+                    accessModuleAdapter?.notifyItemChanged(position)
+                }
+
+            })
             rvAccessModule.adapter = accessModuleAdapter
         }
+
+        viewModel.getStaffRole()
+        viewModel.getSellerAllMenu()
     }
 
     override fun initControl() {
@@ -136,7 +208,15 @@ class AddStaffFragment : BaseFragment() {
             }
 
             tvAdd.setOnClickListener {
+                if (isValid()){
+                    if (profileImage!=null){
+                        viewModel.upload(image)
+                    }
+                    else{
+                        addStaff()
+                    }
 
+                }
             }
         }
     }
@@ -151,6 +231,7 @@ class AddStaffFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     profileImageUrl = result.data?.data?.url
+                    addStaff()
                     viewModel.uploadResponse.value = null
                 }
 
@@ -163,6 +244,240 @@ class AddStaffFragment : BaseFragment() {
                 else -> {}
             }
         }
+
+        viewModel.getStaffRoleResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    staffRoleList.clear()
+                    result?.data?.data?.let { staffRoleList.addAll(it) }
+                    staffRoleAdapter?.notifyDataSetChanged()
+                    for (i in 0 until staffRoleList.size){
+                        if (staffRoleList[i].id==staffRoleId){
+                            staffRoleAdapter?.setSelected(i)
+                        }
+                    }
+                    viewModel.getStaffRoleResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getStaffRoleResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+        viewModel.getSellerAllMenuResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    result?.data?.data?.let { addAccessModuleData(it) }
+                    viewModel.getSellerAllMenuResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getSellerAllMenuResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+        viewModel.addStaffResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    CommonMethod.showSuccessDialog(requireActivity(),"Staff added successfully !"){
+                        findNavController().popBackStack()
+                    }
+                    viewModel.addStaffResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.addStaffResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+        viewModel.updateStaffResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    CommonMethod.showSuccessDialog(requireActivity(),"Staff updated successfully !"){
+                        findNavController().popBackStack()
+                    }
+                    viewModel.updateStaffResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.updateStaffResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    private fun addStaff(){
+        val selectedModules = accessModuleList.filter { it.isSelected }
+
+        val request = AddNewStaffRequest(
+            countryCode = binding?.tvCountryPicker?.text.toString(),
+            email = binding?.etEmailID?.text.toString(),
+            fullName = binding?.etFullNameEnglish?.text.toString(),
+            nameAr = binding?.etFullNameArabic?.text.toString(),
+            mobile = binding?.etMobile?.text.toString(),
+            password = binding?.etPassword?.text.toString(),
+            profilePic = profileImageUrl.toString(),
+            selectCategory = staffRoleId,
+            menuId = selectedModules,
+            id = if (staffData!=null) staffData?.id.toString() else null
+        )
+        if (staffData!=null) {
+            viewModel.updateStaff(request)
+        }
+        else{
+            viewModel.addNewStaff(request)
+        }
+    }
+
+    private fun setData(){
+        binding?.apply {
+            profileImageUrl = staffData?.profilePic.toString()
+            previousAccessModuleList.clear()
+            Glide.with(requireActivity()).load(profileImageUrl).into(ivProfile)
+            Glide.with(requireActivity()).load(profileImageUrl).into(ivProfileImage)
+            staffData?.roleAction?.let { previousAccessModuleList.addAll(it) }
+            etEmailID.setText(staffData?.email)
+            etMobile.setText(staffData?.mobile)
+            etPassword.setText(staffData?.password)
+            etConfirmPassword.setText(staffData?.password)
+            etFullNameEnglish.setText(staffData?.firstName)
+          //  etFullNameEnglish.setText(staffData?.firstName+" "+staffData?.lastName)
+            etFullNameArabic.setText(staffData?.nameAr)
+            staffRoleId = staffData?.selectCategory.toString()
+        }
+    }
+
+    private fun addAccessModuleData(data: List<GetSellerAllMenuResponse.Data>) {
+        accessModuleList.clear()
+
+        for (module in data) {
+
+            val matched = previousAccessModuleList.find {
+                it.menuId == module.id
+            }
+
+            accessModuleList.add(
+                AddNewStaffRequest.MenuId(
+                    title = module.title,
+                    canView = matched?.canView ?: 0,
+                    canAction = matched?.canAction ?: 0,
+                    id = module.id,
+                    isSelected = matched != null
+                )
+            )
+        }
+
+        accessModuleAdapter?.notifyDataSetChanged()
+    }
+
+    private fun isValid(): Boolean {
+
+        binding?.apply {
+
+            if (profileImage == null&&profileImageUrl==null) {
+                showToast("Please Upload Profile Image")
+                return false
+            }
+            if (etFullNameEnglish.text.toString().trim().isEmpty()) {
+                showToast("Please Enter Full Name in English")
+                return false
+            }
+
+            if (etFullNameArabic.text.toString().trim().isEmpty()) {
+                showToast("Please Enter Full Name in Arabic")
+                return false
+            }
+
+            val email = etEmailID.text.toString().trim()
+            if (email.isEmpty()) {
+                showToast("Please Enter Email Address")
+                return false
+            }
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                showToast("Please Enter Valid Email Address")
+                return false
+            }
+            val mobile = etMobile.text.toString().trim()
+            if (mobile.isEmpty()) {
+                showToast("Please Enter Mobile Number")
+                return false
+            }
+            if (mobile.length < 7 ) {
+                showToast("Mobile Number in Between 7-15 digits ")
+                return false
+            }
+            if (staffRoleId.isEmpty()) {
+                showToast("Please Select Role")
+                return false
+            }
+            val pass = etPassword.text.toString()
+            if (pass.isEmpty()) {
+                showToast("Please Enter Password")
+                return false
+            }
+            if (pass.length<6) {
+                showToast("Password must be 6 digits long")
+                return false
+            }
+
+            val cPass = etConfirmPassword.text.toString()
+            if (cPass.isEmpty()) {
+                showToast("Please Enter Confirm Password")
+                return false
+            }
+
+            if (pass != cPass) {
+                showToast("Password does not match")
+                return false
+            }
+            val selectedModules = accessModuleList.filter { it.isSelected }
+            if (selectedModules.isEmpty()) {
+                showToast("Please select at-least one module")
+                return false
+            }
+
+        }
+
+        return true
     }
 
 }

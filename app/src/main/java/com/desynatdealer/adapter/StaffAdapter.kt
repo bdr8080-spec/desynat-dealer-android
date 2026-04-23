@@ -4,14 +4,23 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemStaffBinding
+import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
+import com.desynatdealer.utils.CommonMethod
 
-class StaffAdapter(var context:Context, var staffList: ArrayList<String>, var onClick:OnClick) : RecyclerView.Adapter<StaffAdapter.ViewHolder>() {
+class StaffAdapter(var context:Context, var staffList: ArrayList<GetAllStaffResponse.Data>, var onClick:OnClick) : RecyclerView.Adapter<StaffAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemStaffBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             var staffData = staffList[position]
-
+            Glide.with(context).load(staffData?.profilePic).placeholder(R.drawable.ic_placeholder).into(ivProfile)
+            tvName.text = staffData?.firstName
+          //  tvName.text = staffData?.firstName+" "+staffData?.lastName
+            tvMobile.text = staffData?.countryCode+""+staffData?.mobile
+            tvPost.text = staffData?.sellerCategory?.nameEn
+            tvAddOn.text = "Add on : ${CommonMethod.customizeChangeDateFormat(staffData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
 
             ivEdit.setOnClickListener {
                 onClick.ClickOnItem(position,"2")
@@ -19,6 +28,10 @@ class StaffAdapter(var context:Context, var staffList: ArrayList<String>, var on
 
             ivDelete.setOnClickListener {
                 onClick.ClickOnItem(position,"3")
+            }
+
+            tvSwitch.setOnClickListener {
+                onClick.ClickOnItem(position,"4")
             }
 
             root.setOnClickListener {
