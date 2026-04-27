@@ -58,15 +58,15 @@
         app:layout_constraintEnd_toEndOf="@id/etCommission" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:visibility="gone"
         android:id="@+id/btnSaveChanges"
         style="@style/button"
         android:layout_width="0dp"
         android:text="Save Changes"
-        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

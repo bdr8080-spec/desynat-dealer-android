@@ -353,7 +353,9 @@ class EditProfileFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     isEdit = true
-                    viewModel.getSellerInformation()
+                    val token = if (SharedPreference.get(requireActivity()).userType=="1") SharedPreference.get(requireActivity()).staffToken else SharedPreference.get(requireActivity()).accessToken
+
+                    viewModel.getSellerInformation("Bearer ${token}")
                     viewModel.updateStoreInfoResponse.value = null
                 }
 
@@ -374,7 +376,9 @@ class EditProfileFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     isBank = true
-                    viewModel.getSellerInformation()
+                    val token = if (SharedPreference.get(requireActivity()).userType=="1") SharedPreference.get(requireActivity()).staffToken else SharedPreference.get(requireActivity()).accessToken
+
+                    viewModel.getSellerInformation("Bearer ${token}")
                     viewModel.updateBankDetailResponse.value = null
                 }
 

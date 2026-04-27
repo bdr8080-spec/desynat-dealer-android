@@ -155,25 +155,25 @@ class ViewProfileFragment : BaseFragment() {
                 error(R.drawable.ic_placeholder)
             }
 
-            ownerDoc1.load(userInfo?.ownerDocument?.get(0)?.documentPath){
+            ownerDoc1.load(userInfo?.ownerDocument?.getOrNull(0)?.documentPath){
                 crossfade(false)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
             }
 
-            ownerDoc2.load(userInfo?.ownerDocument?.get(1)?.documentPath){
+            ownerDoc2.load(userInfo?.ownerDocument?.getOrNull(1)?.documentPath){
                 crossfade(false)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
             }
 
-            storeDoc1.load(userInfo?.storeDocument?.get(0)?.documentPath){
+            storeDoc1.load(userInfo?.storeDocument?.getOrNull(0)?.documentPath){
                 crossfade(false)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
             }
 
-            storeDoc2.load(userInfo?.storeDocument?.get(0)?.documentPath){
+            storeDoc2.load(userInfo?.storeDocument?.getOrNull(0)?.documentPath){
                 crossfade(false)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)

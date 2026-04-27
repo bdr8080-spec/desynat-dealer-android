@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
@@ -17,6 +18,7 @@ import com.desynatdealer.databinding.DeleteAccountDialogBinding
 import com.desynatdealer.databinding.FragmentSettingBinding
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
@@ -26,7 +28,8 @@ class SettingFragment : BaseFragment() {
     private var binding: FragmentSettingBinding? = null
     private val viewModel: HomeViewModel by viewModels()
     var isObserver = false
-
+    var canAction = true
+    var canView = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +47,12 @@ class SettingFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
+            if (SharedPreference.get(requireActivity()).userType == "1") {
+                canAction = CommonMethod.getPermission(requireActivity(),"seller.setting")?.canAction == 1
+                canView = CommonMethod.getPermission(requireActivity(),"seller.setting")?.canView == 1
+                    tvChangePassword.isVisible=canAction
+                    btnDeleteAccount.isVisible=canAction
+            }
             toolbar.tvToolbar.text = "Settings"
         }
     }
@@ -63,7 +72,7 @@ class SettingFragment : BaseFragment() {
             }
 
             tvChangePassword.setOnClickListener {
-                findNavController().navigate(R.id.action_settingFragment_to_changePasswordFragment)
+               // findNavController().navigate(R.id.action_settingFragment_to_changePasswordFragment)
             }
 
         }

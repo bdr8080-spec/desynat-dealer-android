@@ -14,11 +14,13 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentSubscriptionPlanBinding
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
+import kotlin.text.get
 
 class SubscriptionPlanFragment : BaseFragment() {
     private var binding: FragmentSubscriptionPlanBinding? = null
@@ -44,6 +46,7 @@ class SubscriptionPlanFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
+
            if (!SharedPreference.get(requireActivity()).isSubscription){
                ivBack.isVisible = false
                tvSkip.isVisible = true
@@ -164,7 +167,5 @@ class SubscriptionPlanFragment : BaseFragment() {
         map["plan_id"]=id
         viewModel.createSubscriptionPlan(map)
     }
-
-
 
 }

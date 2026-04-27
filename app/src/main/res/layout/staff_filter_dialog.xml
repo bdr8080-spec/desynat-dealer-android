@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="@dimen/_15sdp"
+    android:background="@drawable/bottomsheet_bg"
+    android:backgroundTint="@color/white">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/_15sdp"
+        android:paddingHorizontal="@dimen/_15sdp"
+        android:background="@drawable/bottomsheet_bg"
+        android:backgroundTint="#FFF7EA"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Filter"
+        android:textColor="@color/black"
+        android:drawableEnd="@drawable/close_icon"
+        android:textSize="@dimen/_13sdp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@+id/tvToolbar">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvType"
+            style="@style/edit_text_title"
+            android:layout_marginTop="16sp"
+            android:text="Type"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_staff_role"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvType"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStatus"
+            style="@style/edit_text_title"
+            android:layout_marginTop="16sp"
+            android:text="Status"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvRole" />
+
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/tvStatus">
+
+        <RadioButton
+            android:id="@+id/rbActive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Active"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:paddingVertical="@dimen/_8sdp"
+            android:button="@drawable/selector_radio_icon"
+            android:paddingStart="@dimen/_8sdp"
+            android:checked="false"
+            app:buttonTint="@null"
+            android:drawableTint="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="@dimen/_11sdp"/>
+
+        <RadioButton
+            android:id="@+id/rbInactive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Inactive"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:paddingVertical="@dimen/_8sdp"
+            android:button="@drawable/selector_radio_icon"
+            android:paddingStart="@dimen/_8sdp"
+            android:checked="false"
+            app:buttonTint="@null"
+            android:drawableTint="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="@dimen/_11sdp"/>
+
+        </RadioGroup>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChooseDate"
+            style="@style/edit_text_title"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="Choose date"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+        <TextView
+            android:id="@+id/etFrom"
+            style="@style/edit_text"
+            android:layout_width="0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:clickable="true"
+            android:drawableEnd="@drawable/calendar_ic"
+            android:drawablePadding="@dimen/_5sdp"
+            android:editable="false"
+            android:focusable="false"
+            android:hint="From   //  //"
+            android:paddingVertical="@dimen/_9sdp"
+            app:layout_constraintEnd_toStartOf="@+id/etTo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvChooseDate" />
+
+        <TextView
+            android:id="@+id/etTo"
+            style="@style/edit_text"
+            android:layout_width="0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:clickable="true"
+            android:drawableEnd="@drawable/calendar_ic"
+            android:drawablePadding="@dimen/_5sdp"
+            android:editable="false"
+            android:focusable="false"
+            android:hint="To   //  //"
+            android:paddingVertical="@dimen/_9sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/etFrom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/etFrom"
+            app:layout_constraintTop_toTopOf="@+id/etFrom" />
+
+        <TextView
+            android:id="@+id/tvClear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/brown_stroke"
+            android:text="Clear"
+            android:textColor="@color/brown"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="@dimen/_12sdp"
+            android:paddingVertical="@dimen/_8sdp"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:fontFamily="@font/poppins_medium"
+            app:layout_constraintEnd_toStartOf="@+id/tvApply"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etTo" />
+
+        <TextView
+            android:id="@+id/tvApply"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_background"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:text="Apply"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingVertical="@dimen/_8sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tvClear"
+            app:layout_constraintTop_toTopOf="@+id/tvClear" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

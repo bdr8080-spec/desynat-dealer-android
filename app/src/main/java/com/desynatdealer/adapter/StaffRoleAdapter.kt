@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemStaffRoleBinding
 import com.desynatdealer.ui.home.staffManagement.response.GetStaffCategoryResponse
+import com.desynatdealer.utils.SharedPreference
 
 class StaffRoleAdapter(var context:Context, var roleList: ArrayList<GetStaffCategoryResponse.Data>, var onClick:OnClick) : RecyclerView.Adapter<StaffRoleAdapter.ViewHolder>() {
     var selectedPosition = -1
@@ -25,14 +26,15 @@ class StaffRoleAdapter(var context:Context, var roleList: ArrayList<GetStaffCate
                 tvRole.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_radio_unselected,0,0,0)
             }
             root.setOnClickListener {
+                if (SharedPreference.get(context).userType=="0") {
+                    val previousPosition = selectedPosition
+                    selectedPosition = position
 
-                val previousPosition = selectedPosition
-                selectedPosition = position
+                    notifyItemChanged(previousPosition)
+                    notifyItemChanged(selectedPosition)
 
-                notifyItemChanged(previousPosition)
-                notifyItemChanged(selectedPosition)
-
-                onClick.ClickOnItem(position, roleList[position].nameEn ?: "")
+                    onClick.ClickOnItem(position, roleList[position].nameEn ?: "")
+                }
             }
 
         }

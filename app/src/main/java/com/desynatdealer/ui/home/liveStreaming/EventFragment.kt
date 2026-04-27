@@ -1,8 +1,6 @@
 package com.desynatdealer.ui.home.liveStreaming
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,14 +17,12 @@ import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResp
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -57,6 +53,8 @@ class EventFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
+            ivBack.isVisible = SharedPreference.get(requireActivity()).userType=="1"
+
             getLiveRoomRecords()
             eventList.clear()
             eventAdapter = EventAdapter(requireActivity(),eventList,object : EventAdapter.OnCLick{
@@ -78,6 +76,9 @@ class EventFragment : BaseFragment() {
 
     override fun initControl() {
         binding?.apply {
+            ivBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
             tvGoLive.setOnClickListener {
                 if (isLiveIndexData!=null){
                     val bundle = Bundle().apply {

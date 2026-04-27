@@ -26,6 +26,7 @@ import com.desynatdealer.databinding.OrderFilterDialogBinding
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
@@ -70,6 +71,9 @@ class OrderManagementFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
+
+            ivBack.isVisible = SharedPreference.get(requireActivity()).userType=="1"
+
             orderAdapter = OrderAdapter(requireActivity(), orderList, object :
                 OrderAdapter.OrderClick {
                 override fun onOrderClick(position: Int) {
@@ -185,6 +189,10 @@ class OrderManagementFragment : BaseFragment() {
         binding?.apply {
             ivFilter.setOnClickListener {
                 orderFilterDialog()
+            }
+
+            ivBack.setOnClickListener {
+                findNavController().popBackStack()
             }
 
             tvNormal.setOnClickListener {
@@ -444,4 +452,5 @@ class OrderManagementFragment : BaseFragment() {
 
         dialog.show()
     }
+
 }

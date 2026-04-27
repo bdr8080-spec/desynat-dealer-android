@@ -8,6 +8,7 @@ import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
+import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -73,6 +74,14 @@ class SharedPreference(context: Context) {
         get() = preference["accessToken", ""]!!
         set(value) = preference.set("accessToken", value)
 
+    var staffToken: String
+        get() = preference["staffToken", ""]!!
+        set(value) = preference.set("staffToken", value)
+
+    var userType: String
+        get() = preference["userType", "0"]!!
+        set(value) = preference.set("userType", value)
+
     var deviceToken: String
         get() = preference["deviceToken", ""]!!
         set(value) = preference.set("deviceToken", value)
@@ -105,6 +114,20 @@ class SharedPreference(context: Context) {
         val json = preference["userData", ""] ?: return null
         return try {
             Gson().fromJson(json, GetSellerInfo.Data::class.java)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+  fun saveStaff(user: GetAllStaffResponse.Data.Data) {
+        val json = Gson().toJson(user)
+        preference.set("staffData", json)
+    }
+
+    fun getStaff(): GetAllStaffResponse.Data.Data? {
+        val json = preference["staffData", ""] ?: return null
+        return try {
+            Gson().fromJson(json, GetAllStaffResponse.Data.Data::class.java)
         } catch (e: Exception) {
             null
         }

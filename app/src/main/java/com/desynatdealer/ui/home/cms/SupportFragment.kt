@@ -35,6 +35,7 @@ import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -87,6 +88,8 @@ class SupportFragment : BaseFragment() {
         }
 
     private var selectedTicketType: GetTicketTypeResponse.Data?=null
+    var canAction = true
+    var canView = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -106,7 +109,11 @@ class SupportFragment : BaseFragment() {
     override fun initView() {
         binding?.apply {
             toolbar.tvToolbar.text = "Support"
-
+            if (SharedPreference.get(requireActivity()).userType == "1") {
+                canAction = CommonMethod.getPermission(requireActivity(),"seller.ticket_management")?.canAction == 1
+                canView = CommonMethod.getPermission(requireActivity(),"seller.ticket_management")?.canView == 1
+                ivAddTicket.isVisible = canAction
+            }
             etSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 

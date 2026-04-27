@@ -17,6 +17,7 @@ import com.desynatdealer.databinding.FragmentProfileBinding
 import com.desynatdealer.ui.auth.AuthActivity
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
+import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
@@ -32,6 +33,8 @@ class ProfileFragment : BaseFragment() {
     private var userInfo : GetSellerInfo.Data?=null
 
     private var storyList = ArrayList<GetStoryResponse.Data>()
+    private var staffData: GetAllStaffResponse.Data.Data?=null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +66,10 @@ class ProfileFragment : BaseFragment() {
                 error(R.drawable.ic_user)
             }
         }
+
+        if (SharedPreference.get(requireActivity()).userType=="1"){
+            getStaffDetail()
+        }
     }
 
     override fun initControl() {
@@ -73,20 +80,36 @@ class ProfileFragment : BaseFragment() {
             }
 
             ivProfileImage.setOnClickListener {
-                if (storyList.size!=0) {
+                if (SharedPreference.get(requireActivity()).userType=="1"){
                     val bundle = Bundle().apply {
-                        putString("from", "story")
-                        putString("storyData", Gson().toJson(storyList))
+                        putString("staffId", userInfo?.id.toString())
                     }
-                    findNavController().navigate(
-                        R.id.action_profileFragment_to_viewStoryFragment,
-                        bundle
-                    )
+                    findNavController().navigate(R.id.action_profileFragment_to_staffDetailFragment,bundle)
+                }
+                else {
+                    if (storyList.size != 0) {
+                        val bundle = Bundle().apply {
+                            putString("from", "story")
+                            putString("storyData", Gson().toJson(storyList))
+                        }
+                        findNavController().navigate(
+                            R.id.action_profileFragment_to_viewStoryFragment,
+                            bundle
+                        )
+                    }
                 }
             }
 
             ivViewProfile.setOnClickListener {
-                findNavController().navigate(R.id.action_profileFragment_to_viewProfileFragment)
+                if (SharedPreference.get(requireActivity()).userType=="1"){
+                    val bundle = Bundle().apply {
+                        putString("staffId", userInfo?.id.toString())
+                    }
+                    findNavController().navigate(R.id.action_profileFragment_to_staffDetailFragment,bundle)
+                }
+                else{
+                    findNavController().navigate(R.id.action_profileFragment_to_viewProfileFragment)
+                }
             }
 
             rlInventory.setOnClickListener {
@@ -105,6 +128,22 @@ class ProfileFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_profileFragment_to_dealListedFragment)
             }
 
+            rlProduct.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_productManagementFragment)
+            }
+
+            rlOrder.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_orderManagementFragment)
+            }
+
+            rlLiveEvent.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_eventFragment)
+            }
+
+            rlPayment.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_paymentFragment)
+            }
+
             rlLiveCoverage.setOnClickListener {
                 findNavController().navigate(R.id.action_profileFragment_to_liveCoverageFragment)
             }
@@ -114,7 +153,9 @@ class ProfileFragment : BaseFragment() {
             }
 
             relLogout.setOnClickListener {
-                    viewModel.logout()
+                val token = if (SharedPreference.get(requireActivity()).userType=="1") SharedPreference.get(requireActivity()).staffToken else SharedPreference.get(requireActivity()).accessToken
+
+                viewModel.logout("Bearer ${token}")
             }
 
             rlFaq.setOnClickListener {
@@ -216,6 +257,10 @@ class ProfileFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast("Logout successfully")
                     Constants.isLogout = true
+                    SharedPreference.get(requireActivity()).isSubscription = false
+                    SharedPreference.get(requireActivity()).accessToken = ""
+                    SharedPreference.get(requireActivity()).staffToken = ""
+                    SharedPreference.get(requireActivity()).userType = ""
                     CommonMethod.clearData(requireActivity())
                     requireActivity().startActivity(
                         Intent(requireActivity(),
@@ -234,6 +279,30 @@ class ProfileFragment : BaseFragment() {
                 }
             }
         }
+
+        viewModel.getStaffDetailResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    staffData = result.data?.data
+                    staffData?.let { SharedPreference.get(requireActivity()).saveStaff(it) }
+                    showMenuOptionForStaff()
+                    viewModel.getStaffDetailResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getStaffDetailResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
     }
 
     private fun setStory() {
@@ -249,6 +318,57 @@ class ProfileFragment : BaseFragment() {
         val map = HashMap<String,Any>()
 
         viewModel.getStory(map)
+    }
+
+
+    private fun showMenuOptionForStaff() {
+        binding?.apply {
+
+            tvName.text = staffData?.firstName
+            tvEmail.text = staffData?.email
+
+            ivProfileImage.load(staffData?.profilePic) {
+                crossfade(false)
+                placeholder(R.drawable.ic_user)
+                error(R.drawable.ic_user)
+            }
+
+            rlInventory.isVisible = hasPermission("seller.Inventory_Management")
+            rlStaffManagement.isVisible = hasPermission("seller.staff-management")
+            rlAffiliate.isVisible = hasPermission("seller.update_commison")
+            rlTerms.isVisible = hasPermission("seller.termCondition")
+            relAbout.isVisible = hasPermission("seller.aboutUs")
+            rlFaq.isVisible = hasPermission("seller.faq")
+            rlReturnPolicy.isVisible = hasPermission("seller.returnPolicy")
+            rlExchange.isVisible = hasPermission("seller.exchangePolicy")
+            rlCancellationPolicy.isVisible = hasPermission("seller.cancellationPolicy")
+            rlRefund.isVisible = hasPermission("seller.refundManagement")
+            rlSetting.isVisible = hasPermission("seller.setting")
+            rlDeal.isVisible = hasPermission("seller.deal_management")
+            rlBanner.isVisible = hasPermission("seller.show_banner")
+            rlLiveCoverage.isVisible = hasPermission("seller.liveRequests")
+            rlSubscription.isVisible = hasPermission("seller.subscriptionPlan")
+            rlOrder.isVisible = hasPermission("seller.order_management")
+            rlLiveEvent.isVisible = hasPermission("sellerLiveRequest")
+            rlProduct.isVisible = hasPermission("seller.products")
+            rlPayment.isVisible = hasPermission("seller.payment")
+            rlLanguage.isVisible = hasPermission("seller.language")
+            rlSupport.isVisible = hasPermission("seller.support")
+        }
+    }
+
+    private fun hasPermission(route: String): Boolean {
+        val permission = staffData?.roleAction?.find {
+            it.sellermenu.any { menu -> menu.route == route }
+        }
+
+        return permission?.let { it.canView == 1 || it.canAction == 1 } == true
+    }
+
+    private fun getStaffDetail(){
+        val map = HashMap<String, Any>()
+        map["id"] = userInfo?.id.toString()
+        viewModel.getStaffDetail(map)
     }
 
 }

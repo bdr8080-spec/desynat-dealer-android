@@ -25,6 +25,7 @@ import com.desynatdealer.databinding.FragmentBannerManagementBinding
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
@@ -52,6 +53,8 @@ class BannerManagementFragment : BaseFragment() {
     private var fromDateText: String? = null
     private var toDateText: String? = null
     private var isFromSwipe = false
+    var canAction = true
+    var canView = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +76,11 @@ class BannerManagementFragment : BaseFragment() {
         binding?.apply {
             toolbar.tvToolbar.text = "Banner Management"
 
+            if (SharedPreference.get(requireActivity()).userType == "1") {
+                canAction = CommonMethod.getPermission(requireActivity(),"seller.show_banner")?.canAction == 1
+                canView = CommonMethod.getPermission(requireActivity(),"seller.show_banner")?.canView == 1
+                ivAdd.isVisible = canAction
+            }
             etSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,

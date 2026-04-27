@@ -174,7 +174,15 @@ class LoginFragment : BaseFragment() {
                         showToast("Your profile is under review")
                     }
                     else if (result.data?.data?.adminVerify=="2"){
-                        SharedPreference.get(requireActivity()).accessToken = result.data.data.accessToken
+                        SharedPreference.get(requireActivity()).userType = result.data.data.type
+                        if (result.data?.data?.type=="1"){
+                            SharedPreference.get(requireActivity()).staffToken = result.data.data.staffaccessToken
+                            SharedPreference.get(requireActivity()).accessToken = result.data.data.accessToken
+                        }
+                        else{
+                            SharedPreference.get(requireActivity()).accessToken = result.data.data.accessToken
+                            SharedPreference.get(requireActivity()).staffToken = ""
+                        }
                         requireActivity().startActivity(
                             Intent(
                                 requireActivity(),

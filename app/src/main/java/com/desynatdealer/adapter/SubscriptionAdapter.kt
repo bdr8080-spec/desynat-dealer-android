@@ -11,18 +11,31 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemPlanBinding
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.SharedPreference
 
 class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<GetAllPlanResponse.Data>, var subscriptionClick:SubscriptionClick) : RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemPlanBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             var subscriptionData = subscriptionList[position]
+            var canAction = true
+            var canView = true
+            if (SharedPreference.get(context).userType == "1") {
+                canAction = CommonMethod.getPermission(context,"seller.subscriptionPlan")?.canAction == 1
+                canView = CommonMethod.getPermission(context,"seller.subscriptionPlan")?.canView == 1
+            }
 
             if (subscriptionData.isPurchased){
                 btnContinue.isInvisible = true
             }
             else{
-                btnContinue.isVisible = true
+                if (canAction){
+                    btnContinue.isVisible = true
+                }
+                else{
+                    btnContinue.isInvisible = true
+                }
+
             }
                 when(position){
                     0->tvPackage.setBackgroundResource(R.drawable.pro)

@@ -183,7 +183,8 @@ class MySubscriptionPlanListFragment : BaseFragment() {
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
+               //     showToast(result.message ?: getString(R.string.generic_error))
+                    checkData()
                     viewModel.subscriptionPlanResponse.value = null
                 }
 
@@ -219,7 +220,8 @@ class MySubscriptionPlanListFragment : BaseFragment() {
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
+                  //  showToast(result.message ?: getString(R.string.generic_error))
+                    checkData()
                     viewModel.getMyPlanResponse.value = null
                 }
 

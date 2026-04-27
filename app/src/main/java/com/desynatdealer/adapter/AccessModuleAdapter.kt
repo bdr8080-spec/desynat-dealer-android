@@ -10,7 +10,7 @@ import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
 import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
 
-class AccessModuleAdapter(var context:Context, var moduleList: ArrayList<GetAllStaffResponse.Data.RoleAction>, var onClick:OnClick) : RecyclerView.Adapter<AccessModuleAdapter.ViewHolder>() {
+class AccessModuleAdapter(var context:Context, var moduleList: ArrayList<GetAllStaffResponse.Data.Data.RoleAction>, var onClick:OnClick) : RecyclerView.Adapter<AccessModuleAdapter.ViewHolder>() {
 
     interface OnClick{
         fun ClickOnItem(position: Int,type: String)

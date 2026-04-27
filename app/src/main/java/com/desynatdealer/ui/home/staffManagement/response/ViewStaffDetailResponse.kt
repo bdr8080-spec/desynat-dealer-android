@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ViewStaffDetailResponse(
     @SerializedName("data")
-    val `data`: List<Data>,
+    val `data`: GetAllStaffResponse.Data.Data,
     @SerializedName("message")
     val message: String,
     @SerializedName("status")
@@ -39,7 +39,7 @@ data class ViewStaffDetailResponse(
         @SerializedName("id")
         val id: Int,
         @SerializedName("is_block")
-        val isBlock: Int,
+        var isBlock: Int,
         @SerializedName("lang")
         val lang: Any,
         @SerializedName("last_name")

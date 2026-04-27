@@ -42,12 +42,33 @@ object AppModule {
             .writeTimeout(2, TimeUnit.MINUTES)
             .addInterceptor(ConditionalLoggingInterceptor())
           //  .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .addInterceptor { chain ->
+           /* .addInterceptor { chain ->
                 val requestBuilder = chain.request().newBuilder()
+
+            //    val token = SharedPreference.get(context).accessToken
+                val token = if (SharedPreference.get(context).userType=="1") SharedPreference.get(context).staffToken else SharedPreference.get(context).accessToken
+
+                if (token.isNotEmpty()) {
+                    requestBuilder.addHeader("Authorization", "Bearer $token")
+                }
+
+                chain.proceed(requestBuilder.build())
+            }*/
+            .addInterceptor { chain ->
+
+                val originalRequest = chain.request()
+
+                val existingAuth = originalRequest.header("Authorization")
+
+                if (!existingAuth.isNullOrEmpty()) {
+                    return@addInterceptor chain.proceed(originalRequest)
+                }
+
+                val requestBuilder = originalRequest.newBuilder()
 
                 val token = SharedPreference.get(context).accessToken
 
-                if (token.isNotEmpty()) {
+                if (!token.isNullOrEmpty()) {
                     requestBuilder.addHeader("Authorization", "Bearer $token")
                 }
 

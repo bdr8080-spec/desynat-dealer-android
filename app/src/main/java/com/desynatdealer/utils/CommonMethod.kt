@@ -51,6 +51,7 @@ import com.desynatdealer.databinding.DeleteDialogLayoutBinding
 import com.desynatdealer.databinding.ImagePreviewDialogBinding
 import com.desynatdealer.databinding.SuccessDialogLayoutBinding
 import com.desynatdealer.model.country.GetCountryResponse
+import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.google.android.material.tabs.TabLayoutMediator
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -408,6 +409,29 @@ object CommonMethod {
         } catch (e: ParseException) {
             e.printStackTrace()
             return ""
+        }
+    }
+
+    fun customizeChangeDateFormatKuwaitFromUtc(
+        inputDate: String,
+        inputFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'",
+        outputFormat: String = "dd MMM, yyyy hh:mm a"
+    ): String {
+
+        val originalFormat = SimpleDateFormat(inputFormat, Locale.getDefault()).apply {
+            timeZone = TimeZone.getTimeZone("UTC") // ✅ FIX
+        }
+
+        val targetFormat = SimpleDateFormat(outputFormat, Locale.getDefault()).apply {
+            timeZone = TimeZone.getTimeZone("Asia/Kuwait") // ✅ Convert here
+        }
+
+        return try {
+            val date = originalFormat.parse(inputDate)
+            targetFormat.format(date!!)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
         }
     }
 
@@ -920,6 +944,16 @@ object CommonMethod {
             Html.fromHtml(cleanHtml, Html.FROM_HTML_MODE_COMPACT)
         } else {
             Html.fromHtml(cleanHtml)
+        }
+    }
+
+    fun getPermission(context: Context, route: String): GetAllStaffResponse.Data.Data.RoleAction? {
+        val staff = SharedPreference.get(context).getStaff()
+
+        return staff?.roleAction?.firstOrNull { role ->
+            role.sellermenu.any { menu ->
+                menu.route.equals(route, true)
+            }
         }
     }
 

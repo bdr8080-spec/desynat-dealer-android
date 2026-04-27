@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
@@ -27,6 +28,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
@@ -49,7 +51,8 @@ class InventoryProductDetailFragment : BaseFragment() {
     private var selectedColorPos = 0
     private var selectedSizePos = 0
     var productInfo = ArrayList<AddProductRequest.Product>()
-
+    var canAction = true
+    var canView = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,6 +73,11 @@ class InventoryProductDetailFragment : BaseFragment() {
         ProgressDialogUtils.getInstance().hideProgress()
 
         binding?.apply {
+            if (SharedPreference.get(requireActivity()).userType == "1") {
+                canAction = CommonMethod.getPermission(requireActivity(),"seller.Inventory_Management")?.canAction == 1
+                canView = CommonMethod.getPermission(requireActivity(),"seller.Inventory_Management")?.canView == 1
+                btnEdit.isVisible=canAction
+            }
 
             colorList = viewModel.colorList.value as ArrayList<GetColorResponse.Data>
             sizeList = viewModel.sizeList.value as ArrayList<GetSizeResponse.Data>
@@ -202,7 +210,9 @@ class InventoryProductDetailFragment : BaseFragment() {
             }
 
             tvSwitch.setOnClickListener {
-                updateInventoryProductStatus()
+                if (canAction) {
+                    updateInventoryProductStatus()
+                }
             }
 
         }

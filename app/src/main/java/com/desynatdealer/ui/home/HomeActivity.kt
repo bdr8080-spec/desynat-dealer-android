@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.adapter.BottomNavAdapter
 import com.desynatdealer.base.BaseActivity
@@ -18,14 +17,11 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.ActivityHomeBinding
 import com.desynatdealer.utils.CommonMethod
-import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.myfatoorah.sdk.views.MFSDK
 import dagger.hilt.android.AndroidEntryPoint
-import me.leolin.shortcutbadger.ShortcutBadger
-import kotlin.collections.get
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity() {
@@ -49,11 +45,18 @@ class HomeActivity : BaseActivity() {
         initView()
         initControl()
         observer()
-        getSubscription()
+        if (SharedPreference.get(this).userType=="1"){
+            SharedPreference.get(this).isSubscription = true
+            getProfile()
+        }
+        else{
+            getSubscription()
+        }
 
     }
 
     override fun initView() {
+
         CommonMethod.detectGestureMode(binding?.root!!,binding?.viewBottom!!)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
@@ -89,7 +92,7 @@ class HomeActivity : BaseActivity() {
 
         controller.addOnDestinationChangedListener { _, destination, _ ->
 
-            if (destination.id in bottomNavDestinations) {
+            if (destination.id in bottomNavDestinations && SharedPreference.get(this).userType=="0") {
                 binding?.rvBottomNav?.isVisible = true
                 binding?.viewBackground?.isVisible = true
             } else {
@@ -118,7 +121,8 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun getProfile() {
-        viewModel.getSellerInfo()
+         val token = if (SharedPreference.get(this).userType=="1") SharedPreference.get(this).staffToken else SharedPreference.get(this).accessToken
+        viewModel.getSellerInfo("Bearer ${token}")
     }
 
     private fun getSubscription() {

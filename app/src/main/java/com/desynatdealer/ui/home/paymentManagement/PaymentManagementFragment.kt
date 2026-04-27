@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.adapter.PayoutAdapter
 import com.desynatdealer.adapter.TransactionAdapter
@@ -25,6 +26,7 @@ import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentPaymentManagementBinding
 import com.desynatdealer.databinding.PaymentFilterDialogBinding
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,7 +74,7 @@ class PaymentManagementFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
-
+            ivBack.isVisible = SharedPreference.get(requireActivity()).userType=="1"
             animator = ObjectAnimator.ofFloat(ivRefresh, View.ROTATION, 0f, 360f)
             animator?.duration = 800
             animator?.repeatCount = ValueAnimator.INFINITE
@@ -136,7 +138,9 @@ class PaymentManagementFragment : BaseFragment() {
 
     override fun initControl() {
         binding?.apply {
-
+            ivBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
             tvTransactions.setOnClickListener {
                 allTransaction()
             }

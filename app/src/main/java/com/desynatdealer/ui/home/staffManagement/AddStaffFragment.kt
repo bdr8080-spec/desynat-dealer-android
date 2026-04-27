@@ -24,6 +24,7 @@ import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.utils.togglePasswordVisibility
 import com.google.gson.Gson
@@ -40,9 +41,9 @@ class AddStaffFragment : BaseFragment() {
 
     private var accessModuleAdapter: AddAccessModuleAdapter?=null
     private var accessModuleList = ArrayList<AddNewStaffRequest.MenuId>()
-    private var previousAccessModuleList = ArrayList<GetAllStaffResponse.Data.RoleAction>()
+    private var previousAccessModuleList = ArrayList<GetAllStaffResponse.Data.Data.RoleAction>()
 
-    private var staffData: GetAllStaffResponse.Data?=null
+    private var staffData: GetAllStaffResponse.Data.Data?=null
 
     private var staffRoleAdapter: StaffRoleAdapter?=null
     private var staffRoleList = ArrayList<GetStaffCategoryResponse.Data>()
@@ -86,7 +87,7 @@ class AddStaffFragment : BaseFragment() {
 
         val itemJson = arguments?.getString("staffData")
         if (!itemJson.isNullOrEmpty()) {
-            staffData = Gson().fromJson(itemJson, GetAllStaffResponse.Data::class.java)
+            staffData = Gson().fromJson(itemJson, GetAllStaffResponse.Data.Data::class.java)
             setData()
         }
         binding?.apply {
@@ -100,6 +101,12 @@ class AddStaffFragment : BaseFragment() {
 
             etPassword.togglePasswordVisibility(ivPasswordVisible)
             etConfirmPassword.togglePasswordVisibility(ivConfirmPasswordVisible)
+            if (SharedPreference.get(requireActivity()).userType=="1"&&SharedPreference.get(requireActivity()).getStaff()?.id.toString()==staffData?.id.toString()) {
+                tvPassword.isVisible = false
+                tvConfirmPassword.isVisible = false
+                relPassword.isVisible = false
+                relConfirmPassword.isVisible = false
+            }
 
             if (staffData!=null){
                 toolbar.tvToolbar.text = "Edit"
@@ -138,7 +145,7 @@ class AddStaffFragment : BaseFragment() {
             staffRoleAdapter = StaffRoleAdapter(requireActivity(),staffRoleList,object :
                 StaffRoleAdapter.OnClick{
                 override fun ClickOnItem(position: Int, type: String) {
-
+                    staffRoleId = staffRoleList[position].id
                 }
 
             })
@@ -328,9 +335,18 @@ class AddStaffFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Staff updated successfully !"){
-                        findNavController().popBackStack()
+                    if (SharedPreference.get(requireActivity()).userType=="1"&&SharedPreference.get(requireActivity()).getStaff()?.id.toString()==staffData?.id.toString()) {
+                        CommonMethod.showSuccessDialog(requireActivity(),"Profile updated successfully !"){
+                            findNavController().popBackStack()
+                        }
                     }
+
+                    else{
+                        CommonMethod.showSuccessDialog(requireActivity(),"Staff updated successfully !"){
+                            findNavController().popBackStack()
+                        }
+                    }
+
                     viewModel.updateStaffResponse.value = null
                 }
 
@@ -377,8 +393,8 @@ class AddStaffFragment : BaseFragment() {
             staffData?.roleAction?.let { previousAccessModuleList.addAll(it) }
             etEmailID.setText(staffData?.email)
             etMobile.setText(staffData?.mobile)
-            etPassword.setText(staffData?.password)
-            etConfirmPassword.setText(staffData?.password)
+            etPassword.setText(staffData?.savePassword)
+            etConfirmPassword.setText(staffData?.savePassword)
             etFullNameEnglish.setText(staffData?.firstName)
           //  etFullNameEnglish.setText(staffData?.firstName+" "+staffData?.lastName)
             etFullNameArabic.setText(staffData?.nameAr)
@@ -391,19 +407,34 @@ class AddStaffFragment : BaseFragment() {
 
         for (module in data) {
 
-            val matched = previousAccessModuleList.find {
-                it.menuId == module.id
-            }
+                val matched = previousAccessModuleList.firstOrNull {
+                    it.menuId == module.id
+                }
 
-            accessModuleList.add(
-                AddNewStaffRequest.MenuId(
-                    title = module.title,
-                    canView = matched?.canView ?: 0,
-                    canAction = matched?.canAction ?: 0,
-                    id = module.id,
-                    isSelected = matched != null
+            if (SharedPreference.get(requireActivity()).userType=="1") {
+                if (matched != null) {
+                    accessModuleList.add(
+                        AddNewStaffRequest.MenuId(
+                            title = module.title,
+                            canView = matched.canView,
+                            canAction = matched.canAction,
+                            id = module.id,
+                            isSelected = true
+                        )
+                    )
+                }
+            }
+            else{
+                accessModuleList.add(
+                    AddNewStaffRequest.MenuId(
+                        title = module.title,
+                        canView = matched?.canView ?: 0,
+                        canAction = matched?.canAction ?: 0,
+                        id = module.id,
+                        isSelected = matched != null
+                    )
                 )
-            )
+            }
         }
 
         accessModuleAdapter?.notifyDataSetChanged()

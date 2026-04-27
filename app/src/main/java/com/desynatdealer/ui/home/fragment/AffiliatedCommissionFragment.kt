@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
@@ -32,6 +33,8 @@ class AffiliatedCommissionFragment : BaseFragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private var userInfo : GetSellerInfo.Data?=null
     var affiliateCommission= ""
+    var canAction = true
+    var canView = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,6 +54,12 @@ class AffiliatedCommissionFragment : BaseFragment() {
         userInfo = SharedPreference.get(requireActivity()).getUser()
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
+            if (SharedPreference.get(requireActivity()).userType == "1") {
+                canAction = CommonMethod.getPermission(requireActivity(),"seller.update_commison")?.canAction == 1
+                canView = CommonMethod.getPermission(requireActivity(),"seller.update_commison")?.canView == 1
+                btnSaveChanges.isVisible=canAction
+                ivEdit.isVisible=canAction
+            }
             toolbar.tvToolbar.text = "Affiliated Commission"
             setCommissionData()
 

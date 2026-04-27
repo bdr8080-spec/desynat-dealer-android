@@ -13,6 +13,7 @@ import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.databinding.FragmentResetPasswordBinding
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.utils.togglePasswordVisibility
 
@@ -55,6 +56,8 @@ class ResetPasswordFragment : BaseFragment() {
             }
 
             btnDone.setOnClickListener {
+                val token = if (SharedPreference.get(requireActivity()).userType=="1") SharedPreference.get(requireActivity()).staffToken else SharedPreference.get(requireActivity()).accessToken
+
                 if (validation()) {
                     val map = HashMap<String, String>()
                     map["password"] = binding?.etPassword?.text.toString().trim()

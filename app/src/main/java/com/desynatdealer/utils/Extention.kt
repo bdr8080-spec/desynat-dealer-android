@@ -289,6 +289,8 @@ fun EditText.togglePasswordVisibility(passwordToggle: ImageView) {
 fun TextView.togglePasswordVisibility(passwordToggle: ImageView) {
     var passwordVisible = false
 
+    this.transformationMethod = PasswordTransformationMethod.getInstance()
+
     passwordToggle.setOnClickListener {
         val newVisibility = !passwordVisible
 

@@ -32,6 +32,8 @@ import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.adapter.FilterBrandAdapter
 import com.desynatdealer.adapter.FilterCategoryAdapter
+import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.SharedPreference
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -62,7 +64,8 @@ class ProductManagementFragment : BaseFragment() {
     private var selectedBrandList = ArrayList<GetSellerBrandResponse.Data>()
     private var selectedCategory: GetCategoryResponse.Data?=null
     private var isFromSwipe = false
-
+    var canAction = true
+    var canView = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,6 +84,12 @@ class ProductManagementFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
+            if (SharedPreference.get(requireActivity()).userType == "1") {
+                canAction = CommonMethod.getPermission(requireActivity(),"seller.products")?.canAction == 1
+                canView = CommonMethod.getPermission(requireActivity(),"seller.products")?.canView == 1
+                ivAdd.isVisible = canAction
+            }
+            ivBack.isVisible = SharedPreference.get(requireActivity()).userType=="1"
 
             productAdapter = ProductAdapter(requireActivity(),productList,colorList,object:ProductAdapter.ProductClick{
                 override fun onProductClick(position: Int, type: Int) {
@@ -147,6 +156,10 @@ class ProductManagementFragment : BaseFragment() {
 
             ivFilter.setOnClickListener {
                 productFilterDialog()
+            }
+
+            ivBack.setOnClickListener {
+                findNavController().popBackStack()
             }
 
             tvAll.setOnClickListener {

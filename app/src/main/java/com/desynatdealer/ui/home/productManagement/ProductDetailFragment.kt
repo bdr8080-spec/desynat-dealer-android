@@ -56,7 +56,8 @@ class ProductDetailFragment : BaseFragment() {
     private var selectedColorPos = 0
     private var selectedSizePos = 0
     var productInfo = ArrayList<AddProductRequest.Product>()
-
+    var canAction = true
+    var canView = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -76,7 +77,6 @@ class ProductDetailFragment : BaseFragment() {
         ProgressDialogUtils.getInstance().hideProgress()
         colorList = viewModel.colorList.value as ArrayList<GetColorResponse.Data>
         sizeList = viewModel.sizeList.value as ArrayList<GetSizeResponse.Data>
-
         val itemJson = arguments?.getString("productData")
         if (!itemJson.isNullOrEmpty()) {
             productData = Gson().fromJson(itemJson, GetAllProductResponse.Data.AllProductData::class.java)
@@ -134,6 +134,14 @@ class ProductDetailFragment : BaseFragment() {
 
         reviewAdapter = ReviewAdapter(requireActivity(), arrayListOf("",""))
         binding?.rvRating?.adapter = reviewAdapter
+        binding?.apply {
+            if (SharedPreference.get(requireActivity()).userType == "1") {
+                canAction = CommonMethod.getPermission(requireActivity(),"seller.products")?.canAction == 1
+                canView = CommonMethod.getPermission(requireActivity(),"seller.products")?.canView == 1
+                    btnEdit.isVisible = canAction
+                    btnDelete.isVisible = canAction
+            }
+        }
     }
 
     private fun setData() {

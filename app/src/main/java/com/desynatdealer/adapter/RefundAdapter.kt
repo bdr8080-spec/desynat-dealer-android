@@ -9,13 +9,13 @@ import com.desynatdealer.databinding.ItemRefundBinding
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.utils.CommonMethod
 
-class RefundAdapter(var context:Context, var refundList: ArrayList<GetRefundOrderResponse.Data.Data>, var onClick:OnClick) : RecyclerView.Adapter<RefundAdapter.ViewHolder>() {
+class RefundAdapter(var context:Context, var refundList: ArrayList<GetRefundOrderResponse.Data.Orders.Data>, var onClick:OnClick) : RecyclerView.Adapter<RefundAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemRefundBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             var refundData = refundList[position]
-            tvOrderDateTime.text = CommonMethod.customizeChangeDateFormat(refundData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
-            tvRequestedOn.text = CommonMethod.customizeChangeDateFormat(refundData?.updatedAt.toString(), outputFormat = "dd/MM/yyyy")
+            tvOrderDateTime.text = CommonMethod.customizeChangeDateFormatKuwaitFromUtc(refundData?.order?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+            tvRequestedOn.text = CommonMethod.customizeChangeDateFormatKuwaitFromUtc(refundData?.updatedAt.toString(), outputFormat = "dd/MM/yyyy")
             tvCustomerName.text = refundData?.order?.deliveryDetails?.name
             tvRefundId.text = "#${refundData?.order?.transactionId}"
             tvTotalAmount.text = "${CommonMethod.formatPrice(refundData?.order?.totalAmount?.toDoubleOrNull()?:0.0)} KD"
@@ -52,8 +52,8 @@ class RefundAdapter(var context:Context, var refundList: ArrayList<GetRefundOrde
 
             tvStatus.text = when(refundData?.status){
                 "2"-> "Completed"
-                "1"-> "Initiated"
-                else -> "Initiated"
+                "1"-> "Pending"
+                else -> "Pending"
             }
         }
         }

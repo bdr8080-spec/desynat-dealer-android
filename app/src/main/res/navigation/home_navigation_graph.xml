@@ -145,6 +145,10 @@
             app:destination="@id/viewProfile" />
 
         <action
+            android:id="@+id/action_profileFragment_to_staffDetailFragment"
+            app:destination="@id/staffDetail" />
+
+        <action
             android:id="@+id/action_profileFragment_to_bannerManagementFragment"
             app:destination="@id/bannerManagement" />
 
@@ -188,6 +192,21 @@
             android:id="@+id/action_profileFragment_to_cmsContentFragment"
             app:destination="@id/cmsContent" />
 
+        <action
+            android:id="@+id/action_profileFragment_to_productManagementFragment"
+            app:destination="@id/productManagement" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_orderManagementFragment"
+            app:destination="@id/orderManagement" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_eventFragment"
+            app:destination="@id/event" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_paymentFragment"
+            app:destination="@id/payment" />
     </fragment>
 
     <fragment

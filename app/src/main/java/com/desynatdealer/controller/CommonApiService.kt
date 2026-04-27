@@ -53,6 +53,7 @@ import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetStaffCategoryResponse
+import com.desynatdealer.ui.home.staffManagement.response.UpdateStaffStatusResponse
 import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
 import com.desynatdriver.ui.home.cms.response.GetCmsResponse
 import com.desynatdriver.ui.home.cms.response.GetFaqResponse
@@ -126,13 +127,14 @@ interface CommonApiService {
     suspend fun getCountry(): Response<GetCountryResponse>
 
     @GET(Constants.LOGOUT)
-    suspend fun logout(): Response<CommonResponse>
+    suspend fun logout(@Header("Authorization") auth: String): Response<CommonResponse>
 
     @GET(Constants.GET_SUBSCRIPTION_PLAN)
     suspend fun getSubscriptionPlan(): Response<GetAllPlanResponse>
 
     @POST(Constants.GET_PROFILE)
-    suspend fun getSellerInfo(): Response<GetSellerInfo>
+    suspend fun getSellerInfo(@Header("Authorization") auth: String
+    ): Response<GetSellerInfo>
 
     @POST(Constants.CREATE_SUBSCRIPTION_PLAN)
     suspend fun createSubscriptionPlan(
@@ -426,7 +428,7 @@ interface CommonApiService {
     suspend fun updateStaff(@Body request: AddNewStaffRequest): Response<CommonResponse>
 
     @POST(Constants.UPDATE_STAFF_STATUS)
-    suspend fun updateStaffStatus(@Body map: HashMap<String, Any>): Response<GetAllStaffResponse>
+    suspend fun updateStaffStatus(@Body map: HashMap<String, Any>): Response<UpdateStaffStatusResponse>
 
     @POST(Constants.DELETE_STAFF)
     suspend fun deleteStaff(@Body map: HashMap<String, Any>): Response<CommonResponse>
@@ -436,6 +438,9 @@ interface CommonApiService {
 
     @GET(Constants.GET_REFUND_ORDER)
     suspend fun getRefundOrder(@QueryMap map: HashMap<String, Any>): Response<GetRefundOrderResponse>
+
+    @POST(Constants.CHANGE_PASSWORD)
+    suspend fun updatePassword(@Body map: HashMap<String, String>): Response<Unit>
 
 
 }

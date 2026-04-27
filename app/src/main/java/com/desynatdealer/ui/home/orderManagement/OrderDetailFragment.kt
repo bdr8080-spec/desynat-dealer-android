@@ -25,6 +25,7 @@ import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.setImage
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
@@ -40,6 +41,9 @@ class OrderDetailFragment : BaseFragment() {
     private var orderDetailData :GetSingleOrderResponse.Data?=null
     private var orderStatus :String = "1" //1 all 2 ongoing 2.1 shipped 2.2 on the way 3 delivered 4 cancelled 5 return 6 confirmed 7-picked 8-not delivered
     var selectedStatus = ""
+
+    var canAction = true
+    var canView = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +63,12 @@ class OrderDetailFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
+
+            if (SharedPreference.get(requireActivity()).userType == "1") {
+                canAction = CommonMethod.getPermission(requireActivity(),"seller.order_management")?.canAction == 1
+                canView = CommonMethod.getPermission(requireActivity(),"seller.order_management")?.canView == 1
+            }
+
             productOrderAdapter = ProductOrderAdapter(requireActivity(), productOrderList)
             rvProduct.adapter = productOrderAdapter
         }
@@ -296,9 +306,9 @@ class OrderDetailFragment : BaseFragment() {
                         else{
                             tvStatus.text = "Confirmed"
                             tvStatus.setTextColor(Color.parseColor("#16B364"))
-                            etStatus.isVisible = true
+                            etStatus.isVisible = canAction
                             etStatus.setText("")
-                            btnUpdateStatus.isVisible = true
+                            btnUpdateStatus.isVisible = canAction
                             llComplete.isVisible = false
                         }
 
@@ -308,8 +318,8 @@ class OrderDetailFragment : BaseFragment() {
                         tvStatus.text = "Confirmed"
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
                         etStatus.setText("")
-                        etStatus.isVisible = true
-                        btnUpdateStatus.isVisible = true
+                        etStatus.isVisible = canAction
+                        btnUpdateStatus.isVisible = canAction
                         llComplete.isVisible = false
                     }
                     "2.1" -> {

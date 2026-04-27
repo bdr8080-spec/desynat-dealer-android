@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -18,6 +19,7 @@ import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.utils.togglePasswordVisibility
 import com.google.gson.Gson
@@ -31,12 +33,12 @@ class StaffDetailFragment : BaseFragment() {
 
     private var staffId = ""
 
-    private var staffDetailData: ViewStaffDetailResponse.Data?=null
-    private var staffData: GetAllStaffResponse.Data?=null
+    private var staffData: GetAllStaffResponse.Data.Data?=null
 
     private var accessModuleAdapter: AccessModuleAdapter?=null
-    private var accessModuleList = ArrayList<GetAllStaffResponse.Data.RoleAction>()
-
+    private var accessModuleList = ArrayList<GetAllStaffResponse.Data.Data.RoleAction>()
+    var canAction = true
+    var canView = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,10 +59,30 @@ class StaffDetailFragment : BaseFragment() {
         staffId = arguments?.getString("staffId").toString()
         val itemJson = arguments?.getString("staffData")
         if (!itemJson.isNullOrEmpty()) {
-            staffData = Gson().fromJson(itemJson, GetAllStaffResponse.Data::class.java)
+            staffData = Gson().fromJson(itemJson, GetAllStaffResponse.Data.Data::class.java)
             setData()
         }
+        else{
+            getStaffDetail()
+        }
+
         binding?.apply {
+            if (SharedPreference.get(requireActivity()).userType == "1") {
+                canAction = CommonMethod.getPermission(requireActivity(),"seller.staff-management")?.canAction == 1
+                canView = CommonMethod.getPermission(requireActivity(),"seller.staff-management")?.canView == 1
+                if (SharedPreference.get(requireActivity()).getStaff()?.id.toString()!=staffId){
+                    ivEdit.isVisible=canAction
+                    ivDelete.isVisible=canAction
+                }
+            }
+            if (SharedPreference.get(requireActivity()).userType=="1"&&SharedPreference.get(requireActivity()).getStaff()?.id.toString()==staffId) {
+                tvTitle.text = "Profile"
+                ivDelete.isVisible = false
+            }
+            else{
+                tvTitle.text = "Details"
+                ivDelete.isVisible = true
+            }
 
             tvPasswordValue.togglePasswordVisibility(ivPasswordVisible)
 
@@ -122,7 +144,7 @@ class StaffDetailFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    staffDetailData = result.data?.data?.get(0)
+                    staffData = result.data?.data
                     setData()
                     viewModel.getStaffDetailResponse.value = null
                 }
@@ -146,7 +168,7 @@ class StaffDetailFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     CommonMethod.showSuccessDialog(requireActivity(),result?.data?.message.toString())
-                   // staffDetailData = result.data?.data?.get(0)
+                    staffData?.isBlock = result.data?.data?.isBlock?:0
                     updateStatus()
                     viewModel.updateStaffStatusResponse.value = null
                 }
@@ -211,7 +233,7 @@ class StaffDetailFragment : BaseFragment() {
             tvEmail.text = staffData?.email
             tvMobile.text = staffData?.countryCode+""+staffData?.mobile
             tvRole.text = staffData?.sellerCategory?.nameEn
-            tvPasswordValue.text = staffData?.password
+            tvPasswordValue.text = staffData?.savePassword
             Glide.with(requireActivity()).load(staffData?.profilePic).placeholder(R.drawable.ic_user).into(ivProfile)
 
             accessModuleList.clear()
@@ -224,16 +246,18 @@ class StaffDetailFragment : BaseFragment() {
 
     private fun updateStatus(){
         binding?.apply {
-          /*  if(staffData.status==1){
+            if(staffData?.isBlock==1){
+                tvSwitch.text = "Inactive"
+                //     tvSwitch.setTextColor(Color.parseColor("#875C3A"))
+                tvSwitch.setTextColor(Color.parseColor("#FF3131"))
+                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
+            }
+            else{
                 tvSwitch.text = "Active"
                 tvSwitch.setTextColor(Color.parseColor("#1A900D"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
+
             }
-            else{
-                tvSwitch.text = "Inactive"
-                tvSwitch.setTextColor(Color.parseColor("#875C3A"))
-                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
-            }*/
         }
     }
 

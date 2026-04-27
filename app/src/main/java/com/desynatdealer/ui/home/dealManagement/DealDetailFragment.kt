@@ -22,6 +22,7 @@ import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +46,9 @@ class DealDetailFragment : BaseFragment() {
     private var selectedProduct = ArrayList<String>()
     private var search: Job? = null
     private var lastQuery: String? = null
+
+    var canAction = true
+    var canView = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,6 +72,10 @@ class DealDetailFragment : BaseFragment() {
             if (!itemJson.isNullOrEmpty()) {
                 dealData = Gson().fromJson(itemJson, GetAllDealResponse.Data.ListedDeal::class.java)
                 getDealDetail()
+            }
+            if (SharedPreference.get(requireActivity()).userType == "1") {
+                canAction = CommonMethod.getPermission(requireActivity(),"seller.deal_management")?.canAction == 1
+                canView = CommonMethod.getPermission(requireActivity(),"seller.deal_management")?.canView == 1
             }
 
             etSearch.addTextChangedListener(object : TextWatcher {
@@ -173,7 +181,7 @@ class DealDetailFragment : BaseFragment() {
                          dealProductAdapter?.notifyDataSetChanged()
                          btnAdd.alpha = 0.5f
                          btnAdd.isClickable = false
-                         btnAdd.isVisible = true
+                         btnAdd.isVisible = canAction
                         btnAddMore.isVisible = false
                     }
 
@@ -188,7 +196,7 @@ class DealDetailFragment : BaseFragment() {
 
                          btnAdd.isVisible = false
                         if (remainingProductList.isNotEmpty()){
-                            btnAddMore.isVisible = true
+                            btnAddMore.isVisible = canAction
                         }
                         else{
                             btnAddMore.isVisible = false
@@ -215,14 +223,14 @@ class DealDetailFragment : BaseFragment() {
                     if (addedProductList.isNotEmpty()) {
                         dealProductAdapter?.setDealType("2")
                         btnAdd.isVisible = false
-                        btnAddMore.isVisible = remainingProductList.isNotEmpty()
+                        btnAddMore.isVisible = remainingProductList.isNotEmpty()&&canAction
                     }
                     else if (remainingProductList.isNotEmpty()) {
                         productList.addAll(remainingProductList)
                         dealProductAdapter?.setDealType("1")
                         btnAdd.alpha = 0.5f
                         btnAdd.isClickable = false
-                        btnAdd.isVisible = true
+                        btnAdd.isVisible = canAction
                         btnAddMore.isVisible = false
                     }
                     else {

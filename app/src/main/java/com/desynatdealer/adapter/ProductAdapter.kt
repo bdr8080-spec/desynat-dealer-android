@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -12,6 +13,7 @@ import com.desynatdealer.databinding.ItemProductBinding
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.setImage
 
 class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProductResponse.Data.AllProductData>,var colorList:ArrayList<GetColorResponse.Data>, var productClick:ProductClick) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
@@ -23,6 +25,12 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             val productData = productList[position]
+            var canAction = true
+            var canView = true
+                if (SharedPreference.get(context).userType == "1") {
+                    canAction = CommonMethod.getPermission(context,"seller.products")?.canAction == 1
+                    canView = CommonMethod.getPermission(context,"seller.products")?.canView == 1
+                }
 
                 tvBrand.text = if(productData?.brand?.nameEnglish=="Other") productData?.otherEn else productData?.brand?.nameEnglish
                 tvName.text = productData.productNameEn
@@ -56,7 +64,9 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
                 }
 
                 tvSwitch.setOnClickListener {
-                    productClick.onProductClick(position,2)
+                    if (canAction) {
+                        productClick.onProductClick(position, 2)
+                    }
                 }
 
                 /*  val rating = productData?.reviewRating?.toFloatOrNull() ?: 0f

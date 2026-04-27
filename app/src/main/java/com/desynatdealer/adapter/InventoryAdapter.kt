@@ -12,6 +12,7 @@ import com.desynatdealer.databinding.ItemProductBinding
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.SharedPreference
 
 class InventoryAdapter(var context:Context, var productList: ArrayList<GetAllProductResponse.Data.AllProductData>, var colorList:ArrayList<GetColorResponse.Data>, var productClick:ProductClick) : RecyclerView.Adapter<InventoryAdapter.ViewHolder>() {
 
@@ -22,6 +23,12 @@ class InventoryAdapter(var context:Context, var productList: ArrayList<GetAllPro
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             val productData = productList[position]
+            var canAction = true
+            var canView = true
+            if (SharedPreference.get(context).userType == "1") {
+                canAction = CommonMethod.getPermission(context,"seller.Inventory_Management")?.canAction == 1
+                canView = CommonMethod.getPermission(context,"seller.Inventory_Management")?.canView == 1
+            }
                 tvBrand.text = if(productData?.brand?.nameEnglish=="Other") productData?.otherEn else productData?.brand?.nameEnglish
                 tvName.text = productData.productNameEn
                 if (productData?.productVariants?.get(0)?.totalStock!="0"){
@@ -51,7 +58,9 @@ class InventoryAdapter(var context:Context, var productList: ArrayList<GetAllPro
                 }
 
                 tvSwitch.setOnClickListener {
-                    productClick.onProductClick(position,2)
+                    if(canAction) {
+                        productClick.onProductClick(position, 2)
+                    }
                 }
 
                 /*  val rating = productData?.reviewRating?.toFloatOrNull() ?: 0f

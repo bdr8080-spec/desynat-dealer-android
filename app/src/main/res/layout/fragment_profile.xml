@@ -109,6 +109,121 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rlProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivProduct"
+                    style="@style/drawer_image"
+                    android:src="@drawable/products_ic"
+                    android:tint="#875C3A"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoProduct"
+                    android:layout_toEndOf="@id/ivProduct"
+                    android:text="Product management " />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoProduct"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rlOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivOrder"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_orders"
+                    android:tint="#875C3A"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoOrder"
+                    android:layout_toEndOf="@id/ivOrder"
+                    android:text="Order management " />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoOrder"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rlPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPayment"
+                    style="@style/drawer_image"
+                    android:src="@drawable/payments_ic"
+                    android:tint="#875C3A"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoPayment"
+                    android:layout_toEndOf="@id/ivPayment"
+                    android:text="Payment management " />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoPayment"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rlLiveEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivLive"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_faq" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoLive"
+                    android:layout_toEndOf="@id/ivLive"
+                    android:text="Live Event" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoLive"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/rlInventory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

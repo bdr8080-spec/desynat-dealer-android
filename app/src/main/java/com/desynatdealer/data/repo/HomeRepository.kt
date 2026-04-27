@@ -49,6 +49,7 @@ import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetStaffCategoryResponse
+import com.desynatdealer.ui.home.staffManagement.response.UpdateStaffStatusResponse
 import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
 import com.desynatdriver.ui.home.cms.response.GetCmsResponse
 import com.desynatdriver.ui.home.cms.response.GetFaqResponse
@@ -82,17 +83,17 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     }
 
 
-    suspend fun logout(): ApiResult<CommonResponse> {
+    suspend fun logout(token: String): ApiResult<CommonResponse> {
         return try {
-            networkCall(api.logout())
+            networkCall(api.logout(token))
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }
     }
 
-    suspend fun getSellerInfo(): ApiResult<GetSellerInfo> {
+    suspend fun getSellerInfo(token: String): ApiResult<GetSellerInfo> {
         return try {
-            networkCall(api.getSellerInfo())
+            networkCall(api.getSellerInfo(token))
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }
@@ -450,7 +451,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
 
     suspend fun changePassword(map: HashMap<String, String>): ApiResult<Unit> {
         return try {
-            networkCall(api.changePassword(map))
+            networkCall(api.updatePassword(map))
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }
@@ -803,7 +804,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
-    suspend fun updateStaffStatus(map: HashMap<String, Any>): ApiResult<GetAllStaffResponse> {
+    suspend fun updateStaffStatus(map: HashMap<String, Any>): ApiResult<UpdateStaffStatusResponse> {
         return try {
             networkCall(api.updateStaffStatus(map))
         } catch (e: Exception) {

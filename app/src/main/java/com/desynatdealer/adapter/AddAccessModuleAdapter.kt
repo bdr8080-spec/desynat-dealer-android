@@ -8,6 +8,7 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemAccessModuleBinding
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
+import com.desynatdealer.utils.SharedPreference
 
 class AddAccessModuleAdapter(var context:Context, var moduleList: ArrayList<AddNewStaffRequest.MenuId>, var onClick:OnClick) : RecyclerView.Adapter<AddAccessModuleAdapter.ViewHolder>() {
 
@@ -29,15 +30,22 @@ class AddAccessModuleAdapter(var context:Context, var moduleList: ArrayList<AddN
             rbView.isChecked = moduleData.canView==1
             rbAction.isChecked = moduleData.canAction==1
             tvModule.setOnClickListener {
-                onClick.ClickOnItem(position, "module")
+                if (SharedPreference.get(context).userType=="0") {
+                    onClick.ClickOnItem(position, "module")
+                }
+
             }
 
             rbView.setOnClickListener {
-                onClick.ClickOnItem(position, "view")
+                if (SharedPreference.get(context).userType=="0") {
+                    onClick.ClickOnItem(position, "view")
+                }
             }
 
             rbAction.setOnClickListener {
-                onClick.ClickOnItem(position, "action")
+                if (SharedPreference.get(context).userType=="0") {
+                    onClick.ClickOnItem(position, "action")
+                }
             }
         }
         }

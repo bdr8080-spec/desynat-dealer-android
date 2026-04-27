@@ -1,6 +1,7 @@
 package com.desynatdealer.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +11,7 @@ import com.desynatdealer.databinding.ItemStaffBinding
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.utils.CommonMethod
 
-class StaffAdapter(var context:Context, var staffList: ArrayList<GetAllStaffResponse.Data>, var onClick:OnClick) : RecyclerView.Adapter<StaffAdapter.ViewHolder>() {
+class StaffAdapter(var context:Context, var staffList: ArrayList<GetAllStaffResponse.Data.Data>, var onClick:OnClick) : RecyclerView.Adapter<StaffAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemStaffBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
@@ -22,6 +23,19 @@ class StaffAdapter(var context:Context, var staffList: ArrayList<GetAllStaffResp
             tvPost.text = staffData?.sellerCategory?.nameEn
             tvAddOn.text = "Add on : ${CommonMethod.customizeChangeDateFormat(staffData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
 
+            if(staffData?.isBlock==1){
+                tvSwitch.text = "Inactive"
+                //   tvSwitch.setTextColor(Color.parseColor("#875C3A"))
+                tvSwitch.setTextColor(Color.parseColor("#FF3131"))
+                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
+            }
+            else{
+                tvSwitch.text = "Active"
+                tvSwitch.setTextColor(Color.parseColor("#1A900D"))
+                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
+
+
+            }
             ivEdit.setOnClickListener {
                 onClick.ClickOnItem(position,"2")
             }

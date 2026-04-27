@@ -16,6 +16,19 @@
         android:background="@drawable/wallet_gradient"
         app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:elevation="@dimen/_5sdp"
+            android:visibility="gone"
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            android:tint="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvToolbar"
+            app:layout_constraintBottom_toBottomOf="@+id/tvToolbar"
+            android:padding="@dimen/_15sdp"/>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvToolbar"
             android:layout_width="0dp"

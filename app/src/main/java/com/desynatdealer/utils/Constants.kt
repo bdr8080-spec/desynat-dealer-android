@@ -126,5 +126,6 @@ object Constants {
     const val SELLER_ALL_MENU = "/api/seller/seller-all-menu"
     const val GET_ALL_STAFF_LIST = "/api/seller/All-staff-details"
     const val VIEW_SINGLE_STAFF_DETAIL = "/api/seller/view-single-staff-details"
+    const val CHANGE_PASSWORD = "api/seller/create_password"
 
 }

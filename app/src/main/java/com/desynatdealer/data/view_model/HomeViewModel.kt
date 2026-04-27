@@ -50,6 +50,7 @@ import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetStaffCategoryResponse
+import com.desynatdealer.ui.home.staffManagement.response.UpdateStaffStatusResponse
 import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
 import com.desynatdriver.ui.home.cms.response.GetCmsResponse
 import com.desynatdriver.ui.home.cms.response.GetFaqResponse
@@ -124,10 +125,10 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     val logoutResponse: MutableLiveData<ApiResult<CommonResponse>?>
         get() = _logoutResponse
 
-    fun logout() {
+    fun logout(token: String) {
         viewModelScope.launch {
             _logoutResponse.value = ApiResult.Loading
-            _logoutResponse.value = repo.logout()
+            _logoutResponse.value = repo.logout(token)
         }
     }
 
@@ -136,10 +137,10 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     val sellerInfoResponse: MutableLiveData<ApiResult<GetSellerInfo>?>
         get() = _sellerInfoResponse
 
-    fun getSellerInfo() {
+    fun getSellerInfo(token: String) {
         viewModelScope.launch {
             _sellerInfoResponse.value = ApiResult.Loading
-            _sellerInfoResponse.value = repo.getSellerInfo()
+            _sellerInfoResponse.value = repo.getSellerInfo(token)
         }
     }
 
@@ -148,10 +149,10 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     val getSellerInfoResponse: MutableLiveData<ApiResult<GetSellerInfo>?>
         get() = _getSellerInfoResponse
 
-    fun getSellerInformation() {
+    fun getSellerInformation(token: String) {
         viewModelScope.launch {
             _getSellerInfoResponse.value = ApiResult.Loading
-            _getSellerInfoResponse.value = repo.getSellerInfo()
+            _getSellerInfoResponse.value = repo.getSellerInfo(token)
         }
     }
 
@@ -1198,8 +1199,8 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     }
 
     private val _updateStaffStatusResponse =
-        MutableLiveData<ApiResult<GetAllStaffResponse>?>()
-    val updateStaffStatusResponse: MutableLiveData<ApiResult<GetAllStaffResponse>?>
+        MutableLiveData<ApiResult<UpdateStaffStatusResponse>?>()
+    val updateStaffStatusResponse: MutableLiveData<ApiResult<UpdateStaffStatusResponse>?>
         get() = _updateStaffStatusResponse
 
     fun updateStaffStatus(map: HashMap<String, Any>) {
