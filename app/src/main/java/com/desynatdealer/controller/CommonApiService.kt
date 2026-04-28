@@ -242,6 +242,16 @@ interface CommonApiService {
     @POST(Constants.SINGLE_CHAT)
     suspend fun getChatDetail(@Body map: HashMap<String, Any>): Response<ChatDetailResponse>
 
+    @POST(Constants.MARK_ALL_READ_MSG)
+    suspend fun markAllRead(
+        @Body map: HashMap<String, Any>
+    ): Response<CommonResponse>
+
+    @POST(Constants.SEND_PUSH_NOTIFICATION)
+    suspend fun sendNotification(
+        @Body map: HashMap<String, Any>
+    ): Response<CommonResponse>
+
     @POST(Constants.MODIFY_SINGLE_CHAT)
     suspend fun modifySingleChat(@Body map: HashMap<String, Any>): Response<ModifySingleChatResponse>
 

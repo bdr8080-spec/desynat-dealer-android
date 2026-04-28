@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -78,10 +79,14 @@ class StaffDetailFragment : BaseFragment() {
             if (SharedPreference.get(requireActivity()).userType=="1"&&SharedPreference.get(requireActivity()).getStaff()?.id.toString()==staffId) {
                 tvTitle.text = "Profile"
                 ivDelete.isVisible = false
+                tvSwitch.isInvisible = true
+                tvAccessModule.isVisible = false
+                rvAccessModule.isVisible = false
             }
             else{
                 tvTitle.text = "Details"
                 ivDelete.isVisible = true
+                tvSwitch.isVisible = true
             }
 
             tvPasswordValue.togglePasswordVisibility(ivPasswordVisible)

@@ -61,6 +61,9 @@ object Constants {
     const val SEND_MESSAGE = "/api/send-message-in-chats"
     const val ALL_CHAT = "/api/seller/all-chats-records"
     const val SINGLE_CHAT = "/api/seller/single-chats-records"
+
+    const val MARK_ALL_READ_MSG = "/api/seller/mark_all_chat_msg_as_read"
+    const val SEND_PUSH_NOTIFICATION = "/api/sendPushNotificationApp"
     const val MODIFY_SINGLE_CHAT = "/api/seller/Modify-single-chats-records"
     const val UPDATE_RETURN_EXCHANGE_ORDER_STATUS = "/api/seller/update-order-exchange-return-status"
 

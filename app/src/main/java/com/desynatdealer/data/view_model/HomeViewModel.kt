@@ -559,6 +559,30 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _markAllReadResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val markAllReadResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _markAllReadResponse
+
+    fun markAllRead(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _markAllReadResponse.value = ApiResult.Loading
+            _markAllReadResponse.value = repo.markAllRead(map)
+        }
+    }
+
+    private val _sendNotificationResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val sendNotificationResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _sendNotificationResponse
+
+    fun sendNotification(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _sendNotificationResponse.value = ApiResult.Loading
+            _sendNotificationResponse.value = repo.sendNotification(map)
+        }
+    }
+
     private val _modifySingleChatResponse =
         MutableLiveData<ApiResult<ModifySingleChatResponse>?>()
     val modifySingleChatResponse: MutableLiveData<ApiResult<ModifySingleChatResponse>?>

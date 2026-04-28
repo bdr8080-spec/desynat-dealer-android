@@ -1,6 +1,7 @@
 package com.desynatdealer.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -50,10 +51,20 @@ class RefundAdapter(var context:Context, var refundList: ArrayList<GetRefundOrde
                 tvReturnReason.isVisible = false
             }
 
-            tvStatus.text = when(refundData?.status){
-                "2"-> "Completed"
-                "1"-> "Pending"
-                else -> "Pending"
+            when(refundData?.status){
+                "2"-> {
+                    tvStatus.text = "Completed"
+                    tvStatus.setTextColor(Color.parseColor("#68CA44"))
+
+                }
+                "1"-> {
+                    tvStatus.text = "Pending"
+                    tvStatus.setTextColor(Color.parseColor("#FFA41B"))
+                }
+                else -> {
+                    tvStatus.text =  "Pending"
+                    tvStatus.setTextColor(Color.parseColor("#FFA41B"))
+                }
             }
         }
         }

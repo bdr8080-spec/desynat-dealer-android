@@ -106,6 +106,8 @@ class AddStaffFragment : BaseFragment() {
                 tvConfirmPassword.isVisible = false
                 relPassword.isVisible = false
                 relConfirmPassword.isVisible = false
+                tvAccessModule.isVisible = false
+                rvAccessModule.isVisible = false
             }
 
             if (staffData!=null){
@@ -160,27 +162,35 @@ class AddStaffFragment : BaseFragment() {
                         "module" -> {
                             item.isSelected = !item.isSelected
 
-                            if (!item.isSelected) {
+                            if (item.isSelected) {
+                                item.canView = 1
+                                item.canAction = 0
+                            } else {
                                 item.canView = 0
                                 item.canAction = 0
                             }
                         }
 
                         "view" -> {
-                            item.isSelected = true
-                            item.canView = if (item.canView == 1) 0 else 1
-
-                            if (item.canView == 1) {
-                                item.canAction = 0
+                            if (item.isSelected) {
+                                if (item.canView == 1) {
+                                    item.isSelected = false
+                                    item.canView = 0
+                                    item.canAction = 0
+                                } else {
+                                    item.canView = 1
+                                    item.canAction = 0
+                                }
                             }
                         }
 
                         "action" -> {
-                            item.isSelected = true
-                            item.canAction = if (item.canAction == 1) 0 else 1
+                            if (item.isSelected) {
+                                item.canAction = if (item.canAction == 1) 0 else 1
 
-                            if (item.canAction == 1) {
-                                item.canView = 0
+                                if (item.canAction == 1) {
+                                    item.canView = 1
+                                }
                             }
                         }
                     }

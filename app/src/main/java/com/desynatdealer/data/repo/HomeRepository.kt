@@ -368,6 +368,22 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
+    suspend fun markAllRead(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.markAllRead(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun sendNotification(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.sendNotification(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
     suspend fun modifySingleChat(map: HashMap<String, Any>): ApiResult<ModifySingleChatResponse> {
         return try {
             networkCall(api.modifySingleChat(map))

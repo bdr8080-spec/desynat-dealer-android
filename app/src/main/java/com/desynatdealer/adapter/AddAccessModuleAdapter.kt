@@ -27,8 +27,17 @@ class AddAccessModuleAdapter(var context:Context, var moduleList: ArrayList<AddN
             else{
                 tvModule.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_radio_unselected,0, 0 ,0)
             }
-            rbView.isChecked = moduleData.canView==1
-            rbAction.isChecked = moduleData.canAction==1
+            rbView.setCompoundDrawablesWithIntrinsicBounds(
+                if (moduleData.canView==1) R.drawable.ic_radio_selected
+                else R.drawable.ic_radio_unselected,
+                0, 0, 0
+            )
+
+            rbAction.setCompoundDrawablesWithIntrinsicBounds(
+                if (moduleData.canAction==1) R.drawable.ic_radio_selected
+                else R.drawable.ic_radio_unselected,
+                0, 0, 0
+            )
             tvModule.setOnClickListener {
                 if (SharedPreference.get(context).userType=="0") {
                     onClick.ClickOnItem(position, "module")

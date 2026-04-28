@@ -22,9 +22,17 @@ class AccessModuleAdapter(var context:Context, var moduleList: ArrayList<GetAllS
             var moduleData = moduleList[position]
             tvModule.text = moduleData?.sellermenu?.get(0)?.title
             tvModule.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_radio_selected,0, 0 ,0)
-            rbView.isChecked = moduleData.canView==1
-            rbAction.isChecked = moduleData.canAction==1
+            rbView.setCompoundDrawablesWithIntrinsicBounds(
+                if (moduleData.canView==1) R.drawable.ic_radio_selected
+                else R.drawable.ic_radio_unselected,
+                0, 0, 0
+            )
 
+            rbAction.setCompoundDrawablesWithIntrinsicBounds(
+                if (moduleData.canAction==1) R.drawable.ic_radio_selected
+                else R.drawable.ic_radio_unselected,
+                0, 0, 0
+            )
         }
         }
 

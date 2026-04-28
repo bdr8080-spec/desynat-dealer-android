@@ -55,6 +55,7 @@ import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.Instant
+import kotlin.text.get
 
 @AndroidEntryPoint
 class ChatActivity : BaseActivity() {
@@ -66,6 +67,7 @@ class ChatActivity : BaseActivity() {
     var from = ""
     var productId = ""
     private var isModified = false
+    var receiverId = ""
     var chatData: GetChatListResponse.Data? = null
     var chatDetailData: ChatDetailResponse.Data.Record? = null
 
@@ -127,6 +129,7 @@ class ChatActivity : BaseActivity() {
             if (!itemJson.isNullOrEmpty()) {
                 chatData = Gson().fromJson(itemJson, GetChatListResponse.Data::class.java)
                 uniqueId = chatData?.uniqueId.toString()
+                receiverId = chatData?.userDetails?.id.toString()
                 getChat()
             }
             tvToolbar.text = chatData?.userDetails?.fullName.toString()
@@ -137,7 +140,7 @@ class ChatActivity : BaseActivity() {
 
             })
             rvChat.adapter = chatAdapter
-
+            readAllMsg()
             listenMessages(
                 uniqueId = uniqueId,
                 onMessageAdded = { message ->
@@ -264,7 +267,20 @@ class ChatActivity : BaseActivity() {
                             messageAr = image.imageUrl,
                             type = "1"
                         )
+                        val map = HashMap<String, Any>()
+                        map["sender_id"] = SharedPreference.get(this@ChatActivity).getUser()?.id.toString()
+                        map["sender_type"] = 3
+                        map["receiver_id"] = receiverId
+                        map["receiver_type"] = 2
+                        map["title_english"] = "New Attachement"
+
+                        map["description_english"] = "You have a new message"
+                        map["notification_type"] = "chat_message"
+
+                        sendNotification(map)
                     }
+
+
                     uploadImageList.clear()
                     uploadMsgImageAdapter?.notifyDataSetChanged()
                 }
@@ -795,6 +811,16 @@ class ChatActivity : BaseActivity() {
                             messageAr = input,          // Arabic
                             type = "0"
                         )
+                        val map = HashMap<String, Any>()
+                        map["sender_id"] = SharedPreference.get(this@ChatActivity).getUser()?.id.toString()
+                        map["sender_type"] = 3
+                        map["receiver_id"] = receiverId
+                        map["receiver_type"] = 2
+                        map["title_english"] = translatedText.toString()
+                        map["description_english"] = "You have a new message"
+                        map["notification_type"] = "chat_message"
+
+                        sendNotification(map)
                     } else {
                         sendMessage(
                             uniqueId = uniqueId,
@@ -802,7 +828,19 @@ class ChatActivity : BaseActivity() {
                             messageAr = translatedText.toString(), // Arabic
                             type = "0"
                         )
+                        val map = HashMap<String, Any>()
+                        map["sender_id"] = SharedPreference.get(this@ChatActivity).getUser()?.id.toString()
+                        map["sender_type"] = 3
+                        map["receiver_id"] = receiverId
+                        map["receiver_type"] = 2
+                        map["title_english"] = input
+                        map["description_english"] = "You have a new message"
+                        map["notification_type"] = "chat_message"
+
+                        sendNotification(map)
                     }
+
+
 
                     binding?.etMessage?.setText("")
                     Log.e("chat_response", translatedText ?: "No translation")
@@ -815,6 +853,19 @@ class ChatActivity : BaseActivity() {
                 Log.e("VISION_ERROR", e.message ?: "Error")
             }
         }
+
+    }
+
+    private fun sendNotification(map: HashMap<String,Any>){
+
+
+        viewModel.sendNotification(map)
+
+    }
+    private fun readAllMsg(){
+        val map = HashMap<String, Any>()
+        map["unique_id"] = uniqueId
+        viewModel.markAllRead(map)
     }
 
 }
