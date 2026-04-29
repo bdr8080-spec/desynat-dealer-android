@@ -23,6 +23,7 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentOrderManagementBinding
 import com.desynatdealer.databinding.OrderFilterDialogBinding
+import com.desynatdealer.ui.home.HomeActivity
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
@@ -71,6 +72,8 @@ class OrderManagementFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
+
+            markAllOrderNotification()
 
             ivBack.isVisible = SharedPreference.get(requireActivity()).userType=="1"
 
@@ -290,6 +293,31 @@ class OrderManagementFragment : BaseFragment() {
             }
         }
 
+        viewModel.markAllOrderNotificationResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    (requireActivity() as HomeActivity).updateAdapterCount(
+                        0
+                    )
+                    viewModel.markAllOrderNotificationResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    viewModel.markAllOrderNotificationResponse.value = null
+                }
+
+                else -> {
+
+                }
+            }
+        }
+
     }
 
     private fun checkData() {
@@ -299,6 +327,11 @@ class OrderManagementFragment : BaseFragment() {
             tvOngoing.text = "Ongoing(${orderData?.ongoingOrder?.size ?: 0})"
             tvPast.text = "Past(${orderData?.pastOrder?.size ?: 0})"
         }
+    }
+
+    private fun markAllOrderNotification() {
+        val map = HashMap<String, Any>()
+        viewModel.markAllOrderNotification(map)
     }
 
     private fun getOrder() {

@@ -4,6 +4,37 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/relCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/_1sdp"
+        android:layout_marginEnd="-8dp"
+        android:layout_marginBottom="-5dp"
+        app:layout_constraintBottom_toTopOf="@+id/ivImage"
+        app:layout_constraintEnd_toEndOf="@+id/ivImage">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="@dimen/_12sdp"
+            android:layout_height="@dimen/_12sdp"
+            android:src="@drawable/circle_cart"
+            android:layout_centerInParent="true"
+            app:shapeAppearanceOverlay="@style/circle_image"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="visible"
+            android:id="@+id/tvCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="1"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_8sdp"/>
+
+    </RelativeLayout>
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivImage"
         android:layout_width="@dimen/_16sdp"

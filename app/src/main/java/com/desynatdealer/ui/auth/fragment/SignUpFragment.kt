@@ -238,63 +238,63 @@ class SignUpFragment : BaseFragment() {
             return when {
 
                 profilePhotoUrl == null -> {
-                    showToast("Please upload Profile Photo")
+                    showToast(getString(R.string.please_upload_profile_photo))
                     false
                 }
 
                 firstName.isEmpty() -> {
-                    showToast("Please enter your first name")
+                    showToast(getString(R.string.please_enter_your_first_name))
                     false
                 }
 
                 lastName.isEmpty() -> {
-                    showToast("Please enter your last name")
+                    showToast(getString(R.string.please_enter_your_last_name))
                     false
                 }
 
                 mobile.isEmpty() -> {
-                    showToast("Please enter your mobile number")
+                    showToast(getString(R.string.please_enter_your_mobile_number))
                     false
                 }
 
                 mobile.length < 7 -> {
-                    showToast("Number must be at least 7 digits long")
+                    showToast(getString(R.string.number_must_be_at_least_7_digits_long))
                     false
                 }
 
                 email.isEmpty() -> {
-                    showToast("Please enter your email address")
+                    showToast(getString(R.string.please_enter_your_email_address))
                     false
                 }
 
                 !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                    showToast("Please enter a valid email address")
+                    showToast(getString(R.string.please_enter_a_valid_email_address))
                     false
                 }
 
                 password.isEmpty() -> {
-                    showToast("Please enter a password")
+                    showToast(getString(R.string.please_enter_a_password))
                     false
                 }
 
                 !CommonMethod.isValidPassword(password) -> {
-                    CommonMethod.showAlertDialog(requireActivity(),"Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
+                    CommonMethod.showAlertDialog(requireActivity(),getString(R.string.password_must_be_at_least_8_characters_long_and_include_uppercase_lowercase_number_and_special_symbol))
                   //  showToast("Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
                     false
                 }
 
                 confirmPassword.isEmpty() -> {
-                    showToast("Please enter confirm password")
+                    showToast(getString(R.string.please_enter_confirm_password))
                     false
                 }
 
                 confirmPassword != password -> {
-                    showToast("Password and confirm password didn't match")
+                    showToast(getString(R.string.new_password_and_confirm_password_didn_t_match))
                     false
                 }
 
                 !cbTermsPolicy.isChecked -> {
-                    showToast("Please accept Terms & Policies to continue")
+                    showToast(getString(R.string.please_accept_terms_policies_to_continue))
                     false
                 }
 

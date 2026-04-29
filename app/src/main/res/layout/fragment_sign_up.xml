@@ -28,7 +28,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/poppins_bold"
-            android:text="Sign Up"
+            android:text="@string/sign_up"
             android:textColor="@color/black"
             android:textSize="@dimen/_18sdp"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/poppins_bold"
-            android:text="Create Your Account ! "
+            android:text="@string/create_your_account"
             android:textColor="@color/brown"
             android:textSize="@dimen/_18sdp"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +105,7 @@
             android:id="@+id/tvFirstName"
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="First Name"
+            android:text="@string/first_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivProfile" />
@@ -117,7 +117,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/edit_back"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-            android:hint="Enter First Name"
+            android:hint="@string/enter_first_name"
             android:inputType="textCapSentences"
             android:maxLength="30"
             app:layout_constraintTop_toBottomOf="@+id/tvFirstName" />
@@ -126,7 +126,7 @@
             android:id="@+id/tvLastName"
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="Last Name"
+            android:text="@string/last_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
@@ -138,7 +138,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/edit_back"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-            android:hint="Enter Last Name"
+            android:hint="@string/enter_last_name"
             android:maxLength="30"
             android:inputType="textCapSentences"
             app:layout_constraintTop_toBottomOf="@+id/tvLastName" />
@@ -147,7 +147,7 @@
             android:id="@+id/tvMobile"
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="Mobile Number"
+            android:text="@string/mobile_number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etLastName" />
@@ -212,7 +212,7 @@
             android:id="@+id/tvEmail"
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="Email Address"
+            android:text="@string/email_address"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clMobile" />
@@ -225,7 +225,7 @@
             android:background="@drawable/edit_back"
             android:drawableStart="@drawable/ic_email"
             android:drawablePadding="@dimen/_10sdp"
-            android:hint="Enter Email Address"
+            android:hint="@string/enter_email_address"
             android:inputType="textEmailAddress"
             app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
@@ -233,7 +233,7 @@
             android:id="@+id/tvPassword"
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="Create Password"
+            android:text="@string/create_password"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
@@ -250,7 +250,7 @@
                 android:id="@+id/etPassword"
                 style="@style/edit_text"
                 android:layout_width="match_parent"
-                android:hint="Enter password"
+                android:hint="@string/enter_password"
                 android:inputType="textPassword"
                 android:background="@null"
                 android:layout_marginEnd="@dimen/_5sdp"
@@ -273,7 +273,7 @@
             android:id="@+id/tvConfirmPassword"
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="Confirm Password"
+            android:text="@string/confirm_password"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/relPassword" />
 
@@ -290,7 +290,7 @@
                 android:id="@+id/etConfirmPassword"
                 style="@style/edit_text"
                 android:layout_width="match_parent"
-                android:hint="Enter confirm password"
+                android:hint="@string/enter_confirm_password"
                 android:inputType="textPassword"
                 android:background="@null"
                 android:layout_marginEnd="@dimen/_5sdp"
@@ -333,7 +333,7 @@
             android:id="@+id/btnContinue"
             style="@style/button"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="Continue"
+            android:text="@string/continue_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cbTermsPolicy" />

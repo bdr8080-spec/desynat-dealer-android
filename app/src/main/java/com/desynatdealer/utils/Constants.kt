@@ -56,6 +56,8 @@ object Constants {
     const val BANNER_PAYMENT = "/api/seller/complete-banner-payment"
 
     const val GET_ALL_ORDER = "/api/seller/all-orders"
+    const val ORDER_NOTIFICATION = "/api/seller/order_notification_unread_count"
+    const val MARK_ALL_ORDER_NOTIFICATION = "api/seller/mark_all_order_notification"
     const val GET_SINGLE_ORDER_DETAIL = "/api/seller/single-orders-data"
     const val UPDATE_SINGLE_ORDER_STATUS = "/api/seller/update-single-order-status"
     const val SEND_MESSAGE = "/api/send-message-in-chats"

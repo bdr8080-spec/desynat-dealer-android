@@ -45,6 +45,7 @@ import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
@@ -496,6 +497,30 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _getOrderResponse.value = ApiResult.Loading
             _getOrderResponse.value = repo.getOrder(map)
+        }
+    }
+
+    private val _markAllOrderNotificationResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val markAllOrderNotificationResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _markAllOrderNotificationResponse
+
+    fun markAllOrderNotification(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _markAllOrderNotificationResponse.value = ApiResult.Loading
+            _markAllOrderNotificationResponse.value = repo.markAllOrderNotification(map)
+        }
+    }
+
+    private val _getOrderNotificationResponse =
+        MutableLiveData<ApiResult<GetOrderNotificationCountResponse>?>()
+    val getOrderNotificationResponse: MutableLiveData<ApiResult<GetOrderNotificationCountResponse>?>
+        get() = _getOrderNotificationResponse
+
+    fun getOrderNotification() {
+        viewModelScope.launch {
+            _getOrderNotificationResponse.value = ApiResult.Loading
+            _getOrderNotificationResponse.value = repo.getOrderNotification()
         }
     }
 

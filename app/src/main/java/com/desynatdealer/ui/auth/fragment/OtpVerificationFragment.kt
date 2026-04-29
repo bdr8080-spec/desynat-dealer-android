@@ -56,7 +56,7 @@ class OtpVerificationFragment : BaseFragment() {
         email = arguments?.getString("email").toString()
 
         binding?.apply {
-            toolbar.tvToolbar.text = "OTP Verification"
+            toolbar.tvToolbar.text = getString(R.string.otp_verification)
 
             clView.isVisible = from == "signUp"
 
@@ -85,11 +85,11 @@ class OtpVerificationFragment : BaseFragment() {
 
                 when {
                     otp.isEmpty() -> {
-                        showToast("Please enter OTP")
+                        showToast(getString(R.string.please_enter_otp))
                     }
 
                     otp.length < 6 -> {
-                        showToast("Please enter a valid 6-digit OTP")
+                        showToast(getString(R.string.please_enter_a_valid_6_digit_otp))
                     }
 
                     else -> {
@@ -143,7 +143,7 @@ class OtpVerificationFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast("OTP verified successfully")
+                    showToast(getString(R.string.otp_verified_successfully))
                     when (from) {
                         "signUp" -> {
                             val bundle = Bundle().apply {
@@ -199,12 +199,16 @@ class OtpVerificationFragment : BaseFragment() {
                             if (data != null) {
                                 SharedPreference.get(requireActivity()).saveUser(data)
                             }
-                            CommonMethod.showSuccessDialog(requireActivity(),  if (from=="email")"Email Address Changed successfully !" else "Mobile Number Changed successfully !"){
+                            CommonMethod.showSuccessDialog(requireActivity(),  if (from=="email") getString(
+                                R.string.email_address_changed_successfully
+                            ) else getString(R.string.mobile_number_changed_successfully)){
                                 findNavController().popBackStack(R.id.editProfile, false)
                             }
                         }
                         "edit" -> {
-                            showToast("OTP verified successfully")
+                            showToast(getString(
+                                R.string.otp_verified_successfully
+                            ))
                             val bundle = Bundle().apply {
                                 putString("from", if (type==1)"email" else "mobile")
                             }
@@ -234,10 +238,10 @@ class OtpVerificationFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     if (type==1){
-                        showToast("OTP sent to email address successfully ")
+                        showToast(getString(R.string.otp_sent_to_email_address_successfully))
                     }
                     else{
-                        showToast("OTP sent to mobile number successfully ")
+                        showToast(getString(R.string.otp_sent_to_mobile_number_successfully))
                     }
                     startTimer()
                     viewModel.resendOtpResponse.value = null

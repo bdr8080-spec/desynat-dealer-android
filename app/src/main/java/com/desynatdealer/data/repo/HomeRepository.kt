@@ -44,6 +44,7 @@ import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
@@ -323,6 +324,22 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     suspend fun getOrder(map: HashMap<String, Any>): ApiResult<GetAllOrderResponse> {
         return try {
             networkCall(api.getOrder(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun markAllOrderNotification(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.markAllOrderNotification(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getOrderNotification(): ApiResult<GetOrderNotificationCountResponse> {
+        return try {
+            networkCall(api.getOrderNotification())
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }

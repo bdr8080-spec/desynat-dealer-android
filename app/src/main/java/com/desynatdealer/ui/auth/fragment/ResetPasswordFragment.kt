@@ -39,7 +39,7 @@ class ResetPasswordFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
-            toolbar.tvToolbar.text = "Reset Password"
+            toolbar.tvToolbar.text = getString(R.string.reset_password)
             CommonMethod.removeAllTextSpaces(etPassword)
             CommonMethod.removeAllTextSpaces(etConfirmPassword)
 
@@ -108,19 +108,20 @@ class ResetPasswordFragment : BaseFragment() {
         val confirmPassword = binding?.etConfirmPassword?.text.toString().trim()
 
         if (password.isEmpty()) {
-            showToast("Please enter new password")
+            showToast(getString(R.string.please_enter_new_password))
             return false
         }
          else if (!CommonMethod.isValidPassword(password)) {
-            CommonMethod.showAlertDialog(requireActivity(),"Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
+            CommonMethod.showAlertDialog(requireActivity(),
+                getString(R.string.password_must_be_at_least_8_characters_long_and_include_uppercase_lowercase_number_and_special_symbol))
            // showToast("Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol")
             return false
         }
         else if (confirmPassword.isEmpty()) {
-            showToast("Please enter confirm password")
+            showToast(getString(R.string.please_enter_confirm_password))
             return false
         } else if (password != confirmPassword) {
-            showToast("New password and confirm password didn't match")
+            showToast(getString(R.string.new_password_and_confirm_password_didn_t_match))
             return false
         }
         return true

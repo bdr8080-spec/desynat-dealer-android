@@ -249,6 +249,10 @@ class HomeActivity : BaseActivity() {
         //   NotificationManagerCompat.from(this).cancelAll()
     }
 
+    fun updateAdapterCount(orderCount: Int){
+        bottomAdapter?.setCartCount(orderCount)
+    }
+
 }
 
 data class BottomNavItem(

@@ -13,11 +13,20 @@ import com.desynatdealer.utils.CommonMethod
 class BottomNavAdapter(var context:Context, var list: ArrayList<BottomNavItem>, var bottomNavItemClick:BottomNavItemClick) : RecyclerView.Adapter<BottomNavAdapter.ViewHolder>() {
 
     var selected = 0
+    var count = 0
     inner class ViewHolder(val binding: ItemBottomNavBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             tvName.text = list[position].name
             ivImage.setImageResource(list[position].image)
+
+            if (count!=0&&position==3){
+                relCount.isVisible = true
+                tvCount.text = count.toString()
+            }
+            else{
+                relCount.isVisible = false
+            }
 
             if (selected==position&&selected!=2){
                 ivImage.setImageResource(list[position].selectedImage)
@@ -73,6 +82,11 @@ class BottomNavAdapter(var context:Context, var list: ArrayList<BottomNavItem>, 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(position)
+    }
+
+    fun setCartCount(itemCount:Int) {
+        count = itemCount
+        notifyDataSetChanged()
     }
 
     fun setSelectedItem(position: Int) {

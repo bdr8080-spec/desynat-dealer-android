@@ -50,13 +50,13 @@ class LanguageFragment : BaseFragment() {
             }
 
             if (from=="profile"){
-                btnContinue.text = "Save"
+                btnContinue.text = getString(R.string.save)
                 tvToolbar.isVisible = true
                 tvSelectLanguage.isVisible = false
                 tvInfo.isVisible = false
             }
             else{
-                btnContinue.text = "Continue"
+                btnContinue.text = getString(R.string.continue_text)
                 tvToolbar.isVisible = false
                 tvSelectLanguage.isVisible = true
                 tvInfo.isVisible = true
@@ -97,11 +97,12 @@ class LanguageFragment : BaseFragment() {
 
             btnContinue.setOnClickListener {
                 if (Constants.language==""){
-                    showToast("Please select language")
+                    showToast(getString(R.string.please_select_language))
                 }
                 else {
                     if (from=="profile"){
-                        CommonMethod.showSuccessDialog(requireActivity(),"Language changed successfully"){
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.language_changed_successfully)){
                             findNavController().popBackStack()
                         }
                     }

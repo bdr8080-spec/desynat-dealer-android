@@ -14,6 +14,7 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentHomeBinding
+import com.desynatdealer.ui.home.HomeActivity
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.ProgressDialogUtils
@@ -49,6 +50,7 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initView() {
+        getOrderNotification()
         getNotificationCount()
         getAdminStory()
         userInfo = SharedPreference.get(requireActivity()).getUser()
@@ -129,6 +131,32 @@ class HomeFragment : BaseFragment() {
             }
         }
 
+        viewModel.getOrderNotificationResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+
+                }
+
+                is ApiResult.Success -> {
+                    binding?.progressBar?.isVisible = false
+                    ProgressDialogUtils.getInstance().hideProgress()
+                        (requireActivity() as HomeActivity).updateAdapterCount(
+                            result.data?.data ?: 0
+                        )
+                    viewModel.getOrderNotificationResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    binding?.progressBar?.isVisible = false
+                    ProgressDialogUtils.getInstance().hideProgress()
+
+                    viewModel.getOrderNotificationResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
 
         viewModel.getStoryResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -195,13 +223,17 @@ class HomeFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
-                    if (result.data?.data!=0){
-                        setNotificationCount(result.data?.data?:0)
+                    if (result.data?.data?.notificationCount!=0){
+                        setNotificationCount(result.data?.data?.notificationCount?:0)
                     }
                     else{
                         SharedPreference.get(requireActivity()).badgeCount = 0
                         ShortcutBadger.removeCount(requireActivity())
 
+                    }
+
+                    if (result.data?.data?.chatUnreadCount!=0){
+                        setChatCount(result.data?.data?.chatUnreadCount?:0)
                     }
 
                     viewModel.getNotificationCountResponse.value = null
@@ -264,6 +296,11 @@ class HomeFragment : BaseFragment() {
         ShortcutBadger.applyCount(requireActivity(), data)
     }
 
+    private fun setChatCount(data: Int) {
+        binding?.relChatCount?.isVisible = true
+        binding?.tvChatCount?.text = data.toString()
+    }
+
     private fun getStory() {
         val map = HashMap<String,Any>()
 
@@ -274,6 +311,11 @@ class HomeFragment : BaseFragment() {
         val map = HashMap<String,Any>()
 
         viewModel.getAdminStory(map)
+    }
+
+    private fun getOrderNotification() {
+
+        viewModel.getOrderNotification()
     }
 
 }

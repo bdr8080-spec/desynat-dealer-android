@@ -86,7 +86,7 @@
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginHorizontal="@dimen/_20sdp"
         android:fontFamily="@font/poppins_medium"
-        android:text="A verification code has been sent to"
+        android:text="@string/a_verification_code_has_been_sent_to"
         android:textColor="#80000000"
         android:textSize="@dimen/_10sdp"
         android:textAlignment="center"/>
@@ -141,7 +141,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/poppins_medium"
             android:textAlignment="center"
-            android:text="Resend OTP in"
+            android:text="@string/resend_otp_in"
             android:textColor="#80000000"
             android:textSize="@dimen/_10sdp"/>
 
@@ -154,7 +154,7 @@
             android:layout_marginStart="@dimen/_4sdp"
             android:fontFamily="@font/poppins_medium"
             android:textAlignment="center"
-            android:text="Resend OTP"
+            android:text="@string/resend_otp"
             android:textColor="@color/brown"
             android:layout_toRightOf="@+id/tvDidNotReceive"
             android:textSize="@dimen/_10sdp"/>
@@ -167,7 +167,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_20sdp"
         android:layout_marginHorizontal="@dimen/_20sdp"
-        android:text="Verify"/>
+        android:text="@string/verify"/>
 
         </LinearLayout>
 

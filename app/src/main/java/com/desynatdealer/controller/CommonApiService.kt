@@ -48,6 +48,7 @@ import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveUserCountResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
@@ -226,6 +227,12 @@ interface CommonApiService {
 
     @POST(Constants.GET_ALL_ORDER)
     suspend fun getOrder(@Body map: HashMap<String, Any>): Response<GetAllOrderResponse>
+
+    @GET(Constants.ORDER_NOTIFICATION)
+    suspend fun getOrderNotification(): Response<GetOrderNotificationCountResponse>
+
+    @POST(Constants.MARK_ALL_ORDER_NOTIFICATION)
+    suspend fun markAllOrderNotification(@Body map: HashMap<String, Any>): Response<CommonResponse>
 
     @POST(Constants.GET_SINGLE_ORDER_DETAIL)
     suspend fun getOrderDetail(@Body map: HashMap<String, Any>): Response<GetSingleOrderResponse>

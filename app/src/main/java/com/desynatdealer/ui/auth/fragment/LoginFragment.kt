@@ -12,8 +12,6 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.PopupWindow
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -21,9 +19,7 @@ import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.AuthViewModel
-import com.desynatdealer.databinding.CustomCountryPickerBinding
 import com.desynatdealer.databinding.FragmentLoginBinding
-import com.desynatdealer.databinding.ItemCountryBinding
 import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.ui.home.HomeActivity
 import com.desynatdealer.utils.CommonMethod
@@ -33,7 +29,6 @@ import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.desynatdealer.utils.togglePasswordVisibility
 import com.google.firebase.messaging.FirebaseMessaging
-import kotlin.text.get
 
 class LoginFragment : BaseFragment() {
 
@@ -171,7 +166,7 @@ class LoginFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     if (result.data?.data?.adminVerify=="1"){
-                        showToast("Your profile is under review")
+                        showToast(getString(R.string.your_profile_is_under_review))
                     }
                     else if (result.data?.data?.adminVerify=="2"){
                         SharedPreference.get(requireActivity()).userType = result.data.data.type
@@ -194,7 +189,7 @@ class LoginFragment : BaseFragment() {
 
                     else if (result.data?.data?.adminVerify=="3"){
                     //   showToast("Your Account is Rejected by Admin. Please create a New account")
-                       showToast("Your document is rejected by admin please upload Again")
+                       showToast(getString(R.string.your_document_is_rejected_by_admin_please_upload_again))
                         val data = result.data.data
                         PreviewFragment.createAccountReq = hashMapOf(
                             "profile_pic" to data.profilePic,
@@ -211,7 +206,7 @@ class LoginFragment : BaseFragment() {
 
                     }
                     else if (result.data?.data?.adminVerify=="4"){
-                        showToast("Your document is rejected by admin please upload Again")
+                        showToast(getString(R.string.your_document_is_rejected_by_admin_please_upload_again))
                         val data = result.data.data
                         PreviewFragment.createAccountReq = hashMapOf(
                             "profile_pic" to data.profilePic,
@@ -276,23 +271,23 @@ class LoginFragment : BaseFragment() {
     private fun validation():Boolean{
 
         if (binding?.etEmailMobile?.text?.isEmpty() == true) {
-            showToast("Please enter Mobile Number or Email Address")
+            showToast(getString(R.string.please_enter_mobile_number_or_email_address))
             return false
         }
         else if (binding?.etEmailMobile?.text?.length!! < 7&&type==0) {
-            showToast("Please enter valid mobile number")
+            showToast(getString(R.string.please_enter_valid_mobile_number))
             return false
         }
         else if (binding?.etEmailMobile?.text?.toString()?.isBlank() == true &&type==1) {
-            showToast("Please enter email")
+            showToast(getString(R.string.please_enter_email))
             return false
         }
         else if (!Patterns.EMAIL_ADDRESS.matcher(binding?.etEmailMobile?.text.toString()).matches() && type==1) {
-            showToast("Please enter valid email")
+            showToast(getString(R.string.please_enter_valid_email))
             return false
         }
         else if (binding?.etPassword?.text?.isBlank() == true) {
-            showToast("Please enter password")
+            showToast(getString(R.string.please_enter_password))
             return false
         }
         return true
