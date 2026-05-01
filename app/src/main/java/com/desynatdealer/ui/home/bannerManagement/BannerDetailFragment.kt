@@ -50,7 +50,7 @@ class BannerDetailFragment : BaseFragment() {
                 if (isPaid == true) {
                     binding?.btnPay?.isInvisible = true
 
-                    binding?.tvStatusValue?.text = "Active"
+                    binding?.tvStatusValue?.text = getString(R.string.active)
                     binding?.tvStatusValue?.let { CommonMethod.applyGradientText(it) }
 
                     findNavController()
@@ -99,7 +99,7 @@ class BannerDetailFragment : BaseFragment() {
 
             when (bannerData?.adminVerify) {
                 "0" -> {
-                    tvStatusValue.text = "Pending"
+                    tvStatusValue.text = getString(R.string.pending)
                     tvStatusValue.setTextColor(Color.parseColor("#E28F12"))
                     btnPay.isInvisible = true
                 }
@@ -107,12 +107,12 @@ class BannerDetailFragment : BaseFragment() {
                 "1" -> {
                     when (bannerData?.paymentStatus) {
                         "0" -> {if (CommonMethod.isExpired(bannerData?.endDate.toString())) {
-                            tvStatusValue.text = "Expired"
+                            tvStatusValue.text = getString(R.string.expired)
                             tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                             btnPay.isInvisible = true
                         }
                         else {
-                            tvStatusValue.text = "Confirmed"
+                            tvStatusValue.text = getString(R.string.confirmed)
                             tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
                             btnPay.isVisible = true
                         }
@@ -122,31 +122,31 @@ class BannerDetailFragment : BaseFragment() {
                             btnPay.isInvisible = true
                             when {
                                 CommonMethod.isUpcoming(bannerData?.startDate.toString()) -> {
-                                    tvStatusValue.text = "Upcoming"
+                                    tvStatusValue.text = getString(R.string.upcoming)
                                     tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
                                 }
 
                                 CommonMethod.isActive(bannerData?.startDate.toString(), bannerData?.endDate.toString()) -> {
-                                    tvStatusValue.text = "Active"
+                                    tvStatusValue.text = getString(R.string.active)
                                     CommonMethod.applyGradientText(tvStatusValue)
                                 }
 
                                 CommonMethod.isExpired(bannerData?.endDate.toString()) -> {
-                                    tvStatusValue.text = "Expired"
+                                    tvStatusValue.text = getString(R.string.expired)
                                     tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                                 }
                             }
                         }
 
                         "2" -> {
-                            tvStatusValue.text = "Rejected"
+                            tvStatusValue.text = getString(R.string.rejected)
                             tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                             btnPay.isInvisible = true
                         }
                     }
                 }
                 "2" -> {
-                    tvStatusValue.text = "Rejected"
+                    tvStatusValue.text = getString(R.string.rejected)
                     tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                     btnPay.isInvisible = true
                     if (bannerData?.cancelledReason!=null) {
@@ -159,7 +159,7 @@ class BannerDetailFragment : BaseFragment() {
 
             when (bannerData?.bannerPosition) {
                 "1" -> {
-                    tvBannerPosition.text = "Home Top"
+                    tvBannerPosition.text = getString(R.string.home_top)
                     tvCategory.isVisible = false
                     tvCategoryValue.isVisible = false
                     tvSubCategory.isVisible = false
@@ -167,7 +167,7 @@ class BannerDetailFragment : BaseFragment() {
                 }
 
                 "2" -> {
-                    tvBannerPosition.text = "Home Bottom"
+                    tvBannerPosition.text = getString(R.string.home_bottom)
                     tvCategory.isVisible = false
                     tvCategoryValue.isVisible = false
                     tvSubCategory.isVisible = false
@@ -175,7 +175,7 @@ class BannerDetailFragment : BaseFragment() {
                 }
 
                 "3" -> {
-                    tvBannerPosition.text = "Category"
+                    tvBannerPosition.text = getString(R.string.category)
                     tvCategoryValue.text = bannerData?.categoryDetails?.name
                     tvSubCategoryValue.text = bannerData?.subcategoryDetails?.nameEnglish
                     tvCategory.isVisible = true

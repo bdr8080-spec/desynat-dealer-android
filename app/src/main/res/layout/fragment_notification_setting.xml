@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".ui.home.cms.SettingFragment">
+    tools:context=".ui.home.cms.NotificationSettingFragment">
 
     <include
         android:id="@+id/toolbar"
@@ -15,7 +15,7 @@
         android:id="@+id/tvNotification"
         style="@style/edit_text_title"
         android:layout_marginTop="@dimen/_10sdp"
-        android:text="Notification"
+        android:text="@string/notification"
         android:textSize="@dimen/_12sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
         android:id="@+id/tvInAppNotification"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="In-app notifications"
+        android:text="@string/in_app_notifications"
         android:fontFamily="@font/poppins_medium"
         android:textSize="@dimen/_11sdp"
         android:textColor="@color/black"
@@ -43,7 +43,7 @@
         android:id="@+id/tvPushNotification"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Push notifications"
+        android:text="@string/push_notifications"
         android:fontFamily="@font/poppins_medium"
         android:textSize="@dimen/_11sdp"
         android:textColor="@color/black"
@@ -61,7 +61,7 @@
         android:id="@+id/btnDeleteAccount"
         style="@style/button"
         android:layout_marginTop="@dimen/_20sdp"
-        android:text="Delete Account"
+        android:text="@string/delete_account"
         android:textColor="#D72E04"
         android:padding="@dimen/_9sdp"
         android:background="@drawable/delete_bg"

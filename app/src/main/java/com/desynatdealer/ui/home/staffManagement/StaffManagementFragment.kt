@@ -73,7 +73,7 @@ class StaffManagementFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
-            toolbar.tvToolbar.text = "Staff Management"
+            toolbar.tvToolbar.text = getString(R.string.staff_management)
             if (SharedPreference.get(requireActivity()).userType == "1") {
                 canAction = CommonMethod.getPermission(requireActivity(),"seller.staff-management")?.canAction == 1
                 canView = CommonMethod.getPermission(requireActivity(),"seller.staff-management")?.canView == 1
@@ -99,7 +99,7 @@ class StaffManagementFragment : BaseFragment() {
                             selectedPos = position
                             CommonMethod.deleteAlertDialog(
                                 requireActivity(),
-                                "Are you sure you want to delete staff?"
+                                getString(R.string.are_you_sure_you_want_to_delete_staff)
                             ) { action ->
                                 when (action) {
                                     CommonMethod.DialogAction.DELETE -> {
@@ -234,7 +234,8 @@ class StaffManagementFragment : BaseFragment() {
                     staffList.removeAt(selectedPos)
                     staffAdapter?.notifyDataSetChanged()
                     selectedPos = -1
-                    CommonMethod.showSuccessDialog(requireActivity(),"Staff deleted successfully !"){
+                    CommonMethod.showSuccessDialog(requireActivity(),
+                        getString(R.string.staff_deleted_successfully)){
 
                     }
                     viewModel.deleteStaffResponse.value = null
@@ -387,7 +388,7 @@ class StaffManagementFragment : BaseFragment() {
 
             etTo.setOnClickListener {
                 if (tempFromTimestamp == null) {
-                    showToast("Please select From date first")
+                    showToast(getString(R.string.please_select_from_date_first))
                     return@setOnClickListener
                 }
 
@@ -430,7 +431,7 @@ class StaffManagementFragment : BaseFragment() {
                 roleFilter = tempRoleFilter
 
                 if (statusFilter==null&&roleFilter==null&&fromDateText==null&&toDateText==null) {
-                    showToast("Please select filter")
+                    showToast(getString(R.string.please_select_filter))
                     return@setOnClickListener
                 }
                 else{

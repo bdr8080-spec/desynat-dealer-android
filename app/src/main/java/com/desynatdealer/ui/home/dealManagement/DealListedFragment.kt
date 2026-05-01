@@ -92,7 +92,7 @@ class DealListedFragment : BaseFragment() {
                     }
                 }
 
-            toolbar.tvToolbar.text = "Listed Deals"
+            toolbar.tvToolbar.text = getString(R.string.listed_deals)
 
             etSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(

@@ -41,7 +41,7 @@
                     android:paddingVertical="@dimen/_8sdp"
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Contact"
+                    android:text="@string/contact"
                     android:textSize="@dimen/_11sdp"
                     android:gravity="center"
                     android:textColor="@color/white"
@@ -54,7 +54,7 @@
                     android:paddingVertical="@dimen/_8sdp"
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Ticket Management"
+                    android:text="@string/ticket_management"
                     android:textSize="@dimen/_11sdp"
                     android:gravity="center"
                     android:textColor="@color/black" />
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
                         android:singleLine="true"
-                        android:text="Support Email Address"
+                        android:text="@string/support_email_address"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_11sdp"
                         android:layout_marginHorizontal="@dimen/_10sdp"
@@ -138,7 +138,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
                         android:singleLine="true"
-                        android:text="Support Contact Number"
+                        android:text="@string/support_contact_number"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_11sdp"
                         android:layout_marginHorizontal="@dimen/_10sdp"
@@ -185,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
                     android:singleLine="true"
-                    android:text="Chat on Whatsapp"
+                    android:text="@string/chat_on_whatsapp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -217,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
                     android:singleLine="true"
-                    android:text="Chat with the Support Team"
+                    android:text="@string/chat_with_the_support_team"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -235,19 +235,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clSearch"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:background="@drawable/search_bg"
-                    android:layout_toLeftOf="@+id/ivAddTicket">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivAddTicket">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/etSearch"
@@ -257,7 +259,7 @@
                         android:drawableStart="@drawable/ic_search"
                         android:drawablePadding="10dp"
                         android:ellipsize="end"
-                        android:hint="Search"
+                        android:hint="@string/search"
                         android:paddingStart="12dp"
                         android:singleLine="true"
                         android:textColor="@color/black"
@@ -290,10 +292,11 @@
                     android:paddingEnd="@dimen/_15sdp"
                     android:paddingStart="@dimen/_10sdp"
                     android:src="@drawable/ic_add_ticket"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTicket"
@@ -318,7 +321,7 @@
                 android:textColor="@color/black"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="@dimen/_13sdp"
-                android:text="No ticket found"
+                android:text="@string/no_ticket_found"
                 android:layout_marginTop="@dimen/_100sdp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

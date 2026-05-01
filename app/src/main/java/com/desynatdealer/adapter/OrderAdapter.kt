@@ -49,104 +49,105 @@ class OrderAdapter(
                 )
 
                 if (orderData?.paymentStatus == "2" || orderData?.paymentStatus == "3") {
-                    tvStatus.text = "Cancelled"
+                    tvStatus.text = context.getString(R.string.cancelled)
                     tvStatus.setTextColor(Color.parseColor("#E70000"))
                 }
                 else {
                     when (orderData?.deliveryStatus) {
                         "1" -> {
                             if (orderData?.rEApprove=="1"&&orderData?.returnType=="1"&&orderData?.assignStatus=="0"){
-                                tvStatus.text = "Return Req Accepted"
+                                tvStatus.text = context.getString(R.string.return_req_accepted)
                                 tvStatus.setTextColor(Color.parseColor("#16B364"))
                             }
                             else if (orderData?.rEApprove=="1"&&orderData?.returnType=="1"&&orderData?.assignStatus=="1"){
-                                tvStatus.text = "Out for Picked"
+                                tvStatus.text = context.getString(R.string.out_for_picked)
                                 tvStatus.setTextColor(Color.parseColor("#16B364"))
                             }
                             else{
-                                tvStatus.text = "Confirmed"
+                                tvStatus.text = context.getString(R.string.confirmed)
                                 tvStatus.setTextColor(Color.parseColor("#16B364"))
                             }
 
                         }
 
                         "2" -> {
-                            tvStatus.text = "Confirmed"
+                            tvStatus.text = context.getString(R.string.confirmed)
                             tvStatus.setTextColor(Color.parseColor("#16B364"))
                         }
                         "2.1" -> {
-                            tvStatus.text = "Shipped"
+                            tvStatus.text = context.getString(R.string.shipped)
                             tvStatus.setTextColor(Color.parseColor("#16B364"))
                         }
                         "2.2" -> {
-                            tvStatus.text = "Out for Delivery"
+                            tvStatus.text = context.getString(R.string.out_for_delivery)
                             tvStatus.setTextColor(Color.parseColor("#16B364"))
                         }
 
                         "3" -> {
                             if (orderData?.r_e_type == "0" && orderData?.p_orderdetails_id == "0" && orderData?.rEApprove == "0" && orderData?.returnType == "0") {
-                                tvStatus.text = "Delivered"
+                                tvStatus.text = context.getString(R.string.delivered)
                                 tvStatus.setTextColor(Color.parseColor("#047BD5"))
                             }
                             else if (orderData?.r_e_type == "0" && orderData?.p_orderdetails_id == "0" && orderData?.rEApprove == "1" && orderData?.returnType == "2") {
 
                                 if (orderData?.exchangeOrderDetails?.deliveryStatus=="7"){
-                                    tvStatus.text = "Out For Drop"
+                                    tvStatus.text = context.getString(R.string.out_for_drop)
                                     tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                                 }
                                 else if (orderData?.exchangeOrderDetails?.deliveryStatus=="3"){
-                                    tvStatus.text = "Exchange Complete"
+                                    tvStatus.text = context.getString(R.string.exchange_complete)
                                     tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                                 }
                                 else{
-                                    tvStatus.text = "Exchange Req Accepted"
+                                    tvStatus.text =
+                                        context.getString(R.string.exchange_req_accepted)
                                     tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                                 }
                             }
                             else if (orderData?.r_e_type == "0" && orderData?.p_orderdetails_id == "0" && orderData?.rEApprove == "0" && orderData?.returnType == "2") {
-                                tvStatus.text = "Exchange Req"
+                                tvStatus.text = context.getString(R.string.exchange_req)
                                 tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                             }
 
                             else if (orderData?.r_e_type=="0"&&orderData?.p_orderdetails_id=="0"&&orderData?.rEApprove=="0"&&orderData?.returnType=="1"){
-                                tvStatus.text = "Return Req"
+                                tvStatus.text = context.getString(R.string.return_req)
                                 tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                             }
                             else if (orderData?.r_e_type=="0"&&orderData?.p_orderdetails_id=="0"&&orderData?.rEApprove=="1"&&orderData?.returnType=="1"){
-                                tvStatus.text = "Return Complete"
+                                tvStatus.text = context.getString(R.string.return_complete)
                                 tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                             }
                             else{
-                                tvStatus.text = "Delivered"
+                                tvStatus.text = context.getString(R.string.delivered)
                                 tvStatus.setTextColor(Color.parseColor("#047BD5"))
                             }
                         }
 
                         "4" -> {
-                            tvStatus.text = "Cancelled"
+                            tvStatus.text = context.getString(R.string.cancelled)
                             tvStatus.setTextColor(Color.parseColor("#E70000"))
                         }
 
                         "5" -> {
-                            tvStatus.text = "Return Req"
+                            tvStatus.text = context.getString(R.string.return_req)
                             tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                         }
 
                         "7" -> {
                             when (orderData?.returnType) {
                                 "1" -> {
-                                    tvStatus.text = "Picked Up"
+                                    tvStatus.text = context.getString(R.string.picked_up)
                                     tvStatus.setTextColor(Color.parseColor("#16B364"))
 
                                 }
 
                                 "2" -> {
-                                    tvStatus.text = "Picked Up"
+                                    tvStatus.text = context.getString(R.string.picked_up)
                                     tvStatus.setTextColor(Color.parseColor("#16B364"))
                                 }
 
                                 else -> {
-                                    tvStatus.text = "Out for Delivery"
+                                    tvStatus.text = context.getString(R.string.out_for_delivery)
                                     tvStatus.setTextColor(Color.parseColor("#16B364"))
                                 }
                             }
@@ -154,12 +155,12 @@ class OrderAdapter(
                         }
 
                         "8" -> {
-                            tvStatus.text = "Not Delivered"
+                            tvStatus.text = context.getString(R.string.not_delivered)
                             tvStatus.setTextColor(Color.parseColor("#E70000"))
                         }
 
                         "9" -> {
-                            tvStatus.text = "Exchange Req"
+                            tvStatus.text = context.getString(R.string.exchange_req)
                             tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                         }
                     }

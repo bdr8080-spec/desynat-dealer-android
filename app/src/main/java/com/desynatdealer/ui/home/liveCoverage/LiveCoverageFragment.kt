@@ -104,7 +104,7 @@ class LiveCoverageFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
-            toolbar.tvToolbar.text = "Live Coverage"
+            toolbar.tvToolbar.text = getString(R.string.live_coverage)
 
             calendarAdapter = CalendarAdapter(daysList,calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.YEAR)) { selectedDay ->

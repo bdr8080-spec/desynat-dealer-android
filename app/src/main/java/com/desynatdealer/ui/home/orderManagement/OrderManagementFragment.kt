@@ -323,9 +323,9 @@ class OrderManagementFragment : BaseFragment() {
     private fun checkData() {
         binding?.apply {
             tvNoDataFound.isVisible = orderList.isEmpty()
-            tvAll.text = "All(${orderData?.allOrder?.size ?: 0})"
-            tvOngoing.text = "Ongoing(${orderData?.ongoingOrder?.size ?: 0})"
-            tvPast.text = "Past(${orderData?.pastOrder?.size ?: 0})"
+            tvAll.text = "${getString(R.string.all)}(${orderData?.allOrder?.size ?: 0})"
+            tvOngoing.text = "${getString(R.string.ongoing)}(${orderData?.ongoingOrder?.size ?: 0})"
+            tvPast.text = "${getString(R.string.past)}(${orderData?.pastOrder?.size ?: 0})"
         }
     }
 
@@ -430,7 +430,7 @@ class OrderManagementFragment : BaseFragment() {
 
             etTo.setOnClickListener {
                 if (tempFromTimestamp == null) {
-                    showToast("Please select From date first")
+                    showToast(getString(R.string.please_select_from_date_first))
                     return@setOnClickListener
                 }
 
@@ -472,7 +472,7 @@ class OrderManagementFragment : BaseFragment() {
                 toDateText = tempToDateText
 
                 if (orderFilter == null && fromDateText == null && toDateText == null) {
-                    showToast("Please select banner status")
+                    showToast(getString(R.string.please_select_banner_status))
                     return@setOnClickListener
                 } else {
                     getOrder()

@@ -1,5 +1,6 @@
 package com.desynatdealer.ui.home.cms
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -45,6 +46,7 @@ class SettingFragment : BaseFragment() {
         observe()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
         binding?.apply {
             if (SharedPreference.get(requireActivity()).userType == "1") {
@@ -53,7 +55,7 @@ class SettingFragment : BaseFragment() {
                     tvChangePassword.isVisible=canAction
                     btnDeleteAccount.isVisible=canAction
             }
-            toolbar.tvToolbar.text = "Settings"
+            toolbar.tvToolbar.text = getString(R.string.settings)
         }
     }
 

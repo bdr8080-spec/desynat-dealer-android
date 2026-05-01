@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemLiveCoverageRequestBinding
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.utils.CommonMethod
@@ -34,7 +35,7 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
                 tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
                 when(liveRequestData?.adminVerify){
                     "0" ->{
-                        tvStatusValue.text = "Pending"
+                        tvStatusValue.text = context.getString(R.string.pending)
                         tvStatusValue.setTextColor(Color.parseColor("#E28F12"))
                         btnCancelRequest.isVisible = true
                         tvRejectedOn.isVisible = false
@@ -57,7 +58,7 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
                         tvRejectedReason.isVisible = false
                     }
                     "2"->{
-                        tvStatusValue.text = "Rejected"
+                        tvStatusValue.text = context.getString(R.string.rejected)
                         tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                         btnCancelRequest.isVisible = false
                         tvRejectedOn.isVisible = true
@@ -70,11 +71,11 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
                         tvRejectedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.updatedAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
                     }
                     "3"->{
-                        tvStatusValue.text = "Cancelled"
+                        tvStatusValue.text = context.getString(R.string.cancelled)
                         tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                         btnCancelRequest.isVisible = false
-                        tvRejectedOn.text = "Cancelled On"
-                        tvReason.text = "Cancelled Reason"
+                        tvRejectedOn.text = context.getString(R.string.cancelled_on)
+                        tvReason.text = context.getString(R.string.cancelled_reason)
                         tvRejectedOn.isVisible = true
                         tvRejectedOnValue.isVisible = true
                         if (liveRequestData?.cancelReason!=null) {
@@ -132,14 +133,14 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
             val currentDateTime = LocalDateTime.now()
 
             when {
-                currentDateTime.isBefore(startDateTime) -> "Confirmed"
-                currentDateTime.isAfter(endDateTime) -> "Completed"
-                else -> "Live"
+                currentDateTime.isBefore(startDateTime) -> context.getString(R.string.confirmed)
+                currentDateTime.isAfter(endDateTime) -> context.getString(R.string.completed)
+                else -> context.getString(R.string.live)
             }
 
         } catch (e: Exception) {
             e.printStackTrace()
-            "Confirmed" // fallback (you can change this)
+            context.getString(R.string.confirmed) // fallback (you can change this)
         }
     }
 

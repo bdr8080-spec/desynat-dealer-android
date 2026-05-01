@@ -69,7 +69,7 @@ class SelectDealProductFragment : BaseFragment() {
         }
 
         binding?.apply {
-            toolbar.tvToolbar.text = "Select Product"
+            toolbar.tvToolbar.text = getString(R.string.select_product)
 
             etSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
@@ -147,7 +147,7 @@ class SelectDealProductFragment : BaseFragment() {
                     addProductInDeal()
                 }
                 else{
-                    showToast("Please select product")
+                    showToast(getString(R.string.please_select_product))
                 }
             }
         }
@@ -162,7 +162,7 @@ class SelectDealProductFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Products added to deals successfully !"){
+                    CommonMethod.showSuccessDialog(requireActivity(),getString(R.string.products_added_to_deals_successfully)){
                         findNavController().popBackStack()
                     }
                     viewModel.addProductInDealResponse.value = null

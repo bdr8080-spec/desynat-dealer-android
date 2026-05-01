@@ -17,8 +17,8 @@ class FeaturePlanAdapter(var context:Context, var featureList: ArrayList<Subscri
             if (featureList[position].count!=0) {
                 tvCount.text = featureList[position].count.toString()
             }
-            else if (featureList[position].feature=="Number of Products: "&&featureList[position].count==0){
-                tvCount.text = "Unlimited"
+            else if (featureList[position].feature=="${context.getString(R.string.number_of_products)}: "&&featureList[position].count==0){
+                tvCount.text = context.getString(R.string.unlimited)
             }
         }
         }

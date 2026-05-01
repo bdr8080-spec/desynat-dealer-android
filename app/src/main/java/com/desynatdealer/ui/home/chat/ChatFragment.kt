@@ -63,7 +63,7 @@ class ChatFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
-            toolbar.tvToolbar.text = "Chat"
+            toolbar.tvToolbar.text = getString(R.string.chat)
 
             chatAdapter = ChatAdapter(requireActivity(),chatList,object : ChatAdapter.ChatClick{
                 override fun onChatClick(position: Int) {
@@ -84,7 +84,7 @@ class ChatFragment : BaseFragment() {
 
             ivSend.setOnClickListener {
                 if (etMessage.text?.trim()?.isEmpty() == true){
-                    showToast("Please enter message")
+                    showToast(getString(R.string.please_enter_message))
                 }
                 else{
 
@@ -148,13 +148,13 @@ class ChatFragment : BaseFragment() {
         dialogBinding.apply {
 
             if (isModified){
-                tvToolbar.text = "Modify Quotation"
-                tvSend.text = "Confirm & Modify"
+                tvToolbar.text = getString(R.string.modify_quotation)
+                tvSend.text = getString(R.string.confirm_modify)
                 ivViewRequest.isVisible = true
             }
             else{
-                tvToolbar.text = "Send Quotation"
-                tvSend.text = "Confirm & Send"
+                tvToolbar.text = getString(R.string.send_quotation)
+                tvSend.text = getString(R.string.confirm_send)
                 ivViewRequest.isVisible = false
             }
 
@@ -176,14 +176,15 @@ class ChatFragment : BaseFragment() {
 
                  sendQuotation(map)
                  if (isModified){
-                     CommonMethod.showSuccessDialog(requireActivity(),"Modified successfully!"){
+                     CommonMethod.showSuccessDialog(requireActivity(),
+                         getString(R.string.modified_successfully)){
                          quotationDialog?.dismiss()
                      }
                  }
                  else {
                      CommonMethod.showSuccessDialog(
                          requireActivity(),
-                         "Request Sent successfully!"
+                         getString(R.string.request_sent_successfully)
                      ) {
                          quotationDialog?.dismiss()
                      }
@@ -230,16 +231,16 @@ class ChatFragment : BaseFragment() {
                     ivViewRequest.isVisible = false
                     clCustomerRequest.isVisible = true
                     clQuotationDetail.isVisible = false
-                    btnSendQuotation.text = "Send Quotation"
+                    btnSendQuotation.text = getString(R.string.send_quotation)
                 }
                 2 -> {
                     tvStatus.isVisible = true
                     ivViewRequest.isVisible = false
                     clCustomerRequest.isVisible = false
                     clQuotationDetail.isVisible = true
-                    tvStatus.text = "Pending"
+                    tvStatus.text = getString(R.string.pending)
                     tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
-                    btnSendQuotation.text = "Modify Quotation"
+                    btnSendQuotation.text = getString(R.string.modify_quotation)
                 }
                 3 -> {
                     tvStatus.isVisible = true
@@ -247,7 +248,7 @@ class ChatFragment : BaseFragment() {
                     clCustomerRequest.isVisible = false
                     clQuotationDetail.isVisible = true
                     btnSendQuotation.isVisible = false
-                    tvStatus.text = "Accepted"
+                    tvStatus.text = getString(R.string.accepted)
                     tvStatus.setTextColor(Color.parseColor("#68CA44"))
                 }
             }

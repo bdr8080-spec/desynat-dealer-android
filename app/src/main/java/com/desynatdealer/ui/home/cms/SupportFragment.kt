@@ -108,7 +108,7 @@ class SupportFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
-            toolbar.tvToolbar.text = "Support"
+            toolbar.tvToolbar.text = getString(R.string.support)
             if (SharedPreference.get(requireActivity()).userType == "1") {
                 canAction = CommonMethod.getPermission(requireActivity(),"seller.ticket_management")?.canAction == 1
                 canView = CommonMethod.getPermission(requireActivity(),"seller.ticket_management")?.canView == 1
@@ -434,7 +434,7 @@ class SupportFragment : BaseFragment() {
         try {
             speechLauncher.launch(intent)
         } catch (e: Exception) {
-            showToast("Speech recognition not supported")
+            showToast(getString(R.string.speech_recognition_not_supported))
         }
     }
 
@@ -504,15 +504,15 @@ class SupportFragment : BaseFragment() {
     private fun validation():Boolean{
 
         if (dialogBinding?.etTicketType?.text?.isEmpty() == true) {
-            showToast("Please select ticket type")
+            showToast(getString(R.string.please_select_ticket_type))
             return false
         }
         else if (dialogBinding?.etTitle?.text?.isEmpty() == true) {
-            showToast("Please enter title")
+            showToast(getString(R.string.please_enter_title))
             return false
         }
         else if (dialogBinding?.etDescription?.text?.isEmpty() == true) {
-            showToast("Please enter description")
+            showToast(getString(R.string.please_enter_description))
             return false
         }
 

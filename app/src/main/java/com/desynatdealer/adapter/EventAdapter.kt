@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemEventBinding
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
@@ -35,8 +36,8 @@ class EventAdapter(var context: Context, var list : List<GetOtherLiveStreamingRo
             tvName.text = item?.sellerDetails?.firstName+" "+item?.sellerDetails?.lastName
             tvLocation.text = item?.timeslotDetails?.countryInfo?.name
             Glide.with(ivProfileImage).load(item?.sellerDetails?.profilePic).transform(CircleCrop()).into(ivProfileImage)
-            tvJoinedOn.text = "Joined on ${CommonMethod.customizeChangeDateFormat(item?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
-            tvLiveTiming.text = "Live Timing ${CommonMethod.customizeChangeDateFormat(item?.timeslotDetails?.date.toString(), inputFormat = "yyyy-MM-dd", outputFormat = "dd/MM/yy")}"
+            tvJoinedOn.text = "${context.getString(R.string.joined_on)} ${CommonMethod.customizeChangeDateFormat(item?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
+            tvLiveTiming.text = "${context.getString(R.string.live_timing)} ${CommonMethod.customizeChangeDateFormat(item?.timeslotDetails?.date.toString(), inputFormat = "yyyy-MM-dd", outputFormat = "dd/MM/yy")}"
 
             val isShow = isLiveTime(item.timeslotDetails)
             btnWatchLive.apply {

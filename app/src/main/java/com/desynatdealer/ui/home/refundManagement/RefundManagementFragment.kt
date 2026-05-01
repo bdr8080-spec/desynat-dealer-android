@@ -359,7 +359,7 @@ class RefundManagementFragment : BaseFragment() {
                 toDateText = tempToDateText
 
                 if (refundFilter == null && fromDateText == null && toDateText == null) {
-                    showToast("Please select banner status")
+                    showToast(getString(R.string.please_select_status))
                     return@setOnClickListener
                 } else {
                     getRefund()

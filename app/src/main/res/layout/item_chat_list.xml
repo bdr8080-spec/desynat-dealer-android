@@ -108,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_regular"
-        android:text="New"
+        android:text="@string/new_text"
         android:textColor="#EA9413"
         android:backgroundTint="#1AEA9413"
         android:background="@drawable/rounded_corner_4"

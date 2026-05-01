@@ -93,7 +93,7 @@ class AddBannerFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
-            toolbar.tvToolbar.text = "Add New Banner"
+            toolbar.tvToolbar.text = getString(R.string.add_new_banner)
 
             CommonMethod.applyGradientText(tvDays)
             CommonMethod.applyGradientText(tvTotalDays)
@@ -196,7 +196,7 @@ class AddBannerFragment : BaseFragment() {
 
     private fun addBanner() {
         if (startDate == null || endDate == null) {
-            showToast("Please select date")
+            showToast(getString(R.string.please_select_date))
             return
         }
 
@@ -474,41 +474,41 @@ class AddBannerFragment : BaseFragment() {
     private fun validation(): Boolean {
 
         if (binding?.rgPosition?.checkedRadioButtonId == -1) {
-            showToast("Please select banner position")
+            showToast(getString(R.string.please_select_banner_position))
             return false
         }
 
         if (binding?.cbCategory?.isChecked == true) {
             if (binding?.etCategory?.text.isNullOrBlank()) {
-                showToast("Please select category")
+                showToast(getString(R.string.please_select_category))
                 return false
             }
         }
 
         if (binding?.cbCategory?.isChecked == true) {
             if (binding?.etSubCategory?.text.isNullOrBlank()) {
-                showToast("Please select sub-category")
+                showToast(getString(R.string.select_sub_category))
                 return false
             }
         }
 
         if (binding?.etFrom?.text.isNullOrBlank()) {
-            showToast("Please select start date")
+            showToast(getString(R.string.please_select_start_date))
             return false
         }
 
         if (binding?.etTo?.text.isNullOrBlank()) {
-            showToast("Please select end date")
+            showToast(getString(R.string.please_select_end_date))
             return false
         }
 
         if (binding?.tvTotalDays?.text.isNullOrBlank()) {
-            showToast("Please select valid date range")
+            showToast(getString(R.string.please_select_valid_date_range))
             return false
         }
 
         if (image==null) {
-            showToast("Please upload banner image")
+            showToast(getString(R.string.please_upload_banner_image))
             return false
         }
 

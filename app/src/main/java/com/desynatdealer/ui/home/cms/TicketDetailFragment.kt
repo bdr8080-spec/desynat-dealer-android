@@ -78,12 +78,12 @@ class TicketDetailFragment : BaseFragment() {
                 CommonMethod.customizeChangeDateFormat(ticketData?.createdAt.toString(), outputFormat = "dd MMM yy, hh:mm a")
             when(ticketData?.status){
                 0->{
-                    tvStatusValue.text = "In Progress"
+                    tvStatusValue.text = getString(R.string.in_progress)
                     tvStatusValue.setTextColor(Color.parseColor("#D72E04"))
 
                 }
                 1->{
-                    tvStatusValue.text = "Resolved"
+                    tvStatusValue.text = getString(R.string.resolved)
                     tvStatusValue.setTextColor(Color.parseColor("#17854C"))
                 }
             }

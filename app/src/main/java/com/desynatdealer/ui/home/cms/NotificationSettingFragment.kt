@@ -50,7 +50,7 @@ class NotificationSettingFragment : BaseFragment() {
         sellerInfo = SharedPreference.get(requireActivity()).getUser()
         setData()
         binding?.apply {
-            toolbar.tvToolbar.text = "Notificatio"
+            toolbar.tvToolbar.text = getString(R.string.notification)
         }
     }
 

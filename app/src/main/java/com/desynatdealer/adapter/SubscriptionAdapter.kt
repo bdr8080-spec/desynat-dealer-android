@@ -48,13 +48,25 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
                 tvPrice.text = "${CommonMethod.formatPrice(subscriptionData.price)} KD"
                 when(subscriptionData.durationType){
                     1 -> {
-                        tvDuration.text = "for ${subscriptionData.duration} Month"
+                        tvDuration.text = "${context.getString(R.string.for_text)} ${subscriptionData.duration} ${
+                            context.getString(
+                                R.string.month
+                            )
+                        }"
                     }
                     2 -> {
-                        tvDuration.text = "for ${subscriptionData.duration} Year"
+                        tvDuration.text = "${context.getString(R.string.for_text)} ${subscriptionData.duration} ${
+                            context.getString(
+                                R.string.year
+                            )
+                        }"
                     }
                     else -> {
-                        tvDuration.text = "for ${subscriptionData.duration} Month"
+                        tvDuration.text = "${context.getString(R.string.for_text)} ${subscriptionData.duration} ${
+                            context.getString(
+                                R.string.month
+                            )
+                        }"
                     }
                 }
 
@@ -71,36 +83,36 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
 
             subscriptionData.apply {
                 if (noOfProducts != 0)
-                    featureList.add(FeatureList("Number of Products: ", noOfProducts))
+                    featureList.add(FeatureList("${context.getString(R.string.number_of_products)}: ", noOfProducts))
 
-                else  featureList.add(FeatureList("Number of Products: ", 0))
+                else  featureList.add(FeatureList("${context.getString(R.string.number_of_products)}: ", 0))
 
                 if (noOfVideos != 0)
-                    featureList.add(FeatureList("Number of Videos (Reels): ", noOfVideos))
+                    featureList.add(FeatureList("${context.getString(R.string.number_of_videos)}: ", noOfVideos))
 
                 if (noOfHighlights != 0)
-                    featureList.add(FeatureList("Number of Highlights: ", noOfHighlights))
+                    featureList.add(FeatureList("${context.getString(R.string.number_of_highlights)}: ", noOfHighlights))
 
                 if (stories != 0)
-                    featureList.add(FeatureList("Stories: ", stories))
+                    featureList.add(FeatureList("${context.getString(R.string.stories)}: ", stories))
 
                 if (noOfEmployee != 0)
-                    featureList.add(FeatureList("$noOfEmployee Store Employees", 0))
+                    featureList.add(FeatureList("$noOfEmployee ${context.getString(R.string.store_employees)}", 0))
 
                 // Handle commission formatting
                 val commissionValue = commissionPercentage?.toString()?.toDoubleOrNull()
                 if (commissionValue != null && commissionValue != 0.0) {
                     if (commissionValue % 1.0 == 0.0){
                         val formattedCommission =  commissionValue.toInt()
-                        featureList.add(FeatureList("Commission: ", formattedCommission))}
+                        featureList.add(FeatureList("${context.getString(R.string.commission)}: ", formattedCommission))}
                     else {
                         val formattedCommission =  commissionValue.toString()
-                        featureList.add(FeatureList("Commission: $formattedCommission", 0))
+                        featureList.add(FeatureList("${context.getString(R.string.commission)}: $formattedCommission", 0))
                     }
                 }
 
                 if (noOfFreeMonths != null&&noOfFreeMonths != "null"&&noOfFreeMonths != "")
-                    featureList.add(FeatureList("Number of Free Month: ", noOfFreeMonths.toIntOrNull()))
+                    featureList.add(FeatureList("${context.getString(R.string.number_of_free_month)}: ", noOfFreeMonths.toIntOrNull()))
 
             }
 

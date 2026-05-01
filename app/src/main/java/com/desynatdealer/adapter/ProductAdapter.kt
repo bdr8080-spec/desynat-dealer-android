@@ -35,13 +35,13 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
                 tvBrand.text = if(productData?.brand?.nameEnglish=="Other") productData?.otherEn else productData?.brand?.nameEnglish
                 tvName.text = productData.productNameEn
                 if (productData?.productVariants?.get(0)?.totalStock!="0"){
-                    tvInStock.text = "In Stock"
+                    tvInStock.text = context.getString(R.string.in_stock)
                 }
                 else{
-                    tvInStock.text =  "Out of Stock"
+                    tvInStock.text = context.getString(R.string.out_of_stock)
                 }
 
-                tvDate.text = "Added on- ${CommonMethod.customizeChangeDateFormat(productData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
+                tvDate.text = "${context.getString(R.string.added_on)}- ${CommonMethod.customizeChangeDateFormat(productData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
 //                ivProduct.load(productData?.productVariants?.get(0)?.variantImage?.get(0)) {
 //                    crossfade(true)
 //                    placeholder(R.drawable.ic_placeholder)
@@ -52,12 +52,12 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
             ivProduct.setImage(productData?.productVariants?.get(0)?.variantImage?.get(0),R.drawable.ic_placeholder)
 
                 if(productData.productActiveStatus==1){
-                    tvSwitch.text = "Active"
+                    tvSwitch.text = context.getString(R.string.active)
                     tvSwitch.setTextColor(Color.parseColor("#1A900D"))
                     tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
                 }
                 else{
-                    tvSwitch.text = "Inactive"
+                    tvSwitch.text = context.getString(R.string.inactive)
                     tvSwitch.setTextColor(Color.parseColor("#875C3A"))
                     tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
 

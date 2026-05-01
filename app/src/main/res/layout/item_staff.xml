@@ -106,7 +106,7 @@
         android:paddingBottom="@dimen/_5sdp"
         android:paddingEnd="@dimen/_5sdp"
         android:paddingStart="@dimen/_5sdp"
-        android:text="Active"
+        android:text="@string/active"
         android:textColor="#1A900D"
         android:textSize="@dimen/_9sdp"
         app:layout_constraintEnd_toEndOf="parent"

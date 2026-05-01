@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemRefundBinding
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.utils.CommonMethod
@@ -22,10 +23,10 @@ class RefundAdapter(var context:Context, var refundList: ArrayList<GetRefundOrde
             tvTotalAmount.text = "${CommonMethod.formatPrice(refundData?.order?.totalAmount?.toDoubleOrNull()?:0.0)} KD"
             tvTotalCommissionValue.text = "${CommonMethod.formatPrice(refundData?.productDetails?.affiliatedCommission?.toDoubleOrNull()?:0.0)} KD"
             tvPaymentMode.text = when(refundData?.order?.paymentMethod){
-                "1"->"Card"
-                "2"->"Wallet"
-                "3"->"COD"
-                else -> "Card"
+                "1"->context.getString(R.string.card)
+                "2"-> context.getString(R.string.wallet)
+                "3"-> context.getString(R.string.cod)
+                else -> context.getString(R.string.card)
             }
             if (refundData?.returnReason!=null){
                 viewRefund.isVisible = true
@@ -53,16 +54,16 @@ class RefundAdapter(var context:Context, var refundList: ArrayList<GetRefundOrde
 
             when(refundData?.status){
                 "2"-> {
-                    tvStatus.text = "Completed"
+                    tvStatus.text = context.getString(R.string.completed)
                     tvStatus.setTextColor(Color.parseColor("#68CA44"))
 
                 }
                 "1"-> {
-                    tvStatus.text = "Pending"
+                    tvStatus.text = context.getString(R.string.pending)
                     tvStatus.setTextColor(Color.parseColor("#FFA41B"))
                 }
                 else -> {
-                    tvStatus.text =  "Pending"
+                    tvStatus.text = context.getString(R.string.pending)
                     tvStatus.setTextColor(Color.parseColor("#FFA41B"))
                 }
             }

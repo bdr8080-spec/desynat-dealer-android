@@ -187,14 +187,14 @@ class ProductDetailFragment : BaseFragment() {
             val discountType = if (variant?.discountType == "1")"% off" else " KD off"
             tvOffer.text = "$discountValue$discountType"
 
-            tvDate.text = "Added on- ${CommonMethod.customizeChangeDateFormat(productData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
+            tvDate.text = "${getString(R.string.added_on)}- ${CommonMethod.customizeChangeDateFormat(productData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
             tvDescription.text = productData?.descriptionEn
 
             if(productData?.productReturn=="1"){
-                tvReturnTime.text = "${productData?.returnDays} days"
+                tvReturnTime.text = "${productData?.returnDays} ${getString(R.string.days)}"
             }
             if(productData?.productReturn=="1"){
-                tvExchangeTime.text = "${productData?.exchangableDays} days"
+                tvExchangeTime.text = "${productData?.exchangableDays} ${getString(R.string.days)}"
             }
             tvRatingAndReviewStatus.text = if(productData?.reviewRating=="1") "Yes" else "No"
             tvAffiliatedProduct.text = if(productData?.affiliatedProduct=="1") "Yes" else "No"
@@ -228,12 +228,12 @@ class ProductDetailFragment : BaseFragment() {
     private fun updateStatus(){
         binding?.apply {
             if(productData?.productActiveStatus==1){
-                tvSwitch.text = "Active"
+                tvSwitch.text = getString(R.string.active)
                 tvSwitch.setTextColor(Color.parseColor("#1A900D"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
             }
             else{
-                tvSwitch.text = "Inactive"
+                tvSwitch.text = getString(R.string.inactive)
                 tvSwitch.setTextColor(Color.parseColor("#875C3A"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
             }
@@ -267,7 +267,7 @@ class ProductDetailFragment : BaseFragment() {
             btnDelete.setOnClickListener {
                 CommonMethod.deleteAlertDialog(
                     requireActivity(),
-                    "Are you sure you want to delete the product?"
+                    getString(R.string.are_you_sure_you_want_to_delete_the_product)
                 ) { action ->
                     when (action) {
                         CommonMethod.DialogAction.DELETE -> {
@@ -300,7 +300,8 @@ class ProductDetailFragment : BaseFragment() {
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Product deleted successfully"){
+                    CommonMethod.showSuccessDialog(requireActivity(),
+                        getString(R.string.product_deleted_successfully)){
                         findNavController().popBackStack()
                     }
                     viewModel.deleteProductResponse.value = null

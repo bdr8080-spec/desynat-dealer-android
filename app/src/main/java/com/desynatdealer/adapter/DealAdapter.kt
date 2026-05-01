@@ -57,20 +57,20 @@ class DealAdapter(
                     clDealInfo.isVisible = true
                     when {
                         CommonMethod.isUpcoming(dealData?.from.toString()) -> {
-                            tvStatusValue.text = "Upcoming"
+                            tvStatusValue.text = context.getString(R.string.upcoming)
                             tvStatusValue.paint.shader = null
                             tvStatusValue.setTextColor(Color.parseColor("#000000"))
                         }
 
                         CommonMethod.isActive(dealData?.from.toString(), dealData?.to.toString()) -> {
-                            tvStatusValue.text = "Active"
+                            tvStatusValue.text = context.getString(R.string.active)
                             CommonMethod.applyGradientText(tvStatusValue)
                             tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                         }
 
                         CommonMethod.isExpired(dealData?.from.toString()) -> {
                             tvStatusValue.paint.shader = null
-                            tvStatusValue.text = "Expired"
+                            tvStatusValue.text = context.getString(R.string.expired)
                             tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                         }
                     }
@@ -79,7 +79,7 @@ class DealAdapter(
                 "3" -> {
                     tvStartFrom.isVisible = false
                     clDealInfo.isVisible = true
-                    tvStatusValue.text = "Expired"
+                    tvStatusValue.text = context.getString(R.string.expired)
                     tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                 }
             }
@@ -93,7 +93,7 @@ class DealAdapter(
                 Color.parseColor("#DFBF8F"),
                 Color.parseColor("#6E4527")
             )
-            tvStartFrom.text = "Starts From - "+CommonMethod.customizeChangeDateFormat(dealData?.from.toString(),"yyyy-MM-dd","dd MMM yyyy")
+            tvStartFrom.text = "${context.getString(R.string.starts_from)} - "+CommonMethod.customizeChangeDateFormat(dealData?.from.toString(),"yyyy-MM-dd","dd MMM yyyy")
             tvStartsOnValue.text = CommonMethod.customizeChangeDateFormat(dealData?.from.toString(),"yyyy-MM-dd","dd MMM yyyy")
             tvFromValue.text =  CommonMethod.customizeChangeDateFormat(dealData?.from.toString(),"yyyy-MM-dd","dd/MM/yyyy") +" - "+ CommonMethod.customizeChangeDateFormat(dealData?.to.toString(),"yyyy-MM-dd","dd/MM/yyyy")
             tvProductsAddedValue.text = dealData?.sellerDealCount

@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_semi_bold"
                     android:singleLine="true"
-                    android:text="Pending"
+                    android:text="@string/pending"
                     android:textColor="#FF5F1B"
                     android:layout_marginTop="@dimen/_1sdp"
                     android:textSize="@dimen/_10sdp"
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:fontFamily="@font/poppins_light"
-                    android:text="Color"
+                    android:text="@string/color"
                     android:drawableStart="@drawable/ic_cart_dot"
                     android:drawablePadding="@dimen/_3sdp"
                     android:textColor="@color/black"
@@ -231,7 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_light"
-                    android:text="Total Quantity"
+                    android:text="@string/total_quantity"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
@@ -257,7 +257,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_light"
-                    android:text="Address"
+                    android:text="@string/address"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
@@ -282,7 +282,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_light"
-                    android:text="Custom Details"
+                    android:text="@string/custom_details"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
@@ -322,7 +322,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_light"
-                    android:text="Per Item Price"
+                    android:text="@string/per_item_price"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
@@ -349,7 +349,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_light"
-                    android:text="Delivery Fees"
+                    android:text="@string/delivery_fees"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
@@ -375,7 +375,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_light"
-                    android:text="Tax"
+                    android:text="@string/tax"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
@@ -409,7 +409,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_light"
-                    android:text="Total Amount"
+                    android:text="@string/total_amount"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
@@ -435,7 +435,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnSendQuotation"
                 style="@style/button"
-                android:text="Send Quotation"
+                android:text="@string/send_quotation"
                 android:padding="@dimen/_6sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
@@ -474,7 +474,7 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -488,23 +488,28 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etMessage"
-            android:layout_width="match_parent"
+            android:layout_width="0do"
             android:layout_height="wrap_content"
             style="@style/edit_text"
             android:background="@null"
-            android:hint="Type Here..."
+            android:hint="@string/type_here"
             android:paddingVertical="@dimen/_5sdp"
-            android:layout_toLeftOf="@+id/ivAttachment"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ivAttachment"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivAttachment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_attachment"
-            android:layout_alignParentEnd="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:padding="@dimen/_8sdp"/>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivSend"

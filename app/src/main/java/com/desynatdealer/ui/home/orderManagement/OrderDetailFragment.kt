@@ -185,9 +185,9 @@ class OrderDetailFragment : BaseFragment() {
             orderDetailData?.let { productOrderList.add(it) }
             productOrderAdapter?.notifyDataSetChanged()
             if (orderDetailData?.paymentStatus == "2" || orderDetailData?.paymentStatus == "3") {
-                tvStatus.text = "Cancelled"
+                tvStatus.text = getString(R.string.cancelled)
                 tvStatus.setTextColor(Color.parseColor("#E70000"))
-                tvStatus.text = "Cancelled"
+                tvStatus.text = getString(R.string.cancelled)
                 tvStatus.setTextColor(Color.parseColor("#E70000"))
                 etStatus.isVisible = false
                 btnUpdateStatus.isVisible = false
@@ -197,9 +197,9 @@ class OrderDetailFragment : BaseFragment() {
                 tvExchangeSizeValue.isVisible = false
                 tvUploadedImage.isVisible = false
                 relUploadImage.isVisible = false
-                tvReturnDetails.text = "Cancellation details"
-                tvReturnOn.text = "Cancelled on"
-                tvReturnRequestId.text = "Cancelled Request ID"
+                tvReturnDetails.text = getString(R.string.cancellation_details)
+                tvReturnOn.text = getString(R.string.cancelled_on)
+                tvReturnRequestId.text = getString(R.string.cancelled_request_id)
                 tvReturnRequestIdValue.text = "#"+orderDetailData?.id
                 tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
 
@@ -219,7 +219,7 @@ class OrderDetailFragment : BaseFragment() {
                     "1" -> {
 
                         if (orderDetailData?.rEApprove=="1"&&orderDetailData?.returnType=="1"&&orderDetailData?.assignStatus=="0"){
-                            tvStatus.text = "Return Req Accepted"
+                            tvStatus.text = getString(R.string.return_req_accepted)
                             tvStatus.setTextColor(Color.parseColor("#16B364"))
                             etStatus.isVisible = true
 
@@ -260,7 +260,7 @@ class OrderDetailFragment : BaseFragment() {
                             }
                         }
                        else if (orderDetailData?.rEApprove=="1"&&orderDetailData?.returnType=="1"&&orderDetailData?.assignStatus=="1"){
-                            tvStatus.text = "Out for Picked"
+                            tvStatus.text = getString(R.string.out_for_picked)
                             tvStatus.setTextColor(Color.parseColor("#16B364"))
                             etStatus.isVisible = true
 
@@ -304,7 +304,7 @@ class OrderDetailFragment : BaseFragment() {
                         }
 
                         else{
-                            tvStatus.text = "Confirmed"
+                            tvStatus.text = getString(R.string.confirmed)
                             tvStatus.setTextColor(Color.parseColor("#16B364"))
                             etStatus.isVisible = canAction
                             etStatus.setText("")
@@ -315,7 +315,7 @@ class OrderDetailFragment : BaseFragment() {
                     }
 
                     "2" -> {
-                        tvStatus.text = "Confirmed"
+                        tvStatus.text = getString(R.string.confirmed)
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
                         etStatus.setText("")
                         etStatus.isVisible = canAction
@@ -323,14 +323,14 @@ class OrderDetailFragment : BaseFragment() {
                         llComplete.isVisible = false
                     }
                     "2.1" -> {
-                        tvStatus.text = "Shipped"
+                        tvStatus.text = getString(R.string.shipped)
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
                         etStatus.isVisible = false
                         btnUpdateStatus.isVisible = false
                         llComplete.isVisible = false
                     }
                     "2.2" -> {
-                        tvStatus.text = "Out for Delivery"
+                        tvStatus.text = getString(R.string.out_for_delivery)
                         tvStatus.setTextColor(Color.parseColor("#16B364"))
                         etStatus.isVisible = false
                         btnUpdateStatus.isVisible = false
@@ -339,7 +339,7 @@ class OrderDetailFragment : BaseFragment() {
 
                     "3" -> {
                         if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id=="0"&&orderDetailData?.rEApprove=="0"&&orderDetailData?.returnType=="0"){
-                            tvStatus.text = "Delivered"
+                            tvStatus.text = getString(R.string.delivered)
                             tvStatus.setTextColor(Color.parseColor("#047BD5"))
                             etStatus.isVisible = false
                             btnUpdateStatus.isVisible = false
@@ -380,15 +380,15 @@ class OrderDetailFragment : BaseFragment() {
                         else if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id=="0"&&orderDetailData?.rEApprove=="1"&&orderDetailData?.returnType=="2"){
 
                             if (orderDetailData?.exchangeOrderDetails?.deliveryStatus=="7"){
-                                tvStatus.text = "Out For Drop"
+                                tvStatus.text = getString(R.string.out_for_drop)
                                 tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                             }
                            else if (orderDetailData?.exchangeOrderDetails?.deliveryStatus=="3"){
-                                tvStatus.text = "Exchange Complete"
+                                tvStatus.text = getString(R.string.exchange_complete)
                                 tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                             }
                             else{
-                                tvStatus.text = "Exchange Req Accepted"
+                                tvStatus.text = getString(R.string.exchange_req_accepted)
                                 tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                             }
 
@@ -401,9 +401,9 @@ class OrderDetailFragment : BaseFragment() {
                             tvExchangeSizeValue.isVisible = true
                             tvUploadedImage.isVisible = false
                             relUploadImage.isVisible = false
-                            tvReturnDetails.text = "Exchange Details"
-                            tvReturnOn.text = "Exchange on"
-                            tvReturnRequestId.text = "Exchange Request ID"
+                            tvReturnDetails.text = getString(R.string.exchange_details)
+                            tvReturnOn.text = getString(R.string.exchange_on)
+                            tvReturnRequestId.text = getString(R.string.exchange_request_id)
                             tvReturnRequestIdValue.text = "#" + orderDetailData?.id
                             tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
                                 orderDetailData?.updatedAt.toString(),
@@ -449,7 +449,7 @@ class OrderDetailFragment : BaseFragment() {
                         }
 
                         else if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id=="0"&&orderDetailData?.rEApprove=="0"&&orderDetailData?.returnType=="2"){
-                             tvStatus.text = "Exchange Req"
+                             tvStatus.text = getString(R.string.exchange_req)
                              tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                              etStatus.isVisible = false
                              btnUpdateStatus.isVisible = false
@@ -460,9 +460,9 @@ class OrderDetailFragment : BaseFragment() {
                              tvExchangeSizeValue.isVisible = true
                              tvUploadedImage.isVisible = false
                              relUploadImage.isVisible = false
-                             tvReturnDetails.text = "Exchange Details"
-                             tvReturnOn.text = "Exchange on"
-                             tvReturnRequestId.text = "Exchange Request ID"
+                             tvReturnDetails.text = getString(R.string.exchange_details)
+                             tvReturnOn.text = getString(R.string.exchange_on)
+                             tvReturnRequestId.text = getString(R.string.exchange_request_id)
                              tvReturnRequestIdValue.text = "#" + orderDetailData?.id
                              tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
                                  orderDetailData?.updatedAt.toString(),
@@ -473,7 +473,7 @@ class OrderDetailFragment : BaseFragment() {
                         }
 
                         else if (orderDetailData?.r_e_type=="1"&&orderDetailData?.p_orderdetails_id=="1"&&orderDetailData?.rEApprove=="1"&&orderDetailData?.returnType=="2"){
-                            tvStatus.text = "Exchange Completed"
+                            tvStatus.text = getString(R.string.exchange_complete)
                             tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                             etStatus.isVisible = false
                             btnUpdateStatus.isVisible = false
@@ -484,9 +484,9 @@ class OrderDetailFragment : BaseFragment() {
                             tvExchangeSizeValue.isVisible = true
                             tvUploadedImage.isVisible = false
                             relUploadImage.isVisible = false
-                            tvReturnDetails.text = "Exchange Details"
-                            tvReturnOn.text = "Exchange on"
-                            tvReturnRequestId.text = "Exchange Request ID"
+                            tvReturnDetails.text = getString(R.string.exchange_details)
+                            tvReturnOn.text = getString(R.string.exchange_on)
+                            tvReturnRequestId.text = getString(R.string.exchange_request_id)
                             tvReturnRequestIdValue.text = "#" + orderDetailData?.id
                             tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
                                 orderDetailData?.updatedAt.toString(),
@@ -497,7 +497,7 @@ class OrderDetailFragment : BaseFragment() {
                         }
 
                         else if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id=="0"&&orderDetailData?.rEApprove=="0"&&orderDetailData?.returnType=="1"){
-                            tvStatus.text = "Return Req"
+                            tvStatus.text = getString(R.string.return_req)
                             tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                             etStatus.isVisible = false
                             btnUpdateStatus.isVisible = false
@@ -530,7 +530,7 @@ class OrderDetailFragment : BaseFragment() {
                        }
 
                         else if (orderDetailData?.r_e_type=="0"&&orderDetailData?.p_orderdetails_id=="0"&&orderDetailData?.rEApprove=="1"&&orderDetailData?.returnType=="1"){
-                            tvStatus.text = "Return Complete"
+                            tvStatus.text = getString(R.string.return_complete)
                             tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                             etStatus.isVisible = false
                             btnUpdateStatus.isVisible = false
@@ -563,7 +563,7 @@ class OrderDetailFragment : BaseFragment() {
                         }
 
                         else{
-                            tvStatus.text = "Delivered"
+                            tvStatus.text = getString(R.string.delivered)
                             tvStatus.setTextColor(Color.parseColor("#047BD5"))
                             etStatus.isVisible = false
                             btnUpdateStatus.isVisible = false
@@ -605,7 +605,7 @@ class OrderDetailFragment : BaseFragment() {
                     }
 
                     "4" -> {
-                        tvStatus.text = "Cancelled"
+                        tvStatus.text = getString(R.string.cancelled)
                         tvStatus.setTextColor(Color.parseColor("#E70000"))
                         etStatus.isVisible = false
                         btnUpdateStatus.isVisible = false
@@ -615,9 +615,9 @@ class OrderDetailFragment : BaseFragment() {
                         tvExchangeSizeValue.isVisible = false
                         tvUploadedImage.isVisible = false
                         relUploadImage.isVisible = false
-                        tvReturnDetails.text = "Cancellation details"
-                        tvReturnOn.text = "Cancelled on"
-                        tvReturnRequestId.text = "Cancelled Request ID"
+                        tvReturnDetails.text = getString(R.string.cancellation_details)
+                        tvReturnOn.text = getString(R.string.cancelled_on)
+                        tvReturnRequestId.text = getString(R.string.cancelled_request_id)
                         tvReturnRequestIdValue.text = "#"+orderDetailData?.id
                         tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
                         tvReturnReasonValue.text = orderDetailData?.cancelReason
@@ -632,7 +632,7 @@ class OrderDetailFragment : BaseFragment() {
                     }
 
                     "5" -> {
-                        tvStatus.text = "Returned"
+                        tvStatus.text = getString(R.string.returned)
                         tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                         etStatus.isVisible = false
                         btnUpdateStatus.isVisible = false
@@ -663,7 +663,7 @@ class OrderDetailFragment : BaseFragment() {
                     "7" -> {
                         when (orderData?.returnType) {
                             "1" -> {
-                                tvStatus.text = "Picked Up"
+                                tvStatus.text = getString(R.string.picked_up)
                                 tvStatus.setTextColor(Color.parseColor("#16B364"))
                                 etStatus.isVisible = false
                                 btnUpdateStatus.isVisible = false
@@ -671,7 +671,7 @@ class OrderDetailFragment : BaseFragment() {
                             }
 
                             "2" -> {
-                                tvStatus.text = "Picked Up"
+                                tvStatus.text =  getString(R.string.picked_up)
                                 tvStatus.setTextColor(Color.parseColor("#16B364"))
                                 etStatus.isVisible = false
                                 btnUpdateStatus.isVisible = false
@@ -679,7 +679,7 @@ class OrderDetailFragment : BaseFragment() {
                             }
 
                             else -> {
-                                tvStatus.text = "Out for Delivery"
+                                tvStatus.text =  getString(R.string.out_for_delivery)
                                 tvStatus.setTextColor(Color.parseColor("#16B364"))
                                 etStatus.isVisible = false
                                 btnUpdateStatus.isVisible = false
@@ -689,7 +689,7 @@ class OrderDetailFragment : BaseFragment() {
                     }
 
                     "8" -> {
-                        tvStatus.text = "Not Delivered"
+                        tvStatus.text =  getString(R.string.not_delivered)
                         tvStatus.setTextColor(Color.parseColor("#E70000"))
                         etStatus.isVisible = false
                         btnUpdateStatus.isVisible = false
@@ -697,7 +697,7 @@ class OrderDetailFragment : BaseFragment() {
                     }
 
                     "9" -> {
-                        tvStatus.text = "Exchanged"
+                        tvStatus.text = getString(R.string.exchanged)
                         tvStatus.setTextColor(Color.parseColor("#FF5F1B"))
                         etStatus.isVisible = true
                         btnUpdateStatus.isVisible = true
@@ -707,9 +707,9 @@ class OrderDetailFragment : BaseFragment() {
                         tvExchangeSizeValue.isVisible = true
                         tvUploadedImage.isVisible = false
                         relUploadImage.isVisible = false
-                        tvReturnDetails.text = "Exchange Details"
-                        tvReturnOn.text = "Exchange on"
-                        tvReturnRequestId.text = "Exchange Request ID"
+                        tvReturnDetails.text =  getString(R.string.exchange_details)
+                        tvReturnOn.text = getString(R.string.exchange_on)
+                        tvReturnRequestId.text = getString(R.string.exchange_request_id)
                         tvReturnRequestIdValue.text = "#"+orderDetailData?.id
                         tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
                         tvExchangeSizeValue.text =  orderDetailData?.exchangeNewSize
@@ -734,19 +734,21 @@ class OrderDetailFragment : BaseFragment() {
 //                error(R.drawable.ic_user)
 //            }
             tvOrderIdValue.text = "#${orderDetailData?.id}"
-            tvOrderTypeValue.text = if (orderDetailData?.orderType=="2") "Custom Order" else "Normal Order"
+            tvOrderTypeValue.text = if (orderDetailData?.orderType=="2") getString(R.string.custom_order) else getString(
+                R.string.normal_order
+            )
 
                 when(orderDetailData?.order?.paymentMethod){
                     "1"-> {
-                        tvPaidBy.text = "By Card"
+                        tvPaidBy.text = getString(R.string.by_card)
                     }
                     "2"->{
-                        tvPaidBy.text ="By Wallet"
+                        tvPaidBy.text = getString(R.string.by_wallet)
                     }
                     "3"-> {
                         tvTransaction.isVisible = false
                         tvTransactionId.isVisible = false
-                        tvPaidBy.text ="Via COD"
+                        tvPaidBy.text = getString(R.string.via_cod)
                     }
                 }
             tvTransactionId.text = "#${orderDetailData?.order?.transactionId}"
@@ -770,7 +772,7 @@ class OrderDetailFragment : BaseFragment() {
                 val totalAmount = subTotal + tax + shippingFees - promoCode
 
                 tvItem.isVisible = false
-                tvSubTotal.text =  "Item Price (${CommonMethod.formatPrice(orderDetailData?.amount ?: 0.0)} KD X ${orderDetailData?.quantity ?: 1})"
+                tvSubTotal.text =  "${getString(R.string.item_price)} (${CommonMethod.formatPrice(orderDetailData?.amount ?: 0.0)} KD X ${orderDetailData?.quantity ?: 1})"
                 tvSubTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.chatRoomrecords?.totalAmount?.toDoubleOrNull()?:0.0)} KD"
                 tvTotalValue.text = "${CommonMethod.formatPrice(totalAmount)} KD"
                 tvPaidByCustomerValue.text = "${CommonMethod.formatPrice(totalAmount)} KD"
@@ -782,7 +784,7 @@ class OrderDetailFragment : BaseFragment() {
                 tvCustomDetailValue.isVisible = false
                 clCustomOrderDetail.isVisible = false
                 tvItem.isVisible = true
-                tvSubTotal.text = "Sub Total"
+                tvSubTotal.text = getString(R.string.sub_total)
                 tvSubTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalMrp?:0.0)} KD"
                 tvTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
                 tvPaidByCustomerValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
@@ -798,11 +800,11 @@ class OrderDetailFragment : BaseFragment() {
                 }
             }
 
-            tvItem.text = "${orderDetailData?.quantity} items"
+            tvItem.text = "${orderDetailData?.quantity} ${getString(R.string.items)}"
 
             tvAdminCommissionValue.text = "${CommonMethod.formatPrice(orderDetailData?.adminCommission?:0.0)} KD"
             if (CommonMethod.formatPrice(orderDetailData?.order?.shippingFees?:0.0)=="0"){
-                tvShippingCharges.text = "Free Delivery"
+                tvShippingCharges.text = getString(R.string.free_delivery)
             }
             else{
                 tvShippingCharges.text = "${CommonMethod.formatPrice(orderDetailData?.order?.shippingFees?:0.0)} KD"
@@ -842,7 +844,7 @@ class OrderDetailFragment : BaseFragment() {
         window.attributes = params
 
         dialogBinding.apply {
-            rbShipped.text = "Shipped"
+            rbShipped.text = getString(R.string.shipped)
             ivBack.setOnClickListener {
                 dialog.dismiss()
             }
@@ -852,7 +854,7 @@ class OrderDetailFragment : BaseFragment() {
                     R.id.rbShipped ->{
 
                         selectedStatus = "2.1"
-                        binding?.etStatus?.setText("Shipped")
+                        binding?.etStatus?.setText(getString(R.string.shipped))
 
                         dialog.dismiss()
                     }

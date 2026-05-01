@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Starts On"
+                    android:text="@string/starts_on"
                     android:textColor="#80000000"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Duration"
+                    android:text="@string/duration"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:textColor="#80000000"
                     android:textSize="@dimen/_10sdp"
@@ -96,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Discount %"
+                    android:text="@string/discount_percentage"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:textColor="#80000000"
                     android:textSize="@dimen/_10sdp"
@@ -122,7 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Category"
+                    android:text="@string/category"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:textColor="#80000000"
                     android:textSize="@dimen/_10sdp"
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Sub-Category"
+                    android:text="@string/sub_category"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:textColor="#80000000"
                     android:textSize="@dimen/_10sdp"
@@ -205,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_15sdp"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="Total Revenue"
+                    android:text="@string/total_revenue"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -245,7 +245,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Select Products"
+                android:text="@string/select_products"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp"/>
 
@@ -259,7 +259,7 @@
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="10dp"
                 android:ellipsize="end"
-                android:hint="Search"
+                android:hint="@string/search"
                 android:paddingHorizontal="@dimen/_10sdp"
                 android:paddingVertical="@dimen/_10sdp"
                 android:singleLine="true"
@@ -276,7 +276,7 @@
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/poppins_regular"
-                android:text="No Products Found"
+                android:text="@string/no_products_found"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_11sdp"/>
 
@@ -314,7 +314,7 @@
             style="@style/button"
             android:layout_marginBottom="@dimen/_20sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
-            android:text="Add More Products"
+            android:text="@string/add_more_products"
             android:textColor="#6E4527"
             android:background="@drawable/brown_stroke"/>
 
@@ -324,7 +324,7 @@
             style="@style/button"
             android:layout_marginBottom="@dimen/_20sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
-            android:text="Add to Deals"
+            android:text="@string/add_to_deals"
             android:alpha="0.5"
             android:clickable="false"/>
 

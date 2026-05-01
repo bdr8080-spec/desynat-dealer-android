@@ -111,15 +111,15 @@ class AddStaffFragment : BaseFragment() {
             }
 
             if (staffData!=null){
-                toolbar.tvToolbar.text = "Edit"
-                tvAdd.text = "Save Changes"
+                toolbar.tvToolbar.text = getString(R.string.edit)
+                tvAdd.text = getString(R.string.save_changes)
                 ivProfileImage.isVisible = true
                 tvChangeImage.isVisible = true
                 ivProfile.isVisible = false
             }
             else{
-                toolbar.tvToolbar.text = "Add New Staff"
-                tvAdd.text = "Add"
+                toolbar.tvToolbar.text = getString(R.string.add_new_staff)
+                tvAdd.text = getString(R.string.add)
                 ivProfileImage.isVisible = false
                 tvChangeImage.isVisible = false
                 ivProfile.isVisible = true
@@ -321,7 +321,8 @@ class AddStaffFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Staff added successfully !"){
+                    CommonMethod.showSuccessDialog(requireActivity(),
+                        getString(R.string.staff_added_successfully)){
                         findNavController().popBackStack()
                     }
                     viewModel.addStaffResponse.value = null
@@ -346,13 +347,15 @@ class AddStaffFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     if (SharedPreference.get(requireActivity()).userType=="1"&&SharedPreference.get(requireActivity()).getStaff()?.id.toString()==staffData?.id.toString()) {
-                        CommonMethod.showSuccessDialog(requireActivity(),"Profile updated successfully !"){
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.profile_updated_successfully)){
                             findNavController().popBackStack()
                         }
                     }
 
                     else{
-                        CommonMethod.showSuccessDialog(requireActivity(),"Staff updated successfully !"){
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.staff_updated_successfully)){
                             findNavController().popBackStack()
                         }
                     }
@@ -455,64 +458,64 @@ class AddStaffFragment : BaseFragment() {
         binding?.apply {
 
             if (profileImage == null&&profileImageUrl==null) {
-                showToast("Please Upload Profile Image")
+                showToast(getString(R.string.please_upload_profile_image))
                 return false
             }
             if (etFullNameEnglish.text.toString().trim().isEmpty()) {
-                showToast("Please Enter Full Name in English")
+                showToast(getString(R.string.please_enter_full_name_in_english))
                 return false
             }
 
             if (etFullNameArabic.text.toString().trim().isEmpty()) {
-                showToast("Please Enter Full Name in Arabic")
+                showToast(getString(R.string.please_enter_full_name_in_arabic))
                 return false
             }
 
             val email = etEmailID.text.toString().trim()
             if (email.isEmpty()) {
-                showToast("Please Enter Email Address")
+                showToast(getString(R.string.please_enter_email_address))
                 return false
             }
             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                showToast("Please Enter Valid Email Address")
+                showToast(getString(R.string.please_enter_valid_email_address))
                 return false
             }
             val mobile = etMobile.text.toString().trim()
             if (mobile.isEmpty()) {
-                showToast("Please Enter Mobile Number")
+                showToast(getString(R.string.please_enter_mobile_number))
                 return false
             }
             if (mobile.length < 7 ) {
-                showToast("Mobile Number in Between 7-15 digits ")
+                showToast(getString(R.string.mobile_number_in_between_7_15_digits))
                 return false
             }
             if (staffRoleId.isEmpty()) {
-                showToast("Please Select Role")
+                showToast(getString(R.string.please_select_role))
                 return false
             }
             val pass = etPassword.text.toString()
             if (pass.isEmpty()) {
-                showToast("Please Enter Password")
+                showToast(getString(R.string.please_enter_password))
                 return false
             }
             if (pass.length<6) {
-                showToast("Password must be 6 digits long")
+                showToast(getString(R.string.password_must_be_6_digits_long))
                 return false
             }
 
             val cPass = etConfirmPassword.text.toString()
             if (cPass.isEmpty()) {
-                showToast("Please Enter Confirm Password")
+                showToast(getString(R.string.please_enter_confirm_password))
                 return false
             }
 
             if (pass != cPass) {
-                showToast("Password does not match")
+                showToast(getString(R.string.password_does_not_match))
                 return false
             }
             val selectedModules = accessModuleList.filter { it.isSelected }
             if (selectedModules.isEmpty()) {
-                showToast("Please select at-least one module")
+                showToast(getString(R.string.please_select_at_least_one_module))
                 return false
             }
 

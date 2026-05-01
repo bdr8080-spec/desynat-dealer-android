@@ -16,7 +16,8 @@
         android:background="@drawable/bottomsheet_bg"
         android:backgroundTint="#FFF7EA"
         android:fontFamily="@font/poppins_medium"
-        android:text="Raise Ticket"
+        android:text="@string/raise_ticket"
+        android:drawablePadding="@dimen/_10sdp"
         android:textColor="@color/black"
         android:drawableEnd="@drawable/close_icon"
         android:textSize="@dimen/_13sdp"
@@ -36,7 +37,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="Ticket Type"/>
+            android:text="@string/ticket_type"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etTicketType"
@@ -50,7 +51,7 @@
             android:focusable="false"
             android:clickable="true"
             android:background="@drawable/edit_back"
-            android:hint="Select Ticket Type"
+            android:hint="@string/select_ticket_type"
             android:drawableEnd="@drawable/ic_drop_down"
             android:drawablePadding="@dimen/_5sdp"
             android:gravity="start"/>
@@ -58,7 +59,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/edit_text_title"
             android:layout_marginTop="16sp"
-            android:text="Title"
+            android:text="@string/title"
             android:textSize="@dimen/_13sdp" />
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -70,13 +71,13 @@
             android:textSize="@dimen/_10sdp"
             android:inputType="text"
             android:background="@drawable/edit_back"
-            android:hint="Enter Title"
+            android:hint="@string/enter_title"
             android:gravity="start"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/edit_text_title"
             android:layout_marginTop="16sp"
-            android:text="Description" />
+            android:text="@string/description" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etDescription"
@@ -89,13 +90,13 @@
             android:maxLines="4"
             android:lines="3"
             android:background="@drawable/edit_back"
-            android:hint="Enter Description"
+            android:hint="@string/enter_description"
             android:gravity="start"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/edit_text_title"
             android:layout_marginTop="16sp"
-            android:text="Upload attachment(if any)" />
+            android:text="@string/upload_attachment_if_any" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivDoc"
@@ -115,7 +116,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_gradient"
         android:gravity="center"
-        android:text="Submit"
+        android:text="@string/submit"
         android:fontFamily="@font/poppins_medium"
         android:paddingVertical="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_15sdp"

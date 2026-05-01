@@ -64,7 +64,7 @@ class ChatListFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
-            toolbar.tvToolbar.text = "Chat"
+            toolbar.tvToolbar.text = getString(R.string.chat)
 
             chatAdapter = ChatListAdapter(requireActivity(), chatList, object : ChatListAdapter.ChatClick {
                     override fun onChatClick(position: Int) {

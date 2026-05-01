@@ -45,7 +45,7 @@ class PlanDetailFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
-            toolbar.tvToolbar.text = "Details"
+            toolbar.tvToolbar.text = getString(R.string.details)
 
             val itemJson = arguments?.getString("mySubscriptionData")
             if (!itemJson.isNullOrEmpty()) {
@@ -112,16 +112,16 @@ class PlanDetailFragment : BaseFragment() {
     private fun setData(){
         binding?.apply {
             if (mySubscriptionData?.isExpired=="0"){
-                tvStatus.text = "Active"
-                btnUpgrade.text = "Upgrade Plan"
+                tvStatus.text = getString(R.string.active)
+                btnUpgrade.text = getString(R.string.upgrade_plan)
                 btnUpgrade.isVisible = false
                 CommonMethod.applyGradientText(tvStatus)
             }
             else{
                 tvStatus.paint.shader = null
                 tvStatus.setTextColor(requireActivity().getColor(R.color.black))
-                tvStatus.text = "Expired"
-                btnUpgrade.text = "Renew Plan"
+                tvStatus.text = getString(R.string.expired)
+                btnUpgrade.text = getString(R.string.renew_plan)
             }
 
             tvPlanName.text = if (Constants.language=="ar") mySubscriptionData?.planInfo?.planNameArabic else mySubscriptionData?.planInfo?.planNameEnglish
@@ -133,24 +133,36 @@ class PlanDetailFragment : BaseFragment() {
 
             when(mySubscriptionData?.paymentMethod){
                 "1"->{
-                    tvPaymentType.text = "Paid By Card"
+                    tvPaymentType.text = getString(R.string.paid_by_card)
                     ivPaymentType.setImageResource(R.drawable.ic_card)
                 }
                 "2"->{
-                    tvPaymentType.text = "Paid By Wallet"
+                    tvPaymentType.text = getString(R.string.paid_by_wallet)
                     ivPaymentType.setImageResource(R.drawable.ic_wallet)
                 }
             }
 
             when(mySubscriptionData?.planInfo?.durationType){
                 1 -> {
-                    tvDurationValue.text = "for ${mySubscriptionData?.planInfo?.duration} Month"
+                    tvDurationValue.text = "${getString(R.string.for_text)} ${mySubscriptionData?.planInfo?.duration} ${
+                        getString(
+                            R.string.month
+                        )
+                    }"
                 }
                 2 -> {
-                    tvDurationValue.text = "for ${mySubscriptionData?.planInfo?.duration} Year"
+                    tvDurationValue.text = "${getString(R.string.for_text)} ${mySubscriptionData?.planInfo?.duration} ${
+                        getString(
+                            R.string.year
+                        )
+                    }"
                 }
                 else -> {
-                    tvDurationValue.text = "for ${mySubscriptionData?.planInfo?.duration} Month"
+                    tvDurationValue.text = "${getString(R.string.for_text)} ${mySubscriptionData?.planInfo?.duration} ${
+                        getString(
+                            R.string.month
+                        )
+                    }"
                 }
             }
 

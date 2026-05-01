@@ -274,27 +274,27 @@ class EditProductFragment : BaseFragment() {
             etMaxCartQuantity.error = null
 
             if (minText.isEmpty()) {
-                showToast("Please enter minimum quantity")
+                showToast(getString(R.string.please_enter_minimum_quantity))
                 return false
             }
 
             if (maxText.isEmpty()) {
-                showToast("Please enter maximum quantity")
+                showToast(getString(R.string.please_enter_maximum_quantity))
                 return false
             }
 
             if (min == null) {
-                showToast("Invalid number")
+                showToast(getString(R.string.invalid_number))
                 return false
             }
 
             if (max == null) {
-                showToast("Invalid number")
+                showToast(getString(R.string.invalid_number))
                 return false
             }
 
             if (min >= max) {
-                showToast("Max must be greater than Min")
+                showToast(getString(R.string.max_must_be_greater_than_min))
                 return false
             }
 
@@ -337,7 +337,7 @@ class EditProductFragment : BaseFragment() {
 
     private fun setData() {
         binding?.apply {
-            toolbar.tvToolbar.text = "Edit"
+            toolbar.tvToolbar.text = getString(R.string.edit)
 
             sizeChartUrl = productData?.uploadSizeChart
 
@@ -710,19 +710,19 @@ class EditProductFragment : BaseFragment() {
         for ((index, v) in specificationList.withIndex()) {
 
             if (v.nameEn.isNullOrEmpty()) {
-                showToast("Please enter name in english")
+                showToast(getString(R.string.please_enter_name_in_english))
                 return false
             }
             if (v.nameAr.isNullOrEmpty()) {
-                showToast("Please enter name  in arabic")
+                showToast(getString(R.string.please_enter_name_in_arabic))
                 return false
             }
             if (v.featureEn.isNullOrEmpty()) {
-                showToast("Please enter feature  in english")
+                showToast(getString(R.string.please_enter_feature_in_english))
                 return false
             }
             if (v.featureAr.isNullOrEmpty()) {
-                showToast("Please enter feature  in arabic")
+                showToast(getString(R.string.please_enter_feature_in_arabic))
                 return false
             }
         }
@@ -734,59 +734,59 @@ class EditProductFragment : BaseFragment() {
         for ((index, product) in variantList.withIndex()) {
 
             if (product.variantImage.isEmpty()) {
-                showToast("Please upload product image")
+                showToast(getString(R.string.please_upload_product_image))
                 return false
             }
 
             if (product.colorId.isEmpty()) {
-                showToast("Please select color")
+                showToast(getString(R.string.please_select_color))
                 return false
             }
 
             for ((innerIndex, v) in product.productVariation.withIndex()) {
 
                 if (v.sizeId.isEmpty()) {
-                    showToast("Please select size")
+                    showToast(getString(R.string.please_select_size))
                     return false
                 }
 
                 if (selectedCategory?.name.equals("Women", ignoreCase = true)) {
 
                     if (v.bust?.isEmpty() == true) {
-                        showToast("Please enter bust size")
+                        showToast(getString(R.string.please_enter_bust_size))
                         return false
                     }
                     if (v.waist?.isEmpty() == true) {
-                        showToast("Please enter waist size")
+                        showToast(getString(R.string.please_enter_waist_size))
                         return false
                     }
                     if (v.hip?.isEmpty() == true) {
-                        showToast("Please enter hip size")
+                        showToast(getString(R.string.please_enter_hip_size))
                         return false
                     }
                     if (v.shoulder?.isEmpty() == true) {
-                        showToast("Please enter shoulder size")
+                        showToast(getString(R.string.please_enter_shoulder_size))
                         return false
                     }
                     if (v.sleeveLength?.isEmpty() == true) {
-                        showToast("Please enter sleeve length")
+                        showToast(getString(R.string.please_enter_sleeve_length))
                         return false
                     }
                     if (v.length?.isEmpty() == true) {
-                        showToast("Please enter length")
+                        showToast(getString(R.string.please_enter_length))
                         return false
                     }
                 }
 
                 // Stock
                 if (v.totalStock.isEmpty()) {
-                    showToast("Please enter stock")
+                    showToast(getString(R.string.please_enter_stock))
                     return false
                 }
 
                 // SKU
                 if (v.sku.isEmpty()) {
-                    showToast("Please enter SKU limit")
+                    showToast(getString(R.string.please_enter_sku_limit))
                     return false
                 }
 
@@ -794,26 +794,26 @@ class EditProductFragment : BaseFragment() {
                 val stockVal = v.totalStock.toIntOrNull()
 
                 if (skuVal == null) {
-                    showToast("Invalid SKU limit")
+                    showToast(getString(R.string.invalid_sku_limit))
                     return false
                 }
                 if (stockVal == null) {
-                    showToast("Invalid stock")
+                    showToast(getString(R.string.invalid_stock))
                     return false
                 }
 
                 if (skuVal >= stockVal) {
-                    showToast("SKU limit must be smaller than total stock")
+                    showToast(getString(R.string.sku_limit_must_be_smaller_than_total_stock))
                     return false
                 }
 
                 // Price
                 if (v.actualPrice?.isEmpty() == true) {
-                    showToast("Please enter actual price")
+                    showToast(getString(R.string.please_enter_actual_price))
                     return false
                 }
                 if (v.discountValue.isEmpty()) {
-                    showToast("Please enter discount")
+                    showToast(getString(R.string.please_enter_discount))
                     return false
                 }
             }
@@ -825,47 +825,47 @@ class EditProductFragment : BaseFragment() {
     private fun isAllProductValid(): Boolean {
 
         if (selectedCategory == null) {
-            showToast("Please select category")
+            showToast(getString(R.string.please_select_category))
             return false
         }
 
         if (selectedSubCategory == null) {
-            showToast("Please select subcategory")
+            showToast(getString(R.string.please_select_subcategory))
             return false
         }
 
         if (selectedBrand == null) {
-            showToast("Please select  brand")
+            showToast(getString(R.string.please_select_brand))
             return false
         }
         if(selectedBrand?.nameEnglish=="Other"&&binding?.etOtherBrand?.text.isNullOrEmpty()){
-            showToast("Please enter brand name in english")
+            showToast(getString(R.string.please_enter_brand_name_in_english))
             return false
         }
 
         if(selectedBrand?.nameEnglish=="Other"&&binding?.etOtherBrandArabic?.text.isNullOrEmpty()){
-            showToast("Please enter brand name in arabic")
+            showToast(getString(R.string.please_enter_brand_name_in_arabic))
             return false
         }
 
         binding?.apply {
             if (etProductName.text.isNullOrEmpty()) {
-                showToast("Please enter product name in english")
+                showToast(getString(R.string.please_enter_product_name_in_english))
                 return false
             }
 
             if (etProductNameArabic.text.isNullOrEmpty()) {
-                showToast("Please enter product name in arabic")
+                showToast(getString(R.string.please_enter_product_name_in_arabic))
                 return false
             }
 
             if (etDescription.text.isNullOrEmpty()) {
-                showToast("Please enter description in english")
+                showToast(getString(R.string.please_enter_description_in_english))
                 return false
             }
 
             if (etDescriptionArabic.text.isNullOrEmpty()) {
-                showToast("Please enter description in arabic")
+                showToast(getString(R.string.please_enter_description_in_arabic))
                 return false
             }
 
@@ -883,56 +883,56 @@ class EditProductFragment : BaseFragment() {
 
             val returnableId = rgReturnable.checkedRadioButtonId
             if (returnableId == -1) {
-                showToast("Please select if product is returnable")
+                showToast(getString(R.string.please_select_if_product_is_returnable))
                 return false
             }
 
             val isReturnable = returnableId == cbReturnableYes.id
 
             if (isReturnable && etReturnableDay.text.isNullOrEmpty()) {
-                showToast("Please enter returnable days")
+                showToast(getString(R.string.please_enter_returnable_days))
                 return false
             }
 
             val exchangeId = rgExchangeble.checkedRadioButtonId
             if (exchangeId == -1) {
-                showToast("Please select if product is exchangeable")
+                showToast(getString(R.string.please_select_if_product_is_exchangeable))
                 return false
             }
 
             val isExchangeable = exchangeId == cbExchangeYes.id
 
             if (isExchangeable && etExchangeableDay.text.isNullOrEmpty()) {
-                showToast("Please enter exchangeable days")
+                showToast(getString(R.string.please_enter_exchangeable_days))
                 return false
             }
 
             if (rgReviewRating.checkedRadioButtonId == -1) {
-                showToast("Please select review & rating option")
+                showToast(getString(R.string.please_select_review_rating_option))
                 return false
             }
 
             if (rgAffiliatedProduct.checkedRadioButtonId == -1) {
-                showToast("Please select affiliated product option")
+                showToast(getString(R.string.please_select_affiliated_product_option))
                 return false
             }
 
             if (rgCustomizedProduct.checkedRadioButtonId == -1) {
-                showToast("Please select customized product option")
+                showToast(getString(R.string.please_select_customized_product_option))
                 return false
             }
 
             if (rgReadyToShip.checkedRadioButtonId == -1) {
-                showToast("Please select ready to ship option")
+                showToast(getString(R.string.please_select_ready_to_ship_option))
                 return false
             }
 
             if (rgCashOnDelivery.checkedRadioButtonId == -1) {
-                showToast("Please select cash on delivery option")
+                showToast(getString(R.string.please_select_cash_on_delivery_option))
                 return false
             }
             if (sizeChartUrl.isNullOrEmpty()) {
-                showToast("Please upload size chart")
+                showToast(getString(R.string.please_upload_size_chart))
                 return false
             }
         }

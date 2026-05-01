@@ -48,7 +48,7 @@ class InventoryManagementFragment : BaseFragment() {
     private var isFromSwipe = false
     var type = 0
     var selectedCategory = -1
-    var selectedCategoryName = "Men"
+    var selectedCategoryName = getString(R.string.men)
     private var categoryList = ArrayList<GetCategoryResponse.Data>()
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var brandList = ArrayList<GetSellerBrandResponse.Data>()
@@ -83,7 +83,7 @@ class InventoryManagementFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
-            toolbar.tvToolbar.text = "Inventory Management"
+            toolbar.tvToolbar.text = getString(R.string.inventory_management)
 
             if (SharedPreference.get(requireActivity()).userType == "1") {
                 canAction = CommonMethod.getPermission(requireActivity(),"seller.Inventory_Management")?.canAction == 1
@@ -162,8 +162,8 @@ class InventoryManagementFragment : BaseFragment() {
             getProductInfo()
 
             when (selectedCategoryName) {
-                "Women" -> {
-                    selectedCategoryName = "Women"
+                getString(R.string.women) -> {
+                    selectedCategoryName = getString(R.string.women)
                     getAllInventoryProduct()
                     tvWomen.setTextColor(requireActivity().getColor(R.color.white))
                     tvMen.setTextColor(requireActivity().getColor(R.color.black))
@@ -174,8 +174,8 @@ class InventoryManagementFragment : BaseFragment() {
                     tvKids.background = null
                 }
 
-                "Men" -> {
-                    selectedCategoryName = "Men"
+                getString(R.string.men) -> {
+                    selectedCategoryName = getString(R.string.men)
                     getAllInventoryProduct()
                     tvWomen.setTextColor(requireActivity().getColor(R.color.black))
                     tvMen.setTextColor(requireActivity().getColor(R.color.white))
@@ -186,8 +186,8 @@ class InventoryManagementFragment : BaseFragment() {
                     tvWomen.background = null
                 }
 
-                "Kids" -> {
-                    selectedCategoryName = "Kids"
+                getString(R.string.kids) -> {
+                    selectedCategoryName = getString(R.string.kids)
                     getAllInventoryProduct()
                     tvWomen.setTextColor(requireActivity().getColor(R.color.black))
                     tvMen.setTextColor(requireActivity().getColor(R.color.black))
@@ -214,7 +214,7 @@ class InventoryManagementFragment : BaseFragment() {
             }
 
             tvWomen.setOnClickListener {
-                selectedCategoryName = "Women"
+                selectedCategoryName = getString(R.string.women)
                 getAllInventoryProduct()
                 tvWomen.setTextColor(requireActivity().getColor(R.color.white))
                 tvMen.setTextColor(requireActivity().getColor(R.color.black))
@@ -226,7 +226,7 @@ class InventoryManagementFragment : BaseFragment() {
             }
 
             tvMen.setOnClickListener {
-                selectedCategoryName = "Men"
+                selectedCategoryName = getString(R.string.men)
                 getAllInventoryProduct()
                 tvWomen.setTextColor(requireActivity().getColor(R.color.black))
                 tvMen.setTextColor(requireActivity().getColor(R.color.white))
@@ -238,7 +238,7 @@ class InventoryManagementFragment : BaseFragment() {
             }
 
             tvKids.setOnClickListener {
-                selectedCategoryName = "Kids"
+                selectedCategoryName = getString(R.string.kids)
                 getAllInventoryProduct()
                 tvWomen.setTextColor(requireActivity().getColor(R.color.black))
                 tvMen.setTextColor(requireActivity().getColor(R.color.black))
@@ -480,9 +480,9 @@ class InventoryManagementFragment : BaseFragment() {
         binding?.apply {
             tvNoDataFound.isVisible = productList.isEmpty()
 
-            tvAll.text = "All(${productData?.allProductCount})"
-            tvActive.text = "Active(${productData?.activeProductCount})"
-            tvInactive.text = "Inactive(${productData?.inactiveProductCount})"
+            tvAll.text = "${getString(R.string.all)}(${productData?.allProductCount})"
+            tvActive.text = "${getString(R.string.active)}(${productData?.activeProductCount})"
+            tvInactive.text = "${getString(R.string.inactive)}(${productData?.inactiveProductCount})"
         }
 
 

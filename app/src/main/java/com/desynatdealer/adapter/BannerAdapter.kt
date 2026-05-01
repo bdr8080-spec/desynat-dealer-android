@@ -30,7 +30,7 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
                 tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(bannerData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
                 when(bannerData?.adminVerify){
                     "0" ->{
-                        tvStatusValue.text = "Pending"
+                        tvStatusValue.text = context.getString(R.string.pending)
                         tvStatusValue.paint.shader = null
                         tvStatusValue.setTextColor(Color.parseColor("#E28F12"))
                         btnPay.isVisible = false
@@ -41,13 +41,13 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
                         when(bannerData?.paymentStatus){
                             "0"->{
                                 if (CommonMethod.isExpired(bannerData?.endDate.toString())) {
-                                    tvStatusValue.text = "Expired"
+                                    tvStatusValue.text = context.getString(R.string.expired)
                                     tvStatusValue.paint.shader = null
                                     tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                                     btnPay.isVisible = false
                                 }
                                 else{
-                                    tvStatusValue.text = "Confirmed"
+                                    tvStatusValue.text = context.getString(R.string.confirmed)
                                     tvStatusValue.paint.shader = null
                                     tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
                                     btnPay.isVisible = true
@@ -62,26 +62,26 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
                                 tvRejectedReason.isVisible = false
                                 when {
                                     CommonMethod.isUpcoming(bannerData?.startDate.toString()) -> {
-                                        tvStatusValue.text = "Upcoming"
+                                        tvStatusValue.text = context.getString(R.string.upcoming)
                                         tvStatusValue.paint.shader = null
                                         tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
                                         CommonMethod.applyGradientText(tvStatusValue)
                                     }
 
                                     CommonMethod.isActive(bannerData?.startDate.toString(), bannerData?.endDate.toString()) -> {
-                                        tvStatusValue.text = "Active"
+                                        tvStatusValue.text = context.getString(R.string.active)
                                         CommonMethod.applyGradientText(tvStatusValue)
                                     }
 
                                     CommonMethod.isExpired(bannerData?.endDate.toString()) -> {
                                         tvStatusValue.paint.shader = null
-                                        tvStatusValue.text = "Expired"
+                                        tvStatusValue.text = context.getString(R.string.expired)
                                         tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                                     }
                                 }
                             }
                             "2"->{
-                                tvStatusValue.text = "Rejected"
+                                tvStatusValue.text = context.getString(R.string.rejected)
                                 tvStatusValue.paint.shader = null
                                 tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                                 btnPay.isVisible = false
@@ -92,7 +92,7 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
                         }
                     }
                     "2"->{
-                        tvStatusValue.text = "Rejected"
+                        tvStatusValue.text = context.getString(R.string.rejected)
                         tvStatusValue.paint.shader = null
                         tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                         btnPay.isVisible = false

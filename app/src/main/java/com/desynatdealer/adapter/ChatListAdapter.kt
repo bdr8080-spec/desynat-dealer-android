@@ -56,35 +56,35 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
                     tvStatus.isVisible = true
                     when(chatData?.action){
                         "0"->{
-                            tvStatus.text = "New"
+                            tvStatus.text = context.getString(R.string.new_text)
                             tvStatus.setTextColor(Color.parseColor("#EA9413"))
                             tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1AEA9413"))
                         }
                         "1"->{
-                            tvStatus.text = "Quotation Sent"
+                            tvStatus.text = context.getString(R.string.quotation_sent)
                             tvStatus.setTextColor(Color.parseColor("#172B85"))
                             tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1A172B85"))
                         }
                         "2"->{
-                            tvStatus.text = "Quotation Sent"
+                            tvStatus.text = context.getString(R.string.quotation_sent)
                             tvStatus.setTextColor(Color.parseColor("#172B85"))
                             tvStatus.backgroundTintList =
                                 ColorStateList.valueOf(Color.parseColor("#1A172B85"))
                         }
                         "4"->{
-                            tvStatus.text = "Quotation Rejected"
+                            tvStatus.text = context.getString(R.string.quotation_rejected)
                             tvStatus.setTextColor(Color.parseColor("#D53B36"))
                             tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#1AD53B36"))
                         }
                         "5"->{
                             if (chatData?.productBuyStatus=="1"){
-                                tvStatus.text = "Order Placed"
+                                tvStatus.text = context.getString(R.string.order_placed)
                                 tvStatus.setTextColor(Color.parseColor("#16B364"))
                                 tvStatus.backgroundTintList =
                                     ColorStateList.valueOf(Color.parseColor("#1A16B364"))
                             }
                             else{
-                                tvStatus.text = "Quotation Accepted"
+                                tvStatus.text = context.getString(R.string.quotation_accepted)
                                 tvStatus.setTextColor(Color.parseColor("#16B364"))
                                 tvStatus.backgroundTintList =
                                     ColorStateList.valueOf(Color.parseColor("#1A16B364"))

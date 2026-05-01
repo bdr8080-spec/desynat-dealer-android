@@ -370,9 +370,9 @@ class ProductManagementFragment : BaseFragment() {
         binding?.apply {
             tvNoDataFound.isVisible = productList.isEmpty()
 
-            tvAll.text = "All(${productData?.allProductCount})"
-            tvActive.text = "Active(${productData?.activeProductCount})"
-            tvInactive.text = "Inactive(${productData?.inactiveProductCount})"
+            tvAll.text = "${getString(R.string.all)}(${productData?.allProductCount})"
+            tvActive.text = "${getString(R.string.active)}(${productData?.activeProductCount})"
+            tvInactive.text = "${getString(R.string.inactive)}(${productData?.inactiveProductCount})"
         }
     }
 

@@ -111,14 +111,14 @@ class DealDetailFragment : BaseFragment() {
 
             when(dealType){
                 "1"->{
-                    toolbar.tvToolbar.text = "Listed Deals"
+                    toolbar.tvToolbar.text = getString(R.string.listed_deals)
 
                 }
                 "2"->{
-                    toolbar.tvToolbar.text = "Enrolled Deals"
+                    toolbar.tvToolbar.text = getString(R.string.enrolled_deals)
                 }
                 "3"->{
-                    toolbar.tvToolbar.text = "Expired Deals"
+                    toolbar.tvToolbar.text = getString(R.string.expired_deals)
                 }
             }
 
@@ -287,7 +287,7 @@ class DealDetailFragment : BaseFragment() {
                     addProductInDeal()
                 }
                 else{
-                    showToast("Please select product")
+                    showToast(getString(R.string.please_select_product))
                 }
 
             }
@@ -312,11 +312,13 @@ class DealDetailFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     if (isProductAdded){
-                        CommonMethod.showSuccessDialog(requireActivity(),"Products added to deals successfully !")
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.products_added_to_deals_successfully))
                         isProductAdded = false
                     }
                     else if (isProductRemove){
-                        CommonMethod.showSuccessDialog(requireActivity(),"Product remove to deals successfully !")
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.product_remove_to_deals_successfully))
                         isProductRemove = false
                     }
                     dealDetailData = result.data?.data
@@ -349,7 +351,7 @@ class DealDetailFragment : BaseFragment() {
                         findNavController().previousBackStackEntry
                             ?.savedStateHandle
                             ?.set("deal_type", "2")
-                        CommonMethod.showSuccessDialog(requireActivity(),"Products added to deals successfully !"){
+                        CommonMethod.showSuccessDialog(requireActivity(),getString(R.string.products_added_to_deals_successfully)){
                             findNavController().popBackStack()
                         }
                     }

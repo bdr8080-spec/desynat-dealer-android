@@ -179,12 +179,12 @@ class EditInventoryProductFragment : BaseFragment() {
     private fun updateStatus(){
         binding?.apply {
             if(productData?.productActiveStatus==1){
-                tvSwitch.text = "Active"
+                tvSwitch.text = getString(R.string.active)
                 tvSwitch.setTextColor(Color.parseColor("#1A900D"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
             }
             else{
-                tvSwitch.text = "Inactive"
+                tvSwitch.text = getString(R.string.inactive)
                 tvSwitch.setTextColor(Color.parseColor("#875C3A"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
             }
@@ -286,12 +286,12 @@ class EditInventoryProductFragment : BaseFragment() {
             val skuStr = etSku.text?.trim().toString()
 
             if (stockStr.isEmpty()) {
-                showToast("Please enter stock")
+                showToast(getString(R.string.please_enter_stock))
                 return false
             }
 
             if (skuStr.isEmpty()) {
-                showToast("Please enter SKU limit")
+                showToast(getString(R.string.please_enter_sku_limit))
                 return false
             }
 
@@ -299,12 +299,12 @@ class EditInventoryProductFragment : BaseFragment() {
             val skuVal = skuStr.toIntOrNull()
 
             if (stockVal == null) {
-                showToast("Invalid stock")
+                showToast(getString(R.string.invalid_stock))
                 return false
             }
 
             if (skuVal == null) {
-                showToast("Invalid SKU limit")
+                showToast(getString(R.string.invalid_sku_limit))
                 return false
             }
 
@@ -313,7 +313,7 @@ class EditInventoryProductFragment : BaseFragment() {
             }
 
             if (skuVal >= stockVal) {
-                showToast("SKU limit must be smaller than total stock")
+                showToast(getString(R.string.sku_limit_must_be_smaller_than_total_stock))
                 return false
             }
         }

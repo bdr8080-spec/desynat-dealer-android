@@ -44,7 +44,7 @@
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="10dp"
                 android:ellipsize="end"
-                android:hint="Search"
+                android:hint="@string/search"
                 android:paddingStart="12dp"
                 android:singleLine="true"
                 android:textColor="@color/black"

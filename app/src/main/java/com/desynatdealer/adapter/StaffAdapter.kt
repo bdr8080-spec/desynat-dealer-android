@@ -21,16 +21,16 @@ class StaffAdapter(var context:Context, var staffList: ArrayList<GetAllStaffResp
           //  tvName.text = staffData?.firstName+" "+staffData?.lastName
             tvMobile.text = staffData?.countryCode+""+staffData?.mobile
             tvPost.text = staffData?.sellerCategory?.nameEn
-            tvAddOn.text = "Add on : ${CommonMethod.customizeChangeDateFormat(staffData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
+            tvAddOn.text = "${context.getString(R.string.add_on)} : ${CommonMethod.customizeChangeDateFormat(staffData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
 
             if(staffData?.isBlock==1){
-                tvSwitch.text = "Inactive"
+                tvSwitch.text = context.getString(R.string.inactive)
                 //   tvSwitch.setTextColor(Color.parseColor("#875C3A"))
                 tvSwitch.setTextColor(Color.parseColor("#FF3131"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
             }
             else{
-                tvSwitch.text = "Active"
+                tvSwitch.text = context.getString(R.string.active)
                 tvSwitch.setTextColor(Color.parseColor("#1A900D"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
 

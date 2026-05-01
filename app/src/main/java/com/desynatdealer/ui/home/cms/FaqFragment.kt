@@ -44,7 +44,7 @@ class FaqFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
-            toolbar.tvToolbar.text = "FAQ's"
+            toolbar.tvToolbar.text = getString(R.string.faq_s)
 
             faqAdapter = FaqAdapter(requireActivity(),faqList,object : FaqAdapter.ClickOnItem{
                 override fun onClickItem(position: Int) {

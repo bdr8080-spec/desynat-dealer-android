@@ -74,7 +74,7 @@ class BannerManagementFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         binding?.apply {
-            toolbar.tvToolbar.text = "Banner Management"
+            toolbar.tvToolbar.text = getString(R.string.banner_management)
 
             if (SharedPreference.get(requireActivity()).userType == "1") {
                 canAction = CommonMethod.getPermission(requireActivity(),"seller.show_banner")?.canAction == 1
@@ -295,7 +295,7 @@ class BannerManagementFragment : BaseFragment() {
 
             etTo.setOnClickListener {
                 if (tempFromTimestamp == null) {
-                    showToast("Please select From date first")
+                    showToast(getString(R.string.please_select_from_date_first))
                     return@setOnClickListener
                 }
 
@@ -337,7 +337,7 @@ class BannerManagementFragment : BaseFragment() {
                 toDateText = tempToDateText
 
                 if (bannerFilter==null &&fromDateText==null&&toDateText==null) {
-                    showToast("Please select banner status")
+                    showToast(getString(R.string.please_select_banner_status))
                     return@setOnClickListener
                 }
                 else{

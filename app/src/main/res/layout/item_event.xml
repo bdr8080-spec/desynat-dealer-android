@@ -130,7 +130,7 @@
         android:fontFamily="@font/poppins_medium"
         android:gravity="center"
         android:paddingVertical="@dimen/_6sdp"
-        android:text="Watch Live"
+        android:text="@string/watch_live"
         android:textColor="#FAFAFA"
         android:textSize="@dimen/_11sdp"
         android:paddingHorizontal="@dimen/_7sdp"

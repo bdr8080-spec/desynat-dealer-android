@@ -77,14 +77,14 @@ class StaffDetailFragment : BaseFragment() {
                 }
             }
             if (SharedPreference.get(requireActivity()).userType=="1"&&SharedPreference.get(requireActivity()).getStaff()?.id.toString()==staffId) {
-                tvTitle.text = "Profile"
+                tvTitle.text = getString(R.string.profile)
                 ivDelete.isVisible = false
                 tvSwitch.isInvisible = true
                 tvAccessModule.isVisible = false
                 rvAccessModule.isVisible = false
             }
             else{
-                tvTitle.text = "Details"
+                tvTitle.text = getString(R.string.details)
                 ivDelete.isVisible = true
                 tvSwitch.isVisible = true
             }
@@ -123,7 +123,7 @@ class StaffDetailFragment : BaseFragment() {
             ivDelete.setOnClickListener {
                 CommonMethod.deleteAlertDialog(
                     requireActivity(),
-                    "Are you sure you want to delete staff?"
+                    getString(R.string.are_you_sure_you_want_to_delete_staff)
                 ) { action ->
                     when (action) {
                         CommonMethod.DialogAction.DELETE -> {
@@ -196,7 +196,7 @@ class StaffDetailFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Staff deleted successfully !"){
+                    CommonMethod.showSuccessDialog(requireActivity(),getString(R.string.staff_deleted_successfully)){
                         findNavController().popBackStack()
                     }
                     viewModel.deleteStaffResponse.value = null
@@ -252,13 +252,13 @@ class StaffDetailFragment : BaseFragment() {
     private fun updateStatus(){
         binding?.apply {
             if(staffData?.isBlock==1){
-                tvSwitch.text = "Inactive"
+                tvSwitch.text = getString(R.string.inactive)
                 //     tvSwitch.setTextColor(Color.parseColor("#875C3A"))
                 tvSwitch.setTextColor(Color.parseColor("#FF3131"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
             }
             else{
-                tvSwitch.text = "Active"
+                tvSwitch.text = getString(R.string.active)
                 tvSwitch.setTextColor(Color.parseColor("#1A900D"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
 

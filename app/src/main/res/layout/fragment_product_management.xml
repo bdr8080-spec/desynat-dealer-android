@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_32sdp"
         android:fontFamily="@font/poppins_medium"
-        android:text="Product Management"
+        android:text="@string/product_management"
         android:textColor="@color/black"
         android:textSize="@dimen/_13sdp"
         app:layout_constraintEnd_toEndOf="parent"

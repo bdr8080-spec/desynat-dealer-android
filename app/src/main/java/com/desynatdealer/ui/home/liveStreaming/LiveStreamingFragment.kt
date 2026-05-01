@@ -128,9 +128,9 @@ class LiveStreamingFragment : BaseFragment() {
                 engine?.muteLocalAudioStream(isMuted)
 
                 if (isMuted) {
-                    binding?.tvMute?.text = "Unmute"
+                    binding?.tvMute?.text = getString(R.string.unmute)
                 } else {
-                    binding?.tvMute?.text = "Mute"
+                    binding?.tvMute?.text = getString(R.string.mute)
                 }
             }
         }
@@ -294,7 +294,7 @@ class LiveStreamingFragment : BaseFragment() {
                 }
                 startLiveStream()
             } else {
-                requireContext().showToast("Camera and microphone permission required")
+                requireContext().showToast(getString(R.string.camera_and_microphone_permission_required))
             }
         }
 
@@ -371,7 +371,7 @@ class LiveStreamingFragment : BaseFragment() {
             tvAudienceCount.isVisible = !isShow
             relMute.isVisible = !isShow
             ivSwitchCamera.isVisible = !isShow
-            tvNoDataFound.text = "No live event found"
+            tvNoDataFound.text = getString(R.string.no_live_event_found)
         }
     }
 
@@ -408,11 +408,11 @@ class LiveStreamingFragment : BaseFragment() {
         binding?.apply {
             if ((audienceTotal ?: 0) > 0) {
                 tvAudienceCount.isVisible = true
-                tvAudienceCount.text = "Viewers : $audienceTotal"
+                tvAudienceCount.text = "${getString(R.string.viewers)} : $audienceTotal"
             } else {
              //   tvAudienceCount.isVisible = false
                 tvAudienceCount.isVisible = true
-                tvAudienceCount.text = "Viewers : 0"
+                tvAudienceCount.text = "${getString(R.string.viewers)} : 0"
             }
         }
     }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemTicketBinding
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
@@ -25,14 +26,14 @@ class TicketAdapter(var context:Context, var ticketList: ArrayList<GetAllRaisedT
                 0->{
                     tvResolved.isVisible = false
                     tvResolvedOn.isVisible = false
-                    tvStatusValue.text = "In Progress"
+                    tvStatusValue.text = context.getString(R.string.in_progress)
                     tvStatusValue.setTextColor(Color.parseColor("#D72E04"))
 
                 }
                 1->{
                     tvResolved.isVisible = true
                     tvResolvedOn.isVisible = true
-                    tvStatusValue.text = "Resolved"
+                    tvStatusValue.text = context.getString(R.string.resolved)
                     tvStatusValue.setTextColor(Color.parseColor("#17854C"))
                 }
             }
