@@ -488,7 +488,7 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etMessage"
-            android:layout_width="0do"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/edit_text"
             android:background="@null"

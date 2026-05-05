@@ -95,6 +95,7 @@
                         android:text="@string/support_email_address"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_11sdp"
+                        android:textAlignment="viewStart"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         app:layout_constraintStart_toEndOf="@+id/ivEmail"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +110,7 @@
                         android:text="Loremipsum@gmail.com"
                         android:textColor="#6E4527"
                         android:textSize="@dimen/_11sdp"
+                        android:textAlignment="viewStart"
                         app:layout_constraintStart_toStartOf="@+id/tvSupportEmail"
                         app:layout_constraintEnd_toEndOf="@+id/tvSupportEmail"
                         app:layout_constraintTop_toBottomOf="@+id/tvSupportEmail" />
@@ -141,6 +143,7 @@
                         android:text="@string/support_contact_number"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_11sdp"
+                        android:textAlignment="viewStart"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         app:layout_constraintStart_toEndOf="@+id/ivPhone"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -156,6 +159,7 @@
                         android:text="+966 57689025"
                         android:textColor="#6E4527"
                         android:textSize="@dimen/_11sdp"
+                        android:textAlignment="viewStart"
                         app:layout_constraintStart_toStartOf="@+id/tvSupportMobile"
                         app:layout_constraintEnd_toEndOf="@+id/tvSupportMobile"
                         app:layout_constraintTop_toBottomOf="@+id/tvSupportMobile" />
@@ -188,8 +192,9 @@
                     android:text="@string/chat_on_whatsapp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivWhatsapp"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -220,8 +225,9 @@
                     android:text="@string/chat_with_the_support_team"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivChatWithSupport"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

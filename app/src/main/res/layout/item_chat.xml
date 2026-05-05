@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relOther"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,9 @@
         <RelativeLayout
             android:id="@+id/relOtherMsg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:visibility="gone"
@@ -49,11 +51,12 @@
             android:fontFamily="@font/poppins_light"
             android:textColor="@color/black"
             android:layout_marginTop="@dimen/_2sdp"
-            android:layout_below="@+id/relOtherMsg"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/relOtherMsg"/>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relMy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,7 +68,9 @@
         <RelativeLayout
             android:id="@+id/relMyMsg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:visibility="gone"
@@ -97,10 +102,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_msg_read"
-            android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:layout_below="@+id/relMyMsg"/>
+            app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/relMyMsg"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMyMsgTime"
@@ -112,9 +117,9 @@
             android:textColor="@color/black"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_2sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/ivRead"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivRead"/>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

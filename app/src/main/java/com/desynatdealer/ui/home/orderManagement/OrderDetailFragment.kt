@@ -105,7 +105,7 @@ class OrderDetailFragment : BaseFragment() {
                     updateOrderStatus(selectedStatus)
                 }
                 else{
-                    showToast("Please select status")
+                    showToast(getString(R.string.please_select_status))
                 }
 
             }

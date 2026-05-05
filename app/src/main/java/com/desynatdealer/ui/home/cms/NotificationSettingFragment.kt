@@ -1,6 +1,7 @@
 package com.desynatdealer.ui.home.cms
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,8 +17,10 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.DeleteAccountDialogBinding
 import com.desynatdealer.databinding.FragmentNotificationSettingBinding
+import com.desynatdealer.ui.auth.AuthActivity
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
@@ -126,6 +129,41 @@ class NotificationSettingFragment : BaseFragment() {
                 else -> {}
             }
         }
+
+        viewModel.deleteAccountResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    CommonMethod.showSuccessDialog(requireActivity(),
+                        getString(R.string.account_deleted_successfully)){
+                        Constants.isLogout = true
+                        SharedPreference.get(requireActivity()).isSubscription = false
+                        SharedPreference.get(requireActivity()).accessToken = ""
+                        SharedPreference.get(requireActivity()).staffToken = ""
+                        SharedPreference.get(requireActivity()).userType = ""
+                        CommonMethod.clearData(requireActivity())
+                        requireActivity().startActivity(
+                            Intent(requireActivity(),
+                                AuthActivity::class.java)
+                        )
+                        requireActivity().finish()
+                    }
+                    viewModel.deleteAccountResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.deleteAccountResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
     }
 
     fun deleteAlertDialog(
@@ -157,6 +195,11 @@ class NotificationSettingFragment : BaseFragment() {
     fun notificationOnOff(){
         val map = HashMap<String, Any>()
         viewModel.notificationOnOff(map)
+    }
+
+    fun deleteAccount(){
+        val map = HashMap<String, String>()
+        viewModel.deleteAccount(map)
     }
 
     fun appNotificationOnOff(){

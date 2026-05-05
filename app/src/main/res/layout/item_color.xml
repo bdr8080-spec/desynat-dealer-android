@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/_4sdp"
@@ -11,7 +11,11 @@
         android:layout_height="@dimen/_15sdp"
         android:src="@color/light_brown"
         android:clipToOutline="true"
-        app:shapeAppearanceOverlay="@style/circle_image"/>
+        app:shapeAppearanceOverlay="@style/circle_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.imageview.ShapeableImageView
         android:visibility="gone"
@@ -21,7 +25,10 @@
         android:layout_marginEnd="@dimen/_5sdp"
         android:src="@color/light_brown"
         android:clipToOutline="true"
-        android:layout_centerInParent="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:shapeAppearanceOverlay="@style/rounded_corner5sdp"/>
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -31,10 +38,13 @@
         android:layout_height="@dimen/_32sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:clipToOutline="true"
-        android:layout_centerInParent="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:strokeWidth="1dp"
         app:strokeColor="@color/brown"
         app:shapeAppearanceOverlay="@style/rounded_corner5sdp"/>
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

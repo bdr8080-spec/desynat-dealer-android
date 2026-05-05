@@ -48,7 +48,7 @@ class InventoryManagementFragment : BaseFragment() {
     private var isFromSwipe = false
     var type = 0
     var selectedCategory = -1
-    var selectedCategoryName = getString(R.string.men)
+    var selectedCategoryName = "Men"
     private var categoryList = ArrayList<GetCategoryResponse.Data>()
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var brandList = ArrayList<GetSellerBrandResponse.Data>()

@@ -26,9 +26,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:text="Active"
+            android:text="@string/active"
             android:textColor="@color/black"
             android:textSize="@dimen/_11sdp"
+            android:textAlignment="viewStart"
             android:layout_marginStart="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -38,9 +39,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:text="Monthly"
+            android:text="@string/monthly"
             android:textColor="@color/black"
             android:textSize="@dimen/_11sdp"
+            android:textAlignment="viewEnd"
             android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -52,11 +54,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:text="Purchased On"
+            android:text="@string/purchased_on"
             android:textColor="#80000000"
             android:textSize="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_10sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clStatus"/>
 
@@ -69,6 +72,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_11sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:textAlignment="viewEnd"
             app:layout_constraintTop_toTopOf="@+id/tvPurchase"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -77,11 +81,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:text="Amount"
+            android:text="@string/amount"
             android:textColor="#80000000"
             android:textSize="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_10sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPurchase"/>
 
@@ -94,6 +99,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_11sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:textAlignment="viewEnd"
             app:layout_constraintTop_toTopOf="@+id/tvAmount"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -102,11 +108,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:text="Plan"
+            android:text="@string/plan"
             android:textColor="#80000000"
             android:textSize="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_10sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAmount"/>
 
@@ -119,6 +126,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_11sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:textAlignment="viewEnd"
             app:layout_constraintTop_toTopOf="@+id/tvPlan"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -128,7 +136,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="Renew Plan"
+            android:text="@string/renew_plan"
             android:background="@drawable/btn_gradient"
             android:layout_marginHorizontal="@dimen/_40sdp"
             android:textSize="@dimen/_11sdp"

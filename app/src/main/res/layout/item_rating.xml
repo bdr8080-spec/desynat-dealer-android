@@ -28,6 +28,7 @@
         android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="@dimen/_11sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toStartOf="@+id/tvDate"
         app:layout_constraintStart_toEndOf="@id/ivUser"
         app:layout_constraintTop_toTopOf="@id/ivUser" />
@@ -55,6 +56,7 @@
         android:textColor="@color/black"
         android:singleLine="true"
         android:textSize="@dimen/_11sdp"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvName"
         app:layout_constraintBottom_toBottomOf="@+id/tvName"/>
@@ -68,6 +70,7 @@
         android:textColor="#E6000000"
         android:textSize="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_4sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivUser" />

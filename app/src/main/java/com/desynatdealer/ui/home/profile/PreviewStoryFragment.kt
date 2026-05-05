@@ -66,7 +66,7 @@ class PreviewStoryFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
-            toolbar.tvToolbar.text = "Add Story"
+            toolbar.tvToolbar.text = getString(R.string.add_story)
 
             mediaType = arguments?.getString("mediaType").toString()
             uri = arguments?.getString("uri").toString()
@@ -218,7 +218,8 @@ class PreviewStoryFragment : BaseFragment() {
 
                     }
                     else{
-                        CommonMethod.showSuccessDialog(requireContext(), "Story added successfully!"){
+                        CommonMethod.showSuccessDialog(requireContext(),
+                            getString(R.string.story_added_successfully)){
                             findNavController().popBackStack(R.id.viewProfile, false)
                         }
                     }

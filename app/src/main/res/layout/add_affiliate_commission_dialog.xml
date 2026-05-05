@@ -6,20 +6,36 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvToolbar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingVertical="@dimen/_15sdp"
-    android:paddingHorizontal="@dimen/_15sdp"
-    android:background="@drawable/bottomsheet_bg"
-    android:backgroundTint="#FFF7EA"
-    android:fontFamily="@font/poppins_medium"
-    android:text="Set Commission"
-    android:textColor="@color/black"
-    android:drawableEnd="@drawable/close_icon"
-    android:textSize="@dimen/_13sdp"
-    app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFF9ED"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/bottomsheet_bg"
+        android:padding="20dp"
+        android:id="@+id/tvToolbar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/set_commission"
+            android:textSize="@dimen/_13sdp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_medium"
+            android:id="@+id/title"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/close_icon"
+            android:id="@+id/closeIv"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
@@ -27,7 +43,7 @@
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:fontFamily="@font/poppins_regular"
-        android:text="Commission"
+        android:text="@string/commission"
         android:textColor="@color/black"
         android:textSize="@dimen/_12sdp"/>
 
@@ -45,7 +61,7 @@
         android:ellipsize="end"
         android:padding="@dimen/_8sdp"
         android:layout_marginStart="@dimen/_7sdp"
-        android:hint="Enter commission"
+        android:hint="@string/enter_ccommission"
         android:maxLength="4"
         android:inputType="numberDecimal"
         android:background="@null"
@@ -83,7 +99,7 @@
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:layout_marginBottom="@dimen/_15sdp"
-        android:text="Save Changes"
+        android:text="@string/save_changes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

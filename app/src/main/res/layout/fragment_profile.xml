@@ -85,12 +85,17 @@
             app:layout_constraintStart_toStartOf="@id/tvName"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/ivViewProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/view_profile"
+            android:background="@drawable/view_profile"
             android:layout_marginEnd="@dimen/_15sdp"
+            android:text="@string/view_profile"
+            android:textSize="@dimen/_11sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="#9E7853"
+            android:gravity="center"
             app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
             app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -241,7 +246,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoInventory"
                     android:layout_toEndOf="@id/ivInventory"
-                    android:text="Inventory management " />
+                    android:text="@string/inventory_management" />
 
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -268,7 +273,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoAffiliate"
                     android:layout_toEndOf="@id/ivAffiliate"
-                    android:text="Affiliated Commission" />
+                    android:text="@string/affiliated_commission" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoAffiliate"
@@ -295,7 +300,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoStaffManagement"
                     android:layout_toEndOf="@id/ivStaffManagement"
-                    android:text="Staff management" />
+                    android:text="@string/staff_management" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoStaffManagement"
@@ -321,7 +326,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoSubscription"
                     android:layout_toEndOf="@id/ivSubscription"
-                    android:text="Subscription Plans" />
+                    android:text="@string/subscription_plans" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoSubscription"
@@ -347,7 +352,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoBanner"
                     android:layout_toEndOf="@id/ivBanner"
-                    android:text="Banner management" />
+                    android:text="@string/banner_management" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoBanner"
@@ -373,7 +378,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoLiveCoverage"
                     android:layout_toEndOf="@id/ivLiveCoverage"
-                    android:text="Live Coverage request" />
+                    android:text="@string/live_coverage_request" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoLiveCoverage"
@@ -399,7 +404,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoDeal"
                     android:layout_toEndOf="@id/ivDeal"
-                    android:text="Deals management" />
+                    android:text="@string/deals_management" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoDeal"
@@ -425,7 +430,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoRefund"
                     android:layout_toEndOf="@id/ivRefund"
-                    android:text="Refund management" />
+                    android:text="@string/refund_management" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoRefund"
@@ -451,7 +456,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoTerms"
                     android:layout_toEndOf="@id/ivTerms"
-                    android:text="Terms &amp; Condition" />
+                    android:text="@string/terms_conditions" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoTerms"
@@ -478,7 +483,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoReturnPolicy"
                     android:layout_toEndOf="@id/ivReturnPolicy"
-                    android:text="Return Policy" />
+                    android:text="@string/return_policy" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoReturnPolicy"
@@ -505,7 +510,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoAbout"
                     android:layout_toEndOf="@id/ivAbout"
-                    android:text="About Us" />
+                    android:text="@string/about_us" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoAbout"
@@ -531,7 +536,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoFaq"
                     android:layout_toEndOf="@id/ivFaq"
-                    android:text="Faq" />
+                    android:text="@string/faq" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoFaq"
@@ -558,7 +563,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoLanguage"
                     android:layout_toEndOf="@id/ivLanguage"
-                    android:text="Change Language" />
+                    android:text="@string/change_language" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoLanguage"
@@ -584,7 +589,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toLeftOf="@+id/ivGoCancellationPolicy"
                     android:layout_toEndOf="@id/ivCancellationPolicy"
-                    android:text="Cancellation Policy"
+                    android:text="@string/cancellation_policy"
                     tools:ignore="RtlHardcoded" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -611,7 +616,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoExchange"
                     android:layout_toEndOf="@id/ivExchange"
-                    android:text="Exchange Policy" />
+                    android:text="@string/exchange_policy" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoExchange"
@@ -637,7 +642,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoSupport"
                     android:layout_toEndOf="@id/ivSupport"
-                    android:text="Support" />
+                    android:text="@string/support" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoSupport"
@@ -664,7 +669,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoSetting"
                     android:layout_toEndOf="@id/ivSetting"
-                    android:text="Setting" />
+                    android:text="@string/settings" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivGoSetting"
@@ -684,7 +689,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Logout"
+                    android:text="@string/logout"
                     android:drawablePadding="@dimen/_5sdp"
                     android:layout_centerInParent="true"
                     android:textColor="@color/brown"
@@ -697,7 +702,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="App Version 1.0"
+                android:text="@string/app_version_1_0"
                 android:textColor="#66000000"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_20sdp"

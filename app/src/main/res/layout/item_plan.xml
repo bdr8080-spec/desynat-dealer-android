@@ -103,7 +103,7 @@
             android:id="@+id/btnContinue"
             style="@style/button"
             android:layout_marginTop="@dimen/_2sdp"
-            android:text="Purchase"
+            android:text="@string/purchase"
             android:padding="@dimen/_8sdp"
             android:textSize="@dimen/_11sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"

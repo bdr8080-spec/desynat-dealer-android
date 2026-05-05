@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_regular"
         android:singleLine="true"
-        android:text="Select From gallary"
+        android:text="@string/select_from_gallery"
         android:ellipsize="end"
         android:textColor="@color/black"
         android:textSize="@dimen/_11sdp"

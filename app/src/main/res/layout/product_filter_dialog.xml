@@ -7,20 +7,36 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvToolbar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingVertical="@dimen/_15sdp"
-    android:paddingHorizontal="@dimen/_15sdp"
-    android:background="@drawable/bottomsheet_bg"
-    android:backgroundTint="#FFF7EA"
-    android:fontFamily="@font/poppins_medium"
-    android:text="@string/filter"
-    android:textColor="@color/black"
-    android:drawableEnd="@drawable/close_icon"
-    android:textSize="@dimen/_13sdp"
-    app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFF9ED"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/bottomsheet_bg"
+        android:padding="20dp"
+        android:id="@+id/tvToolbar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/filter"
+            android:textSize="@dimen/_13sdp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_medium"
+            android:id="@+id/title"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/close_icon"
+            android:id="@+id/closeIv"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

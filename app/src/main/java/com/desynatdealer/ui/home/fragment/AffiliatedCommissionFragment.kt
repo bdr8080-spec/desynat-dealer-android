@@ -60,7 +60,7 @@ class AffiliatedCommissionFragment : BaseFragment() {
                 btnSaveChanges.isVisible=canAction
                 ivEdit.isVisible=canAction
             }
-            toolbar.tvToolbar.text = "Affiliated Commission"
+            toolbar.tvToolbar.text = getString(R.string.affiliated_commission)
             setCommissionData()
 
         }
@@ -98,7 +98,8 @@ class AffiliatedCommissionFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                        CommonMethod.showSuccessDialog(requireActivity(), "Affiliated commission updated successfully"){
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.affiliated_commission_updated_successfully)){
                             userInfo?.affilateCommission = affiliateCommission
                             userInfo?.let { it1 ->
                                 SharedPreference.get(requireActivity()).saveUser(
@@ -184,7 +185,7 @@ class AffiliatedCommissionFragment : BaseFragment() {
             }
 
             btnSubmit.setOnClickListener {
-                if(isInvalid(etAmount, "Commission")) {
+                if(isInvalid(etAmount, "${getString(R.string.commission)}")) {
                     return@setOnClickListener
                 }
                 else{
@@ -201,12 +202,12 @@ class AffiliatedCommissionFragment : BaseFragment() {
     fun isInvalid(et: AppCompatEditText, fieldName: String): Boolean {
         val value = et.text.toString().trim()
         if (value.isEmpty()) {
-            showToast("Please enter $fieldName")
+            showToast("${getString(R.string.please_enter)} $fieldName")
             return true
         }
         val num = value.toDoubleOrNull() ?: 0.0
         if (num <= 0.0) {
-            showToast("$fieldName should be greater than 0")
+            showToast("$fieldName ${getString(R.string.should_be_greater_than_zero)}")
             return true
         }
         return false

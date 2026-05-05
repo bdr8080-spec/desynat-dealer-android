@@ -12,7 +12,10 @@ import com.desynatdealer.base.BaseActivity
 import com.desynatdealer.databinding.ActivitySplashBinding
 import com.desynatdealer.ui.auth.AuthActivity
 import com.desynatdealer.ui.home.HomeActivity
+import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
+import kotlin.collections.get
 
 class SplashActivity : BaseActivity() {
     private var binding: ActivitySplashBinding?=null
@@ -32,6 +35,8 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun initView() {
+        CommonMethod.setLocale(this,SharedPreference.get(this).language)
+        Constants.language = SharedPreference.get(this).language
         Handler(Looper.getMainLooper()).postDelayed({
             if (SharedPreference.get(this).accessToken.isNotEmpty()&&SharedPreference.get(this).isSubscription) {
                 startActivity(Intent(this, HomeActivity::class.java))

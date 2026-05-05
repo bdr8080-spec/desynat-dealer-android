@@ -134,8 +134,8 @@ class AddNewReelFragment : BaseFragment() {
 
             if (!itemJson.isNullOrEmpty()) {
                 reelData = Gson().fromJson(itemJson, GetStoryResponse.Data::class.java)
-                tvToolbar.text = "Edit Reel"
-                tvAdd.text = "Update"
+                tvToolbar.text = getString(R.string.edit_reel)
+                tvAdd.text = getString(R.string.update)
                 setData()
             }
 
@@ -278,7 +278,7 @@ class AddNewReelFragment : BaseFragment() {
 */
 
                     if (imageUri == null) {
-                        showToast("Please select video first")
+                        showToast(getString(R.string.please_select_video_first))
                         return@setOnClickListener
                     }
                     thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(), imageUri!!)
@@ -354,7 +354,7 @@ class AddNewReelFragment : BaseFragment() {
                     else {
                         CommonMethod.showSuccessDialog(
                             requireContext(),
-                            "Reel added successfully!"
+                            getString(R.string.reel_added_successfully)
                         ) {
 
                             if (isAdded && !isDetached) {
@@ -392,7 +392,8 @@ class AddNewReelFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireContext(), "Reel updated successfully!"){
+                    CommonMethod.showSuccessDialog(requireContext(),
+                        getString(R.string.reel_updated_successfully)){
                         findNavController().popBackStack(R.id.viewProfile, false)
                     }
                     viewModel.updateReelResponse.value = null

@@ -15,6 +15,7 @@
         android:text="@string/request_id"
         android:textColor="#80000000"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +30,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvRequest"
         app:layout_constraintBottom_toBottomOf="@+id/tvRequest"/>
@@ -42,6 +44,7 @@
         android:layout_marginTop="@dimen/_3sdp"
         android:textColor="#80000000"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         android:layout_marginStart="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRequest" />
@@ -55,6 +58,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvRequestedOn"
         app:layout_constraintBottom_toBottomOf="@+id/tvRequestedOn"/>
@@ -69,6 +73,7 @@
         android:textColor="#80000000"
         android:textSize="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRequestedOn" />
 
@@ -81,6 +86,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvLive"
         app:layout_constraintBottom_toBottomOf="@+id/tvLive"/>
@@ -95,6 +101,7 @@
         android:textColor="#80000000"
         android:textSize="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLive" />
 
@@ -107,6 +114,7 @@
         android:textColor="#68CA44"
         android:textSize="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvStatus"
         app:layout_constraintBottom_toBottomOf="@+id/tvStatus"/>

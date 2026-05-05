@@ -41,7 +41,7 @@
                     android:paddingVertical="@dimen/_8sdp"
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Personal Info"
+                    android:text="@string/personal_info"
                     android:textSize="@dimen/_12sdp"
                     android:gravity="center"
                     android:textColor="@color/white"
@@ -54,7 +54,7 @@
                     android:paddingVertical="@dimen/_8sdp"
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Bank Details"
+                    android:text="@string/bank_details"
                     android:textSize="@dimen/_12sdp"
                     android:gravity="center"
                     android:textColor="@color/black" />
@@ -79,11 +79,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvChangeImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                   android:src="@drawable/change_img_txt"
+                   android:background="@drawable/change_img_txt"
+                    android:text="@string/change_image"
+                    android:textSize="@dimen/_11sdp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="#9E7853"
+                    android:gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
                     app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>
@@ -92,7 +97,8 @@
                     android:id="@+id/tvFirstName"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:text="First Name"
+                    android:text="@string/first_name"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ivProfileImage" />
@@ -104,16 +110,18 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/edit_back"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-                    android:hint="Enter First Name"
+                    android:hint="@string/enter_first_name"
                     android:inputType="textCapSentences"
                     android:maxLength="30"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/tvFirstName" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvLastName"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Last Name"
+                    android:text="@string/last_name"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
@@ -125,8 +133,9 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/edit_back"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-                    android:hint="Enter Last Name"
+                    android:hint="@string/enter_last_name"
                     android:maxLength="30"
+                    android:textAlignment="viewStart"
                     android:inputType="textCapSentences"
                     app:layout_constraintTop_toBottomOf="@+id/tvLastName" />
 
@@ -135,7 +144,8 @@
                     android:layout_width="0dp"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Mobile Number"
+                    android:text="@string/mobile_number"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toStartOf="@+id/tvChangeNumber"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etLastName" />
@@ -206,6 +216,7 @@
                         android:focusable="false"
                         android:clickable="false"
                         android:paddingHorizontal="@dimen/_10sdp"
+                        android:textAlignment="viewStart"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tvCountryPicker"
@@ -218,7 +229,8 @@
                     style="@style/edit_text_title"
                     android:layout_width="0dp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Email Address"
+                    android:text="@string/email_address"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toStartOf="@+id/tvChangeEmail"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clMobile" />
@@ -248,8 +260,9 @@
                     android:focusable="false"
                     android:clickable="false"
                     android:drawablePadding="@dimen/_10sdp"
-                    android:hint="Enter Email Address"
+                    android:hint="@string/enter_email_address"
                     android:inputType="textEmailAddress"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
@@ -268,11 +281,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etEmail"/>
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvChangeStoreImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/change_img_txt"
+                    android:background="@drawable/change_img_txt"
+                    android:text="@string/change_image"
+                    android:textSize="@dimen/_11sdp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="#9E7853"
+                    android:gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/ivStoreImage"
                     app:layout_constraintBottom_toBottomOf="@+id/ivStoreImage"/>
@@ -281,7 +299,8 @@
                     android:id="@+id/tvStoreName"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:text="Store Name"
+                    android:text="@string/store_name"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ivStoreImage" />
@@ -292,15 +311,17 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/edit_back"
-                    android:hint="Enter store name"
+                    android:hint="@string/enter_store_name"
                     android:inputType="text"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreName" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvCountry"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:text="Choose Country"
+                    android:text="@string/choose_country"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etStoreName" />
@@ -314,8 +335,10 @@
                     android:clickable="true"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="Country"
+                    android:hint="@string/country"
                     android:inputType="text"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
                     android:drawableEnd="@drawable/ic_drop_down"
                     app:layout_constraintTop_toBottomOf="@+id/tvCountry" />
 
@@ -323,7 +346,8 @@
                     android:id="@+id/tvStoreAddress"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:text="Store Address"
+                    android:text="@string/store_address"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etCountry" />
@@ -338,15 +362,18 @@
                     android:drawableEnd="@drawable/ic_current_loc"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="Enter Store address"
+                    android:hint="@string/enter_store_address"
                     android:inputType="text"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreAddress" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAddress1"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Address line 1"
+                    android:text="@string/address_line_1"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etStoreAddress" />
 
@@ -356,15 +383,17 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/edit_back"
-                    android:hint="Enter address line 1"
+                    android:hint="@string/enter_address_line_1"
                     android:inputType="text"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/tvAddress1" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAddress2"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Address line 2"
+                    android:text="@string/address_line_2"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etAddress1" />
 
@@ -374,15 +403,17 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/edit_back"
-                    android:hint="Enter address line 2"
+                    android:hint="@string/enter_address_line_2"
                     android:inputType="text"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/tvAddress2" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvStoreMobile"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Store Phone Number"
+                    android:text="@string/store_phone_number"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etAddress2" />
@@ -419,10 +450,11 @@
                         android:layout_width="0dp"
                         android:background="@null"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:hint="Enter Store Phone Number"
+                        android:hint="@string/enter_store_phone_number"
                         android:inputType="number"
                         android:maxLength="15"
                         android:paddingHorizontal="0dp"
+                        android:textAlignment="viewStart"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tvStoreCountryPicker"
@@ -434,7 +466,8 @@
                     android:id="@+id/tvStoreEmail"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Store mail Id"
+                    android:text="@string/store_mail_id"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clStoreMobile" />
@@ -445,7 +478,8 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/edit_back"
-                    android:hint="Enter Store mail Id"
+                    android:hint="@string/enter_store_mail_id"
+                    android:textAlignment="viewStart"
                     android:inputType="textEmailAddress"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreEmail" />
 
@@ -453,7 +487,8 @@
                     android:id="@+id/tvBio"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Bio"
+                    android:text="@string/bio"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etStoreEmail" />
@@ -466,7 +501,7 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/edit_back"
                     android:gravity="top"
-                    android:hint="Enter bio"
+                    android:hint="@string/enter_bio"
                     android:inputType="textMultiLine"
                     android:lines="4"
                     android:maxLines="4"
@@ -484,9 +519,10 @@
                     android:id="@+id/tvBankDetails"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:text="Bank details"
+                    android:text="@string/bank_details"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="@dimen/_12sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -495,7 +531,8 @@
                     android:id="@+id/tvAccountType"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Account Type"
+                    android:text="@string/account_type"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/tvBankDetails"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -511,7 +548,7 @@
                         android:id="@+id/cbPersonal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Personal"
+                        android:text="@string/personal"
                         android:textColor="@color/black"
                         android:paddingVertical="@dimen/_12sdp"
                         android:button="@drawable/selector_radio_icon"
@@ -519,6 +556,7 @@
                         android:checked="false"
                         app:buttonTint="@null"
                         android:drawableTint="@null"
+                        android:textAlignment="viewStart"
                         android:fontFamily="@font/poppins_medium"
                         android:textSize="@dimen/_11sdp"/>
 
@@ -526,7 +564,7 @@
                         android:id="@+id/cbBusiness"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Business"
+                        android:text="@string/business"
                         android:textColor="@color/black"
                         android:paddingVertical="@dimen/_12sdp"
                         android:button="@drawable/selector_radio_icon"
@@ -535,6 +573,7 @@
                         android:checked="false"
                         app:buttonTint="@null"
                         android:drawableTint="@null"
+                        android:textAlignment="viewStart"
                         android:fontFamily="@font/poppins_medium"
                         android:textSize="@dimen/_11sdp"/>
 
@@ -545,7 +584,8 @@
                     android:layout_width="wrap_content"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_15sdp"
-                    android:text="IBAN Number"
+                    android:text="@string/iban_number"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/rgAccountType"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -553,9 +593,10 @@
                     android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(Optional)"
+                    android:text="@string/optional"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_4sdp"
+                    android:textAlignment="viewStart"
                     android:fontFamily="@font/poppins_regular"
                     app:layout_constraintTop_toTopOf="@+id/tvIban"
                     app:layout_constraintBottom_toBottomOf="@+id/tvIban"
@@ -565,9 +606,10 @@
                     android:id="@+id/etIban"
                     android:layout_width="match_parent"
                     style="@style/edit_text"
-                    android:hint="Enter IBAN Number"
+                    android:hint="@string/enter_iban_number"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:inputType="text"
+                    android:textAlignment="viewStart"
                     android:background="@drawable/edit_back"
                     app:layout_constraintTop_toBottomOf="@+id/tvIban"/>
 
@@ -576,7 +618,8 @@
                     android:layout_width="wrap_content"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:text="SWIFT/BIC"
+                    android:text="@string/swift_bic"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/etIban"
                     app:layout_constraintStart_toStartOf="parent"/>
 
@@ -584,10 +627,11 @@
                     android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(Optional)"
+                    android:text="@string/optional"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_4sdp"
                     android:fontFamily="@font/poppins_regular"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toTopOf="@+id/tvSwift"
                     app:layout_constraintBottom_toBottomOf="@+id/tvSwift"
                     app:layout_constraintStart_toEndOf="@+id/tvSwift"/>
@@ -596,17 +640,19 @@
                     android:id="@+id/etSwift"
                     android:layout_width="match_parent"
                     style="@style/edit_text"
-                    android:hint="Enter SWIFT/BIC"
+                    android:hint="@string/enter_swift_bic"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:inputType="text"
                     android:background="@drawable/edit_back"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/tvSwift"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvBankName"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:text="Bank Name"
+                    android:text="@string/bank_name"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/etSwift"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -615,18 +661,20 @@
                     android:id="@+id/etBankName"
                     android:layout_width="match_parent"
                     style="@style/edit_text"
-                    android:hint="Enter Bank Name"
+                    android:hint="@string/enter_bank_name"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:inputType="textCapSentences"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                     android:background="@drawable/edit_back"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/tvBankName"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAccountHolderName"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Account holder name"
+                    android:text="@string/account_holder_name"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etBankName"/>
 
@@ -634,19 +682,21 @@
                     android:id="@+id/etAccountHolderName"
                     android:layout_width="match_parent"
                     style="@style/edit_text"
-                    android:hint="Enter Account holder name"
+                    android:hint="@string/enter_account_holder_name"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:inputType="textCapSentences"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                     android:background="@drawable/edit_back"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/tvAccountHolderName"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAccountProof"
                     style="@style/edit_text_title"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Upload proof of account"
+                    android:text="@string/upload_proof_of_account"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:textAlignment="viewStart"
                     app:layout_constraintTop_toBottomOf="@+id/etAccountHolderName"/>
 
                 <com.google.android.material.imageview.ShapeableImageView
@@ -670,8 +720,8 @@
                 android:id="@+id/btnSaveChanges"
                 style="@style/button"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:text="Save Changes" />
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:text="@string/save_changes" />
 
         </LinearLayout>
 

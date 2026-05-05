@@ -19,16 +19,16 @@ class MySubscriptionAdapter(var context:Context, var subscriptionList: ArrayList
 
             if (subscriptionData?.isExpired=="0"){
                 btnRenew.isVisible = false
-                tvStatus.text = "Active"
-                btnRenew.text = "Upgrade Plan"
+                tvStatus.text = context.getString(R.string.active)
+                btnRenew.text = context.getString(R.string.upgrade_plan)
                 CommonMethod.applyGradientText(tvStatus)
             }
             else{
                 btnRenew.isVisible = true
                 tvStatus.paint.shader = null
                 tvStatus.setTextColor(context.getColor(R.color.black))
-                tvStatus.text = "Expired"
-                btnRenew.text = "Renew Plan"
+                tvStatus.text = context.getString(R.string.expired)
+                btnRenew.text = context.getString(R.string.renew_plan)
             }
 
             tvPlanName.text = if (Constants.language=="ar") subscriptionData?.planInfo?.planNameArabic else subscriptionData?.planInfo?.planNameEnglish
@@ -36,13 +36,21 @@ class MySubscriptionAdapter(var context:Context, var subscriptionList: ArrayList
             tvPurchaseOn.text = CommonMethod.customizeChangeDateFormat(subscriptionData.createdAt, outputFormat = "dd/MM/yyyy 'at' hh:mm a")
                 when(subscriptionData?.planInfo?.durationType){
                     1 -> {
-                        tvPlanType.text = "for ${subscriptionData?.planInfo?.duration} Month"
+                        tvPlanType.text = "${context.getString(R.string.for_text)} ${subscriptionData?.planInfo?.duration} ${context.getString(R.string.month)}"
                     }
                     2 -> {
-                        tvPlanType.text = "for ${subscriptionData?.planInfo?.duration} Year"
+                        tvPlanType.text = "${context.getString(R.string.for_text)} ${subscriptionData?.planInfo?.duration} ${
+                            context.getString(
+                                R.string.year
+                            )
+                        }"
                     }
                     else -> {
-                        tvPlanType.text = "for ${subscriptionData?.planInfo?.duration} Month"
+                        tvPlanType.text = "${context.getString(R.string.for_text)} ${subscriptionData?.planInfo?.duration} ${
+                            context.getString(
+                                R.string.month
+                            )
+                        }"
                     }
                 }
 

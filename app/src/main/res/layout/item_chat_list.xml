@@ -74,6 +74,7 @@
         android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="@dimen/_11sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toStartOf="@+id/tvStatus"
         app:layout_constraintStart_toEndOf="@id/ivStrokeCircle"
         app:layout_constraintTop_toTopOf="@id/ivStrokeCircle" />
@@ -82,12 +83,14 @@
         android:id="@+id/tvLastMsg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
         android:fontFamily="@font/poppins_medium"
         android:text="Thank you, bro!"
         android:textColor="#80000000"
         android:textSize="@dimen/_11sdp"
         android:maxLines="2"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivStrokeCircle"
         app:layout_constraintTop_toBottomOf="@id/tvName" />
 
@@ -95,11 +98,13 @@
         android:id="@+id/tvTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
         android:fontFamily="@font/poppins_medium"
         android:text="Today 5 PM"
         android:textColor="#80000000"
         android:textSize="@dimen/_9sdp"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivStrokeCircle"
         app:layout_constraintTop_toBottomOf="@id/tvLastMsg" />
 

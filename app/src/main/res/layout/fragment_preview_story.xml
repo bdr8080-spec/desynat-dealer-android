@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_background"
         android:gravity="center"
-        android:text="Post"
+        android:text="@string/post"
         android:fontFamily="@font/poppins_medium"
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:paddingVertical="@dimen/_8sdp"

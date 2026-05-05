@@ -6,6 +6,15 @@
     android:layout_marginBottom="@dimen/_8sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivFeature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_feature"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvFeature"
         android:layout_width="wrap_content"
@@ -14,9 +23,8 @@
         android:text="Number of Products: "
         android:textSize="@dimen/_10sdp"
         android:textColor="@color/black"
-        android:drawableStart="@drawable/ic_feature"
-        android:drawablePadding="@dimen/_8sdp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintStart_toEndOf="@+id/ivFeature"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -27,6 +35,8 @@
         android:text=""
         android:textSize="@dimen/_10sdp"
         android:textColor="@color/black"
+        android:textAlignment="viewStart"
+        android:layout_marginStart="@dimen/_5sdp"
         app:layout_constraintStart_toEndOf="@+id/tvFeature"
         app:layout_constraintTop_toTopOf="parent"/>
 

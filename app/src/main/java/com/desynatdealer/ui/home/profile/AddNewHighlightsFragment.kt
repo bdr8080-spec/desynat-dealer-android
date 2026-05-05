@@ -136,7 +136,7 @@ class AddNewHighlightsFragment : BaseFragment() {
         binding?.apply {
             rvGallery?.visibility = View.VISIBLE
             rvPrevious?.visibility = View.GONE
-            toolbar.tvToolbar.text = "Add New Highlight"
+            toolbar.tvToolbar.text = getString(R.string.add_new_highlight)
 
             galleryAdapter = GalleryAdapter(requireActivity(),mutableListOf()) { media ->
                 when (media) {
@@ -254,7 +254,8 @@ class AddNewHighlightsFragment : BaseFragment() {
                         binding?.etName?.visibility = View.GONE
                         etCaption.setText("")
                         etName.setText("")
-                        binding?.tvSelectFromGallery?.text = "Select From Previous"
+                        binding?.tvSelectFromGallery?.text =
+                            getString(R.string.select_from_previous)
                         checkData()
                     }
                 }
@@ -270,11 +271,11 @@ class AddNewHighlightsFragment : BaseFragment() {
 
             ivAddStory.setOnClickListener {
                 if (rvGallery.isVisible){
-                    storyMediaPicker.showCameraStoryPicker("Add Highlights")
+                    storyMediaPicker.showCameraStoryPicker(getString(R.string.add_highlights))
 
                 }
                 else{
-                    storyMediaPicker.showAllStoryPicker("Add Highlights")
+                    storyMediaPicker.showAllStoryPicker(getString(R.string.add_highlights))
                 }
             }
 
@@ -282,13 +283,13 @@ class AddNewHighlightsFragment : BaseFragment() {
 
 
                 if (!isMediaSelected) {
-                    showToast("Please select image")
+                    showToast(getString(R.string.please_select_image))
                 }
                 else if (imageUri==null&&imageUrl==null){
-                    showToast("Please select image")
+                    showToast(getString(R.string.please_select_image))
                 }
                 else if (etName.text?.trim().toString().isEmpty()){
-                    showToast("Please enter name")
+                    showToast(getString(R.string.please_enter_name))
                 }
                 else{
 
@@ -408,7 +409,7 @@ class AddNewHighlightsFragment : BaseFragment() {
                     else {
                         CommonMethod.showSuccessDialog(
                             requireContext(),
-                            "Highlights added successfully!"
+                            getString(R.string.highlights_added_successfully)
                         ) {
                             findNavController().popBackStack(R.id.viewProfile, false)
                         }

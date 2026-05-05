@@ -46,6 +46,7 @@ import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
+import com.desynatdealer.ui.home.response.GetDashboardDataResponse
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
@@ -482,9 +483,25 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
-    suspend fun changePassword(map: HashMap<String, String>): ApiResult<Unit> {
+    suspend fun changePassword(map: HashMap<String, String>): ApiResult<CommonResponse> {
         return try {
             networkCall(api.updatePassword(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun deleteAccount(map: HashMap<String, String>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.deleteAccount(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getDashboardData(map: HashMap<String, String>): ApiResult<GetDashboardDataResponse> {
+        return try {
+            networkCall(api.getDashboardData(map))
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }

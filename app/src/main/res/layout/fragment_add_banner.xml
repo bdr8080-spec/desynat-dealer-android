@@ -29,6 +29,7 @@
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_10sdp"
             android:text="@string/select_banner_position"
+            android:textAlignment="viewStart"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -147,6 +148,7 @@
             android:text="@string/select_duration"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etSubCategory" />
 
@@ -156,7 +158,7 @@
             android:layout_width="0dp"
             android:paddingVertical="@dimen/_9sdp"
             android:drawablePadding="@dimen/_5sdp"
-            android:hint="From   //  //"
+            android:hint="@string/from_hint"
             android:editable="false"
             android:clickable="true"
             android:background="@drawable/card_stroke_filled_background"
@@ -175,7 +177,7 @@
             android:layout_width="0dp"
             android:paddingVertical="@dimen/_9sdp"
             android:drawablePadding="@dimen/_5sdp"
-            android:hint="To   //  //"
+            android:hint="@string/to_hint"
             android:editable="false"
             android:clickable="true"
             android:background="@drawable/card_stroke_filled_background"
@@ -233,6 +235,7 @@
             android:text="@string/upload_banner"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clDays" />
 

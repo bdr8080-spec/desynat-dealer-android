@@ -105,7 +105,7 @@ class AddReelFragment : BaseFragment() {
     override fun initView() {
         binding?.apply {
 
-            toolbar.tvToolbar.text = "Upload New Reel"
+            toolbar.tvToolbar.text = getString(R.string.upload_new_reel)
 
             val itemJson = arguments?.getString("reelData")
 
@@ -187,10 +187,10 @@ class AddReelFragment : BaseFragment() {
             tvAdd.setOnClickListener {
 
                 if (imageUri==null){
-                    showToast("Please select image")
+                    showToast(getString(R.string.please_select_image))
                 }
                 else if (etCaption.text?.trim().toString().isEmpty()){
-                    showToast("Please enter caption")
+                    showToast(getString(R.string.please_enter_caption))
                 }
                 else{
                     if (mediaType == "image") {

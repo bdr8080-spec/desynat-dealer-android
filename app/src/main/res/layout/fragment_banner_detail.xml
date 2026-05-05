@@ -47,6 +47,7 @@
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ivBanner" />
 
@@ -59,6 +60,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvRequest"
                     app:layout_constraintBottom_toBottomOf="@+id/tvRequest"/>
@@ -73,6 +75,7 @@
                     android:textColor="#80000000"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvRequest" />
 
@@ -85,6 +88,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvRequestedOn"
                     app:layout_constraintBottom_toBottomOf="@+id/tvRequestedOn"/>
@@ -100,6 +104,7 @@
                     android:textColor="#80000000"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvRequestedOn" />
 
@@ -113,6 +118,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvCategory"
                     app:layout_constraintBottom_toBottomOf="@+id/tvCategory"/>
@@ -141,6 +147,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvSubCategory"
                     app:layout_constraintBottom_toBottomOf="@+id/tvSubCategory"/>
@@ -168,6 +175,7 @@
                     android:textColor="#68CA44"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvStatus"
                     app:layout_constraintBottom_toBottomOf="@+id/tvStatus"/>
@@ -209,6 +217,7 @@
                 android:fontFamily="@font/poppins_medium"
                 android:text="@string/banner_position"
                 android:textColor="@color/black"
+                android:textAlignment="viewStart"
                 android:textSize="@dimen/_10sdp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -222,6 +231,7 @@
                 android:textColor="#80000000"
                 android:textSize="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:textAlignment="viewStart"
                 android:background="@drawable/card_stroke_background"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -231,6 +241,7 @@
                 android:fontFamily="@font/poppins_medium"
                 android:text="@string/duration"
                 android:textColor="@color/black"
+                android:textAlignment="viewStart"
                 android:textSize="@dimen/_10sdp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -249,6 +260,7 @@
                     android:text="@string/from"
                     android:textColor="#80000000"
                     android:textSize="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -260,6 +272,7 @@
                     android:text="21/09/2025 "
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvFrom"
                     app:layout_constraintBottom_toBottomOf="@+id/tvFrom"/>
@@ -273,6 +286,7 @@
                     android:layout_marginTop="@dimen/_3sdp"
                     android:textColor="#80000000"
                     android:textSize="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvFrom" />
 
@@ -284,6 +298,7 @@
                     android:text="21/09/2025 "
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvTo"
                     app:layout_constraintBottom_toBottomOf="@+id/tvTo"/>
@@ -297,6 +312,7 @@
                     android:layout_marginTop="@dimen/_3sdp"
                     android:textColor="#CC000000"
                     android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTo" />
 
@@ -308,6 +324,7 @@
                     android:text="07"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvDays"
                     app:layout_constraintBottom_toBottomOf="@+id/tvDays"/>
@@ -330,6 +347,7 @@
                     android:text="@string/total_price"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -341,6 +359,7 @@
                     android:text="499 KD"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvPrice"
                     app:layout_constraintBottom_toBottomOf="@+id/tvPrice"/>

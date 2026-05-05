@@ -25,7 +25,7 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:textAlignment="center"
             android:fontFamily="@font/poppins_medium"
-            android:text="Are you sure you want to delete your account?"
+            android:text="@string/are_you_sure_you_want_to_delete_your_account"
             android:textColor="#CC000000"
             android:layout_marginBottom="@dimen/_20sdp"
             android:textSize="@dimen/_12sdp" />
@@ -48,7 +48,7 @@
                 android:textColor="@color/brown"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:text="No"/>
+                android:text="@string/no"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnYes"
@@ -59,7 +59,7 @@
                 android:padding="@dimen/_8sdp"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:text="Yes"
+                android:text="@string/yes"
                 android:background="@drawable/btn_gradient"/>
 
         </LinearLayout>

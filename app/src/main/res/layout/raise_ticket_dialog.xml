@@ -37,7 +37,8 @@
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="@string/ticket_type"/>
+            android:text="@string/ticket_type"
+            android:textAlignment="viewStart"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etTicketType"
@@ -54,13 +55,14 @@
             android:hint="@string/select_ticket_type"
             android:drawableEnd="@drawable/ic_drop_down"
             android:drawablePadding="@dimen/_5sdp"
-            android:gravity="start"/>
+            android:textAlignment="viewStart"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/edit_text_title"
             android:layout_marginTop="16sp"
             android:text="@string/title"
-            android:textSize="@dimen/_13sdp" />
+            android:textSize="@dimen/_13sdp"
+            android:textAlignment="viewStart"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etTitle"
@@ -72,12 +74,13 @@
             android:inputType="text"
             android:background="@drawable/edit_back"
             android:hint="@string/enter_title"
-            android:gravity="start"/>
+            android:textAlignment="viewStart"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/edit_text_title"
             android:layout_marginTop="16sp"
-            android:text="@string/description" />
+            android:text="@string/description"
+            android:textAlignment="viewStart"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etDescription"
@@ -91,12 +94,13 @@
             android:lines="3"
             android:background="@drawable/edit_back"
             android:hint="@string/enter_description"
-            android:gravity="start"/>
+            android:textAlignment="viewStart"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/edit_text_title"
             android:layout_marginTop="16sp"
-            android:text="@string/upload_attachment_if_any" />
+            android:text="@string/upload_attachment_if_any"
+            android:textAlignment="viewStart"/>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivDoc"

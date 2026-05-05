@@ -57,7 +57,7 @@ class ProfileFragment : BaseFragment() {
         userInfo = SharedPreference.get(requireActivity()).getUser()
         binding?.apply {
 
-            toolbar.tvToolbar.text = "Profile"
+            toolbar.tvToolbar.text = getString(R.string.profile)
             tvName.text = userInfo?.firstName +" "+userInfo?.lastName
             tvEmail.text = userInfo?.email
             ivProfileImage.load(userInfo?.profilePic){
@@ -197,12 +197,12 @@ class ProfileFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_profileFragment_to_cmsContentFragment,bundle)
             }
 
-//            rlLanguage.setOnClickListener {
-//                val bundle = Bundle().apply {
-//                    putString("from", "profile")
-//                }
-//                findNavController().navigate(R.id.action_profileFragment_to_languageFragment,bundle)
-//            }
+            rlLanguage.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putString("from", "profile")
+                }
+                findNavController().navigate(R.id.action_profileFragment_to_languageFragment,bundle)
+            }
 
             rlSupport.setOnClickListener {
                 findNavController().navigate(R.id.action_profileFragment_to_supportFragment)
@@ -255,7 +255,7 @@ class ProfileFragment : BaseFragment() {
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    showToast("Logout successfully")
+                    showToast(getString(R.string.logout_successfully))
                     Constants.isLogout = true
                     SharedPreference.get(requireActivity()).isSubscription = false
                     SharedPreference.get(requireActivity()).accessToken = ""

@@ -47,6 +47,7 @@ import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
+import com.desynatdealer.ui.home.response.GetDashboardDataResponse
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
@@ -726,14 +727,39 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
     private val _changePasswordResponse =
-        MutableLiveData<ApiResult<Unit>?>()
-    val changePasswordResponse: MutableLiveData<ApiResult<Unit>?>
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val changePasswordResponse: MutableLiveData<ApiResult<CommonResponse>?>
         get() = _changePasswordResponse
 
     fun changePassword(req: HashMap<String, String>) {
         viewModelScope.launch {
             _changePasswordResponse.value = ApiResult.Loading
             _changePasswordResponse.value = repo.changePassword(req)
+        }
+    }
+
+    private val _deleteAccountResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val deleteAccountResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _deleteAccountResponse
+
+    fun deleteAccount(req: HashMap<String, String>) {
+        viewModelScope.launch {
+            _deleteAccountResponse.value = ApiResult.Loading
+            _deleteAccountResponse.value = repo.deleteAccount(req)
+        }
+    }
+
+
+    private val _getDashboardDataResponse =
+        MutableLiveData<ApiResult<GetDashboardDataResponse>?>()
+    val getDashboardDataResponse: MutableLiveData<ApiResult<GetDashboardDataResponse>?>
+        get() = _getDashboardDataResponse
+
+    fun getDashboardData(req: HashMap<String, String>) {
+        viewModelScope.launch {
+            _getDashboardDataResponse.value = ApiResult.Loading
+            _getDashboardDataResponse.value = repo.getDashboardData(req)
         }
     }
 

@@ -16,7 +16,9 @@ import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentHomeBinding
 import com.desynatdealer.ui.home.HomeActivity
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
+import com.desynatdealer.ui.home.response.GetDashboardDataResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
@@ -32,6 +34,7 @@ class HomeFragment : BaseFragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private var status = 1
     var adminStoryList = ArrayList<GetStoryResponse.Data>()
+    var dashboardData: GetDashboardDataResponse.Data?=null
     private var userInfo : GetSellerInfo.Data?=null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +56,7 @@ class HomeFragment : BaseFragment() {
         getOrderNotification()
         getNotificationCount()
         getAdminStory()
+        getDashboardData()
         userInfo = SharedPreference.get(requireActivity()).getUser()
         updateStatus()
         binding?.apply {
@@ -158,7 +162,7 @@ class HomeFragment : BaseFragment() {
         }
 
 
-        viewModel.getStoryResponse.observe(viewLifecycleOwner) { result ->
+        viewModel.getDashboardDataResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
 
@@ -167,14 +171,15 @@ class HomeFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     binding?.progressBar?.isVisible = false
-                    viewModel.getStoryResponse.value = null
+                    dashboardData = result?.data?.data
+                    setDashboardData()
+                    viewModel.getDashboardDataResponse.value = null
                 }
 
                 is ApiResult.Error -> {
                     binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
-                    // showToast(result.message ?: getString(R.string.generic_error))
-                    viewModel.getStoryResponse.value = null
+                    viewModel.getDashboardDataResponse.value = null
                 }
 
                 else -> {}
@@ -251,6 +256,24 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun setDashboardData() {
+        binding?.apply {
+            tvAmount.text = "${CommonMethod.formatPrice(dashboardData?.totalRevenue?.toDoubleOrNull()?:0.0)} KD"
+            tvTotalProductCount.text = "(${dashboardData?.totalProducts})"
+            tvTotalOrdersCount.text = "(${dashboardData?.totalOrders})"
+            tvTotalStaffCount.text = "(${dashboardData?.totalStaff})"
+
+            tvActiveProduct.text = dashboardData?.totalActiveProducts.toString()
+            tvInActiveProduct.text = dashboardData?.totalInactiveProducts.toString()
+            tvNewOrder.text = dashboardData?.totalNewOrders.toString()
+            tvCompleteOrder.text = dashboardData?.totalCompletedOrders.toString()
+            tvOnGoingOrder.text = dashboardData?.totalOngoingOrders.toString()
+            tvCancelledOrder.text = dashboardData?.totalCancelledOrders.toString()
+            tvActiveStaffCount.text = dashboardData?.totalActiveStaff.toString()
+            tvInActiveStaffCount.text = dashboardData?.totalInactiveStaff.toString()
+        }
+    }
+
     private fun setStoryData() {
 //        binding?.apply {
 //            if (adminStoryList.size!=0){
@@ -268,12 +291,12 @@ class HomeFragment : BaseFragment() {
     private fun updateStatus(){
         binding?.apply {
             if(userInfo?.storeInfo?.storeAvailability==1){
-                tvSwitch.text = "Busy/On"
+                tvSwitch.text = getString(R.string.busy_on)
                 tvSwitch.setTextColor(Color.parseColor("#8B5E3C"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
             }
             else{
-                tvSwitch.text = "Busy/Off"
+                tvSwitch.text = getString(R.string.busy_off)
                 tvSwitch.setTextColor(Color.parseColor("#666666"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
 
@@ -301,10 +324,10 @@ class HomeFragment : BaseFragment() {
         binding?.tvChatCount?.text = data.toString()
     }
 
-    private fun getStory() {
-        val map = HashMap<String,Any>()
+    private fun getDashboardData() {
+        val map = HashMap<String, String>()
 
-        viewModel.getStory(map)
+        viewModel.getDashboardData(map)
     }
 
     private fun getAdminStory() {

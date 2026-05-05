@@ -158,7 +158,7 @@ class InventoryProductDetailFragment : BaseFragment() {
             variantImageAdapter?.notifyDataSetChanged()
             viewPager.setCurrentItem(0, false)
 
-            toolbar.tvToolbar.text = "Product code- ${productData?.id}"
+            toolbar.tvToolbar.text = "${getString(R.string.product_code)}- ${productData?.id}"
             tvBrand.text = if(productData?.brand?.nameEnglish=="Other") productData?.otherEn else productData?.brand?.nameEnglish
             tvName.text = productData?.productNameEn
 

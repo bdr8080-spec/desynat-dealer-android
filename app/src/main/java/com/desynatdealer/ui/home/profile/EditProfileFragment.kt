@@ -86,7 +86,7 @@ class EditProfileFragment : BaseFragment() {
         userInfo = SharedPreference.get(requireActivity()).getUser()
         setData()
         binding?.apply {
-            toolbar.tvToolbar.text = "Edit"
+            toolbar.tvToolbar.text = getString(R.string.edit)
          //   setupScrollBlocker()
             imagePicker = ImagePicker(
                 requireActivity(),
@@ -401,14 +401,16 @@ class EditProfileFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().hideProgress()
                     result.data?.data?.let { SharedPreference.get(requireActivity()).saveUser(it) }
                     if (isEdit) {
-                        CommonMethod.showSuccessDialog(requireActivity(),"Personal information updated successfully") {
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.personal_information_updated_successfully)) {
                             isEdit = false
                             viewModel.sellerInfoResponse.value = null
                             findNavController().popBackStack()
                         }
                     }
                     else if (isBank) {
-                        CommonMethod.showSuccessDialog(requireActivity(),"Bank details updated successfully") {
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.bank_details_updated_successfully)) {
                             isBank = false
                             viewModel.getSellerInfoResponse.value = null
                             findNavController().popBackStack()
@@ -594,27 +596,27 @@ class EditProfileFragment : BaseFragment() {
         binding?.apply {
             return when {
                 etIban.text.toString().isEmpty() -> {
-                    showToast("Please enter IBAN number")
+                    showToast(getString(R.string.please_enter_iban_number))
                     false
                 }
 
                 etSwift.text.toString().isEmpty() -> {
-                    showToast("Please enter SWIFT/BIC number")
+                    showToast(getString(R.string.please_enter_swift_bic_number))
                     false
                 }
 
                 etBankName.text.toString().isEmpty() -> {
-                    showToast("Please enter bank name")
+                    showToast(getString(R.string.please_enter_bank_name))
                     false
                 }
 
                 etAccountHolderName.text.toString().isEmpty() -> {
-                    showToast("Please enter account holder name")
+                    showToast(getString(R.string.please_enter_account_holder_name))
                     false
                 }
 
                 bankDoc == null -> {
-                    showToast("Please upload proof of account")
+                    showToast(getString(R.string.please_upload_proof_of_account))
                     false
                 }
 
@@ -634,78 +636,78 @@ class EditProfileFragment : BaseFragment() {
             return when {
 
                 profileImage == null -> {
-                    showToast("Please upload profile image")
+                    showToast(getString(R.string.please_upload_profile_image))
                     false
                 }
 
                 etFirstName.text.toString().isEmpty() -> {
-                    showToast("Please enter first name")
+                    showToast(getString(R.string.please_enter_first_name))
                     false
                 }
 
                 etLastName.text.toString().isEmpty() -> {
-                    showToast("Please enter last name")
+                    showToast(getString(R.string.please_enter_last_name))
                     false
                 }
 
                 email.isEmpty() -> {
-                    showToast("Please enter email address")
+                    showToast(getString(R.string.please_enter_email_address))
                     false
                 }
 
                 !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                    showToast("Please enter a valid email address")
+                    showToast(getString(R.string.please_enter_a_valid_email_address))
                     false
                 }
 
 
                 storeImage == null -> {
-                    showToast("Please upload store image")
+                    showToast(getString(R.string.please_upload_store_image))
                     false
                 }
 
                 etStoreName.text.toString().isEmpty() -> {
-                    showToast("Please enter store name")
+                    showToast(getString(R.string.please_enter_store_name))
                     false
                 }
 
                 etStoreAddress.text.toString().isEmpty() -> {
-                    showToast("Please select address")
+                    showToast(getString(R.string.please_select_address))
                     false
                 }
 
                 etAddress1.text.toString().isEmpty() -> {
-                    showToast("Please enter store address line 1")
+                    showToast(getString(R.string.please_enter_store_address_line_1))
                     false
                 }
 
                 etAddress2.text.toString().isEmpty() -> {
-                    showToast("Please enter store address line 2")
+                    showToast(getString(R.string.please_enter_store_address_line_2))
                     false
                 }
 
                 storeMobile.isEmpty() -> {
-                    showToast("Please enter store phone number")
+                    showToast(getString(R.string.please_enter_store_phone_number))
                     false
                 }
 
                 storeMobile.length < 7 -> {
-                    showToast("Store mobile number must be at least 7 digits long")
+                    showToast(getString(R.string.store_mobile_number_must_be_at_least_7_digits_long))
                     false
                 }
 
                 storeEmail.isEmpty() -> {
-                    showToast("Please enter store email id")
+                    showToast(getString(R.string.please_enter_store_email_id))
                     false
                 }
 
                 !android.util.Patterns.EMAIL_ADDRESS.matcher(storeEmail).matches() -> {
-                    showToast("Please enter a valid store email address")
+                    showToast(getString(R.string.please_enter_a_valid_store_email_address))
                     false
                 }
 
                 etBio.text.toString().isEmpty() -> {
-                    showToast("Please enter bio")
+                    showToast(getString(R.string.please_enter_bio))
                     false
                 }
 

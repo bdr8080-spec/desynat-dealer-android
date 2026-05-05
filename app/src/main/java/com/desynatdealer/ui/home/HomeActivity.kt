@@ -25,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity() {
+    private var openScreen: String?=""
     private var binding: ActivityHomeBinding? =null
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var controller: NavController
@@ -72,12 +73,16 @@ class HomeActivity : BaseActivity() {
 
         controller.graph = navGraph
 */
+
+        openScreen = intent.getStringExtra("open_screen")
+
+
         bottonNavItemList.clear()
-        bottonNavItemList.add(BottomNavItem("Home",R.drawable.ic_home,R.drawable.ic_selected_home))
-        bottonNavItemList.add(BottomNavItem("Products",R.drawable.products_ic,R.drawable.ic_selected_products))
-        bottonNavItemList.add(BottomNavItem("Streaming",R.drawable.ic_streaming,R.drawable.ic_streaming))
-        bottonNavItemList.add(BottomNavItem("Orders",R.drawable.ic_orders,R.drawable.ic_selected_orders))
-        bottonNavItemList.add(BottomNavItem("Payment",R.drawable.payments_ic,R.drawable.ic_selected_payment))
+        bottonNavItemList.add(BottomNavItem(getString(R.string.home),R.drawable.ic_home,R.drawable.ic_selected_home))
+        bottonNavItemList.add(BottomNavItem(getString(R.string.products),R.drawable.products_ic,R.drawable.ic_selected_products))
+        bottonNavItemList.add(BottomNavItem(getString(R.string.streaming),R.drawable.ic_streaming,R.drawable.ic_streaming))
+        bottonNavItemList.add(BottomNavItem(getString(R.string.orders),R.drawable.ic_orders,R.drawable.ic_selected_orders))
+        bottonNavItemList.add(BottomNavItem(getString(R.string.payment),R.drawable.payments_ic,R.drawable.ic_selected_payment))
 
         setBottomAdapter()
 
@@ -151,8 +156,17 @@ class HomeActivity : BaseActivity() {
                             R.id.subscription
                         }
                         else{
-                            R.id.home
-
+                                when (openScreen) {
+                                    "profile" -> {
+                                      R.id.profile
+                                    }
+                                    "home" -> {
+                                       R.id.home
+                                    }
+                                    else ->{
+                                      R.id.home
+                                    }
+                                }
                         }
                     )
                     if (result.data?.data?.subcriptionPlan?.isEmpty() == true&&SharedPreference.get(this).isSubscription==false){

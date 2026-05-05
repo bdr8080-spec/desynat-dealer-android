@@ -33,6 +33,7 @@
             android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toStartOf="@+id/tvStatus"
             app:layout_constraintStart_toEndOf="@id/ivUser"
             app:layout_constraintTop_toTopOf="@id/ivUser" />
@@ -52,13 +53,14 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvOrderId"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:fontFamily="@font/poppins_medium"
-            android:text="Order Id :"
+            android:text="@string/order_id_sign"
             android:textColor="#80000000"
             android:textSize="@dimen/_10sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintStart_toEndOf="@id/ivUser"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
@@ -71,6 +73,7 @@
             android:text="#458556"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toStartOf="@+id/tvStatus"
             app:layout_constraintStart_toEndOf="@id/tvOrderId"
             app:layout_constraintTop_toTopOf="@id/tvOrderId" />
@@ -80,10 +83,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="Order Date &amp; Time :"
+            android:text="@string/order_date_time_sign"
             android:textColor="#80000000"
             android:textSize="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvOrderId" />
 
@@ -96,6 +100,7 @@
             android:text="21/08/2025  at 9:15 Pm"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvOrderDate"
             app:layout_constraintTop_toTopOf="@id/tvOrderDate" />
@@ -109,6 +114,8 @@
             android:textColor="#80000000"
             android:textSize="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvOrderDate" />
 
@@ -133,6 +140,7 @@
             android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
+            android:textAlignment="viewStart"
            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivProduct"
             app:layout_constraintTop_toTopOf="@id/ivProduct" />
@@ -143,9 +151,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:fontFamily="@font/poppins_medium"
-            android:text="Quantity :"
+            android:text="@string/quantity"
             android:textColor="#80000000"
             android:textSize="@dimen/_10sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintStart_toEndOf="@id/ivProduct"
             app:layout_constraintTop_toBottomOf="@id/tvProductName" />
 
@@ -158,6 +167,7 @@
             android:text="01"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvQuantity"
             app:layout_constraintTop_toTopOf="@id/tvQuantity" />
@@ -171,6 +181,8 @@
             android:textColor="#80000000"
             android:textSize="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
+      android:textAlignment="viewStart"
+      app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvQuantity" />
 
@@ -183,6 +195,8 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvShippingLoc" />
 

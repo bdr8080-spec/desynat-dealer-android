@@ -3,7 +3,8 @@
     android:width="114.33dp"
     android:height="38dp"
     android:viewportWidth="114.33"
-    android:viewportHeight="38">
+    android:viewportHeight="38"
+    android:autoMirrored="true">
     <path
         android:pathData="M0,0H109.33C112.1,0 114.33,2.24 114.33,5V33C114.33,35.76 112.1,38 109.33,38H0V0Z">
         <aapt:attr name="android:fillColor">

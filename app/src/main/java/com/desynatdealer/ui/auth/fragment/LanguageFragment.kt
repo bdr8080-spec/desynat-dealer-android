@@ -100,23 +100,13 @@ class LanguageFragment : BaseFragment() {
                     showToast(getString(R.string.please_select_language))
                 }
                 else {
-                    if (from=="profile"){
-                        CommonMethod.showSuccessDialog(requireActivity(),
-                            getString(R.string.language_changed_successfully)){
-                            findNavController().popBackStack()
-                        }
-                    }
-
-                    else{
                         SharedPreference.get(requireActivity()).language = Constants.language
-                        if (SharedPreference.get(requireActivity()).isTutorial){
-                            findNavController().navigate(R.id.action_languageFragment_to_loginFragment)
-                        }
-                        else{
-                            findNavController().navigate(R.id.action_languageFragment_to_onBoardingFragment)
-                        }
+                        CommonMethod.setLocale(requireActivity(), Constants.language)
+                        val intent = requireActivity().intent
+                        intent.putExtra("open_screen", from)
+                        requireActivity().finish()
+                        startActivity(intent)
 
-                    }
                 }
             }
         }

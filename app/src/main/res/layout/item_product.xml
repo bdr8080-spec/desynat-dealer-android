@@ -21,6 +21,7 @@
         android:text="@string/in_stock"
         android:textColor="@color/brown"
         android:textSize="@dimen/_11sdp"
+        android:textAlignment="viewStart"
        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -44,6 +45,7 @@
         android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="@dimen/_11sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toStartOf="@+id/tvSwitch"
         app:layout_constraintStart_toEndOf="@id/ivProduct"
         app:layout_constraintTop_toTopOf="@id/ivProduct" />
@@ -57,6 +59,7 @@
         android:textColor="@color/brown"
         android:textSize="@dimen/_11sdp"
         android:singleLine="true"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toStartOf="@+id/tvSwitch"
         app:layout_constraintStart_toStartOf="@id/tvBrand"
         app:layout_constraintTop_toBottomOf="@id/tvBrand" />
@@ -84,6 +87,7 @@
         android:layout_marginStart="@dimen/_1sdp"
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
         app:layout_constraintStart_toEndOf="@+id/ratingBar"
         app:layout_constraintTop_toTopOf="@id/ratingBar" />
@@ -96,6 +100,7 @@
         android:text="239 KD"
         android:textColor="#99000000"
         android:textSize="@dimen/_11sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvBrand"
         app:layout_constraintTop_toBottomOf="@id/ratingBar" />
@@ -108,6 +113,7 @@
         android:text="250 KD"
         android:textColor="#99000000"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintStart_toStartOf="@+id/tvBrand"
         app:layout_constraintTop_toBottomOf="@id/tvDiscountedPrice" />
 
@@ -129,6 +135,7 @@
         android:text=""
         android:textColor="#E70000"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvPrice"
         app:layout_constraintTop_toTopOf="@id/tvPrice" />
@@ -170,6 +177,7 @@
         android:textColor="@color/black"
         android:singleLine="true"
         android:textSize="@dimen/_11sdp"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/rvColor"
         app:layout_constraintBottom_toBottomOf="@+id/rvColor"/>

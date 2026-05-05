@@ -83,18 +83,18 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
 
             subscriptionData.apply {
                 if (noOfProducts != 0)
-                    featureList.add(FeatureList("${context.getString(R.string.number_of_products)}: ", noOfProducts))
+                    featureList.add(FeatureList("${context.getString(R.string.number_of_products)}", noOfProducts))
 
-                else  featureList.add(FeatureList("${context.getString(R.string.number_of_products)}: ", 0))
+                else  featureList.add(FeatureList("${context.getString(R.string.number_of_products)}", 0))
 
                 if (noOfVideos != 0)
-                    featureList.add(FeatureList("${context.getString(R.string.number_of_videos)}: ", noOfVideos))
+                    featureList.add(FeatureList("${context.getString(R.string.number_of_videos)}", noOfVideos))
 
                 if (noOfHighlights != 0)
-                    featureList.add(FeatureList("${context.getString(R.string.number_of_highlights)}: ", noOfHighlights))
+                    featureList.add(FeatureList("${context.getString(R.string.number_of_highlights)}", noOfHighlights))
 
                 if (stories != 0)
-                    featureList.add(FeatureList("${context.getString(R.string.stories)}: ", stories))
+                    featureList.add(FeatureList("${context.getString(R.string.stories)}", stories))
 
                 if (noOfEmployee != 0)
                     featureList.add(FeatureList("$noOfEmployee ${context.getString(R.string.store_employees)}", 0))
@@ -104,15 +104,15 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
                 if (commissionValue != null && commissionValue != 0.0) {
                     if (commissionValue % 1.0 == 0.0){
                         val formattedCommission =  commissionValue.toInt()
-                        featureList.add(FeatureList("${context.getString(R.string.commission)}: ", formattedCommission))}
+                        featureList.add(FeatureList("${context.getString(R.string.commission)}", formattedCommission))}
                     else {
                         val formattedCommission =  commissionValue.toString()
-                        featureList.add(FeatureList("${context.getString(R.string.commission)}: $formattedCommission", 0))
+                        featureList.add(FeatureList("${context.getString(R.string.commission)} $formattedCommission", 0))
                     }
                 }
 
                 if (noOfFreeMonths != null&&noOfFreeMonths != "null"&&noOfFreeMonths != "")
-                    featureList.add(FeatureList("${context.getString(R.string.number_of_free_month)}: ", noOfFreeMonths.toIntOrNull()))
+                    featureList.add(FeatureList("${context.getString(R.string.number_of_free_month)}", noOfFreeMonths.toIntOrNull()))
 
             }
 

@@ -38,16 +38,29 @@ class AuthActivity : BaseActivity() {
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         controller = navHostFragment.navController
         controller.graph = controller.navInflater.inflate(R.navigation.auth_navigation_graph)*/
+        val fromLanguage = intent.getStringExtra("open_screen")
+        val destination  =  if (fromLanguage != null) {
+
+            if (fromLanguage == "profile") {
+                R.id.login
+            } else {
+                if (Constants.isLogout) R.id.login
+                else R.id.language
+            }
+
+        }
+        else {
+            if (Constants.isLogout) R.id.login
+            else R.id.language
+        }
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         controller = navHostFragment.navController
 
         val navGraph = controller.navInflater.inflate(R.navigation.auth_navigation_graph)
 
-
         navGraph.setStartDestination(
-            if (Constants.isLogout) R.id.login
-            else R.id.language
+            destination
         )
 
         controller.graph = navGraph

@@ -24,7 +24,7 @@
         android:paddingVertical="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_25sdp"
         android:fontFamily="@font/poppins_medium"
-        android:text="Profile"
+        android:text="@string/profile"
         android:textColor="@color/black"
         android:textSize="@dimen/_13sdp"
         android:textAlignment="center"
@@ -119,13 +119,15 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_semi_bold"
                     android:text="Atif Aslam"
                     android:textSize="@dimen/_12sdp"
                     android:textColor="@color/black"
+                    android:textAlignment="viewStart"
                     android:layout_marginHorizontal="@dimen/_10sdp"
+                    app:layout_constraintEnd_toStartOf="@+id/ivQr"
                     app:layout_constraintStart_toEndOf="@id/ivProfileImage"
                     app:layout_constraintTop_toTopOf="@id/ivProfileImage" />
 
@@ -137,6 +139,7 @@
                     android:text="123456789"
                     android:textSize="@dimen/_11sdp"
                     android:textColor="@color/black"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toStartOf="@+id/ivQr"
                     app:layout_constraintStart_toStartOf="@id/tvName"
                     app:layout_constraintTop_toBottomOf="@id/tvName" />
@@ -149,6 +152,7 @@
                     android:text="atif@gmail.com"
                     android:textSize="@dimen/_11sdp"
                     android:textColor="@color/black"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toStartOf="@+id/ivQr"
                     app:layout_constraintStart_toStartOf="@id/tvName"
                     app:layout_constraintTop_toBottomOf="@id/tvMobile" />
@@ -169,6 +173,7 @@
                     android:text="Puma"
                     android:textSize="@dimen/_11sdp"
                     android:textColor="@color/black"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toStartOf="@+id/ivQr"
                     app:layout_constraintStart_toStartOf="@id/ivProfileImage"
                     app:layout_constraintTop_toBottomOf="@id/tvEmail" />
@@ -181,6 +186,7 @@
                     android:text="1234566789"
                     android:textSize="@dimen/_11sdp"
                     android:textColor="@color/black"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toStartOf="@+id/ivQr"
                     app:layout_constraintStart_toStartOf="@id/ivProfileImage"
                     app:layout_constraintTop_toBottomOf="@id/tvStore" />
@@ -193,6 +199,7 @@
                     android:text="atif@gmail.com"
                     android:textSize="@dimen/_11sdp"
                     android:textColor="@color/black"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toStartOf="@+id/ivQr"
                     app:layout_constraintStart_toStartOf="@id/ivProfileImage"
                     app:layout_constraintTop_toBottomOf="@id/tvStoreMobile" />
@@ -207,6 +214,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp"
                     android:layout_marginTop="@dimen/_2sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreEmail" />
@@ -220,6 +228,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreAddress" />
@@ -257,7 +266,7 @@
                     android:paddingVertical="@dimen/_8sdp"
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="My Reels"
+                    android:text="@string/my_reels"
                     android:textSize="@dimen/_12sdp"
                     android:gravity="center"
                     android:textColor="@color/white"
@@ -270,7 +279,7 @@
                     android:paddingVertical="@dimen/_8sdp"
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Bank Details"
+                    android:text="@string/bank_details"
                     android:textSize="@dimen/_12sdp"
                     android:gravity="center"
                     android:textColor="@color/black" />
@@ -346,7 +355,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/edit_text_title"
-                    android:text="Store's Documents"
+                    android:text="@string/store_s_documents"
                     android:textSize="@dimen/_12sdp" />
 
                 <LinearLayout
@@ -403,7 +412,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Bank Details"
+                    android:text="@string/bank_details"
+                android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
 
@@ -412,14 +422,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Account Type"
+                    android:text="@string/account_type"
+                    android:textAlignment="viewStart"
                     android:textColor="#99000000"
                     android:textSize="@dimen/_11sdp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAccountType"
                     style="@style/edit_text_title"
-                    android:text="Personal"
+                    android:text="@string/personal"
                     android:textSize="@dimen/_11sdp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -428,7 +439,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="IBAN"
+                    android:text="@string/iban"
+                    android:textAlignment="viewStart"
                     android:textColor="#99000000"
                     android:textSize="@dimen/_11sdp" />
 
@@ -437,6 +449,7 @@
                     style="@style/edit_text_title"
                     android:text="KW2837289202937393937929038292093839203"
                     android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvMobile" />
@@ -447,7 +460,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="SWIFT/BIC"
+                    android:text="@string/swift_bic"
+                    android:textAlignment="viewStart"
                     android:textColor="#99000000"
                     android:textSize="@dimen/_11sdp" />
 
@@ -455,14 +469,16 @@
                     android:id="@+id/tvSwift"
                     style="@style/edit_text_title"
                     android:text="26781901"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Bank Name"
+                    android:text="@string/bank_name"
+                    android:textAlignment="viewStart"
                     android:textColor="#99000000"
                     android:textSize="@dimen/_11sdp" />
 
@@ -470,31 +486,35 @@
                     android:id="@+id/tvBankName"
                     style="@style/edit_text_title"
                     android:text="SBI Bank"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Account holder name"
+                    android:text="@string/account_holder_name"
                     android:textColor="#99000000"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAccountHolderName"
                     style="@style/edit_text_title"
                     android:text="Rohan "
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Proof of Documents"
+                    android:text="@string/proof_of_documents"
                     android:textColor="#99000000"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"/>
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivBankAccount"

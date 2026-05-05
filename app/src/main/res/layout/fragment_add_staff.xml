@@ -59,12 +59,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:visibility="gone"
                     android:id="@+id/tvChangeImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/change_img_txt"
+                    android:background="@drawable/change_img_txt"
+                    android:text="Change Image"
+                    android:textSize="@dimen/_11sdp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="#9E7853"
+                    android:gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
                     app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>

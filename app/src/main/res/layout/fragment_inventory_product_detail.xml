@@ -64,6 +64,7 @@
                 android:text="3pcs Set (by Abaya)"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dotsIndicator" />
@@ -89,7 +90,7 @@
                 android:numStars="5"
                 android:progressBackgroundTint="#C7C7C7"
                 android:progressTint="#FFA41B"
-                android:rating="2.5"
+                android:rating="0"
                 android:secondaryProgressTint="#FFA41B"
                 android:stepSize="0.5"
                 app:layout_constraintStart_toStartOf="@+id/tvBrand"
@@ -101,7 +102,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_1sdp"
                 android:fontFamily="@font/poppins_light"
-                android:text="(123K)"
+                android:text="(0)"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
@@ -116,6 +118,7 @@
                 android:text="239 KD"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_11sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="@+id/tvBrand"
                 app:layout_constraintTop_toBottomOf="@id/tvName" />
 
@@ -128,6 +131,7 @@
                 android:text="250 KD"
                 android:textColor="#99000000"
                 android:textSize="@dimen/_11sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintBottom_toBottomOf="@+id/tvDiscountedPrice"
                 app:layout_constraintStart_toEndOf="@+id/tvDiscountedPrice"
                 app:layout_constraintTop_toTopOf="@+id/tvDiscountedPrice" />
@@ -159,6 +163,7 @@
                 android:layout_marginStart="@dimen/_4sdp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="20% off"
+                android:textAlignment="viewStart"
                 android:textColor="#E70000"
                 android:textSize="@dimen/_11sdp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -173,6 +178,7 @@
                 android:text="@string/inclusive_of_all_taxes"
                 android:textColor="#16B364"
                 android:textSize="@dimen/_11sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="@+id/tvBrand"
                 app:layout_constraintTop_toBottomOf="@+id/tvDiscountedPrice" />
 
@@ -184,6 +190,7 @@
                 android:text="@string/more_color"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp"
+                android:textAlignment="viewStart"
                 android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintStart_toStartOf="@+id/tvBrand"
                 app:layout_constraintTop_toBottomOf="@+id/tvInclusiveTax" />
@@ -211,6 +218,7 @@
                 android:text="@string/available_size"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp"
+                android:textAlignment="viewStart"
                 android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintStart_toStartOf="@+id/tvBrand"
                 app:layout_constraintTop_toBottomOf="@+id/rvColor" />
@@ -248,6 +256,7 @@
                     android:text="@string/total_stocks"
                     android:textColor="#CC000000"
                     android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -259,6 +268,7 @@
                     android:text="32"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvTotalStocks"
                     app:layout_constraintBottom_toBottomOf="@+id/tvTotalStocks"/>
@@ -272,6 +282,7 @@
                     android:layout_marginTop="@dimen/_3sdp"
                     android:textColor="#CC000000"
                     android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTotalStocks" />
 
@@ -283,6 +294,7 @@
                     android:text="32"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvSku"
                     app:layout_constraintBottom_toBottomOf="@+id/tvSku"/>
@@ -297,6 +309,7 @@
                     android:layout_marginTop="@dimen/_3sdp"
                     android:textColor="#CC000000"
                     android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSku" />
 
@@ -309,6 +322,7 @@
                     android:text="32"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp"
+                    android:textAlignment="viewEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvSkuThreshold"
                     app:layout_constraintBottom_toBottomOf="@+id/tvSkuThreshold"/>

@@ -145,7 +145,7 @@ class ViewMyReelFragment : BaseFragment() {
                 tvTitle.isVisible = true
             }
 
-            tvDate.text = "Added On ${CommonMethod.customizeChangeDateFormat(reelData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
+            tvDate.text = "${getString(R.string.added_on)} ${CommonMethod.customizeChangeDateFormat(reelData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
 
             videoStory.setOnCompletionListener {
                 ivPlay.setImageResource(R.drawable.ic_play)
@@ -223,7 +223,8 @@ class ViewMyReelFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Reel deleted successfully!"){
+                    CommonMethod.showSuccessDialog(requireActivity(),
+                        getString(R.string.reel_deleted_successfully)){
                         findNavController().popBackStack()
                     }
                     viewModel.deleteReelResponse.value = null

@@ -27,6 +27,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/select_category"
                 android:textSize="@dimen/_13sdp"
+                android:textAlignment="viewStart"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,6 +95,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:text="@string/select_sub_category"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rgCategory" />
@@ -110,6 +112,7 @@
                 android:focusable="false"
                 android:hint="@string/select_sub_category"
                 android:inputType="text"
+                android:textAlignment="viewStart"
                 android:drawableEnd="@drawable/ic_drop_down"
                 app:layout_constraintTop_toBottomOf="@+id/tvSelectSubCategory" />
 
@@ -119,6 +122,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:text="@string/select_brand"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etSubCategory" />
@@ -135,6 +139,7 @@
                 android:focusable="false"
                 android:hint="@string/select_brand"
                 android:inputType="text"
+                android:textAlignment="viewStart"
                 android:drawableEnd="@drawable/ic_drop_down"
                 app:layout_constraintTop_toBottomOf="@+id/tvSelectBrand" />
 
@@ -147,6 +152,7 @@
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:text="@string/other"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toStartOf="@+id/tvOtherBrandArabic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etBrand" />
@@ -159,6 +165,7 @@
                 android:text="@string/in_english"
                 android:textColor="#80000000"
                 android:textSize="@dimen/_10sdp"
+                android:textAlignment="viewEnd"
                 app:layout_constraintEnd_toEndOf="@+id/tvOtherBrand"
                 app:layout_constraintTop_toTopOf="@+id/tvOtherBrand"
                 app:layout_constraintBottom_toBottomOf="@+id/tvOtherBrand"/>
@@ -175,6 +182,7 @@
                 android:hint="@string/enter_brand_name"
                 android:inputType="text"
                 android:textSize="@dimen/_10sdp"
+                android:textAlignment="viewStart"
                 android:paddingHorizontal="@dimen/_5sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/etOtherBrandArabic"
@@ -188,6 +196,7 @@
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:text="@string/other"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvOtherBrand"
                 app:layout_constraintTop_toTopOf="@+id/tvOtherBrand"
@@ -201,6 +210,7 @@
                 android:text="@string/in_arabic"
                 android:textColor="#80000000"
                 android:textSize="@dimen/_10sdp"
+                android:textAlignment="viewEnd"
                 app:layout_constraintEnd_toEndOf="@+id/tvOtherBrandArabic"
                 app:layout_constraintTop_toTopOf="@+id/tvOtherBrand"
                 app:layout_constraintBottom_toBottomOf="@+id/tvOtherBrandArabic"/>
@@ -217,6 +227,7 @@
                 android:inputType="text"
                 android:textSize="@dimen/_10sdp"
                 android:paddingHorizontal="@dimen/_5sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintTop_toTopOf="@+id/etOtherBrand"
                 app:layout_constraintBottom_toBottomOf="@+id/etOtherBrand"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -230,6 +241,7 @@
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:text="@string/product_name"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toStartOf="@+id/tvProductNameArabic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etOtherBrand" />
@@ -257,6 +269,7 @@
                 android:inputType="text"
                 android:textSize="@dimen/_10sdp"
                 android:paddingHorizontal="@dimen/_5sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/etProductNameArabic"
                 app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
@@ -268,6 +281,7 @@
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:text="@string/product_name"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvProductName"
                 app:layout_constraintTop_toTopOf="@+id/tvProductName"
@@ -294,6 +308,7 @@
                 android:hint="@string/enter_product_name"
                 android:inputType="text"
                 android:textSize="@dimen/_10sdp"
+                android:textAlignment="viewStart"
                 android:paddingHorizontal="@dimen/_5sdp"
                 app:layout_constraintTop_toTopOf="@+id/etProductName"
                 app:layout_constraintBottom_toBottomOf="@+id/etProductName"
@@ -306,6 +321,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:text="@string/description"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etProductName" />
@@ -334,6 +350,7 @@
                 android:lines="3"
                 android:scrollbars="vertical"
                 android:gravity="top|start"
+                android:textAlignment="viewStart"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -368,6 +385,7 @@
                 android:inputType="textMultiLine"
                 android:maxLines="5"
                 android:lines="3"
+                android:textAlignment="viewStart"
                 android:scrollbars="vertical"
                 android:gravity="top|start"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescriptionArabic" />
@@ -378,6 +396,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/specification"
                 android:textSize="@dimen/_13sdp"
+                android:textAlignment="viewStart"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 app:layout_constraintTop_toBottomOf="@+id/etDescriptionArabic"
                 app:layout_constraintStart_toStartOf="parent"

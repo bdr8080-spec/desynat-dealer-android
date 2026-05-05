@@ -6,7 +6,7 @@ object Constants {
 //    const val BASE_URL = "http://65.2.12.223" //new
     const val BASE_URL = "https://desynat.com"
 
-    var language=""
+    var language="en"
     const val ENGLISH = "en"
     const val ARABIC = "ar"
 
@@ -131,6 +131,8 @@ object Constants {
     const val SELLER_ALL_MENU = "/api/seller/seller-all-menu"
     const val GET_ALL_STAFF_LIST = "/api/seller/All-staff-details"
     const val VIEW_SINGLE_STAFF_DETAIL = "/api/seller/view-single-staff-details"
-    const val CHANGE_PASSWORD = "api/seller/create_password"
+    const val UPDATE_PASSWORD = "api/seller/update_password"
+    const val DELETE_ACCOUNT = "/api/seller/delete_account"
+    const val GET_DASHBOARD_DATA = "/api/seller/dashboard_data"
 
 }

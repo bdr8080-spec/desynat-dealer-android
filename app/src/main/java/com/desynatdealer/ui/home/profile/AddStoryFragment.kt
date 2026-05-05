@@ -89,7 +89,7 @@ class AddStoryFragment : BaseFragment() {
     override fun initView() {
         binding?.apply {
 
-            toolbar.tvToolbar.text = "Add Story"
+            toolbar.tvToolbar.text = getString(R.string.add_story)
 
             galleryAdapter = GalleryAdapter(requireActivity(),mutableListOf()) { media ->
                 when (media) {
@@ -276,7 +276,7 @@ class AddStoryFragment : BaseFragment() {
             if (granted) {
                 loadGalleryMedia()
             } else {
-                showToast("Permission required to access images and videos")
+                showToast(getString(R.string.permission_required_to_access_images_and_videos))
             }
         }
 

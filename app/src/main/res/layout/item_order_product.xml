@@ -39,6 +39,7 @@
         android:textSize="@dimen/_10sdp"
         android:maxLines="2"
         android:layout_marginEnd="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintStart_toEndOf="@+id/ivProduct"
         app:layout_constraintEnd_toStartOf="@+id/tvPrice"
         app:layout_constraintTop_toTopOf="@+id/ivProduct" />
@@ -53,6 +54,7 @@
         android:layout_marginEnd="@dimen/_10sdp"
         android:textColor="@color/black"
         android:textSize="@dimen/_11sdp"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvProduct" />
 
@@ -64,6 +66,7 @@
         android:text="Cotton Blend"
         android:textColor="#80000000"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintStart_toStartOf="@+id/tvProduct"
         app:layout_constraintTop_toBottomOf="@+id/tvProduct" />
 
@@ -85,6 +88,7 @@
         android:text="Size"
         android:textColor="#80000000"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintStart_toStartOf="@+id/tvProduct"
         app:layout_constraintTop_toBottomOf="@+id/viewFabric" />
 
@@ -96,6 +100,7 @@
         android:text="M"
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="@+id/tvPrice"
         app:layout_constraintTop_toTopOf="@+id/tvSize" />
 
@@ -108,6 +113,7 @@
         android:text="Color"
         android:textColor="#80000000"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintStart_toStartOf="@+id/tvProduct"
         app:layout_constraintTop_toBottomOf="@+id/tvSize" />
 
@@ -119,6 +125,7 @@
         android:text="Black"
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="@+id/tvPrice"
         app:layout_constraintTop_toTopOf="@+id/tvColor" />
 
@@ -131,6 +138,7 @@
         android:text="Category"
         android:textColor="#80000000"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintStart_toStartOf="@+id/tvProduct"
         app:layout_constraintTop_toBottomOf="@+id/tvColor" />
 
@@ -142,6 +150,7 @@
         android:text="Men"
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="@+id/tvPrice"
         app:layout_constraintTop_toTopOf="@+id/tvCategory" />
 
@@ -154,6 +163,7 @@
         android:text="Quantity"
         android:textColor="#80000000"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintStart_toStartOf="@+id/tvProduct"
         app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
 
@@ -165,6 +175,7 @@
         android:text="19.99 KD X 4"
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="@+id/tvPrice"
         app:layout_constraintTop_toTopOf="@+id/tvQuantity" />
 

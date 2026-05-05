@@ -50,6 +50,7 @@ import com.desynatdealer.ui.home.liveStreaming.response.GetLiveUserCountResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
+import com.desynatdealer.ui.home.response.GetDashboardDataResponse
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
@@ -456,8 +457,14 @@ interface CommonApiService {
     @GET(Constants.GET_REFUND_ORDER)
     suspend fun getRefundOrder(@QueryMap map: HashMap<String, Any>): Response<GetRefundOrderResponse>
 
-    @POST(Constants.CHANGE_PASSWORD)
-    suspend fun updatePassword(@Body map: HashMap<String, String>): Response<Unit>
+    @POST(Constants.UPDATE_PASSWORD)
+    suspend fun updatePassword(@Body map: HashMap<String, String>): Response<CommonResponse>
+
+    @POST(Constants.DELETE_ACCOUNT)
+    suspend fun deleteAccount(@Body map: HashMap<String, String>): Response<CommonResponse>
+
+    @GET(Constants.GET_DASHBOARD_DATA)
+    suspend fun getDashboardData(@QueryMap map: HashMap<String, String>): Response<GetDashboardDataResponse>
 
 
 }
