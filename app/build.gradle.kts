@@ -129,5 +129,6 @@ dependencies {
     implementation("me.leolin:ShortcutBadger:1.1.22@aar")
     implementation ("com.otaliastudios:transcoder:0.11.2")
     implementation("io.agora.rtc:full-sdk:4.2.3")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 }

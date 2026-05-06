@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -50,6 +51,15 @@ class ProfileFragment : BaseFragment() {
         initControl()
         observe()
         getStory()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+
+            val navController = findNavController()
+
+            if (!navController.popBackStack()) {
+                navController.navigate(R.id.home)
+            }
+        }
     }
 
     override fun initView() {
@@ -76,7 +86,11 @@ class ProfileFragment : BaseFragment() {
         binding?.apply {
 
             toolbar.tvToolbar.setOnClickListener {
-                findNavController().popBackStack()
+                val navController = findNavController()
+
+                if (!navController.popBackStack()) {
+                    navController.navigate(R.id.home)
+                }
             }
 
             ivProfileImage.setOnClickListener {

@@ -24,6 +24,7 @@
         android:textSize="@dimen/_10sdp"
         android:textColor="@color/black"
         android:layout_marginStart="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintStart_toEndOf="@+id/ivFeature"
         app:layout_constraintTop_toTopOf="parent"/>
 

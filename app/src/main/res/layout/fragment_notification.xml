@@ -18,7 +18,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvToolbar"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/_15sdp"
             android:paddingHorizontal="@dimen/_20sdp"

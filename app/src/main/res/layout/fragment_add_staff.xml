@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/change_img_txt"
-                    android:text="Change Image"
+                    android:text="@string/change_image"
                     android:textSize="@dimen/_11sdp"
                     android:fontFamily="@font/poppins_medium"
                     android:textColor="#9E7853"
@@ -83,6 +83,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:text="@string/full_name"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clImage" />
 
@@ -106,6 +107,7 @@
                 android:hint="@string/enter_full_name"
                 android:inputType="textCapSentences"
                 android:textSize="@dimen/_10sdp"
+                android:textAlignment="viewStart"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -117,6 +119,7 @@
                 android:layout_width="wrap_content"
                 android:text="@string/full_name"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etFullNameEnglish"/>
 
@@ -140,6 +143,7 @@
                 android:inputType="text"
                 android:textSize="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvFullNameArabic"/>
@@ -149,6 +153,7 @@
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/email_id"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etFullNameArabic" />
@@ -161,6 +166,7 @@
                 android:background="@drawable/edit_back"
                 android:hint="@string/enter_email_id"
                 android:inputType="textEmailAddress"
+                android:textAlignment="viewStart"
                 app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -318,6 +324,7 @@
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/password"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvRole" />
 
@@ -338,6 +345,7 @@
                     android:inputType="textPassword"
                     android:background="@null"
                     android:layout_marginEnd="@dimen/_5sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -362,6 +370,7 @@
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/confirm_password"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/relPassword" />
 
@@ -382,6 +391,7 @@
                     android:inputType="textPassword"
                     android:background="@null"
                     android:layout_marginEnd="@dimen/_5sdp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -411,6 +421,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13sdp"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/relConfirmPassword"/>
 

@@ -63,6 +63,7 @@
                 android:checked="false"
                 app:buttonTint="@null"
                 android:drawableTint="@null"
+                android:textAlignment="viewStart"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="@dimen/_12sdp"/>
 
@@ -88,6 +89,7 @@
             android:checked="false"
             app:buttonTint="@null"
             android:drawableTint="@null"
+            android:textAlignment="viewStart"
             android:fontFamily="@font/poppins_medium"
             android:textSize="@dimen/_12sdp"/>
 

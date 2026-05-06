@@ -17,7 +17,6 @@
             android:id="@+id/toolbar"
             layout="@layout/common_toolbar"/>
 
-
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivProfileImage"
             android:layout_width="@dimen/_40sdp"
@@ -65,6 +64,7 @@
             android:text="Ahmed Farhan"
             android:textSize="@dimen/_12sdp"
             android:textColor="@color/black"
+            android:textAlignment="viewStart"
             android:layout_marginHorizontal="@dimen/_10sdp"
             app:layout_constraintEnd_toStartOf="@+id/ivViewProfile"
             app:layout_constraintStart_toEndOf="@id/ivProfileImage"
@@ -80,6 +80,7 @@
             android:textSize="@dimen/_10sdp"
             android:textColor="@color/black"
             android:alpha="0.67"
+            android:textAlignment="viewStart"
             app:layout_constraintBottom_toBottomOf="@id/ivProfileImage"
             app:layout_constraintEnd_toEndOf="@id/tvName"
             app:layout_constraintStart_toStartOf="@id/tvName"
@@ -90,12 +91,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/view_profile"
-            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
             android:text="@string/view_profile"
             android:textSize="@dimen/_11sdp"
             android:fontFamily="@font/poppins_medium"
             android:textColor="#9E7853"
             android:gravity="center"
+            android:paddingHorizontal="@dimen/_5sdp"
             app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
             app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -397,7 +399,8 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivDeal"
                     style="@style/drawer_image"
-                    android:src="@drawable/ic_language" />
+                    android:src="@drawable/ic_coupon"
+                    android:tint="@color/brown"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/drawer_text"

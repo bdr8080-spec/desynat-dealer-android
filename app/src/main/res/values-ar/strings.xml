@@ -210,6 +210,8 @@
     <string name="edit_product">تعديل المنتج</string>
     <string name="edit">تعديل</string>
     <string name="add_new_product">إضافة منتج جديد</string>
+
+
     <string name="please_enter_name_in_english">يرجى إدخال الاسم بالإنجليزية</string>
     <string name="please_enter_name_in_arabic">يرجى إدخال الاسم بالعربية</string>
     <string name="please_enter_feature_in_english">يرجى إدخال الميزة بالإنجليزية</string>
@@ -253,6 +255,8 @@
     <string name="please_enter_maximum_quantity">يرجى إدخال الحد الأقصى للكمية</string>
     <string name="invalid_number">رقم غير صالح</string>
     <string name="max_must_be_greater_than_min">يجب أن يكون الحد الأقصى أكبر من الحد الأدنى</string>
+
+
     <string name="are_you_sure_you_want_to_delete_the_product">هل أنت متأكد أنك تريد حذف المنتج؟</string>
     <string name="product_deleted_successfully">تم حذف المنتج بنجاح</string>
     <string name="added_on">تمت الإضافة في</string>
@@ -687,4 +691,23 @@
     <string name="my_notifications">إشعاراتي</string>
     <string name="read_all">قراءة الكل</string>
     <string name="no_notification_found">لا توجد إشعارات</string>
+    <string name="select_image_source">اختر مصدر الصورة</string>
+    <string name="camera">الكاميرا</string>
+    <string name="gallery">المعرض</string>
+    <string name="reset">إعادة تعيين</string>
+    <string name="view_request">عرض الطلب</string>
+    <string name="upload_new">تحميل جديد</string>
+    <string name="name">الاسم</string>
+    <string name="feature">الميزة</string>
+    <string name="enter_feature">أدخل الميزة</string>
+    <string name="select">اختر</string>
+    <string name="eg_32">مثال: 32</string>
+    <string name="actual_price">السعر الفعلي</string>
+    <string name="enter_actual_price">أدخل السعر الفعلي</string>
+    <string name="discounted_price">السعر بعد الخصم</string>
+    <string name="percentage">النسبة المئوية</string>
+    <string name="fixed_price">سعر ثابت</string>
+    <string name="final_price">السعر النهائي</string>
+    <string name="enter_final_price">أدخل السعر النهائي</string>
+
 </resources>

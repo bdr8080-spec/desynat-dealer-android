@@ -491,9 +491,9 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
-    suspend fun deleteAccount(map: HashMap<String, String>): ApiResult<CommonResponse> {
+    suspend fun deleteAccount(): ApiResult<CommonResponse> {
         return try {
-            networkCall(api.deleteAccount(map))
+            networkCall(api.deleteAccount())
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }

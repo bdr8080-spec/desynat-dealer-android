@@ -31,6 +31,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
@@ -625,13 +626,13 @@ class EditProductFragment : BaseFragment() {
     }
 
     private fun showSubCategoryDropdown(view: AppCompatEditText) {
-        val list = subCategoryList.map { it.nameEnglish }
+        val list = subCategoryList.map { if (Constants.language=="ar") it.nameArabic else it.nameEnglish }
         val popup = androidx.appcompat.widget.ListPopupWindow(requireActivity())
         popup.anchorView = view
         popup.setAdapter(ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, list))
         popup.setOnItemClickListener { _, _, pos, _ ->
             selectedSubCategory = subCategoryList[pos]
-            view.setText(selectedSubCategory?.nameEnglish)
+            view.setText(if (Constants.language=="ar") selectedSubCategory?.nameArabic else selectedSubCategory?.nameEnglish)
             popup.dismiss()
         }
         popup.show()

@@ -651,7 +651,7 @@ class ChatActivity : BaseActivity() {
             if (chatDetailData?.type == "2") {
                 toolbar.isVisible = false
                 clQuotation.isVisible = true
-                tvRequestId.text = "Request Id #${chatDetailData?.id}"
+                tvRequestId.text = "${getString(R.string.request_id)} #${chatDetailData?.id}"
                 ivProduct.load(chatDetailData?.productVariation?.variantImage?.get(0)) {
                     crossfade(true)
                     placeholder(R.drawable.ic_placeholder)
@@ -680,7 +680,7 @@ class ChatActivity : BaseActivity() {
                         ivViewRequest.isVisible = false
                         clCustomerRequest.isVisible = true
                         clQuotationDetail.isVisible = false
-                        btnSendQuotation.text = "Send Quotation"
+                        btnSendQuotation.text = getString(R.string.send_quotation)
                         if (chatDetailData?.customDetails != null && chatDetailData?.customDetails != "null" && chatDetailData?.customDetails != "") {
                             clCustomerRequest.isVisible = true
                             btnSendQuotation.isVisible = true
@@ -695,9 +695,9 @@ class ChatActivity : BaseActivity() {
                         ivViewRequest.isVisible = false
                         clCustomerRequest.isVisible = false
                         clQuotationDetail.isVisible = true
-                        tvStatus.text = "Quotation Sent"
+                        tvStatus.text = getString(R.string.quotation_sent)
                         tvStatus.setTextColor(Color.parseColor("#172B85"))
-                        btnSendQuotation.text = "Modify Quotation"
+                        btnSendQuotation.text = getString(R.string.modify_quotation)
                     }
 
                     "2" -> {
@@ -705,9 +705,9 @@ class ChatActivity : BaseActivity() {
                         ivViewRequest.isVisible = false
                         clCustomerRequest.isVisible = false
                         clQuotationDetail.isVisible = true
-                        tvStatus.text = "Quotation Sent"
+                        tvStatus.text = getString(R.string.quotation_sent)
                         tvStatus.setTextColor(Color.parseColor("#172B85"))
-                        btnSendQuotation.text = "Modify Quotation"
+                        btnSendQuotation.text = getString(R.string.modify_quotation)
                     }
 
                     "4" -> {
@@ -716,15 +716,15 @@ class ChatActivity : BaseActivity() {
                         clCustomerRequest.isVisible = false
                         clQuotationDetail.isVisible = true
                         btnSendQuotation.isVisible = false
-                        tvStatus.text = "Rejected"
+                        tvStatus.text = getString(R.string.rejected)
                         tvStatus.setTextColor(Color.parseColor("#D53B36"))
                     }
 
                     "5" -> {
                         if (chatDetailData?.productBuyStatus == "1") {
-                            tvStatus.text = "Order Placed"
+                            tvStatus.text = getString(R.string.order_placed)
                         } else {
-                            tvStatus.text = "Accepted"
+                            tvStatus.text = getString(R.string.accepted)
                         }
                         tvStatus.isVisible = true
                         ivViewRequest.isVisible = true

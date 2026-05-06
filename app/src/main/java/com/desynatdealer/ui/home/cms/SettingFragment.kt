@@ -2,6 +2,7 @@ package com.desynatdealer.ui.home.cms
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,9 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.DeleteAccountDialogBinding
 import com.desynatdealer.databinding.FragmentSettingBinding
+import com.desynatdealer.ui.auth.AuthActivity
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
@@ -82,10 +85,43 @@ class SettingFragment : BaseFragment() {
     }
 
     override fun observe() {
+        viewModel.deleteAccountResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(getString(R.string.account_deleted_successfully))
+                    Constants.isLogout = true
+                    SharedPreference.get(requireActivity()).isSubscription = false
+                    SharedPreference.get(requireActivity()).accessToken = ""
+                    SharedPreference.get(requireActivity()).staffToken = ""
+                    SharedPreference.get(requireActivity()).userType = ""
+                    CommonMethod.clearData(requireActivity())
+                    requireActivity().startActivity(
+                        Intent(
+                            requireActivity(),
+                            AuthActivity::class.java
+                        )
+                    )
+                    requireActivity().finish()
+                    viewModel.deleteAccountResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.deleteAccountResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
     }
 
-    fun deleteAlertDialog(
-    ) {
+    fun deleteAlertDialog() {
         val dialog = Dialog(requireActivity(), R.style.CustomDialog)
         val dialogBinding = DeleteAccountDialogBinding.inflate(LayoutInflater.from(context))
         dialog.setContentView(dialogBinding.root)
@@ -100,6 +136,7 @@ class SettingFragment : BaseFragment() {
 
 
         dialogBinding.btnNo.setOnClickListener {
+            viewModel.deleteAccount()
             dialog.dismiss()
         }
         dialogBinding.btnYes.setOnClickListener {
@@ -108,6 +145,5 @@ class SettingFragment : BaseFragment() {
 
         dialog.show()
     }
-
 
 }

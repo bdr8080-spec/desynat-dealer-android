@@ -32,6 +32,7 @@
         android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toStartOf="@+id/ivEdit"
         app:layout_constraintStart_toEndOf="@id/ivProfile"
         app:layout_constraintTop_toTopOf="@id/ivProfile" />
@@ -45,6 +46,7 @@
         android:textColor="#875C3A"
         android:textSize="@dimen/_10sdp"
         android:singleLine="true"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toStartOf="@+id/tvSwitch"
         app:layout_constraintStart_toStartOf="@id/tvName"
         app:layout_constraintTop_toBottomOf="@id/tvName" />
@@ -57,6 +59,7 @@
         android:text="+948225555"
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@id/tvPost" />
@@ -69,6 +72,7 @@
         android:text="Add on : 21/04/2626"
         android:textColor="#99000000"
         android:textSize="@dimen/_10sdp"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintBottom_toBottomOf="@id/ivProfile" />
@@ -107,6 +111,7 @@
         android:paddingEnd="@dimen/_5sdp"
         android:paddingStart="@dimen/_5sdp"
         android:text="@string/active"
+        android:textAlignment="center"
         android:textColor="#1A900D"
         android:textSize="@dimen/_9sdp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -461,7 +461,7 @@ interface CommonApiService {
     suspend fun updatePassword(@Body map: HashMap<String, String>): Response<CommonResponse>
 
     @POST(Constants.DELETE_ACCOUNT)
-    suspend fun deleteAccount(@Body map: HashMap<String, String>): Response<CommonResponse>
+    suspend fun deleteAccount(): Response<CommonResponse>
 
     @GET(Constants.GET_DASHBOARD_DATA)
     suspend fun getDashboardData(@QueryMap map: HashMap<String, String>): Response<GetDashboardDataResponse>

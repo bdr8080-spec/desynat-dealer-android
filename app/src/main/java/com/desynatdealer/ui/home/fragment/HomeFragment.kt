@@ -21,7 +21,15 @@ import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
+import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import me.leolin.shortcutbadger.ShortcutBadger
@@ -36,6 +44,20 @@ class HomeFragment : BaseFragment() {
     var adminStoryList = ArrayList<GetStoryResponse.Data>()
     var dashboardData: GetDashboardDataResponse.Data?=null
     private var userInfo : GetSellerInfo.Data?=null
+
+    var analytics = "1"
+    var filter = "1"
+
+    private var fromTimestamp: Long? = null
+    private var toTimestamp: Long? = null
+    private var fromDateText: String? = null
+    private var toDateText: String? = null
+
+    private var fromAnalyticTimestamp: Long? = null
+    private var toAnalyticTimestamp: Long? = null
+    private var fromAnalyticDateText: String? = null
+    private var toAnalyticDateText: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -102,6 +124,126 @@ class HomeFragment : BaseFragment() {
 
             ivSupportBot.setOnClickListener {
                 findNavController().navigate(R.id.action_homeFragment_to_TidioChatFragment)
+            }
+
+            radioAnalyticsGroup.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    R.id.rbOrderConversion -> {
+                        analytics = "1"
+                        setLineChartData()
+                    }
+                    R.id.rbCustomerVisit ->{
+                        analytics ="2"
+                        setLineChartData()
+                    }
+                    else -> {
+                        analytics = "1"
+                        setLineChartData()
+                    }
+                }
+            }
+
+            radioGroup.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    R.id.rbToday -> {
+                        filter = "1"
+                        getDashboardData()
+                    }
+                    R.id.rbWeek ->{
+                        filter = "2"
+                        getDashboardData()
+                    }
+                    R.id.rbMonth ->{
+                        filter = "3"
+                        getDashboardData()
+                    }
+                    R.id.rbYear ->{
+                        filter = "4"
+                        getDashboardData()
+                    }
+
+                }
+            }
+
+            etFrom.setOnClickListener {
+                openCustomDatePicker(requireActivity()) { date, timestamp ->
+                    fromTimestamp = timestamp
+                    fromDateText = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
+                    etFrom.setText(date)
+
+                    toTimestamp = null
+                    toDateText = null
+                    etTo.setText("")
+                }
+            }
+
+            etTo.setOnClickListener {
+                if (fromTimestamp == null) {
+                    showToast(getString(R.string.please_select_from_date_first))
+                    return@setOnClickListener
+                }
+
+                openCustomDatePicker(
+                    requireActivity(),
+                    minDate = fromTimestamp
+                ) { date, timestamp ->
+                    toTimestamp = timestamp
+                    toDateText = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
+                    etTo.setText(date)
+                    getDashboardData()
+                    tvReset.isVisible = true
+                }
+            }
+
+
+            etAnalyticsFrom.setOnClickListener {
+                openCustomDatePicker(requireActivity()) { date, timestamp ->
+                    toAnalyticTimestamp = timestamp
+                    toAnalyticDateText = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
+                    etAnalyticsFrom.setText(date)
+
+                    toAnalyticTimestamp = null
+                    toAnalyticDateText = null
+                    etAnalyticsTo.setText("")
+                }
+            }
+
+            etAnalyticsTo.setOnClickListener {
+                if (fromAnalyticTimestamp == null) {
+                    showToast(getString(R.string.please_select_from_date_first))
+                    return@setOnClickListener
+                }
+
+                openCustomDatePicker(
+                    requireActivity(),
+                    minDate = fromAnalyticTimestamp
+                ) { date, timestamp ->
+                    toAnalyticTimestamp = timestamp
+                    toAnalyticDateText = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
+                    etAnalyticsTo.setText(date)
+                    tvAnalyticsReset.isVisible = true
+                    getDashboardData()
+                }
+            }
+
+            tvReset.setOnClickListener {
+                fromTimestamp = null
+                fromDateText = null
+                toDateText=null
+                toTimestamp = null
+                etTo.setText("")
+                etFrom.setText("")
+                getDashboardData()
+            }
+
+            tvAnalyticsReset.setOnClickListener {
+                fromAnalyticTimestamp = null
+                fromAnalyticDateText = null
+                toAnalyticDateText=null
+                toAnalyticTimestamp = null
+                etAnalyticsTo.setText("")
+                etAnalyticsFrom.setText("")
+                getDashboardData()
             }
 
         }
@@ -173,6 +315,7 @@ class HomeFragment : BaseFragment() {
                     binding?.progressBar?.isVisible = false
                     dashboardData = result?.data?.data
                     setDashboardData()
+                    setLineChartData()
                     viewModel.getDashboardDataResponse.value = null
                 }
 
@@ -326,7 +469,16 @@ class HomeFragment : BaseFragment() {
 
     private fun getDashboardData() {
         val map = HashMap<String, String>()
+        if (fromDateText!=null&&toDateText!=null){
+            map["from_date"] = fromDateText.toString()
+            map["to_date"] = toDateText.toString()
+        }
 
+        map["filter"] = filter
+        if (fromAnalyticDateText!=null&&toAnalyticDateText!=null) {
+            map["from_date_analytics"] = fromAnalyticDateText.toString()
+            map["to_date_analytics"] = toAnalyticDateText.toString()
+        }
         viewModel.getDashboardData(map)
     }
 
@@ -341,4 +493,94 @@ class HomeFragment : BaseFragment() {
         viewModel.getOrderNotification()
     }
 
+    fun setLineChartData() {
+
+        val entries = ArrayList<Entry>()
+        val months = ArrayList<String>()
+
+        when (analytics){
+            "1"->{
+                dashboardData?.orderAnalytics?.forEachIndexed { index, item ->
+                    entries.add(Entry(index.toFloat(), item.orders.toFloat()))
+                    months.add(item.month)
+                }
+            }
+            "2"->{
+                dashboardData?.visitorAnalytics?.forEachIndexed { index, item ->
+                    entries.add(Entry(index.toFloat(), item.totalVisitors.toFloat()))
+                    months.add(item.month)
+                }
+            }
+        }
+
+
+        val dataSet = LineDataSet(entries, if (analytics=="1") "Orders" else "Visitors")
+
+        dataSet.color = resources.getColor(R.color.black)
+        dataSet.setCircleColor(Color.parseColor("#F3D1A2"))
+        dataSet.circleRadius = 7f
+        dataSet.lineWidth = 2f
+        dataSet.setDrawCircleHole(false)
+        dataSet.setDrawValues(false)
+        dataSet.setDrawFilled(true)
+        dataSet.fillColor = resources.getColor(com.myfatoorah.sdk.R.color.transparent)
+
+        dataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+        dataSet.cubicIntensity = 0.2f
+
+        val lineData = LineData(dataSet)
+
+        binding?.getTheGraph?.apply {
+
+            data = lineData
+            description.isEnabled = false
+            legend.isEnabled = false
+
+            setTouchEnabled(true)
+            setPinchZoom(true)
+
+            xAxis.apply {
+                valueFormatter = IndexAxisValueFormatter(months)
+                position = XAxis.XAxisPosition.BOTTOM
+                granularity = 1f
+                setDrawGridLines(false)
+                textSize = 10f
+            }
+
+            axisRight.isEnabled = false
+
+            var maxValue = dashboardData?.orderAnalytics?.maxOfOrNull { it.orders } ?: 0
+
+            val stepSize = when {
+                maxValue <= 10 -> 2f
+                maxValue <= 40 -> 5f
+                maxValue <= 50 -> 10f
+                else -> 20f
+            }
+
+            val axisMax = ((maxValue / stepSize).toInt() + 2) * stepSize
+
+            axisLeft.apply {
+                axisMinimum = 0f
+                axisMaximum = axisMax
+                spaceTop = 20f
+
+                granularity = stepSize
+
+                setDrawGridLines(true)
+                gridColor = Color.LTGRAY
+                gridLineWidth = 0.5f
+
+                valueFormatter = object : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        return value.toInt().toString()
+                    }
+                }
+            }
+
+
+            animateX(1000)
+            invalidate()
+        }
+    }
 }

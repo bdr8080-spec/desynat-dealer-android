@@ -8,6 +8,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.desynatdealer.R
 import java.io.File
 
 class ImagePicker(
@@ -24,9 +25,10 @@ class ImagePicker(
         if (alertDialog?.isShowing == true) {
             return
         }
-        val options = arrayOf("Camera", "Gallery")
+        val options = arrayOf(context.getString(R.string.camera),
+            context.getString(R.string.gallery))
         alertDialog = AlertDialog.Builder(context)
-            .setTitle("Select Image Source")
+            .setTitle(context.getString(R.string.select_image_source))
             .setItems(options) { _, which ->
                 when (which) {
                     0 -> checkCameraPermissionAndOpen()

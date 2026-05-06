@@ -41,7 +41,6 @@
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:textAlignment="viewEnd"
         android:singleLine="true"
-        android:layout_marginStart="@dimen/_2sdp"
         app:layout_constraintStart_toEndOf="@+id/tvTitle"
         app:layout_constraintBottom_toBottomOf="@id/ivBack"
         app:layout_constraintEnd_toEndOf="parent"
@@ -1121,7 +1120,6 @@
                 android:paddingVertical="@dimen/_8sdp"
                 android:gravity="center"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:textAlignment="viewStart"
                 android:fontFamily="@font/poppins_medium"
                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvAccept"
@@ -1190,6 +1188,10 @@
                     app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp"/>
 
         </LinearLayout>
 

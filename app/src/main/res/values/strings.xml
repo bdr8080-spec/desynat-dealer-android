@@ -677,5 +677,34 @@
     <string name="my_notifications">My Notifications</string>
     <string name="read_all">Read All</string>
     <string name="no_notification_found">No notification found</string>
+    <string name="select_image_source">Select Image Source</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="reset">Reset</string>
+    <string name="view_request">View Request</string>
+    <string name="upload_new">Upload New</string>
+    <string name="name">Name</string>
+    <string name="feature">Feature</string>
+    <string name="enter_feature">Enter Feature</string>
+    <string name="select">Select</string>
+    <string name="eg_32">Eg. 32</string>
+    <string name="actual_price">Actual Price</string>
+    <string name="enter_actual_price">Enter Actual Price</string>
+    <string name="discounted_price">Discounted Price</string>
+    <string name="percentage">Percentage</string>
+    <string name="fixed_price">Fixed Price</string>
+    <string name="final_price">Final Price</string>
+    <string name="enter_final_price">Enter Final Price</string>
+    <string name="location">Location</string>
+    <string name="fetching_address">Fetching address...</string>
+    <string name="use_current_location">Use Current Location</string>
+    <string name="search_address">Search address</string>
+    <string name="change">Change</string>
+    <string name="permission_required">Permission Required</string>
+    <string name="location_permission_is_required_to_detect_your_current_location">Location permission is required to detect your current location.</string>
+    <string name="grant">Grant</string>
+    <string name="location_permission_denied">Location permission denied</string>
+    <string name="enable_gps">Enable GPS</string>
+    <string name="please_enable_gps_to_fetch_your_current_location">Please enable GPS to fetch your current location.</string>
 
 </resources>

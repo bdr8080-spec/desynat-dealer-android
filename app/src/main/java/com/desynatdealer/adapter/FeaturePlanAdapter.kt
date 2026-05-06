@@ -13,7 +13,7 @@ class FeaturePlanAdapter(var context:Context, var featureList: ArrayList<Subscri
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             tvFeature.text = featureList[position].feature
-            tvFeature.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_feature,0,0,0)
+      //      tvFeature.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_feature,0,0,0)
             if (featureList[position].count!=0) {
                 tvCount.text = featureList[position].count.toString()
             }

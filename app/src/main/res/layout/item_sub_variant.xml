@@ -11,7 +11,8 @@
         android:layout_width="0dp"
         android:layout_marginEnd="@dimen/_15sdp"
         android:layout_marginStart="@dimen/_15sdp"
-        android:text="Size"
+        android:text="@string/size"
+        android:textAlignment="viewStart"
         android:layout_marginTop="@dimen/_15sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:background="@drawable/edit_back"
-        android:hint="Select"
+        android:hint="@string/select"
+        android:textAlignment="viewStart"
         android:inputType="text"
         android:clickable="true"
         android:focusable="false"
@@ -79,7 +81,8 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:text="Bust"
+            android:text="@string/bust"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toStartOf="@+id/tvWaist"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -95,6 +98,7 @@
             android:hint="Eg. 32"
             android:maxLength="2"
             android:inputType="number"
+            android:textAlignment="viewStart"
             android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/etWaist"
@@ -106,7 +110,8 @@
             android:layout_width="0dp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_7sdp"
-            android:text="Waist"
+            android:text="@string/waist"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvBust"
             app:layout_constraintTop_toTopOf="@+id/tvBust"
@@ -120,6 +125,7 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:background="@drawable/edit_back"
             android:hint="Eg. 28"
+            android:textAlignment="viewStart"
             android:maxLength="2"
             android:inputType="number"
             android:paddingHorizontal="@dimen/_10sdp"
@@ -135,7 +141,8 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:text="Hip"
+            android:text="@string/hip"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toStartOf="@+id/tvShoulder"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etBust" />
@@ -150,6 +157,7 @@
             android:background="@drawable/edit_back"
             android:hint="Eg. 36"
             android:maxLength="2"
+            android:textAlignment="viewStart"
             android:inputType="number"
             android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +170,8 @@
             android:layout_width="0dp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_7sdp"
-            android:text="Shoulder"
+            android:text="@string/shoulder"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvHip"
             app:layout_constraintTop_toTopOf="@+id/tvHip"
@@ -177,6 +186,7 @@
             android:background="@drawable/edit_back"
             android:hint="Eg. 16"
             android:inputType="number"
+            android:textAlignment="viewStart"
             android:maxLength="2"
             android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintTop_toTopOf="@+id/etHip"
@@ -191,7 +201,8 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:text="Sleeve Length"
+            android:text="@string/sleeve_length"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toStartOf="@+id/tvLength"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etHip" />
@@ -207,6 +218,7 @@
             android:hint="Eg. 22"
             android:maxLength="2"
             android:inputType="number"
+            android:textAlignment="viewStart"
             android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/etLength"
@@ -218,7 +230,8 @@
             android:layout_width="0dp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_7sdp"
-            android:text="Length"
+            android:text="@string/length"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvSleeveLength"
             app:layout_constraintTop_toTopOf="@+id/tvSleeveLength"
@@ -234,6 +247,7 @@
             android:hint="Eg. 40"
             android:maxLength="3"
             android:inputType="number"
+            android:textAlignment="viewStart"
             android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintTop_toTopOf="@+id/etSleeveLength"
             app:layout_constraintBottom_toBottomOf="@+id/etSleeveLength"
@@ -249,7 +263,8 @@
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_8sdp"
-        android:text="Total Stocks"
+        android:text="@string/total_stocks"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toStartOf="@+id/tvSku"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clWomenSize" />
@@ -265,6 +280,7 @@
         android:hint="Eg. 13208"
         android:inputType="number"
         android:maxLength="6"
+        android:textAlignment="viewStart"
         android:paddingHorizontal="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/etSku"
@@ -289,7 +305,8 @@
         android:layout_marginEnd="@dimen/_15sdp"
         android:layout_marginStart="@dimen/_8sdp"
         android:background="@drawable/edit_back"
-        android:hint="Enter SKU limit"
+        android:hint="@string/enter_sku_limit"
+        android:textAlignment="viewStart"
         android:inputType="number"
         android:paddingHorizontal="@dimen/_10sdp"
         app:layout_constraintTop_toTopOf="@+id/etTotalStocks"
@@ -305,7 +322,8 @@
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_8sdp"
-        android:text="SKU Threshold value"
+        android:text="@string/sku_threshold_value"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toStartOf="@+id/tvSku"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTotalStocks" />
@@ -319,6 +337,7 @@
         android:background="@drawable/edit_back"
         android:hint="200"
         android:inputType="number"
+        android:textAlignment="viewStart"
         android:paddingHorizontal="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="@+id/etTotalStocks"
         app:layout_constraintEnd_toEndOf="@+id/etTotalStocks"
@@ -338,7 +357,8 @@
         style="@style/edit_text_title"
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
-        android:text="Actual Price" />
+        android:text="@string/actual_price"
+        android:textAlignment="viewStart"/>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etActualPrice"
@@ -348,14 +368,16 @@
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:background="@drawable/edit_back"
         android:maxLength="8"
-        android:hint="Enter Actual Price"
+        android:textAlignment="viewStart"
+        android:hint="@string/enter_actual_price"
         android:inputType="numberDecimal" />
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/edit_text_title"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
-        android:text="Discounted Price" />
+        android:text="@string/discounted_price"
+        android:textAlignment="viewStart"/>
 
     <RadioGroup
         android:id="@+id/rgPrice"
@@ -371,7 +393,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Percentage"
+            android:text="@string/percentage"
             android:textColor="@color/black"
             android:paddingVertical="@dimen/_10sdp"
             android:button="@drawable/selector_radio_icon"
@@ -387,7 +409,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Fixed Price"
+            android:text="@string/fixed_price"
             android:textColor="@color/black"
             android:paddingVertical="@dimen/_10sdp"
             android:button="@drawable/selector_radio_icon"
@@ -410,13 +432,15 @@
         android:background="@drawable/edit_back"
         android:hint="Eg. 10%"
         android:maxLength="3"
+        android:textAlignment="viewStart"
         android:inputType="numberDecimal" />
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/edit_text_title"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
-        android:text="Final Price" />
+        android:text="@string/final_price"
+        android:textAlignment="viewStart"/>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etFinalPrice"
@@ -425,7 +449,8 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:background="@drawable/edit_back"
-        android:hint="Enter Final Price"
+        android:hint="@string/enter_final_price"
+        android:textAlignment="viewStart"
         android:inputType="number"
         android:editable="false"
         android:clickable="false"

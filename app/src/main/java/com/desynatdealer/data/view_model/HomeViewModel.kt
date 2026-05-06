@@ -743,10 +743,10 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     val deleteAccountResponse: MutableLiveData<ApiResult<CommonResponse>?>
         get() = _deleteAccountResponse
 
-    fun deleteAccount(req: HashMap<String, String>) {
+    fun deleteAccount() {
         viewModelScope.launch {
             _deleteAccountResponse.value = ApiResult.Loading
-            _deleteAccountResponse.value = repo.deleteAccount(req)
+            _deleteAccountResponse.value = repo.deleteAccount()
         }
     }
 

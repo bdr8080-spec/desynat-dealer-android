@@ -192,7 +192,11 @@ class ViewProfileFragment : BaseFragment() {
             tvSwift.text = userInfo?.sellerBankDetails?.swift
             tvAccountHolderName.text = userInfo?.sellerBankDetails?.accountHolderName
             tvBankName.text = userInfo?.sellerBankDetails?.bankName
-            tvAccountType.text = if(userInfo?.sellerBankDetails?.accountType=="0") {"Personal"}else {"Business"}
+            tvAccountType.text = if(userInfo?.sellerBankDetails?.accountType=="0") {
+                getString(R.string.personal)
+            }else {
+                getString(R.string.business)
+            }
 
         }
     }

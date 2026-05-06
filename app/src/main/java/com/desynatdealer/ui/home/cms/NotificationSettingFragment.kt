@@ -185,6 +185,7 @@ class NotificationSettingFragment : BaseFragment() {
             dialog.dismiss()
         }
         dialogBinding.btnYes.setOnClickListener {
+            deleteAccount()
             dialog.dismiss()
         }
 
@@ -198,8 +199,7 @@ class NotificationSettingFragment : BaseFragment() {
     }
 
     fun deleteAccount(){
-        val map = HashMap<String, String>()
-        viewModel.deleteAccount(map)
+        viewModel.deleteAccount()
     }
 
     fun appNotificationOnOff(){

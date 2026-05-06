@@ -2,7 +2,8 @@
     android:width="10dp"
     android:height="18dp"
     android:viewportWidth="10"
-    android:viewportHeight="18">
+    android:viewportHeight="18"
+    android:autoMirrored="true">
   <path
       android:pathData="M8.75,16.75L0.75,8.75L8.75,0.75"
       android:strokeLineJoin="round"
