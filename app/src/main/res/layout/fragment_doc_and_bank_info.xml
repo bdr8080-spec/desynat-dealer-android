@@ -69,10 +69,51 @@
                 android:id="@+id/tvOwnerDoc"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Owner's Documents"
+                android:text="@string/owner_s_documents"
+                android:textAlignment="viewStart"
                 app:layout_constraintTop_toBottomOf="@+id/view1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clDocument1Placeholder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_90sdp"
+                app:layout_constraintTop_toTopOf="@+id/ivDoc1"
+                app:layout_constraintBottom_toBottomOf="@+id/ivDoc1"
+                app:layout_constraintStart_toStartOf="@+id/ivDoc1"
+                app:layout_constraintEnd_toEndOf="@+id/ivDoc1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPlaceholder1"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:clipToOutline="true"
+                    android:src="@drawable/ic_gallery_placeholder_gradient"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/tvPlaceholder1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPlaceholder1"
+                    style="@style/edit_text_title"
+                    android:layout_width="wrap_content"
+                    android:textColor="#875C3A"
+                    android:text="@string/document_1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivPlaceholder1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivDoc1"
@@ -85,10 +126,50 @@
                 android:clipToOutline="true"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:background="@drawable/grey_dash_rectangle"
-                android:src="@drawable/ic_document1_placeholder"
                 app:layout_constraintTop_toBottomOf="@+id/tvOwnerDoc"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivDoc2"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clDocument2Placeholder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_90sdp"
+                app:layout_constraintTop_toTopOf="@+id/ivDoc2"
+                app:layout_constraintBottom_toBottomOf="@+id/ivDoc2"
+                app:layout_constraintStart_toStartOf="@+id/ivDoc2"
+                app:layout_constraintEnd_toEndOf="@+id/ivDoc2">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPlaceholder2"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:clipToOutline="true"
+                    android:src="@drawable/ic_gallery_placeholder_gradient"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/tvPlaceholder2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPlaceholder2"
+                    style="@style/edit_text_title"
+                    android:layout_width="wrap_content"
+                    android:textColor="#875C3A"
+                    android:text="@string/document_2"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivPlaceholder2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivDoc2"
@@ -100,7 +181,6 @@
                 android:clipToOutline="true"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:background="@drawable/grey_dash_rectangle"
-                android:src="@drawable/ic_document2_placeholder"
                 app:layout_constraintTop_toTopOf="@+id/ivDoc1"
                 app:layout_constraintBottom_toBottomOf="@+id/ivDoc1"
                 app:layout_constraintStart_toEndOf="@+id/ivDoc1"
@@ -110,10 +190,51 @@
                 android:id="@+id/tvStoreDoc"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Store Documents"
+                android:text="@string/store_s_documents"
+                android:textAlignment="viewStart"
                 app:layout_constraintTop_toBottomOf="@+id/ivDoc1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clStoreDocument1Placeholder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_90sdp"
+                app:layout_constraintTop_toTopOf="@+id/ivStoreDoc1"
+                app:layout_constraintBottom_toBottomOf="@+id/ivStoreDoc1"
+                app:layout_constraintStart_toStartOf="@+id/ivStoreDoc1"
+                app:layout_constraintEnd_toEndOf="@+id/ivStoreDoc1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivStorePlaceholder1"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:clipToOutline="true"
+                    android:src="@drawable/ic_gallery_placeholder_gradient"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/tvStorePlaceholder1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvStorePlaceholder1"
+                    style="@style/edit_text_title"
+                    android:layout_width="wrap_content"
+                    android:textColor="#875C3A"
+                    android:text="@string/document_1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivStorePlaceholder1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivStoreDoc1"
@@ -126,10 +247,49 @@
                 android:clipToOutline="true"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:background="@drawable/grey_dash_rectangle"
-                android:src="@drawable/ic_document1_placeholder"
                 app:layout_constraintTop_toBottomOf="@+id/tvStoreDoc"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivStoreDoc2"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clStoreDocument2Placeholder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_90sdp"
+                app:layout_constraintTop_toTopOf="@+id/ivStoreDoc2"
+                app:layout_constraintBottom_toBottomOf="@+id/ivStoreDoc2"
+                app:layout_constraintStart_toStartOf="@+id/ivStoreDoc2"
+                app:layout_constraintEnd_toEndOf="@+id/ivStoreDoc2">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivStorePlaceholder2"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:clipToOutline="true"
+                    android:src="@drawable/ic_gallery_placeholder_gradient"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/tvStorePlaceholder2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvStorePlaceholder2"
+                    style="@style/edit_text_title"
+                    android:layout_width="wrap_content"
+                    android:textColor="#875C3A"
+                    android:text="@string/document_2"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivStorePlaceholder2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivStoreDoc2"
@@ -141,7 +301,6 @@
                 android:clipToOutline="true"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:background="@drawable/grey_dash_rectangle"
-                android:src="@drawable/ic_document2_placeholder"
                 app:layout_constraintTop_toTopOf="@+id/ivStoreDoc1"
                 app:layout_constraintBottom_toBottomOf="@+id/ivStoreDoc1"
                 app:layout_constraintStart_toEndOf="@+id/ivStoreDoc1"
@@ -151,9 +310,10 @@
                 android:id="@+id/tvBankDetails"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Bank details"
+                android:text="@string/bank_details"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="@dimen/_12sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintTop_toBottomOf="@+id/ivStoreDoc1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -162,7 +322,8 @@
                 android:id="@+id/tvAccountType"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Account Type"
+                android:text="@string/account_type"
+                android:textAlignment="viewStart"
                 app:layout_constraintTop_toBottomOf="@+id/tvBankDetails"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -178,7 +339,7 @@
                     android:id="@+id/cbPersonal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Personal"
+                    android:text="@string/personal"
                     android:textColor="@color/black"
                     android:paddingVertical="@dimen/_12sdp"
                     android:button="@drawable/selector_radio_icon"
@@ -186,6 +347,7 @@
                     android:checked="true"
                     app:buttonTint="@null"
                     android:drawableTint="@null"
+                    android:textAlignment="viewStart"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="@dimen/_11sdp"/>
 
@@ -193,7 +355,7 @@
                     android:id="@+id/cbBusiness"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Business"
+                    android:text="@string/business"
                     android:textColor="@color/black"
                     android:paddingVertical="@dimen/_12sdp"
                     android:button="@drawable/selector_radio_icon"
@@ -202,6 +364,7 @@
                     android:checked="false"
                     app:buttonTint="@null"
                     android:drawableTint="@null"
+                    android:textAlignment="viewStart"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="@dimen/_11sdp"/>
 
@@ -212,7 +375,8 @@
                 android:layout_width="wrap_content"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:text="IBAN"
+                android:text="@string/iban"
+                android:textAlignment="viewStart"
                 app:layout_constraintTop_toBottomOf="@+id/rgAccountType"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -220,8 +384,9 @@
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(Optional)"
+                android:text="@string/optional"
                 android:textSize="@dimen/_10sdp"
+                android:textAlignment="viewStart"
                 android:layout_marginStart="@dimen/_4sdp"
                 android:fontFamily="@font/poppins_regular"
                 app:layout_constraintTop_toTopOf="@+id/tvIban"
@@ -232,9 +397,10 @@
                 android:id="@+id/etIban"
                 android:layout_width="match_parent"
                 style="@style/edit_text"
-                android:hint="Enter IBAN"
+                android:hint="@string/enter_iban_number"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:inputType="text"
+                android:textAlignment="viewStart"
                 android:background="@drawable/edit_back"
                 app:layout_constraintTop_toBottomOf="@+id/tvIban"/>
 
@@ -243,7 +409,8 @@
                 android:layout_width="wrap_content"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="SWIFT/BIC"
+                android:text="@string/swift_bic"
+                android:textAlignment="viewStart"
                 app:layout_constraintTop_toBottomOf="@+id/etIban"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -251,7 +418,7 @@
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(Optional)"
+                android:text="@string/optional"
                 android:textSize="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_4sdp"
                 android:fontFamily="@font/poppins_regular"
@@ -263,9 +430,10 @@
                 android:id="@+id/etSwift"
                 android:layout_width="match_parent"
                 style="@style/edit_text"
-                android:hint="Enter SWIFT/BIC"
+                android:hint="@string/enter_swift_bic"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:inputType="text"
+                android:textAlignment="viewStart"
                 android:background="@drawable/edit_back"
                 app:layout_constraintTop_toBottomOf="@+id/tvSwift"/>
 
@@ -273,7 +441,8 @@
                 android:id="@+id/tvBankName"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Bank Name"
+                android:text="@string/bank_name"
+                android:textAlignment="viewStart"
                 app:layout_constraintTop_toBottomOf="@+id/etSwift"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -282,9 +451,10 @@
                 android:id="@+id/etBankName"
                 android:layout_width="match_parent"
                 style="@style/edit_text"
-                android:hint="Enter Bank Name"
+                android:hint="@string/enter_bank_name"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:inputType="textCapSentences"
+                android:textAlignment="viewStart"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 android:background="@drawable/edit_back"
                 app:layout_constraintTop_toBottomOf="@+id/tvBankName"/>
@@ -293,7 +463,8 @@
                 android:id="@+id/tvAccountHolderName"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Account holder name"
+                android:text="@string/account_holder_name"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etBankName"/>
 
@@ -301,9 +472,10 @@
                 android:id="@+id/etAccountHolderName"
                 android:layout_width="match_parent"
                 style="@style/edit_text"
-                android:hint="Enter Account holder name"
+                android:hint="@string/enter_account_holder_name"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:inputType="textCapSentences"
+                android:textAlignment="viewStart"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 android:background="@drawable/edit_back"
                 app:layout_constraintTop_toBottomOf="@+id/tvAccountHolderName"/>
@@ -312,9 +484,51 @@
                 android:id="@+id/tvAccountProof"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Upload proof of account"
+                android:textAlignment="viewStart"
+                android:text="@string/upload_proof_of_account"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAccountHolderName"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clBankPlaceholder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_100sdp"
+                app:layout_constraintTop_toTopOf="@+id/ivBank"
+                app:layout_constraintBottom_toBottomOf="@+id/ivBank"
+                app:layout_constraintStart_toStartOf="@+id/ivBank"
+                app:layout_constraintEnd_toEndOf="@+id/ivBank">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivBankPlaceholder"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:clipToOutline="true"
+                    android:src="@drawable/ic_gallery_placeholder_gradient"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/tvBankPlaceholder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBankPlaceholder"
+                    style="@style/edit_text_title"
+                    android:layout_width="wrap_content"
+                    android:textColor="#000000"
+                    android:alpha="0.5"
+                    android:text="(Bank Statement or Bank Letter, PDF/JPG/PNG)"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivBankPlaceholder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivBank"
@@ -326,7 +540,6 @@
                 android:scaleType="centerCrop"
                 android:clipToOutline="true"
                 android:background="@drawable/grey_dash_rectangle"
-                android:src="@drawable/ic_bank_placeholder"
                 app:layout_constraintTop_toBottomOf="@+id/tvAccountProof"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -335,7 +548,7 @@
                 android:id="@+id/btnContinue"
                 style="@style/button"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Continue"
+                android:text="@string/continue_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivBank"/>

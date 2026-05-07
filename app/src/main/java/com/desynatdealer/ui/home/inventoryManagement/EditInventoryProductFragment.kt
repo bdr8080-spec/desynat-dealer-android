@@ -26,6 +26,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetAllProductRespons
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.google.android.material.tabs.TabLayoutMediator
@@ -156,15 +157,27 @@ class EditInventoryProductFragment : BaseFragment() {
             variantImageAdapter?.notifyDataSetChanged()
             viewPager.setCurrentItem(0, false)
 
-            tvBrand.text = if(productData?.brand?.nameEnglish=="Other") productData?.otherEn else productData?.brand?.nameEnglish
-            tvName.text = productData?.productNameEn
+            tvBrand.text = if(productData?.brand?.nameEnglish=="Other"){
+                if (Constants.language=="ar") productData?.otherAr else productData?.otherEn
+            }
+            else {
+                if (Constants.language=="ar")productData?.brand?.nameArabic else productData?.brand?.nameEnglish
+            }
 
-            tvPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.actualPrice?:0)} KD"
-            tvDiscountedPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.finalPrice?:0)} KD"
+            tvPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.actualPrice?:0)} ${getString(R.string.kd)}"
+            tvDiscountedPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.finalPrice?:0)} ${
+                getString(
+                    R.string.kd
+                )
+            }"
 
             val variant = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)
             val discountValue = variant?.discountValue ?: 0
-            val discountType = if (variant?.discountType == "1")"% off" else " KD off"
+            val discountType = if (variant?.discountType == "1")"% ${getString(R.string.off)}" else " ${getString(R.string.kd)} ${
+                getString(
+                    R.string.off
+                )
+            }"
             tvOffer.text = "$discountValue$discountType"
 
             etTotalStocks.setText(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.totalStock)
@@ -242,7 +255,8 @@ class EditInventoryProductFragment : BaseFragment() {
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Inventory updated successfully"){
+                    CommonMethod.showSuccessDialog(requireActivity(),
+                        getString(R.string.inventory_updated_successfully)){
                         productInfo[selectedColorPos].productVariation[selectedSizePos].sku = binding?.etSku?.text?.trim().toString()
                         productInfo[selectedColorPos].productVariation[selectedSizePos].totalStock = binding?.etTotalStocks?.text?.trim().toString()
                         viewModel.updateInventoryProductStockResponse.value = null

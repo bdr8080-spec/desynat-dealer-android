@@ -36,7 +36,7 @@ class AddCardFragment : BaseFragment() {
 
     override fun initView() {
         binding?.apply {
-            toolbar.tvToolbar.text = "Add Card"
+            toolbar.tvToolbar.text = getString(R.string.add_card)
         }
     }
 
@@ -54,7 +54,8 @@ class AddCardFragment : BaseFragment() {
 
             btnPay.setOnClickListener {
                 if (isValidate()){
-                    CommonMethod.showSuccessDialog(requireActivity(),"Plan purchased successfully !"){
+                    CommonMethod.showSuccessDialog(requireActivity(),
+                        getString(R.string.plan_purchased_successfully)){
                         findNavController().navigate(R.id.action_addCardFragment_to_HomeFragment)
                     }
                 }
@@ -72,19 +73,19 @@ class AddCardFragment : BaseFragment() {
         val cvv = binding?.etCvv?.text.toString().trim()
 
         if (cardHolderName.isBlank()) {
-            showToast("Please enter card holder name")
+            showToast(getString(R.string.please_enter_card_holder_name))
             return false
         }
         else if (cardNumber.isEmpty()) {
-            showToast("Please enter card number")
+            showToast(getString(R.string.please_enter_card_number))
             return false
         }
         else if (expiryDate.isEmpty()) {
-            showToast("Please select expiry date")
+            showToast(getString(R.string.please_select_expiry_date))
             return false
         }
         else if (cvv.isEmpty()) {
-            showToast("Please enter cvv")
+            showToast(getString(R.string.please_enter_cvv))
             return false
         }
 

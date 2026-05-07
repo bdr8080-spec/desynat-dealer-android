@@ -32,7 +32,11 @@ class MySubscriptionAdapter(var context:Context, var subscriptionList: ArrayList
             }
 
             tvPlanName.text = if (Constants.language=="ar") subscriptionData?.planInfo?.planNameArabic else subscriptionData?.planInfo?.planNameEnglish
-            tvAmountValue.text = "${CommonMethod.formatPrice(subscriptionData.planInfo?.price?.toDoubleOrNull()?:0.0)} KD"
+            tvAmountValue.text = "${CommonMethod.formatPrice(subscriptionData.planInfo?.price?.toDoubleOrNull()?:0.0)} ${
+                context.getString(
+                    R.string.kd
+                )
+            }"
             tvPurchaseOn.text = CommonMethod.customizeChangeDateFormat(subscriptionData.createdAt, outputFormat = "dd/MM/yyyy 'at' hh:mm a")
                 when(subscriptionData?.planInfo?.durationType){
                     1 -> {

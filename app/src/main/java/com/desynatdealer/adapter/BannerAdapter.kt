@@ -12,6 +12,7 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemAddBannerBinding
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 
 class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerResponse.Data>, var onClick:OnClick) : RecyclerView.Adapter<BannerAdapter.ViewHolder>() {
 
@@ -26,7 +27,7 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
             Glide.with(context).load(bannerData?.uploadBanner).placeholder(R.drawable.ic_placeholder).into(ivBanner)
 
                 tvRequestId.text = "#${bannerData?.orderId}"
-                tvTotalAmount.text = "${CommonMethod.formatPrice(bannerData?.price?:0.0)} KD"
+                tvTotalAmount.text = "${CommonMethod.formatPrice(bannerData?.price?:0.0)} ${context.getString(R.string.kd)}"
                 tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(bannerData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
                 when(bannerData?.adminVerify){
                     "0" ->{
@@ -107,7 +108,7 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
                 when(bannerData?.bannerPosition){
                     "3"->{
                         tvCategoryValue.text = bannerData?.categoryDetails?.name
-                        tvSubCategoryValue.text = bannerData?.subcategoryDetails?.nameEnglish
+                        tvSubCategoryValue.text = if (Constants.language=="ar") bannerData?.subcategoryDetails?.nameArabic else bannerData?.subcategoryDetails?.nameEnglish
                         tvCategory.isVisible = false
                         tvCategoryValue.isVisible = false
                         tvSubCategory.isVisible = false

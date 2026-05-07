@@ -6,13 +6,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.databinding.ItemSpecificationBinding
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
+import com.desynatdealer.utils.Constants
 
 class SpecificationAdapter(var context:Context, var specificationList: ArrayList<GetAllProductResponse.Data.AllProductData.ProductSpecification>) : RecyclerView.Adapter<SpecificationAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemSpecificationBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
-            tvDescription.text = "${specificationList[position].nameEn} - ${specificationList[position].featureEn}"
+            tvDescription.text =  if (Constants.language=="ar"){
+                "${specificationList[position].nameAr} - ${specificationList[position].featureAr}"
+            }
+            else{
+                "${specificationList[position].nameEn} - ${specificationList[position].featureEn}"
+            }
 
         }
         }

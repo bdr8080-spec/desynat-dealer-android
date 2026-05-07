@@ -355,7 +355,7 @@ class EditProductFragment : BaseFragment() {
             etProductName.setText(productData?.productNameEn)
             etProductNameArabic.setText(productData?.productNameAr)
 
-            etSubCategory.setText(productData?.subcategory?.nameEnglish)
+            etSubCategory.setText(if(Constants.language=="ar")productData?.subcategory?.nameArabic else productData?.subcategory?.nameEnglish)
             etBrand.setText(productData?.brand?.nameEnglish)
 
                 if (productData?.brand?.nameEnglish=="Other"){

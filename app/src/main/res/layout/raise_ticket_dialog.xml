@@ -102,17 +102,66 @@
             android:text="@string/upload_attachment_if_any"
             android:textAlignment="viewStart"/>
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivDoc"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="164dp"
             android:layout_height="120dp"
             android:layout_marginTop="@dimen/_5sdp"
-            app:shapeAppearanceOverlay="@style/rounded_corner4sdp"
-            android:scaleType="centerCrop"
-            android:clipToOutline="true"
-            android:background="@drawable/brown_dash_rectangle"
-            android:src="@drawable/ic_doc"
-            android:layout_marginEnd="@dimen/_5sdp"/>
+            android:layout_marginEnd="@dimen/_5sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clDocument1Placeholder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_90sdp"
+                app:layout_constraintTop_toTopOf="@+id/ivDoc"
+                app:layout_constraintBottom_toBottomOf="@+id/ivDoc"
+                app:layout_constraintStart_toStartOf="@+id/ivDoc"
+                app:layout_constraintEnd_toEndOf="@+id/ivDoc">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivPlaceholder1"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center_horizontal"
+                    app:shapeAppearanceOverlay="@style/rounded_corner4sdp"
+                    android:scaleType="centerCrop"
+                    android:clipToOutline="true"
+                    android:src="@drawable/ic_gallery_placeholder_gradient"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/tvPlaceholder1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPlaceholder1"
+                    style="@style/edit_text_title"
+                    android:textColor="#875C3A"
+                    android:text="@string/document"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivPlaceholder1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivDoc"
+                android:layout_width="164dp"
+                android:layout_height="120dp"
+                app:shapeAppearanceOverlay="@style/rounded_corner4sdp"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true"
+                android:background="@drawable/brown_dash_rectangle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
         android:id="@+id/btnSubmit"

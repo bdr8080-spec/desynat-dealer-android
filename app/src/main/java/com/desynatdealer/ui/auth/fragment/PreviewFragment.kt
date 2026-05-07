@@ -54,7 +54,7 @@ class PreviewFragment : BaseFragment() {
     @SuppressLint("SetTextI18n")
     override fun initView() {
         binding?.apply {
-            toolbar.tvToolbar.text = "Summary"
+            toolbar.tvToolbar.text = getString(R.string.summary)
 
             userId = storeInformationReq.get("user_id").toString()
             ivProfile.setImage(createAccountReq.get("profile_pic"))
@@ -77,7 +77,7 @@ class PreviewFragment : BaseFragment() {
             storeDoc2.setImage(storeDocumentAndBankDetailsReq.storeDocument.getOrNull(1))
 
             tvAccountType.text =
-                if (storeDocumentAndBankDetailsReq.accountType == "0") "Personal" else "Business"
+                if (storeDocumentAndBankDetailsReq.accountType == "0") getString(R.string.personal) else getString(R.string.business)
 
             if (storeDocumentAndBankDetailsReq.iban!=null&&storeDocumentAndBankDetailsReq.iban!="null"&&storeDocumentAndBankDetailsReq.iban!=""){
                 tvIban.text = storeDocumentAndBankDetailsReq.iban

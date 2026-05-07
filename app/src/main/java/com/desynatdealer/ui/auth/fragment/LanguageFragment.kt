@@ -16,6 +16,7 @@ import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
+import kotlin.text.get
 
 class LanguageFragment : BaseFragment() {
     private var binding: FragmentLanguageBinding?=null
@@ -39,14 +40,19 @@ class LanguageFragment : BaseFragment() {
         from = arguments?.getString("from").toString()
         requestPermissions()
         binding?.apply {
-            Constants.language = SharedPreference.get(requireActivity()).language
-            if(Constants.language=="en"){
-                cbEnglish.isChecked = true
-                cbArabic.isChecked = false
+            if (SharedPreference.get(requireActivity()).language!=""){
+                Constants.language = SharedPreference.get(requireActivity()).language
             }
-            else if(Constants.language=="ar"){
+            else{
+                Constants.language = "en"
+            }
+            if(Constants.language=="ar"){
                 cbEnglish.isChecked = false
                 cbArabic.isChecked = true
+            }
+            else{
+                cbEnglish.isChecked = true
+                cbArabic.isChecked = false
             }
 
             if (from=="profile"){

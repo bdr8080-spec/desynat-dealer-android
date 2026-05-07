@@ -23,6 +23,7 @@ import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentTidioChatBinding
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -53,64 +54,113 @@ class TidioChatFragment : BaseFragment() {
     }
 
     override fun initView() {
-        binding?.webView?.apply {
+        if (Constants.language=="ar"){
+            binding?.webView?.apply {
 
-            settings.apply {
-                javaScriptEnabled = true
-                domStorageEnabled = true
-                databaseEnabled = true
-                allowFileAccess = true
-                allowContentAccess = true
-                javaScriptCanOpenWindowsAutomatically = true
-                loadsImagesAutomatically = true
+                settings.apply {
+                    javaScriptEnabled = true
+                    domStorageEnabled = true
+                    databaseEnabled = true
+                    allowFileAccess = true
+                    allowContentAccess = true
+                    javaScriptCanOpenWindowsAutomatically = true
+                    loadsImagesAutomatically = true
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-                }
-            }
-
-            // JS bridge for loader hide
-            addJavascriptInterface(WebAppInterface(), "Android")
-
-            webViewClient = object : WebViewClient() {
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)
-
-                    Log.d("WEBVIEW", "Page Loaded")
-                    injectUserData(view)
-                }
-            }
-
-            webChromeClient = object : WebChromeClient() {
-
-                override fun onShowFileChooser(
-                    webView: WebView?,
-                    filePathCallback: ValueCallback<Array<Uri>>?,
-                    fileChooserParams: FileChooserParams?
-                ): Boolean {
-
-                    this@TidioChatFragment.filePathCallback?.onReceiveValue(null)
-                    this@TidioChatFragment.filePathCallback = filePathCallback
-
-                    return try {
-                        val intent = fileChooserParams?.createIntent()
-
-                        intent?.addFlags(
-                            Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                        )
-
-                        fileChooserLauncher.launch(intent)
-                        true
-                    } catch (e: Exception) {
-                        this@TidioChatFragment.filePathCallback = null
-                        false
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
                     }
                 }
-            }
 
-            loadUrl("file:///android_asset/tidio_chat.html")
+                // RTL support
+                layoutDirection = View.LAYOUT_DIRECTION_RTL
+
+                // JS bridge
+                addJavascriptInterface(WebAppInterface(), "Android")
+
+                webViewClient = object : WebViewClient() {
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        super.onPageFinished(view, url)
+
+                        injectUserData(view)
+
+                        // Force Arabic
+                        view?.evaluateJavascript(
+                            """
+                document.documentElement.lang = 'ar';
+                document.documentElement.dir = 'rtl';
+                """.trimIndent(),
+                            null
+                        )
+                    }
+                }
+
+                loadUrl("file:///android_asset/tidio_chat_ar.html?lang=ar")
+
+            }
         }
+        else{
+              binding?.webView?.apply {
+
+         settings.apply {
+             javaScriptEnabled = true
+             domStorageEnabled = true
+             databaseEnabled = true
+             allowFileAccess = true
+             allowContentAccess = true
+             javaScriptCanOpenWindowsAutomatically = true
+             loadsImagesAutomatically = true
+
+             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                 mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+             }
+         }
+
+         // JS bridge for loader hide
+         addJavascriptInterface(WebAppInterface(), "Android")
+
+         webViewClient = object : WebViewClient() {
+             override fun onPageFinished(view: WebView?, url: String?) {
+                 super.onPageFinished(view, url)
+
+                 Log.d("WEBVIEW", "Page Loaded")
+                 injectUserData(view)
+             }
+         }
+
+         webChromeClient = object : WebChromeClient() {
+
+             override fun onShowFileChooser(
+                 webView: WebView?,
+                 filePathCallback: ValueCallback<Array<Uri>>?,
+                 fileChooserParams: FileChooserParams?
+             ): Boolean {
+
+                 this@TidioChatFragment.filePathCallback?.onReceiveValue(null)
+                 this@TidioChatFragment.filePathCallback = filePathCallback
+
+                 return try {
+                     val intent = fileChooserParams?.createIntent()
+
+                     intent?.addFlags(
+                         Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                     )
+
+                     fileChooserLauncher.launch(intent)
+                     true
+                 } catch (e: Exception) {
+                     this@TidioChatFragment.filePathCallback = null
+                     false
+                 }
+             }
+         }
+
+         loadUrl("file:///android_asset/tidio_chat.html")
+     }
+        }
+
+
+
     }
 
     private var fileChooserLauncher =

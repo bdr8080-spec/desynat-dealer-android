@@ -12,6 +12,7 @@ import com.desynatdealer.databinding.ItemProductBinding
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
 
 class InventoryAdapter(var context:Context, var productList: ArrayList<GetAllProductResponse.Data.AllProductData>, var colorList:ArrayList<GetColorResponse.Data>, var productClick:ProductClick) : RecyclerView.Adapter<InventoryAdapter.ViewHolder>() {
@@ -29,8 +30,12 @@ class InventoryAdapter(var context:Context, var productList: ArrayList<GetAllPro
                 canAction = CommonMethod.getPermission(context,"seller.Inventory_Management")?.canAction == 1
                 canView = CommonMethod.getPermission(context,"seller.Inventory_Management")?.canView == 1
             }
-                tvBrand.text = if(productData?.brand?.nameEnglish=="Other") productData?.otherEn else productData?.brand?.nameEnglish
-                tvName.text = productData.productNameEn
+            tvBrand.text = if(productData?.brand?.nameEnglish=="Other"){
+                if (Constants.language=="ar") productData?.otherAr else productData?.otherEn
+            }   else {
+                if (Constants.language=="ar") productData?.brand?.nameArabic else  productData?.brand?.nameEnglish
+            }
+            tvName.text = if (Constants.language=="ar") productData.productNameAr else productData.productNameEn
                 if (productData?.productVariants?.get(0)?.totalStock!="0"){
                     tvInStock.text = context.getString(R.string.in_stock)
                 }
@@ -67,12 +72,24 @@ class InventoryAdapter(var context:Context, var productList: ArrayList<GetAllPro
                   ratingBar.rating = rating
                   tvRating.text = "(${productData?.reviewRating})"*/
 
-                tvPrice.text = "${(productData?.productVariants?.get(0)?.actualPrice?:0)} KD"
-                tvDiscountedPrice.text = "${(productData?.productVariants?.get(0)?.finalPrice?:0)} KD"
+                tvPrice.text = "${(productData?.productVariants?.get(0)?.actualPrice?:0)} ${
+                    context.getString(
+                        R.string.kd
+                    )
+                }"
+                tvDiscountedPrice.text = "${(productData?.productVariants?.get(0)?.finalPrice?:0)} ${
+                    context.getString(
+                        R.string.kd
+                    )
+                }"
 
                 val variant = productData?.productVariants?.getOrNull(0)
                 val discountValue = variant?.discountValue ?: 0
-                val discountType = if (variant?.discountType == "1")"% off" else " KD off"
+                val discountType = if (variant?.discountType == "1")"% ${context.getString(R.string.off)}" else " ${context.getString(R.string.kd)} ${
+                    context.getString(
+                        R.string.off
+                    )
+                }"
                 tvOffer.text = "$discountValue$discountType"
 
 

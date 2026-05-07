@@ -17,6 +17,7 @@ import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentBannerDetailBinding
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
@@ -177,7 +178,7 @@ class BannerDetailFragment : BaseFragment() {
                 "3" -> {
                     tvBannerPosition.text = getString(R.string.category)
                     tvCategoryValue.text = bannerData?.categoryDetails?.name
-                    tvSubCategoryValue.text = bannerData?.subcategoryDetails?.nameEnglish
+                    tvSubCategoryValue.text = if (Constants.language=="ar") bannerData?.subcategoryDetails?.nameArabic else bannerData?.subcategoryDetails?.nameEnglish
                     tvCategory.isVisible = true
                     tvCategoryValue.isVisible = true
                     tvSubCategory.isVisible = true
@@ -195,7 +196,11 @@ class BannerDetailFragment : BaseFragment() {
                 "dd/MM/yyyy"
             )
             tvTotalDays.text = bannerData?.totalDays
-            tvTotalPrice.text = "${CommonMethod.formatPrice(bannerData?.price ?: 0.0)} KD"
+            tvTotalPrice.text = "${CommonMethod.formatPrice(bannerData?.price ?: 0.0)} ${
+                getString(
+                    R.string.kd
+                )
+            }"
 
             ivBanner.load(bannerData?.uploadBanner) {
                 crossfade(true)

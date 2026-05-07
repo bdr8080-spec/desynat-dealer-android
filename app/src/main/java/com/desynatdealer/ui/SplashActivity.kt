@@ -35,14 +35,18 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun initView() {
-        CommonMethod.setLocale(this,SharedPreference.get(this).language)
-        Constants.language = SharedPreference.get(this).language
+
         Handler(Looper.getMainLooper()).postDelayed({
             if (SharedPreference.get(this).accessToken.isNotEmpty()&&SharedPreference.get(this).isSubscription) {
+                CommonMethod.setLocale(this,SharedPreference.get(this).language)
+                Constants.language = SharedPreference.get(this).language
                 startActivity(Intent(this, HomeActivity::class.java))
                 finish()
             }
             else{
+                SharedPreference.get(this).language = ""
+                CommonMethod.setLocale(this,"en")
+                Constants.language = "en"
                 startActivity(Intent(this, AuthActivity::class.java))
                 finish()
             }

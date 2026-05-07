@@ -9,6 +9,7 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemOrderProductBinding
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 
 class ProductOrderAdapter(var context:Context, var productList: ArrayList<GetSingleOrderResponse.Data>) : RecyclerView.Adapter<ProductOrderAdapter.ViewHolder>() {
 
@@ -19,23 +20,35 @@ class ProductOrderAdapter(var context:Context, var productList: ArrayList<GetSin
                 tvCount.text = if((position+1)<10) "0${(position+1)}" else (position+1).toString()
                 tvProduct.text = productData?.productDetails?.productNameEn
 
-                tvFabric.text = productData?.productDetails?.brand?.nameEnglish
+                tvFabric.text = if (Constants.language=="ar") productData?.productDetails?.brand?.nameArabic else productData?.productDetails?.brand?.nameEnglish
                 tvSizeValue.text = productData?.variationDetails?.size?.name
                 tvColorValue.text = productData?.variationDetails?.color?.name
                 tvCategoryValue.text = productData?.productDetails?.category?.name
                 if (productData?.orderType=="2"){
-                    tvPrice.text = "${CommonMethod.formatPrice(productData?.chatRoomrecords?.totalAmount?.toDoubleOrNull()?:0.0) } KD"
-                    tvQuantity.text = "Per Item Price"
-                    tvQuantityValue.text = "${CommonMethod.formatPrice(productData?.amount?:0.0)} KD"
+                    tvPrice.text = "${CommonMethod.formatPrice(productData?.chatRoomrecords?.totalAmount?.toDoubleOrNull()?:0.0) } ${
+                        context.getString(
+                            R.string.kd
+                        )
+                    }"
+                    tvQuantity.text = context.getString(R.string.per_item_price)
+                    tvQuantityValue.text = "${CommonMethod.formatPrice(productData?.amount?:0.0)} ${
+                        context.getString(
+                            R.string.kd
+                        )
+                    }"
 
                 }
                 else {
                     val itemPrice = productData?.amount ?: 0.0
                     val quantity = productData?.quantity ?: 1
                     val subTotal = itemPrice * quantity
-                    tvPrice.text = "${CommonMethod.formatPrice(subTotal)} KD"
-                    tvQuantity.text = "Quantity"
-                    tvQuantityValue.text = "${CommonMethod.formatPrice(productData?.amount?:0.0)} KD X ${productData?.quantity?.toString()}"
+                    tvPrice.text = "${CommonMethod.formatPrice(subTotal)} ${context.getString(R.string.kd)}"
+                    tvQuantity.text = context.getString(R.string.quantity)
+                    tvQuantityValue.text = "${CommonMethod.formatPrice(productData?.amount?:0.0)} ${
+                        context.getString(
+                            R.string.kd
+                        )
+                    } X ${productData?.quantity?.toString()}"
 
                 }
 

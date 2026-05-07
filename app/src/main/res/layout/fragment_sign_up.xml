@@ -86,6 +86,47 @@
             app:layout_constraintStart_toEndOf="@+id/view3"
             app:layout_constraintTop_toTopOf="@+id/view1" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clPlaceholder"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_90sdp"
+            app:layout_constraintTop_toTopOf="@+id/ivProfile"
+            app:layout_constraintBottom_toBottomOf="@+id/ivProfile"
+            app:layout_constraintStart_toStartOf="@+id/ivProfile"
+            app:layout_constraintEnd_toEndOf="@+id/ivProfile">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivPlaceholder"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true"
+                android:src="@drawable/ic_gallery_placeholder"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tvPlaceholder"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPlaceholder"
+                style="@style/edit_text_title"
+                android:layout_width="wrap_content"
+                android:textColor="#000000"
+                android:alpha="0.6"
+                android:text="@string/upload_profile_nimage"
+                android:textAlignment="center"
+                android:textSize="@dimen/_9sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivPlaceholder"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivProfile"
             android:layout_width="@dimen/_90sdp"
@@ -95,7 +136,6 @@
             android:background="@drawable/grey_dash_rectangle"
             android:clipToOutline="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_placeholder_gallery"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view1"
@@ -106,6 +146,7 @@
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_20sdp"
             android:text="@string/first_name"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivProfile" />
@@ -120,6 +161,7 @@
             android:hint="@string/enter_first_name"
             android:inputType="textCapSentences"
             android:maxLength="30"
+            android:textAlignment="viewStart"
             app:layout_constraintTop_toBottomOf="@+id/tvFirstName" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -127,6 +169,7 @@
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_10sdp"
             android:text="@string/last_name"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
@@ -140,6 +183,7 @@
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
             android:hint="@string/enter_last_name"
             android:maxLength="30"
+            android:textAlignment="viewStart"
             android:inputType="textCapSentences"
             app:layout_constraintTop_toBottomOf="@+id/tvLastName" />
 
@@ -148,6 +192,7 @@
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_10sdp"
             android:text="@string/mobile_number"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etLastName" />
@@ -188,6 +233,7 @@
                 android:drawablePadding="@dimen/_5sdp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_11sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/etMobile"
                 app:layout_constraintBottom_toBottomOf="@+id/etMobile"/>
@@ -200,6 +246,7 @@
                 android:hint="@string/enter_mobile_number"
                 android:inputType="number"
                 android:maxLength="15"
+                android:textAlignment="viewStart"
                 android:paddingHorizontal="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -213,6 +260,7 @@
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_10sdp"
             android:text="@string/email_address"
+            android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clMobile" />
@@ -226,6 +274,7 @@
             android:drawableStart="@drawable/ic_email"
             android:drawablePadding="@dimen/_10sdp"
             android:hint="@string/enter_email_address"
+            android:textAlignment="viewStart"
             android:inputType="textEmailAddress"
             app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
@@ -237,7 +286,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -249,35 +298,41 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPassword"
                 style="@style/edit_text"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:hint="@string/enter_password"
                 android:inputType="textPassword"
                 android:background="@null"
                 android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_toLeftOf="@+id/ivPasswordVisible"/>
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivPasswordVisible"/>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivPasswordVisible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:paddingVertical="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_10sdp"
                 android:src="@drawable/ic_eye"
                 app:tint="@color/hint_color" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvConfirmPassword"
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_10sdp"
             android:text="@string/confirm_password"
+            android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/relPassword" />
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -289,25 +344,30 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etConfirmPassword"
                 style="@style/edit_text"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:hint="@string/enter_confirm_password"
                 android:inputType="textPassword"
                 android:background="@null"
                 android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_toLeftOf="@+id/ivConfirmPasswordVisible"/>
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toStartOf="@+id/ivConfirmPasswordVisible"/>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivConfirmPasswordVisible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:paddingVertical="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_10sdp"
                 android:src="@drawable/ic_eye"
                 app:tint="@color/hint_color" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <CheckBox
             android:id="@+id/cbTermsPolicy"
@@ -324,6 +384,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/_8sdp"
+            android:textAlignment="viewStart"
             android:text="@string/i_accept_the_terms_conditions_and_policies"
             app:layout_constraintStart_toEndOf="@+id/cbTermsPolicy"
             app:layout_constraintEnd_toEndOf="parent"

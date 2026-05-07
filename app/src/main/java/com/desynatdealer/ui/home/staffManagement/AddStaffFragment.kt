@@ -140,6 +140,7 @@ class AddStaffFragment : BaseFragment() {
                         ivProfile.setImageURI(it)
                     }
                     image = profileImage?.toMultiPartBody("file")
+                    clPlaceholder.isVisible = false
 
                 }
             }
@@ -403,6 +404,9 @@ class AddStaffFragment : BaseFragment() {
             previousAccessModuleList.clear()
             Glide.with(requireActivity()).load(profileImageUrl).into(ivProfile)
             Glide.with(requireActivity()).load(profileImageUrl).into(ivProfileImage)
+            if (profileImageUrl!=null){
+                clPlaceholder.isVisible = false
+            }
             staffData?.roleAction?.let { previousAccessModuleList.addAll(it) }
             etEmailID.setText(staffData?.email)
             etMobile.setText(staffData?.mobile)

@@ -8,14 +8,15 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemNotificationBinding
 import com.desynatdealer.ui.home.fragment.response.GetUserNotificationResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 
 class NotificationAdapter(var context:Context, var notificationList: ArrayList<GetUserNotificationResponse.Data.Data>, var clickOnItem:ClickOnItem) : RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemNotificationBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             val notificationData = notificationList[position]
-            tvTitle.text = notificationData?.titleEnglish
-            tvDescription.text = notificationData?.descriptionEnglish
+            tvTitle.text = if (Constants.language=="ar") notificationData?.titleArabic else notificationData?.titleEnglish
+            tvDescription.text = if (Constants.language=="ar") notificationData?.descriptionArabic else notificationData?.descriptionEnglish
             tvDate.text = CommonMethod.customizeChangeDateFormat(notificationData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")
             if (notificationData.isRead==1){
                 ivBell.setImageResource(R.drawable.icon_read_bell)

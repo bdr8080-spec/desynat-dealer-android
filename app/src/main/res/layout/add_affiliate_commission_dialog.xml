@@ -47,7 +47,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_12sdp"/>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
@@ -65,8 +65,10 @@
         android:maxLength="4"
         android:inputType="numberDecimal"
         android:background="@null"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/view"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/view"/>
 
         <View
             android:id="@+id/view"
@@ -74,8 +76,9 @@
             android:layout_height="@dimen/_18sdp"
             android:background="#80000000"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_toLeftOf="@+id/tvPercentage"
-            android:layout_centerVertical="true"/>
+            app:layout_constraintEnd_toStartOf="@+id/tvPercentage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPercentage"
@@ -84,12 +87,13 @@
             android:fontFamily="@font/poppins_regular"
             android:text="%"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_alignParentEnd="true"
+            app:layout_constraintEnd_toEndOf="parent"
             android:textColor="#80000000"
             android:textSize="@dimen/_12sdp"
-            android:layout_centerVertical="true"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.appcompat.widget.AppCompatTextView

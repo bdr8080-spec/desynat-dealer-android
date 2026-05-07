@@ -108,7 +108,7 @@ class StoreInformationFragment : BaseFragment() {
             if (arguments?.getString("id").toString()!=null&&arguments?.getString("id").toString()!="null"){
                 userId=arguments?.getString("id").toString()
             }
-            toolbar.tvToolbar.text = "Store Information"
+            toolbar.tvToolbar.text = getString(R.string.store_information)
             CommonMethod.removeAllTextSpaces(etEmail)
             CommonMethod.removeSpace(etStoreName)
             CommonMethod.removeSpace(etAddress1)
@@ -164,7 +164,7 @@ class StoreInformationFragment : BaseFragment() {
                 if (validation()) {
                     CommonMethod.showSuccessDialog(
                         requireActivity(),
-                        "Store information save successfully "
+                        getString(R.string.store_information_save_successfully)
                     ) {
                         val bundle = Bundle().apply {
                             putString("id", userId.toString())
@@ -289,52 +289,52 @@ class StoreInformationFragment : BaseFragment() {
             return when {
 
                 storePhotoUrl == null -> {
-                    showToast("Please upload store image")
+                    showToast(getString(R.string.please_upload_store_image))
                     false
                 }
 
                 etStoreName.text.toString().isEmpty() -> {
-                    showToast("Please enter store name")
+                    showToast(getString(R.string.please_enter_store_name))
                     false
                 }
 
                 address == null -> {
-                    showToast("Please select address")
+                    showToast(getString(R.string.please_select_address))
                     false
                 }
 
                 etAddress1.text.toString().isEmpty() -> {
-                    showToast("Please enter store address line 1")
+                    showToast(getString(R.string.please_enter_store_address_line_1))
                     false
                 }
 
                 etAddress2.text.toString().isEmpty() -> {
-                    showToast("Please enter store address line 2")
+                    showToast(getString(R.string.please_enter_store_address_line_2))
                     false
                 }
 
                 mobile.isEmpty() -> {
-                    showToast("Please enter store phone number")
+                    showToast(getString(R.string.please_enter_store_phone_number))
                     false
                 }
 
                 mobile.length < 7 -> {
-                    showToast("Number must be at least 7 digits long")
+                    showToast(getString(R.string.number_must_be_at_least_7_digits_long))
                     false
                 }
 
                 email.isEmpty() -> {
-                    showToast("Please enter store email id")
+                    showToast(getString(R.string.please_enter_store_email_id))
                     false
                 }
 
                 !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                    showToast("Please enter a valid email address")
+                    showToast(getString(R.string.please_enter_valid_email))
                     false
                 }
 
                 etBio.text.toString().isEmpty() -> {
-                    showToast("Please enter bio")
+                    showToast(getString(R.string.please_enter_bio))
                     false
                 }
 

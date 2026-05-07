@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
@@ -104,6 +105,21 @@ class DocAndBankInfoFragment : BaseFragment() {
             binding?.etIban?.setText(data.iban)
             binding?.etSwift?.setText(data.swift)
             binding?.ivBank?.load(bankDocUrl)
+            if (ownerDoc1!=null){
+                binding?.clDocument1Placeholder?.isVisible = false
+            }
+            if (ownerDoc2!=null){
+                binding?.clDocument2Placeholder?.isVisible = false
+            }
+            if (storeDoc1!=null){
+                binding?.clStoreDocument1Placeholder?.isVisible = false
+            }
+            if (storeDoc2!=null){
+                binding?.clStoreDocument2Placeholder?.isVisible = false
+            }
+            if (bankDocUrl!=null){
+                binding?.clBankPlaceholder?.isVisible = false
+            }
             binding?.ivDoc1?.load(ownerDoc1)
             binding?.ivDoc2?.load(ownerDoc2)
             binding?.ivStoreDoc1?.load(storeDoc1)
@@ -151,6 +167,7 @@ class DocAndBankInfoFragment : BaseFragment() {
                         1 -> {
                             ownerDoc1 = CommonMethod.uriToFile(requireActivity(), it)
                             ivDoc1.setImageURI(it)
+                            clDocument1Placeholder.isVisible = false
                             val image = ownerDoc1?.toMultiPartBody("file")
                             viewModel.upload(image)
                         }
@@ -158,6 +175,7 @@ class DocAndBankInfoFragment : BaseFragment() {
                         2 -> {
                             ownerDoc2 = CommonMethod.uriToFile(requireActivity(), it)
                             ivDoc2.setImageURI(it)
+                            clDocument2Placeholder.isVisible = false
                             val image = ownerDoc2?.toMultiPartBody("file")
                             viewModel.upload(image)
                         }
@@ -165,6 +183,7 @@ class DocAndBankInfoFragment : BaseFragment() {
                         3 -> {
                             storeDoc1 = CommonMethod.uriToFile(requireActivity(), it)
                             ivStoreDoc1.setImageURI(it)
+                            clStoreDocument1Placeholder.isVisible = false
                             val image = storeDoc1?.toMultiPartBody("file")
                             viewModel.upload(image)
                         }
@@ -172,6 +191,7 @@ class DocAndBankInfoFragment : BaseFragment() {
                         4 -> {
                             storeDoc2 = CommonMethod.uriToFile(requireActivity(), it)
                             ivStoreDoc2.setImageURI(it)
+                            clStoreDocument2Placeholder.isVisible = false
                             val image = storeDoc2?.toMultiPartBody("file")
                             viewModel.upload(image)
                         }
@@ -179,6 +199,7 @@ class DocAndBankInfoFragment : BaseFragment() {
                         5 -> {
                             bankDoc = CommonMethod.uriToFile(requireActivity(), it)
                             ivBank.setImageURI(it)
+                            clBankPlaceholder.isVisible = false
                             val image = bankDoc?.toMultiPartBody("file")
                             viewModel.upload(image)
                         }

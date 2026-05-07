@@ -125,8 +125,16 @@ class PlanDetailFragment : BaseFragment() {
             }
 
             tvPlanName.text = if (Constants.language=="ar") mySubscriptionData?.planInfo?.planNameArabic else mySubscriptionData?.planInfo?.planNameEnglish
-            tvAmountValue.text = "${CommonMethod.formatPrice(mySubscriptionData?.planInfo?.price?.toDoubleOrNull()?:0.0)} KD"
-            tvPaidAmount.text = "${CommonMethod.formatPrice(mySubscriptionData?.planInfo?.price?.toDoubleOrNull()?:0.0)} KD"
+            tvAmountValue.text = "${CommonMethod.formatPrice(mySubscriptionData?.planInfo?.price?.toDoubleOrNull()?:0.0)} ${
+                getString(
+                    R.string.kd
+                )
+            }"
+            tvPaidAmount.text = "${CommonMethod.formatPrice(mySubscriptionData?.planInfo?.price?.toDoubleOrNull()?:0.0)} ${
+                getString(
+                    R.string.kd
+                )
+            }"
             tvPurchaseOn.text = CommonMethod.customizeChangeDateFormat(mySubscriptionData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
             tvExpiredOn.text = CommonMethod.customizeChangeDateFormat(mySubscriptionData?.planEndDate.toString(), inputFormat = "yyyy-MM-dd hh:mm:ss", outputFormat = "dd/MM/yyyy 'at' hh:mm a")
             tvTransactionId.text = "${mySubscriptionData?.transactionId}"

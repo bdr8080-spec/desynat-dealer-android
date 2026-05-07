@@ -11,6 +11,7 @@ import com.desynatdealer.base.BaseActivity
 import com.desynatdealer.databinding.ActivityAuthBinding
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
+import com.desynatdealer.utils.SharedPreference
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,15 +44,31 @@ class AuthActivity : BaseActivity() {
 
             if (fromLanguage == "profile") {
                 R.id.login
-            } else {
-                if (Constants.isLogout) R.id.login
-                else R.id.language
+            }  else {
+
+                val savedLanguage = SharedPreference.get(this).language
+
+                if (Constants.isLogout) {
+                    R.id.login
+                } else if (savedLanguage.isEmpty()) {
+                    R.id.language
+                } else {
+                    R.id.login
+                }
             }
 
         }
         else {
-            if (Constants.isLogout) R.id.login
-            else R.id.language
+
+            val savedLanguage = SharedPreference.get(this).language
+
+            if (Constants.isLogout) {
+                R.id.login
+            } else if (savedLanguage.isEmpty()) {
+                R.id.language
+            } else {
+                R.id.login
+            }
         }
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment

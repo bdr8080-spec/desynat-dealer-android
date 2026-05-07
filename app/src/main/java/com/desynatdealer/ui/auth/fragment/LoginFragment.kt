@@ -72,11 +72,16 @@ class LoginFragment : BaseFragment() {
                 requireActivity(), requireActivity().getString(
                     R.string.don_t_have_an_account_create_new
                 ), requireActivity().getString(R.string.signUp), onClick = {
-                    findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+                  //  findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
 
                 })
             tvCreateNewAccount.movementMethod = LinkMovementMethod.getInstance()
             tvCreateNewAccount.highlightColor = Color.TRANSPARENT
+
+            tvCreateNewAccount.setOnClickListener {
+                    findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+
+            }
 
             etPassword.togglePasswordVisibility(ivPasswordVisible)
 

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            direction: rtl;
+        }
+
+        /* Hide launcher button */
+        #tidio-chat-button,
+        .tidio-chat-button {
+            display: none !important;
+        }
+
+        /* Keep DOM active */
+        iframe[src*="tidio"],
+        #tidio-chat,
+        .tidio-chat {
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        /* Fullscreen iframe */
+        iframe[src*="tidio"] {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 999999 !important;
+            border: none !important;
+        }
+
+        /* Show chat */
+        .chat-visible iframe[src*="tidio"],
+        .chat-visible #tidio-chat,
+        .chat-visible .tidio-chat {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+    </style>
+
+    <!-- Force Arabic BEFORE loading Tidio -->
+    <script>
+        window.tidioChatLang = "ar";
+    </script>
+
+    <!-- Tidio Script -->
+    <script async src="https://code.tidio.co/uxltmye9ysuvgaamvz0sisfhvdb1yctx.js"></script>
+</head>
+
+<body>
+
+<script>
+
+    let isTidioReady = false;
+
+    // Called from Android
+    function setUserData(name, email, userId, role) {
+
+        function applyUserData() {
+
+            if (!window.tidioChatApi) return;
+
+            window.tidioChatApi.setVisitorData({
+                name: name,
+                email: email,
+                distinct_id: userId,
+                role: role
+            });
+
+            openChat();
+        }
+
+        if (isTidioReady) {
+            applyUserData();
+        } else {
+
+            document.addEventListener("tidioChat-ready", function () {
+
+                isTidioReady = true;
+
+                applyUserData();
+            });
+        }
+    }
+
+    function openChat() {
+
+        if (!window.tidioChatApi) return;
+
+        // Make chat visible
+        document.body.classList.add("chat-visible");
+
+        // Open chat
+        window.tidioChatApi.show();
+        window.tidioChatApi.open();
+
+        // Notify Android to hide loader
+        if (window.Android) {
+            Android.onChatLoaded();
+        }
+
+        // Prevent close
+        window.tidioChatApi.on("close", function () {
+            window.tidioChatApi.open();
+        });
+    }
+
+    // Tidio Ready
+    document.addEventListener("tidioChat-ready", function () {
+
+        isTidioReady = true;
+
+        console.log("Tidio Ready");
+    });
+
+</script>
+
+</body>
+</html>

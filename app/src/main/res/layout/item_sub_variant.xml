@@ -292,7 +292,7 @@
         android:layout_width="0dp"
         android:layout_marginEnd="@dimen/_15sdp"
         android:layout_marginStart="@dimen/_7sdp"
-        android:text="SKU Limit"
+        android:text="@string/sku_limit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvTotalStocks"
         app:layout_constraintTop_toTopOf="@+id/tvTotalStocks"

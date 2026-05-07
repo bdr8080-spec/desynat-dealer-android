@@ -11,6 +11,7 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemPlanBinding
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
 
 class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<GetAllPlanResponse.Data>, var subscriptionClick:SubscriptionClick) : RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {
@@ -44,8 +45,12 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
                     else ->tvPackage.setBackgroundResource(R.drawable.free)
                 }
 
-                tvPackage.text = subscriptionData.planNameEnglish
-                tvPrice.text = "${CommonMethod.formatPrice(subscriptionData.price)} KD"
+                tvPackage.text = if (Constants.language=="ar") subscriptionData.planNameArabic else subscriptionData.planNameEnglish
+                tvPrice.text = "${CommonMethod.formatPrice(subscriptionData.price)} ${
+                    context.getString(
+                        R.string.kd
+                    )
+                }"
                 when(subscriptionData.durationType){
                     1 -> {
                         tvDuration.text = "${context.getString(R.string.for_text)} ${subscriptionData.duration} ${

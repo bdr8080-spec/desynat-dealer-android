@@ -67,6 +67,47 @@
                 app:layout_constraintStart_toEndOf="@+id/view3"
                 app:layout_constraintTop_toTopOf="@+id/view1" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clPlaceholder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_110sdp"
+                app:layout_constraintTop_toTopOf="@+id/ivStoreImage"
+                app:layout_constraintBottom_toBottomOf="@+id/ivStoreImage"
+                app:layout_constraintStart_toStartOf="@+id/ivStoreImage"
+                app:layout_constraintEnd_toEndOf="@+id/ivStoreImage">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPlaceholder"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:clipToOutline="true"
+                    android:src="@drawable/ic_gallery_placeholder"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/tvPlaceholder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPlaceholder"
+                    style="@style/edit_text_title"
+                    android:layout_width="wrap_content"
+                    android:textColor="#000000"
+                    android:alpha="0.6"
+                    android:text="@string/upload_store_image"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_11sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivPlaceholder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivStoreImage"
                 android:layout_width="0dp"
@@ -76,7 +117,6 @@
                 android:background="@drawable/grey_dash_rectangle"
                 android:clipToOutline="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_store_img_placeholder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view1"
@@ -86,7 +126,8 @@
                 android:id="@+id/tvStoreName"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Store Name"
+                android:text="@string/store_name"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivStoreImage" />
@@ -97,7 +138,8 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/edit_back"
-                android:hint="Enter store name"
+                android:hint="@string/enter_store_name"
+                android:textAlignment="viewStart"
                 android:inputType="text"
                 app:layout_constraintTop_toBottomOf="@+id/tvStoreName" />
 
@@ -105,7 +147,8 @@
                 android:id="@+id/tvCountry"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Choose Country"
+                android:text="@string/choose_country"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etStoreName" />
@@ -119,7 +162,8 @@
                 android:clickable="true"
                 android:editable="false"
                 android:focusable="false"
-                android:hint="Country"
+                android:hint="@string/country"
+                android:textAlignment="viewStart"
                 android:inputType="text"
                 android:drawableEnd="@drawable/ic_drop_down"
                 app:layout_constraintTop_toBottomOf="@+id/tvCountry" />
@@ -128,7 +172,8 @@
                 android:id="@+id/tvStoreAddress"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Store Address"
+                android:text="@string/store_address"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etCountry" />
@@ -143,7 +188,8 @@
                 android:drawableEnd="@drawable/ic_current_loc"
                 android:editable="false"
                 android:focusable="false"
-                android:hint="Enter Store address"
+                android:hint="@string/enter_store_address"
+                android:textAlignment="viewStart"
                 android:inputType="text"
                 app:layout_constraintTop_toBottomOf="@+id/tvStoreAddress" />
 
@@ -151,7 +197,8 @@
                 android:id="@+id/tvAddress1"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Address line 1"
+                android:text="@string/address_line_1"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etStoreAddress" />
 
@@ -161,7 +208,8 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/edit_back"
-                android:hint="Enter address line 1"
+                android:hint="@string/enter_address_line_1"
+                android:textAlignment="viewStart"
                 android:inputType="text"
                 app:layout_constraintTop_toBottomOf="@+id/tvAddress1" />
 
@@ -169,7 +217,8 @@
                 android:id="@+id/tvAddress2"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Address line 2"
+                android:text="@string/address_line_2"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAddress1" />
 
@@ -179,7 +228,8 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/edit_back"
-                android:hint="Enter address line 2"
+                android:hint="@string/enter_address_line_2"
+                android:textAlignment="viewStart"
                 android:inputType="text"
                 app:layout_constraintTop_toBottomOf="@+id/tvAddress2" />
 
@@ -187,7 +237,8 @@
                 android:id="@+id/tvMobile"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Store Phone Number"
+                android:text="@string/store_phone_number"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAddress2" />
@@ -225,7 +276,8 @@
                     android:layout_width="0dp"
                     android:background="@null"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:hint="Enter Store Phone Number"
+                    android:hint="@string/enter_store_phone_number"
+                    android:textAlignment="viewStart"
                     android:inputType="number"
                     android:maxLength="15"
                     android:paddingHorizontal="0dp"
@@ -240,7 +292,8 @@
                 android:id="@+id/tvEmail"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Store mail Id"
+                android:text="@string/store_mail_id"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clMobile" />
@@ -251,7 +304,8 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/edit_back"
-                android:hint="Enter Store mail Id"
+                android:hint="@string/enter_store_mail_id"
+                android:textAlignment="viewStart"
                 android:inputType="textEmailAddress"
                 app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
@@ -259,7 +313,8 @@
                 android:id="@+id/tvBio"
                 style="@style/edit_text_title"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Bio"
+                android:text="@string/bio"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etEmail" />
@@ -272,7 +327,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/edit_back"
                 android:gravity="top"
-                android:hint="Enter bio"
+                android:hint="@string/enter_bio"
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:maxLines="4"
@@ -282,7 +337,7 @@
                 android:id="@+id/btnContinue"
                 style="@style/button"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Continue"
+                android:text="@string/continue_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etBio" />

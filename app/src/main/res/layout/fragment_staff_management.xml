@@ -101,7 +101,7 @@
         android:textColor="@color/black"
         android:fontFamily="@font/poppins_medium"
         android:textSize="@dimen/_13sdp"
-        android:text="No staff found"
+        android:text="@string/no_staff_found"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

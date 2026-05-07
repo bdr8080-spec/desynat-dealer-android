@@ -103,29 +103,66 @@
         android:textSize="@dimen/_11sdp"
         android:textAlignment="center"/>
 
-            <com.chaos.view.PinView
-                android:id="@+id/pinView"
+            <LinearLayout
+                android:id="@+id/layoutOtp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:inputType="number"
-                app:itemCount="6"
-                app:itemWidth="45dp"
-                app:itemHeight="45dp"
-                app:itemSpacing="10dp"
-                android:gravity="center"
-                android:padding="8dp"
-                android:textSize="20sp"
-                app:lineWidth="1dp"
-                app:lineColor="@drawable/otp_background"
-                app:itemRadius="@dimen/_10sdp"
                 android:layout_marginTop="20dp"
-                android:textColor="@color/black"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:cursorVisible="true"
-                android:clickable="true"
-                android:enabled="true" />
+                android:orientation="horizontal"
+                android:layoutDirection="rtl"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/etOtp6"
+                    style="@style/OtpEditTextStyle" />
+
+                <EditText
+                    android:id="@+id/etOtp5"
+                    style="@style/OtpEditTextStyle" />
+
+                <EditText
+                    android:id="@+id/etOtp4"
+                    style="@style/OtpEditTextStyle" />
+
+                <EditText
+                    android:id="@+id/etOtp3"
+                    style="@style/OtpEditTextStyle" />
+
+                <EditText
+                    android:id="@+id/etOtp2"
+                    style="@style/OtpEditTextStyle" />
+
+                <EditText
+                    android:id="@+id/etOtp1"
+                    style="@style/OtpEditTextStyle" />
+
+            </LinearLayout>
+
+
+            <!--  <com.chaos.view.PinView
+                  android:id="@+id/pinView"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_horizontal"
+                  android:inputType="number"
+                  app:itemCount="6"
+                  app:itemWidth="45dp"
+                  app:itemHeight="45dp"
+                  app:itemSpacing="10dp"
+                  android:gravity="center"
+                  android:padding="8dp"
+                  android:textSize="20sp"
+                  app:lineWidth="1dp"
+                  app:lineColor="@drawable/otp_background"
+                  app:itemRadius="@dimen/_10sdp"
+                  android:layout_marginTop="20dp"
+                  android:textColor="@color/black"
+                  android:focusable="true"
+                  android:focusableInTouchMode="true"
+                  android:cursorVisible="true"
+                  android:clickable="true"
+                  android:enabled="true" />-->
 
     <RelativeLayout
         android:layout_width="wrap_content"

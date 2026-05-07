@@ -28,7 +28,7 @@
             android:textAlignment="center"
             android:fontFamily="@font/poppins_medium"
             android:lineSpacingExtra="2dp"
-            android:text="Your banner request has been successfully submitted  for verification !Our team is currently reviewing your details please allow 3-4 hour for the verification process to be completed.you will be notified once your banner is approved on the desynat platform"
+            android:text="@string/your_banner_request_has_been_successfully_submitted_for_verification_our_team_is_currently_reviewing_your_details_please_allow_3_4_hour_for_the_verification_process_to_be_completed_you_will_be_notified_once_your_banner_is_approved_on_the_desynat_platform"
             android:textColor="#CC000000"
             android:layout_marginBottom="@dimen/_20sdp"
             android:textSize="@dimen/_11sdp" />
@@ -41,7 +41,7 @@
             android:paddingHorizontal="@dimen/_30sdp"
             android:textAlignment="center"
             android:fontFamily="@font/poppins_semi_bold"
-            android:text="Thank you for your patience TEAM DESNYAT "
+            android:text="@string/thank_you_for_your_patience_team_desnyat"
             android:textColor="@color/brown"
             android:textSize="@dimen/_11sdp" />
 

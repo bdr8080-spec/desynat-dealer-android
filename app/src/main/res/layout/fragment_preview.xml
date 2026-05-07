@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Personal Information"
+                android:text="@string/personal_information"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
@@ -50,7 +50,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Full Name"
+                android:text="@string/full_name"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -58,14 +59,16 @@
                 android:id="@+id/tvFirstName"
                 style="@style/edit_text_title"
                 android:text="Ankit Sharma"
-                android:textSize="@dimen/_11sdp" />
+                android:textSize="@dimen/_11sdp"
+                android:textAlignment="viewStart"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Phone Number"
+                android:text="@string/mobile_number"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -74,6 +77,7 @@
                 style="@style/edit_text_title"
                 android:text="+91- 7620386210"
                 android:textSize="@dimen/_11sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvMobile" />
@@ -83,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Mail Id"
+                android:text="@string/mail_id"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -91,7 +96,8 @@
                 android:id="@+id/tvEmailAddress"
                 style="@style/edit_text_title"
                 android:text="akash23@gmail.com"
-                android:textSize="@dimen/_11sdp" />
+                android:textSize="@dimen/_11sdp"
+                android:textAlignment="viewStart"/>
 
             <View
                 android:layout_width="match_parent"
@@ -104,7 +110,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Store Information"
+                android:text="@string/store_information"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
@@ -126,7 +133,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Store Name"
+                android:text="@string/store_name"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -134,6 +142,7 @@
                 android:id="@+id/tvStoreName"
                 style="@style/edit_text_title"
                 android:text="Puma Store"
+                android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -141,7 +150,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Adress"
+                android:text="@string/address"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -150,6 +160,7 @@
                 style="@style/edit_text_title"
                 android:text="Puma Store C 19, 2nd Floor, Sector 63, Moon Road, Kuwait"
                 android:textSize="@dimen/_11sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvMobile" />
@@ -159,7 +170,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Phone Number"
+                android:text="@string/mobile_number"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -168,6 +180,7 @@
                 style="@style/edit_text_title"
                 android:text="+91- 7620386210"
                 android:textSize="@dimen/_11sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvMobile" />
@@ -177,7 +190,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Mail Id"
+                android:text="@string/mail_id"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -185,6 +199,7 @@
                 android:id="@+id/tvStoreEmailAddress"
                 style="@style/edit_text_title"
                 android:text="sharma23@gmail.com"
+                android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -192,13 +207,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Bio"
+                android:text="@string/bio"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBio"
                 style="@style/edit_text_title"
+                android:textAlignment="viewStart"
                 android:text="lorem ipsum dolor sit amet, conse adipisicing elit, sed do eiusmod tempor lorem ipsum dolor amet, consectetur adipisicing elit, it eiusmod tempor"
                 android:textSize="@dimen/_11sdp" />
 
@@ -213,14 +230,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Documents"
+                android:text="@string/document"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/edit_text_title"
-                android:text="Owner's Documents"
+                android:text="@string/owner_s_documents"
+                android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 
             <LinearLayout
@@ -263,7 +282,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/edit_text_title"
-                android:text="Store's Documents"
+                android:text="@string/store_s_documents"
                 android:textSize="@dimen/_11sdp" />
 
             <LinearLayout
@@ -315,7 +334,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Bank Details"
+                android:text="@string/bank_details"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
@@ -324,14 +344,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Account Type"
+                android:text="@string/account_type"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAccountType"
                 style="@style/edit_text_title"
-                android:text="Personal"
+                android:text="@string/personal"
+                android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -341,7 +363,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="IBAN"
+                android:text="@string/iban"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -351,6 +374,7 @@
                 style="@style/edit_text_title"
                 android:text="KW2837289202937393937929038292093839203"
                 android:textSize="@dimen/_11sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvMobile" />
@@ -362,7 +386,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="SWIFT/BIC"
+                android:text="@string/swift_bic"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -371,6 +396,7 @@
                 android:id="@+id/tvSwift"
                 style="@style/edit_text_title"
                 android:text="26781901"
+                android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -378,7 +404,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Bank Name"
+                android:text="@string/bank_name"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -386,6 +413,7 @@
                 android:id="@+id/tvBankName"
                 style="@style/edit_text_title"
                 android:text="SBI Bank"
+                android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -393,7 +421,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Account holder name"
+                android:text="@string/account_holder_name"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -401,6 +430,7 @@
                 android:id="@+id/tvAccountHolderName"
                 style="@style/edit_text_title"
                 android:text="Rohan "
+                android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -408,7 +438,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Proof of account"
+                android:text="@string/proof_of_account"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="@dimen/_10sdp" />
 
@@ -429,7 +460,7 @@
                 android:id="@+id/btnSubmit"
                 style="@style/button"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Submit"
+                android:text="@string/submit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivBankAccount" />

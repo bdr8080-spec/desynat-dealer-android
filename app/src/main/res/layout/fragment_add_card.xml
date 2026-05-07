@@ -33,7 +33,8 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCardHolderName"
             style="@style/edit_text_title"
-            android:text="Card Holder Name"
+            android:text="@string/card_holder_name"
+            android:textAlignment="viewStart"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -42,9 +43,10 @@
             android:id="@+id/etCardHolderName"
             android:layout_width="match_parent"
             style="@style/edit_text"
-            android:hint="Enter Card Holder Name"
+            android:hint="@string/enter_card_holder_name"
             android:layout_marginTop="@dimen/_5sdp"
             android:inputType="text"
+            android:textAlignment="viewStart"
             android:background="@drawable/edit_back"
             app:layout_constraintTop_toBottomOf="@+id/tvCardHolderName"/>
 
@@ -52,7 +54,8 @@
             android:id="@+id/tvCardNumber"
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="Card Number"
+            android:text="@string/card_number"
+            android:textAlignment="viewStart"
             app:layout_constraintTop_toBottomOf="@+id/etCardHolderName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -61,9 +64,10 @@
             android:id="@+id/etCardNumber"
             android:layout_width="match_parent"
             style="@style/edit_text"
-            android:hint="Enter Card Number"
+            android:hint="@string/enter_card_number"
             android:layout_marginTop="@dimen/_5sdp"
             android:inputType="number"
+            android:textAlignment="viewStart"
             android:background="@drawable/edit_back"
             app:layout_constraintTop_toBottomOf="@+id/tvCardNumber"/>
 
@@ -71,7 +75,8 @@
             android:id="@+id/tvExpiryDate"
             style="@style/edit_text_title"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="Expiry Date"
+            android:text="@string/expiry_date"
+            android:textAlignment="viewStart"
             android:layout_width="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/etCardNumber"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -80,12 +85,13 @@
             android:id="@+id/etExpiryDate"
             android:layout_width="0dp"
             style="@style/edit_text"
-            android:hint="Expiration Date"
+            android:hint="@string/expiration_date"
             android:layout_marginTop="@dimen/_5sdp"
             android:inputType="text"
             android:clickable="true"
             android:editable="false"
             android:focusable="false"
+            android:textAlignment="viewStart"
             app:layout_constraintHorizontal_weight="2"
             android:background="@drawable/edit_back"
             app:layout_constraintEnd_toStartOf="@+id/etCvv"
@@ -96,7 +102,8 @@
             android:id="@+id/tvCvv"
             style="@style/edit_text_title"
             android:layout_width="0dp"
-            android:text="CVV"
+            android:text="@string/cvv"
+            android:textAlignment="viewStart"
             app:layout_constraintTop_toTopOf="@+id/tvExpiryDate"
             app:layout_constraintBottom_toBottomOf="@+id/tvExpiryDate"
             app:layout_constraintStart_toStartOf="@+id/etCvv"
@@ -106,7 +113,8 @@
             android:id="@+id/etCvv"
             android:layout_width="0dp"
             style="@style/edit_text"
-            android:hint="Cvv"
+            android:hint="@string/cvv"
+            android:textAlignment="viewStart"
             app:layout_constraintHorizontal_weight="1"
             android:layout_marginStart="@dimen/_15sdp"
             android:inputType="number"
@@ -130,7 +138,8 @@
                 android:fontFamily="@font/poppins_regular"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:button="@drawable/selector_checkbox_icon"
-                android:text="Save Card for Future"/>
+                android:textAlignment="viewStart"
+                android:text="@string/save_card_for_future"/>
 
         </LinearLayout>
 
@@ -141,7 +150,7 @@
         style="@style/button"
         android:layout_marginBottom="@dimen/_30sdp"
         android:layout_marginHorizontal="@dimen/_20sdp"
-        android:text="Pay Now"
+        android:text="@string/pay_now"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

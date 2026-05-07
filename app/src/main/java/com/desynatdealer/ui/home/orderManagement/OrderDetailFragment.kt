@@ -758,7 +758,11 @@ class OrderDetailFragment : BaseFragment() {
                 tvCustomDetailValue.isVisible = true
                 clCustomOrderDetail.isVisible = true
 
-                tvQuotedPrice.text = "${CommonMethod.formatPrice(orderDetailData?.chatRoomrecords?.totalAmount?.toDoubleOrNull()?:0.0)} KD"
+                tvQuotedPrice.text = "${CommonMethod.formatPrice(orderDetailData?.chatRoomrecords?.totalAmount?.toDoubleOrNull()?:0.0)} ${
+                    getString(
+                        R.string.kd
+                    )
+                }"
                 tvCustomDetailValue.text = orderDetailData?.chatRoomrecords?.customDetails
                 tvTotalQuantityValue.text = orderDetailData?.chatRoomrecords?.quantity
 
@@ -772,10 +776,18 @@ class OrderDetailFragment : BaseFragment() {
                 val totalAmount = subTotal + tax + shippingFees - promoCode
 
                 tvItem.isVisible = false
-                tvSubTotal.text =  "${getString(R.string.item_price)} (${CommonMethod.formatPrice(orderDetailData?.amount ?: 0.0)} KD X ${orderDetailData?.quantity ?: 1})"
-                tvSubTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.chatRoomrecords?.totalAmount?.toDoubleOrNull()?:0.0)} KD"
-                tvTotalValue.text = "${CommonMethod.formatPrice(totalAmount)} KD"
-                tvPaidByCustomerValue.text = "${CommonMethod.formatPrice(totalAmount)} KD"
+                tvSubTotal.text =  "${getString(R.string.item_price)} (${CommonMethod.formatPrice(orderDetailData?.amount ?: 0.0)} ${
+                    getString(
+                        R.string.kd
+                    )
+                } X ${orderDetailData?.quantity ?: 1})"
+                tvSubTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.chatRoomrecords?.totalAmount?.toDoubleOrNull()?:0.0)} ${
+                    getString(
+                        R.string.kd
+                    )
+                }"
+                tvTotalValue.text = "${CommonMethod.formatPrice(totalAmount)} ${getString(R.string.kd)}"
+                tvPaidByCustomerValue.text = "${CommonMethod.formatPrice(totalAmount)} ${getString(R.string.kd)}"
                 tvDiscount.isVisible = false
                 tvDiscountPrice.isVisible = false
             }
@@ -785,13 +797,29 @@ class OrderDetailFragment : BaseFragment() {
                 clCustomOrderDetail.isVisible = false
                 tvItem.isVisible = true
                 tvSubTotal.text = getString(R.string.sub_total)
-                tvSubTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalMrp?:0.0)} KD"
-                tvTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
-                tvPaidByCustomerValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} KD"
+                tvSubTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalMrp?:0.0)} ${
+                    getString(
+                        R.string.kd
+                    )
+                }"
+                tvTotalValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} ${
+                    getString(
+                        R.string.kd
+                    )
+                }"
+                tvPaidByCustomerValue.text = "${CommonMethod.formatPrice(orderDetailData?.order?.totalAmount?:0.0)} ${
+                    getString(
+                        R.string.kd
+                    )
+                }"
                 if (CommonMethod.formatPrice(orderDetailData?.order?.discountMrp?:0.0)!="0"){
                     tvDiscount.isVisible = true
                     tvDiscountPrice.isVisible = true
-                    tvDiscountPrice.text = "${CommonMethod.formatPrice(orderDetailData?.order?.discountMrp?:0.0)} KD"
+                    tvDiscountPrice.text = "${CommonMethod.formatPrice(orderDetailData?.order?.discountMrp?:0.0)} ${
+                        getString(
+                            R.string.kd
+                        )
+                    }"
 
                 }
                 else{
@@ -802,15 +830,27 @@ class OrderDetailFragment : BaseFragment() {
 
             tvItem.text = "${orderDetailData?.quantity} ${getString(R.string.items)}"
 
-            tvAdminCommissionValue.text = "${CommonMethod.formatPrice(orderDetailData?.adminCommission?:0.0)} KD"
+            tvAdminCommissionValue.text = "${CommonMethod.formatPrice(orderDetailData?.adminCommission?:0.0)} ${
+                getString(
+                    R.string.kd
+                )
+            }"
             if (CommonMethod.formatPrice(orderDetailData?.order?.shippingFees?:0.0)=="0"){
                 tvShippingCharges.text = getString(R.string.free_delivery)
             }
             else{
-                tvShippingCharges.text = "${CommonMethod.formatPrice(orderDetailData?.order?.shippingFees?:0.0)} KD"
+                tvShippingCharges.text = "${CommonMethod.formatPrice(orderDetailData?.order?.shippingFees?:0.0)} ${
+                    getString(
+                        R.string.kd
+                    )
+                }"
             }
 
-            tvOrderTaxValue.text = "${CommonMethod.formatPrice(orderDetailData?.tax?:0.0)} KD"
+            tvOrderTaxValue.text = "${CommonMethod.formatPrice(orderDetailData?.tax?:0.0)} ${
+                getString(
+                    R.string.kd
+                )
+            }"
             if (orderDetailData?.order?.promocodeStatus=="yes"){
                 tvCouponApplied.isVisible = true
                 tvCouponAppliedValue.isVisible = true

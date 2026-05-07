@@ -17,6 +17,7 @@ import android.widget.PopupWindow
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
@@ -108,6 +109,7 @@ class SignUpFragment : BaseFragment() {
                 uri?.let {
                     profileImage = CommonMethod.uriToFile(requireActivity(), it)
                     ivProfile.setImageURI(it)
+                    clPlaceholder.isVisible = false
                     val image = profileImage?.toMultiPartBody("file")
                     viewModel.upload(image)
                 }

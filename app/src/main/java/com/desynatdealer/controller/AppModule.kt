@@ -70,6 +70,7 @@ object AppModule {
 
                 if (!token.isNullOrEmpty()) {
                     requestBuilder.addHeader("Authorization", "Bearer $token")
+                 //   requestBuilder.addHeader("Accept-Language", Constants.language)
                 }
 
                 chain.proceed(requestBuilder.build())

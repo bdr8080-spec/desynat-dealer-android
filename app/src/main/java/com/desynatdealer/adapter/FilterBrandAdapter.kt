@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemBrandBinding
 import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandResponse
+import com.desynatdealer.utils.Constants
 
 class FilterBrandAdapter(var context:Context, var brandList: ArrayList<GetSellerBrandResponse.Data>, var onClick: OnClick) : RecyclerView.Adapter<FilterBrandAdapter.ViewHolder>() {
 
@@ -16,7 +17,7 @@ class FilterBrandAdapter(var context:Context, var brandList: ArrayList<GetSeller
     inner class ViewHolder(val binding: ItemBrandBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
-            tvBrand.text = brandList[position].nameEnglish
+            tvBrand.text = if (Constants.language=="ar") brandList[position].nameArabic else brandList[position].nameEnglish
 
             if (brandList[position].isSelected){
                 ivImage.setImageResource(R.drawable.ic_checkbox)

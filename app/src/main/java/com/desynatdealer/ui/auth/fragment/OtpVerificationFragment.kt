@@ -54,7 +54,7 @@ class OtpVerificationFragment : BaseFragment() {
         countryCode = arguments?.getString("countryCode").toString()
         from = arguments?.getString("from").toString()
         email = arguments?.getString("email").toString()
-
+        setupOtpInputs()
         binding?.apply {
             toolbar.tvToolbar.text = getString(R.string.otp_verification)
 
@@ -81,7 +81,27 @@ class OtpVerificationFragment : BaseFragment() {
             }
 
             btnVerify.setOnClickListener {
-                val otp = pinView.text.toString().trim()
+                val otp = if (
+                    resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
+                ) {
+
+                    binding?.etOtp6?.text.toString() +
+                            binding?.etOtp5?.text.toString() +
+                            binding?.etOtp4?.text.toString() +
+                            binding?.etOtp3?.text.toString() +
+                            binding?.etOtp2?.text.toString() +
+                            binding?.etOtp1?.text.toString()
+
+                } else {
+
+                    binding?.etOtp1?.text.toString() +
+                            binding?.etOtp2?.text.toString() +
+                            binding?.etOtp3?.text.toString() +
+                            binding?.etOtp4?.text.toString() +
+                            binding?.etOtp5?.text.toString() +
+                            binding?.etOtp6?.text.toString()
+                }
+                //val otp = pinView.text.toString().trim()
 
                 when {
                     otp.isEmpty() -> {
@@ -304,4 +324,96 @@ class OtpVerificationFragment : BaseFragment() {
             timer.cancel()
         }
     }
+
+    private fun setupOtpInputs() {
+
+        val otpFields = listOf(
+            binding?.etOtp1,
+            binding?.etOtp2,
+            binding?.etOtp3,
+            binding?.etOtp4,
+            binding?.etOtp5,
+            binding?.etOtp6
+        )
+
+        val isArabic =
+            resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
+
+        // First focus
+        if (isArabic) {
+            binding?.etOtp6?.requestFocus()
+        } else {
+            binding?.etOtp1?.requestFocus()
+        }
+
+        otpFields.forEachIndexed { index, editText ->
+
+            editText?.addTextChangedListener(object : android.text.TextWatcher {
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                }
+
+                override fun afterTextChanged(s: android.text.Editable?) {
+
+                    if (s?.length == 1) {
+
+                        if (isArabic) {
+
+                            // Move LEFT in Arabic
+                            if (index > 0) {
+                                otpFields[index - 1]?.requestFocus()
+                            }
+
+                        } else {
+
+                            // Move RIGHT in English
+                            if (index < otpFields.size - 1) {
+                                otpFields[index + 1]?.requestFocus()
+                            }
+                        }
+                    }
+                }
+            })
+
+            editText?.setOnKeyListener { _, keyCode, event ->
+
+                if (event.action == android.view.KeyEvent.ACTION_DOWN &&
+                    keyCode == android.view.KeyEvent.KEYCODE_DEL &&
+                    editText.text.isEmpty()
+                ) {
+
+                    if (isArabic) {
+
+                        // Back move RIGHT in Arabic
+                        if (index < otpFields.size - 1) {
+                            otpFields[index + 1]?.requestFocus()
+                        }
+
+                    } else {
+
+                        // Back move LEFT in English
+                        if (index > 0) {
+                            otpFields[index - 1]?.requestFocus()
+                        }
+                    }
+                }
+
+                false
+            }
+        }
+    }
+
 }

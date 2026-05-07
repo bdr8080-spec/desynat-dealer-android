@@ -31,6 +31,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetAllProductRespons
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
@@ -171,20 +172,33 @@ class ProductDetailFragment : BaseFragment() {
             viewPager.setCurrentItem(0, false)
 
             tvTitle.text = "Product code- ${productData?.id}"
-            tvBrand.text = if(productData?.brand?.nameEnglish=="Other") productData?.otherEn else productData?.brand?.nameEnglish
-            tvName.text = productData?.productNameEn
+            tvBrand.text = if(productData?.brand?.nameEnglish=="Other"){
+                if (Constants.language=="ar") productData?.otherAr else productData?.otherEn
+            }
+            else {
+                if (Constants.language=="ar")productData?.brand?.nameArabic else productData?.brand?.nameEnglish
+            }
+            tvName.text = if (Constants.language=="ar") productData?.productNameAr else productData?.productNameEn
             tvStore.text = SharedPreference.get(requireActivity()).getUser()?.storeInfo?.storeName +" (${productData?.category?.name})"
 
          /*   val rating = productData?.reviewRating?.toFloatOrNull() ?: 0f
             ratingBar.rating = rating
             tvRating.text = "(${productData?.reviewRating})"*/
 
-            tvPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.actualPrice?:0)} KD"
-            tvDiscountedPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.finalPrice?:0)} KD"
+            tvPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.actualPrice?:0)} ${getString(R.string.kd)}"
+            tvDiscountedPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.finalPrice?:0)} ${
+                getString(
+                    R.string.kd
+                )
+            }"
 
             val variant = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)
             val discountValue = variant?.discountValue ?: 0
-            val discountType = if (variant?.discountType == "1")"% off" else " KD off"
+            val discountType = if (variant?.discountType == "1")"% ${getString(R.string.off)}" else " ${getString(R.string.kd)} ${
+                getString(
+                    R.string.off
+                )
+            }"
             tvOffer.text = "$discountValue$discountType"
 
             tvDate.text = "${getString(R.string.added_on)}- ${CommonMethod.customizeChangeDateFormat(productData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
@@ -196,11 +210,11 @@ class ProductDetailFragment : BaseFragment() {
             if(productData?.productReturn=="1"){
                 tvExchangeTime.text = "${productData?.exchangableDays} ${getString(R.string.days)}"
             }
-            tvRatingAndReviewStatus.text = if(productData?.reviewRating=="1") "Yes" else "No"
-            tvAffiliatedProduct.text = if(productData?.affiliatedProduct=="1") "Yes" else "No"
-            tvCustomizedStatus.text = if(productData?.customizedProduct=="1") "Yes" else "No"
-            tvReadyToShipStatus.text = if(productData?.readyToShip=="1") "Yes" else "No"
-            tvCashOnDeliveryStatus.text = if(productData?.cashOnDelivery=="1") "Yes" else "No"
+            tvRatingAndReviewStatus.text = if(productData?.reviewRating=="1") getString(R.string.yes) else getString(R.string.no)
+            tvAffiliatedProduct.text = if(productData?.affiliatedProduct=="1") getString(R.string.yes) else getString(R.string.no)
+            tvCustomizedStatus.text = if(productData?.customizedProduct=="1") getString(R.string.yes) else getString(R.string.no)
+            tvReadyToShipStatus.text = if(productData?.readyToShip=="1") getString(R.string.yes) else getString(R.string.no)
+            tvCashOnDeliveryStatus.text = if(productData?.cashOnDelivery=="1") getString(R.string.yes) else getString(R.string.no)
 
             if (productData?.category?.name=="Women"){
                 clWomenSize.isVisible = true

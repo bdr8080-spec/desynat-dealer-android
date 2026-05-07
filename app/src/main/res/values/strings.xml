@@ -706,5 +706,52 @@
     <string name="location_permission_denied">Location permission denied</string>
     <string name="enable_gps">Enable GPS</string>
     <string name="please_enable_gps_to_fetch_your_current_location">Please enable GPS to fetch your current location.</string>
+    <string name="hi_there">Hi there</string>
+    <string name="kd">KD</string>
+    <string name="off">off</string>
+    <string name="by">by</string>
+    <string name="document">Document</string>
+
+    <string name="inventory_updated_successfully">Inventory updated successfully</string>
+    <string name="no_staff_found">No staff found</string>
+    <string name="no_banner_found">No banner found</string>
+
+    <string name="upload_profile_image">Upload Profile Image</string>
+    <string name="upload_store_image">Upload Store Image</string>
+    <string name="store_information">Store Information</string>
+    <string name="store_information_save_successfully">"Store information save successfully "</string>
+    <string name="upload_profile_nimage">Upload Profile \nimage</string>
+    <string name="your_account_registration_is_under_review">Your account registration is under review !!</string>
+    <string name="please_wait_for_3_4_hrs_thank_you_for_your_patience_team_desynat_app">Please wait for 3-4 hrs. Thank you for your patience. Team Desynat App</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="owner_s_documents">Owner\'s Documents</string>
+    <string name="proof_of_account">Proof of account</string>
+    <string name="summary">Summary</string>
+    <string name="select_payment_method">Select Payment Method</string>
+    <string name="credit_debit_card">Credit/ Debit Card</string>
+    <string name="skip">Skip</string>
+    <string name="order_item">Order Item</string>
+    <string name="product_delivery">Product Delivery</string>
+    <string name="item_tracking">Item Tracking</string>
+    <string name="plan_purchased_successfully">Plan purchased successfully !</string>
+    <string name="please_enter_card_holder_name">Please enter card holder name</string>
+    <string name="please_enter_card_number">Please enter card number</string>
+    <string name="please_select_expiry_date">Please select expiry date</string>
+    <string name="please_enter_cvv">Please enter cvv</string>
+    <string name="add_card">Add Card</string>
+    <string name="card_holder_name">Card Holder Name</string>
+    <string name="enter_card_holder_name">Enter Card Holder Name</string>
+    <string name="enter_card_number">Enter Card Number</string>
+    <string name="card_number">Card Number</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="expiration_date">Expiration Date</string>
+    <string name="cvv">CVV</string>
+    <string name="save_card_for_future">Save Card for Future</string>
+    <string name="document_2">Document 2</string>
+    <string name="document_1">Document 1</string>
+    <string name="upload_product_image">Upload Product Image</string>
+    <string name="your_banner_request_has_been_successfully_submitted_for_verification_our_team_is_currently_reviewing_your_details_please_allow_3_4_hour_for_the_verification_process_to_be_completed_you_will_be_notified_once_your_banner_is_approved_on_the_desynat_platform">Your banner request has been successfully submitted for verification !Our team is currently reviewing your details please allow 3-4 hour for the verification process to be completed.you will be notified once your banner is approved on the desynat platform</string>
+    <string name="thank_you_for_your_patience_team_desnyat">Thank you for your patience TEAM DESNYAT</string>
+
 
 </resources>

@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemSubVariantBinding
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
@@ -309,47 +310,47 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
         for ((index, v) in variantList.withIndex()) {
 
             if (v.sizeId.isEmpty()) {
-                showToast("Please select size")
+                showToast(context.getString(R.string.please_select_size))
                 return false
             }
 
             if (isWomen) {
 
                 if (v.bust.isNullOrEmpty()) {
-                    showToast("Please enter bust size")
+                    showToast(context.getString(R.string.please_enter_bust_size))
                     return false
                 }
                 if (v.waist.isNullOrEmpty()) {
-                    showToast("Please enter waist size")
+                    showToast(context.getString(R.string.please_enter_waist_size))
                     return false
                 }
                 if (v.hip.isNullOrEmpty()) {
-                    showToast("Please enter hip size")
+                    showToast(context.getString(R.string.please_enter_hip_size))
                     return false
                 }
                 if (v.shoulder.isNullOrEmpty()) {
-                    showToast("Please enter shoulder size")
+                    showToast(context.getString(R.string.please_enter_shoulder_size))
                     return false
                 }
                 if (v.sleeveLength.isNullOrEmpty()) {
-                    showToast("Please enter sleeve length")
+                    showToast(context.getString(R.string.please_enter_sleeve_length))
                     return false
                 }
                 if (v.length.isNullOrEmpty()) {
-                    showToast("Please enter length")
+                    showToast(context.getString(R.string.please_enter_length))
                     return false
                 }
             }
 
             // Stock
             if (v.totalStock.isEmpty()) {
-                showToast("Please enter stock")
+                showToast(context.getString(R.string.please_enter_stock))
                 return false
             }
 
             // SKU
             if (v.sku.isEmpty()) {
-                showToast("Please enter SKU limit")
+                showToast(context.getString(R.string.please_enter_sku_limit))
                 return false
             }
 
@@ -357,26 +358,26 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
             val stockVal = v.totalStock.toIntOrNull()
 
             if (skuVal == null) {
-                showToast("Invalid SKU limit")
+                showToast(context.getString(R.string.invalid_sku_limit))
                 return false
             }
             if (stockVal == null) {
-                showToast("Invalid stock")
+                showToast(context.getString(R.string.invalid_stock))
                 return false
             }
 
             if (skuVal >= stockVal) {
-                showToast("SKU limit must be smaller than total stock")
+                showToast(context.getString(R.string.sku_limit_must_be_smaller_than_total_stock))
                 return false
             }
 
             // Price
             if (v.actualPrice.isNullOrEmpty()) {
-                showToast("Please enter actual price")
+                showToast(context.getString(R.string.please_enter_actual_price))
                 return false
             }
             if (v.discountValue.isEmpty()) {
-                showToast("Please enter discount")
+                showToast(context.getString(R.string.please_enter_discount))
                 return false
             }
         }
