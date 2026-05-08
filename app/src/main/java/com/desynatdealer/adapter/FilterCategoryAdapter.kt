@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemBrandBinding
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
+import com.desynatdealer.utils.Constants
 
 class FilterCategoryAdapter(var context:Context, var categoryList: ArrayList<GetCategoryResponse.Data>, var onClick: OnClick) : RecyclerView.Adapter<FilterCategoryAdapter.ViewHolder>() {
 
@@ -18,7 +19,7 @@ class FilterCategoryAdapter(var context:Context, var categoryList: ArrayList<Get
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
 
-                tvBrand.text = categoryList[position].name
+                tvBrand.text = if (Constants.language=="ar") categoryList[position].nameArabic else categoryList[position].name
 
                 if (selectedPos==position){
                     ivImage.setImageResource(R.drawable.ic_checkbox)

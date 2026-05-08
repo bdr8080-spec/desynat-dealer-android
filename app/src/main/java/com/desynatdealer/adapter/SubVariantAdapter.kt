@@ -19,6 +19,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetAllProductRespons
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.showToast
 
 class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var variantList: ArrayList<AddProductRequest.Product.ProductVariation>, var colorList:ArrayList<GetColorResponse.Data>, var sizeList:ArrayList<GetSizeResponse.Data>, var from:Boolean=false, var subVariantClick:SubVariantClick) : RecyclerView.Adapter<SubVariantAdapter.ViewHolder>() {
@@ -67,7 +68,13 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
             clWomenSize.isVisible = isWomen
 
 
-            etSize.setText(sizeList.find { it.id.toString() == variantData.sizeId }?.name)
+            etSize.setText(
+                if (Constants.language == "ar") {
+                    sizeList.find { it.id.toString() == variantData.sizeId }?.nameArabic
+                } else {
+                    sizeList.find { it.id.toString() == variantData.sizeId }?.name
+                }
+            )
             etBust.setText(variantData.bust)
             etWaist.setText(variantData.waist)
             etHip.setText(variantData.hip)
@@ -245,7 +252,7 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
     }
 
     private fun showSizeDropdown(view: AppCompatEditText, position: Int) {
-        val list = sizeList.map { it.name }
+        val list = sizeList.map { if (Constants.language=="ar") it.nameArabic else it.name }
         val popup = androidx.appcompat.widget.ListPopupWindow(context)
         popup.anchorView = view
         popup.setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, list))

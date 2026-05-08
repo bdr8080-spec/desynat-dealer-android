@@ -147,6 +147,8 @@ data class GetAllStaffResponse(
                     val status: Int,
                     @SerializedName("title")
                     val title: String,
+                    @SerializedName("title_ar")
+                    val titleArabic: String,
                     @SerializedName("updated_at")
                     val updatedAt: Any
                 )

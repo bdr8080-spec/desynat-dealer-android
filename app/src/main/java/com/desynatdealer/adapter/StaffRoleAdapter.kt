@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemStaffRoleBinding
 import com.desynatdealer.ui.home.staffManagement.response.GetStaffCategoryResponse
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
 
 class StaffRoleAdapter(var context:Context, var roleList: ArrayList<GetStaffCategoryResponse.Data>, var onClick:OnClick) : RecyclerView.Adapter<StaffRoleAdapter.ViewHolder>() {
@@ -19,7 +20,7 @@ class StaffRoleAdapter(var context:Context, var roleList: ArrayList<GetStaffCate
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             var data = roleList[position]
-            tvRole.text = data.nameEn
+            tvRole.text = if (Constants.language=="ar") data.nameAr else data.nameEn
             if (position == selectedPosition){
                 tvRole.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_radio_selected,0,0,0)
             } else {

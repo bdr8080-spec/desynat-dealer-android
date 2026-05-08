@@ -233,6 +233,7 @@ class HomeFragment : BaseFragment() {
                 toTimestamp = null
                 etTo.setText("")
                 etFrom.setText("")
+                tvReset.isVisible = false
                 getDashboardData()
             }
 
@@ -523,7 +524,7 @@ class HomeFragment : BaseFragment() {
         dataSet.setDrawCircleHole(false)
         dataSet.setDrawValues(false)
         dataSet.setDrawFilled(true)
-        dataSet.fillColor = resources.getColor(com.myfatoorah.sdk.R.color.transparent)
+        dataSet.fillColor = resources.getColor(R.color.white)
 
         dataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
         dataSet.cubicIntensity = 0.2f

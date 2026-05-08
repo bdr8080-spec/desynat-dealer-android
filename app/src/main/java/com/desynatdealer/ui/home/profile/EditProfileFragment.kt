@@ -204,7 +204,13 @@ class EditProfileFragment : BaseFragment() {
             }
             if (selectedCountryCode.isNullOrEmpty()) {
                 selectedCountryCode = userInfo?.storeInfo?.country
-                binding?.etCountry?.setText(countryList?.find { it.id.toString() == selectedCountryCode }?.name)
+                if (Constants.language=="ar"){
+                    binding?.etCountry?.setText(countryList?.find { it.id.toString() == selectedCountryCode }?.nameArabic)
+                }
+                else{
+                    binding?.etCountry?.setText(countryList?.find { it.id.toString() == selectedCountryCode }?.name)
+                }
+
             }
             lat = userInfo?.storeInfo?.let
             long = userInfo?.storeInfo?.long
@@ -298,7 +304,7 @@ class EditProfileFragment : BaseFragment() {
 
             etCountry.setOnClickListener {
                 CommonMethod.showCountryPicker(requireActivity(),etCountry,countryList,false){countryData->
-                    binding?.etCountry?.setText(countryData.name)
+                    binding?.etCountry?.setText(if (Constants.language=="ar") countryData.nameArabic else countryData.name)
                     selectedCountryCode = countryData.id.toString()
                 }            }
 

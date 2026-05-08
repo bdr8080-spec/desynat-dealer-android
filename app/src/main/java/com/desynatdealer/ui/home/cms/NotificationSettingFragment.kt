@@ -91,7 +91,14 @@ class NotificationSettingFragment : BaseFragment() {
                     sellerInfo?.notification = result.data?.data?.notification?:0
                     sellerInfo?.let { SharedPreference.get(requireActivity()).saveUser(it) }
                     setData()
-                    CommonMethod.showSuccessDialog(requireActivity(),result.data?.message.toString())
+                    if (result.data?.data?.notification==1){
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.notification_is_set_to_on))
+                    }
+                    else{
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.notification_is_set_to_off))
+                    }
                     viewModel.notificationOnOffResponse.value = null
                 }
 
@@ -116,7 +123,14 @@ class NotificationSettingFragment : BaseFragment() {
                     sellerInfo?.appNotification = result.data?.data?.appNotification?:0
                     setData()
                     sellerInfo?.let { SharedPreference.get(requireActivity()).saveUser(it) }
-                    CommonMethod.showSuccessDialog(requireActivity(),result.data?.message.toString())
+                    if (result.data?.data?.appNotification==1){
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.in_app_notification_is_set_to_on))
+                    }
+                    else{
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.in_app_notification_is_set_to_off))
+                    }
                     viewModel.notificationOnOffResponse.value = null
                 }
 

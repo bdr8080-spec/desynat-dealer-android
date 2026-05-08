@@ -27,6 +27,7 @@ import android.text.TextPaint
 import android.text.TextWatcher
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.util.Size
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -49,6 +50,7 @@ import com.desynatdealer.adapter.ImagePreviewAdapter
 import com.desynatdealer.databinding.AlertDialogLayoutBinding
 import com.desynatdealer.databinding.CustomCountryPickerBinding
 import com.desynatdealer.databinding.DeleteDialogLayoutBinding
+import com.desynatdealer.databinding.DialogCustomCalendarBinding
 import com.desynatdealer.databinding.ImagePreviewDialogBinding
 import com.desynatdealer.databinding.SuccessDialogLayoutBinding
 import com.desynatdealer.model.country.GetCountryResponse
@@ -81,7 +83,12 @@ object CommonMethod {
         futureDate: Boolean = true,
         onDateSelected: (String) -> Unit
     ) {
-        val calendar = Calendar.getInstance()
+        val calendar = Calendar.getInstance(
+            if (Constants.language == "ar") Locale(
+                "ar",
+                "EG"
+            ) else Locale.getDefault()
+        )
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
@@ -92,7 +99,12 @@ object CommonMethod {
                 val selectedCalendar = Calendar.getInstance()
                 selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
 
-                val sdf = SimpleDateFormat(format, Locale.getDefault())
+                val sdf = SimpleDateFormat(
+                    format, if (Constants.language == "ar")
+                        Locale("ar", "EG")
+                    else
+                        Locale.getDefault()
+                )
                 val formattedDate = sdf.format(selectedCalendar.time)
 
                 editText.setText(formattedDate)
@@ -152,8 +164,8 @@ object CommonMethod {
             "mov" -> "video/mov"
             "avi" -> "video/avi"
             "mkv" -> "video/mkv"
-            "gif"->"image/gif"
-            "webp"->"image/webp"
+            "gif" -> "image/gif"
+            "webp" -> "image/webp"
             else -> throw IllegalArgumentException("Unsupported file type: $extension")
         }
         val requestFile = asRequestBody(mimeType.toMediaTypeOrNull())
@@ -192,17 +204,29 @@ object CommonMethod {
     }
 
 
-    fun removeSpace(editText: EditText){
+    fun removeSpace(editText: EditText) {
         editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun beforeTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
             }
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+
+            override fun onTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
 
                 if (start == 0 && count > 0 && charSequence?.startsWith(" ") == true) {
                     editText.setText(charSequence.toString().trim())
                     editText.setSelection(editText.text.length)
                 }
             }
+
             override fun afterTextChanged(editable: Editable?) {
 
             }
@@ -232,7 +256,7 @@ object CommonMethod {
     }
 
 
-    fun showAlertDialog(context: Context,description:String,onDismiss: (() -> Unit)? = null) {
+    fun showAlertDialog(context: Context, description: String, onDismiss: (() -> Unit)? = null) {
         val dialog = Dialog(context, R.style.CustomDialog)
         val dialogBinding = AlertDialogLayoutBinding.inflate(LayoutInflater.from(context))
         dialog.setContentView(dialogBinding.root)
@@ -245,7 +269,7 @@ object CommonMethod {
         window.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(false)
 
-        dialogBinding.tvDescription.text=description
+        dialogBinding.tvDescription.text = description
 
         dialogBinding.tvOkay.setOnClickListener {
             dialog.dismiss()
@@ -397,6 +421,9 @@ object CommonMethod {
         inputFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
         outputFormat: String = "dd MMM,yyyy"
     ): String {
+        Log.e("time", "inputDate: ${inputDate}")
+        Log.e("time", "inputFormat: ${inputFormat}")
+        Log.e("time", "outputFormat: ${outputFormat}")
         val originalFormat: SimpleDateFormat = SimpleDateFormat(inputFormat, Locale.ENGLISH).apply {
             timeZone = TimeZone.getTimeZone("UTC")
         }
@@ -405,8 +432,77 @@ object CommonMethod {
         }
         val date: Date
         try {
-            date = originalFormat.parse(inputDate)
-            return targetFormat.format(date)
+
+            if (Constants.language == "ar") {
+                val date = originalFormat.parse(inputDate)
+
+                var formattedDate = targetFormat.format(date!!)
+
+                val englishMonthsMMMM = arrayOf(
+                    "January", "February", "March", "April",
+                    "May", "June", "July", "August",
+                    "September", "October", "November", "December"
+                )
+
+                val arabicMonthsMMMM = arrayOf(
+                    "يناير", "فبراير", "مارس", "أبريل",
+                    "مايو", "يونيو", "يوليو", "أغسطس",
+                    "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+                )
+
+                for (i in englishMonthsMMMM.indices) {
+                    formattedDate =
+                        formattedDate.replace(
+                            englishMonthsMMMM[i],
+                            arabicMonthsMMMM[i]
+                        )
+                }
+
+                val englishMonths = arrayOf(
+                    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                )
+
+                val arabicMonths = arrayOf(
+                    "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+                    "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+                )
+
+                for (i in englishMonths.indices) {
+                    formattedDate =
+                        formattedDate.replace(
+                            englishMonths[i],
+                            arabicMonths[i]
+                        )
+                }
+
+                val englishDays = arrayOf(
+                    "Sun", "Mon", "Tue", "Wed",
+                    "Thu", "Fri", "Sat"
+                )
+
+                val arabicDays = arrayOf(
+                    "الأحد", "الاثنين", "الثلاثاء", "الأربعاء",
+                    "الخميس", "الجمعة", "السبت"
+                )
+
+                for (i in englishDays.indices) {
+                    formattedDate = formattedDate.replace(
+                        englishDays[i],
+                        arabicDays[i]
+                    )
+                }
+
+                formattedDate = formattedDate
+                    .replace("AM", "ص")
+                    .replace("PM", "م")
+                return formattedDate
+            } else {
+                date = originalFormat.parse(inputDate)
+                return targetFormat.format(date)
+            }
+
+
         } catch (e: ParseException) {
             e.printStackTrace()
             return ""
@@ -525,7 +621,7 @@ object CommonMethod {
         }
     }
 
-    fun clearData(context: Context){
+    fun clearData(context: Context) {
         SharedPreference.get(context).clearUser()
         SharedPreference.get(context).accessToken = ""
         SharedPreference.get(context).isSubscription = false
@@ -535,7 +631,7 @@ object CommonMethod {
         context: Context,
         anchor: View,
         countryList: ArrayList<GetCountryResponse.Data>,
-        isDial:Boolean = true,
+        isDial: Boolean = true,
         onCountrySelected: (GetCountryResponse.Data) -> Unit
     ) {
         val binding = CustomCountryPickerBinding.inflate(LayoutInflater.from(context))
@@ -551,7 +647,8 @@ object CommonMethod {
         popupWindow.elevation = 20f
         popupWindow.showAsDropDown(anchor)
 
-        binding.rvCountry.adapter = CountryPickerAdapter(context, countryList,isDial,
+        binding.rvCountry.adapter = CountryPickerAdapter(
+            context, countryList, isDial,
             object : CountryPickerAdapter.ClickOnItem {
                 override fun onClickItem(position: Int) {
                     onCountrySelected(countryList[position])
@@ -561,7 +658,7 @@ object CommonMethod {
         )
     }
 
-  /*  fun getWatcher(
+    /*  fun getWatcher(
         position: Int,
         onChange: (pos: Int, newValue: String) -> Unit
     ): TextWatcher {
@@ -624,7 +721,7 @@ object CommonMethod {
         }
     }
 
-    fun shareProduct(context:Context,name: String, desc: String, imageUrl: String) {
+    fun shareProduct(context: Context, name: String, desc: String, imageUrl: String) {
 
         val shareText = """
         Title: $name
@@ -699,8 +796,8 @@ object CommonMethod {
         return end != null && today.after(end)
     }
 
-    fun formatChatTime(inputTime: String): String {
-        val inputFormat = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH)
+    fun formatChatTime(context: Context, inputTime: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH)
         val timeFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
         val fullDateFormat = SimpleDateFormat("dd/MM/yy, hh:mm a", Locale.ENGLISH)
 
@@ -721,11 +818,18 @@ object CommonMethod {
 
         return when {
             messageDate.after(startOfToday) -> {
-                "Today, ${timeFormat.format(messageDate)}"
+                "${context.getString(R.string.today)}, ${
+                    timeFormat.format(messageDate)
+                        .replace("AM", "ص")
+                        .replace("PM", "م")
+                }"
             }
 
             messageDate.after(startOfYesterday) -> {
-                "Yesterday, ${timeFormat.format(messageDate)}"
+                "${context.getString(R.string.yesterday)}, ${
+                    timeFormat.format(messageDate).replace("AM", "ص")
+                        .replace("PM", "م")
+                }"
             }
 
             else -> {
@@ -733,15 +837,19 @@ object CommonMethod {
                 val daysDiff = TimeUnit.MILLISECONDS.toDays(diffMillis)
 
                 if (daysDiff in 2..30) {
-                    "$daysDiff days ago, ${timeFormat.format(messageDate)}"
+                    "$daysDiff ${context.getString(R.string.days_ago)}, ${
+                        timeFormat.format(messageDate).replace("AM", "ص")
+                            .replace("PM", "م")
+                    }"
                 } else {
-                    fullDateFormat.format(messageDate)
+                    fullDateFormat.format(messageDate).replace("AM", "ص")
+                        .replace("PM", "م")
                 }
             }
         }
     }
 
-    fun imagePreviewDialog(context: Context,imageList: ArrayList<String>) {
+    fun imagePreviewDialog(context: Context, imageList: ArrayList<String>) {
         val dialog = Dialog(context, R.style.CustomDialog)
         val dialogBinding = ImagePreviewDialogBinding.inflate(LayoutInflater.from(context))
         dialogBinding.root.let { dialog?.setContentView(it) }
@@ -760,14 +868,14 @@ object CommonMethod {
 
         dialogBinding.apply {
 
-            ivCross.setOnClickListener{
+            ivCross.setOnClickListener {
                 dialog?.dismiss()
             }
 
-            val imagePreviewAdapter = ImagePreviewAdapter(context,imageList)
+            val imagePreviewAdapter = ImagePreviewAdapter(context, imageList)
             viewPager?.adapter = imagePreviewAdapter
 
-            if (imageList.size>1){
+            if (imageList.size > 1) {
                 TabLayoutMediator(dotsIndicator, viewPager) { _, _ -> }.attach()
 
             }
@@ -852,13 +960,16 @@ object CommonMethod {
         }
     }
 
-    fun trimVideoTo30SecWithMediaMuxer(context:Context,inputUri: Uri, outputFile: File) {
+    fun trimVideoTo30SecWithMediaMuxer(context: Context, inputUri: Uri, outputFile: File) {
         val retriever = MediaMetadataRetriever()
         retriever.setDataSource(context, inputUri)
-        val durationMs = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull() ?: 0
+        val durationMs =
+            retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull()
+                ?: 0
         retriever.release()
 
-        val trimEndMs = minOf(30_000L, durationMs) * 1000 // convert to microseconds for MediaExtractor
+        val trimEndMs =
+            minOf(30_000L, durationMs) * 1000 // convert to microseconds for MediaExtractor
 
         val extractor = MediaExtractor()
         extractor.setDataSource(context, inputUri, null)
@@ -905,7 +1016,7 @@ object CommonMethod {
         extractor.release()
     }
 
-    fun getTimeAgo(timestamp: String): String {
+    fun getTimeAgo(context: Context, timestamp: String): String {
         val time = ZonedDateTime.parse(timestamp, DateTimeFormatter.ISO_DATE_TIME)
         val now = ZonedDateTime.now(ZoneId.systemDefault())
 
@@ -918,17 +1029,23 @@ object CommonMethod {
         val hours = ChronoUnit.HOURS.between(localTime, now)
 
         return when {
-            minutes < 1 -> "Just now"
-            minutes < 60 -> "$minutes min ago"
+            minutes < 1 -> context.getString(R.string.just_now)
+            minutes < 60 -> "$minutes ${context.getString(R.string.min_ago)}"
 
             date.isEqual(today.minusDays(1)) -> {
-                "Yesterday, ${localTime.format(DateTimeFormatter.ofPattern("hh:mm a"))}"
+                "${context.getString(R.string.yesterday)}, ${
+                    localTime.format(
+                        DateTimeFormatter.ofPattern(
+                            "hh:mm a"
+                        )
+                    )
+                }"
             }
 
-            date.isEqual(today) -> "$hours hr ago"
+            date.isEqual(today) -> "$hours ${context.getString(R.string.hr_ago)}"
 
             ChronoUnit.DAYS.between(date, today) < 7 -> {
-                "${ChronoUnit.DAYS.between(date, today)} days ago"
+                "${ChronoUnit.DAYS.between(date, today)} ${context.getString(R.string.days_ago)}"
             }
 
             else -> {
@@ -971,5 +1088,103 @@ object CommonMethod {
             context.resources.displayMetrics
         )
     }
+
+    fun openCustomCalendarDialog(
+        context: Context,
+        onDateSelected: (String) -> Unit
+    ) {
+
+        val dialog = Dialog(context)
+
+        val binding = DialogCustomCalendarBinding.inflate(
+            LayoutInflater.from(context)
+        )
+
+        dialog.setContentView(binding.root)
+
+        val calendar = Calendar.getInstance()
+
+        fun updateHeader(timeInMillis: Long) {
+
+            val selectedCalendar = Calendar.getInstance()
+            selectedCalendar.timeInMillis = timeInMillis
+
+            val englishDay = SimpleDateFormat(
+                "EEEE",
+                Locale.ENGLISH
+            ).format(selectedCalendar.time)
+
+            val englishMonth = SimpleDateFormat(
+                "MMMM",
+                Locale.ENGLISH
+            ).format(selectedCalendar.time)
+
+            val dayArabic = when (englishDay) {
+                "Sunday" -> "الأحد"
+                "Monday" -> "الاثنين"
+                "Tuesday" -> "الثلاثاء"
+                "Wednesday" -> "الأربعاء"
+                "Thursday" -> "الخميس"
+                "Friday" -> "الجمعة"
+                else -> "السبت"
+            }
+
+            val monthArabic = when (englishMonth) {
+                "January" -> "يناير"
+                "February" -> "فبراير"
+                "March" -> "مارس"
+                "April" -> "أبريل"
+                "May" -> "مايو"
+                "June" -> "يونيو"
+                "July" -> "يوليو"
+                "August" -> "أغسطس"
+                "September" -> "سبتمبر"
+                "October" -> "أكتوبر"
+                "November" -> "نوفمبر"
+                else -> "ديسمبر"
+            }
+
+            val dayNumber = SimpleDateFormat(
+                "dd",
+                Locale.ENGLISH
+            ).format(selectedCalendar.time)
+            if (Constants.language=="ar"){
+                binding.tvHeader.text = "$dayArabic، $dayNumber $monthArabic"
+            }
+            else{
+                binding.tvHeader.text = "${englishDay}، $dayNumber $englishMonth"
+
+            }
+        }
+
+        updateHeader(calendar.timeInMillis)
+
+        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+
+            calendar.set(year, month, dayOfMonth)
+
+            updateHeader(calendar.timeInMillis)
+        }
+
+        binding.tvCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        binding.tvOk.setOnClickListener {
+
+            val formattedDate = SimpleDateFormat(
+                "dd/MM/yyyy",
+                Locale.ENGLISH
+            ).format(calendar.time)
+
+            onDateSelected(formattedDate)
+
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
 
 }

@@ -14,6 +14,7 @@ import com.desynatdealer.databinding.ItemVariantColorBinding
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
+import com.desynatdealer.utils.Constants
 
 class VariantColorAdapter(var context:Context, var productColorList: ArrayList<AddProductRequest.Product>, var colorList:ArrayList<GetColorResponse.Data>,var onClick:OnClick) : RecyclerView.Adapter<VariantColorAdapter.ViewHolder>() {
     var selectedPos = 0
@@ -28,7 +29,7 @@ class VariantColorAdapter(var context:Context, var productColorList: ArrayList<A
             val matchedColor = colorList.find { it.id.toString() == productColor }
 
             val colorCode = matchedColor?.hexCode ?: "#000000"
-            cbColor.text = matchedColor?.name
+            cbColor.text = if (Constants.language=="ar") matchedColor?.nameArabic else matchedColor?.name
 
             if(selectedPos==position){
                 cbColor.isChecked = true

@@ -365,7 +365,7 @@ class DealListedFragment : BaseFragment() {
 
             etTo.setOnClickListener {
                 if (tempFromTimestamp == null) {
-                    showToast("Please select From date first")
+                    showToast(getString(R.string.please_select_from_date_first))
                     return@setOnClickListener
                 }
 
@@ -426,7 +426,7 @@ class DealListedFragment : BaseFragment() {
         try {
             speechLauncher.launch(intent)
         } catch (e: Exception) {
-            showToast("Speech recognition not supported")
+            showToast(getString(R.string.speech_recognition_not_supported))
         }
     }
 

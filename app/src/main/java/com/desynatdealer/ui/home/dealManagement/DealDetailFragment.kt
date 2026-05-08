@@ -21,6 +21,7 @@ import com.desynatdealer.databinding.FragmentDealDetailBinding
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
@@ -164,7 +165,7 @@ class DealDetailFragment : BaseFragment() {
             tvDiscountValue.text = "${dealDetailData?.dealData?.discount}%"
             tvDetail.text = dealDetailData?.dealData?.nameEnglish
             tvCategoryValue.text = dealDetailData?.dealData?.categoryDetails?.name
-            tvSubCategoryValue.text = dealDetailData?.dealData?.subCategoryDetails?.joinToString(", ") { it.nameEnglish }
+            tvSubCategoryValue.text = dealDetailData?.dealData?.subCategoryDetails?.joinToString(", ") {if (Constants.language=="ar") it.nameArabic else  it.nameEnglish }
             tvStartsOnValue.text = CommonMethod.customizeChangeDateFormat(dealDetailData?.dealData?.from.toString(),"yyyy-MM-dd","dd/MM/yyyy")
             tvDurationValue.text = CommonMethod.customizeChangeDateFormat(dealDetailData?.dealData?.from.toString(),"yyyy-MM-dd","dd/MM/yyyy")+" - "+CommonMethod.customizeChangeDateFormat(dealDetailData?.dealData?.to.toString(),"yyyy-MM-dd","dd/MM/yyyy")
             productList.clear()

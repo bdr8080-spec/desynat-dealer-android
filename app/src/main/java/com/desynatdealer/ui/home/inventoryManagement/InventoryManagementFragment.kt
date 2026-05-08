@@ -360,6 +360,15 @@ class InventoryManagementFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+
+                    if (result.data?.data?.productActiveStatus==1){
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.product_active_successfully))
+                    }
+                    else{
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.product_de_active_successfully))
+                    }
                     result.data?.message?.let { showToast(it) }
 
                     if (result.data?.data?.productActiveStatus == 1) {

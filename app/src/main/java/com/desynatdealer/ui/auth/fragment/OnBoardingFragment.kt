@@ -35,11 +35,11 @@ class OnBoardingFragment : BaseFragment() {
 
         bannerList.clear()
         bannerList.add(BannerData(R.drawable.order_item,
-            getString(R.string.order_item),"Lorem ipsum dolor sit amet consectetur. Mi ultrices diam sociis volutpat orci non. Commodo pretium urna ut augue ac amet sed."))
+            getString(R.string.order_item),getString(R.string.lorem_ipsum)))
         bannerList.add(BannerData(R.drawable.product_delivery,
-            getString(R.string.product_delivery),"Lorem ipsum dolor sit amet consectetur. Mi ultrices diam sociis volutpat orci non. Commodo pretium urna ut augue ac amet sed."))
+            getString(R.string.product_delivery),getString(R.string.lorem_ipsum)))
         bannerList.add(BannerData(R.drawable.item_tracking,
-            getString(R.string.item_tracking),"Lorem ipsum dolor sit amet consectetur. Mi ultrices diam sociis volutpat orci non. Commodo pretium urna ut augue ac amet sed."))
+            getString(R.string.item_tracking),getString(R.string.lorem_ipsum)))
         bannerAdapter = BannerViewPagerAdapter(bannerList)
         binding?.viewPager?.adapter = bannerAdapter
         binding?.dotsIndicator?.attachTo(binding?.viewPager!!)

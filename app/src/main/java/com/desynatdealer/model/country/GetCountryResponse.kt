@@ -34,6 +34,8 @@ data class GetCountryResponse(
         val isoCode: String,
         @SerializedName("name")
         val name: String,
+        @SerializedName("name_ar")
+        val nameArabic: String,
         @SerializedName("updated_at")
         val updatedAt: String
     )

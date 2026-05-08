@@ -661,13 +661,13 @@ class AddProductFragment : BaseFragment() {
     }
 
     private fun showBrandDropdown(view: AppCompatEditText) {
-        val list = brandList.map { it.nameEnglish }
+        val list = brandList.map { if(Constants.language=="ar") it.nameArabic else it.nameEnglish }
         val popup = androidx.appcompat.widget.ListPopupWindow(requireActivity())
         popup.anchorView = view
         popup.setAdapter(ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, list))
         popup.setOnItemClickListener { _, _, pos, _ ->
             selectedBrand = brandList[pos]
-            view.setText(selectedBrand?.nameEnglish)
+            view.setText(if(Constants.language=="ar") selectedBrand?.nameArabic else selectedBrand?.nameEnglish)
             if (selectedBrand?.nameEnglish=="Other"){
                 binding?.etOtherBrand?.isVisible = true
                 binding?.etOtherBrandArabic?.isVisible = true

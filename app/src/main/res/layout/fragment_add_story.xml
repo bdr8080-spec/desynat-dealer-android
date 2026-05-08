@@ -11,11 +11,50 @@
         android:id="@+id/toolbar"
         layout="@layout/common_toolbar"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clPlaceholder"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_120sdp"
+        app:layout_constraintTop_toTopOf="@+id/ivAddStory"
+        app:layout_constraintBottom_toBottomOf="@+id/ivAddStory"
+        app:layout_constraintStart_toStartOf="@+id/ivAddStory"
+        app:layout_constraintEnd_toEndOf="@+id/ivAddStory">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivPlaceholder"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
+            android:clipToOutline="true"
+            android:src="@drawable/ic_gallery_placeholder_gradient"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvPlaceholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPlaceholder"
+            style="@style/edit_text_title"
+            android:layout_width="wrap_content"
+            android:textColor="#875C3A"
+            android:text="@string/upload_images_videos"
+            android:textAlignment="center"
+            android:textSize="@dimen/_11sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivPlaceholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivAddStory"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_120sdp"
-        android:src="@drawable/ic_upload_highlights"
         android:layout_marginTop="@dimen/_15sdp"
         android:clipToOutline="false"
         android:scaleType="centerCrop"
@@ -36,6 +75,7 @@
         android:ellipsize="end"
         android:textColor="@color/black"
         android:textSize="@dimen/_11sdp"
+        android:textAlignment="viewStart"
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
         app:layout_constraintStart_toStartOf="parent"

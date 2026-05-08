@@ -70,7 +70,7 @@ class BannerDetailFragment : BaseFragment() {
             setData()
         }
         binding?.apply {
-            toolbar.tvToolbar.text = "Details"
+            toolbar.tvToolbar.text = getString(R.string.details)
         }
     }
 
@@ -95,7 +95,7 @@ class BannerDetailFragment : BaseFragment() {
             tvRequestId.text = bannerData?.orderId
             tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(
                 bannerData?.createdAt.toString(),
-                outputFormat = "dd/MM/yyyy 'at' hh:mm a"
+                outputFormat = "dd/MM/yyyy '${getString(R.string.at)}' hh:mm a"
             )
 
             when (bannerData?.adminVerify) {

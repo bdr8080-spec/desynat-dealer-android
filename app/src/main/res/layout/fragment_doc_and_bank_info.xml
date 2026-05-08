@@ -518,7 +518,7 @@
                     android:layout_width="wrap_content"
                     android:textColor="#000000"
                     android:alpha="0.5"
-                    android:text="(Bank Statement or Bank Letter, PDF/JPG/PNG)"
+                    android:text="@string/bank_statement_or_bank_letter_pdf_jpg_png"
                     android:textAlignment="center"
                     android:textSize="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"

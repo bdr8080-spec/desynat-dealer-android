@@ -125,7 +125,7 @@
     <string name="zone">المنطقة</string>
     <string name="customer_details">تفاصيل العميل</string>
     <string name="phone">الهاتف :</string>
-    <string name="mail_id">البريد الإلكتروني :</string>
+    <string name="mail_id">البريد الإلكتروني </string>
     <string name="total_quantity">إجمالي الكمية</string>
     <string name="quoted_price">السعر المقتبس</string>
     <string name="custom_details">تفاصيل مخصصة</string>
@@ -274,7 +274,7 @@
     <string name="sleeve_length">طول الكم</string>
     <string name="length">الطول</string>
     <string name="total_stocks">إجمالي المخزون</string>
-    <string name="sku">SKU</string>
+    <string name="sku">رمز المنتج</string>
     <string name="sku_threshold_value">قيمة حد SKU</string>
     <string name="return_allowed">هل الإرجاع مسموح؟</string>
     <string name="exchange_allowed">هل الاستبدال مسموح؟</string>
@@ -435,6 +435,8 @@
     <string name="discount_percentage">نسبة الخصم</string>
     <string name="select_products">اختر المنتجات</string>
     <string name="no_products_found">لم يتم العثور على منتجات</string>
+    <string name="no_product_found">لم يتم العثور على أي منتج</string>
+
     <string name="add_more_products">إضافة المزيد من المنتجات</string>
     <string name="add_to_deals">إضافة إلى العروض</string>
     <string name="select_product">اختر المنتج</string>
@@ -764,4 +766,82 @@
     <string name="save_card_for_future">حفظ البطاقة للمستقبل</string>
     <string name="document_2">المستند 2</string>
     <string name="document_1">المستند 1</string>
+    <string name="your_banner_request_has_been_successfully_submitted_for_verification_our_team_is_currently_reviewing_your_details_please_allow_3_4_hour_for_the_verification_process_to_be_completed_you_will_be_notified_once_your_banner_is_approved_on_the_desynat_platform">تم إرسال طلب البانر الخاص بك بنجاح للتحقق! يقوم فريقنا حالياً بمراجعة تفاصيلك، يرجى السماح من 3 إلى 4 ساعات لإكمال عملية التحقق. سيتم إشعارك بمجرد الموافقة على البانر الخاص بك على منصة ديسينات.</string>
+
+    <string name="thank_you_for_your_patience_team_desnyat">شكراً لصبرك - فريق ديسينات</string>
+    <string name="lorem_ipsum">لوريم إيبسوم دولور سيت أميت كونسيكتيتور. مي أولتريسيس ديام سوسيوس فولوتبات أورسي نون. كومودو بريتيوم أورنا أوت أوغوي أك أميت سيد.</string>
+
+    <string name="please_select_payment_status">يرجى اختيار حالة الدفع</string>
+    <string name="please_select_chat_status">يرجى اختيار حالة الدردشة</string>
+    <string name="please_upload_owner_document_1">يرجى تحميل مستند المالك 1</string>
+    <string name="please_upload_owner_document_2">يرجى تحميل مستند المالك 2</string>
+    <string name="please_upload_store_document_1">يرجى تحميل مستند المتجر 1</string>
+    <string name="please_upload_store_document_2">يرجى تحميل مستند المتجر 2</string>
+    <string name="upload_documents_bank_details"><![CDATA[تحميل المستندات وتفاصيل البنك]]></string>
+    <string name="video_not_found">لم يتم العثور على الفيديو</string>
+    <string name="thumbnail_not_found">لم يتم العثور على الصورة المصغرة</string>
+    <string name="compressed_file_not_found">لم يتم العثور على الملف المضغوط</string>
+    <string name="video_compression_cancelled">تم إلغاء ضغط الفيديو</string>
+    <string name="video_compression_failed">فشل ضغط الفيديو</string>
+    <string name="payment_failed">فشل الدفع</string>
+    <string name="permission_permanently_denied_please_allow_from_settings">تم رفض الإذن بشكل دائم. يرجى السماح به من الإعدادات.</string>
+    <string name="please_enter_per_item_price">يرجى إدخال سعر القطعة الواحدة</string>
+    <string name="please_enter_reason">يرجى إدخال السبب</string>
+    <string name="please_select_reason">يرجى اختيار السبب</string>
+    <string name="please_select_request_status">يرجى اختيار حالة الطلب</string>
+    <string name="plan_renewed_successfully">تم تجديد الخطة بنجاح!</string>
+    <string name="ticket_raised_successfully">تم إنشاء التذكرة بنجاح!</string>
+    <string name="request_cancelled_successfully">تم إلغاء الطلب بنجاح!</string>
+    <string name="story_deleted_successfully">تم حذف القصة بنجاح!</string>
+    <string name="highlights_deleted_successfully">تم حذف التمييزات بنجاح!</string>
+    <string name="host_left">غادر المضيف</string>
+
+    <string name="send_new_live_request">إرسال طلب بث مباشر جديد</string>
+    <string name="total_coverages_03">إجمالي التغطيات - 03</string>
+    <string name="select_time">اختر الوقت</string>
+    <string name="quotation_modified_successfully">تم تعديل عرض السعر بنجاح!</string>
+    <string name="quotation_sent_successfully">تم إرسال عرض السعر بنجاح!</string>
+    <string name="select_caption">اختر الوصف</string>
+    <string name="upload_images_videos">تحميل الصور/الفيديوهات</string>
+
+    <string name="just_now">الآن</string>
+    <string name="min_ago">دقيقة مضت</string>
+    <string name="yesterday">أمس</string>
+    <string name="days_ago">أيام مضت</string>
+    <string name="hr_ago">ساعة مضت</string>
+    <string name="are_you_sure_you_want_to_delete">هل أنت متأكد؟ هل تريد الحذف؟</string>
+    <string name="discard">تجاهل</string>
+    <string name="upload_now">تحميل الآن</string>
+
+    <string name="staff_member_block_successfully">تم حظر عضو الفريق بنجاح</string>
+    <string name="staff_member_unblock_successfully">تم إلغاء حظر عضو الفريق بنجاح</string>
+    <string name="product_active_successfully">تم تفعيل المنتج بنجاح</string>
+    <string name="product_de_active_successfully">تم إلغاء تفعيل المنتج بنجاح</string>
+    <string name="notification_is_set_to_on">تم تشغيل الإشعارات</string>
+    <string name="notification_is_set_to_off">تم إيقاف الإشعارات</string>
+    <string name="in_app_notification_is_set_to_on">تم تشغيل إشعارات التطبيق</string>
+    <string name="in_app_notification_is_set_to_off">تم إيقاف إشعارات التطبيق</string>
+    <string name="at">في</string>
+    <string name="camera_photo">صورة من الكاميرا</string>
+    <string name="record_video">تسجيل فيديو</string>
+    <string name="gallery_image">صورة من المعرض</string>
+    <string name="gallery_video">فيديو من المعرض</string>
+
+    <string name="no_slots_available">لا توجد مواعيد متاحة</string>
+    <string name="select_month_year"><![CDATA[اختر الشهر والسنة]]></string>
+    <string name="s">ح</string>
+    <string name="m">ن</string>
+    <string name="t">ث</string>
+    <string name="w">ر</string>
+    <string name="f">ج</string>
+    <string name="ok">تأكيد</string>
+    <string name="bank_statement_or_bank_letter_pdf_jpg_png">(كشف حساب بنكي أو خطاب بنكي، PDF/JPG/PNG)</string>
+    <string name="select_file_source">اختر مصدر الملف</string>
+    <string name="pdf_file">ملف PDF</string>
+    <string name="no_order_found">لم يتم العثور على طلبات</string>
+    <string name="payment_method">طريقة الدفع</string>
+    <string name="name_on_card">الاسم على البطاقة</string>
+    <string name="number">الرقم</string>
+    <string name="mm_yy">MM / YY</string>
+    <string name="security_code">رمز الأمان</string>
 </resources>

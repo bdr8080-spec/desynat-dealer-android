@@ -96,6 +96,7 @@
                         android:textSize="@dimen/_13sdp"
                         android:fontFamily="@font/poppins_medium"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:textAlignment="viewStart"
                         android:layout_marginHorizontal="@dimen/_15sdp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -111,6 +112,7 @@
                         android:fontFamily="@font/poppins_semi_bold"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginStart="@dimen/_15sdp"
+                        android:textAlignment="viewStart"
                         app:layout_constraintTop_toBottomOf="@+id/tvSelectDate"
                         app:layout_constraintEnd_toStartOf="@+id/ivAddRequest"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -143,6 +145,7 @@
                         android:textSize="@dimen/_11sdp"
                         android:textColor="@color/black"
                         android:drawablePadding="@dimen/_10sdp"
+                        android:textAlignment="viewStart"
                         android:drawableEnd="@drawable/calendar_down_arrow"
                         android:fontFamily="@font/poppins_medium"
                         app:layout_constraintTop_toTopOf="parent"
@@ -181,13 +184,13 @@
                     android:paddingHorizontal="@dimen/_5sdp"
                     android:paddingTop="@dimen/_5sdp">
 
-                    <TextView style="@style/WeekDayText" android:text="S"/>
-                    <TextView style="@style/WeekDayText" android:text="M"/>
-                    <TextView style="@style/WeekDayText" android:text="T"/>
-                    <TextView style="@style/WeekDayText" android:text="W"/>
-                    <TextView style="@style/WeekDayText" android:text="T"/>
-                    <TextView style="@style/WeekDayText" android:text="F"/>
-                    <TextView style="@style/WeekDayText" android:text="S"/>
+                    <TextView style="@style/WeekDayText" android:text="@string/s"/>
+                    <TextView style="@style/WeekDayText" android:text="@string/m"/>
+                    <TextView style="@style/WeekDayText" android:text="@string/t"/>
+                    <TextView style="@style/WeekDayText" android:text="@string/w"/>
+                    <TextView style="@style/WeekDayText" android:text="@string/t"/>
+                    <TextView style="@style/WeekDayText" android:text="@string/f"/>
+                    <TextView style="@style/WeekDayText" android:text="@string/s"/>
 
                 </LinearLayout>
 

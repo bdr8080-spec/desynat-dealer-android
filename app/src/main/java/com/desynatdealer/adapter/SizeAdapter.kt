@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.databinding.ItemSizeBinding
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
+import com.desynatdealer.utils.Constants
 
 class SizeAdapter(var context:Context, var productSizeList: ArrayList<AddProductRequest.Product.ProductVariation>, var sizeList:ArrayList<GetSizeResponse.Data>,var onClick:OnClick) : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
     var selectedPos = 0
@@ -20,7 +21,7 @@ class SizeAdapter(var context:Context, var productSizeList: ArrayList<AddProduct
                 val productSize = productSizeList[position].sizeId
                 val matchedSize = sizeList.find { it.id.toString() == productSize }
 
-                tvSize.text = matchedSize?.name
+                tvSize.text = if (Constants.language=="ar") matchedSize?.nameArabic else matchedSize?.name
 
                 if (selectedPos==position){
                     tvSize.setTextColor(Color.parseColor("#000000"))

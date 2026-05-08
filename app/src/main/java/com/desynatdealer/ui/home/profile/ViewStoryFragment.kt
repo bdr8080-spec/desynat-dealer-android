@@ -91,7 +91,8 @@ class ViewStoryFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Story deleted successfully!"){
+                    CommonMethod.showSuccessDialog(requireActivity(),
+                        getString(R.string.story_deleted_successfully)){
                         findNavController().popBackStack()
                     }
                     viewModel.deleteStoryResponse.value = null
@@ -114,7 +115,8 @@ class ViewStoryFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Highlights deleted successfully!"){
+                    CommonMethod.showSuccessDialog(requireActivity(),
+                        getString(R.string.highlights_deleted_successfully)){
                         findNavController().popBackStack()
                     }
                     viewModel.deleteHighlightsResponse.value = null
@@ -136,7 +138,7 @@ class ViewStoryFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),"Reel deleted successfully!"){
+                    CommonMethod.showSuccessDialog(requireActivity(),getString(R.string.reel_deleted_successfully)){
                         findNavController().popBackStack()
                     }
                     viewModel.deleteReelResponse.value = null
@@ -196,7 +198,7 @@ class ViewStoryFragment : BaseFragment() {
 
             private fun setupAdapter() {
 
-                storyPagerAdapter = StoryPagerAdapter(
+                storyPagerAdapter = StoryPagerAdapter(requireActivity(),
                     myStories,
                     object : StoryPagerAdapter.OnClick {
 

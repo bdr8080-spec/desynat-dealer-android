@@ -147,6 +147,7 @@
                 android:elevation="@dimen/_2sdp"
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingHorizontal="@dimen/_15sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/tvTitle"/>
 
@@ -161,6 +162,7 @@
                 android:elevation="@dimen/_2sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:paddingHorizontal="@dimen/_15sdp"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>

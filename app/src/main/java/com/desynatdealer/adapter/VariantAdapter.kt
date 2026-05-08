@@ -14,6 +14,7 @@ import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
+import com.desynatdealer.utils.Constants
 
 class VariantAdapter(var context:Context, var isWomen: Boolean=false, var variantList: ArrayList<AddProductRequest.Product>, var colorList:ArrayList<GetColorResponse.Data>, var sizeList:ArrayList<GetSizeResponse.Data>, var from:Boolean=false, var variantClick:VariantClick) : RecyclerView.Adapter<VariantAdapter.ViewHolder>() {
 
@@ -31,7 +32,14 @@ class VariantAdapter(var context:Context, var isWomen: Boolean=false, var varian
 
                 ivDelete.isVisible = variantList.size > 1
 
-                etColour.setText(colorList.find { it.id.toString() == variantData.colorId }?.name)
+            etColour.setText(
+                        if (Constants.language == "ar") {
+                            colorList.find { it.id.toString() == variantData.colorId }?.nameArabic
+                        } else {
+                            colorList.find { it.id.toString() == variantData.colorId }?.name
+                        }
+                        )
+
                 tvVariant.text = "Variant ${position+1}"
 
             etColour.setOnClickListener {
@@ -96,7 +104,7 @@ class VariantAdapter(var context:Context, var isWomen: Boolean=false, var varian
     }
 
     private fun showColorDropdown(view: AppCompatEditText, position: Int) {
-        val list = colorList.map { it.name }
+        val list = colorList.map { if (Constants.language=="ar") it.nameArabic else it.name }
         val popup = androidx.appcompat.widget.ListPopupWindow(context)
         popup.anchorView = view
         popup.setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, list))

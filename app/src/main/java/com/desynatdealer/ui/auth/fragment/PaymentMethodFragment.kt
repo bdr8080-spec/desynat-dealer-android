@@ -101,33 +101,61 @@ class PaymentMethodFragment : BaseFragment() {
         }
 
         binding?.apply {
-            toolbar.tvToolbar.text = "Payment Method"
+            toolbar.tvToolbar.text = getString(R.string.payment_method)
             when(from) {
                 "subscription" ,"mySubscription"-> {
-                    tvTotalAmount.text = "${CommonMethod.formatPrice(subscriptionData?.price?:0.0)} KD"
+                    tvTotalAmount.text = "${CommonMethod.formatPrice(subscriptionData?.price?:0.0)} ${
+                        getString(
+                            R.string.kd
+                        )
+                    }"
                     when(subscriptionData?.durationType){
                         1 -> {
-                            tvDays.text = "for ${subscriptionData?.duration} Month"
+                            tvDays.text = "${getString(R.string.for_text)} ${subscriptionData?.duration} ${
+                                getString(
+                                    R.string.month
+                                )
+                            }"
                         }
                         else -> {
-                            tvDays.text = "for ${subscriptionData?.duration} Days"
+                            tvDays.text = "${getString(R.string.for_text)} ${subscriptionData?.duration} ${
+                                getString(
+                                    R.string.days
+                                )
+                            }"
                         }
                     }
                 }
                 "renew" -> {
-                    tvTotalAmount.text = "${CommonMethod.formatPrice(mySubscriptionData?.planInfo?.price?.toDoubleOrNull()?:0.0)} KD"
+                    tvTotalAmount.text = "${CommonMethod.formatPrice(mySubscriptionData?.planInfo?.price?.toDoubleOrNull()?:0.0)} ${
+                        getString(
+                            R.string.kd
+                        )
+                    }"
                     when(mySubscriptionData?.planInfo?.durationType){
                         1 -> {
-                            tvDays.text = "for ${mySubscriptionData?.planInfo?.duration} Month"
+                            tvDays.text = "${getString(R.string.for_text)} ${mySubscriptionData?.planInfo?.duration} ${
+                                getString(
+                                    R.string.month
+                                )
+                            }"
                         }
                         else -> {
-                            tvDays.text = "for ${mySubscriptionData?.planInfo?.duration} Days"
+                            tvDays.text = "${getString(R.string.for_text)} ${mySubscriptionData?.planInfo?.duration} ${
+                                getString(
+                                    R.string.days
+                                )
+                            }"
                         }
                     }
                 }
                 "banner"-> {
-                    tvTotalAmount.text = "${CommonMethod.formatPrice(bannerData?.price?:0.0)} KD"
-                    tvDays.text = "for ${bannerData?.totalDays} Days"
+                    tvTotalAmount.text = "${CommonMethod.formatPrice(bannerData?.price?:0.0)} ${
+                        getString(
+                            R.string.kd
+                        )
+                    }"
+                    tvDays.text = "${getString(R.string.for_text)} ${bannerData?.totalDays} ${getString(R.string.days)}"
                 }
             }
 
@@ -204,20 +232,21 @@ viewModel.renewSubscriptionPlanResponse.observe(viewLifecycleOwner){result->
 
                     when (from) {
                         "renew" -> {
-                            CommonMethod.showSuccessDialog(requireActivity(), "Plan renewed successfully !") {
+                            CommonMethod.showSuccessDialog(requireActivity(),
+                                getString(R.string.plan_renewed_successfully)) {
                                 SharedPreference.get(requireActivity()).isSubscription = true
                                 findNavController().popBackStack()
                             }
                         }
                         "mySubscription" -> {
-                            CommonMethod.showSuccessDialog(requireActivity(), "Plan purchased successfully !") {
+                            CommonMethod.showSuccessDialog(requireActivity(), getString(R.string.plan_purchased_successfully)) {
                                 SharedPreference.get(requireActivity()).isSubscription = true
                                 findNavController().popBackStack()
                             }
 
                         }
                         else -> {
-                            CommonMethod.showSuccessDialog(requireActivity(), "Plan purchased successfully !") {
+                            CommonMethod.showSuccessDialog(requireActivity(), getString(R.string.plan_purchased_successfully)) {
                                 SharedPreference.get(requireActivity()).isSubscription = true
                                 findNavController().navigate(R.id.action_paymentMethodFragment_to_HomeFragment)
                             }
@@ -283,10 +312,10 @@ viewModel.renewSubscriptionPlanResponse.observe(viewLifecycleOwner){result->
                 borderRadius = 8f,
                 boxShadow = MFBoxShadow(10, 10, 5, 0, requireActivity().getColor(R.color.white)),
                 placeHolder = MFCardViewPlaceHolder(
-                    holderName = "Name On Card",
-                    cardNumber = "Number",
-                    expiryDate = "MM / YY",
-                    securityCode = "CVV"
+                    holderName = getString(R.string.name_on_card),
+                    cardNumber = getString(R.string.number),
+                    expiryDate = getString(R.string.mm_yy),
+                    securityCode =  getString(R.string.cvv)
                 )
             ),
             label = MFCardViewLabel(
@@ -296,10 +325,10 @@ viewModel.renewSubscriptionPlanResponse.observe(viewLifecycleOwner){result->
                 fontFamily = MFFontFamily.CourierNew,
                 fontWeight = MFFontWeight.Bold,
                 text = MFCardViewText(
-                    holderName = "Card Holder Name",
-                    cardNumber = "Card Number",
-                    expiryDate = "Expiry Date",
-                    securityCode = "Security Code"
+                    holderName =  getString(R.string.card_holder_name),
+                    cardNumber =  getString(R.string.card_number),
+                    expiryDate =  getString(R.string.expiry_date),
+                    securityCode = getString(R.string.security_code)
                 )
             ),
             error = MFCardViewError(
@@ -411,7 +440,7 @@ viewModel.renewSubscriptionPlanResponse.observe(viewLifecycleOwner){result->
                                         "executeEmbeddedPayment",
                                         "Fail: " + Gson().toJson(result.error)
                                     )
-                                    showToast("Payment failed")
+                                    showToast(getString(R.string.payment_failed))
                                     lifecycleScope.launchWhenResumed {
                                         if (isAdded && !isDetached && findNavController().currentDestination?.id == R.id.paymentMethod) {
                                             try {

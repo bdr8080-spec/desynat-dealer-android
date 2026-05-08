@@ -407,7 +407,6 @@ class ProductManagementFragment : BaseFragment() {
     }
 
     private fun productFilterDialog() {
-        var category : GetCategoryResponse.Data? = null
         val dialog = Dialog(requireActivity(), R.style.CustomDialog)
         val dialogBinding = ProductFilterDialogBinding.inflate(LayoutInflater.from(context))
         dialogBinding.root.let { dialog.setContentView(it) }
@@ -449,8 +448,10 @@ class ProductManagementFragment : BaseFragment() {
                 }
 
             })
-            filterCategoryAdapter?.setSelectedCategoryId(selectedCategory?.id)
+
             rvCategory.adapter = filterCategoryAdapter
+
+            filterCategoryAdapter?.setSelectedCategoryId(selectedCategory?.id)
 
             tvToolbar.setOnClickListener {
                 dialog.dismiss()
@@ -464,7 +465,6 @@ class ProductManagementFragment : BaseFragment() {
             }
 
             tvApply.setOnClickListener{
-                selectedCategory = category
                 selectedBrandList.clear()
                 for(i in 0 until brandList.size){
                     if (brandList[i].isSelected) {

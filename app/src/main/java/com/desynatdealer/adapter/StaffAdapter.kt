@@ -10,6 +10,7 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemStaffBinding
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 
 class StaffAdapter(var context:Context, var staffList: ArrayList<GetAllStaffResponse.Data.Data>, var onClick:OnClick) : RecyclerView.Adapter<StaffAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemStaffBinding) :
@@ -20,7 +21,7 @@ class StaffAdapter(var context:Context, var staffList: ArrayList<GetAllStaffResp
             tvName.text = staffData?.firstName
           //  tvName.text = staffData?.firstName+" "+staffData?.lastName
             tvMobile.text = staffData?.countryCode+""+staffData?.mobile
-            tvPost.text = staffData?.sellerCategory?.nameEn
+            tvPost.text = if (Constants.language=="ar") staffData?.sellerCategory?.nameAr else staffData?.sellerCategory?.nameEn
             tvAddOn.text = "${context.getString(R.string.add_on)} : ${CommonMethod.customizeChangeDateFormat(staffData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
 
             if(staffData?.isBlock==1){

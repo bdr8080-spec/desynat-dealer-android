@@ -9,6 +9,7 @@ import com.desynatdealer.databinding.ItemAccessModuleBinding
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
 import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
+import com.desynatdealer.utils.Constants
 
 class AccessModuleAdapter(var context:Context, var moduleList: ArrayList<GetAllStaffResponse.Data.Data.RoleAction>, var onClick:OnClick) : RecyclerView.Adapter<AccessModuleAdapter.ViewHolder>() {
 
@@ -20,7 +21,7 @@ class AccessModuleAdapter(var context:Context, var moduleList: ArrayList<GetAllS
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             var moduleData = moduleList[position]
-            tvModule.text = moduleData?.sellermenu?.get(0)?.title
+            tvModule.text = if (Constants.language=="ar")  moduleData?.sellermenu?.get(0)?.titleArabic else moduleData?.sellermenu?.get(0)?.title
             tvModule.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_radio_selected,0, 0 ,0)
             rbView.setCompoundDrawablesWithIntrinsicBounds(
                 if (moduleData.canView==1) R.drawable.ic_radio_selected

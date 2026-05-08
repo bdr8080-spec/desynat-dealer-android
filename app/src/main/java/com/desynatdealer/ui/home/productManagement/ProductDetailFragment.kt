@@ -179,7 +179,7 @@ class ProductDetailFragment : BaseFragment() {
                 if (Constants.language=="ar")productData?.brand?.nameArabic else productData?.brand?.nameEnglish
             }
             tvName.text = if (Constants.language=="ar") productData?.productNameAr else productData?.productNameEn
-            tvStore.text = SharedPreference.get(requireActivity()).getUser()?.storeInfo?.storeName +" (${productData?.category?.name})"
+            tvStore.text = SharedPreference.get(requireActivity()).getUser()?.storeInfo?.storeName +" (${if (Constants.language=="ar") productData?.category?.nameArabic else productData?.category?.name})"
 
          /*   val rating = productData?.reviewRating?.toFloatOrNull() ?: 0f
             ratingBar.rating = rating

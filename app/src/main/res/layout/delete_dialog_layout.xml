@@ -28,7 +28,7 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:textAlignment="center"
             android:fontFamily="@font/poppins_medium"
-            android:text="Are You Sure? You want to delete?"
+            android:text="@string/are_you_sure_you_want_to_delete"
             android:textColor="#CC000000"
             android:layout_marginBottom="@dimen/_20sdp"
             android:textSize="@dimen/_12sdp" />
@@ -48,7 +48,7 @@
                 android:textColor="#D53B36"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:text="Delete"/>
+                android:text="@string/delete"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnDiscard"
@@ -56,7 +56,7 @@
                 android:layout_weight="1"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:text="Discard"
+                android:text="@string/discard"
                 android:background="@drawable/btn_background"/>
 
         </LinearLayout>

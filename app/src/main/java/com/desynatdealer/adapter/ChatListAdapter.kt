@@ -12,6 +12,7 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemChatListBinding
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 
 class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListResponse.Data>, var chatClick:ChatClick) : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
 
@@ -28,20 +29,19 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
                     error(R.drawable.ic_user)
                 }
                 tvName.text = chatData?.userDetails?.fullName
-                if (chatData?.lastChat=="null"&&chatData?.lastChat==null&&chatData?.lastChat==""){
+                if (chatData?.lastChat=="null"&&chatData?.lastChat==null&&chatData?.lastChat==""&&chatData?.lastChatArabic=="null"&&chatData?.lastChatArabic==null&&chatData?.lastChatArabic==""){
                     tvLastMsg.isVisible = false
                 }
                 else{
                     tvLastMsg.isVisible = true
                 }
-                tvLastMsg.text = chatData?.lastChat
+                tvLastMsg.text = if (Constants.language=="ar") chatData?.lastChatArabic?:chatData?.lastChat else chatData?.lastChat
                 if (chatData.lastChatTime!=null&&chatData.lastChatTime!="null"&&chatData.lastChatTime!="") {
                     tvTime.text = chatData?.lastChatTime.toString()
                 }
                 else{
-                    tvTime.text = CommonMethod.formatChatTime(CommonMethod.customizeChangeDateFormat(
-                        chatData?.updatedAt.toString(), outputFormat = "dd MMM yyyy, hh:mm a"
-                    ) )
+                    tvTime.text = CommonMethod.formatChatTime(context,
+                        chatData?.updatedAt.toString())
                 }
 
             if (chatData?.unreadCount!=0){

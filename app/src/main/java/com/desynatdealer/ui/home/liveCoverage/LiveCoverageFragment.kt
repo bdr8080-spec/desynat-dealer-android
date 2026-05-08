@@ -42,6 +42,7 @@ import com.desynatdealer.databinding.SendLiveRequestDialogBinding
 import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.openCustomPreSelectedDatePicker
 import kotlinx.coroutines.Job
@@ -66,10 +67,16 @@ class LiveCoverageFragment : BaseFragment() {
     private val calendar = Calendar.getInstance()
     private lateinit var calendarAdapter: CalendarAdapter
     private val daysList = mutableListOf<CalendarDay>()
-    private val months = listOf(
+    private val monthsEnglish = listOf(
         "January", "February", "March", "April",
         "May", "June", "July", "August",
         "September", "October", "November", "December"
+    )
+
+    private val monthsArabic = listOf(
+        "يناير", "فبراير", "مارس", "أبريل",
+        "مايو", "يونيو", "يوليو", "أغسطس",
+        "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
     )
     private var selectedCalendar: Calendar? = null
     private var timeSlotDate: String? = null
@@ -113,7 +120,8 @@ class LiveCoverageFragment : BaseFragment() {
 
                 val format = SimpleDateFormat("EEE, MMM dd", Locale.getDefault())
 
-                tvCalendarDate.text = format.format(selectedCal.time)
+            //    tvCalendarDate.text = format.format(selectedCal.time)
+                tvCalendarDate.text = CommonMethod.customizeChangeDateFormat(format.format(selectedCal.time),"EEE, MMM dd", outputFormat = "EEE, MMM dd")
                 timeSlotDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedCal.time)
             //    getTimeSlot(timeSlotDate.toString())
             }
@@ -125,7 +133,9 @@ class LiveCoverageFragment : BaseFragment() {
             loadCalendar()
 
             val todayFormat = SimpleDateFormat("EEE, MMM dd", Locale.getDefault())
-            binding?.tvCalendarDate?.text = todayFormat.format(Calendar.getInstance().time)
+          //  binding?.tvCalendarDate?.text = todayFormat.format(Calendar.getInstance().time)
+            tvCalendarDate.text = CommonMethod.customizeChangeDateFormat(todayFormat.format(Calendar.getInstance().time),"EEE, MMM dd", outputFormat = "EEE, MMM dd")
+
             timeSlotDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
          //   getTimeSlot(timeSlotDate.toString())
 
@@ -284,10 +294,11 @@ class LiveCoverageFragment : BaseFragment() {
                     }
                     when(type){
                         1->{
-                            CommonMethod.showSuccessDialog(requireActivity(),"Request Sent Successfully !")
+                            CommonMethod.showSuccessDialog(requireActivity(),getString(R.string.request_sent_successfully))
                         }
                         2->{
-                            CommonMethod.showSuccessDialog(requireActivity(),"Request Cancelled Successfully !")
+                            CommonMethod.showSuccessDialog(requireActivity(),
+                                getString(R.string.request_cancelled_successfully))
                         }
                     }
                     type = 0
@@ -437,7 +448,7 @@ class LiveCoverageFragment : BaseFragment() {
 
     private fun updateMonthTitle() {
         val monthYearFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
-        binding?.tvMonthYear?.text = monthYearFormat.format(calendar.time)
+        binding?.tvMonthYear?.text = CommonMethod.customizeChangeDateFormat(monthYearFormat.format(calendar.time),"MMMM yyyy","MMMM yyyy")
     }
 
     private fun setupCalendarAdapter() {
@@ -451,7 +462,9 @@ class LiveCoverageFragment : BaseFragment() {
             selectedCalendar?.set(Calendar.DAY_OF_MONTH, selectedDay.day)
 
             val format = SimpleDateFormat("EEE, MMM dd", Locale.getDefault())
-            binding?.tvCalendarDate?.text = format.format(selectedCalendar?.time)
+        //    binding?.tvCalendarDate?.text = format.format(selectedCalendar?.time)
+            binding?.tvCalendarDate?.text = CommonMethod.customizeChangeDateFormat(format.format(selectedCalendar?.time),"EEE, MMM dd", outputFormat = "EEE, MMM dd")
+
             timeSlotDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedCalendar?.time)
             sendRequestDialog()
            // getTimeSlot(timeSlotDate.toString())
@@ -461,6 +474,11 @@ class LiveCoverageFragment : BaseFragment() {
     }
 
     private fun openMonthPopup(anchor: View) {
+        val months =
+            if (Constants.language == "ar")
+                monthsArabic
+            else
+                monthsEnglish
         val popup = PopupMenu(requireContext(), anchor)
 
         months.forEachIndexed { index, month ->
@@ -478,7 +496,11 @@ class LiveCoverageFragment : BaseFragment() {
     }
 
     private fun openMonthYearPicker() {
-
+        val months =
+            if (Constants.language == "ar")
+                monthsArabic
+            else
+                monthsEnglish
         val dialog = Dialog(requireContext(), R.style.CustomDialog)
 
         val dialogBinding = DialogMonthYearPickerBinding.inflate(layoutInflater)
@@ -573,7 +595,7 @@ class LiveCoverageFragment : BaseFragment() {
             btnSubmit.setOnClickListener {
                 if (etReason.isVisible){
                     if (etReason.text?.trim().toString().isEmpty()){
-                        showToast("Please enter reason")
+                        showToast(getString(R.string.please_enter_reason))
                     }
                     else{
                         reason = etReason.text?.trim().toString()
@@ -581,7 +603,7 @@ class LiveCoverageFragment : BaseFragment() {
                     }
                 }
                 else if(reason==""){
-                    showToast("Please select reason")
+                    showToast(getString(R.string.please_select_reason))
                 }
                 else {
                     cancelLiveRequest(reason,id)
@@ -642,7 +664,7 @@ class LiveCoverageFragment : BaseFragment() {
             btnSend.setOnClickListener {
                 if (selectedTimeSlot!=null){
                     if (etFrom.text?.isEmpty() == true){
-                        showToast("Please select date")
+                        showToast(getString(R.string.please_select_date))
                     }
                     else{
                         sendLiveRequest(selectedTimeSlot?.id.toString())
@@ -725,7 +747,7 @@ class LiveCoverageFragment : BaseFragment() {
 
             etTo.setOnClickListener {
                 if (tempFromTimestamp == null) {
-                    showToast("Please select From date first")
+                    showToast(getString(R.string.please_select_from_date_first))
                     return@setOnClickListener
                 }
 
@@ -764,7 +786,7 @@ class LiveCoverageFragment : BaseFragment() {
                 toDateText = tempToDateText
 
                 if (requestFilter == null && fromDateText == null && toDateText == null) {
-                    showToast("Please select request status")
+                    showToast(getString(R.string.please_select_request_status))
                     return@setOnClickListener
                 } else {
                     getLiveRequest()

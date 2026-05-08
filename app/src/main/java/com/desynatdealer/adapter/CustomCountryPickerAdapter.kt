@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.desynatdealer.databinding.ItemCountryBinding
 import com.desynatdealer.model.country.GetCountryResponse
+import com.desynatdealer.utils.Constants
 
 class CustomCountryPickerAdapter(var context:Context, var countryList: ArrayList<GetCountryResponse.Data>, var onClick:ClickOnItem) : RecyclerView.Adapter<CustomCountryPickerAdapter.ViewHolder>() {
 
@@ -16,7 +17,7 @@ class CustomCountryPickerAdapter(var context:Context, var countryList: ArrayList
     inner class ViewHolder(val binding: ItemCountryBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
-                tvCountry.text = "${countryList[position].name} (${countryList[position].dialCode})"
+                tvCountry.text = "${if (Constants.language=="ar") countryList[position].nameArabic else countryList[position].name} (${countryList[position].dialCode})"
                 ivFlag.load(countryList[position].flag1)
 
             root.setOnClickListener {

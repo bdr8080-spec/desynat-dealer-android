@@ -166,7 +166,7 @@ class InventoryProductDetailFragment : BaseFragment() {
             else {
                 if (Constants.language=="ar")productData?.brand?.nameArabic else productData?.brand?.nameEnglish
             }
-
+            tvName.text = if (Constants.language=="ar") productData?.productNameAr else productData?.productNameEn
             tvPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.actualPrice?:0)} ${getString(R.string.kd)}"
             tvDiscountedPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.finalPrice?:0)} ${
                 getString(
@@ -239,7 +239,14 @@ class InventoryProductDetailFragment : BaseFragment() {
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    result.data?.message?.let { showToast(it) }
+                    if (result.data?.data?.productActiveStatus==1){
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.product_active_successfully))
+                    }
+                    else{
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.product_de_active_successfully))
+                    }
                     productData?.productActiveStatus= result.data?.data?.productActiveStatus!!
                     updateStatus()
                     viewModel.updateInventoryProductStatusResponse.value = null

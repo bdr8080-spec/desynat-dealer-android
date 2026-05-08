@@ -216,7 +216,7 @@ class WatchLiveEventFragment : BaseFragment() {
                 WatchAgoraManager.getEngine()?.setupRemoteVideo(
                     VideoCanvas(null, VideoCanvas.RENDER_MODE_HIDDEN, uid)
                 )
-                CommonMethod.showSuccessDialog(requireActivity(),"Host left"){
+                CommonMethod.showSuccessDialog(requireActivity(), getString(R.string.host_left)){
                     findNavController().popBackStack()
                 }
              //   showNoDataUI(true)

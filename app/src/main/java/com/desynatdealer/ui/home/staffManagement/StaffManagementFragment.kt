@@ -184,7 +184,14 @@ class StaffManagementFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().hideProgress()
                     staffList[selectedPos].isBlock = result.data?.data?.isBlock?:0
                     staffAdapter?.notifyItemChanged(selectedPos)
-                    CommonMethod.showSuccessDialog(requireActivity(),result?.data?.message.toString())
+                    if (result.data?.data?.isBlock==1){
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.staff_member_block_successfully))
+                    }
+                    else{
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.staff_member_unblock_successfully))
+                    }
                     selectedPos = -1
                     viewModel.updateStaffStatusResponse.value = null
                 }

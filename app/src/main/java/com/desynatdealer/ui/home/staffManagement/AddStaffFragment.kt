@@ -16,6 +16,7 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentAddStaffBinding
+import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
@@ -52,6 +53,9 @@ class AddStaffFragment : BaseFragment() {
     private var profileImageUrl: String?=null
     private var image: MultipartBody.Part?=null
     private lateinit var imagePicker: ImagePicker
+
+    var countryList = ArrayList<GetCountryResponse.Data>()
+
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             imagePicker.onCameraResult(success)
@@ -84,7 +88,7 @@ class AddStaffFragment : BaseFragment() {
 
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
-
+        SharedPreference.get(requireActivity()).getCountryList()?.let { countryList.addAll(it) }
         val itemJson = arguments?.getString("staffData")
         if (!itemJson.isNullOrEmpty()) {
             staffData = Gson().fromJson(itemJson, GetAllStaffResponse.Data.Data::class.java)
@@ -215,6 +219,12 @@ class AddStaffFragment : BaseFragment() {
 
             tvChangeImage.setOnClickListener {
                 imagePicker.showImageSourceDialog()
+            }
+
+            tvCountryPicker.setOnClickListener {
+                CommonMethod.showCountryPicker(requireActivity(),clMobile,countryList,true){countryData->
+                    tvCountryPicker.text = countryData.dialCode
+                }
             }
 
             ivProfile.setOnClickListener {
@@ -433,6 +443,7 @@ class AddStaffFragment : BaseFragment() {
                     accessModuleList.add(
                         AddNewStaffRequest.MenuId(
                             title = module.title,
+                            titleArabic = module.titleArabic,
                             canView = matched.canView,
                             canAction = matched.canAction,
                             id = module.id,
@@ -445,6 +456,7 @@ class AddStaffFragment : BaseFragment() {
                 accessModuleList.add(
                     AddNewStaffRequest.MenuId(
                         title = module.title,
+                        titleArabic = module.titleArabic,
                         canView = matched?.canView ?: 0,
                         canAction = matched?.canAction ?: 0,
                         id = module.id,

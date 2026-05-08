@@ -4,8 +4,10 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -13,6 +15,7 @@ import android.net.Uri
 import android.os.Build
 import android.text.InputFilter
 import android.text.method.PasswordTransformationMethod
+import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
@@ -27,6 +30,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.desynatdealer.R
+import com.desynatdealer.databinding.DialogCustomCalendarBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -380,6 +384,123 @@ fun openCustomDatePicker(
     datePickerDialog.show()
 }
 
+
+fun openCustomDatePicker1(
+    context: Context,
+    minDate: Long? = null,
+    onClick: (String, Long) -> Unit
+) {
+
+    val dialog = Dialog(context)
+
+    val binding = DialogCustomCalendarBinding.inflate(
+        LayoutInflater.from(context)
+    )
+
+    dialog.setContentView(binding.root)
+
+    val calendar = Calendar.getInstance()
+
+    if (minDate != null) {
+        binding.calendarView.minDate = minDate
+    }
+
+    fun updateHeader(timeInMillis: Long) {
+
+        val selectedCalendar = Calendar.getInstance()
+        selectedCalendar.timeInMillis = timeInMillis
+
+        val englishDay = SimpleDateFormat(
+            "EEEE",
+            Locale.ENGLISH
+        ).format(selectedCalendar.time)
+
+        val englishMonth = SimpleDateFormat(
+            "MMMM",
+            Locale.ENGLISH
+        ).format(selectedCalendar.time)
+
+        val dayArabic = when (englishDay) {
+            "Sunday" -> "الأحد"
+            "Monday" -> "الاثنين"
+            "Tuesday" -> "الثلاثاء"
+            "Wednesday" -> "الأربعاء"
+            "Thursday" -> "الخميس"
+            "Friday" -> "الجمعة"
+            else -> "السبت"
+        }
+
+        val monthArabic = when (englishMonth) {
+            "January" -> "يناير"
+            "February" -> "فبراير"
+            "March" -> "مارس"
+            "April" -> "أبريل"
+            "May" -> "مايو"
+            "June" -> "يونيو"
+            "July" -> "يوليو"
+            "August" -> "أغسطس"
+            "September" -> "سبتمبر"
+            "October" -> "أكتوبر"
+            "November" -> "نوفمبر"
+            else -> "ديسمبر"
+        }
+
+        val dayNumber = SimpleDateFormat(
+            "dd",
+            Locale.ENGLISH
+        ).format(selectedCalendar.time)
+
+        if (Constants.language == "ar") {
+
+            binding.tvHeader.text =
+                "$dayArabic، $dayNumber $monthArabic"
+
+            binding.tvOk.text = "تأكيد"
+            binding.tvCancel.text = "إلغاء"
+
+        } else {
+
+            binding.tvHeader.text =
+                "$englishDay, $dayNumber $englishMonth"
+
+            binding.tvOk.text = "OK"
+            binding.tvCancel.text = "Cancel"
+        }
+    }
+
+    updateHeader(calendar.timeInMillis)
+
+    binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+
+        calendar.set(year, month, dayOfMonth)
+
+        updateHeader(calendar.timeInMillis)
+    }
+
+    binding.tvCancel.setOnClickListener {
+        dialog.dismiss()
+    }
+
+    binding.tvOk.setOnClickListener {
+
+        val formattedDate = String.format(
+            Locale.ENGLISH,
+            "%02d/%02d/%04d",
+            calendar.get(Calendar.DAY_OF_MONTH),
+            calendar.get(Calendar.MONTH) + 1,
+            calendar.get(Calendar.YEAR)
+        )
+
+        val timestamp = calendar.timeInMillis
+
+        onClick(formattedDate, timestamp)
+
+        dialog.dismiss()
+    }
+
+    dialog.show()
+}
+
 fun String?.orDash(): String = if (this.isNullOrBlank()) "-" else this
 
 fun String?.orNA(): String = if (this.isNullOrBlank()) "NA" else this
@@ -390,3 +511,4 @@ fun ImageView.setImage(
 ) {
     Glide.with(this).load(link).placeholder(placeholder).error(placeholder).into(this)
 }
+

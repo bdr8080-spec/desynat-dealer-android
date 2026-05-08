@@ -28,7 +28,7 @@ class BannerAdapter(var context:Context, var bannerList: ArrayList<GetAllBannerR
 
                 tvRequestId.text = "#${bannerData?.orderId}"
                 tvTotalAmount.text = "${CommonMethod.formatPrice(bannerData?.price?:0.0)} ${context.getString(R.string.kd)}"
-                tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(bannerData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+                tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(bannerData?.createdAt.toString(), outputFormat = "dd/MM/yyyy '${context.getString(R.string.at)}' hh:mm a")
                 when(bannerData?.adminVerify){
                     "0" ->{
                         tvStatusValue.text = context.getString(R.string.pending)

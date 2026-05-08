@@ -154,7 +154,7 @@ class DocAndBankInfoFragment : BaseFragment() {
             CommonMethod.removeSpace(etAccountHolderName)
             CommonMethod.removeSpace(etSwift)
             CommonMethod.removeSpace(etIban)
-            toolbar.tvToolbar.text = "Upload documents & Bank details"
+            toolbar.tvToolbar.text = getString(R.string.upload_documents_bank_details)
 
             imagePicker = ImagePicker(
                 requireActivity(),
@@ -338,47 +338,47 @@ class DocAndBankInfoFragment : BaseFragment() {
             return when {
 
                 ownerDoc1Url == null -> {
-                    showToast("Please upload owner document 1")
+                    showToast(getString(R.string.please_upload_owner_document_1))
                     false
                 }
 
                 ownerDoc2Url == null -> {
-                    showToast("Please upload owner document 2")
+                    showToast(getString(R.string.please_upload_owner_document_2))
                     false
                 }
 
                 storeDoc1Url == null -> {
-                    showToast("Please upload store document 1")
+                    showToast(getString(R.string.please_upload_store_document_1))
                     false
                 }
 
                 storeDoc2Url == null -> {
-                    showToast("Please upload store document 2")
+                    showToast(getString(R.string.please_upload_store_document_2))
                     false
                 }
 
                 etIban.text.toString().isEmpty() -> {
-                    showToast("Please enter IBAN number")
+                    showToast(getString(R.string.please_enter_iban_number))
                     false
                 }
 
                 etSwift.text.toString().isEmpty() -> {
-                    showToast("Please enter SWIFT/BIC number")
+                    showToast(getString(R.string.please_enter_swift_bic_number))
                     false
                 }
 
                 etBankName.text.toString().isEmpty() -> {
-                    showToast("Please enter bank name")
+                    showToast(getString(R.string.please_enter_bank_name))
                     false
                 }
 
                 etAccountHolderName.text.toString().isEmpty() -> {
-                    showToast("Please enter account holder name")
+                    showToast(getString(R.string.please_enter_account_holder_name))
                     false
                 }
 
                 bankDocUrl == null -> {
-                    showToast("Please upload proof of account")
+                    showToast(getString(R.string.please_upload_proof_of_account))
                     false
                 }
 

@@ -239,7 +239,7 @@ class ChatListFragment : BaseFragment() {
 
                 chatFilter = filter
                 if (chatFilter == null) {
-                    showToast("Please select chat status")
+                    showToast(getString(R.string.please_select_chat_status))
                     return@setOnClickListener
                 } else {
                     getChat()

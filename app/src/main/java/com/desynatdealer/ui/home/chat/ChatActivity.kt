@@ -41,6 +41,7 @@ import com.desynatdealer.ui.home.chat.response.ChatMessage
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.ui.home.chat.response.SendMessageRequest
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.translation.ChatLanguageDetector
@@ -226,7 +227,7 @@ class ChatActivity : BaseActivity() {
                 val hasImages = uploadImageList.isNotEmpty()
 
                 if (!hasText && !hasImages) {
-                    showToast("Please enter message")
+                    showToast(getString(R.string.please_enter_message))
                     return@setOnClickListener
                 }
 
@@ -272,9 +273,10 @@ class ChatActivity : BaseActivity() {
                         map["sender_type"] = 3
                         map["receiver_id"] = receiverId
                         map["receiver_type"] = 2
-                        map["title_english"] = "New Attachement"
-
+                        map["title_english"] = "New Attachment"
                         map["description_english"] = "You have a new message"
+                        map["title_arabic"] = "مرفق جديد"
+                        map["description_arabic"] = "لديك رسالة جديدة"
                         map["notification_type"] = "chat_message"
 
                         sendNotification(map)
@@ -455,7 +457,7 @@ class ChatActivity : BaseActivity() {
                     if (isModified) {
                         CommonMethod.showSuccessDialog(
                             this@ChatActivity,
-                            "Quotation Modified successfully!"
+                            getString(R.string.quotation_modified_successfully)
                         ) {
                             isModified = false
                             quotationDialog?.dismiss()
@@ -463,7 +465,7 @@ class ChatActivity : BaseActivity() {
                     } else {
                         CommonMethod.showSuccessDialog(
                             this@ChatActivity,
-                            "Quotation Sent successfully!"
+                            getString(R.string.quotation_sent_successfully)
                         ) {
                             quotationDialog?.dismiss()
                         }
@@ -502,13 +504,13 @@ class ChatActivity : BaseActivity() {
         dialogBinding.apply {
             if (chatDetailData?.action == "0") {
                 isModified = false
-                tvToolbar.text = "Send Quotation"
-                tvSend.text = "Confirm & Send"
+                tvToolbar.text = getString(R.string.send_quotation)
+                tvSend.text = getString(R.string.confirm_send)
                 ivViewRequest.isVisible = false
             } else if (chatDetailData?.action == "1") {
                 isModified = true
-                tvToolbar.text = "Modify Quotation"
-                tvSend.text = "Confirm & Modify"
+                tvToolbar.text = getString(R.string.modify_quotation)
+                tvSend.text = getString(R.string.confirm_modify)
                 ivViewRequest.isVisible = true
 
                 etPerItemPrice.setText(CommonMethod.formatPrice(chatDetailData?.price ?: 0.0))
@@ -517,8 +519,8 @@ class ChatActivity : BaseActivity() {
                 etTotalAmount.setText(CommonMethod.formatPrice(chatDetailData?.totalAmount ?: 0.0))
             } else if (chatDetailData?.action == "2") {
                 isModified = true
-                tvToolbar.text = "Modify Quotation"
-                tvSend.text = "Confirm & Modify"
+                tvToolbar.text = getString(R.string.modify_quotation)
+                tvSend.text = getString(R.string.confirm_modify)
                 ivViewRequest.isVisible = true
 
                 etPerItemPrice.setText(CommonMethod.formatPrice(chatDetailData?.price ?: 0.0))
@@ -563,7 +565,7 @@ class ChatActivity : BaseActivity() {
 
             tvSend.setOnClickListener {
                 if (etPerItemPrice.text?.trim()?.isEmpty() == true) {
-                    showToast("Please enter per item price")
+                    showToast(getString(R.string.please_enter_per_item_price))
                 }
                 /* else if (etShippingFee.text?.trim()?.isEmpty() == true){
                      showToast("Please enter delivery charge")
@@ -625,11 +627,12 @@ class ChatActivity : BaseActivity() {
                 error(R.drawable.ic_placeholder)
             }
             tvPrice.text =
-                "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice ?: 0.0)} KD"
+                "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice ?: 0.0)} ${getString(R.string.kd)}"
             tvDiscountPrice.text =
-                "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice ?: 0.0)} KD"
+                "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice ?: 0.0)} ${getString(R.string.kd)}"
             tvProductName.text = chatDetailData?.productVariation?.productDetails?.productNameEn
-            tvSizeValue.text = chatDetailData?.productVariation?.sizeId
+            tvSizeValue.text = if(Constants.language=="ar") chatDetailData?.productVariation?.size?.nameArabic.toString() else chatDetailData?.productVariation?.size?.name.toString()
+
             tvTotalQuantityValue.text = chatDetailData?.quantity.toString()
             if (chatDetailData?.orderCreateStatus?.order?.deliveryAddress != null) {
                 tvAddress.isVisible = true
@@ -657,23 +660,23 @@ class ChatActivity : BaseActivity() {
                     placeholder(R.drawable.ic_placeholder)
                     error(R.drawable.ic_placeholder)
                 }
-                tvSizeValue.text = chatDetailData?.productVariation?.size?.name.toString()
+                tvSizeValue.text = if(Constants.language=="ar") chatDetailData?.productVariation?.size?.nameArabic.toString() else chatDetailData?.productVariation?.size?.name.toString()
                 ivColor.setColorFilter(Color.parseColor(chatDetailData?.productVariation?.color?.hexCode))
 
                 tvPrice.text =
-                    "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice ?: 0.0)} KD"
+                    "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice ?: 0.0)} ${getString(R.string.kd)}"
                 tvDiscountPrice.text =
-                    "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice ?: 0.0)} KD"
-                tvProductName.text = chatDetailData?.productVariation?.productDetails?.productNameEn
+                    "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice ?: 0.0)} ${getString(R.string.kd)}"
+                tvProductName.text = if (Constants.language=="ar") chatDetailData?.productVariation?.productDetails?.productNameAr else chatDetailData?.productVariation?.productDetails?.productNameEn
                 tvTotalQuantityValue.text = chatDetailData?.quantity.toString()
                 tvCustomDetail.text = chatDetailData?.customDetails.toString()
                 //  tvAddressValue.text = chatDetailData?.deliveryDetails?.address.toString()
                 tvPerItemPriceValue.text =
-                    "${CommonMethod.formatPrice(chatDetailData?.price ?: 0.0)} KD"
+                    "${CommonMethod.formatPrice(chatDetailData?.price ?: 0.0)} ${getString(R.string.kd)}"
                 //  tvTaxValue.text = "${CommonMethod.formatPrice(chatDetailData?.tax?:0.0)} KD"
                 //   tvShippingFeesValue.text = "${CommonMethod.formatPrice(chatDetailData?.shipping?:0.0)} KD"
                 tvTotalAmountValue.text =
-                    "${CommonMethod.formatPrice(chatDetailData?.totalAmount ?: 0.0)} KD"
+                    "${CommonMethod.formatPrice(chatDetailData?.totalAmount ?: 0.0)} ${getString(R.string.kd)}"
                 when (chatDetailData?.action) {
                     "0" -> {
                         tvStatus.isVisible = false
@@ -818,6 +821,8 @@ class ChatActivity : BaseActivity() {
                         map["receiver_type"] = 2
                         map["title_english"] = translatedText.toString()
                         map["description_english"] = "You have a new message"
+                        map["title_arabic"] = input
+                        map["description_arabic"] = "لديك رسالة جديدة"
                         map["notification_type"] = "chat_message"
 
                         sendNotification(map)
@@ -835,6 +840,8 @@ class ChatActivity : BaseActivity() {
                         map["receiver_type"] = 2
                         map["title_english"] = input
                         map["description_english"] = "You have a new message"
+                        map["title_arabic"] = translatedText.toString()
+                        map["description_arabic"] = "لديك رسالة جديدة"
                         map["notification_type"] = "chat_message"
 
                         sendNotification(map)

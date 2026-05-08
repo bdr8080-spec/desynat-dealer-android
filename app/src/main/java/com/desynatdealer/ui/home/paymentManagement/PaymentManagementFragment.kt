@@ -271,7 +271,7 @@ class PaymentManagementFragment : BaseFragment() {
 
             etTo.setOnClickListener {
                 if (tempFromTimestamp == null) {
-                    showToast("Please select From date first")
+                    showToast(getString(R.string.please_select_from_date_first))
                     return@setOnClickListener
                 }
 
@@ -311,11 +311,11 @@ class PaymentManagementFragment : BaseFragment() {
                 toDateText = tempToDateText
 
                 if (paymentMode == null && fromDateText == null && toDateText == null && type==1) {
-                    showToast("Please select payment status")
+                    showToast(getString(R.string.please_select_payment_status))
                     return@setOnClickListener
                 }
                 else if (fromDateText == null && toDateText == null && type==2) {
-                    showToast("Please select date")
+                    showToast(getString(R.string.please_select_date))
                     return@setOnClickListener
                 }
                 else {

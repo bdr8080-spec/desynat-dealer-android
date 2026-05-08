@@ -77,7 +77,7 @@ class SettingFragment : BaseFragment() {
             }
 
             tvChangePassword.setOnClickListener {
-               // findNavController().navigate(R.id.action_settingFragment_to_changePasswordFragment)
+                findNavController().navigate(R.id.action_settingFragment_to_changePasswordFragment)
             }
 
         }

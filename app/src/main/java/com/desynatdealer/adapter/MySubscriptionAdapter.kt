@@ -37,7 +37,7 @@ class MySubscriptionAdapter(var context:Context, var subscriptionList: ArrayList
                     R.string.kd
                 )
             }"
-            tvPurchaseOn.text = CommonMethod.customizeChangeDateFormat(subscriptionData.createdAt, outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+            tvPurchaseOn.text = CommonMethod.customizeChangeDateFormat(subscriptionData.createdAt, outputFormat = "dd/MM/yyyy '${context.getString(R.string.at)}' hh:mm a")
                 when(subscriptionData?.planInfo?.durationType){
                     1 -> {
                         tvPlanType.text = "${context.getString(R.string.for_text)} ${subscriptionData?.planInfo?.duration} ${context.getString(R.string.month)}"

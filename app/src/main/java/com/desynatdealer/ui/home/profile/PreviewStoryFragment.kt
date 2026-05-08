@@ -287,14 +287,14 @@ class PreviewStoryFragment : BaseFragment() {
                 override fun onTranscodeCanceled() {
                     requireActivity().runOnUiThread {
                         ProgressDialogUtils.getInstance().hideProgress()
-                        showToast("Video compression cancelled")
+                        showToast(getString(R.string.video_compression_cancelled))
                     }
                 }
 
                 override fun onTranscodeFailed(exception: Throwable) {
                     requireActivity().runOnUiThread {
                         ProgressDialogUtils.getInstance().hideProgress()
-                        showToast("Video compression failed")
+                        showToast(getString(R.string.video_compression_failed))
                     }
                     exception.printStackTrace()
                 }
@@ -305,7 +305,7 @@ class PreviewStoryFragment : BaseFragment() {
     private fun uploadCompressedVideo(file: File?) {
         file?.exists()?.let {
             if (!it) {
-                showToast("Video not found")
+                showToast(getString(R.string.video_not_found))
                 return
             }
         }
@@ -316,7 +316,7 @@ class PreviewStoryFragment : BaseFragment() {
     private fun uploadThumbnailApi(file: File?) {
         file?.exists()?.let {
             if (!it) {
-                showToast("Thumbnail not found")
+                showToast(getString(R.string.thumbnail_not_found))
                 return
             }
         }

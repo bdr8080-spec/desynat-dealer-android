@@ -10,6 +10,7 @@ import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemOrderBinding
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.setImage
 
 class OrderAdapter(
@@ -42,10 +43,10 @@ class OrderAdapter(
                 tvOrderIdValue.text = "#${orderData?.id}"
                 tvShippingLocation.text = orderData?.order?.deliveryDetails?.address
                 tvQuantityValue.text = orderData?.quantity
-                tvProductName.text = orderData?.productDetails?.productNameEn
+                tvProductName.text = if (Constants.language=="ar") orderData?.productDetails?.productNameAr else orderData?.productDetails?.productNameEn
                 tvOrderDateTime.text = CommonMethod.customizeChangeDateFormat(
                     orderData?.createdAt.toString(),
-                    outputFormat = "dd/MM/yyyy 'at' hh:mm a"
+                    outputFormat = "dd/MM/yyyy '${context.getString(R.string.at)}' hh:mm a"
                 )
 
                 if (orderData?.paymentStatus == "2" || orderData?.paymentStatus == "3") {

@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseActivity
 import com.desynatdealer.databinding.ActivityAuthBinding
@@ -13,6 +14,7 @@ import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.collections.get
 
 @AndroidEntryPoint
 class AuthActivity : BaseActivity() {
@@ -66,9 +68,14 @@ class AuthActivity : BaseActivity() {
                 R.id.login
             } else if (savedLanguage.isEmpty()) {
                 R.id.language
-            } else {
-                R.id.login
             }
+               else if (SharedPreference.get(this).isTutorial){
+                    R.id.onBoarding
+                }
+                else{
+                    R.id.login
+                }
+
         }
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment

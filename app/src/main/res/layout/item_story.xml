@@ -70,6 +70,7 @@
         android:fontFamily="@font/poppins_regular"
         android:textSize="@dimen/_10sdp"
         android:textColor="@color/white"
+        android:textAlignment="viewStart"
         android:elevation="@dimen/_2sdp"
         android:paddingVertical="@dimen/_2sdp"
         android:paddingHorizontal="@dimen/_8sdp"

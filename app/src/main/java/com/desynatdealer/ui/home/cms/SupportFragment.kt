@@ -309,7 +309,8 @@ class SupportFragment : BaseFragment() {
                     if (isRaised){
                         isRaised = false
 
-                        CommonMethod.showSuccessDialog(requireActivity(),"Ticket Raised Successfully!")
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.ticket_raised_successfully))
                     }
                     if (pagination) {
                         binding?.progressBar?.isVisible = false

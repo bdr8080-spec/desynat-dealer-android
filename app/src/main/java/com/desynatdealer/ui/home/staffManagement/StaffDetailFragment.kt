@@ -19,6 +19,7 @@ import com.desynatdealer.databinding.FragmentStaffDetailBinding
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
@@ -172,7 +173,15 @@ class StaffDetailFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),result?.data?.message.toString())
+                    if (result.data?.data?.isBlock==1){
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.staff_member_block_successfully))
+                    }
+                    else{
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.staff_member_unblock_successfully))
+                    }
+
                     staffData?.isBlock = result.data?.data?.isBlock?:0
                     updateStatus()
                     viewModel.updateStaffStatusResponse.value = null
@@ -237,7 +246,7 @@ class StaffDetailFragment : BaseFragment() {
          //   tvName.text = staffData?.firstName+" "+staffData?.lastName
             tvEmail.text = staffData?.email
             tvMobile.text = staffData?.countryCode+""+staffData?.mobile
-            tvRole.text = staffData?.sellerCategory?.nameEn
+            tvRole.text = if (Constants.language=="ar") staffData?.sellerCategory?.nameAr else  staffData?.sellerCategory?.nameEn
             tvPasswordValue.text = staffData?.savePassword
             Glide.with(requireActivity()).load(staffData?.profilePic).placeholder(R.drawable.ic_user).into(ivProfile)
 

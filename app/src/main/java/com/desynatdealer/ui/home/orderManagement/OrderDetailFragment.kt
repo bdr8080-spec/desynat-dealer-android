@@ -201,7 +201,7 @@ class OrderDetailFragment : BaseFragment() {
                 tvReturnOn.text = getString(R.string.cancelled_on)
                 tvReturnRequestId.text = getString(R.string.cancelled_request_id)
                 tvReturnRequestIdValue.text = "#"+orderDetailData?.id
-                tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
+                tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy '${getString(R.string.at)}' hh:mm a")
 
                 if (orderDetailData?.cancelReason!="null"&&orderDetailData?.cancelReason!=null&&orderDetailData?.cancelReason!=""){
 
@@ -407,7 +407,7 @@ class OrderDetailFragment : BaseFragment() {
                             tvReturnRequestIdValue.text = "#" + orderDetailData?.id
                             tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
                                 orderDetailData?.updatedAt.toString(),
-                                outputFormat = "dd/MM/yy 'at' hh:mm a"
+                                outputFormat = "dd/MM/yy '${getString(R.string.at)}' hh:mm a"
                             )
                             tvExchangeSizeValue.text = orderDetailData?.exchangeNewSize
                             tvReturnReasonValue.text = orderDetailData?.exchangeReason
@@ -466,7 +466,7 @@ class OrderDetailFragment : BaseFragment() {
                              tvReturnRequestIdValue.text = "#" + orderDetailData?.id
                              tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
                                  orderDetailData?.updatedAt.toString(),
-                                 outputFormat = "dd/MM/yy 'at' hh:mm a"
+                                 outputFormat = "dd/MM/yy '${getString(R.string.at)}' hh:mm a"
                              )
                              tvExchangeSizeValue.text = orderDetailData?.exchangeNewSize
                              tvReturnReasonValue.text = orderDetailData?.exchangeReason
@@ -490,7 +490,7 @@ class OrderDetailFragment : BaseFragment() {
                             tvReturnRequestIdValue.text = "#" + orderDetailData?.id
                             tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
                                 orderDetailData?.updatedAt.toString(),
-                                outputFormat = "dd/MM/yy 'at' hh:mm a"
+                                outputFormat = "dd/MM/yy '${getString(R.string.at)}' hh:mm a"
                             )
                             tvExchangeSizeValue.text = orderDetailData?.exchangeNewSize
                             tvReturnReasonValue.text = orderDetailData?.exchangeReason
@@ -511,7 +511,7 @@ class OrderDetailFragment : BaseFragment() {
                             tvReturnRequestIdValue.text = "#" + orderDetailData?.id
                             tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
                                 orderDetailData?.updatedAt.toString(),
-                                outputFormat = "dd/MM/yy 'at' hh:mm a"
+                                outputFormat = "dd/MM/yy '${getString(R.string.at)}' hh:mm a"
                             )
                             tvReturnReasonValue.text = orderDetailData?.returnReason
                             if (orderDetailData?.returnImage?.size != 0 && orderDetailData?.returnImage!=null
@@ -544,7 +544,7 @@ class OrderDetailFragment : BaseFragment() {
                             tvReturnRequestIdValue.text = "#" + orderDetailData?.id
                             tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(
                                 orderDetailData?.updatedAt.toString(),
-                                outputFormat = "dd/MM/yy 'at' hh:mm a"
+                                outputFormat = "dd/MM/yy '${getString(R.string.at)}' hh:mm a"
                             )
                             tvReturnReasonValue.text = orderDetailData?.returnReason
                             if (orderDetailData?.returnImage?.size != 0 && orderDetailData?.returnImage!=null
@@ -619,7 +619,7 @@ class OrderDetailFragment : BaseFragment() {
                         tvReturnOn.text = getString(R.string.cancelled_on)
                         tvReturnRequestId.text = getString(R.string.cancelled_request_id)
                         tvReturnRequestIdValue.text = "#"+orderDetailData?.id
-                        tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
+                        tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy '${getString(R.string.at)}' hh:mm a")
                         tvReturnReasonValue.text = orderDetailData?.cancelReason
                         if (orderDetailData?.cancelReason!="null"&&orderDetailData?.cancelReason!=null&&orderDetailData?.cancelReason!=""){
                             tvReturnReason.isVisible = false
@@ -643,7 +643,7 @@ class OrderDetailFragment : BaseFragment() {
 
 
                         tvReturnRequestIdValue.text = "#"+orderDetailData?.id
-                        tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
+                        tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy '${getString(R.string.at)}' hh:mm a")
                         tvReturnReasonValue.text = orderDetailData?.returnReason
                         if (orderDetailData?.returnImage?.size!=0
                         ) {
@@ -711,7 +711,7 @@ class OrderDetailFragment : BaseFragment() {
                         tvReturnOn.text = getString(R.string.exchange_on)
                         tvReturnRequestId.text = getString(R.string.exchange_request_id)
                         tvReturnRequestIdValue.text = "#"+orderDetailData?.id
-                        tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy 'at' hh:mm a")
+                        tvReturnOnValue.text = CommonMethod.customizeChangeDateFormat(orderDetailData?.updatedAt.toString(), outputFormat = "dd/MM/yy '${getString(R.string.at)}' hh:mm a")
                         tvExchangeSizeValue.text =  orderDetailData?.exchangeNewSize
                         tvReturnReasonValue.text =  orderDetailData?.exchangeReason
                     }
@@ -719,7 +719,7 @@ class OrderDetailFragment : BaseFragment() {
             }
             tvDateTime.text = CommonMethod.customizeChangeDateFormat(
                 orderDetailData?.createdAt.toString(),
-                outputFormat = "dd/MM/yyyy 'at' hh:mm a"
+                outputFormat = "dd/MM/yyyy '${getString(R.string.at)}' hh:mm a"
             )
 
             tvZoneValue.text = orderDetailData?.deliveryBoyId

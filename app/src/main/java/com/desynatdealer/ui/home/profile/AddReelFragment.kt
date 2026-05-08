@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -120,6 +121,7 @@ class AddReelFragment : BaseFragment() {
                         mediaType = "image"
                         imageUri = media.uri
                         ivAddStory.setImageURI(imageUri)
+                        clPlaceholder.isVisible = false
                     }
 
                     is GalleryMedia.Video -> {
@@ -127,6 +129,7 @@ class AddReelFragment : BaseFragment() {
                             mediaType = "video"
                             imageUri = media.uri
                             ivAddStory.setImageURI(imageUri)
+                        clPlaceholder.isVisible = false
 //                        } else {
 //                            showToast("Please select a video of 30 seconds or less.")
 //                        }
@@ -152,9 +155,13 @@ class AddReelFragment : BaseFragment() {
                     mediaType = type
                     imageUri = it
                     if (type == "image") {
+                        clPlaceholder.isVisible = false
                         binding?.ivAddStory?.setImageURI(it)
+
                     } else {
+                        clPlaceholder.isVisible = false
                         binding?.ivAddStory?.setImageResource(R.drawable.ic_placeholder)
+
                     }
 
                 }
@@ -240,7 +247,7 @@ class AddReelFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireContext(), "Reel added successfully!"){
+                    CommonMethod.showSuccessDialog(requireContext(), getString(R.string.reel_added_successfully)){
                         findNavController().popBackStack()
                     }
                     viewModel.addReelResponse.value = null
@@ -264,7 +271,7 @@ class AddReelFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireContext(), "Reel updated successfully!"){
+                    CommonMethod.showSuccessDialog(requireContext(), getString(R.string.reel_updated_successfully)){
                         findNavController().popBackStack(R.id.viewProfile, false)
                     }
                     viewModel.updateReelResponse.value = null
@@ -284,7 +291,7 @@ class AddReelFragment : BaseFragment() {
 
     private fun uploadCompressedVideo(file: File) {
         if (!file.exists()) {
-            showToast("Compressed file not found")
+            showToast(getString(R.string.compressed_file_not_found))
             return
         }
         val image = file?.toMultiPartBody("file")
@@ -410,7 +417,7 @@ class AddReelFragment : BaseFragment() {
             if (granted) {
                 loadGalleryMedia()
             } else {
-                showToast("Permission required to access images and videos")
+                showToast(getString(R.string.permission_required_to_access_images_and_videos))
             }
         }
 
@@ -473,14 +480,14 @@ class AddReelFragment : BaseFragment() {
                 override fun onTranscodeCanceled() {
                     requireActivity().runOnUiThread {
                         ProgressDialogUtils.getInstance().hideProgress()
-                        showToast("Video compression cancelled")
+                        showToast(getString(R.string.video_compression_cancelled))
                     }
                 }
 
                 override fun onTranscodeFailed(exception: Throwable) {
                     requireActivity().runOnUiThread {
                         ProgressDialogUtils.getInstance().hideProgress()
-                        showToast("Video compression failed")
+                        showToast(getString(R.string.video_compression_failed))
                     }
                     exception.printStackTrace()
                 }

@@ -31,7 +31,6 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.CustomCountryPickerBinding
 import com.desynatdealer.databinding.FragmentAddNewHighlightsBinding
-import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.ui.home.profile.response.GalleryMedia
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.utils.CommonMethod
@@ -43,7 +42,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.otaliastudios.transcoder.Transcoder
 import com.otaliastudios.transcoder.TranscoderListener
-import com.otaliastudios.transcoder.resize.AtMostResizer
 import com.otaliastudios.transcoder.strategy.DefaultAudioStrategy
 import com.otaliastudios.transcoder.strategy.DefaultVideoStrategy
 import dagger.hilt.android.AndroidEntryPoint
@@ -150,7 +148,7 @@ class AddNewHighlightsFragment : BaseFragment() {
                             .load(imageUri)
                             .placeholder(R.drawable.ic_placeholder)
                             .into(ivAddStory)
-
+                        clPlaceholder.isVisible = false
                     }
                     is GalleryMedia.Video -> {
                       //  if(isVideoWithinLimit(media.uri,30)) {
@@ -161,6 +159,7 @@ class AddNewHighlightsFragment : BaseFragment() {
                                 .load(imageUri)
                                 .placeholder(R.drawable.ic_placeholder)
                                 .into(ivAddStory)
+                        clPlaceholder.isVisible = false
                          //   ivAddStory.setImageURI(imageUri)
 //                        }
 //                        else{
@@ -210,8 +209,11 @@ class AddNewHighlightsFragment : BaseFragment() {
                     isMediaSelected = true
 
                     if (type == "image") {
+                        clPlaceholder.isVisible = false
                         binding?.ivAddStory?.setImageURI(it)
+
                     } else {
+                        clPlaceholder.isVisible = false
                         binding?.ivAddStory?.setImageResource(R.drawable.ic_placeholder)
                     }
 
@@ -243,7 +245,7 @@ class AddNewHighlightsFragment : BaseFragment() {
                         etName.setText("")
 
 
-                        binding?.tvSelectFromGallery?.text = "Select From Gallery"
+                        binding?.tvSelectFromGallery?.text = getString(R.string.select_from_gallery)
                         checkData()
                     }
 
@@ -439,7 +441,7 @@ class AddNewHighlightsFragment : BaseFragment() {
     private fun uploadCompressedVideo(file: File?) {
         file?.exists()?.let {
             if (!it) {
-                showToast("Video not found")
+                showToast(getString(R.string.video_not_found))
                 return
             }
         }
@@ -450,7 +452,7 @@ class AddNewHighlightsFragment : BaseFragment() {
     private fun uploadThumbnailApi(file: File?) {
         file?.exists()?.let {
             if (!it) {
-                showToast("Thumbnail not found")
+                showToast(getString(R.string.thumbnail_not_found))
                 return
             }
         }
@@ -574,7 +576,7 @@ class AddNewHighlightsFragment : BaseFragment() {
             if (granted) {
                 loadGalleryMedia()
             } else {
-                showToast("Permission required to access images and videos")
+                showToast(getString(R.string.permission_required_to_access_images_and_videos))
             }
         }
 
@@ -640,14 +642,14 @@ class AddNewHighlightsFragment : BaseFragment() {
                 override fun onTranscodeCanceled() {
                     requireActivity().runOnUiThread {
                         ProgressDialogUtils.getInstance().hideProgress()
-                        showToast("Video compression cancelled")
+                        showToast(getString(R.string.video_compression_cancelled))
                     }
                 }
 
                 override fun onTranscodeFailed(exception: Throwable) {
                     requireActivity().runOnUiThread {
                         ProgressDialogUtils.getInstance().hideProgress()
-                        showToast("Video compression failed")
+                        showToast(getString(R.string.video_compression_failed))
                     }
                     exception.printStackTrace()
                 }

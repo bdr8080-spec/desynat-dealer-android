@@ -21,9 +21,9 @@ class ProductOrderAdapter(var context:Context, var productList: ArrayList<GetSin
                 tvProduct.text = productData?.productDetails?.productNameEn
 
                 tvFabric.text = if (Constants.language=="ar") productData?.productDetails?.brand?.nameArabic else productData?.productDetails?.brand?.nameEnglish
-                tvSizeValue.text = productData?.variationDetails?.size?.name
-                tvColorValue.text = productData?.variationDetails?.color?.name
-                tvCategoryValue.text = productData?.productDetails?.category?.name
+                tvSizeValue.text = if (Constants.language=="ar") productData?.variationDetails?.size?.nameArabic else  productData?.variationDetails?.size?.name
+                tvColorValue.text = if (Constants.language=="ar")productData?.variationDetails?.color?.nameArabic else  productData?.variationDetails?.color?.name
+                tvCategoryValue.text = if (Constants.language=="ar")productData?.productDetails?.category?.nameArabic else  productData?.productDetails?.category?.name
                 if (productData?.orderType=="2"){
                     tvPrice.text = "${CommonMethod.formatPrice(productData?.chatRoomrecords?.totalAmount?.toDoubleOrNull()?:0.0) } ${
                         context.getString(

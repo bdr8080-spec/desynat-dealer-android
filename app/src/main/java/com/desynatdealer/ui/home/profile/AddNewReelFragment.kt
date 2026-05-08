@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -154,8 +155,10 @@ class AddNewReelFragment : BaseFragment() {
                     mediaType = type
                     imageUri = it
                     if (type == "image") {
+                        clPlaceholder.isVisible = false
                         ivStory.setImageURI(it)
                     } else {
+                        clPlaceholder.isVisible = false
                         Glide.with(requireActivity())
                             .load(imageUri)
                             .placeholder(R.drawable.ic_placeholder)
@@ -186,7 +189,7 @@ class AddNewReelFragment : BaseFragment() {
                 mediaType = "video"
 
                 uploadThumbnail = reelData?.thumbnail.toString()
-
+                clPlaceholder.isVisible = false
                 Glide.with(requireActivity())
                     .load(url)
                     .placeholder(R.drawable.ic_placeholder)
@@ -194,7 +197,7 @@ class AddNewReelFragment : BaseFragment() {
 
             } else {
                 mediaType = "image"
-
+                clPlaceholder.isVisible = false
                 Glide.with(requireActivity())
                     .load(url)
                     .into(ivStory)
@@ -248,7 +251,7 @@ class AddNewReelFragment : BaseFragment() {
             tvAdd.setOnClickListener {
 
                 if (etCaption.text?.trim().toString().isEmpty()) {
-                    showToast("Please enter caption")
+                    showToast(getString(R.string.please_enter_caption))
                     return@setOnClickListener
                 }
 
@@ -414,7 +417,7 @@ class AddNewReelFragment : BaseFragment() {
     private fun uploadCompressedVideo(file: File?) {
         file?.exists()?.let {
             if (!it) {
-                showToast("Video not found")
+                showToast(getString(R.string.video_not_found))
                 return
             }
         }
@@ -425,7 +428,7 @@ class AddNewReelFragment : BaseFragment() {
     private fun uploadThumbnailApi(file: File?) {
         file?.exists()?.let {
             if (!it) {
-                showToast("Thumbnail not found")
+                showToast(getString(R.string.thumbnail_not_found))
                 return
             }
         }
@@ -483,7 +486,7 @@ class AddNewReelFragment : BaseFragment() {
             if (granted) {
             } else {
                 if (!shouldShowRequestPermissionRationale(Manifest.permission.READ_MEDIA_VIDEO)) {
-                    showToast("Permission permanently denied. Please allow from settings.")
+                    showToast(getString(R.string.permission_permanently_denied_please_allow_from_settings))
                 } else {
                 }
             }
@@ -549,14 +552,14 @@ class AddNewReelFragment : BaseFragment() {
                 override fun onTranscodeCanceled() {
                     requireActivity().runOnUiThread {
                         ProgressDialogUtils.getInstance().hideProgress()
-                        showToast("Video compression cancelled")
+                        showToast(getString(R.string.video_compression_cancelled))
                     }
                 }
 
                 override fun onTranscodeFailed(exception: Throwable) {
                     requireActivity().runOnUiThread {
                         ProgressDialogUtils.getInstance().hideProgress()
-                        showToast("Video compression failed")
+                        showToast(getString(R.string.video_compression_failed))
                     }
                     exception.printStackTrace()
                 }

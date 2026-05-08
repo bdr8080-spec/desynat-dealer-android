@@ -478,6 +478,8 @@ data class GetSingleOrderResponse(
                 val image: String,
                 @SerializedName("name")
                 val name: String,
+                @SerializedName("name_ar")
+                val nameArabic: String,
                 @SerializedName("status")
                 val status: Int,
                 @SerializedName("updated_at")
@@ -563,6 +565,8 @@ data class GetSingleOrderResponse(
                 val id: Int,
                 @SerializedName("name")
                 val name: String,
+                @SerializedName("name_ar")
+                val nameArabic: String,
                 @SerializedName("updated_at")
                 val updatedAt: String
             )
@@ -574,6 +578,8 @@ data class GetSingleOrderResponse(
                 val id: Int,
                 @SerializedName("name")
                 val name: String,
+                @SerializedName("name_ar")
+                val nameArabic: String,
                 @SerializedName("updated_at")
                 val updatedAt: String
             )

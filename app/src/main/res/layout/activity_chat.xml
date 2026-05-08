@@ -24,7 +24,7 @@
             android:paddingHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_30sdp"
             android:fontFamily="@font/poppins_medium"
-            android:text="Chat"
+            android:text="@string/chat"
             android:textColor="@color/black"
             android:textSize="@dimen/_13sdp"
             android:textAlignment="center"

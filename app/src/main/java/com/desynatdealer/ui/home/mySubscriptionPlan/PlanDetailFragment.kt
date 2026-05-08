@@ -135,8 +135,12 @@ class PlanDetailFragment : BaseFragment() {
                     R.string.kd
                 )
             }"
-            tvPurchaseOn.text = CommonMethod.customizeChangeDateFormat(mySubscriptionData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
-            tvExpiredOn.text = CommonMethod.customizeChangeDateFormat(mySubscriptionData?.planEndDate.toString(), inputFormat = "yyyy-MM-dd hh:mm:ss", outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+            tvPurchaseOn.text = CommonMethod.customizeChangeDateFormat(mySubscriptionData?.createdAt.toString(), outputFormat = "dd/MM/yyyy '${
+                getString(R.string.at)
+            }' hh:mm a")
+            tvExpiredOn.text = CommonMethod.customizeChangeDateFormat(mySubscriptionData?.planEndDate.toString(), inputFormat = "yyyy-MM-dd hh:mm:ss", outputFormat = "dd/MM/yyyy '${
+                getString(R.string.at)
+            }' hh:mm a")
             tvTransactionId.text = "${mySubscriptionData?.transactionId}"
 
             when(mySubscriptionData?.paymentMethod){

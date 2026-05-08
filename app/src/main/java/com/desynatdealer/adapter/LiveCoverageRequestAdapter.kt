@@ -30,9 +30,13 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
 
                 tvRequestId.text = "#${liveRequestData?.orderId}"
                 tvLiveRequest.text = "${
-                    CommonMethod.customizeChangeDateFormat(liveRequestData?.timeslotDetails?.date.toString(), inputFormat = "yyyy-MM-dd", outputFormat = "dd/MM/yyyy")} at ${CommonMethod.customizeChangeDateFormatZone(liveRequestData?.timeslotDetails?.from.toString(),"hh:mm a","hh:mm a")}"
+                    CommonMethod.customizeChangeDateFormat(liveRequestData?.timeslotDetails?.date.toString(), inputFormat = "yyyy-MM-dd", outputFormat = "dd/MM/yyyy")} '${
+                    context.getString(
+                        R.string.at
+                    )
+                }' ${CommonMethod.customizeChangeDateFormatZone(liveRequestData?.timeslotDetails?.from.toString(),"hh:mm a","hh:mm a")}"
 
-                tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+                tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.createdAt.toString(), outputFormat = "dd/MM/yyyy '${context.getString(R.string.at)}' hh:mm a")
                 when(liveRequestData?.adminVerify){
                     "0" ->{
                         tvStatusValue.text = context.getString(R.string.pending)
@@ -68,7 +72,7 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
                             tvRejectedReason.isVisible = true
                             tvRejectedReason.text = liveRequestData?.rejectReason
                         }
-                        tvRejectedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.updatedAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+                        tvRejectedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.updatedAt.toString(), outputFormat = "dd/MM/yyyy '${context.getString(R.string.at)}' hh:mm a")
                     }
                     "3"->{
                         tvStatusValue.text = context.getString(R.string.cancelled)
@@ -83,7 +87,7 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
                             tvRejectedReason.isVisible = true
                             tvRejectedReason.text = liveRequestData?.cancelReason
                         }
-                        tvRejectedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.updatedAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+                        tvRejectedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.updatedAt.toString(), outputFormat = "dd/MM/yyyy '${context.getString(R.string.at)}' hh:mm a")
                     }
                 }
 

@@ -145,7 +145,7 @@ class StoreInformationFragment : BaseFragment() {
 
             etCountry.setOnClickListener {
                 CommonMethod.showCountryPicker(requireActivity(),etCountry,countryList,false){countryData->
-                    binding?.etCountry?.setText(countryData.name)
+                    binding?.etCountry?.setText(if (Constants.language=="ar") countryData.nameArabic else countryData.name)
                     selectedCountryCode = countryData.id.toString()
                 }            }
 

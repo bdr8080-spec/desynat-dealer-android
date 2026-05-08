@@ -17,6 +17,7 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.ActivityHomeBinding
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
@@ -34,6 +35,7 @@ class HomeActivity : BaseActivity() {
     lateinit var navGraph: NavGraph
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        CommonMethod.setLocale(this, Constants.language)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)

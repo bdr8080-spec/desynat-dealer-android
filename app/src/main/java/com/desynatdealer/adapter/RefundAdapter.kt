@@ -16,7 +16,7 @@ class RefundAdapter(var context:Context, var refundList: ArrayList<GetRefundOrde
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             var refundData = refundList[position]
-            tvOrderDateTime.text = CommonMethod.customizeChangeDateFormatKuwaitFromUtc(refundData?.order?.createdAt.toString(), outputFormat = "dd/MM/yyyy 'at' hh:mm a")
+            tvOrderDateTime.text = CommonMethod.customizeChangeDateFormatKuwaitFromUtc(refundData?.order?.createdAt.toString(), outputFormat = "dd/MM/yyyy '${context.getString(R.string.at)}' hh:mm a")
             tvRequestedOn.text = CommonMethod.customizeChangeDateFormatKuwaitFromUtc(refundData?.updatedAt.toString(), outputFormat = "dd/MM/yyyy")
             tvCustomerName.text = refundData?.order?.deliveryDetails?.name
             tvRefundId.text = "#${refundData?.order?.transactionId}"

@@ -28,6 +28,8 @@ data class AddNewStaffRequest(
     data class MenuId(
         @SerializedName("name")
         val title: String,
+        @SerializedName("title_ar")
+        val titleArabic: String,
         @SerializedName("can_action")
         var canAction: Int,
         @SerializedName("can_view")

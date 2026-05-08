@@ -15,6 +15,7 @@ import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentTicketDetailBinding
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
+import com.desynatdealer.utils.Constants
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
@@ -72,7 +73,7 @@ class TicketDetailFragment : BaseFragment() {
         binding?.apply {
             tvDescription.text = ticketData?.description
             tvTitle.text = ticketData?.title
-            tvTicketType.text = ticketData?.ticketTypeDetails?.name
+            tvTicketType.text = if (Constants.language=="ar") ticketData?.ticketTypeDetails?.nameArabic else ticketData?.ticketTypeDetails?.name
             tvTicketIdValue.text = ticketData?.ticketId
             tvRaisedOn.text =
                 CommonMethod.customizeChangeDateFormat(ticketData?.createdAt.toString(), outputFormat = "dd MMM yy, hh:mm a")

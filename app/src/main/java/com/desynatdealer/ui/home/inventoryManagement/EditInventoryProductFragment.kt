@@ -156,7 +156,7 @@ class EditInventoryProductFragment : BaseFragment() {
             }
             variantImageAdapter?.notifyDataSetChanged()
             viewPager.setCurrentItem(0, false)
-
+            tvName.text = if (Constants.language=="ar") productData?.productNameAr else productData?.productNameEn
             tvBrand.text = if(productData?.brand?.nameEnglish=="Other"){
                 if (Constants.language=="ar") productData?.otherAr else productData?.otherEn
             }
@@ -232,7 +232,14 @@ class EditInventoryProductFragment : BaseFragment() {
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    result.data?.message?.let { showToast(it) }
+                    if (result.data?.data?.productActiveStatus==1){
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.product_active_successfully))
+                    }
+                    else{
+                        CommonMethod.showSuccessDialog(requireActivity(),
+                            getString(R.string.product_de_active_successfully))
+                    }
                     productData?.productActiveStatus= result.data?.data?.productActiveStatus!!
                     updateStatus()
                     viewModel.updateInventoryProductStatusResponse.value = null

@@ -11,6 +11,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.desynatdealer.R
 import java.io.File
 
 class StoryMediaPicker(
@@ -32,8 +33,9 @@ class StoryMediaPicker(
 
     private var pendingAction = PendingAction.NONE
 
-    fun showCameraStoryPicker(title: String?="Add Story") {
-        val options = arrayOf("Camera Photo", "Record Video")
+    fun showCameraStoryPicker(title: String?=context.getString(R.string.add_story)) {
+        val options = arrayOf(context.getString(R.string.camera_photo),
+            context.getString(R.string.record_video))
         AlertDialog.Builder(context)
             .setTitle(title)
             .setItems(options) { _, which ->
@@ -44,8 +46,12 @@ class StoryMediaPicker(
             }.show()
     }
 
-    fun showAllStoryPicker(title: String?="Add Story") {
-        val options = arrayOf("Camera Photo", "Record Video","Gallery Image","Gallery Video")
+    fun showAllStoryPicker(title: String?=context.getString(R.string.add_story)) {
+        val options = arrayOf(context.getString(R.string.camera_photo), context.getString(R.string.record_video),
+            context.getString(
+                R.string.gallery_image
+            ),
+            context.getString(R.string.gallery_video))
         AlertDialog.Builder(context)
             .setTitle(title)
             .setItems(options) { _, which ->
@@ -58,8 +64,8 @@ class StoryMediaPicker(
             }.show()
     }
 
-    fun showReelPicker(title: String?="Add Story") {
-        val options = arrayOf("Gallery Video", "Record Video")
+    fun showReelPicker(title: String?=context.getString(R.string.add_story)) {
+        val options = arrayOf(context.getString(R.string.gallery_video), context.getString(R.string.record_video))
         AlertDialog.Builder(context)
             .setTitle(title)
             .setItems(options) { _, which ->
