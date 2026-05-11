@@ -823,6 +823,13 @@
     <string name="number">Number</string>
     <string name="mm_yy">MM / YY</string>
     <string name="security_code">Security Code</string>
+    <string name="total_sold">Total Sold</string>
+    <string name="eg_28">Eg. 28</string>
+    <string name="eg_36">Eg. 36</string>
+    <string name="eg_16">Eg. 16</string>
+    <string name="eg_22">Eg. 22</string>
+    <string name="eg_40">Eg. 40</string>
+    <string name="eg_13208">Eg. 13208</string>
 
 
 </resources>

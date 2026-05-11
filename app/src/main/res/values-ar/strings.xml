@@ -723,7 +723,7 @@
     <string name="enable_gps">تفعيل GPS</string>
     <string name="please_enable_gps_to_fetch_your_current_location">يرجى تفعيل GPS لجلب موقعك الحالي.</string>
     <string name="hi_there">مرحبًا</string>
-    <string name="kd">د.ك</string>
+    <string name="kd">KD</string>
     <string name="off">خصم</string>
     <string name="by">بواسطة</string>
     <string name="document">مستند</string>
@@ -844,4 +844,11 @@
     <string name="number">الرقم</string>
     <string name="mm_yy">MM / YY</string>
     <string name="security_code">رمز الأمان</string>
+    <string name="total_sold">إجمالي المبيعات</string>
+    <string name="eg_28">مثال: 28</string>
+    <string name="eg_36">مثال: 36</string>
+    <string name="eg_16">مثال: 16</string>
+    <string name="eg_22">مثال: 22</string>
+    <string name="eg_40">مثال: 40</string>
+    <string name="eg_13208">مثال: 13208</string>
 </resources>

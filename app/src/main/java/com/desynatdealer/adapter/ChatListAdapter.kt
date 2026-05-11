@@ -38,6 +38,8 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
                 tvLastMsg.text = if (Constants.language=="ar") chatData?.lastChatArabic?:chatData?.lastChat else chatData?.lastChat
                 if (chatData.lastChatTime!=null&&chatData.lastChatTime!="null"&&chatData.lastChatTime!="") {
                     tvTime.text = chatData?.lastChatTime.toString()
+                    tvTime.text = CommonMethod.formatChatTime(context,
+                        chatData?.lastChatTime.toString(), inputFormat = "dd MMM yyyy, hh:mm a")
                 }
                 else{
                     tvTime.text = CommonMethod.formatChatTime(context,

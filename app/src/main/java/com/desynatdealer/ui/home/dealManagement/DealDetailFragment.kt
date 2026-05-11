@@ -164,7 +164,7 @@ class DealDetailFragment : BaseFragment() {
             }
             tvDiscountValue.text = "${dealDetailData?.dealData?.discount}%"
             tvDetail.text = dealDetailData?.dealData?.nameEnglish
-            tvCategoryValue.text = dealDetailData?.dealData?.categoryDetails?.name
+            tvCategoryValue.text = if (Constants.language=="ar") dealDetailData?.dealData?.categoryDetails?.nameAr else dealDetailData?.dealData?.categoryDetails?.name
             tvSubCategoryValue.text = dealDetailData?.dealData?.subCategoryDetails?.joinToString(", ") {if (Constants.language=="ar") it.nameArabic else  it.nameEnglish }
             tvStartsOnValue.text = CommonMethod.customizeChangeDateFormat(dealDetailData?.dealData?.from.toString(),"yyyy-MM-dd","dd/MM/yyyy")
             tvDurationValue.text = CommonMethod.customizeChangeDateFormat(dealDetailData?.dealData?.from.toString(),"yyyy-MM-dd","dd/MM/yyyy")+" - "+CommonMethod.customizeChangeDateFormat(dealDetailData?.dealData?.to.toString(),"yyyy-MM-dd","dd/MM/yyyy")
@@ -219,7 +219,8 @@ class DealDetailFragment : BaseFragment() {
 
                     dealDetailData?.addedProducts
                         ?.map { it.productDetails }
-                        ?.let { productList.addAll(it) }
+                        ?.let { productList.addAll(it)
+                        }
 
                     if (addedProductList.isNotEmpty()) {
                         dealProductAdapter?.setDealType("2")
@@ -247,7 +248,9 @@ class DealDetailFragment : BaseFragment() {
                     dealDetailData?.addedProducts?.let { addedProductList.addAll(it) }
                     if (dealDetailData?.addedProducts?.size!=0){
                         for(i in 0 until dealDetailData?.addedProducts?.size!!){
-                            dealDetailData?.addedProducts?.let { productList.add(it[i].productDetails) }
+                            dealDetailData?.addedProducts?.let {
+                                it[i]?.productDetails?.let { e -> productList.add(e) }
+                            }
                         }
                     }
                     dealProductAdapter?.updateList(productList)

@@ -48,7 +48,7 @@
             android:fontFamily="@font/poppins_medium"
             android:drawableEnd="@drawable/waving_hand"
             android:drawablePadding="@dimen/_5sdp"
-            android:textAlignment="viewStart"
+            android:gravity="center_vertical"
             android:textSize="@dimen/_11sdp"
             app:layout_constraintStart_toEndOf="@+id/ivProfile"
             app:layout_constraintTop_toTopOf="parent"

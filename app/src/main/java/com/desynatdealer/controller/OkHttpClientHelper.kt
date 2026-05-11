@@ -3,6 +3,7 @@ package com.desynatdealer.controller
 
 import android.util.Log
 import com.desynatdealer.CoreApplication
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
 import okhttp3.Cache
 import okhttp3.Interceptor
@@ -127,6 +128,7 @@ class OkHttpClientHelper {
         val req = request.newBuilder()
 //            .header("APP-VERSION-CODE", versionCode)
             .header("Authorization","Bearer $authToken")
+            .header("Accept-Language","${Constants.language}")
 //            .header(
 //                "language",
 //                SharedPreference.get(CoreApplication.instance?.baseContext!!).selectedLanguage

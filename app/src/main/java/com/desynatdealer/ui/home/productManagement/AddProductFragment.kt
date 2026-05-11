@@ -698,6 +698,7 @@ class AddProductFragment : BaseFragment() {
         when(imageType){
             1->{
                 sizeChartUrl = image
+                binding?.clPlaceholder?.isVisible = false
                 binding?.ivSizeChart?.load(sizeChartUrl) {
                     crossfade(true)
                     placeholder(R.drawable.ic_placeholder)

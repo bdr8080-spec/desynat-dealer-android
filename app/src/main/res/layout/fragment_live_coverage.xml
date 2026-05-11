@@ -216,6 +216,7 @@
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:textSize="@dimen/_12sdp"
             android:textColor="@color/black"
+            android:textAlignment="viewStart"
             android:fontFamily="@font/poppins_medium"/>
 
         <androidx.appcompat.widget.AppCompatTextView

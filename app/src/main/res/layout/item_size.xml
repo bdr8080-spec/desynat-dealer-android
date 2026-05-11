@@ -7,15 +7,15 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivColor"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
        app:strokeWidth="@dimen/_1sdp"
         app:strokeColor="#33000000"
         android:clipToOutline="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvSize"
+        app:layout_constraintTop_toTopOf="@+id/tvSize"
+        app:layout_constraintEnd_toEndOf="@+id/tvSize"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSize"
         app:shapeAppearanceOverlay="@style/rounded_corner5sdp"/>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -24,6 +24,10 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_medium"
         android:text="XL"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/_2sdp"
+        android:minWidth="@dimen/_30sdp"
+        android:minHeight="@dimen/_30sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

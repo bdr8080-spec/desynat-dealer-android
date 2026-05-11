@@ -398,7 +398,12 @@ class EditProductFragment : BaseFragment() {
             setYesNoCheckbox(productData?.customizedProduct,cbCustomizedProductYes,cbCustomizedProductNo)
             setYesNoCheckbox(productData?.readyToShip,cbReadyToShipYes,cbReadyToShipNo)
             setYesNoCheckbox(productData?.cashOnDelivery,cbCashOnDeliveryYes,cbCashOnDeliveryNo)
-
+            if (productData?.uploadSizeChart.isNullOrEmpty()){
+                binding?.clPlaceholder?.isVisible = true
+            }
+            else{
+                binding?.clPlaceholder?.isVisible = false
+            }
             ivSizeChart.load(productData?.uploadSizeChart) {
                 crossfade(true)
                 placeholder(R.drawable.ic_placeholder)
@@ -610,6 +615,7 @@ class EditProductFragment : BaseFragment() {
         when(imageType){
             1->{
                 sizeChartUrl = image
+                binding?.clPlaceholder?.isVisible = false
                 binding?.ivSizeChart?.load(sizeChartUrl) {
                     crossfade(true)
                     placeholder(R.drawable.ic_placeholder)

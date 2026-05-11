@@ -62,6 +62,8 @@ data class GetDealDetailResponse(
                 val image: String,
                 @SerializedName("name")
                 val name: String,
+                @SerializedName("name_ar")
+                val nameAr: String,
                 @SerializedName("status")
                 val status: Int,
                 @SerializedName("updated_at")

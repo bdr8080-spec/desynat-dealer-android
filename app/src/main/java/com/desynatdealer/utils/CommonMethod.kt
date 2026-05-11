@@ -524,8 +524,76 @@ object CommonMethod {
         }
 
         return try {
-            val date = originalFormat.parse(inputDate)
-            targetFormat.format(date!!)
+            if (Constants.language == "ar") {
+                val date = originalFormat.parse(inputDate)
+
+                var formattedDate = targetFormat.format(date!!)
+
+                val englishMonthsMMMM = arrayOf(
+                    "January", "February", "March", "April",
+                    "May", "June", "July", "August",
+                    "September", "October", "November", "December"
+                )
+
+                val arabicMonthsMMMM = arrayOf(
+                    "يناير", "فبراير", "مارس", "أبريل",
+                    "مايو", "يونيو", "يوليو", "أغسطس",
+                    "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+                )
+
+                for (i in englishMonthsMMMM.indices) {
+                    formattedDate =
+                        formattedDate.replace(
+                            englishMonthsMMMM[i],
+                            arabicMonthsMMMM[i]
+                        )
+                }
+
+                val englishMonths = arrayOf(
+                    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                )
+
+                val arabicMonths = arrayOf(
+                    "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+                    "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+                )
+
+                for (i in englishMonths.indices) {
+                    formattedDate =
+                        formattedDate.replace(
+                            englishMonths[i],
+                            arabicMonths[i]
+                        )
+                }
+
+                val englishDays = arrayOf(
+                    "Sun", "Mon", "Tue", "Wed",
+                    "Thu", "Fri", "Sat"
+                )
+
+                val arabicDays = arrayOf(
+                    "الأحد", "الاثنين", "الثلاثاء", "الأربعاء",
+                    "الخميس", "الجمعة", "السبت"
+                )
+
+                for (i in englishDays.indices) {
+                    formattedDate = formattedDate.replace(
+                        englishDays[i],
+                        arabicDays[i]
+                    )
+                }
+
+                formattedDate = formattedDate
+                    .replace("AM", "ص")
+                    .replace("PM", "م")
+                return formattedDate
+            }
+            else{
+                val date = originalFormat.parse(inputDate)
+                targetFormat.format(date!!)
+            }
+
         } catch (e: Exception) {
             e.printStackTrace()
             ""
@@ -542,14 +610,83 @@ object CommonMethod {
             val originalFormat = SimpleDateFormat(inputFormat, Locale.ENGLISH).apply {
                 timeZone = TimeZone.getTimeZone("Asia/Kuwait")
             }
-
             val date = originalFormat.parse(inputDate)
 
             val targetFormat = SimpleDateFormat(outputFormat, Locale.ENGLISH).apply {
                 timeZone = TimeZone.getDefault()
             }
+            if (Constants.language == "ar") {
+                val date = originalFormat.parse(inputDate)
 
-            targetFormat.format(date!!)
+                var formattedDate = targetFormat.format(date!!)
+
+                val englishMonthsMMMM = arrayOf(
+                    "January", "February", "March", "April",
+                    "May", "June", "July", "August",
+                    "September", "October", "November", "December"
+                )
+
+                val arabicMonthsMMMM = arrayOf(
+                    "يناير", "فبراير", "مارس", "أبريل",
+                    "مايو", "يونيو", "يوليو", "أغسطس",
+                    "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+                )
+
+                for (i in englishMonthsMMMM.indices) {
+                    formattedDate =
+                        formattedDate.replace(
+                            englishMonthsMMMM[i],
+                            arabicMonthsMMMM[i]
+                        )
+                }
+
+                val englishMonths = arrayOf(
+                    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                )
+
+                val arabicMonths = arrayOf(
+                    "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+                    "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+                )
+
+                for (i in englishMonths.indices) {
+                    formattedDate =
+                        formattedDate.replace(
+                            englishMonths[i],
+                            arabicMonths[i]
+                        )
+                }
+
+                val englishDays = arrayOf(
+                    "Sun", "Mon", "Tue", "Wed",
+                    "Thu", "Fri", "Sat"
+                )
+
+                val arabicDays = arrayOf(
+                    "الأحد", "الاثنين", "الثلاثاء", "الأربعاء",
+                    "الخميس", "الجمعة", "السبت"
+                )
+
+                for (i in englishDays.indices) {
+                    formattedDate = formattedDate.replace(
+                        englishDays[i],
+                        arabicDays[i]
+                    )
+                }
+
+                formattedDate = formattedDate
+                    .replace("AM", "ص")
+                    .replace("PM", "م")
+                return formattedDate
+            }
+            else {
+
+
+
+
+                targetFormat.format(date!!)
+            }
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -796,8 +933,8 @@ object CommonMethod {
         return end != null && today.after(end)
     }
 
-    fun formatChatTime(context: Context, inputTime: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH)
+    fun formatChatTime(context: Context, inputTime: String,inputFormat: String="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): String {
+        val inputFormat = SimpleDateFormat(inputFormat, Locale.ENGLISH)
         val timeFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
         val fullDateFormat = SimpleDateFormat("dd/MM/yy, hh:mm a", Locale.ENGLISH)
 

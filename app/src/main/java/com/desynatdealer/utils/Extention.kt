@@ -319,6 +319,9 @@ fun openCustomPreSelectedDatePicker(
     initialDate: Long? = null,
     onClick: (date: String, timestamp: Long) -> Unit
 ) {
+    val locale: Locale = Locale(if (Constants.language=="ar") "ar-u-nu-latn" else "en")
+    Locale.setDefault(locale)
+
     val today = Calendar.getInstance()
     val cal = Calendar.getInstance()
 
@@ -333,7 +336,7 @@ fun openCustomPreSelectedDatePicker(
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, month)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            val selectedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(cal.time)
+            val selectedDate = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(cal.time)
             onClick(selectedDate, cal.timeInMillis)
         },
         cal.get(Calendar.YEAR),
@@ -351,6 +354,10 @@ fun openCustomDatePicker(
     minDate: Long? = null,
     onClick: (String, Long) -> Unit
 ) {
+
+    val locale: Locale = Locale(if (Constants.language=="ar") "ar-u-nu-latn" else "en")
+    Locale.setDefault(locale)
+
     val today = Calendar.getInstance()
 
     val datePickerDialog = DatePickerDialog(
