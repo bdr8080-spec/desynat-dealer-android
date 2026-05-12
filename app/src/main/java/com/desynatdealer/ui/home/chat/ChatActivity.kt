@@ -630,7 +630,7 @@ class ChatActivity : BaseActivity() {
                 "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice ?: 0.0)} ${getString(R.string.kd)}"
             tvDiscountPrice.text =
                 "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice ?: 0.0)} ${getString(R.string.kd)}"
-            tvProductName.text = chatDetailData?.productVariation?.productDetails?.productNameEn
+            tvProductName.text = if (Constants.language=="ar") chatDetailData?.productVariation?.productDetails?.productNameAr else chatDetailData?.productVariation?.productDetails?.productNameEn
             tvSizeValue.text = if(Constants.language=="ar") chatDetailData?.productVariation?.size?.nameArabic.toString() else chatDetailData?.productVariation?.size?.name.toString()
 
             tvTotalQuantityValue.text = chatDetailData?.quantity.toString()

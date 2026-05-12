@@ -19,6 +19,7 @@ import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.ui.home.response.GetDashboardDataResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.utils.CommonMethod
+import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.openCustomDatePicker
@@ -499,23 +500,58 @@ class HomeFragment : BaseFragment() {
         val entries = ArrayList<Entry>()
         val months = ArrayList<String>()
 
-        when (analytics){
-            "1"->{
+        val isArabic = Constants.language == "ar"
+
+        val monthMapArabic = mapOf(
+            "Jan" to "يناير",
+            "Feb" to "فبراير",
+            "Mar" to "مارس",
+            "Apr" to "أبريل",
+            "May" to "مايو",
+            "Jun" to "يونيو",
+            "Jul" to "يوليو",
+            "Aug" to "أغسطس",
+            "Sep" to "سبتمبر",
+            "Oct" to "أكتوبر",
+            "Nov" to "نوفمبر",
+            "Dec" to "ديسمبر"
+        )
+
+        when (analytics) {
+            "1" -> {
                 dashboardData?.orderAnalytics?.forEachIndexed { index, item ->
+
+                    val monthName =
+                        if (isArabic)
+                            monthMapArabic[item.month] ?: item.month
+                        else
+                            item.month
+
                     entries.add(Entry(index.toFloat(), item.orders.toFloat()))
-                    months.add(item.month)
+                    months.add(monthName)
                 }
             }
-            "2"->{
+
+            "2" -> {
                 dashboardData?.visitorAnalytics?.forEachIndexed { index, item ->
+
+                    val monthName =
+                        if (isArabic)
+                            monthMapArabic[item.month] ?: item.month
+                        else
+                            item.month
+
                     entries.add(Entry(index.toFloat(), item.totalVisitors.toFloat()))
-                    months.add(item.month)
+                    months.add(monthName)
                 }
             }
         }
 
+        val dataSet = LineDataSet(
+            entries,
+            if (analytics == "1") getString(R.string.orders) else getString(R.string.visitor_analytics)
+        )
 
-        val dataSet = LineDataSet(entries, if (analytics=="1") "Orders" else "Visitors")
 
         dataSet.color = resources.getColor(R.color.black)
         dataSet.setCircleColor(Color.parseColor("#F3D1A2"))

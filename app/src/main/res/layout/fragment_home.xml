@@ -1108,7 +1108,7 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/getTheGraph"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/_150sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 app:layout_constraintEnd_toEndOf="parent"
