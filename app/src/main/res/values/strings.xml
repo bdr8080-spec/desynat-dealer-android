@@ -643,6 +643,8 @@
     <string name="in_active">In-Active</string>
     <string name="busy_on">Busy/On</string>
     <string name="busy_off">Busy/Off</string>
+    <string name="busy">Busy</string>
+    <string name="open">Open</string>
     <string name="monthly">Monthly</string>
     <string name="logout_successfully">Logout successfully</string>
     <string name="account_deleted_successfully">Account Deleted Successfully !</string>

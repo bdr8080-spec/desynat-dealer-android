@@ -245,6 +245,7 @@
             android:drawablePadding="@dimen/_2sdp"
             android:drawableTop="@drawable/switch_on"
             android:layout_marginEnd="@dimen/_15sdp"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/storeAvailability"/>
 

@@ -435,13 +435,25 @@ class HomeFragment : BaseFragment() {
 
     private fun updateStatus(){
         binding?.apply {
-            if(userInfo?.storeInfo?.storeAvailability==1){
+          /*  if(userInfo?.storeInfo?.storeAvailability==1){
                 tvSwitch.text = getString(R.string.busy_on)
                 tvSwitch.setTextColor(Color.parseColor("#8B5E3C"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
             }
             else{
                 tvSwitch.text = getString(R.string.busy_off)
+                tvSwitch.setTextColor(Color.parseColor("#666666"))
+                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
+
+            }*/
+
+            if(userInfo?.storeInfo?.storeAvailability==1){
+                tvSwitch.text = getString(R.string.open)
+                tvSwitch.setTextColor(Color.parseColor("#8B5E3C"))
+                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
+            }
+            else{
+                tvSwitch.text = getString(R.string.busy)
                 tvSwitch.setTextColor(Color.parseColor("#666666"))
                 tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
 

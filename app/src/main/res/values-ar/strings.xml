@@ -653,6 +653,8 @@
     <string name="in_active">غير نشط</string>
     <string name="busy_on">مشغول/تشغيل</string>
     <string name="busy_off">مشغول/إيقاف</string>
+    <string name="busy">مشغول</string>
+    <string name="open">مفتوح</string>
     <string name="monthly">شهري</string>
 
     <string name="logout_successfully">تم تسجيل الخروج بنجاح</string>
