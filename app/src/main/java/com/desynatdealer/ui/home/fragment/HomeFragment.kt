@@ -336,7 +336,6 @@ class HomeFragment : BaseFragment() {
             when(result){
                 ApiResult.Loading -> {
                     binding?.progressBar?.isVisible = true
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
                 is ApiResult.Success -> {
                     binding?.progressBar?.isVisible = false
@@ -368,7 +367,6 @@ class HomeFragment : BaseFragment() {
             when(result){
                 ApiResult.Loading -> {
                     binding?.progressBar?.isVisible = true
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
                 }
                 is ApiResult.Success -> {
                     binding?.progressBar?.isVisible = false
