@@ -799,7 +799,7 @@
     <string name="host_left">غادر المضيف</string>
 
     <string name="send_new_live_request">إرسال طلب بث مباشر جديد</string>
-    <string name="total_coverages_03">إجمالي التغطيات - 03</string>
+    <string name="total_coverages_03">إجمالي التغطيات</string>
     <string name="select_time">اختر الوقت</string>
     <string name="quotation_modified_successfully">تم تعديل عرض السعر بنجاح!</string>
     <string name="quotation_sent_successfully">تم إرسال عرض السعر بنجاح!</string>

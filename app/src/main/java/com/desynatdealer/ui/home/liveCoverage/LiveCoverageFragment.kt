@@ -330,6 +330,7 @@ class LiveCoverageFragment : BaseFragment() {
                     result.data?.data?.let { timeSlotList.addAll(it) }
                     timeSlotAdapter?.notifyDataSetChanged()
                     dialogBinding?.tvNoDataFound?.isVisible = timeSlotList.isEmpty()
+                    dialogBinding?.tvChooseDate?.text = "${requireActivity().getString(R.string.total_coverages_03)}- ${timeSlotList.size}"
                     viewModel.getTimeSlotResponse.value = null
                 }
                 is ApiResult.Error -> {
