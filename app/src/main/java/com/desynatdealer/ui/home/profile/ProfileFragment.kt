@@ -95,10 +95,25 @@ class ProfileFragment : BaseFragment() {
 
             ivProfileImage.setOnClickListener {
                 if (SharedPreference.get(requireActivity()).userType=="1"){
-                    val bundle = Bundle().apply {
-                        putString("staffId", userInfo?.id.toString())
+                    if (storyList.size != 0) {
+                        val bundle = Bundle().apply {
+                            putString("from", "story")
+                            putString("storyData", Gson().toJson(storyList))
+                        }
+                        findNavController().navigate(
+                            R.id.action_profileFragment_to_viewStoryFragment,
+                            bundle
+                        )
                     }
-                    findNavController().navigate(R.id.action_profileFragment_to_staffDetailFragment,bundle)
+                    else {
+                        val bundle = Bundle().apply {
+                            putString("staffId", userInfo?.id.toString())
+                        }
+                        findNavController().navigate(
+                            R.id.action_profileFragment_to_staffDetailFragment,
+                            bundle
+                        )
+                    }
                 }
                 else {
                     if (storyList.size != 0) {
@@ -110,6 +125,9 @@ class ProfileFragment : BaseFragment() {
                             R.id.action_profileFragment_to_viewStoryFragment,
                             bundle
                         )
+                    }
+                    else{
+                        findNavController().navigate(R.id.action_profileFragment_to_viewProfileFragment)
                     }
                 }
             }

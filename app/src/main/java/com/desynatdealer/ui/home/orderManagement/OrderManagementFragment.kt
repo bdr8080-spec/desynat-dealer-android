@@ -256,12 +256,13 @@ class OrderManagementFragment : BaseFragment() {
             when (result) {
                 ApiResult.Loading -> {
                     if (!isFromSwipe) {
-                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                        binding?.progressBar?.isVisible = true
                     }
                 }
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    binding?.progressBar?.isVisible = false
                     if (isFromSwipe) {
                         binding?.swipeRefreshLayout?.isRefreshing = false
                         isFromSwipe = false
@@ -281,6 +282,7 @@ class OrderManagementFragment : BaseFragment() {
 
                 is ApiResult.Error -> {
                     binding?.swipeRefreshLayout?.isRefreshing = false
+                    binding?.progressBar?.isVisible = false
                     isFromSwipe = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
@@ -300,6 +302,7 @@ class OrderManagementFragment : BaseFragment() {
                 }
 
                 is ApiResult.Success -> {
+                    binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     (requireActivity() as HomeActivity).updateAdapterCount(
                         0
@@ -308,6 +311,7 @@ class OrderManagementFragment : BaseFragment() {
                 }
 
                 is ApiResult.Error -> {
+                    binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     viewModel.markAllOrderNotificationResponse.value = null
                 }

@@ -124,14 +124,14 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDate"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:fontFamily="@font/poppins_regular"
                 android:singleLine="true"
                 android:text="Added on- 21/02/2025"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_11sdp"
+                android:textSize="@dimen/_10sdp"
                 android:textAlignment="viewEnd"
                 app:layout_constraintBottom_toBottomOf="@+id/tvBrand"
                 app:layout_constraintEnd_toEndOf="parent"

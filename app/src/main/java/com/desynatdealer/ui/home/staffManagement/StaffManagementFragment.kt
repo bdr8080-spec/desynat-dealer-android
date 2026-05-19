@@ -354,10 +354,10 @@ class StaffManagementFragment : BaseFragment() {
             if (statusFilter!=null){
                 tempStatusFilter = statusFilter
                 when(tempStatusFilter){
-                    "1"->{
+                    "0"->{
                         rbActive.isChecked = true
                     }
-                    "0"->{
+                    "1"->{
                         rbInactive.isChecked = true
                     }
                 }
@@ -375,8 +375,8 @@ class StaffManagementFragment : BaseFragment() {
 
             radioGroup.setOnCheckedChangeListener { _, checkedId ->
                 tempStatusFilter = when (checkedId) {
-                    R.id.rbActive -> "1"
-                    R.id.rbInactive -> "0"
+                    R.id.rbActive -> "0"
+                    R.id.rbInactive -> "1"
                     else -> null
                 }
             }

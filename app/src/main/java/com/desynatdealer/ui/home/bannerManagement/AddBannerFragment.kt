@@ -182,12 +182,18 @@ class AddBannerFragment : BaseFragment() {
             }
 
             etTo.setOnClickListener {
-                openCustomDatePicker(requireActivity(), minDate = fromTimestamp) { date, timestamp ->
-                    etTo.setText(date)
-                    endDate = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
-                    toTimestamp = normalizeTime(timestamp)
-                    calculateDays()
+                if (startDate!=null){
+                    openCustomDatePicker(requireActivity(), minDate = fromTimestamp) { date, timestamp ->
+                        etTo.setText(date)
+                        endDate = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
+                        toTimestamp = normalizeTime(timestamp)
+                        calculateDays()
+                    }
                 }
+                else{
+                    showToast(getString(R.string.please_select_start_date_first))
+                }
+
             }
 
             ivBanner.setOnClickListener {
@@ -387,7 +393,9 @@ class AddBannerFragment : BaseFragment() {
             etCategory.setText("")
             etSubCategory.setText("")
             endDate = null
+            startDate = null
             etTo.setText("")
+            etFrom.setText("")
             setDefaultFromDate()
             days = 0
             bannerUrl = null
@@ -526,13 +534,13 @@ class AddBannerFragment : BaseFragment() {
         cal.set(Calendar.MILLISECOND, 0)
 
         currentTimeStamp = cal.timeInMillis
-        fromTimestamp = cal.timeInMillis
+      //  fromTimestamp = cal.timeInMillis
 
         val display = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(cal.time)
         val api = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.time)
 
-        startDate = api
-        binding?.etFrom?.setText(display)
+//        startDate = api
+//        binding?.etFrom?.setText(display)
     }
 
 

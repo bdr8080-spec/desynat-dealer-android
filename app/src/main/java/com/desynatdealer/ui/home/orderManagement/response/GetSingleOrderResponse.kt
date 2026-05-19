@@ -341,7 +341,7 @@ data class GetSingleOrderResponse(
                 @SerializedName("status")
                 val status: Int,
                 @SerializedName("street_no")
-                val streetNo: Any,
+                val streetNo: String,
                 @SerializedName("updated_at")
                 val updatedAt: String,
                 @SerializedName("user_id")

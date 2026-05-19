@@ -1086,6 +1086,8 @@
                 android:clickable="true"
                 android:focusable="false"
                 android:editable="false"
+                android:textColorHint="#CC000000"
+                android:fontFamily="@font/poppins_medium"
                 android:textAlignment="viewStart"
                 android:drawableEnd="@drawable/ic_arrow_down_brown"
                 android:paddingHorizontal="@dimen/_10sdp"

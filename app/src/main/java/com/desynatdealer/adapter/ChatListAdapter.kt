@@ -35,7 +35,14 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
                 else{
                     tvLastMsg.isVisible = true
                 }
-                tvLastMsg.text = if (Constants.language=="ar") chatData?.lastChatArabic?:chatData?.lastChat else chatData?.lastChat
+            
+            
+                tvLastMsg.text = if (chatData?.messageType=="1"){
+                    context.getString(R.string.sent_an_attachment)
+                }
+            else{
+                    if (Constants.language=="ar") chatData?.lastChatArabic?:chatData?.lastChat else chatData?.lastChat
+                }
                 if (chatData.lastChatTime!=null&&chatData.lastChatTime!="null"&&chatData.lastChatTime!="") {
                     tvTime.text = chatData?.lastChatTime.toString()
                     tvTime.text = CommonMethod.formatChatTime(context,

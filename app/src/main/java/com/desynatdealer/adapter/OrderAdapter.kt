@@ -41,7 +41,8 @@ class OrderAdapter(
                 }
                 tvName.text = orderData?.userDetails?.fullName
                 tvOrderIdValue.text = "#${orderData?.id}"
-                tvShippingLocation.text = orderData?.order?.deliveryDetails?.address
+            //    tvShippingLocation.text = orderData?.order?.deliveryDetails?.address
+                tvShippingLocation.text = setAddress(orderData?.order?.deliveryDetails)
                 tvQuantityValue.text = orderData?.quantity
                 tvProductName.text = if (Constants.language=="ar") orderData?.productDetails?.productNameAr else orderData?.productDetails?.productNameEn
                 tvOrderDateTime.text = CommonMethod.customizeChangeDateFormat(
@@ -172,6 +173,46 @@ class OrderAdapter(
             }
         }
         }
+
+    private fun setAddress(delivery: GetAllOrderResponse.Data.AllOrder.Order.DeliveryDetails?): String{
+
+            val address = delivery?.address ?: ""
+            val city = delivery?.city ?: ""
+            val country = delivery?.countryName ?: ""
+
+            val addressList = mutableListOf<String>()
+
+            if (address.isNotBlank()) {
+                addressList.add(address)
+            }
+
+            delivery?.houseNo?.takeIf { it.isNotBlank() }?.let {
+                addressList.add(it)
+            }
+
+            delivery?.streetNo?.takeIf { it.isNotBlank() }?.let {
+                addressList.add(it)
+            }
+
+            if (city.isNotBlank() && !address.contains(city, true)) {
+                addressList.add(city)
+            }
+
+            delivery?.state?.takeIf { it.isNotBlank() }?.let {
+                addressList.add(it)
+            }
+
+            if (country.isNotBlank() && !address.contains(country, true)) {
+                addressList.add(country)
+            }
+
+            delivery?.postalCode?.takeIf { it.isNotBlank() }?.let {
+                addressList.add(it)
+            }
+
+           return addressList.joinToString(", ")
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(

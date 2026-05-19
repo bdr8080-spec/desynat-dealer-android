@@ -29,12 +29,7 @@ class LiveCoverageRequestAdapter(var context:Context, var liveRequestList: Array
             val liveRequestData = liveRequestList[position]
 
                 tvRequestId.text = "#${liveRequestData?.orderId}"
-                tvLiveRequest.text = "${
-                    CommonMethod.customizeChangeDateFormat(liveRequestData?.timeslotDetails?.date.toString(), inputFormat = "yyyy-MM-dd", outputFormat = "dd/MM/yyyy")} '${
-                    context.getString(
-                        R.string.at
-                    )
-                }' ${CommonMethod.customizeChangeDateFormatZone(liveRequestData?.timeslotDetails?.from.toString(),"hh:mm a","hh:mm a")}"
+                tvLiveRequest.text = "${CommonMethod.customizeChangeDateFormat(liveRequestData?.timeslotDetails?.date.toString(), inputFormat = "yyyy-MM-dd", outputFormat = "dd/MM/yyyy")} ${context.getString(R.string.at)} ${CommonMethod.customizeChangeDateFormatZone(liveRequestData?.timeslotDetails?.from.toString(),"hh:mm a","hh:mm a")}"
 
                 tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(liveRequestData?.createdAt.toString(), outputFormat = "dd/MM/yyyy '${context.getString(R.string.at)}' hh:mm a")
                 when(liveRequestData?.adminVerify){

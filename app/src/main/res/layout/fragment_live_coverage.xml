@@ -91,7 +91,7 @@
                         android:id="@+id/tvSelectDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/select_date_for_live"
+                        android:text="@string/select_date"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_13sdp"
                         android:fontFamily="@font/poppins_medium"

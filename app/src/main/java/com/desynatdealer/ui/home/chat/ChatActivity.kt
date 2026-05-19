@@ -564,8 +564,13 @@ class ChatActivity : BaseActivity() {
             }
 
             tvSend.setOnClickListener {
+                val price = etPerItemPrice.text?.trim().toString().toDoubleOrNull() ?: 0.0
+
                 if (etPerItemPrice.text?.trim()?.isEmpty() == true) {
                     showToast(getString(R.string.please_enter_per_item_price))
+                }
+                else if (price <= 0.0) {
+                    showToast(getString(R.string.price_must_be_greater_than_zero))
                 }
                 /* else if (etShippingFee.text?.trim()?.isEmpty() == true){
                      showToast("Please enter delivery charge")
@@ -632,6 +637,9 @@ class ChatActivity : BaseActivity() {
                 "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice ?: 0.0)} ${getString(R.string.kd)}"
             tvProductName.text = if (Constants.language=="ar") chatDetailData?.productVariation?.productDetails?.productNameAr else chatDetailData?.productVariation?.productDetails?.productNameEn
             tvSizeValue.text = if(Constants.language=="ar") chatDetailData?.productVariation?.size?.nameArabic.toString() else chatDetailData?.productVariation?.size?.name.toString()
+            tvSize.text = getString(R.string.size)+":"
+            tvColor.text = getString(R.string.color)+":"
+            ivColor.setColorFilter(Color.parseColor(chatDetailData?.productVariation?.color?.hexCode))
 
             tvTotalQuantityValue.text = chatDetailData?.quantity.toString()
             if (chatDetailData?.orderCreateStatus?.order?.deliveryAddress != null) {
@@ -662,7 +670,8 @@ class ChatActivity : BaseActivity() {
                 }
                 tvSizeValue.text = if(Constants.language=="ar") chatDetailData?.productVariation?.size?.nameArabic.toString() else chatDetailData?.productVariation?.size?.name.toString()
                 ivColor.setColorFilter(Color.parseColor(chatDetailData?.productVariation?.color?.hexCode))
-
+                tvSize.text = getString(R.string.size)+":"
+                tvColor.text = getString(R.string.color)+":"
                 tvPrice.text =
                     "${CommonMethod.formatPrice(chatDetailData?.productVariation?.actualPrice ?: 0.0)} ${getString(R.string.kd)}"
                 tvDiscountPrice.text =

@@ -957,15 +957,15 @@ object CommonMethod {
             messageDate.after(startOfToday) -> {
                 "${context.getString(R.string.today)}, ${
                     timeFormat.format(messageDate)
-                        .replace("AM", "ص")
-                        .replace("PM", "م")
+                        .replace("AM", if (Constants.language=="ar")"ص" else "AM")
+                        .replace("PM", if (Constants.language=="ar")"م" else "PM")
                 }"
             }
 
             messageDate.after(startOfYesterday) -> {
                 "${context.getString(R.string.yesterday)}, ${
-                    timeFormat.format(messageDate).replace("AM", "ص")
-                        .replace("PM", "م")
+                    timeFormat.format(messageDate).replace("AM", if (Constants.language=="ar")"ص" else "AM")
+                        .replace("PM", if (Constants.language=="ar")"م" else "PM")
                 }"
             }
 
@@ -975,12 +975,12 @@ object CommonMethod {
 
                 if (daysDiff in 2..30) {
                     "$daysDiff ${context.getString(R.string.days_ago)}, ${
-                        timeFormat.format(messageDate).replace("AM", "ص")
-                            .replace("PM", "م")
+                        timeFormat.format(messageDate).replace("AM", if (Constants.language=="ar")"ص" else "AM")
+                            .replace("PM", if (Constants.language=="ar")"م" else "PM")
                     }"
                 } else {
-                    fullDateFormat.format(messageDate).replace("AM", "ص")
-                        .replace("PM", "م")
+                    fullDateFormat.format(messageDate).replace("AM", if (Constants.language=="ar")"ص" else "AM")
+                        .replace("PM", if (Constants.language=="ar")"م" else "PM")
                 }
             }
         }

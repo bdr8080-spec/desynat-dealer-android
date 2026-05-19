@@ -28,6 +28,8 @@ data class GetChatListResponse(
         val productBuyStatus: String,
         @SerializedName("last_chat")
         val lastChat: String,
+        @SerializedName("message_type")
+        val messageType: String,
         @SerializedName("last_chat_ar")
         val lastChatArabic: String,
         @SerializedName("last_chat_time")

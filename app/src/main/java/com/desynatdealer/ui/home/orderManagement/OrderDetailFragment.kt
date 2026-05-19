@@ -726,7 +726,8 @@ class OrderDetailFragment : BaseFragment() {
             tvName.text = orderDetailData?.order?.userDetails?.fullName
             tvPhoneNumber.text = orderDetailData?.order?.userDetails?.countryCode+ " "+orderDetailData?.order?.userDetails?.mobile
             tvMailId.text = orderDetailData?.order?.userDetails?.email
-            tvShippingLocation.text = orderDetailData?.order?.deliveryDetails?.address
+          //  tvShippingLocation.text = orderDetailData?.order?.deliveryDetails?.address
+            setAddress()
             ivUser.setImage(orderDetailData?.order?.userDetails?.profileImage,R.drawable.ic_user)
 //            ivUser.load(orderDetailData?.order?.userDetails?.profileImage) {
 //                crossfade(true)
@@ -863,6 +864,48 @@ class OrderDetailFragment : BaseFragment() {
                 tvCouponAppliedValue.isVisible = false
                 tvSaved.isVisible = false
             }
+        }
+    }
+
+    private fun setAddress(){
+        binding?.apply {
+            val delivery = orderDetailData?.order?.deliveryDetails
+
+            val address = delivery?.address ?: ""
+            val city = delivery?.city ?: ""
+            val country = delivery?.countryName ?: ""
+
+            val addressList = mutableListOf<String>()
+
+            if (address.isNotBlank()) {
+                addressList.add(address)
+            }
+
+            delivery?.houseNo?.takeIf { it.isNotBlank() }?.let {
+                addressList.add(it)
+            }
+
+            delivery?.streetNo?.takeIf { it.isNotBlank() }?.let {
+                addressList.add(it)
+            }
+
+            if (city.isNotBlank() && !address.contains(city, true)) {
+                addressList.add(city)
+            }
+
+            delivery?.state?.takeIf { it.isNotBlank() }?.let {
+                addressList.add(it)
+            }
+
+            if (country.isNotBlank() && !address.contains(country, true)) {
+                addressList.add(country)
+            }
+
+            delivery?.postalCode?.takeIf { it.isNotBlank() }?.let {
+                addressList.add(it)
+            }
+
+            tvShippingLocation.text = addressList.joinToString(", ")
         }
     }
 

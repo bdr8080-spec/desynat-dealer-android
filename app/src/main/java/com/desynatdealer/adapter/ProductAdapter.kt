@@ -63,7 +63,7 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
                 }
                 else{
                     tvSwitch.text = context.getString(R.string.inactive)
-                    tvSwitch.setTextColor(Color.parseColor("#875C3A"))
+                    tvSwitch.setTextColor(Color.parseColor("#E70000"))
                     tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
 
                 }

@@ -36,22 +36,23 @@ import kotlin.getValue
 
 @AndroidEntryPoint
 class AddStaffFragment : BaseFragment() {
-    private var binding : FragmentAddStaffBinding?=null
+    private var binding: FragmentAddStaffBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
     private var isEdit: Boolean = false
+    private var isImagePicker = false
 
-    private var accessModuleAdapter: AddAccessModuleAdapter?=null
+    private var accessModuleAdapter: AddAccessModuleAdapter? = null
     private var accessModuleList = ArrayList<AddNewStaffRequest.MenuId>()
     private var previousAccessModuleList = ArrayList<GetAllStaffResponse.Data.Data.RoleAction>()
 
-    private var staffData: GetAllStaffResponse.Data.Data?=null
+    private var staffData: GetAllStaffResponse.Data.Data? = null
 
-    private var staffRoleAdapter: StaffRoleAdapter?=null
+    private var staffRoleAdapter: StaffRoleAdapter? = null
     private var staffRoleList = ArrayList<GetStaffCategoryResponse.Data>()
-    private var staffRoleId: String=""
+    private var staffRoleId: String = ""
     private var profileImage: File? = null
-    private var profileImageUrl: String?=null
-    private var image: MultipartBody.Part?=null
+    private var profileImageUrl: String? = null
+    private var image: MultipartBody.Part? = null
     private lateinit var imagePicker: ImagePicker
 
     var countryList = ArrayList<GetCountryResponse.Data>()
@@ -75,7 +76,7 @@ class AddStaffFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAddStaffBinding.inflate(layoutInflater, container,false)
+        binding = FragmentAddStaffBinding.inflate(layoutInflater, container, false)
         return binding?.root
     }
 
@@ -92,6 +93,7 @@ class AddStaffFragment : BaseFragment() {
         val itemJson = arguments?.getString("staffData")
         if (!itemJson.isNullOrEmpty()) {
             staffData = Gson().fromJson(itemJson, GetAllStaffResponse.Data.Data::class.java)
+            isEdit = true
             setData()
         }
         binding?.apply {
@@ -105,7 +107,10 @@ class AddStaffFragment : BaseFragment() {
 
             etPassword.togglePasswordVisibility(ivPasswordVisible)
             etConfirmPassword.togglePasswordVisibility(ivConfirmPasswordVisible)
-            if (SharedPreference.get(requireActivity()).userType=="1"&&SharedPreference.get(requireActivity()).getStaff()?.id.toString()==staffData?.id.toString()) {
+            if (SharedPreference.get(requireActivity()).userType == "1" && SharedPreference.get(
+                    requireActivity()
+                ).getStaff()?.id.toString() == staffData?.id.toString()
+            ) {
                 tvPassword.isVisible = false
                 tvConfirmPassword.isVisible = false
                 relPassword.isVisible = false
@@ -114,14 +119,13 @@ class AddStaffFragment : BaseFragment() {
                 rvAccessModule.isVisible = false
             }
 
-            if (staffData!=null){
+            if (staffData != null) {
                 toolbar.tvToolbar.text = getString(R.string.edit)
                 tvAdd.text = getString(R.string.save_changes)
                 ivProfileImage.isVisible = true
                 tvChangeImage.isVisible = true
                 ivProfile.isVisible = false
-            }
-            else{
+            } else {
                 toolbar.tvToolbar.text = getString(R.string.add_new_staff)
                 tvAdd.text = getString(R.string.add)
                 ivProfileImage.isVisible = false
@@ -137,20 +141,19 @@ class AddStaffFragment : BaseFragment() {
             ) { uri ->
                 uri?.let {
                     profileImage = CommonMethod.uriToFile(requireActivity(), it)
-                    if (isEdit){
+                    if (isEdit) {
                         ivProfileImage.setImageURI(it)
-                    }
-                    else{
+                    } else {
                         ivProfile.setImageURI(it)
                     }
                     image = profileImage?.toMultiPartBody("file")
                     clPlaceholder.isVisible = false
-
+                    isImagePicker = false
                 }
             }
 
-            staffRoleAdapter = StaffRoleAdapter(requireActivity(),staffRoleList,object :
-                StaffRoleAdapter.OnClick{
+            staffRoleAdapter = StaffRoleAdapter(requireActivity(), staffRoleList, object :
+                StaffRoleAdapter.OnClick {
                 override fun ClickOnItem(position: Int, type: String) {
                     staffRoleId = staffRoleList[position].id
                 }
@@ -158,57 +161,62 @@ class AddStaffFragment : BaseFragment() {
             })
             rvRole.adapter = staffRoleAdapter
 
-            accessModuleAdapter = AddAccessModuleAdapter(requireActivity(),accessModuleList,object :AddAccessModuleAdapter.OnClick{
-                override fun ClickOnItem(position: Int, type: String) {
-                    val item = accessModuleList[position]
+            accessModuleAdapter = AddAccessModuleAdapter(
+                requireActivity(),
+                accessModuleList,
+                object : AddAccessModuleAdapter.OnClick {
+                    override fun ClickOnItem(position: Int, type: String) {
+                        val item = accessModuleList[position]
 
-                    when (type) {
+                        when (type) {
 
-                        "module" -> {
-                            item.isSelected = !item.isSelected
+                            "module" -> {
+                                item.isSelected = !item.isSelected
 
-                            if (item.isSelected) {
-                                item.canView = 1
-                                item.canAction = 0
-                            } else {
-                                item.canView = 0
-                                item.canAction = 0
-                            }
-                        }
-
-                        "view" -> {
-                            if (item.isSelected) {
-                                if (item.canView == 1) {
-                                    item.isSelected = false
-                                    item.canView = 0
+                                if (item.isSelected) {
+                                    item.canView = 1
                                     item.canAction = 0
                                 } else {
-                                    item.canView = 1
+                                    item.canView = 0
                                     item.canAction = 0
                                 }
                             }
-                        }
 
-                        "action" -> {
-                            if (item.isSelected) {
-                                item.canAction = if (item.canAction == 1) 0 else 1
+                            "view" -> {
+                                if (item.isSelected) {
+                                    if (item.canView == 1) {
+                                        item.isSelected = false
+                                        item.canView = 0
+                                        item.canAction = 0
+                                    } else {
+                                        item.canView = 1
+                                        item.canAction = 0
+                                    }
+                                }
+                            }
 
-                                if (item.canAction == 1) {
-                                    item.canView = 1
+                            "action" -> {
+                                if (item.isSelected) {
+                                    item.canAction = if (item.canAction == 1) 0 else 1
+
+                                    if (item.canAction == 1) {
+                                        item.canView = 1
+                                    }
                                 }
                             }
                         }
+
+                        accessModuleAdapter?.notifyItemChanged(position)
                     }
 
-                    accessModuleAdapter?.notifyItemChanged(position)
-                }
-
-            })
+                })
             rvAccessModule.adapter = accessModuleAdapter
         }
 
-        viewModel.getStaffRole()
-        viewModel.getSellerAllMenu()
+        if (!isImagePicker) {
+            viewModel.getStaffRole()
+            viewModel.getSellerAllMenu()
+        }
     }
 
     override fun initControl() {
@@ -218,16 +226,23 @@ class AddStaffFragment : BaseFragment() {
             }
 
             tvChangeImage.setOnClickListener {
+                isImagePicker = true
                 imagePicker.showImageSourceDialog()
             }
 
             tvCountryPicker.setOnClickListener {
-                CommonMethod.showCountryPicker(requireActivity(),clMobile,countryList,true){countryData->
+                CommonMethod.showCountryPicker(
+                    requireActivity(),
+                    clMobile,
+                    countryList,
+                    true
+                ) { countryData ->
                     tvCountryPicker.text = countryData.dialCode
                 }
             }
 
             ivProfile.setOnClickListener {
+                isImagePicker = true
                 imagePicker.showImageSourceDialog()
             }
 
@@ -236,11 +251,10 @@ class AddStaffFragment : BaseFragment() {
             }
 
             tvAdd.setOnClickListener {
-                if (isValid()){
-                    if (profileImage!=null){
+                if (isValid()) {
+                    if (profileImage != null) {
                         viewModel.upload(image)
-                    }
-                    else{
+                    } else {
                         addStaff()
                     }
 
@@ -284,8 +298,8 @@ class AddStaffFragment : BaseFragment() {
                     staffRoleList.clear()
                     result?.data?.data?.let { staffRoleList.addAll(it) }
                     staffRoleAdapter?.notifyDataSetChanged()
-                    for (i in 0 until staffRoleList.size){
-                        if (staffRoleList[i].id==staffRoleId){
+                    for (i in 0 until staffRoleList.size) {
+                        if (staffRoleList[i].id == staffRoleId) {
                             staffRoleAdapter?.setSelected(i)
                         }
                     }
@@ -332,8 +346,10 @@ class AddStaffFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    CommonMethod.showSuccessDialog(requireActivity(),
-                        getString(R.string.staff_added_successfully)){
+                    CommonMethod.showSuccessDialog(
+                        requireActivity(),
+                        getString(R.string.staff_added_successfully)
+                    ) {
                         findNavController().popBackStack()
                     }
                     viewModel.addStaffResponse.value = null
@@ -357,16 +373,21 @@ class AddStaffFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    if (SharedPreference.get(requireActivity()).userType=="1"&&SharedPreference.get(requireActivity()).getStaff()?.id.toString()==staffData?.id.toString()) {
-                        CommonMethod.showSuccessDialog(requireActivity(),
-                            getString(R.string.profile_updated_successfully)){
+                    if (SharedPreference.get(requireActivity()).userType == "1" && SharedPreference.get(
+                            requireActivity()
+                        ).getStaff()?.id.toString() == staffData?.id.toString()
+                    ) {
+                        CommonMethod.showSuccessDialog(
+                            requireActivity(),
+                            getString(R.string.profile_updated_successfully)
+                        ) {
                             findNavController().popBackStack()
                         }
-                    }
-
-                    else{
-                        CommonMethod.showSuccessDialog(requireActivity(),
-                            getString(R.string.staff_updated_successfully)){
+                    } else {
+                        CommonMethod.showSuccessDialog(
+                            requireActivity(),
+                            getString(R.string.staff_updated_successfully)
+                        ) {
                             findNavController().popBackStack()
                         }
                     }
@@ -385,7 +406,7 @@ class AddStaffFragment : BaseFragment() {
         }
     }
 
-    private fun addStaff(){
+    private fun addStaff() {
         val selectedModules = accessModuleList.filter { it.isSelected }
 
         val request = AddNewStaffRequest(
@@ -398,23 +419,22 @@ class AddStaffFragment : BaseFragment() {
             profilePic = profileImageUrl.toString(),
             selectCategory = staffRoleId,
             menuId = selectedModules,
-            id = if (staffData!=null) staffData?.id.toString() else null
+            id = if (staffData != null) staffData?.id.toString() else null
         )
-        if (staffData!=null) {
+        if (staffData != null) {
             viewModel.updateStaff(request)
-        }
-        else{
+        } else {
             viewModel.addNewStaff(request)
         }
     }
 
-    private fun setData(){
+    private fun setData() {
         binding?.apply {
             profileImageUrl = staffData?.profilePic.toString()
             previousAccessModuleList.clear()
             Glide.with(requireActivity()).load(profileImageUrl).into(ivProfile)
             Glide.with(requireActivity()).load(profileImageUrl).into(ivProfileImage)
-            if (profileImageUrl!=null){
+            if (profileImageUrl != null) {
                 clPlaceholder.isVisible = false
             }
             staffData?.roleAction?.let { previousAccessModuleList.addAll(it) }
@@ -423,7 +443,7 @@ class AddStaffFragment : BaseFragment() {
             etPassword.setText(staffData?.savePassword)
             etConfirmPassword.setText(staffData?.savePassword)
             etFullNameEnglish.setText(staffData?.firstName)
-          //  etFullNameEnglish.setText(staffData?.firstName+" "+staffData?.lastName)
+            //  etFullNameEnglish.setText(staffData?.firstName+" "+staffData?.lastName)
             etFullNameArabic.setText(staffData?.nameAr)
             staffRoleId = staffData?.selectCategory.toString()
         }
@@ -434,11 +454,11 @@ class AddStaffFragment : BaseFragment() {
 
         for (module in data) {
 
-                val matched = previousAccessModuleList.firstOrNull {
-                    it.menuId == module.id
-                }
+            val matched = previousAccessModuleList.firstOrNull {
+                it.menuId == module.id
+            }
 
-            if (SharedPreference.get(requireActivity()).userType=="1") {
+            if (SharedPreference.get(requireActivity()).userType == "1") {
                 if (matched != null) {
                     accessModuleList.add(
                         AddNewStaffRequest.MenuId(
@@ -451,8 +471,7 @@ class AddStaffFragment : BaseFragment() {
                         )
                     )
                 }
-            }
-            else{
+            } else {
                 accessModuleList.add(
                     AddNewStaffRequest.MenuId(
                         title = module.title,
@@ -473,7 +492,7 @@ class AddStaffFragment : BaseFragment() {
 
         binding?.apply {
 
-            if (profileImage == null&&profileImageUrl==null) {
+            if (profileImage == null && profileImageUrl == null) {
                 showToast(getString(R.string.please_upload_profile_image))
                 return false
             }
@@ -501,7 +520,7 @@ class AddStaffFragment : BaseFragment() {
                 showToast(getString(R.string.please_enter_mobile_number))
                 return false
             }
-            if (mobile.length < 7 ) {
+            if (mobile.length < 7) {
                 showToast(getString(R.string.mobile_number_in_between_7_15_digits))
                 return false
             }
@@ -514,8 +533,11 @@ class AddStaffFragment : BaseFragment() {
                 showToast(getString(R.string.please_enter_password))
                 return false
             }
-            if (pass.length<6) {
-                showToast(getString(R.string.password_must_be_6_digits_long))
+
+
+            if (!CommonMethod.isValidPassword(pass)) {
+                CommonMethod.showAlertDialog(requireActivity(),
+                    getString(R.string.password_must_be_at_least_8_characters_long_and_include_uppercase_lowercase_number_and_special_symbol))
                 return false
             }
 

@@ -65,7 +65,7 @@
     <string name="forgot_password">Forgot Password</string>
     <string name="otp_sent_successfully">Otp Sent Successfully</string>
     <string name="please_enter_mobile_number">Please enter mobile number</string>
-    <string name="mobile_number_must_be_between_6_and_15_digits">"Mobile number must be between 6 and 15 digits "</string>
+    <string name="mobile_number_must_be_between_6_and_15_digits">"Mobile number must be between 7 and 15 digits"</string>
     <string name="please_enter_new_password">Please enter new password</string>
     <string name="password_must_be_at_least_8_characters_long_and_include_uppercase_lowercase_number_and_special_symbol">Password must be at least 8 characters long and include uppercase, lowercase, number, and special symbol</string>
     <string name="please_enter_confirm_password">Please enter confirm password</string>
@@ -379,6 +379,7 @@
     <string name="add_new_banner">Add New Banner</string>
     <string name="please_select_date">Please select date</string>
     <string name="please_select_banner_position">Please select banner position</string>
+    <string name="please_select_start_date_first">Please select start date first</string>
     <string name="please_select_start_date">Please select start date</string>
     <string name="please_select_end_date">Please select end date</string>
     <string name="please_select_valid_date_range">Please select valid date range</string>
@@ -464,6 +465,7 @@
     //live coverage
     <string name="live_coverage">Live Coverage</string>
     <string name="select_date_for_live">Select date for live</string>
+    <string name="select_date">Select date</string>
     <string name="your_past_requests">Your past requests</string>
     <string name="live_request">Live Request</string>
     <string name="rejected_on">Rejected On</string>
@@ -771,6 +773,7 @@
     <string name="payment_failed">Payment failed</string>
     <string name="permission_permanently_denied_please_allow_from_settings">Permission permanently denied. Please allow from settings.</string>
     <string name="please_enter_per_item_price">Please enter per item price</string>
+    <string name="price_must_be_greater_than_zero">Per item price must be greater than 0</string>
     <string name="please_enter_reason">Please enter reason</string>
     <string name="please_select_reason">Please select reason</string>
     <string name="please_select_request_status">Please select request status</string>
@@ -795,8 +798,8 @@
     <string name="are_you_sure_you_want_to_delete">Are You Sure? You want to delete?</string>
     <string name="discard">Discard</string>
     <string name="upload_now">Upload Now</string>
-    <string name="staff_member_block_successfully">Staff member Block Successfully</string>
-    <string name="staff_member_unblock_successfully">Staff member UnBlock Successfully</string>
+    <string name="staff_member_block_successfully">Staff member inactive successfully</string>
+    <string name="staff_member_unblock_successfully">Staff member active successfully</string>
     <string name="product_active_successfully">Product Active Successfully</string>
     <string name="product_de_active_successfully">Product De-active Successfully</string>
     <string name="notification_is_set_to_on">Notification is set to On</string>
@@ -832,6 +835,8 @@
     <string name="eg_22">Eg. 22</string>
     <string name="eg_40">Eg. 40</string>
     <string name="eg_13208">Eg. 13208</string>
+    <string name="bought">Bought</string>
+    <string name="sent_an_attachment">Sent an attachment</string>
 
 
 </resources>

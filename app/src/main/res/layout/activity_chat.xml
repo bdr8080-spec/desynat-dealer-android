@@ -161,6 +161,7 @@
                     android:text="M"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_9sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     app:layout_constraintStart_toEndOf="@+id/tvSize"
                     app:layout_constraintTop_toTopOf="@+id/tvSize"
                     app:layout_constraintBottom_toBottomOf="@+id/tvSize"/>
@@ -173,7 +174,7 @@
                     android:fontFamily="@font/poppins_light"
                     android:text="@string/color"
                     android:drawableStart="@drawable/ic_cart_dot"
-                    android:drawablePadding="@dimen/_3sdp"
+                    android:drawablePadding="@dimen/_5sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_9sdp"
                     android:layout_marginStart="@dimen/_5sdp"
@@ -190,8 +191,8 @@
                     android:src="@color/light_brown"
                     android:layout_marginStart="@dimen/_5sdp"
                     app:shapeAppearanceOverlay="@style/rounded_corner2sdp"
-                    app:layout_constraintTop_toTopOf="@+id/tvSize"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvSize"
+                    app:layout_constraintTop_toTopOf="@+id/tvColor"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvColor"
                     app:layout_constraintStart_toEndOf="@+id/tvColor"/>
 
                 <TextView

@@ -59,7 +59,7 @@ class StaffDetailFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         staffId = arguments?.getString("staffId").toString()
-        val itemJson = arguments?.getString("staffData")
+       /* val itemJson = arguments?.getString("staffData")
         if (!itemJson.isNullOrEmpty()) {
             staffData = Gson().fromJson(itemJson, GetAllStaffResponse.Data.Data::class.java)
             setData()
@@ -67,6 +67,8 @@ class StaffDetailFragment : BaseFragment() {
         else{
             getStaffDetail()
         }
+*/
+        getStaffDetail()
 
         binding?.apply {
             if (SharedPreference.get(requireActivity()).userType == "1") {
@@ -243,9 +245,8 @@ class StaffDetailFragment : BaseFragment() {
     private fun setData(){
         binding?.apply {
             tvName.text = staffData?.firstName
-         //   tvName.text = staffData?.firstName+" "+staffData?.lastName
             tvEmail.text = staffData?.email
-            tvMobile.text = staffData?.countryCode+""+staffData?.mobile
+            tvMobile.text = staffData?.countryCode+"-"+staffData?.mobile
             tvRole.text = if (Constants.language=="ar") staffData?.sellerCategory?.nameAr else  staffData?.sellerCategory?.nameEn
             tvPasswordValue.text = staffData?.savePassword
             Glide.with(requireActivity()).load(staffData?.profilePic).placeholder(R.drawable.ic_user).into(ivProfile)
@@ -262,14 +263,13 @@ class StaffDetailFragment : BaseFragment() {
         binding?.apply {
             if(staffData?.isBlock==1){
                 tvSwitch.text = getString(R.string.inactive)
-                //     tvSwitch.setTextColor(Color.parseColor("#875C3A"))
                 tvSwitch.setTextColor(Color.parseColor("#FF3131"))
-                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
+                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.switch_off,0)
             }
             else{
                 tvSwitch.text = getString(R.string.active)
                 tvSwitch.setTextColor(Color.parseColor("#1A900D"))
-                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
+                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.switch_on,0 )
 
             }
         }

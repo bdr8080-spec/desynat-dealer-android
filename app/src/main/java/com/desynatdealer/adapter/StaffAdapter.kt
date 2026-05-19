@@ -20,7 +20,7 @@ class StaffAdapter(var context:Context, var staffList: ArrayList<GetAllStaffResp
             Glide.with(context).load(staffData?.profilePic).placeholder(R.drawable.ic_placeholder).into(ivProfile)
             tvName.text = staffData?.firstName
           //  tvName.text = staffData?.firstName+" "+staffData?.lastName
-            tvMobile.text = staffData?.countryCode+""+staffData?.mobile
+            tvMobile.text = staffData?.countryCode+"-"+staffData?.mobile
             tvPost.text = if (Constants.language=="ar") staffData?.sellerCategory?.nameAr else staffData?.sellerCategory?.nameEn
             tvAddOn.text = "${context.getString(R.string.add_on)} : ${CommonMethod.customizeChangeDateFormat(staffData?.createdAt.toString(), outputFormat = "dd/MM/yyyy")}"
 

@@ -12,13 +12,22 @@ class FeaturePlanAdapter(var context:Context, var featureList: ArrayList<Subscri
     inner class ViewHolder(val binding: ItemPlanFeatureBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
-            tvFeature.text = featureList[position].feature
+
       //      tvFeature.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_feature,0,0,0)
-            if (featureList[position].count!=0) {
-                tvCount.text = featureList[position].count.toString()
-            }
-            else if (featureList[position].feature=="${context.getString(R.string.number_of_products)}: "&&featureList[position].count==0){
+
+             if (featureList[position].feature=="${context.getString(R.string.number_of_products)}"&&featureList[position].count==0){
                 tvCount.text = context.getString(R.string.unlimited)
+            }
+            else if (featureList[position].feature=="${context.getString(R.string.commission)}"&&featureList[position].count!=0){
+                tvCount.text = featureList[position].count.toString()+"%"
+                 tvFeature.text = featureList[position].feature+":"
+            }
+            else if (featureList[position].count!=0) {
+                tvCount.text = featureList[position].count.toString()
+                tvFeature.text = featureList[position].feature+":"
+            }
+            else{
+                tvFeature.text = featureList[position].feature
             }
         }
         }
