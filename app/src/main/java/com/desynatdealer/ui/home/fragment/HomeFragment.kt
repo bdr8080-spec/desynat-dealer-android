@@ -366,7 +366,7 @@ class HomeFragment : BaseFragment() {
         viewModel.getNotificationCountResponse.observe(viewLifecycleOwner){result->
             when(result){
                 ApiResult.Loading -> {
-                    binding?.progressBar?.isVisible = true
+                    binding?.progressBar?.isVisible = false
                 }
                 is ApiResult.Success -> {
                     binding?.progressBar?.isVisible = false

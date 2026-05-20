@@ -15,11 +15,13 @@ import com.desynatdealer.data.view_model.AuthViewModel
 import com.desynatdealer.data.view_model.DealerRegistrationViewModel
 import com.desynatdealer.databinding.FragmentPreviewBinding
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
+import com.desynatdealer.ui.auth.response.GetSellerSummaryResponse
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.setImage
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.toString
 
 @AndroidEntryPoint
 class PreviewFragment : BaseFragment() {
@@ -56,7 +58,10 @@ class PreviewFragment : BaseFragment() {
         binding?.apply {
             toolbar.tvToolbar.text = getString(R.string.summary)
 
-            userId = storeInformationReq.get("user_id").toString()
+            if (arguments?.getString("id").toString()!=null&&arguments?.getString("id").toString()!="null"){
+                userId = arguments?.getString("id").toString()
+            }
+
             ivProfile.setImage(createAccountReq.get("profile_pic"))
             tvFirstName.text =
                 createAccountReq.get("first_name") + " " + createAccountReq.get("last_name")
@@ -92,6 +97,10 @@ class PreviewFragment : BaseFragment() {
             tvBankName.text = storeDocumentAndBankDetailsReq.bankName
             tvAccountHolderName.text = storeDocumentAndBankDetailsReq.accountHolderName
             ivBankAccount.setImage(storeDocumentAndBankDetailsReq.uploadProof)
+
+            val map = HashMap<String, String>()
+            map["user_id"] = userId
+            viewModel.getSellerSummary(map)
         }
     }
 
@@ -109,6 +118,27 @@ class PreviewFragment : BaseFragment() {
 
     override fun observe() {
 
+        viewModel.getSellerSummaryResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                   setData(result?.data?.data)
+                    viewModel.getSellerSummaryResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getSellerSummaryResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
         viewModel.storeInformationResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
@@ -177,6 +207,86 @@ class PreviewFragment : BaseFragment() {
         }
 
 
+    }
+
+    private fun setData(data: GetSellerSummaryResponse.Data?) {
+        val req = hashMapOf(
+            "user_id" to userId.toString(),
+            "store_image" to data?.storeInfo?.storeImage.toString(),
+            "store_name" to data?.storeInfo?.storeName.toString(),
+            "country" to data?.storeInfo?.country.toString(),
+            "store_address" to data?.storeInfo?.storeAddress.toString(),
+            "address_line1" to data?.storeInfo?.addressLine1.toString(),
+            "address_line2" to data?.storeInfo?.addressLine2.toString(),
+            "country_code" to data?.storeInfo?.countryCode.toString(),
+            "store_phone" to data?.storeInfo?.storePhone.toString(),
+            "store_mail_id" to data?.storeInfo?.storeMailId.toString(),
+            "bio" to data?.storeInfo?.bio.toString(),
+            "let" to data?.storeInfo?.let.toString(),
+            "long" to data?.storeInfo?.long.toString(),
+        )
+        storeInformationReq = req
+
+        val bankReq = StoreDocumentAndBankDetailsReq(
+            userId = userId.toString(),
+            ownerDocument = arrayListOf(
+                data?.ownerDocument?.getOrNull(0).toString(),
+                data?.ownerDocument?.getOrNull(1).toString()
+            ),
+            storeDocument = arrayListOf(
+                data?.storeDocument?.getOrNull(0).toString(),
+                data?.storeDocument?.getOrNull(1).toString()
+            ),
+            accountType = data?.sellerBankDetails?.accountType,
+            iban = data?.sellerBankDetails?.iban.toString(),
+            swift = data?.sellerBankDetails?.swift.toString(),
+            bankName = data?.sellerBankDetails?.bankName.toString(),
+            accountHolderName = data?.sellerBankDetails?.accountHolderName.toString(),
+            uploadProof = data?.sellerBankDetails?.uploadProof.toString()
+        )
+        PreviewFragment.storeDocumentAndBankDetailsReq = bankReq
+
+        setAllData()
+    }
+
+    fun setAllData(){
+        binding?.apply {
+            ivProfile.setImage(createAccountReq.get("profile_pic"))
+            tvFirstName.text =
+                createAccountReq.get("first_name") + " " + createAccountReq.get("last_name")
+            tvMobileNumber.text =
+                createAccountReq.get("country_code") + "-" + createAccountReq.get("mobile")
+            tvEmailAddress.text = createAccountReq.get("email")
+
+            ivStore.setImage(storeInformationReq.get("store_image"))
+            tvStoreName.text = storeInformationReq.get("store_name")
+            tvAddress.text = storeInformationReq.get("store_address")
+            tvStoreMobileNumber.text = storeInformationReq.get("country_code")+"-"+storeInformationReq.get("store_phone")
+            tvStoreEmailAddress.text = storeInformationReq.get("store_mail_id")
+            tvBio.text = storeInformationReq.get("bio")
+
+            ownerDoc1.setImage(storeDocumentAndBankDetailsReq.ownerDocument.getOrNull(0))
+            ownerDoc2.setImage(storeDocumentAndBankDetailsReq.ownerDocument.getOrNull(1))
+            storeDoc1.setImage(storeDocumentAndBankDetailsReq.storeDocument.getOrNull(0))
+            storeDoc2.setImage(storeDocumentAndBankDetailsReq.storeDocument.getOrNull(1))
+
+            tvAccountType.text =
+                if (storeDocumentAndBankDetailsReq.accountType == "0") getString(R.string.personal) else getString(R.string.business)
+
+            if (storeDocumentAndBankDetailsReq.iban!=null&&storeDocumentAndBankDetailsReq.iban!="null"&&storeDocumentAndBankDetailsReq.iban!=""){
+                tvIban.text = storeDocumentAndBankDetailsReq.iban
+                tvIban.isVisible = true
+                tvIbanTitle.isVisible = true
+            }
+            if (storeDocumentAndBankDetailsReq.iban!=null&&storeDocumentAndBankDetailsReq.iban!="null"&&storeDocumentAndBankDetailsReq.iban!=""){
+                tvSwift.text = storeDocumentAndBankDetailsReq.swift
+                tvSwift.isVisible = true
+                tvSwiftTitle.isVisible = true
+            }
+            tvBankName.text = storeDocumentAndBankDetailsReq.bankName
+            tvAccountHolderName.text = storeDocumentAndBankDetailsReq.accountHolderName
+            ivBankAccount.setImage(storeDocumentAndBankDetailsReq.uploadProof)
+        }
     }
 
 }

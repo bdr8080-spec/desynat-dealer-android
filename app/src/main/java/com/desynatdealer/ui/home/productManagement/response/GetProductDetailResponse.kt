@@ -69,8 +69,108 @@ data class GetProductDetailResponse(
         @SerializedName("updated_at")
         val updatedAt: String,
         @SerializedName("upload_size_chart")
-        val uploadSizeChart: String
+        val uploadSizeChart: String,
+        @SerializedName("review")
+        val review: ArrayList<Review>,
     ) {
+        data class Review(
+            @SerializedName("created_at")
+            val createdAt: String,
+            @SerializedName("id")
+            val id: Int,
+            @SerializedName("order_id")
+            val orderId: Int,
+            @SerializedName("orderdetails_id")
+            val orderdetailsId: Int,
+            @SerializedName("product_id")
+            val productId: Int,
+            @SerializedName("product_image")
+            val productImage: List<String>,
+            @SerializedName("product_rating")
+            val productRating: String,
+            @SerializedName("product_review")
+            val productReview: String,
+            @SerializedName("store_id")
+            val storeId: Int,
+            @SerializedName("store_image")
+            val storeImage: Any,
+            @SerializedName("store_rating")
+            val storeRating: String,
+            @SerializedName("store_review")
+            val storeReview: String,
+            @SerializedName("updated_at")
+            val updatedAt: String,
+            @SerializedName("user_details")
+            val userDetails: UserDetails,
+            @SerializedName("user_id")
+            val userId: Int
+        ) {
+            data class UserDetails(
+                @SerializedName("accessToken")
+                val accessToken: String,
+                @SerializedName("affiliated_userdetails")
+                val affiliatedUserdetails: Any,
+                @SerializedName("app_notification")
+                val appNotification: Int,
+                @SerializedName("banner_view")
+                val bannerView: String,
+                @SerializedName("country_code")
+                val countryCode: String,
+                @SerializedName("created_at")
+                val createdAt: String,
+                @SerializedName("deleted_at")
+                val deletedAt: Any,
+                @SerializedName("device_token")
+                val deviceToken: Any,
+                @SerializedName("device_type")
+                val deviceType: String,
+                @SerializedName("email")
+                val email: String,
+                @SerializedName("email_verified_at")
+                val emailVerifiedAt: Any,
+                @SerializedName("fcm_token")
+                val fcmToken: String,
+                @SerializedName("full_name")
+                val fullName: String,
+                @SerializedName("id")
+                val id: Int,
+                @SerializedName("is_login")
+                val isLogin: Int,
+                @SerializedName("is_visit_app")
+                val isVisitApp: Int,
+                @SerializedName("is_visit_website")
+                val isVisitWebsite: Int,
+                @SerializedName("lang")
+                val lang: String,
+                @SerializedName("let")
+                val let: Any,
+                @SerializedName("long")
+                val long: Any,
+                @SerializedName("mobile")
+                val mobile: String,
+                @SerializedName("notification")
+                val notification: Int,
+                @SerializedName("otp")
+                val otp: String,
+                @SerializedName("otp_verify")
+                val otpVerify: String,
+                @SerializedName("profile_image")
+                val profileImage: String,
+                @SerializedName("selected_country")
+                val selectedCountry: Int,
+                @SerializedName("selected_currency")
+                val selectedCurrency: Int,
+                @SerializedName("socialType")
+                val socialType: Any,
+                @SerializedName("status")
+                val status: String,
+                @SerializedName("unique_id")
+                val uniqueId: Any,
+                @SerializedName("updated_at")
+                val updatedAt: String
+            )
+        }
+
         data class ProductSpecification(
             @SerializedName("created_at")
             val createdAt: String,

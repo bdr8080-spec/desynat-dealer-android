@@ -744,7 +744,9 @@
     <string name="store_information_save_successfully">تم حفظ معلومات المتجر بنجاح</string>
     <string name="upload_profile_nimage">تحميل صورة\nالملف الشخصي</string>
     <string name="your_account_registration_is_under_review">تسجيل حسابك قيد المراجعة !!</string>
-    <string name="please_wait_for_3_4_hrs_thank_you_for_your_patience_team_desynat_app">يرجى الانتظار من 3 إلى 4 ساعات. شكرًا لصبرك. فريق تطبيق Desynat</string>
+    <string name="please_wait_for_3_4_hrs_thank_you_for_your_patience_team_desynat_app">
+يرجى الانتظار لمدة 3-4 ساعات.\n\nشكرًا لك\nعلى صبرك. فريق تطبيق ديزينات
+</string>
     <string name="personal_information">المعلومات الشخصية</string>
     <string name="owner_s_documents">مستندات المالك</string>
     <string name="proof_of_account">إثبات الحساب</string>
@@ -859,4 +861,7 @@
     <string name="eg_13208">مثال: 13208</string>
     <string name="bought">تم الشراء</string>
     <string name="sent_an_attachment">تم إرسال مرفق</string>
+    <string name="share_via">مشاركة عبر</string>
+
+
 </resources>

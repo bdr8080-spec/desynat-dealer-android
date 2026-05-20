@@ -18,8 +18,8 @@ class RefundAdapter(var context:Context, var refundList: ArrayList<GetRefundOrde
             var refundData = refundList[position]
             tvOrderDateTime.text = CommonMethod.customizeChangeDateFormatKuwaitFromUtc(refundData?.order?.createdAt.toString(), outputFormat = "dd/MM/yyyy '${context.getString(R.string.at)}' hh:mm a")
             tvRequestedOn.text = CommonMethod.customizeChangeDateFormatKuwaitFromUtc(refundData?.updatedAt.toString(), outputFormat = "dd/MM/yyyy")
-            tvCustomerName.text = refundData?.order?.deliveryDetails?.name
-            tvRefundId.text = "#${refundData?.order?.transactionId}"
+            tvCustomerName.text = refundData?.userDetails?.fullName
+            tvRefundId.text = "#${refundData?.id?:0}"
             tvTotalAmount.text = "${CommonMethod.formatPrice(refundData?.order?.totalAmount?.toDoubleOrNull()?:0.0)} KD"
             tvTotalCommissionValue.text = "${CommonMethod.formatPrice(refundData?.productDetails?.affiliatedCommission?.toDoubleOrNull()?:0.0)} KD"
             tvPaymentMode.text = when(refundData?.order?.paymentMethod){

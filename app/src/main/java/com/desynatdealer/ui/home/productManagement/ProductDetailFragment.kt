@@ -29,6 +29,7 @@ import com.desynatdealer.databinding.SizeGuideChartDialogBinding
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
+import com.desynatdealer.ui.home.productManagement.response.GetProductDetailResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
@@ -38,6 +39,7 @@ import com.desynatdealer.utils.showToast
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.collections.get
 
 @AndroidEntryPoint
 class ProductDetailFragment : BaseFragment() {
@@ -52,6 +54,7 @@ class ProductDetailFragment : BaseFragment() {
     private var colorAdapter: ProductRectangleColorAdapter?=null
     private var sizeAdapter: SizeAdapter?=null
     private var specificationAdapter: SpecificationAdapter?=null
+    private var reviewList = ArrayList<GetAllProductResponse.Data.AllProductData.Review>()
     private var reviewAdapter: ReviewAdapter?=null
     private var variantImageAdapter: ProductImageAdapter?=null
     private var selectedColorPos = 0
@@ -133,7 +136,7 @@ class ProductDetailFragment : BaseFragment() {
         }
         binding?.rvSpecification?.adapter = specificationAdapter
 
-        reviewAdapter = ReviewAdapter(requireActivity(), arrayListOf("",""))
+        reviewAdapter = ReviewAdapter(requireActivity(), reviewList)
         binding?.rvRating?.adapter = reviewAdapter
         binding?.apply {
             if (SharedPreference.get(requireActivity()).userType == "1") {
@@ -147,6 +150,10 @@ class ProductDetailFragment : BaseFragment() {
 
     private fun setData() {
         binding?.apply {
+            reviewList.clear()
+            productData?.review?.let { reviewList.addAll(it) }
+            reviewAdapter?.notifyDataSetChanged()
+
             tvBuyCount.text = "0 ${getString(R.string.bought)}"
             selectedSizeList.clear()
             productInfo[selectedColorPos].productVariation.let {
@@ -269,6 +276,16 @@ class ProductDetailFragment : BaseFragment() {
                     productData?.productVariants?.get(selectedColorPos)?.variantImage?.get(0) ?: ""
                 )
             }
+
+            ivShare.setOnClickListener {
+                CommonMethod.shareProductWithImage(requireActivity(),
+                    "${getString(R.string.product_name)}: ${productData?.productNameEn}",
+                    "${getString(R.string.description)}: ${productData?.descriptionEn}",
+                    productData?.productVariants?.get(selectedColorPos)?.variantImage?.get(0) ?: "",
+                    "https://desynat.com/user/product/detail-page/${productData?.id.toString()}"
+                )
+            }
+
 
             btnEdit.setOnClickListener {
                 val bundle = Bundle().apply {

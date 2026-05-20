@@ -5,6 +5,7 @@ import com.desynatdealer.model.create_account.CreateAccountRes
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.auth.response.GetSellerSummaryResponse
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
@@ -106,6 +107,11 @@ interface CommonApiService {
 
     @POST("api/seller/store_information")
     suspend fun storeInformation(@Body req: HashMap<String, String>): Response<Unit>
+
+
+
+    @POST(Constants.GET_SELLER_REVIEW)
+    suspend fun getSellerSummary(@Body req: HashMap<String, String>): Response<GetSellerSummaryResponse>
 
 
     @POST("api/seller/store_document_and_bank_details")

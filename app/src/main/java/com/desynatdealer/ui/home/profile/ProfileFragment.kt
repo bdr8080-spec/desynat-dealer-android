@@ -51,6 +51,8 @@ class ProfileFragment : BaseFragment() {
         initControl()
         observe()
         getStory()
+        getSellerInfo()
+        getSellerInfo()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
 
@@ -65,6 +67,14 @@ class ProfileFragment : BaseFragment() {
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
         userInfo = SharedPreference.get(requireActivity()).getUser()
+        setData()
+
+        if (SharedPreference.get(requireActivity()).userType=="1"){
+            getStaffDetail()
+        }
+    }
+
+    private fun setData() {
         binding?.apply {
 
             toolbar.tvToolbar.text = getString(R.string.profile)
@@ -75,10 +85,6 @@ class ProfileFragment : BaseFragment() {
                 placeholder(R.drawable.ic_user)
                 error(R.drawable.ic_user)
             }
-        }
-
-        if (SharedPreference.get(requireActivity()).userType=="1"){
-            getStaffDetail()
         }
     }
 
@@ -256,6 +262,29 @@ class ProfileFragment : BaseFragment() {
 
     override fun observe() {
 
+        viewModel.getSellerInfoResponse.observe(viewLifecycleOwner){result->
+            when(result){
+                ApiResult.Loading -> {
+                }
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    result.data?.data?.let { SharedPreference.get(requireActivity()).saveUser(it) }
+                    userInfo = result.data?.data
+                    setData()
+                    viewModel.getSellerInfoResponse.value = null
+                }
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getSellerInfoResponse.value = null
+                }
+                else ->{
+
+                }
+            }
+        }
+
+
         viewModel.getStoryResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
@@ -350,6 +379,13 @@ class ProfileFragment : BaseFragment() {
         val map = HashMap<String,Any>()
 
         viewModel.getStory(map)
+    }
+
+    private fun getSellerInfo() {
+        val map = HashMap<String,Any>()
+        val token = if (SharedPreference.get(requireActivity()).userType=="1") SharedPreference.get(requireActivity()).staffToken else SharedPreference.get(requireActivity()).accessToken
+
+        viewModel.getSellerInformation("Bearer ${token}")
     }
 
 

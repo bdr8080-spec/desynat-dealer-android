@@ -97,13 +97,13 @@ class DocAndBankInfoFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel.documentAndBankDetails?.let { data ->
-            bankDocUrl = data.uploadProof
-            ownerDoc1Url = data.ownerDocument.getOrNull(0)
-            ownerDoc2Url = data.ownerDocument.getOrNull(1)
-            storeDoc1Url = data.storeDocument.getOrNull(0)
-            storeDoc2Url = data.storeDocument.getOrNull(1)
-            binding?.etIban?.setText(data.iban)
-            binding?.etSwift?.setText(data.swift)
+            bankDocUrl = data?.uploadProof
+            ownerDoc1Url = data?.ownerDocument?.getOrNull(0)
+            ownerDoc2Url = data?.ownerDocument?.getOrNull(1)
+            storeDoc1Url = data?.storeDocument?.getOrNull(0)
+            storeDoc2Url = data?.storeDocument?.getOrNull(1)
+            binding?.etIban?.setText(data?.iban)
+            binding?.etSwift?.setText(data?.swift)
             binding?.ivBank?.load(bankDocUrl)
             if (ownerDoc1!=null){
                 binding?.clDocument1Placeholder?.isVisible = false
@@ -125,15 +125,15 @@ class DocAndBankInfoFragment : BaseFragment() {
             binding?.ivStoreDoc1?.load(storeDoc1)
             binding?.ivStoreDoc2?.load(storeDoc2)
 
-            binding?.ivBank?.setImage(storeDocumentAndBankDetailsReq.uploadProof)
-            binding?.ivDoc1?.setImage(storeDocumentAndBankDetailsReq.ownerDocument.getOrNull(0))
-            binding?.ivDoc2?.setImage(storeDocumentAndBankDetailsReq.ownerDocument.getOrNull(1))
-            binding?.ivStoreDoc1?.setImage(storeDocumentAndBankDetailsReq.storeDocument.getOrNull(0))
-            binding?.ivStoreDoc2?.setImage(storeDocumentAndBankDetailsReq.storeDocument.getOrNull(1))
-            binding?.etAccountHolderName?.setText(data.accountHolderName)
-            binding?.etBankName?.setText(data.bankName)
-            userId = data.userId
-            if (data.accountType=="0"){
+            binding?.ivBank?.setImage(storeDocumentAndBankDetailsReq?.uploadProof)
+            binding?.ivDoc1?.setImage(storeDocumentAndBankDetailsReq?.ownerDocument?.getOrNull(0))
+            binding?.ivDoc2?.setImage(storeDocumentAndBankDetailsReq?.ownerDocument?.getOrNull(1))
+            binding?.ivStoreDoc1?.setImage(storeDocumentAndBankDetailsReq?.storeDocument?.getOrNull(0))
+            binding?.ivStoreDoc2?.setImage(storeDocumentAndBankDetailsReq?.storeDocument?.getOrNull(1))
+            binding?.etAccountHolderName?.setText(data?.accountHolderName)
+            binding?.etBankName?.setText(data?.bankName)
+            userId = data?.userId
+            if (data?.accountType=="0"){
                 binding?.cbPersonal?.isChecked = true
             }
             else if (data.accountType=="1"){

@@ -39,7 +39,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RadioGroup
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,6 +66,7 @@
         android:textSize="@dimen/_11sdp"/>
 
         <RadioButton
+            android:visibility="gone"
             android:id="@+id/rbExchange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -45,6 +45,7 @@ class ChatListFragment : BaseFragment() {
     private var lastQuery: String? = null
     private var chatFilter: String? = null
     private var isFromSwipe = false
+    private var isLoading = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -110,7 +111,7 @@ class ChatListFragment : BaseFragment() {
                     search?.cancel()
                     search = lifecycleScope.launch {
                         delay(600)
-
+                        isLoading = false
                         getChat()
 
                     }
@@ -122,6 +123,7 @@ class ChatListFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        isLoading = true
         getChat()
     }
 
@@ -141,12 +143,13 @@ class ChatListFragment : BaseFragment() {
         viewModel.getAllChatListResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    if (!isFromSwipe) {
+                    if (!isFromSwipe&&isLoading) {
                         ProgressDialogUtils.getInstance().showProgress(requireActivity())
                     }
                 }
 
                 is ApiResult.Success -> {
+                    isLoading = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     if (isFromSwipe) {
                         binding?.swipeRefreshLayout?.isRefreshing = false
@@ -159,6 +162,7 @@ class ChatListFragment : BaseFragment() {
                 }
 
                 is ApiResult.Error -> {
+                    isLoading = false
                     binding?.swipeRefreshLayout?.isRefreshing = false
                     isFromSwipe = false
                     ProgressDialogUtils.getInstance().hideProgress()

@@ -3,6 +3,7 @@ package com.desynatdealer.adapter
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -43,6 +44,9 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
             else{
                     if (Constants.language=="ar") chatData?.lastChatArabic?:chatData?.lastChat else chatData?.lastChat
                 }
+
+            Log.e("chat", "lastChatTime: ${chatData.lastChatTime}" )
+            Log.e("chat", "updatedAt: ${chatData.updatedAt}" )
                 if (chatData.lastChatTime!=null&&chatData.lastChatTime!="null"&&chatData.lastChatTime!="") {
                     tvTime.text = chatData?.lastChatTime.toString()
                     tvTime.text = CommonMethod.formatChatTime(context,

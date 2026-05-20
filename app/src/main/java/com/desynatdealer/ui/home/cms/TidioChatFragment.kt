@@ -205,6 +205,7 @@ class TidioChatFragment : BaseFragment() {
         val name = userInfo?.firstName ?: ""+" "+ userInfo?.lastName ?: ""
         val email = userInfo?.email ?: ""
         val userId = userInfo?.id.toString()
+        val phone = userInfo?.mobile.toString()
 
         val js = "javascript:setUserData('$name','$email','$userId','user')"
 

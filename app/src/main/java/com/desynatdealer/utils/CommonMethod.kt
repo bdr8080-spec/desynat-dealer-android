@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -40,6 +41,7 @@ import android.widget.PopupWindow
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.WindowInsetsCompat
@@ -56,10 +58,16 @@ import com.desynatdealer.databinding.SuccessDialogLayoutBinding
 import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.io.FileOutputStream
+import java.net.URL
 import java.nio.ByteBuffer
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -875,6 +883,50 @@ object CommonMethod {
         context.startActivity(Intent.createChooser(intent, "Share via"))
     }
 
+    fun shareProductWithImage(context: Context, name: String, desc: String, imageUrl: String,link: String) {
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            try {
+
+                val url = URL(imageUrl)
+                val bitmap = BitmapFactory.decodeStream(url.openStream())
+
+                val file = File(context.cacheDir, "shared_image.png")
+                val output = FileOutputStream(file)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)
+                output.close()
+
+                val uri = FileProvider.getUriForFile(
+                    context,
+                    "${context.packageName}.provider",
+                    file
+                )
+
+                val shareText = """
+                $name
+                $desc
+                $link
+            """.trimIndent()
+
+                val intent = Intent(Intent.ACTION_SEND).apply {
+                    type = "image/*"
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                    putExtra(Intent.EXTRA_TEXT, shareText)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+
+                withContext(Dispatchers.Main) {
+                    context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_via)))
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+
     fun applyGradientText(
         textView: AppCompatTextView,
         startColor: String = "#DFBF8F",
@@ -935,6 +987,7 @@ object CommonMethod {
 
     fun formatChatTime(context: Context, inputTime: String,inputFormat: String="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): String {
         val inputFormat = SimpleDateFormat(inputFormat, Locale.ENGLISH)
+        inputFormat.timeZone = TimeZone.getTimeZone("UTC")
         val timeFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
         val fullDateFormat = SimpleDateFormat("dd/MM/yy, hh:mm a", Locale.ENGLISH)
 

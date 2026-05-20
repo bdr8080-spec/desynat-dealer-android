@@ -11,6 +11,7 @@ import com.desynatdealer.model.create_account.CreateAccountRes
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.auth.response.GetSellerSummaryResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -88,6 +89,20 @@ open class AuthViewModel @Inject constructor(private val repo: AuthRepository) :
         viewModelScope.launch {
             _storeInformationResponse.value = ApiResult.Loading
             _storeInformationResponse.value = repo.storeInformation(req)
+        }
+    }
+
+
+
+    private val _getSellerSummaryResponse =
+        MutableLiveData<ApiResult<GetSellerSummaryResponse>?>()
+    val getSellerSummaryResponse: MutableLiveData<ApiResult<GetSellerSummaryResponse>?>
+        get() = _getSellerSummaryResponse
+
+    fun getSellerSummary(req: HashMap<String, String>) {
+        viewModelScope.launch {
+            _getSellerSummaryResponse.value = ApiResult.Loading
+            _getSellerSummaryResponse.value = repo.getSellerSummary(req)
         }
     }
 

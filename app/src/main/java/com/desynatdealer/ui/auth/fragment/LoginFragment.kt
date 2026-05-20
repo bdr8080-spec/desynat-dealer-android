@@ -221,10 +221,14 @@ class LoginFragment : BaseFragment() {
                             "mobile" to  data.mobile,
                             "email" to  data.email
                         )
+                        val req = hashMapOf(
+                            "user_id" to id.toString(),
+                        )
+                        PreviewFragment.storeInformationReq = req
                         val bundle = Bundle().apply {
                             putString("id", data.id.toString())
                         }
-                        findNavController().navigate(R.id.action_loginFragment_to_storeInfoFragment,bundle)
+                        findNavController().navigate(R.id.action_loginFragment_to_docAndBankFragment,bundle)
                     }
 
                     else{

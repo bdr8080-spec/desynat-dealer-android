@@ -77,15 +77,21 @@ class TicketDetailFragment : BaseFragment() {
             tvTicketIdValue.text = ticketData?.ticketId
             tvRaisedOn.text =
                 CommonMethod.customizeChangeDateFormat(ticketData?.createdAt.toString(), outputFormat = "dd MMM yy, hh:mm a")
+            tvResolvedOn.text = CommonMethod.customizeChangeDateFormat(ticketData?.updatedAt.toString(), outputFormat = "dd MMM yy, hh:mm a")
+
             when(ticketData?.status){
                 0->{
                     tvStatusValue.text = getString(R.string.in_progress)
                     tvStatusValue.setTextColor(Color.parseColor("#D72E04"))
+                    tvResolvedOn.isVisible = false
+                    tvResolved.isVisible = false
 
                 }
                 1->{
                     tvStatusValue.text = getString(R.string.resolved)
                     tvStatusValue.setTextColor(Color.parseColor("#17854C"))
+                    tvResolvedOn.isVisible = true
+                    tvResolved.isVisible = true
                 }
             }
 

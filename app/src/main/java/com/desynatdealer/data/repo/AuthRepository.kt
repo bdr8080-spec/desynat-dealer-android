@@ -9,6 +9,7 @@ import com.desynatdealer.model.login.req.LoginReq
 import com.desynatdealer.model.login.req.LoginResponse
 import com.desynatdealer.model.storeDocumentAndBankDetails.StoreDocumentAndBankDetailsReq
 import com.desynatdealer.model.upload.UploadResponse
+import com.desynatdealer.ui.auth.response.GetSellerSummaryResponse
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
@@ -57,6 +58,16 @@ class AuthRepository @Inject constructor(private val api: CommonApiService) {
     ): ApiResult<Unit> {
         return try {
             networkCall(api.storeInformation(req))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getSellerSummary(
+        req: HashMap<String, String>
+    ): ApiResult<GetSellerSummaryResponse> {
+        return try {
+            networkCall(api.getSellerSummary(req))
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }

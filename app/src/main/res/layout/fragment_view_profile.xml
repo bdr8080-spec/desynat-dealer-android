@@ -123,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_semi_bold"
                     android:text="Atif Aslam"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_11sdp"
                     android:textColor="@color/black"
                     android:textAlignment="viewStart"
                     android:layout_marginHorizontal="@dimen/_10sdp"
@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_light"
                     android:text="123456789"
-                    android:textSize="@dimen/_11sdp"
+                    android:textSize="@dimen/_10sdp"
                     android:textColor="@color/black"
                     android:textAlignment="viewStart"
                     app:layout_constraintEnd_toStartOf="@+id/ivQr"
@@ -150,12 +150,40 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_light"
                     android:text="atif@gmail.com"
-                    android:textSize="@dimen/_11sdp"
+                    android:textSize="@dimen/_10sdp"
                     android:textColor="@color/black"
                     android:textAlignment="viewStart"
                     app:layout_constraintEnd_toStartOf="@+id/ivQr"
                     app:layout_constraintStart_toStartOf="@id/tvName"
                     app:layout_constraintTop_toBottomOf="@id/tvMobile" />
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/ratingBar"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:progressBackgroundTint="#C7C7C7"
+                    android:progressTint="#FFA41B"
+                    android:rating="0"
+                    android:secondaryProgressTint="#FFA41B"
+                    android:stepSize="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/tvName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_1sdp"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="(0)"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
+                    app:layout_constraintStart_toEndOf="@+id/ratingBar"
+                    app:layout_constraintTop_toTopOf="@id/ratingBar" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivQr"
@@ -176,7 +204,7 @@
                     android:textAlignment="viewStart"
                     app:layout_constraintEnd_toStartOf="@+id/ivQr"
                     app:layout_constraintStart_toStartOf="@id/ivProfileImage"
-                    app:layout_constraintTop_toBottomOf="@id/tvEmail" />
+                    app:layout_constraintTop_toBottomOf="@id/ratingBar" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvStoreMobile"

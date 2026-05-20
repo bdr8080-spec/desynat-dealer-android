@@ -19,6 +19,7 @@ object Constants {
     const val LOGOUT = "/api/seller/logout"
     const val GET_COUNTRY = "/api/country"
     const val DASHBOARD = "/api/seller/seller-dashboard"
+    const val GET_SELLER_REVIEW = "/api/seller/seller_review"
     const val GET_PROFILE = "/api/seller/seller-profile"
     const val GET_SUBSCRIPTION_PLAN = "/api/seller/all-plans"
     const val CREATE_SUBSCRIPTION_PLAN = "/api/seller/create-subcription-plan-buy"

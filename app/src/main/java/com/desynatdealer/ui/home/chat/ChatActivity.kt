@@ -67,6 +67,7 @@ class ChatActivity : BaseActivity() {
     private var chatList = ArrayList<ChatMessage>()
     var from = ""
     var productId = ""
+    private var isChatVisible = false
     private var isModified = false
     var receiverId = ""
     var chatData: GetChatListResponse.Data? = null
@@ -141,7 +142,6 @@ class ChatActivity : BaseActivity() {
 
             })
             rvChat.adapter = chatAdapter
-            readAllMsg()
             listenMessages(
                 uniqueId = uniqueId,
                 onMessageAdded = { message ->
@@ -152,10 +152,13 @@ class ChatActivity : BaseActivity() {
 
                     chatList.add(message)
                     chatAdapter?.notifyItemInserted(chatList.size - 1)
-                    rvChat.scrollToPosition(chatList.size - 1)
 
-                    if (message.by.toSafeString() != "seller" && message.read.toSafeInt() == 0 && message.id.toSafeString() != null && message.id.toSafeString() != "") {
+                    binding?.rvChat?.post {
+                        binding?.rvChat?.scrollToPosition(chatList.size - 1)
+                    }
+                    if (isChatVisible && message.by.toSafeString() != "seller" && message.read.toSafeInt() == 0 && message.id.toSafeString() != null && message.id.toSafeString() != "") {
                         markMessageRead(uniqueId, message.id.toSafeString())
+                        readAllMsg()
                     }
                 },
                 onMessageUpdated = { updatedMessage ->
@@ -337,7 +340,9 @@ class ChatActivity : BaseActivity() {
 
                 override fun onChildAdded(snapshot: DataSnapshot, prev: String?) {
                     snapshot.getValue(ChatMessage::class.java)
-                        ?.let { onMessageAdded(it) }
+                        ?.let {
+                            onMessageAdded(it)
+                        }
                 }
 
                 override fun onChildChanged(snapshot: DataSnapshot, prev: String?) {
@@ -751,7 +756,11 @@ class ChatActivity : BaseActivity() {
                 clQuotation.isVisible = false
                 toolbar.isVisible = true
             }
-
+            rvChat.post {
+                if (chatList.isNotEmpty()) {
+                    rvChat.scrollToPosition(chatList.size - 1)
+                }
+            }
         }
     }
 
@@ -882,6 +891,17 @@ class ChatActivity : BaseActivity() {
         val map = HashMap<String, Any>()
         map["unique_id"] = uniqueId
         viewModel.markAllRead(map)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        readAllMsg()
+        isChatVisible = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isChatVisible = false
     }
 
 }

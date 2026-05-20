@@ -137,6 +137,10 @@ class ViewProfileFragment : BaseFragment() {
 
     private fun setData() {
         binding?.apply {
+
+            /*ratingBar.rating = userInfo?.ra
+            tvRating.text = userInfo?.ra*/
+
             ivProfileImage.load(userInfo?.profilePic){
                 crossfade(false)
                 placeholder(R.drawable.ic_user)
