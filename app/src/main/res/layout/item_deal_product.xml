@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
-            android:stepSize="0.5"
+            android:stepSize="0.1"
             android:rating="0"
             android:layout_marginStart="@dimen/_10sdp"
             android:progressTint="#FFA41B"

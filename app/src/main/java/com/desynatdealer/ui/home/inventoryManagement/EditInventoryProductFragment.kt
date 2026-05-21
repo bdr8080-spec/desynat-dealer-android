@@ -135,11 +135,16 @@ class EditInventoryProductFragment : BaseFragment() {
     private fun setData() {
         binding?.apply {
 
+            val rating = productData?.productRating?.toFloatOrNull() ?: 0f
+            ratingBar.rating = rating
+            tvRating.text = "(${String.format("%.1f", rating)})"
             selectedSizeList.clear()
-            productInfo[selectedColorPos].productVariation.let {
-                selectedSizeList.addAll(
-                    it
-                )
+            productInfo?.getOrNull(selectedColorPos)?.productVariation.let {
+                if (it != null) {
+                    selectedSizeList.addAll(
+                        it
+                    )
+                }
             }
             sizeAdapter?.notifyDataSetChanged()
 
@@ -164,14 +169,14 @@ class EditInventoryProductFragment : BaseFragment() {
                 if (Constants.language=="ar")productData?.brand?.nameArabic else productData?.brand?.nameEnglish
             }
 
-            tvPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.actualPrice?:0)} ${getString(R.string.kd)}"
-            tvDiscountedPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.finalPrice?:0)} ${
+            tvPrice.text = "${(productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.actualPrice?:0)} ${getString(R.string.kd)}"
+            tvDiscountedPrice.text = "${(productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.finalPrice?:0)} ${
                 getString(
                     R.string.kd
                 )
             }"
 
-            val variant = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)
+            val variant = productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)
             val discountValue = variant?.discountValue ?: 0
             val discountType = if (variant?.discountType == "1")"% ${getString(R.string.off)}" else " ${getString(R.string.kd)} ${
                 getString(
@@ -180,8 +185,8 @@ class EditInventoryProductFragment : BaseFragment() {
             }"
             tvOffer.text = "$discountValue$discountType"
 
-            etTotalStocks.setText(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.totalStock)
-            etSku.setText(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.sku)
+            etTotalStocks.setText(productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.totalStock)
+            etSku.setText(productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.sku)
 
 
             updateStatus()
@@ -264,8 +269,8 @@ class EditInventoryProductFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().hideProgress()
                     CommonMethod.showSuccessDialog(requireActivity(),
                         getString(R.string.inventory_updated_successfully)){
-                        productInfo[selectedColorPos].productVariation[selectedSizePos].sku = binding?.etSku?.text?.trim().toString()
-                        productInfo[selectedColorPos].productVariation[selectedSizePos].totalStock = binding?.etTotalStocks?.text?.trim().toString()
+                        productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.sku = binding?.etSku?.text?.trim().toString()
+                        productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.totalStock = binding?.etTotalStocks?.text?.trim().toString()
                         viewModel.updateInventoryProductStockResponse.value = null
                         findNavController().popBackStack()
                     }
@@ -294,7 +299,7 @@ class EditInventoryProductFragment : BaseFragment() {
     private fun updateInventoryData(){
         val map = HashMap<String,Any>()
         map["product_id"] = productData?.id.toString()
-        map["variation_id"] = productInfo[selectedColorPos].productVariation[selectedSizePos].id.toString()
+        map["variation_id"] = productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.id.toString()
         map["stock_quantity"] = binding?.etTotalStocks?.text?.trim().toString()
         map["sku"] = binding?.etSku?.text?.trim().toString()
         viewModel.updateInventoryProductStock(map)

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.databinding.ItemSizeBinding
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
@@ -23,12 +24,16 @@ class SizeAdapter(var context:Context, var productSizeList: ArrayList<AddProduct
 
                 tvSize.text = if (Constants.language=="ar") matchedSize?.nameArabic else matchedSize?.name
 
-                if (selectedPos==position){
-                    tvSize.setTextColor(Color.parseColor("#000000"))
-                }
-                else{
-                    tvSize.setTextColor(Color.parseColor("#E6E6E6"))
-                }
+            if (selectedPos==position){
+                ivColorSelected.isVisible = true
+                ivColor.isVisible = false
+                tvSize.setTextColor(Color.parseColor("#000000"))
+            }
+            else{
+                ivColorSelected.isVisible = false
+                ivColor.isVisible = true
+                tvSize.setTextColor(Color.parseColor("#E6E6E6"))
+            }
 
             root.setOnClickListener {
                 selectedPos = position

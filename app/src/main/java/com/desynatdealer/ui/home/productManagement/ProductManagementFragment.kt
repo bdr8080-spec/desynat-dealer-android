@@ -203,11 +203,13 @@ class ProductManagementFragment : BaseFragment() {
             when(result){
                 ApiResult.Loading -> {
                     if (!isFromSwipe){
-                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                        binding?.mainProgressBar?.isVisible = true
                     }
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    binding?.progressBar?.isVisible = false
+                    binding?.mainProgressBar?.isVisible = false
                     if (isFromSwipe){
                         binding?.swipeRefreshLayout?.isRefreshing = false
                         isFromSwipe = false
@@ -226,6 +228,8 @@ class ProductManagementFragment : BaseFragment() {
                 }
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    binding?.progressBar?.isVisible = false
+                    binding?.mainProgressBar?.isVisible = false
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getProductResponse.value = null
                 }
@@ -261,10 +265,11 @@ class ProductManagementFragment : BaseFragment() {
         viewModel.updateProductStatusResponse.observe(viewLifecycleOwner){result->
             when(result){
                 ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                    binding?.progressBar?.isVisible = true
                 }
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    binding?.progressBar?.isVisible = false
                     result.data?.message?.let { showToast(it) }
 
                     if (result.data?.data?.productActiveStatus==1){
@@ -292,6 +297,7 @@ class ProductManagementFragment : BaseFragment() {
                 }
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    binding?.progressBar?.isVisible = false
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.updateProductStatusResponse.value = null
                 }
@@ -397,7 +403,6 @@ class ProductManagementFragment : BaseFragment() {
         viewModel.getColor()
         viewModel.getSize()
         viewModel.getBrand()
-        ProgressDialogUtils.getInstance().showProgress(requireActivity())
     }
 
     private fun updateProductStatus(){

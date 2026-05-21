@@ -68,9 +68,9 @@ class InventoryAdapter(var context:Context, var productList: ArrayList<GetAllPro
                     }
                 }
 
-                /*  val rating = productData?.reviewRating?.toFloatOrNull() ?: 0f
-                  ratingBar.rating = rating
-                  tvRating.text = "(${productData?.reviewRating})"*/
+            val rating = productData?.productRating?.toFloatOrNull() ?: 0f
+            ratingBar.rating = rating
+            tvRating.text = "(${String.format("%.1f", rating)})"
 
                 tvPrice.text = "${(productData?.productVariants?.get(0)?.actualPrice?:0)} ${
                     context.getString(

@@ -429,9 +429,6 @@ object CommonMethod {
         inputFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
         outputFormat: String = "dd MMM,yyyy"
     ): String {
-        Log.e("time", "inputDate: ${inputDate}")
-        Log.e("time", "inputFormat: ${inputFormat}")
-        Log.e("time", "outputFormat: ${outputFormat}")
         val originalFormat: SimpleDateFormat = SimpleDateFormat(inputFormat, Locale.ENGLISH).apply {
             timeZone = TimeZone.getTimeZone("UTC")
         }

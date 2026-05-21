@@ -235,7 +235,8 @@ data class GetAllProductResponse(
     val message: String,
     @SerializedName("status")
     val status: String
-) {
+)
+{
     data class Data(
         @SerializedName("active_product_count")
         var activeProductCount: Int?=0,
@@ -307,10 +308,12 @@ data class GetAllProductResponse(
             val sellerId: String,
             @SerializedName("stock")
             val stock: String,
+            @SerializedName("product_rating")
+            val productRating: String,
             @SerializedName("store_id")
             val storeId: String,
             @SerializedName("subcategory")
-            var subcategory: GetSubCategoryResponse.Data,
+            var subcategory: GetSubCategoryResponse.Data?=null,
             @SerializedName("subcategory_id")
             val subcategoryId: String,
             @SerializedName("updated_at")

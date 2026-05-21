@@ -1,6 +1,7 @@
 package com.desynatdealer.ui.home.response
 
 
+import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse.Data.AllProductData.Review
 import com.google.gson.annotations.SerializedName
 
 data class GetSellerInfo(
@@ -164,7 +165,9 @@ data class GetSellerInfo(
             @SerializedName("store_phone")
             val storePhone: String,
             @SerializedName("updated_at")
-            val updatedAt: String
+            val updatedAt: String,
+            @SerializedName("store_rating")
+            var storeRating: String
         )
     }
 }

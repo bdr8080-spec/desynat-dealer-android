@@ -74,9 +74,9 @@ class ProductAdapter(var context:Context, var productList: ArrayList<GetAllProdu
                     }
                 }
 
-                /*  val rating = productData?.reviewRating?.toFloatOrNull() ?: 0f
+                  val rating = productData?.productRating?.toFloatOrNull() ?: 0f
                   ratingBar.rating = rating
-                  tvRating.text = "(${productData?.reviewRating})"*/
+                  tvRating.text = "(${String.format("%.1f", rating)})"
 
                 tvPrice.text = "${(productData?.productVariants?.get(0)?.actualPrice?:0)} ${
                     context.getString(

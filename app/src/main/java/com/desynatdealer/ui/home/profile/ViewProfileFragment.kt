@@ -137,10 +137,9 @@ class ViewProfileFragment : BaseFragment() {
 
     private fun setData() {
         binding?.apply {
-
-            /*ratingBar.rating = userInfo?.ra
-            tvRating.text = userInfo?.ra*/
-
+            val rating = userInfo?.storeInfo?.storeRating?.toFloatOrNull()?:0f
+            ratingBar.rating = rating
+            tvRating.text = "(${String.format("%.1f", rating)})"
             ivProfileImage.load(userInfo?.profilePic){
                 crossfade(false)
                 placeholder(R.drawable.ic_user)

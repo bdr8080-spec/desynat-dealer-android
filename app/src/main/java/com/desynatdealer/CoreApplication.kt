@@ -25,6 +25,10 @@ class CoreApplication : Application() {
         super.onCreate()
         instance = this
 
+        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            Log.e("CRASH_LOG", "Uncaught: ${throwable.message}", throwable)
+        }
+
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, getString(R.string.map_key))
         }

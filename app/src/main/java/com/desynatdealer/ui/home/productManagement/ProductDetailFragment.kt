@@ -156,10 +156,12 @@ class ProductDetailFragment : BaseFragment() {
 
             tvBuyCount.text = "0 ${getString(R.string.bought)}"
             selectedSizeList.clear()
-            productInfo[selectedColorPos].productVariation.let {
-                selectedSizeList.addAll(
-                    it
-                )
+            productInfo?.getOrNull(selectedColorPos)?.productVariation.let {
+                if (it != null) {
+                    selectedSizeList.addAll(
+                        it
+                    )
+                }
             }
            // productData?.productVariants?.let { selectedSizeList.addAll(it) }
             sizeAdapter?.notifyDataSetChanged()
@@ -170,7 +172,7 @@ class ProductDetailFragment : BaseFragment() {
             colorAdapter?.notifyDataSetChanged()
 
             variantImageList.clear()
-            productInfo[selectedColorPos]?.variantImage?.let {
+            productInfo?.getOrNull(selectedColorPos)?.variantImage?.let {
                 variantImageList.addAll(
                     it
                 )
@@ -188,18 +190,18 @@ class ProductDetailFragment : BaseFragment() {
             tvName.text = if (Constants.language=="ar") productData?.productNameAr else productData?.productNameEn
             tvStore.text = SharedPreference.get(requireActivity()).getUser()?.storeInfo?.storeName +" (${if (Constants.language=="ar") productData?.category?.nameArabic else productData?.category?.name})"
 
-         /*   val rating = productData?.reviewRating?.toFloatOrNull() ?: 0f
+            val rating = productData?.productRating?.toFloatOrNull() ?: 0f
             ratingBar.rating = rating
-            tvRating.text = "(${productData?.reviewRating})"*/
+            tvRating.text = "(${String.format("%.1f", rating)})"
 
-            tvPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.actualPrice?:0)} ${getString(R.string.kd)}"
-            tvDiscountedPrice.text = "${(productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.finalPrice?:0)} ${
+            tvPrice.text = "${(productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.actualPrice?:0)} ${getString(R.string.kd)}"
+            tvDiscountedPrice.text = "${(productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.finalPrice?:0)} ${
                 getString(
                     R.string.kd
                 )
             }"
 
-            val variant = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)
+            val variant = productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)
             val discountValue = variant?.discountValue ?: 0
             val discountType = if (variant?.discountType == "1")"% ${getString(R.string.off)}" else " ${getString(R.string.kd)} ${
                 getString(
@@ -225,20 +227,20 @@ class ProductDetailFragment : BaseFragment() {
 
             if (productData?.category?.name=="Women"){
                 clWomenSize.isVisible = true
-                tvBustSize.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.bust?:"NA"
-                tvHipSize.text =productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.hip?:"NA"
-                tvShoulderSize.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.shoulder?:"NA"
-                tvWaistSize.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.waist?:"NA"
-                tvSleeveLengthSize.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.sleeveLength?:"NA"
-                tvLengthSize.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.length?:"NA"
+                tvBustSize.text = productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.bust?:"NA"
+                tvHipSize.text =productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.hip?:"NA"
+                tvShoulderSize.text = productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.shoulder?:"NA"
+                tvWaistSize.text = productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.waist?:"NA"
+                tvSleeveLengthSize.text = productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.sleeveLength?:"NA"
+                tvLengthSize.text = productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.length?:"NA"
 
             }
             else{
                 clWomenSize.isVisible = false
             }
 
-            tvTotalStocksValue.text =  productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.totalStock
-            tvSkuValue.text = productInfo[selectedColorPos].productVariation?.get(selectedSizePos)?.sku
+            tvTotalStocksValue.text =  productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.totalStock
+            tvSkuValue.text = productInfo?.getOrNull(selectedColorPos)?.productVariation?.getOrNull(selectedSizePos)?.sku
 //            tvSkuThresholdValue.text =  productData?.productVariants?.get(selectedSizePos)?.skuThresholdValue
 
             updateStatus()
@@ -273,7 +275,7 @@ class ProductDetailFragment : BaseFragment() {
                 CommonMethod.shareProduct(requireActivity(),
                     productData?.productNameEn ?: "",
                     productData?.descriptionEn ?: "",
-                    productData?.productVariants?.get(selectedColorPos)?.variantImage?.get(0) ?: ""
+                    productData?.productVariants?.getOrNull(selectedColorPos)?.variantImage?.getOrNull(0) ?: ""
                 )
             }
 
@@ -281,7 +283,7 @@ class ProductDetailFragment : BaseFragment() {
                 CommonMethod.shareProductWithImage(requireActivity(),
                     "${getString(R.string.product_name)}: ${productData?.productNameEn}",
                     "${getString(R.string.description)}: ${productData?.descriptionEn}",
-                    productData?.productVariants?.get(selectedColorPos)?.variantImage?.get(0) ?: "",
+                    productData?.productVariants?.getOrNull(selectedColorPos)?.variantImage?.getOrNull(0) ?: "",
                     "https://desynat.com/user/product/detail-page/${productData?.id.toString()}"
                 )
             }
@@ -480,25 +482,25 @@ class ProductDetailFragment : BaseFragment() {
                     val variationList = ArrayList(
                         listByColor.map { variant ->
                             AddProductRequest.Product.ProductVariation(
-                                id = variant.id.toString(),
-                                productId = variant.productId.toString(),
-                                sizeId = variant.sizeId.toString(),
-                                actualPrice = variant.actualPrice,
-                                discountType = variant.discountType,
-                                discountValue = variant.discountValue,
-                                finalPrice = variant.finalPrice,
-                                totalStock = variant.totalStock,
-                                sku = variant.sku,
-                                skuThresholdValue = variant.skuThresholdValue ?: "0",
-                                bust = variant.bust,
-                                waist = variant.waist,
-                                hip = variant.hip,
-                                shoulder = variant.shoulder,
-                                sleeveLength = variant.sleeveLength,
-                                length = variant.length,
-                                status = variant.status,
-                                createdAt = variant.createdAt,
-                                updatedAt = variant.updatedAt
+                                id = variant?.id.toString(),
+                                productId = variant?.productId.toString(),
+                                sizeId = variant?.sizeId.toString(),
+                                actualPrice = variant?.actualPrice,
+                                discountType = variant?.discountType?:"",
+                                discountValue = variant?.discountValue?:"",
+                                finalPrice = variant?.finalPrice?:"",
+                                totalStock = variant?.totalStock?:"",
+                                sku = variant?.sku?:"",
+                                skuThresholdValue = variant?.skuThresholdValue ?: "0",
+                                bust = variant?.bust,
+                                waist = variant?.waist,
+                                hip = variant?.hip,
+                                shoulder = variant?.shoulder,
+                                sleeveLength = variant?.sleeveLength,
+                                length = variant?.length,
+                                status = variant?.status,
+                                createdAt = variant?.createdAt,
+                                updatedAt = variant?.updatedAt
                             )
                         }
                     )

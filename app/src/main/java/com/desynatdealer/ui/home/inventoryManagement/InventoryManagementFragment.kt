@@ -120,6 +120,7 @@ class InventoryManagementFragment : BaseFragment() {
                 })
             rvProduct.adapter = inventoryAdapter
 
+            lastQuery = binding?.etSearch?.text.toString().trim()
             etSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -164,7 +165,6 @@ class InventoryManagementFragment : BaseFragment() {
             when (selectedCategoryName) {
                 getString(R.string.women) -> {
                     selectedCategoryName = getString(R.string.women)
-                    getAllInventoryProduct()
                     tvWomen.setTextColor(requireActivity().getColor(R.color.white))
                     tvMen.setTextColor(requireActivity().getColor(R.color.black))
                     tvKids.setTextColor(requireActivity().getColor(R.color.black))
@@ -176,7 +176,6 @@ class InventoryManagementFragment : BaseFragment() {
 
                 getString(R.string.men) -> {
                     selectedCategoryName = getString(R.string.men)
-                    getAllInventoryProduct()
                     tvWomen.setTextColor(requireActivity().getColor(R.color.black))
                     tvMen.setTextColor(requireActivity().getColor(R.color.white))
                     tvKids.setTextColor(requireActivity().getColor(R.color.black))
@@ -188,7 +187,6 @@ class InventoryManagementFragment : BaseFragment() {
 
                 getString(R.string.kids) -> {
                     selectedCategoryName = getString(R.string.kids)
-                    getAllInventoryProduct()
                     tvWomen.setTextColor(requireActivity().getColor(R.color.black))
                     tvMen.setTextColor(requireActivity().getColor(R.color.black))
                     tvKids.setTextColor(requireActivity().getColor(R.color.white))
@@ -289,14 +287,16 @@ class InventoryManagementFragment : BaseFragment() {
             when (result) {
                 ApiResult.Loading -> {
                     if (!isFromSwipe) {
-                        ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                        binding?.progressBar?.isVisible = true
                     }
                 }
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    binding?.progressBar?.isVisible = false
                     if (isFromSwipe) {
                         binding?.swipeRefreshLayout?.isRefreshing = false
+
                         isFromSwipe = false
                     }
                     productData = result.data?.data
@@ -307,13 +307,14 @@ class InventoryManagementFragment : BaseFragment() {
                         2 -> result.data?.data?.inactiveProduct?.let { productList.addAll(it) }
                     }
 
-                    checkData()
                     inventoryAdapter?.notifyDataSetChanged()
+                    checkData()
                     viewModel.getInventoryProductResponse.value = null
                 }
 
                 is ApiResult.Error -> {
                     binding?.swipeRefreshLayout?.isRefreshing = false
+                    binding?.progressBar?.isVisible = false
                     isFromSwipe = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
@@ -487,11 +488,12 @@ class InventoryManagementFragment : BaseFragment() {
 
     private fun checkData() {
         binding?.apply {
-            tvNoDataFound.isVisible = productList.isEmpty()
 
             tvAll.text = "${getString(R.string.all)}(${productData?.allProductCount})"
             tvActive.text = "${getString(R.string.active)}(${productData?.activeProductCount})"
             tvInactive.text = "${getString(R.string.inactive)}(${productData?.inactiveProductCount})"
+            tvNoDataFound.isVisible = productList.isEmpty()
+
         }
 
 
@@ -521,7 +523,6 @@ class InventoryManagementFragment : BaseFragment() {
         viewModel.getColor()
         viewModel.getSize()
         viewModel.getBrand()
-        ProgressDialogUtils.getInstance().showProgress(requireActivity())
     }
 
     private fun updateInventoryProductStatus() {
