@@ -357,7 +357,14 @@ class ViewProfileFragment : BaseFragment() {
             invalidate()
          //   ivHighlightStory?.isVisible = storyList.isNotEmpty()
         }*/
-        binding?.ivHighlightStory?.isVisible = storyList.isNotEmpty()
+        binding?.apply {
+            if (storyList.size!=0){
+                binding?.ivHighlightStory?.isVisible = true
+            }
+            else{
+                binding?.ivHighlightStory?.isInvisible = true
+            }
+        }
     }
 
 }

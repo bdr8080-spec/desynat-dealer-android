@@ -20,17 +20,17 @@
             android:id="@+id/logoImage"
             android:layout_width="52dp"
             android:layout_height="52dp"
-            android:layout_marginStart="@dimen/_13sdp"
-            android:layout_marginTop="@dimen/_30sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/logo"
             android:clipToOutline="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/ivHighlightStory"
+            app:layout_constraintTop_toTopOf="@+id/ivHighlightStory"
+            app:layout_constraintEnd_toEndOf="@+id/ivHighlightStory"
+            app:layout_constraintBottom_toBottomOf="@+id/ivHighlightStory"
             app:shapeAppearanceOverlay="@style/circle_image" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:visibility="visible"
+            android:visibility="invisible"
             android:id="@+id/ivHighlightStory"
             android:layout_width="54dp"
             android:layout_height="54dp"
@@ -38,11 +38,11 @@
             app:strokeColor="@color/brown"
             android:clipToOutline="true"
             android:padding="2dp"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_30sdp"
             app:shapeAppearanceOverlay="@style/circle_image"
-            app:layout_constraintStart_toStartOf="@+id/logoImage"
-            app:layout_constraintTop_toTopOf="@+id/logoImage"
-            app:layout_constraintEnd_toEndOf="@+id/logoImage"
-            app:layout_constraintBottom_toBottomOf="@+id/logoImage"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivSupportBot"

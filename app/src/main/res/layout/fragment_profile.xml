@@ -23,16 +23,15 @@
             android:layout_height="@dimen/_40sdp"
             android:src="@drawable/ic_user"
             android:scaleType="centerCrop"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
             android:clipToOutline="true"
             app:shapeAppearanceOverlay="@style/circle_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="@+id/ivHighlightStory"
+            app:layout_constraintTop_toTopOf="@+id/ivHighlightStory"
+            app:layout_constraintEnd_toEndOf="@+id/ivHighlightStory"
+            app:layout_constraintBottom_toBottomOf="@+id/ivHighlightStory"/>
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:visibility="gone"
+            android:visibility="invisible"
             android:id="@+id/ivHighlightStory"
             android:layout_width="@dimen/_42sdp"
             android:layout_height="@dimen/_42sdp"
@@ -41,11 +40,12 @@
             app:strokeColor="@color/brown"
             app:strokeWidth="@dimen/_2sdp"
             android:padding="@dimen/_2sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
             app:shapeAppearanceOverlay="@style/circle_image"
-            app:layout_constraintStart_toStartOf="@+id/ivProfileImage"
-            app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
-            app:layout_constraintEnd_toEndOf="@+id/ivProfileImage"
-            app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
        <!-- <com.desynatdealer.ui.home.profile.StoryRingView
             android:id="@+id/storyRing"

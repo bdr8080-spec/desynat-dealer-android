@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -371,8 +372,14 @@ class ProfileFragment : BaseFragment() {
 //            segmentCount = storyList.size
 //            invalidate()
 //        }
-           binding?.ivHighlightStory?.isVisible = storyList.isNotEmpty()
-
+        binding?.apply {
+            if (storyList.size!=0){
+                binding?.ivHighlightStory?.isVisible = true
+            }
+            else{
+                binding?.ivHighlightStory?.isInvisible = true
+            }
+        }
     }
 
     private fun getStory() {

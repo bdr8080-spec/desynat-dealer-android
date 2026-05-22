@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -427,7 +428,14 @@ class HomeFragment : BaseFragment() {
 //            }
 //        }
 
-        binding?.ivHighlightStory?.isVisible = adminStoryList.isNotEmpty()
+        binding?.apply {
+            if (adminStoryList.size!=0){
+                binding?.ivHighlightStory?.isVisible = true
+            }
+            else{
+                binding?.ivHighlightStory?.isInvisible = true
+            }
+        }
 
     }
 

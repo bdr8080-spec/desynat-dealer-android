@@ -79,8 +79,10 @@
                     android:scaleType="centerCrop"
                     android:clipToOutline="true"
                     app:shapeAppearanceOverlay="@style/circle_image"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintStart_toStartOf="@+id/ivHighlightStory"
+                    app:layout_constraintTop_toTopOf="@+id/ivHighlightStory"
+                    app:layout_constraintEnd_toEndOf="@+id/ivHighlightStory"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivHighlightStory"/>
 
                <!-- <com.desynatdealer.ui.home.profile.StoryRingView
                     android:id="@+id/storyRing"
@@ -92,7 +94,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>-->
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:visibility="gone"
+                    android:visibility="invisible"
                     android:id="@+id/ivHighlightStory"
                     android:layout_width="@dimen/_56sdp"
                     android:layout_height="@dimen/_56sdp"
@@ -101,10 +103,9 @@
                     android:clipToOutline="true"
                     android:padding="@dimen/_2sdp"
                     app:shapeAppearanceOverlay="@style/circle_image"
-                    app:layout_constraintStart_toStartOf="@+id/ivProfileImage"
-                    app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
-                    app:layout_constraintEnd_toEndOf="@+id/ivProfileImage"
-                    app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                   />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivAddStory"
