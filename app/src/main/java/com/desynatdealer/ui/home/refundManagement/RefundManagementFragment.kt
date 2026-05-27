@@ -276,9 +276,9 @@ class RefundManagementFragment : BaseFragment() {
             if (refundFilter != null) {
                 filter = refundFilter
                 when (filter) {
-                    "1" -> rbReturn.isChecked = true
-                    "2" -> rbExchange.isChecked = true
-                    "3" -> rbCancelled.isChecked = true
+                    "1" -> rbNotDeliver.isChecked = true
+                    "2" -> rbReturn.isChecked = true
+                    "3" -> rbExchange.isChecked = true
                 }
             }
 
@@ -292,9 +292,9 @@ class RefundManagementFragment : BaseFragment() {
 
             radioGroup.setOnCheckedChangeListener { _, checkedId ->
                 filter = when (checkedId) {
-                    R.id.rbReturn -> "1"
-                    R.id.rbExchange -> "2"
-                    R.id.rbCancelled -> "3"
+                    R.id.rbNotDeliver -> "1"
+                    R.id.rbReturn -> "2"
+                    R.id.rbExchange -> "3"
                     else -> null
                 }
             }

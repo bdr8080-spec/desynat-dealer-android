@@ -50,10 +50,10 @@
         app:layout_constraintTop_toBottomOf="@+id/tvToolbar">
 
     <RadioButton
-        android:id="@+id/rbReturn"
+        android:id="@+id/rbNotDeliver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Return"
+        android:text="Not Delivered"
         android:layout_weight="1"
         android:textColor="@color/black"
         android:paddingVertical="@dimen/_8sdp"
@@ -66,11 +66,10 @@
         android:textSize="@dimen/_11sdp"/>
 
         <RadioButton
-            android:visibility="gone"
-            android:id="@+id/rbExchange"
+            android:id="@+id/rbReturn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Exchange"
+            android:text="Return"
             android:layout_weight="1"
             android:textColor="@color/black"
             android:paddingVertical="@dimen/_8sdp"
@@ -83,7 +82,7 @@
             android:textSize="@dimen/_11sdp"/>
 
         <RadioButton
-            android:id="@+id/rbCancelled"
+            android:id="@+id/rbExchange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cancelled"
