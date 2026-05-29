@@ -48,7 +48,7 @@
             android:id="@+id/ivSupportBot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/support_bot_icon"
+            android:src="@drawable/ic_support_chat"
             android:paddingVertical="@dimen/_5sdp"
             android:paddingStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
