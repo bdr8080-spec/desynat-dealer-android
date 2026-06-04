@@ -395,6 +395,11 @@ interface CommonApiService {
         @Body  map: HashMap<String, Any>
     ): Response<CommonResponse>
 
+    @POST(Constants.SEE_STORY)
+    suspend fun seeStory(
+        @Body  map: HashMap<String, Any>
+    ): Response<CommonResponse>
+
     @GET(Constants.GET_TICKET_TYPE)
     suspend fun getTicketType(): Response<GetTicketTypeResponse>
 

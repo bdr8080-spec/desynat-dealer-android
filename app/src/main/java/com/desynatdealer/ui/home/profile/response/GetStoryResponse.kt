@@ -20,6 +20,8 @@ data class GetStoryResponse(
         val `thumbnail`: String?="",
         @SerializedName("id")
         val id: String?="",
+        @SerializedName("is_seen")
+        var isSeen: Int=0,
         @SerializedName("seller_id")
         val sellerId: String?="",
         @SerializedName("status")

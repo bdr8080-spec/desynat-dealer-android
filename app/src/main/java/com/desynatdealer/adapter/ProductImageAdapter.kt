@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.bumptech.glide.Glide
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemProductImageBinding
 
@@ -18,13 +19,11 @@ class ProductImageAdapter(var context:Context, var productList: ArrayList<String
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) = with(binding){
             val productData = productList[position]
-                ivProduct.load(productData) {
-                    crossfade(true)
-                    placeholder(R.drawable.ic_placeholder)
-                    error(R.drawable.ic_placeholder)
-                }
 
-                ivProduct.setOnClickListener {
+            Glide.with(context).load(productData).placeholder(R.drawable.ic_placeholder).into(ivProduct)
+
+
+            ivProduct.setOnClickListener {
                     click.onClick(position)
                 }
         }

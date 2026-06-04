@@ -27,7 +27,7 @@ suspend fun <T : Any> networkCall(response: Response<T>): ApiResult<T> {
                 "Network Error"
             }
         } catch (e: Exception) {
-            "Network Error"
+            e.message.toString()
         }
         ApiResult.Error(messageCode as String,response.code())
     }

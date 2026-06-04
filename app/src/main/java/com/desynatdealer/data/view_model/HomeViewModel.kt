@@ -1079,6 +1079,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
             _raiseTicketResponse.value = repo.raiseTicket(map)
         }
     }
+
+    private val _seeStoryResponse =
+        MutableLiveData<ApiResult<CommonResponse>?>()
+    val seeStoryResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        get() = _seeStoryResponse
+
+    fun seeStory(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _seeStoryResponse.value = ApiResult.Loading
+            _seeStoryResponse.value = repo.seeStory(map)
+        }
+    }
     private val _getTicketTypeResponse =
         MutableLiveData<ApiResult<GetTicketTypeResponse>?>()
     val getTicketTypeResponse: MutableLiveData<ApiResult<GetTicketTypeResponse>?>

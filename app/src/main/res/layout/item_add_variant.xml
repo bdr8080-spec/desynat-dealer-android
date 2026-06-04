@@ -54,7 +54,7 @@
             style="@style/edit_text_title"
             android:layout_width="wrap_content"
             android:textColor="#875C3A"
-            android:text="@string/upload_product_image"
+            android:text="@string/upload_images_videos"
             android:textAlignment="center"
             android:textSize="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"

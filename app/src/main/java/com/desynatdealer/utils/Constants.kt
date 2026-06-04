@@ -109,7 +109,7 @@ object Constants {
     const val GET_LIVE_EVENT_COUNT = "/api/seller/other-seller-live-room-records"
     const val GET_AGORA_TOKEN = "/api/agora/token"
     const val GET_ADMIN_STORY = "/api/seller/get_Seller_admin_stories"
-
+    const val SEE_STORY = "/api/see_story"
     const val GET_TICKET_TYPE = "/api/ticket_types"
     const val RAISE_TICKET = "/api/seller/raise_ticket"
     const val GET_RAISED_TICKET = "/api/seller/get_raised_tickets"

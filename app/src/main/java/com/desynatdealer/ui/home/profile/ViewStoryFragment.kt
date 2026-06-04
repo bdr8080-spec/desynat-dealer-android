@@ -22,11 +22,13 @@ import com.desynatdealer.databinding.FragmentViewStoryBinding
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
+import kotlin.text.get
 
 @AndroidEntryPoint
 class ViewStoryFragment : BaseFragment() {
@@ -196,6 +198,14 @@ class ViewStoryFragment : BaseFragment() {
         viewModel.deleteReel(map)
     }
 
+    private fun seeStory(id: String){
+        val map = HashMap<String, Any>()
+        map["story_id"] = id
+        map["type"] = 2
+        map["user_id"] = SharedPreference.get(requireActivity()).getUser()?.id.toString()
+        viewModel.seeStory(map)
+    }
+
             private fun setupAdapter() {
 
                 storyPagerAdapter = StoryPagerAdapter(requireActivity(),
@@ -283,7 +293,12 @@ class ViewStoryFragment : BaseFragment() {
                             progressBars.forEachIndexed { index, progressBar ->
                                 progressBar.progress = if (index < position) 100 else 0
                             }
+                            val story = myStories[position]
 
+                            if ((from == "story" || from == "admin") && story.isSeen == 0) {
+                                seeStory(story.id.toString())
+                                story.isSeen = 1
+                            }
                             startProgress(position)
                         }
                     }
@@ -372,12 +387,31 @@ class ViewStoryFragment : BaseFragment() {
             }
 
 
-            private fun setData() {
-                if (myStories.isNotEmpty()) {
-                    setupProgressBars(myStories.size)
-                    startProgress(0)
-                }
+    private fun setData() {
+
+        if (myStories.isNotEmpty()) {
+
+            setupProgressBars(myStories.size)
+
+            val startPosition = myStories.indexOfFirst { it.isSeen == 0 }
+                .takeIf { it != -1 } ?: 0
+
+            binding?.viewPager?.setCurrentItem(startPosition, false)
+
+            val story = myStories[startPosition]
+
+            if ((from == "story" || from == "admin") && story.isSeen == 0) {
+                seeStory(story.id.toString())
+                story.isSeen = 1
             }
+
+            progressBars.forEachIndexed { index, progressBar ->
+                progressBar.progress = if (index < startPosition) 100 else 0
+            }
+
+            startProgress(startPosition)
+        }
+    }
 
             private fun setupProgressBars(count: Int) {
 

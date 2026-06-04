@@ -2,6 +2,7 @@ package com.desynatdealer.ui.home.productManagement
 
 import android.app.Dialog
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -13,8 +14,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.bumptech.glide.Glide
 import com.desynatdealer.R
-import com.desynatdealer.adapter.ImagePreviewAdapter
 import com.desynatdealer.adapter.ProductImageAdapter
 import com.desynatdealer.adapter.ProductRectangleColorAdapter
 import com.desynatdealer.adapter.ReviewAdapter
@@ -24,12 +25,11 @@ import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentProductDetailBinding
-import com.desynatdealer.databinding.ImagePreviewDialogBinding
+import com.desynatdealer.databinding.ProductPreviewDialogBinding
 import com.desynatdealer.databinding.SizeGuideChartDialogBinding
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
-import com.desynatdealer.ui.home.productManagement.response.GetProductDetailResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
@@ -39,7 +39,6 @@ import com.desynatdealer.utils.showToast
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.collections.get
 
 @AndroidEntryPoint
 class ProductDetailFragment : BaseFragment() {

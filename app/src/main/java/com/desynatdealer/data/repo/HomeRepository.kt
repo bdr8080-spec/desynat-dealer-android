@@ -724,6 +724,14 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
+    suspend fun seeStory(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+        return try {
+            networkCall(api.seeStory(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
     suspend fun notificationOnOff(map: HashMap<String, Any>): ApiResult<UpdateNotificationResponse> {
         return try {
             networkCall(api.notificationOnOff(map))

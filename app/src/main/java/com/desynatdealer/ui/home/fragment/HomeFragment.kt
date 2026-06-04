@@ -1,10 +1,12 @@
 package com.desynatdealer.ui.home.fragment
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -431,6 +433,17 @@ class HomeFragment : BaseFragment() {
         binding?.apply {
             if (adminStoryList.size!=0){
                 binding?.ivHighlightStory?.isVisible = true
+                val allStoriesSeen = adminStoryList?.all { it.isSeen == 1 } == true
+                binding?.ivHighlightStory?.strokeColor = ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        if (allStoriesSeen) {
+                            R.color.light_brown   // All stories read
+                        } else {
+                            R.color.brown         // At least one unread story
+                        }
+                    )
+                )
             }
             else{
                 binding?.ivHighlightStory?.isInvisible = true

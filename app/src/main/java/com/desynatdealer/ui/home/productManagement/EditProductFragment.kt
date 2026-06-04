@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -34,6 +35,7 @@ import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ImagePicker
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.StoryMediaPicker
 import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -83,6 +85,38 @@ class EditProductFragment : BaseFragment() {
 
     private var sizeChartUrl: String? = null
 
+    private lateinit var storyMediaPicker: StoryMediaPicker
+
+    private val cameraStoryLauncher =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            storyMediaPicker.onImageCameraResult(success)
+        }
+
+    private val galleryStoryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            storyMediaPicker.onImageGalleryResult(uri)
+        }
+
+    private val permissionStoryLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            storyMediaPicker.onPermissionResult(granted)
+        }
+
+    private val videoCameraLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            storyMediaPicker.onVideoCameraResult(
+                result.resultCode == AppCompatActivity.RESULT_OK
+            )
+        }
+
+
+    private val videoGalleryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            storyMediaPicker.onVideoGalleryResult(uri)
+        }
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -127,7 +161,8 @@ class EditProductFragment : BaseFragment() {
                     2->{
                         imageType = 2
                         selectedPos = position
-                        imagePicker.showImageSourceDialog()
+                      //  imagePicker.showImageSourceDialog()
+                        storyMediaPicker.showAllStoryPicker()
                     }
                     3->{
                         variantList.removeAt(position)
@@ -259,6 +294,25 @@ class EditProductFragment : BaseFragment() {
                 viewModel.upload(image)
             }
         }
+
+        storyMediaPicker = StoryMediaPicker(
+            requireActivity(),
+            cameraStoryLauncher,
+            galleryStoryLauncher,
+            videoCameraLauncher,
+            videoGalleryLauncher,
+            permissionStoryLauncher
+        ) { uri, type ->
+            uri?.let {
+                val file = CommonMethod.uriToFileForStory(requireActivity(), it)
+                val image = file?.toMultiPartBody("file")
+                viewModel.uploadVideoImage(image)
+                /*
+                  val image = CommonMethod.uriToFile(requireActivity(), it).toMultiPartBody("file")
+                  viewModel.upload(image)*/
+            }
+        }
+
 
     }
 
@@ -551,6 +605,28 @@ class EditProductFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.uploadResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
+        viewModel.uploadVideoImageResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
+                }
+
+                is ApiResult.Success -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    result.data?.data?.url?.let { setImageData(it) }
+                    viewModel.uploadVideoImageResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    ProgressDialogUtils.getInstance().hideProgress()
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.uploadVideoImageResponse.value = null
                 }
 
                 else -> {}
