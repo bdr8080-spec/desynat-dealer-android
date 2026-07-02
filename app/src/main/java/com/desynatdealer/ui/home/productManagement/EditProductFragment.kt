@@ -30,6 +30,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
+import com.desynatdealer.ui.home.response.ResponseDeliveryTime
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.Constants
@@ -48,6 +49,8 @@ class EditProductFragment : BaseFragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private var categoryList = ArrayList<GetCategoryResponse.Data>()
     private var subCategoryList = ArrayList<GetSubCategoryResponse.Data>()
+    var selectedDeliveryTime: ResponseDeliveryTime.Data?=null
+    var selectedDeliveryTimeId=""
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var brandList = ArrayList<GetSellerBrandResponse.Data>()
     private var sizeList = ArrayList<GetSizeResponse.Data>()
@@ -62,7 +65,7 @@ class EditProductFragment : BaseFragment() {
     var selectedBrand: GetSellerBrandResponse.Data?=null
     var selectedSubCategory: GetSubCategoryResponse.Data?=null
     var selectedCategory: GetCategoryResponse.Data?=null
-
+    private var deliveryList= ArrayList<ResponseDeliveryTime.Data>()
     private var specificationList = ArrayList<GetAllProductResponse.Data.AllProductData.ProductSpecification>()
     private var addSpecificationAdapter : AddSpecificationAdapter? =null
     var isWomen: Boolean = true
@@ -136,7 +139,6 @@ class EditProductFragment : BaseFragment() {
     override fun initView() {
 
         ProgressDialogUtils.getInstance().hideProgress()
-
         categoryList = viewModel.categoryList.value as ArrayList<GetCategoryResponse.Data>
         colorList = viewModel.colorList.value as ArrayList<GetColorResponse.Data>
         sizeList = viewModel.sizeList.value as ArrayList<GetSizeResponse.Data>
@@ -153,6 +155,8 @@ class EditProductFragment : BaseFragment() {
             variantList = Gson().fromJson(productInfo, type)
 
         }
+        viewModel.getDeliveryTime()
+
 
         variantAdapter = VariantAdapter(requireActivity(),
             productData?.category?.name=="Women",variantList,colorList,sizeList,true,object:VariantAdapter.VariantClick{
@@ -401,6 +405,7 @@ class EditProductFragment : BaseFragment() {
             sizeChartUrl = productData?.uploadSizeChart
 
             selectedCategory = productData?.category
+            selectedDeliveryTimeId=productData?.delivery_time_id?:""
             selectedSubCategory = productData?.subcategory
             selectedBrand = productData?.brand
 
@@ -544,6 +549,11 @@ class EditProductFragment : BaseFragment() {
                 showSubCategoryDropdown(etSubCategory)
             }
 
+            etDeliveryTime.setOnClickListener {
+                showDeliveryTimeList(etDeliveryTime)
+            }
+
+
             etBrand.setOnClickListener {
                 showBrandDropdown(etBrand)
             }
@@ -593,6 +603,11 @@ class EditProductFragment : BaseFragment() {
     }
 
     override fun observe() {
+        viewModel.deliveryTimeResponse.observe(viewLifecycleOwner){
+            selectedDeliveryTime=it?.data?.data?.firstOrNull { it.id.toString()==selectedDeliveryTimeId }
+            deliveryList=it?.data?.data?:arrayListOf()
+            binding?.etDeliveryTime?.setText(selectedDeliveryTime?.name?:"")
+        }
 
         viewModel.uploadResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -719,6 +734,19 @@ class EditProductFragment : BaseFragment() {
         popup.setOnItemClickListener { _, _, pos, _ ->
             selectedSubCategory = subCategoryList[pos]
             view.setText(if (Constants.language=="ar") selectedSubCategory?.nameArabic else selectedSubCategory?.nameEnglish)
+            popup.dismiss()
+        }
+        popup.show()
+    }
+
+    private fun showDeliveryTimeList(view: AppCompatEditText) {
+        val list = deliveryList.map { it.name }
+        val popup = androidx.appcompat.widget.ListPopupWindow(requireActivity())
+        popup.anchorView = view
+        popup.setAdapter(ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, list))
+        popup.setOnItemClickListener { _, _, pos, _ ->
+            selectedDeliveryTime = deliveryList[pos]
+            view.setText(selectedDeliveryTime?.name)
             popup.dismiss()
         }
         popup.show()
@@ -1068,7 +1096,8 @@ class EditProductFragment : BaseFragment() {
                 productSpeEn = specificationNameListEn,
                 productSpeFeatureEn = specificationFeatureListEn,
                 productSpeFeatureAr = specificationFeatureListAr,
-                productId = productData?.id.toString()
+                productId = productData?.id.toString(),
+                delivery_time_id = selectedDeliveryTime?.id.toString()
                 )
             viewModel.editProduct(request)
         }

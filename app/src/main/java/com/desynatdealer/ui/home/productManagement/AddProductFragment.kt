@@ -31,6 +31,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetColorResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
+import com.desynatdealer.ui.home.response.ResponseDeliveryTime
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.Constants
@@ -46,6 +47,7 @@ class AddProductFragment : BaseFragment() {
     private var binding : FragmentAddProductBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
     private var categoryList = ArrayList<GetCategoryResponse.Data>()
+    private var deliveryList= ArrayList<ResponseDeliveryTime.Data>()
     private var subCategoryList = ArrayList<GetSubCategoryResponse.Data>()
     private var colorList = ArrayList<GetColorResponse.Data>()
     private var brandList = ArrayList<GetSellerBrandResponse.Data>()
@@ -60,6 +62,7 @@ class AddProductFragment : BaseFragment() {
     var selectedPos = -1
     var selectedBrand: GetSellerBrandResponse.Data?=null
     var selectedSubCategory: GetSubCategoryResponse.Data?=null
+    var selectedDeliveryTime: ResponseDeliveryTime.Data?=null
     var selectedCategory: GetCategoryResponse.Data?=null
 
     private lateinit var imagePicker: ImagePicker
@@ -128,11 +131,11 @@ class AddProductFragment : BaseFragment() {
 
     override fun initView() {
         ProgressDialogUtils.getInstance().hideProgress()
-
+        viewModel.getDeliveryTime()
         categoryList = viewModel.categoryList.value as ArrayList<GetCategoryResponse.Data>
         colorList = viewModel.colorList.value as ArrayList<GetColorResponse.Data>
         sizeList = viewModel.sizeList.value as ArrayList<GetSizeResponse.Data>
-        brandList = viewModel.brandList.value as ArrayList<GetSellerBrandResponse.Data>
+            brandList = viewModel.brandList.value as ArrayList<GetSellerBrandResponse.Data>
 
             if (categoryList.isNotEmpty()){
                 isWomen = true
@@ -520,6 +523,9 @@ class AddProductFragment : BaseFragment() {
             etSubCategory.setOnClickListener {
                 showSubCategoryDropdown(etSubCategory)
             }
+            etDeliveryTime.setOnClickListener {
+                showDeliveryTimeList(etDeliveryTime)
+            }
 
             etBrand.setOnClickListener {
                 showBrandDropdown(etBrand)
@@ -531,6 +537,10 @@ class AddProductFragment : BaseFragment() {
     }
 
     override fun observe() {
+
+        viewModel.deliveryTimeResponse.observe(viewLifecycleOwner){
+            deliveryList=it?.data?.data?:arrayListOf()
+        }
         viewModel.categoryResponse.observe(viewLifecycleOwner){result->
             when(result){
                 ApiResult.Loading -> {
@@ -731,6 +741,18 @@ class AddProductFragment : BaseFragment() {
         popup.setOnItemClickListener { _, _, pos, _ ->
             selectedSubCategory = subCategoryList[pos]
             view.setText(if (Constants.language=="ar") selectedSubCategory?.nameArabic else selectedSubCategory?.nameEnglish)
+            popup.dismiss()
+        }
+        popup.show()
+    }
+    private fun showDeliveryTimeList(view: AppCompatEditText) {
+        val list = deliveryList.map { it.name }
+        val popup = androidx.appcompat.widget.ListPopupWindow(requireActivity())
+        popup.anchorView = view
+        popup.setAdapter(ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, list))
+        popup.setOnItemClickListener { _, _, pos, _ ->
+            selectedDeliveryTime = deliveryList[pos]
+            view.setText(selectedDeliveryTime?.name)
             popup.dismiss()
         }
         popup.show()
@@ -1061,6 +1083,7 @@ class AddProductFragment : BaseFragment() {
                 productSpeEn = specificationNameListEn,
                 productSpeFeatureEn = specificationFeatureListEn,
                 productSpeFeatureAr = specificationFeatureListAr,
+                delivery_time_id=selectedDeliveryTime?.id.toString()
 
             )
             viewModel.addProduct(request)

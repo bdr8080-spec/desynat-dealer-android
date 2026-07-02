@@ -56,3 +56,18 @@ data class GetAllPlanResponse(
         val noOfFreeMonths: String? = null //if is_free_month is 1
     )
 }
+
+data class ResponseDeliveryTime(
+    val `data`: ArrayList<Data>? = null,
+    val message: String? = null,
+    val status: String? = null
+) {
+    data class Data(
+        val created_at: String? = null,
+        val id: Int? = null,
+        val name: String? = null,
+        val name_ar: String? = null,
+        val status: String? = null,
+        val updated_at: String? = null
+    )
+}

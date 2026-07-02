@@ -48,6 +48,7 @@ import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoo
 import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.response.GetDashboardDataResponse
+import com.desynatdealer.ui.home.response.ResponseDeliveryTime
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
@@ -94,6 +95,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _subscriptionPlanResponse.value = ApiResult.Loading
             _subscriptionPlanResponse.value = repo.getSubscriptionPlan()
+        }
+    }
+
+    private val _deliveryTimeResponse =
+        MutableLiveData<ApiResult<ResponseDeliveryTime>?>()
+    val deliveryTimeResponse: MutableLiveData<ApiResult<ResponseDeliveryTime>?>
+        get() = _deliveryTimeResponse
+
+    fun getDeliveryTime() {
+        viewModelScope.launch {
+            _deliveryTimeResponse.value = ApiResult.Loading
+            _deliveryTimeResponse.value = repo.getDeliveryTime()
         }
     }
 

@@ -9,6 +9,7 @@ data class AddProductRequest(
     val brandId: String,
     @SerializedName("cash_on_delivery")
     val cashOnDelivery: String,
+    val delivery_time_id: String,
     @SerializedName("category_id")
     val categoryId: String,
     @SerializedName("customized_product")

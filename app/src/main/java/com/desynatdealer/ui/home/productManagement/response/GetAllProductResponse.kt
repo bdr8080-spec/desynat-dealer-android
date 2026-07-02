@@ -260,6 +260,7 @@ data class GetAllProductResponse(
             val brandId: String,
             @SerializedName("cash_on_delivery")
             val cashOnDelivery: String,
+            val delivery_time_id: String,
             @SerializedName("category")
             var category: GetCategoryResponse.Data,
             @SerializedName("category_id")

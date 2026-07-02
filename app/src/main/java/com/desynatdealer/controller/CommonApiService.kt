@@ -52,6 +52,7 @@ import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoo
 import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.response.GetDashboardDataResponse
+import com.desynatdealer.ui.home.response.ResponseDeliveryTime
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
@@ -139,6 +140,9 @@ interface CommonApiService {
 
     @GET(Constants.GET_SUBSCRIPTION_PLAN)
     suspend fun getSubscriptionPlan(): Response<GetAllPlanResponse>
+
+    @GET("/api/delivery_times")
+    suspend fun getDeliveryTime(): Response<ResponseDeliveryTime>
 
     @POST(Constants.GET_PROFILE)
     suspend fun getSellerInfo(@Header("Authorization") auth: String

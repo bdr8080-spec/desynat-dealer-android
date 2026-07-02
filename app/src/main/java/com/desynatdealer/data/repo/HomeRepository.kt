@@ -47,6 +47,7 @@ import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoo
 import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.response.GetDashboardDataResponse
+import com.desynatdealer.ui.home.response.ResponseDeliveryTime
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuResponse
@@ -63,6 +64,14 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     suspend fun getSubscriptionPlan(): ApiResult<GetAllPlanResponse> {
         return try {
             networkCall(api.getSubscriptionPlan())
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getDeliveryTime(): ApiResult<ResponseDeliveryTime> {
+        return try {
+            networkCall(api.getDeliveryTime())
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }
