@@ -13,6 +13,7 @@ import com.desynatdealer.ui.home.chat.response.ChatMessage
 import com.desynatdealer.ui.home.chat.toSafeInt
 import com.desynatdealer.ui.home.chat.toSafeString
 import com.desynatdealer.utils.SharedPreference
+import kotlin.times
 
 class ChatAdapter(var context:Context, var chatList: ArrayList<ChatMessage>, var chatClick:ChatClick) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
@@ -52,7 +53,7 @@ class ChatAdapter(var context:Context, var chatList: ArrayList<ChatMessage>, var
                     else{
                         ivRead.isVisible = false
                     }
-                    tvMyMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toSafeString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mm a")
+                    tvMyMsgTime.text = CommonMethod.customizeChangeDateFormatKuwait(chatData.times.toSafeString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mma")
 
                 }
                 else{
@@ -72,7 +73,7 @@ class ChatAdapter(var context:Context, var chatList: ArrayList<ChatMessage>, var
                             else -> arText
                         }
                     }
-                    tvOtherMsgTime.text = CommonMethod.customizeChangeDateFormat(chatData.times.toSafeString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mm a")
+                    tvOtherMsgTime.text = CommonMethod.customizeChangeDateFormatKuwait(chatData.times.toSafeString(),"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'","hh:mm a")
                 }
 
                 ivMyMsg.setOnClickListener {

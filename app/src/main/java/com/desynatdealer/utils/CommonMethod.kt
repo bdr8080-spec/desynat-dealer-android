@@ -514,6 +514,101 @@ object CommonMethod {
         }
     }
 
+    fun customizeChangeDateFormatKuwait(inputDate: String,inputFormat:String="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",outputFormat:String="dd MMM,yyyy"): String {
+        /*  val originalFormat: SimpleDateFormat = SimpleDateFormat(inputFormat, Locale.ENGLISH).apply {
+              timeZone = TimeZone.getTimeZone("Asia/Kuwait")}
+  */
+        val originalFormat = SimpleDateFormat(
+            inputFormat,
+            Locale.ENGLISH
+        ).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+        /* val targetFormat = SimpleDateFormat(outputFormat, Locale.ENGLISH).apply {
+             timeZone = TimeZone.getDefault()
+         }*/
+
+        val targetFormat = SimpleDateFormat(outputFormat, Locale.ENGLISH).apply {
+            timeZone = TimeZone.getTimeZone("Asia/Kuwait")
+        }
+        val date: Date
+        try {
+            if (Constants.language == "ar") {
+                val date = originalFormat.parse(inputDate)
+
+                var formattedDate = targetFormat.format(date!!)
+
+                val englishMonthsMMMM = arrayOf(
+                    "January", "February", "March", "April",
+                    "May", "June", "July", "August",
+                    "September", "October", "November", "December"
+                )
+
+                val arabicMonthsMMMM = arrayOf(
+                    "يناير", "فبراير", "مارس", "أبريل",
+                    "مايو", "يونيو", "يوليو", "أغسطس",
+                    "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+                )
+
+                for (i in englishMonthsMMMM.indices) {
+                    formattedDate =
+                        formattedDate.replace(
+                            englishMonthsMMMM[i],
+                            arabicMonthsMMMM[i]
+                        )
+                }
+
+                val englishMonths = arrayOf(
+                    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                )
+
+                val arabicMonths = arrayOf(
+                    "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+                    "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+                )
+
+                for (i in englishMonths.indices) {
+                    formattedDate =
+                        formattedDate.replace(
+                            englishMonths[i],
+                            arabicMonths[i]
+                        )
+                }
+
+                val englishDays = arrayOf(
+                    "Sun", "Mon", "Tue", "Wed",
+                    "Thu", "Fri", "Sat"
+                )
+
+                val arabicDays = arrayOf(
+                    "الأحد", "الاثنين", "الثلاثاء", "الأربعاء",
+                    "الخميس", "الجمعة", "السبت"
+                )
+
+                for (i in englishDays.indices) {
+                    formattedDate = formattedDate.replace(
+                        englishDays[i],
+                        arabicDays[i]
+                    )
+                }
+
+                formattedDate = formattedDate
+                    .replace("AM", "ص")
+                    .replace("PM", "م")
+                return formattedDate
+            }
+            else {
+                date = originalFormat.parse(inputDate)
+                return targetFormat.format(date)
+            }
+        } catch (e: ParseException) {
+            e.printStackTrace()
+            return ""
+        }
+    }
+
+
     fun customizeChangeDateFormatKuwaitFromUtc(
         inputDate: String,
         inputFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'",
@@ -982,17 +1077,31 @@ object CommonMethod {
         return end != null && today.after(end)
     }
 
-    fun formatChatTime(context: Context, inputTime: String,inputFormat: String="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): String {
-        val inputFormat = SimpleDateFormat(inputFormat, Locale.ENGLISH)
-        inputFormat.timeZone = TimeZone.getTimeZone("UTC")
-        val timeFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
-        val fullDateFormat = SimpleDateFormat("dd/MM/yy, hh:mm a", Locale.ENGLISH)
+    fun formatChatTime(
+        context: Context,
+        inputTime: String,
+        inputType: String = "dd MMM yyyy, hh:mm a"
+    ): String {
+
+        val inputFormat = SimpleDateFormat(inputType, Locale.ENGLISH).apply {
+            timeZone = TimeZone.getTimeZone("Asia/Kolkata") // Backend time
+        }
+
+        val kuwaitTimeZone = TimeZone.getTimeZone("Asia/Kuwait")
+
+        val timeFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH).apply {
+            timeZone = kuwaitTimeZone
+        }
+
+        val fullDateFormat = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH).apply {
+            timeZone = kuwaitTimeZone
+        }
 
         val messageDate = inputFormat.parse(inputTime) ?: return inputTime
-        val now = Date()
 
-        val calendar = Calendar.getInstance()
-        calendar.time = now
+        val calendar = Calendar.getInstance(kuwaitTimeZone)
+        val now = calendar.time
+
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
@@ -1003,39 +1112,47 @@ object CommonMethod {
         calendar.add(Calendar.DAY_OF_YEAR, -1)
         val startOfYesterday = calendar.time
 
+        val formattedTime = timeFormat.format(messageDate)
+            .replace("AM", if(Constants.language=="ar")"ص" else "AM")
+            .replace("PM", if(Constants.language=="ar")"م" else "PM")
+
         return when {
             messageDate.after(startOfToday) -> {
-                "${context.getString(R.string.today)}, ${
-                    timeFormat.format(messageDate)
-                        .replace("AM", if (Constants.language=="ar")"ص" else "AM")
-                        .replace("PM", if (Constants.language=="ar")"م" else "PM")
-                }"
+                "${context.getString(R.string.today)}, $formattedTime"
             }
 
             messageDate.after(startOfYesterday) -> {
-                "${context.getString(R.string.yesterday)}, ${
-                    timeFormat.format(messageDate).replace("AM", if (Constants.language=="ar")"ص" else "AM")
-                        .replace("PM", if (Constants.language=="ar")"م" else "PM")
-                }"
+                "${context.getString(R.string.yesterday)}, $formattedTime"
             }
 
             else -> {
-                val diffMillis = now.time - messageDate.time
-                val daysDiff = TimeUnit.MILLISECONDS.toDays(diffMillis)
-
-                if (daysDiff in 2..30) {
-                    "$daysDiff ${context.getString(R.string.days_ago)}, ${
-                        timeFormat.format(messageDate).replace("AM", if (Constants.language=="ar")"ص" else "AM")
-                            .replace("PM", if (Constants.language=="ar")"م" else "PM")
-                    }"
-                } else {
-                    fullDateFormat.format(messageDate).replace("AM", if (Constants.language=="ar")"ص" else "AM")
-                        .replace("PM", if (Constants.language=="ar")"م" else "PM")
-                }
+                fullDateFormat.format(messageDate)
+                    .replace("AM", if(Constants.language=="ar")"ص" else "AM")
+                    .replace("PM", if(Constants.language=="ar")"م" else "PM")
             }
         }
-    }
 
+        /*   return when {
+               messageDate.after(startOfToday) ->
+                   "${context.getString(R.string.today)}, $formattedTime"
+
+               messageDate.after(startOfYesterday) ->
+                   "${context.getString(R.string.yesterday)}, $formattedTime"
+
+               else -> {
+                   val diffMillis = now.time - messageDate.time
+                   val daysDiff = TimeUnit.MILLISECONDS.toDays(diffMillis)
+
+                   if (daysDiff in 2..30) {
+                       "$daysDiff ${context.getString(R.string.days_ago)}, $formattedTime"
+                   } else {
+                       fullDateFormat.format(messageDate)
+                           .replace("AM", "ص")
+                           .replace("PM", "م")
+                   }
+               }
+           }*/
+    }
     fun imagePreviewDialog(context: Context, imageList: ArrayList<String>) {
         val dialog = Dialog(context, R.style.CustomDialog)
         val dialogBinding = ImagePreviewDialogBinding.inflate(LayoutInflater.from(context))

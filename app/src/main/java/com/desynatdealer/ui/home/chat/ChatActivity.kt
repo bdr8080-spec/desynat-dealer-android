@@ -641,7 +641,7 @@ class ChatActivity : BaseActivity() {
             tvDiscountPrice.text =
                 "${CommonMethod.formatPrice(chatDetailData?.productVariation?.finalPrice ?: 0.0)} ${getString(R.string.kd)}"
             tvProductName.text = if (Constants.language=="ar") chatDetailData?.productVariation?.productDetails?.productNameAr else chatDetailData?.productVariation?.productDetails?.productNameEn
-            tvSizeValue.text = if(Constants.language=="ar") chatDetailData?.productVariation?.size?.nameArabic.toString() else chatDetailData?.productVariation?.size?.name.toString()
+            tvSizeValue.text = if(Constants.language=="ar") chatDetailData?.productVariation?.size?.name.toString() else chatDetailData?.productVariation?.size?.name.toString()
             tvSize.text = getString(R.string.size)+":"
             tvColor.text = getString(R.string.color)+":"
             ivColor.setColorFilter(Color.parseColor(chatDetailData?.productVariation?.color?.hexCode))
@@ -673,7 +673,7 @@ class ChatActivity : BaseActivity() {
                     placeholder(R.drawable.ic_placeholder)
                     error(R.drawable.ic_placeholder)
                 }
-                tvSizeValue.text = if(Constants.language=="ar") chatDetailData?.productVariation?.size?.nameArabic.toString() else chatDetailData?.productVariation?.size?.name.toString()
+                tvSizeValue.text = if(Constants.language=="ar") chatDetailData?.productVariation?.size?.name.toString() else chatDetailData?.productVariation?.size?.name.toString()
                 ivColor.setColorFilter(Color.parseColor(chatDetailData?.productVariation?.color?.hexCode))
                 tvSize.text = getString(R.string.size)+":"
                 tvColor.text = getString(R.string.color)+":"

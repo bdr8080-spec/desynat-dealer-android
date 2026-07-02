@@ -70,7 +70,7 @@ class SubVariantAdapter(var context:Context, var isWomen: Boolean=false, var var
 
             etSize.setText(
                 if (Constants.language == "ar") {
-                    sizeList.find { it.id.toString() == variantData.sizeId }?.nameArabic
+                    sizeList.find { it.id.toString() == variantData.sizeId }?.name
                 } else {
                     sizeList.find { it.id.toString() == variantData.sizeId }?.name
                 }

@@ -22,7 +22,7 @@ class SizeAdapter(var context:Context, var productSizeList: ArrayList<AddProduct
                 val productSize = productSizeList[position].sizeId
                 val matchedSize = sizeList.find { it.id.toString() == productSize }
 
-                tvSize.text = if (Constants.language=="ar") matchedSize?.nameArabic else matchedSize?.name
+                tvSize.text = if (Constants.language=="ar") matchedSize?.name else matchedSize?.name
 
             if (selectedPos==position){
                 ivColorSelected.isVisible = true

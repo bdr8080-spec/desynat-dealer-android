@@ -162,8 +162,12 @@ class AddProductFragment : BaseFragment() {
                     2->{
                         imageType = 2
                         selectedPos = position
-                       // imagePicker.showImageSourceDialog()
-                        storyMediaPicker.showAllStoryPicker()
+                        if (variantList[position].variantImage.isNotEmpty()){
+                            storyMediaPicker.showAllStoryPicker()
+                        }
+                        else{
+                             imagePicker.showImageSourceDialog()
+                        }
                     }
                     3->{
                         variantList.removeAt(position)

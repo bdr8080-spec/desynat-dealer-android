@@ -1023,6 +1023,7 @@
                 android:text="@string/cancel"
                 android:padding="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:layoutDirection="ltr"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnEdit"
                 app:layout_constraintTop_toBottomOf="@+id/ivSizeChart"/>
@@ -1036,6 +1037,7 @@
                 android:background="@drawable/btn_gradient"
                 android:text="@string/edit_product"
                 android:padding="@dimen/_8sdp"
+                android:layoutDirection="ltr"
                 app:layout_constraintStart_toEndOf="@+id/btnCancel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/btnCancel"

@@ -50,11 +50,13 @@ class ChatListAdapter(var context:Context, var chatList: ArrayList<GetChatListRe
                 if (chatData.lastChatTime!=null&&chatData.lastChatTime!="null"&&chatData.lastChatTime!="") {
                     tvTime.text = chatData?.lastChatTime.toString()
                     tvTime.text = CommonMethod.formatChatTime(context,
-                        chatData?.lastChatTime.toString(), inputFormat = "dd MMM yyyy, hh:mm a")
+                        chatData?.lastChatTime.toString(), inputType = "dd MMM yyyy, hh:mm a"
+                    )
                 }
                 else{
                     tvTime.text = CommonMethod.formatChatTime(context,
-                        chatData?.updatedAt.toString())
+                        chatData?.updatedAt.toString(), inputType = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                    )
                 }
 
             if (chatData?.unreadCount!=0){

@@ -21,7 +21,7 @@ class ProductOrderAdapter(var context:Context, var productList: ArrayList<GetSin
                 tvProduct.text = productData?.productDetails?.productNameEn
 
                 tvFabric.text = if (Constants.language=="ar") productData?.productDetails?.brand?.nameArabic else productData?.productDetails?.brand?.nameEnglish
-                tvSizeValue.text = if (Constants.language=="ar") productData?.variationDetails?.size?.nameArabic else  productData?.variationDetails?.size?.name
+                tvSizeValue.text = if (Constants.language=="ar") productData?.variationDetails?.size?.name else  productData?.variationDetails?.size?.name
                 tvColorValue.text = if (Constants.language=="ar")productData?.variationDetails?.color?.nameArabic else  productData?.variationDetails?.color?.name
                 tvCategoryValue.text = if (Constants.language=="ar")productData?.productDetails?.category?.nameArabic else  productData?.productDetails?.category?.name
                 if (productData?.orderType=="2"){

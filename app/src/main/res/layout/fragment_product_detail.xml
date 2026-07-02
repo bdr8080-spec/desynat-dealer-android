@@ -893,6 +893,7 @@
                 android:text="@string/delete"
                 android:textColor="#D53B36"
                 android:background="@drawable/red_stroke"
+                android:layoutDirection="ltr"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnEdit"
                 app:layout_constraintTop_toBottomOf="@+id/rvRating"/>
@@ -905,6 +906,7 @@
                 android:background="@drawable/btn_gradient"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
+                android:layoutDirection="ltr"
                 app:layout_constraintStart_toEndOf="@+id/btnDelete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/btnDelete"/>
