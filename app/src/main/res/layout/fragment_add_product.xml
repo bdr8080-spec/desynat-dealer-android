@@ -1028,6 +1028,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="ltr"
+                app:layout_constraintTop_toBottomOf="@+id/ivSizeChart"
+                android:id="@+id/cl">
+
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnCancel"
                 style="@style/button"
@@ -1041,7 +1049,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnAdd"
-                app:layout_constraintTop_toBottomOf="@+id/ivSizeChart"/>
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnAdd"
@@ -1057,10 +1065,13 @@
                 app:layout_constraintBottom_toBottomOf="@+id/btnCancel"
                 app:layout_constraintTop_toTopOf="@+id/btnCancel"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
-                app:layout_constraintTop_toBottomOf="@+id/btnCancel"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/btnCancel"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
