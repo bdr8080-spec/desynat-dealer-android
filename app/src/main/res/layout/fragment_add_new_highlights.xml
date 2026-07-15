@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.profile.AddNewHighlightsFragment">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/common_toolbar"/>
+        layout="@layout/common_toolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clPlaceholder"
         android:layout_width="0dp"
         android:layout_height="120dp"
-        app:layout_constraintTop_toTopOf="@+id/ivAddStory"
         app:layout_constraintBottom_toBottomOf="@+id/ivAddStory"
+        app:layout_constraintEnd_toEndOf="@+id/ivAddStory"
         app:layout_constraintStart_toStartOf="@+id/ivAddStory"
-        app:layout_constraintEnd_toEndOf="@+id/ivAddStory">
+        app:layout_constraintTop_toTopOf="@+id/ivAddStory">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivPlaceholder"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
             android:layout_gravity="center_horizontal"
-            android:scaleType="centerCrop"
             android:clipToOutline="true"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_gallery_placeholder_gradient"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tvPlaceholder"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPlaceholder"
             style="@style/edit_text_title"
             android:layout_width="wrap_content"
-            android:textColor="#875C3A"
+            android:layout_marginTop="@dimen/_5sdp"
             android:text="@string/upload_images_videos"
             android:textAlignment="center"
+            android:textColor="#875C3A"
             android:textSize="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivPlaceholder"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/ivPlaceholder"
+            app:layout_constraintVertical_chainStyle="packed" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -54,31 +54,31 @@
         android:id="@+id/ivAddStory"
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/brown_dash_rectangle"
         android:clipToOutline="false"
         android:scaleType="centerCrop"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:background="@drawable/brown_dash_rectangle"
-        app:shapeAppearanceOverlay="@style/rounded_corner_10sdp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:shapeAppearanceOverlay="@style/rounded_corner_10sdp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvHighlights"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:ellipsize="end"
         android:fontFamily="@font/poppins_medium"
         android:singleLine="true"
         android:text="@string/highlight_name"
-        android:ellipsize="end"
+        android:textAlignment="viewStart"
         android:textColor="@color/black"
         android:textSize="@dimen/_13sdp"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:textAlignment="viewStart"
-        android:layout_marginHorizontal="@dimen/_15sdp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivAddStory"/>
+        app:layout_constraintTop_toBottomOf="@+id/ivAddStory" />
 
     <RadioGroup
         android:id="@+id/rgHighlights"
@@ -88,38 +88,38 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/tvHighlights">
 
-    <RadioButton
-        android:id="@+id/cbPrevious"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_from_previous"
-        android:textColor="@color/black"
-        android:paddingVertical="@dimen/_8sdp"
-        android:button="@drawable/selector_radio_icon"
-        android:paddingStart="@dimen/_8sdp"
-        android:checked="false"
-        app:buttonTint="@null"
-        android:drawableTint="@null"
-        android:textAlignment="viewStart"
-        android:fontFamily="@font/poppins_medium"
-        android:textSize="@dimen/_12sdp"/>
+        <RadioButton
+            android:id="@+id/cbPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_radio_icon"
+            android:checked="false"
+            android:drawableTint="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingVertical="@dimen/_8sdp"
+            android:paddingStart="@dimen/_8sdp"
+            android:text="@string/select_from_previous"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"
+            app:buttonTint="@null" />
 
-    <RadioButton
-        android:id="@+id/cbAddNew"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_new"
-        android:textColor="@color/black"
-        android:paddingVertical="@dimen/_8sdp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:paddingStart="@dimen/_8sdp"
-        android:button="@drawable/selector_radio_icon"
-        android:checked="true"
-        app:buttonTint="@null"
-        android:drawableTint="@null"
-        android:textAlignment="viewStart"
-        android:fontFamily="@font/poppins_medium"
-        android:textSize="@dimen/_12sdp"/>
+        <RadioButton
+            android:id="@+id/cbAddNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:button="@drawable/selector_radio_icon"
+            android:checked="true"
+            android:drawableTint="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingVertical="@dimen/_8sdp"
+            android:paddingStart="@dimen/_8sdp"
+            android:text="@string/add_new"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"
+            app:buttonTint="@null" />
 
     </RadioGroup>
 
@@ -127,8 +127,8 @@
         android:id="@+id/etName"
         style="@style/edit_text"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/edit_back"
         android:hint="@string/enter_name"
         android:inputType="text"
@@ -136,96 +136,96 @@
         app:layout_constraintTop_toBottomOf="@+id/rgHighlights" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:visibility="gone"
         android:id="@+id/etCaption"
         style="@style/edit_text"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/edit_back"
+        android:clickable="true"
+        android:drawableEnd="@drawable/ic_drop_down"
+        android:editable="false"
+        android:focusable="false"
         android:hint="@string/select_caption"
         android:inputType="text"
-        android:editable="false"
-        android:clickable="true"
-        android:focusable="false"
         android:textAlignment="viewStart"
-        android:drawableEnd="@drawable/ic_drop_down"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/etName" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvSelectFromGallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:ellipsize="end"
         android:fontFamily="@font/poppins_regular"
         android:singleLine="true"
         android:text="@string/select_from_gallery"
-        android:ellipsize="end"
+        android:textAlignment="viewStart"
         android:textColor="@color/black"
         android:textSize="@dimen/_11sdp"
-        android:textAlignment="viewStart"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCaption"/>
+        app:layout_constraintTop_toBottomOf="@+id/etCaption" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGallery"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="3"
-        tools:listitem="@layout/item_gallery_img"
         android:layout_marginVertical="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_15sdp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/tvAdd"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSelectFromGallery"
-        app:layout_constraintBottom_toTopOf="@+id/tvAdd"/>
+        app:spanCount="3"
+        tools:listitem="@layout/item_gallery_img" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPrevious"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="3"
-        tools:listitem="@layout/item_gallery_img"
         android:layout_marginVertical="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_15sdp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/tvAdd"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSelectFromGallery"
-        app:layout_constraintBottom_toTopOf="@+id/tvAdd"/>
+        app:spanCount="3"
+        tools:listitem="@layout/item_gallery_img" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:visibility="gone"
         android:id="@+id/tvNoDataFound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="@color/black"
         android:fontFamily="@font/poppins_medium"
-        android:textSize="@dimen/_13sdp"
         android:text="@string/no_previous_images_found"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13sdp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/tvAdd"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSelectFromGallery"
-        app:layout_constraintBottom_toTopOf="@+id/tvAdd"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSelectFromGallery" />
 
     <TextView
         android:id="@+id/tvAdd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/btn_background"
-        android:gravity="center"
-        android:text="@string/add_to_highlight"
-        android:fontFamily="@font/poppins_medium"
         android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:background="@drawable/btn_background"
+        android:fontFamily="@font/poppins_medium"
+        android:gravity="center"
         android:paddingVertical="@dimen/_8sdp"
+        android:text="@string/add_to_highlight"
         android:textColor="@color/white"
         android:textSize="@dimen/_12sdp"
-        android:layout_marginBottom="@dimen/_30sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

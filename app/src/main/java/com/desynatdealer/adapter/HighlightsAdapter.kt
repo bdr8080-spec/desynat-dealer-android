@@ -9,43 +9,50 @@ import com.bumptech.glide.Glide
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemHighlightsBinding
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 
-class HighlightsAdapter(var context:Context, var highlightList: ArrayList<GetStoryResponse.Data>, var onClick:OnClick) : RecyclerView.Adapter<HighlightsAdapter.ViewHolder>() {
+class HighlightsAdapter(
+    var context: Context,
+    var highlightList: ArrayList<GetStoryResponseNew.Data>,
+    var onClick: OnClick
+) : RecyclerView.Adapter<HighlightsAdapter.ViewHolder>() {
 
-    interface OnClick{
-        fun onItemClick(position: Int,type:Int)
+    interface OnClick {
+        fun onItemClick(position: Int, type: Int)
     }
+
     inner class ViewHolder(val binding: ItemHighlightsBinding) :
-        RecyclerView.ViewHolder(binding.root){
-        fun bind(position: Int) = with(binding){
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(position: Int) = with(binding) {
             val highlightData = highlightList[position]
-            if (position==0){
+            if (position == 0) {
                 ivAdd.isVisible = true
                 ivHighlight.isVisible = false
                 tvHighlight.isVisible = false
-            }
-            else{
+            } else {
                 ivAdd.isVisible = false
                 ivHighlight.isVisible = true
                 tvHighlight.isVisible = true
-                Glide.with(context).load(highlightData?.file).placeholder(R.drawable.ic_placeholder).into(ivHighlight)
+                Glide.with(context).load(highlightData?.highlights?.firstOrNull()?.file).placeholder(R.drawable.ic_placeholder)
+                    .into(ivHighlight)
                 tvHighlight.text = highlightData.title
             }
 
             ivAdd.setOnClickListener {
-                onClick.onItemClick(position,1)
+                onClick.onItemClick(position, 1)
             }
 
             ivHighlight.setOnClickListener {
-                onClick.onItemClick(position,2)
+                onClick.onItemClick(position, 2)
             }
         }
-        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemHighlightsBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false)
+                LayoutInflater.from(parent.context), parent, false
+            )
         )
     }
 

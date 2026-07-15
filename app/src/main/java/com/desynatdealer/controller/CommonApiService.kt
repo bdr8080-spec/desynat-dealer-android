@@ -50,6 +50,7 @@ import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveUserCountResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.response.GetDashboardDataResponse
 import com.desynatdealer.ui.home.response.ResponseDeliveryTime
@@ -352,7 +353,7 @@ interface CommonApiService {
     suspend fun getReel(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
 
     @GET(Constants.GET_HIGHLIGHTS)
-    suspend fun getHighlights(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
+    suspend fun getHighlights(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponseNew>
 
     @POST(Constants.UPDATE_REEL)
     suspend fun updateReel(@Body map: HashMap<String, Any>): Response<UpdateReelResponse>

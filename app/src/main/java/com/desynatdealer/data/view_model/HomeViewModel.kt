@@ -13,6 +13,10 @@ import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceRespons
 import com.desynatdealer.ui.home.chat.response.ChatDetailResponse
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
+import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
+import com.desynatdealer.ui.home.cms.response.GetContactResponse
+import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
+import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
@@ -22,9 +26,11 @@ import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetAgoraTokenResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.RenewSubscriptionPlanResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
@@ -35,19 +41,14 @@ import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandRespon
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.ui.home.profile.response.UpdateReelResponse
+import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.response.CommonResponse
 import com.desynatdealer.ui.home.response.CreateSubscriptionPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
-import com.desynatdealer.ui.home.response.GetSellerInfo
-import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
-import com.desynatdealer.ui.home.cms.response.GetContactResponse
-import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
-import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
-import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
-import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
-import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.response.GetDashboardDataResponse
+import com.desynatdealer.ui.home.response.GetSellerInfo
 import com.desynatdealer.ui.home.response.ResponseDeliveryTime
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
@@ -116,7 +117,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     val createSubscriptionPlanResponse: MutableLiveData<ApiResult<CreateSubscriptionPlanResponse>?>
         get() = _createSubscriptionPlanResponse
 
-    fun createSubscriptionPlan(map:HashMap<String,Any>) {
+    fun createSubscriptionPlan(map: HashMap<String, Any>) {
         viewModelScope.launch {
             _createSubscriptionPlanResponse.value = ApiResult.Loading
             _createSubscriptionPlanResponse.value = repo.createSubscriptionPlan(map)
@@ -128,7 +129,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     val buySubscriptionPlanResponse: MutableLiveData<ApiResult<CommonResponse>?>
         get() = _buySubscriptionPlanResponse
 
-    fun buySubscriptionPlan(map:HashMap<String,Any>) {
+    fun buySubscriptionPlan(map: HashMap<String, Any>) {
         viewModelScope.launch {
             _buySubscriptionPlanResponse.value = ApiResult.Loading
             _buySubscriptionPlanResponse.value = repo.buySubscriptionPlan(map)
@@ -188,7 +189,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     val subCategoryResponse: MutableLiveData<ApiResult<GetSubCategoryResponse>?>
         get() = _subCategoryResponse
 
-    fun getSubCategory(categoryId:String) {
+    fun getSubCategory(categoryId: String) {
         viewModelScope.launch {
             _subCategoryResponse.value = ApiResult.Loading
             _subCategoryResponse.value = repo.getSubCategory(categoryId)
@@ -315,7 +316,8 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     ) {
         viewModelScope.launch {
             _uploadWithResolutionPromotionalResponse.value = ApiResult.Loading
-            _uploadWithResolutionPromotionalResponse.value = repo.uploadWithResolutionPromotional(file)
+            _uploadWithResolutionPromotionalResponse.value =
+                repo.uploadWithResolutionPromotional(file)
         }
     }
 
@@ -325,7 +327,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         get() = _addProductResponse
 
     fun addProduct(
-       request: AddProductRequest
+        request: AddProductRequest
     ) {
         viewModelScope.launch {
             _addProductResponse.value = ApiResult.Loading
@@ -351,6 +353,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         MutableLiveData<ApiResult<GetAllProductResponse>?>()
     val getInventoryProductResponse: MutableLiveData<ApiResult<GetAllProductResponse>?>
         get() = _getInventoryProductResponse
+
     fun getAllInventoryProduct(map: HashMap<String, Any>) {
         viewModelScope.launch {
             _getInventoryProductResponse.value = ApiResult.Loading
@@ -570,7 +573,8 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     fun updateOrderExchangeReturnStatus(map: HashMap<String, Any>) {
         viewModelScope.launch {
             _updateOrderExchangeReturnStatusResponse.value = ApiResult.Loading
-            _updateOrderExchangeReturnStatusResponse.value = repo.updateOrderExchangeReturnStatus(map)
+            _updateOrderExchangeReturnStatusResponse.value =
+                repo.updateOrderExchangeReturnStatus(map)
         }
     }
 
@@ -658,7 +662,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
- private val _addProductInDealResponse =
+    private val _addProductInDealResponse =
         MutableLiveData<ApiResult<CommonResponse>?>()
     val addProductInDealResponse: MutableLiveData<ApiResult<CommonResponse>?>
         get() = _addProductInDealResponse
@@ -670,7 +674,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
- private val _removeProductInDealResponse =
+    private val _removeProductInDealResponse =
         MutableLiveData<ApiResult<CommonResponse>?>()
     val removeProductInDealResponse: MutableLiveData<ApiResult<CommonResponse>?>
         get() = _removeProductInDealResponse
@@ -681,7 +685,8 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
             _removeProductInDealResponse.value = repo.removeProductInDeal(map)
         }
     }
- private val _showProductInDealCategorySubcategoryResponse =
+
+    private val _showProductInDealCategorySubcategoryResponse =
         MutableLiveData<ApiResult<GetDealAllProductResponse>?>()
     val showProductInDealCategorySubcategoryResponse: MutableLiveData<ApiResult<GetDealAllProductResponse>?>
         get() = _showProductInDealCategorySubcategoryResponse
@@ -689,7 +694,8 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     fun showProductInDealCategorySubcategory(map: HashMap<String, Any>) {
         viewModelScope.launch {
             _showProductInDealCategorySubcategoryResponse.value = ApiResult.Loading
-            _showProductInDealCategorySubcategoryResponse.value = repo.showProductInDealCategorySubcategory(map)
+            _showProductInDealCategorySubcategoryResponse.value =
+                repo.showProductInDealCategorySubcategory(map)
         }
     }
 
@@ -705,7 +711,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
- private val _getLiveRequestResponse =
+    private val _getLiveRequestResponse =
         MutableLiveData<ApiResult<GetLiveRequestResponse>?>()
     val getLiveRequestResponse: MutableLiveData<ApiResult<GetLiveRequestResponse>?>
         get() = _getLiveRequestResponse
@@ -728,6 +734,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
             _cancelLiveRequestResponse.value = repo.cancelLiveRequest(map)
         }
     }
+
     private val _sendLiveRequestResponse =
         MutableLiveData<ApiResult<CommonResponse>?>()
     val sendLiveRequestResponse: MutableLiveData<ApiResult<CommonResponse>?>
@@ -739,6 +746,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
             _sendLiveRequestResponse.value = repo.sendLiveRequest(map)
         }
     }
+
     private val _changePasswordResponse =
         MutableLiveData<ApiResult<CommonResponse>?>()
     val changePasswordResponse: MutableLiveData<ApiResult<CommonResponse>?>
@@ -837,7 +845,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
-   private val _getMyPlanResponse =
+    private val _getMyPlanResponse =
         MutableLiveData<ApiResult<GetMyPlanResponse>?>()
     val getMyPlanResponse: MutableLiveData<ApiResult<GetMyPlanResponse>?>
         get() = _getMyPlanResponse
@@ -848,7 +856,6 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
             _getMyPlanResponse.value = repo.getMyPlan(map)
         }
     }
-
 
 
     private val _getStoryResponse =
@@ -876,8 +883,8 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     }
 
     private val _getHighlightsResponse =
-        MutableLiveData<ApiResult<GetStoryResponse>?>()
-    val getHighlightsResponse: MutableLiveData<ApiResult<GetStoryResponse>?>
+        MutableLiveData<ApiResult<GetStoryResponseNew>?>()
+    val getHighlightsResponse: MutableLiveData<ApiResult<GetStoryResponseNew>?>
         get() = _getHighlightsResponse
 
     fun getHighlights(map: HashMap<String, Any>) {
@@ -1000,7 +1007,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     val uploadVideoImageResponse: MutableLiveData<ApiResult<UploadResponse>?>
         get() = _uploadVideoImageResponse
 
-    fun uploadVideoImage(file: MultipartBody.Part?,) {
+    fun uploadVideoImage(file: MultipartBody.Part?) {
         viewModelScope.launch {
             _uploadVideoImageResponse.value = ApiResult.Loading
             _uploadVideoImageResponse.value = repo.uploadVideoImage(file)
@@ -1012,10 +1019,10 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     val uploadWithResolutionResponse: MutableLiveData<ApiResult<UploadResponse>?>
         get() = _uploadWithResolutionResponse
 
-    fun uploadWithResolution(file: MultipartBody.Part?,type: String) {
+    fun uploadWithResolution(file: MultipartBody.Part?, type: String) {
         viewModelScope.launch {
             _uploadWithResolutionResponse.value = ApiResult.Loading
-            _uploadWithResolutionResponse.value = repo.uploadWithResolution(file,type)
+            _uploadWithResolutionResponse.value = repo.uploadWithResolution(file, type)
         }
     }
 
@@ -1104,6 +1111,7 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
             _seeStoryResponse.value = repo.seeStory(map)
         }
     }
+
     private val _getTicketTypeResponse =
         MutableLiveData<ApiResult<GetTicketTypeResponse>?>()
     val getTicketTypeResponse: MutableLiveData<ApiResult<GetTicketTypeResponse>?>

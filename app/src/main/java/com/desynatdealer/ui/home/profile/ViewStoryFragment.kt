@@ -20,6 +20,7 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentViewStoryBinding
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
@@ -36,7 +37,7 @@ class ViewStoryFragment : BaseFragment() {
     private var binding: FragmentViewStoryBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
 
-    private val myStories = ArrayList<GetStoryResponse.Data>()
+    private val myStories = ArrayList<GetStoryResponseNew.Data.SellerHighlight>()
     private val progressBars = ArrayList<ProgressBar>()
 
     private var storyPagerAdapter: StoryPagerAdapter? = null
@@ -68,8 +69,8 @@ class ViewStoryFragment : BaseFragment() {
         val json = arguments?.getString("storyData")
 
         if (!json.isNullOrEmpty()) {
-            val type = object : TypeToken<ArrayList<GetStoryResponse.Data>>() {}.type
-            val storyList: ArrayList<GetStoryResponse.Data> =
+            val type = object : TypeToken<ArrayList<GetStoryResponseNew.Data.SellerHighlight>>() {}.type
+            val storyList: ArrayList<GetStoryResponseNew.Data.SellerHighlight> =
                 Gson().fromJson(json, type)
 
             myStories.clear()

@@ -1,5 +1,6 @@
 package com.desynatdealer.ui.home.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,32 +18,31 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentViewProfileBinding
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.ui.home.response.GetSellerInfo
-import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
-import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ViewProfileFragment : BaseFragment() {
-    private var binding : FragmentViewProfileBinding?=null
+    private var binding: FragmentViewProfileBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
-    private var userInfo : GetSellerInfo.Data?=null
+    private var userInfo: GetSellerInfo.Data? = null
     private var storyList = ArrayList<GetStoryResponse.Data>()
     private var reelList = ArrayList<GetStoryResponse.Data>()
     private var originalReelList = ArrayList<GetStoryResponse.Data>()
-    private var reelAdapter : ReelAdapter?=null
-    private var originalHighlightList = ArrayList<GetStoryResponse.Data>()
-    private var highlightList = ArrayList<GetStoryResponse.Data>()
-    private var highlightsAdapter : HighlightsAdapter?=null
+    private var reelAdapter: ReelAdapter? = null
+    private var originalHighlightList = ArrayList<GetStoryResponseNew.Data>()
+    private var highlightList = ArrayList<GetStoryResponseNew.Data>()
+    private var highlightsAdapter: HighlightsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentViewProfileBinding.inflate(layoutInflater, container,false)
+        binding = FragmentViewProfileBinding.inflate(layoutInflater, container, false)
         return binding?.root
     }
 
@@ -65,15 +65,16 @@ class ViewProfileFragment : BaseFragment() {
             reelList.clear()
             originalReelList.clear()
             reelList.add(GetStoryResponse.Data())
-            reelAdapter = ReelAdapter(requireActivity(),reelList,object: ReelAdapter.OnClick{
+            reelAdapter = ReelAdapter(requireActivity(), reelList, object : ReelAdapter.OnClick {
                 override fun onItemClick(position: Int, type: Int) {
-                    when(type){
-                        1->{
-                          //  findNavController().navigate(R.id.action_viewProfileFragment_to_AddReelFragment)
+                    when (type) {
+                        1 -> {
+                            //  findNavController().navigate(R.id.action_viewProfileFragment_to_AddReelFragment)
                             findNavController().navigate(R.id.action_viewProfileFragment_to_AddNewReelFragment)
                         }
-                        2->{
-                            if (originalReelList.size!=0) {
+
+                        2 -> {
+                            if (originalReelList.size != 0) {
                                 val bundle = Bundle().apply {
                                     putString("from", "reel")
                                     putString("storyData", Gson().toJson(reelList[position]))
@@ -92,44 +93,50 @@ class ViewProfileFragment : BaseFragment() {
 
             highlightList.clear()
             originalHighlightList.clear()
-            highlightList.add(GetStoryResponse.Data())
-            highlightsAdapter = HighlightsAdapter(requireActivity(),highlightList,object: HighlightsAdapter.OnClick{
-                override fun onItemClick(position: Int, type: Int) {
-                    when(type){
-                        1->{
-                            if (originalHighlightList.size!=0) {
-                                val bundle = Bundle().apply {
-                                    putString("from", "highlights")
-                                    putString("highlightsData", Gson().toJson(originalHighlightList))
-                                }
-                                findNavController().navigate(
-                                    R.id.action_viewProfileFragment_to_addHighlightsFragment,
-                                    bundle
-                                )
-                            }
-                            else{
-                                findNavController().navigate(R.id.action_viewProfileFragment_to_addHighlightsFragment)
+            highlightList.add(GetStoryResponseNew.Data())
+            highlightsAdapter = HighlightsAdapter(
+                context = requireActivity(),
+                highlightList = highlightList,
+                object : HighlightsAdapter.OnClick {
+                    override fun onItemClick(position: Int, type: Int) {
+                        when (type) {
+                            1 -> {
+                                if (originalHighlightList.isNotEmpty()) {
+                                    val bundle = Bundle().apply {
+                                        putString("from", "highlights")
+                                        putString(
+                                            "highlightsData",
+                                            Gson().toJson(originalHighlightList)
+                                        )
+                                    }
+                                    findNavController().navigate(
+                                        R.id.action_viewProfileFragment_to_addHighlightsFragment,
+                                        bundle
+                                    )
+                                } else {
+                                    findNavController().navigate(R.id.action_viewProfileFragment_to_addHighlightsFragment)
 
-                            }
-                        }
-                        2->{
-                            val dummyList = ArrayList<GetStoryResponse.Data>()
-                            dummyList.add(highlightList[position])
-                            if (originalHighlightList.size!=0) {
-                                val bundle = Bundle().apply {
-                                    putString("from", "highlights")
-                                    putString("storyData", Gson().toJson(originalHighlightList))
                                 }
-                                findNavController().navigate(
-                                    R.id.action_viewProfileFragment_to_viewStoryFragment,
-                                    bundle
-                                )
+                            }
+
+                            2 -> {
+                                val dummyList = ArrayList<GetStoryResponseNew.Data>()
+                                dummyList.add(highlightList[position])
+                                if (originalHighlightList.isNotEmpty()) {
+                                    val bundle = Bundle().apply {
+                                        putString("from", "highlights")
+                                        putString("storyData", Gson().toJson(originalHighlightList))
+                                    }
+                                    findNavController().navigate(
+                                        R.id.action_viewProfileFragment_to_viewStoryFragment,
+                                        bundle
+                                    )
+                                }
                             }
                         }
                     }
-                }
 
-            })
+                })
             rvHighlights.adapter = highlightsAdapter
         }
 
@@ -137,46 +144,46 @@ class ViewProfileFragment : BaseFragment() {
 
     private fun setData() {
         binding?.apply {
-            val rating = userInfo?.storeInfo?.storeRating?.toFloatOrNull()?:0f
+            val rating = userInfo?.storeInfo?.storeRating?.toFloatOrNull() ?: 0f
             ratingBar.rating = rating
             tvRating.text = "(${String.format("%.1f", rating)})"
-            ivProfileImage.load(userInfo?.profilePic){
+            ivProfileImage.load(userInfo?.profilePic) {
                 crossfade(false)
                 placeholder(R.drawable.ic_user)
                 error(R.drawable.ic_user)
             }
 
-            ivStore.load(userInfo?.storeInfo?.storeImage){
+            ivStore.load(userInfo?.storeInfo?.storeImage) {
                 crossfade(false)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
             }
 
-            ivBankAccount.load(userInfo?.sellerBankDetails?.uploadProof){
+            ivBankAccount.load(userInfo?.sellerBankDetails?.uploadProof) {
                 crossfade(false)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
             }
 
-            ownerDoc1.load(userInfo?.ownerDocument?.getOrNull(0)?.documentPath){
+            ownerDoc1.load(userInfo?.ownerDocument?.getOrNull(0)?.documentPath) {
                 crossfade(false)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
             }
 
-            ownerDoc2.load(userInfo?.ownerDocument?.getOrNull(1)?.documentPath){
+            ownerDoc2.load(userInfo?.ownerDocument?.getOrNull(1)?.documentPath) {
                 crossfade(false)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
             }
 
-            storeDoc1.load(userInfo?.storeDocument?.getOrNull(0)?.documentPath){
+            storeDoc1.load(userInfo?.storeDocument?.getOrNull(0)?.documentPath) {
                 crossfade(false)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
             }
 
-            storeDoc2.load(userInfo?.storeDocument?.getOrNull(0)?.documentPath){
+            storeDoc2.load(userInfo?.storeDocument?.getOrNull(0)?.documentPath) {
                 crossfade(false)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)
@@ -189,15 +196,16 @@ class ViewProfileFragment : BaseFragment() {
             tvBio.text = userInfo?.storeInfo?.bio
             tvStoreAddress.text = userInfo?.storeInfo?.storeAddress
             tvStoreEmail.text = userInfo?.storeInfo?.storeMailId
-            tvStoreMobile.text = "${userInfo?.storeInfo?.countryCode} ${userInfo?.storeInfo?.storePhone}"
+            tvStoreMobile.text =
+                "${userInfo?.storeInfo?.countryCode} ${userInfo?.storeInfo?.storePhone}"
 
             tvIban.text = userInfo?.sellerBankDetails?.iban
             tvSwift.text = userInfo?.sellerBankDetails?.swift
             tvAccountHolderName.text = userInfo?.sellerBankDetails?.accountHolderName
             tvBankName.text = userInfo?.sellerBankDetails?.bankName
-            tvAccountType.text = if(userInfo?.sellerBankDetails?.accountType=="0") {
+            tvAccountType.text = if (userInfo?.sellerBankDetails?.accountType == "0") {
                 getString(R.string.personal)
-            }else {
+            } else {
                 getString(R.string.business)
             }
 
@@ -212,7 +220,7 @@ class ViewProfileFragment : BaseFragment() {
             }
 
             ivProfileImage.setOnClickListener {
-                if (storyList.size!=0) {
+                if (storyList.isNotEmpty()) {
                     val bundle = Bundle().apply {
                         putString("from", "story")
                         putString("storyData", Gson().toJson(storyList))
@@ -254,6 +262,7 @@ class ViewProfileFragment : BaseFragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun observe() {
         viewModel.getStoryResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -271,7 +280,7 @@ class ViewProfileFragment : BaseFragment() {
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-             //       showToast(result.message ?: getString(R.string.generic_error))
+                    //       showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getStoryResponse.value = null
                 }
 
@@ -297,7 +306,7 @@ class ViewProfileFragment : BaseFragment() {
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                  //  showToast(result.message ?: getString(R.string.generic_error))
+                    //  showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getReelResponse.value = null
                 }
 
@@ -315,7 +324,7 @@ class ViewProfileFragment : BaseFragment() {
                     ProgressDialogUtils.getInstance().hideProgress()
                     highlightList.clear()
                     originalHighlightList.clear()
-                    highlightList.add(GetStoryResponse.Data())
+                    highlightList.add(GetStoryResponseNew.Data())
                     result?.data?.data?.let { highlightList.addAll(it) }
                     result?.data?.data?.let { originalHighlightList.addAll(it) }
                     highlightsAdapter?.notifyDataSetChanged()
@@ -324,7 +333,7 @@ class ViewProfileFragment : BaseFragment() {
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                   // showToast(result.message ?: getString(R.string.generic_error))
+                    // showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getHighlightsResponse.value = null
                 }
 
@@ -334,34 +343,33 @@ class ViewProfileFragment : BaseFragment() {
     }
 
     private fun getStory() {
-        val map = HashMap<String,Any>()
+        val map = HashMap<String, Any>()
 
         viewModel.getStory(map)
     }
 
     private fun getReel() {
-        val map = HashMap<String,Any>()
+        val map = HashMap<String, Any>()
 
         viewModel.getReel(map)
     }
 
     private fun getHighlights() {
-        val map = HashMap<String,Any>()
+        val map = HashMap<String, Any>()
 
         viewModel.getHighlights(map)
     }
 
     private fun setStory() {
-      /*  binding?.storyRing?.apply {
-            segmentCount = storyList.size
-            invalidate()
-         //   ivHighlightStory?.isVisible = storyList.isNotEmpty()
-        }*/
+        /*  binding?.storyRing?.apply {
+              segmentCount = storyList.size
+              invalidate()
+           //   ivHighlightStory?.isVisible = storyList.isNotEmpty()
+          }*/
         binding?.apply {
-            if (storyList.size!=0){
+            if (storyList.size != 0) {
                 binding?.ivHighlightStory?.isVisible = true
-            }
-            else{
+            } else {
                 binding?.ivHighlightStory?.isInvisible = true
             }
         }

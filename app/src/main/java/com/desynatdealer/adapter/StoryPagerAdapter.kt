@@ -1,5 +1,6 @@
 package com.desynatdealer.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -15,21 +16,23 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.databinding.ItemStoryBinding
+import com.desynatdealer.ui.home.profile.response.GetStoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.utils.CommonMethod
-import kotlin.div
-import kotlin.text.toFloat
-import kotlin.text.toInt
-import kotlin.times
 
-class StoryPagerAdapter(val context: Context,
-    private val stories: List<GetStoryResponse.Data>,private val click:OnClick,val from :String,private val onVideoReady: (position: Int, duration: Long) -> Unit
-    , private val onVideoFinished: (Int) -> Unit
+class StoryPagerAdapter(
+    val context: Context,
+    private val stories: List<GetStoryResponseNew.Data.SellerHighlight>,
+    private val click: OnClick,
+    val from: String,
+    private val onVideoReady: (position: Int, duration: Long) -> Unit,
+    private val onVideoFinished: (Int) -> Unit
 ) : RecyclerView.Adapter<StoryPagerAdapter.StoryViewHolder>() {
 
     private var pressStartTime = 0L
     private val LONG_PRESS_THRESHOLD = 200L
+
     interface OnClick {
         fun clickOnItem(position: Int)
         fun onNext(position: Int)
@@ -41,21 +44,22 @@ class StoryPagerAdapter(val context: Context,
     inner class StoryViewHolder(val binding: ItemStoryBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):StoryViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
         return StoryViewHolder(
             ItemStoryBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false)
+                LayoutInflater.from(parent.context), parent, false
+            )
         )
     }
 
     override fun getItemCount(): Int = stories.size
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
 
-        if (from=="admin"){
+        if (from == "admin") {
             holder.binding.ivDelete.isVisible = false
-        }
-        else{
+        } else {
             holder.binding.ivDelete.isVisible = true
         }
         holder.binding.videoStory.stopPlayback()
@@ -78,36 +82,36 @@ class StoryPagerAdapter(val context: Context,
 
             holder.binding.videoStory.setVideoPath(url)
 
-       /*     holder.binding.videoStory.setOnPreparedListener { mp ->
-                val videoWidth = mp.videoWidth
-                val videoHeight = mp.videoHeight
+            /*     holder.binding.videoStory.setOnPreparedListener { mp ->
+                     val videoWidth = mp.videoWidth
+                     val videoHeight = mp.videoHeight
 
-                val viewWidth = holder.binding.videoStory.width
-                val viewHeight = holder.binding.videoStory.height
+                     val viewWidth = holder.binding.videoStory.width
+                     val viewHeight = holder.binding.videoStory.height
 
-                val videoProportion = videoWidth.toFloat() / videoHeight.toFloat()
-                val viewProportion = viewWidth.toFloat() / viewHeight.toFloat()
+                     val videoProportion = videoWidth.toFloat() / videoHeight.toFloat()
+                     val viewProportion = viewWidth.toFloat() / viewHeight.toFloat()
 
-                val layoutParams = holder.binding.videoStory.layoutParams
+                     val layoutParams = holder.binding.videoStory.layoutParams
 
-                if (videoProportion > viewProportion) {
-                    layoutParams.width = viewWidth
-                    layoutParams.height = (viewWidth / videoProportion).toInt()
-                } else {
-                    layoutParams.height = viewHeight
-                    layoutParams.width = (viewHeight * videoProportion).toInt()
-                }
+                     if (videoProportion > viewProportion) {
+                         layoutParams.width = viewWidth
+                         layoutParams.height = (viewWidth / videoProportion).toInt()
+                     } else {
+                         layoutParams.height = viewHeight
+                         layoutParams.width = (viewHeight * videoProportion).toInt()
+                     }
 
-                holder.binding.videoStory.layoutParams = layoutParams
+                     holder.binding.videoStory.layoutParams = layoutParams
 
 
-                mp.isLooping = false
-                holder.binding.videoLoader.isVisible = false
-                val duration = mp.duration.toLong()
+                     mp.isLooping = false
+                     holder.binding.videoLoader.isVisible = false
+                     val duration = mp.duration.toLong()
 
-                onVideoReady(position, duration)
-                holder.binding.videoStory.start()
-            }*/
+                     onVideoReady(position, duration)
+                     holder.binding.videoStory.start()
+                 }*/
 
             holder.binding.videoStory.setOnPreparedListener { mp ->
 
@@ -199,17 +203,17 @@ class StoryPagerAdapter(val context: Context,
                     .listener(requestListener)
                     .into(holder.binding.ivStory)
             }
-/*
-            if (isGif) {
-                Glide.with(holder.itemView.context)
-                    .asGif()
-                    .load(url)
-                    .into(holder.binding.ivStory)
-            } else {
-                Glide.with(holder.itemView.context)
-                    .load(url)
-                    .into(holder.binding.ivStory)
-            }*/
+            /*
+                        if (isGif) {
+                            Glide.with(holder.itemView.context)
+                                .asGif()
+                                .load(url)
+                                .into(holder.binding.ivStory)
+                        } else {
+                            Glide.with(holder.itemView.context)
+                                .load(url)
+                                .into(holder.binding.ivStory)
+                        }*/
         }
 
         if (position + 1 < stories.size) {
@@ -221,7 +225,7 @@ class StoryPagerAdapter(val context: Context,
                 .preload()
         }
 
-        holder.binding.tvTime.text = CommonMethod.getTimeAgo(context,story?.createdAt.toString())
+//        holder.binding.tvTime.text = CommonMethod.getTimeAgo(context, story?.createdAt.toString())
         if (!story.title.isNullOrEmpty() && story.title != "null") {
             holder.binding.tvTitle.isVisible = true
             holder.binding.viewTitle.isVisible = true
@@ -237,7 +241,6 @@ class StoryPagerAdapter(val context: Context,
 
         holder.binding.rightClick.setOnTouchListener { _, event ->
             when (event.action) {
-
                 MotionEvent.ACTION_DOWN -> {
                     pressStartTime = System.currentTimeMillis()
                     holder.binding.videoStory.pause()
@@ -251,7 +254,6 @@ class StoryPagerAdapter(val context: Context,
                     holder.binding.videoStory.start()
                     click.onResume(position)
 
-                    // ✅ ONLY SHORT TAP triggers next
                     if (pressDuration < LONG_PRESS_THRESHOLD) {
                         click.onNext(position)
                     }
@@ -307,7 +309,7 @@ class StoryPagerAdapter(val context: Context,
 //            click.onPrevious(position)
 //        }
 
-        holder.binding.ivDelete.setOnClickListener{
+        holder.binding.ivDelete.setOnClickListener {
             click.clickOnItem(position)
         }
     }
