@@ -106,7 +106,7 @@
     <string name="please_enter_a_password">Please enter a password</string>
     <string name="please_accept_terms_policies_to_continue"><![CDATA[Please accept Terms & Policies to continue]]></string>
 
-   //order
+    //order
     <string name="search">Search</string>
     <string name="all">All</string>
     <string name="ongoing">Ongoing</string>
@@ -315,7 +315,7 @@
     <string name="completed">Completed</string>
     <string name="pending">Pending</string>
 
-   //staff management
+    //staff management
     <string name="staff_management">Staff Management</string>
     <string name="are_you_sure_you_want_to_delete_staff">Are you sure you want to delete staff?</string>
     <string name="staff_deleted_successfully">Staff deleted successfully !</string>
@@ -347,7 +347,7 @@
     <string name="enter_email_id">Enter email id</string>
     <string name="role">Role</string>
 
-   //payment
+    //payment
     <string name="payments">Payments</string>
     <string name="total_revenue">Total Revenue</string>
     <string name="export">Export</string>
@@ -385,7 +385,7 @@
     <string name="please_select_valid_date_range">Please select valid date range</string>
     <string name="please_upload_banner_image">Please upload banner image</string>
 
-   //cms
+    //cms
     <string name="change_password">Change Password</string>
     <string name="password_changed_successfully">Password changed successfully!</string>
     <string name="please_enter_old_password">Please enter old password</string>
@@ -430,7 +430,7 @@
     <string name="submit">Submit</string>
     <string name="upload_attachment_if_any">Upload attachment(if any)</string>
 
-   //Deal management
+    //Deal management
     <string name="listed_deals">Listed Deals</string>
     <string name="enrolled">Enrolled</string>
     <string name="no_deal_found">No deal found</string>
@@ -450,7 +450,7 @@
     <string name="add_to_deals">Add to Deals</string>
     <string name="select_product">Select Product</string>
 
-   //inventory
+    //inventory
     <string name="inventory_management">Inventory Management</string>
     <string name="filter">Filter</string>
     <string name="clear">Clear</string>
@@ -756,7 +756,7 @@
     <string name="document_1">Document 1</string>
     <string name="upload_product_image">Upload Product Image</string>
     <string name="your_banner_request_has_been_successfully_submitted_for_verification_our_team_is_currently_reviewing_your_details_please_allow_3_4_hour_for_the_verification_process_to_be_completed_you_will_be_notified_once_your_banner_is_approved_on_the_desynat_platform">Your banner request has been successfully submitted for verification !Our team is currently reviewing your details please allow 3-4 hour for the verification process to be completed.you will be notified once your banner is approved on the desynat platform</string>
-    <string name="thank_you_for_your_patience_team_desnyat">Thank you for your patience TEAM DESNYAT</string>
+    <string name="thank_you_for_your_patience_team_desnyat">Thank you for your patience\nTEAM DESNYAT</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet consectetur. Mi ultrices diam sociis volutpat orci non. Commodo pretium urna ut augue ac amet sed.</string>
     <string name="please_select_payment_status">Please select payment status</string>
     <string name="please_select_chat_status">Please select chat status</string>
@@ -838,6 +838,12 @@
     <string name="bought">Bought</string>
     <string name="sent_an_attachment">Sent an attachment</string>
     <string name="share_via">Share via</string>
+    <string name="continue_to_promote">Continue to Promote</string>
+    <string name="promote_story">Promote Story</string>
+    <string name="your_story_request_successfully_submitted">Your Story request has been successfully submitted for verification !</string>
+    <string name="team_reviewing_your_details">Our team is currently reviewing your details please allow 3-4 hour for the verification process to be completed.</string>
+    <string name="notified_once_story_approved">you will be notified once your Story is approved on the desynat platform</string>
+    <string name="story_management">Story Management</string>
 
 
 </resources>

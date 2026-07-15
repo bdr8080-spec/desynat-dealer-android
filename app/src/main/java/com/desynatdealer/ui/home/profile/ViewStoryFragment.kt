@@ -69,17 +69,51 @@ class ViewStoryFragment : BaseFragment() {
         val json = arguments?.getString("storyData")
 
         if (!json.isNullOrEmpty()) {
-            val type = object : TypeToken<ArrayList<GetStoryResponseNew.Data.SellerHighlight>>() {}.type
-            val storyList: ArrayList<GetStoryResponseNew.Data.SellerHighlight> =
-                Gson().fromJson(json, type)
-
             myStories.clear()
-            myStories.addAll(storyList)
+            try {
+                if (from == "highlights") {
+                    val type = object : TypeToken<ArrayList<GetStoryResponseNew.Data>>() {}.type
+                    val dataList: ArrayList<GetStoryResponseNew.Data> = Gson().fromJson(json, type)
+                    dataList.forEach { data ->
+                        data.highlights?.let { myStories.addAll(it) }
+                    }
+                } else {
+                    val type =
+                        object : TypeToken<ArrayList<GetStoryResponseNew.Data.SellerHighlight>>() {}.type
+                    val storyList: ArrayList<GetStoryResponseNew.Data.SellerHighlight> =
+                        Gson().fromJson(json, type)
+                    myStories.addAll(storyList)
+                }
+            } catch (e: Exception) {
+                try {
+                    val typeOld = object : TypeToken<ArrayList<GetStoryResponse.Data>>() {}.type
+                    val oldStoryList: ArrayList<GetStoryResponse.Data> = Gson().fromJson(json, typeOld)
+                    oldStoryList.forEach { old ->
+                        myStories.add(
+                            GetStoryResponseNew.Data.SellerHighlight(
+                                id = old.id?.toIntOrNull() ?: 0,
+                                file = old.file ?: "",
+                                title = old.title ?: "",
+                                type = old.type?.toIntOrNull() ?: 1,
+                                sellerId = old.sellerId?.toIntOrNull() ?: 0,
+                                status = old.status?.toIntOrNull() ?: 1,
+                                thumbnail = old.thumbnail,
+                                createdAt = old.createdAt ?: "",
+                                updatedAt = old.updatedAt ?: "",
+                                isSeen = old.isSeen,
+                                caption = old.caption ?: ""
+                            )
+                        )
+                    }
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
         }
 
         setupAdapter()
-        setData()
         setupPagerCallback()
+        setData()
     }
 
     override fun initControl() {
@@ -165,6 +199,7 @@ class ViewStoryFragment : BaseFragment() {
         if (position < myStories.size) {
             myStories.removeAt(position)
             storyPagerAdapter?.notifyDataSetChanged()
+            setupProgressBars(myStories.size)
         }
 
         if (myStories.isEmpty()) {
@@ -172,13 +207,14 @@ class ViewStoryFragment : BaseFragment() {
             return
         }
 
-        if (position < myStories.size) {
-            binding?.viewPager?.currentItem = position
-        } else {
-            binding?.viewPager?.currentItem = myStories.size - 1
+        val nextPos = if (position < myStories.size) position else myStories.size - 1
+        binding?.viewPager?.setCurrentItem(nextPos, false)
+
+        progressBars.forEachIndexed { index, progressBar ->
+            progressBar.progress = if (index < nextPos) 100 else 0
         }
 
-        startProgress(binding?.viewPager?.currentItem ?: 0)
+        startProgress(nextPos)
     }
 
     private fun deleteStory(id: String){
@@ -315,19 +351,23 @@ class ViewStoryFragment : BaseFragment() {
             private fun startProgress(index: Int) {
 
                 if (progressBars.isEmpty() || index >= progressBars.size) return
-
+                isManualNavigation = false
                 val url = myStories[index].file ?: ""
 
-                // Skip video/gif
-                if (url.endsWith(".mp4") || url.endsWith(".mov") ||url.endsWith(".avi") || url.endsWith(".mkv") || url.endsWith(".gif")) {
+                // Skip video
+                if (url.endsWith(".mp4") || url.endsWith(".mov") || url.endsWith(".avi") || url.endsWith(".mkv")) {
                     return
                 }
 
+                val storyDuration = if (url.endsWith(".gif")) 5000L else 7000L
+
                 progressAnimator = ValueAnimator.ofInt(0, 100).apply {
-                    duration = 10000L
+                    duration = storyDuration
 
                     addUpdateListener {
-                        progressBars[index].progress = it.animatedValue as Int
+                        if (index < progressBars.size) {
+                            progressBars[index].progress = it.animatedValue as Int
+                        }
                     }
 
                     doOnEnd {
@@ -349,7 +389,7 @@ class ViewStoryFragment : BaseFragment() {
             private fun startVideoProgress(index: Int, duration: Long) {
 
                 stopProgress()
-
+                isManualNavigation = false
                 progressAnimator = ValueAnimator.ofInt(0, 100).apply {
                 //    this.duration = duration
 
@@ -419,7 +459,7 @@ class ViewStoryFragment : BaseFragment() {
                 binding?.layoutProgress?.removeAllViews()
                 progressBars.clear()
 
-                repeat(count) {
+                for (i in 0 until count) {
 
                     val progressBar = ProgressBar(
                         requireContext(),
@@ -430,15 +470,18 @@ class ViewStoryFragment : BaseFragment() {
                     progressBar.progressDrawable =
                         ContextCompat.getDrawable(requireContext(), R.drawable.story_progress)
 
-                    progressBar.layoutParams = LinearLayout.LayoutParams(
+                    val params = LinearLayout.LayoutParams(
                         0,
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         1f
-                    ).apply {
-                        marginEnd = 8
+                    )
+                    if (i < count - 1) {
+                        params.marginEnd = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._5sdp)
                     }
+                    progressBar.layoutParams = params
 
                     progressBar.max = 100
+                    progressBar.progress = 0
 
                     binding?.layoutProgress?.addView(progressBar)
                     progressBars.add(progressBar)

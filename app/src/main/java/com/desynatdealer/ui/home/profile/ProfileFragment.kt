@@ -159,6 +159,10 @@ class ProfileFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_profileFragment_to_affiliatedCommissionFragment)
             }
 
+            rlStory.setOnClickListener {
+                findNavController().navigate(R.id.action_profile_to_storyManagementFragment)
+            }
+
             rlBanner.setOnClickListener {
                 findNavController().navigate(R.id.action_profileFragment_to_bannerManagementFragment)
             }

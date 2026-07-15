@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.profile.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,72 +15,72 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/common_toolbar"/>
+            layout="@layout/common_toolbar" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivProfileImage"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:src="@drawable/ic_user"
-            android:scaleType="centerCrop"
             android:clipToOutline="true"
-            app:shapeAppearanceOverlay="@style/circle_image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_user"
+            app:layout_constraintBottom_toBottomOf="@+id/ivHighlightStory"
+            app:layout_constraintEnd_toEndOf="@+id/ivHighlightStory"
             app:layout_constraintStart_toStartOf="@+id/ivHighlightStory"
             app:layout_constraintTop_toTopOf="@+id/ivHighlightStory"
-            app:layout_constraintEnd_toEndOf="@+id/ivHighlightStory"
-            app:layout_constraintBottom_toBottomOf="@+id/ivHighlightStory"/>
+            app:shapeAppearanceOverlay="@style/circle_image" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:visibility="invisible"
             android:id="@+id/ivHighlightStory"
             android:layout_width="@dimen/_42sdp"
             android:layout_height="@dimen/_42sdp"
-            android:scaleType="centerCrop"
-            android:clipToOutline="true"
-            app:strokeColor="@color/brown"
-            app:strokeWidth="@dimen/_2sdp"
-            android:padding="@dimen/_2sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_20sdp"
-            app:shapeAppearanceOverlay="@style/circle_image"
+            android:clipToOutline="true"
+            android:padding="@dimen/_2sdp"
+            android:scaleType="centerCrop"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:shapeAppearanceOverlay="@style/circle_image"
+            app:strokeColor="@color/brown"
+            app:strokeWidth="@dimen/_2sdp" />
 
-       <!-- <com.desynatdealer.ui.home.profile.StoryRingView
-            android:id="@+id/storyRing"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@+id/ivProfileImage"
-            app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
-            app:layout_constraintEnd_toEndOf="@+id/ivProfileImage"
-            app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>
--->
+        <!-- <com.desynatdealer.ui.home.profile.StoryRingView
+             android:id="@+id/storyRing"
+             android:layout_width="0dp"
+             android:layout_height="0dp"
+             app:layout_constraintStart_toStartOf="@+id/ivProfileImage"
+             app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
+             app:layout_constraintEnd_toEndOf="@+id/ivProfileImage"
+             app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"/>
+ -->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
             android:fontFamily="@font/poppins_semi_bold"
             android:text="Ahmed Farhan"
-            android:textSize="@dimen/_12sdp"
-            android:textColor="@color/black"
             android:textAlignment="viewStart"
-            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintBottom_toTopOf="@+id/tvEmail"
             app:layout_constraintEnd_toStartOf="@+id/ivViewProfile"
             app:layout_constraintStart_toEndOf="@id/ivProfileImage"
-            app:layout_constraintTop_toTopOf="@id/ivProfileImage"
-            app:layout_constraintBottom_toTopOf="@+id/tvEmail"/>
+            app:layout_constraintTop_toTopOf="@id/ivProfileImage" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvEmail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:alpha="0.67"
             android:fontFamily="@font/poppins_regular"
             android:text="farhan713@mail.com"
-            android:textSize="@dimen/_10sdp"
-            android:textColor="@color/black"
-            android:alpha="0.67"
             android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="@id/ivProfileImage"
             app:layout_constraintEnd_toEndOf="@id/tvName"
             app:layout_constraintStart_toStartOf="@id/tvName"
@@ -90,25 +90,25 @@
             android:id="@+id/ivViewProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/view_profile"
             android:layout_marginEnd="@dimen/_12sdp"
-            android:text="@string/view_profile"
-            android:textSize="@dimen/_11sdp"
+            android:background="@drawable/view_profile"
             android:fontFamily="@font/poppins_medium"
-            android:textColor="#9E7853"
             android:gravity="center"
             android:paddingHorizontal="@dimen/_5sdp"
-            app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
+            android:text="@string/view_profile"
+            android:textColor="#9E7853"
+            android:textSize="@dimen/_11sdp"
             app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivProfileImage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/clProfile"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clProfile">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -116,19 +116,19 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/rlProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:paddingVertical="@dimen/_6sdp">
+                android:paddingVertical="@dimen/_6sdp"
+                android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivProduct"
                     style="@style/drawer_image"
                     android:src="@drawable/products_ic"
-                    android:tint="#875C3A"/>
+                    android:tint="#875C3A" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/drawer_text"
@@ -145,19 +145,19 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/rlOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:paddingVertical="@dimen/_6sdp">
+                android:paddingVertical="@dimen/_6sdp"
+                android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivOrder"
                     style="@style/drawer_image"
                     android:src="@drawable/ic_orders"
-                    android:tint="#875C3A"/>
+                    android:tint="#875C3A" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/drawer_text"
@@ -174,19 +174,19 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/rlPayment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:paddingVertical="@dimen/_6sdp">
+                android:paddingVertical="@dimen/_6sdp"
+                android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivPayment"
                     style="@style/drawer_image"
                     android:src="@drawable/payments_ic"
-                    android:tint="#875C3A"/>
+                    android:tint="#875C3A" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/drawer_text"
@@ -203,13 +203,13 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/rlLiveEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:paddingVertical="@dimen/_6sdp">
+                android:paddingVertical="@dimen/_6sdp"
+                android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivLive"
@@ -234,8 +234,8 @@
                 android:id="@+id/rlStaffManagement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:paddingVertical="@dimen/_6sdp">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -282,6 +282,33 @@
                     style="@style/drawer_arrow" />
 
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlStory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_6sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivStory"
+                    style="@style/drawer_image"
+                    android:src="@drawable/ic_banner_mangement" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/drawer_text"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_toStartOf="@+id/ivGoStory"
+                    android:layout_toEndOf="@id/ivStory"
+                    android:text="@string/story_management" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoStory"
+                    style="@style/drawer_arrow" />
+
+            </RelativeLayout>
+
 
             <RelativeLayout
                 android:id="@+id/rlBanner"
@@ -347,7 +374,7 @@
                     android:id="@+id/ivDeal"
                     style="@style/drawer_image"
                     android:src="@drawable/ic_coupon"
-                    android:tint="@color/brown"/>
+                    android:tint="@color/brown" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/drawer_text"
@@ -685,33 +712,33 @@
                 android:id="@+id/relLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/brown_stroke">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/logout"
-                    android:drawablePadding="@dimen/_5sdp"
                     android:layout_centerInParent="true"
-                    android:textColor="@color/brown"
+                    android:drawableStart="@drawable/ic_logout"
+                    android:drawablePadding="@dimen/_5sdp"
                     android:fontFamily="@font/poppins_medium"
                     android:paddingVertical="@dimen/_10sdp"
-                    android:drawableStart="@drawable/ic_logout" />
+                    android:text="@string/logout"
+                    android:textColor="@color/brown" />
 
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_version_1_0"
-                android:textColor="#66000000"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
-                android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/poppins_medium"
-                android:paddingVertical="@dimen/_10sdp" />
+                android:paddingVertical="@dimen/_10sdp"
+                android:text="@string/app_version_1_0"
+                android:textColor="#66000000" />
 
         </LinearLayout>
 

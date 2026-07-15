@@ -3,7 +3,6 @@ package com.desynatdealer.ui.home.profile
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
-import com.desynatdealer.databinding.FragmentAddStoryBinding
 import com.desynatdealer.databinding.FragmentPreviewStoryBinding
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
@@ -23,21 +21,19 @@ import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.showToast
 import com.otaliastudios.transcoder.Transcoder
 import com.otaliastudios.transcoder.TranscoderListener
-import com.otaliastudios.transcoder.resize.AtMostResizer
 import com.otaliastudios.transcoder.strategy.DefaultAudioStrategy
 import com.otaliastudios.transcoder.strategy.DefaultVideoStrategy
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
-import kotlin.getValue
 
 @AndroidEntryPoint
 class PreviewStoryFragment : BaseFragment() {
-    private var binding: FragmentPreviewStoryBinding?=null
+    private var binding: FragmentPreviewStoryBinding? = null
     private val viewModel: HomeViewModel by viewModels()
     private var mediaType = ""
-    private var uri=""
-    private var from=""
-    private var name=""
+    private var uri = ""
+    private var from = ""
+    private var name = ""
 
     private var compressedVideoFile: File? = null
 
@@ -53,7 +49,7 @@ class PreviewStoryFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPreviewStoryBinding.inflate(layoutInflater,container,false)
+        binding = FragmentPreviewStoryBinding.inflate(layoutInflater, container, false)
         return binding?.root
     }
 
@@ -72,56 +68,56 @@ class PreviewStoryFragment : BaseFragment() {
             uri = arguments?.getString("uri").toString()
             from = arguments?.getString("from").toString()
 
-            if (from=="highlights"){
+            if (from == "highlights") {
                 name = arguments?.getString("name").toString()
             }
 
-                ivImage.isVisible = false
-                ivImage.setImageDrawable(null)
+            ivImage.isVisible = false
+            ivImage.setImageDrawable(null)
 
-                videoView.isVisible = false
-                videoView.stopPlayback()
-                videoView.setVideoURI(null)
+            videoView.isVisible = false
+            videoView.stopPlayback()
+            videoView.setVideoURI(null)
 
-                if (mediaType == "image") {
-                    ivImage.isVisible = true
-                    Glide.with(requireActivity())
-                        .load(uri)
-                        .placeholder(R.drawable.ic_placeholder)
-                        .into(ivImage)
-                } else {
-                    videoView.isVisible = true
-                    videoView.setVideoURI( Uri.parse(uri))
+            if (mediaType == "image") {
+                ivImage.isVisible = true
+                Glide.with(requireActivity())
+                    .load(uri)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .into(ivImage)
+            } else {
+                videoView.isVisible = true
+                videoView.setVideoURI(Uri.parse(uri))
 
-                    videoView.setOnPreparedListener { mp ->
-                        val videoWidth = mp.videoWidth
-                        val videoHeight = mp.videoHeight
+                videoView.setOnPreparedListener { mp ->
+                    val videoWidth = mp.videoWidth
+                    val videoHeight = mp.videoHeight
 
-                        val viewWidth = videoView.width
-                        val viewHeight = videoView.height
+                    val viewWidth = videoView.width
+                    val viewHeight = videoView.height
 
-                        val videoProportion = videoWidth.toFloat() / videoHeight.toFloat()
-                        val viewProportion = viewWidth.toFloat() / viewHeight.toFloat()
+                    val videoProportion = videoWidth.toFloat() / videoHeight.toFloat()
+                    val viewProportion = viewWidth.toFloat() / viewHeight.toFloat()
 
-                        val layoutParams = videoView.layoutParams
+                    val layoutParams = videoView.layoutParams
 
-                        if (videoProportion > viewProportion) {
-                            layoutParams.width = viewWidth
-                            layoutParams.height = (viewWidth / videoProportion).toInt()
-                        } else {
-                            layoutParams.height = viewHeight
-                            layoutParams.width = (viewHeight * videoProportion).toInt()
-                        }
-
-                        videoView.layoutParams = layoutParams
-
-
-                        mp.isLooping = false
-                        val duration = mp.duration.toLong()
-
-                        videoView.start()
+                    if (videoProportion > viewProportion) {
+                        layoutParams.width = viewWidth
+                        layoutParams.height = (viewWidth / videoProportion).toInt()
+                    } else {
+                        layoutParams.height = viewHeight
+                        layoutParams.width = (viewHeight * videoProportion).toInt()
                     }
+
+                    videoView.layoutParams = layoutParams
+
+
+                    mp.isLooping = false
+                    val duration = mp.duration.toLong()
+
+                    videoView.start()
                 }
+            }
 
 
         }
@@ -134,21 +130,29 @@ class PreviewStoryFragment : BaseFragment() {
                 findNavController().popBackStack()
             }
 
-            tvPost.setOnClickListener {
+            /* tvContinueToPromote.setOnClickListener {
+                 if (mediaType == "image") {
+                     val file = CommonMethod.uriToFileForStory(requireActivity(), Uri.parse(uri))
+                     val image = file?.toMultiPartBody("file")
+                     viewModel.uploadVideoImage(image)
+                 } else {
+                     thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(), Uri.parse(uri))
+                     isThumbnailUploading = true
+                     uploadThumbnailApi(thumbnailFile)
+                 }
+
+             }*/
+
+            tvContinueToPromote.setOnClickListener {
                 if (mediaType == "image") {
                     val file = CommonMethod.uriToFileForStory(requireActivity(), Uri.parse(uri))
                     val image = file?.toMultiPartBody("file")
                     viewModel.uploadVideoImage(image)
-                }
-                else{
-//                    if (!isVideoWithinLimit(Uri.parse(uri), 30)) {
-//                        showToast("Video must not be more than 30 seconds")
-//                        return@setOnClickListener
-//                    }
-                    thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(), Uri.parse(uri))
+                } else {
+                    thumbnailFile =
+                        CommonMethod.getVideoThumbnailFile(requireActivity(), Uri.parse(uri))
                     isThumbnailUploading = true
                     uploadThumbnailApi(thumbnailFile)
-                 //   compressAndUploadVideo(Uri.parse(uri))
                 }
 
             }
@@ -159,10 +163,11 @@ class PreviewStoryFragment : BaseFragment() {
         viewModel.uploadVideoImageResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    if (!isVideoUploading){
+                    if (!isVideoUploading) {
                         ProgressDialogUtils.getInstance().showProgress(requireActivity())
                     }
                 }
+
                 is ApiResult.Success -> {
 
                     val url = result.data?.data?.url ?: ""
@@ -173,7 +178,8 @@ class PreviewStoryFragment : BaseFragment() {
                             isThumbnailUploading = false
 
                             isVideoUploading = true
-                            val file = CommonMethod.uriToFileForStory(requireActivity(), Uri.parse(uri))
+                            val file =
+                                CommonMethod.uriToFileForStory(requireActivity(), Uri.parse(uri))
                             uploadCompressedVideo(file)
                         }
 
@@ -211,15 +217,16 @@ class PreviewStoryFragment : BaseFragment() {
 
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    if (result.message=="You have no active plan"){
-                        CommonMethod.showAlertDialog(requireActivity(),result.message){
+                    if (result.message == "You have no active plan") {
+                        CommonMethod.showAlertDialog(requireActivity(), result.message) {
                             findNavController().navigate(R.id.action_addPreviewStoryFragment_to_SubscriptionPlanFragment)
                         }
 
-                    }
-                    else{
-                        CommonMethod.showSuccessDialog(requireContext(),
-                            getString(R.string.story_added_successfully)){
+                    } else {
+                        CommonMethod.showSuccessDialog(
+                            requireContext(),
+                            getString(R.string.story_added_successfully)
+                        ) {
                             findNavController().popBackStack(R.id.viewProfile, false)
                         }
                     }
@@ -229,13 +236,15 @@ class PreviewStoryFragment : BaseFragment() {
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
-                    if (result.statusCode==499){
-                        CommonMethod.showAlertDialog(requireActivity(),result?.message.toString()){
+                    if (result.statusCode == 499) {
+                        CommonMethod.showAlertDialog(
+                            requireActivity(),
+                            result?.message.toString()
+                        ) {
                             findNavController().navigate(R.id.action_addPreviewStoryFragment_to_SubscriptionPlanFragment)
                         }
 
-                    }
-                    else{
+                    } else {
                         showToast(result.message ?: getString(R.string.generic_error))
                     }
 
@@ -246,6 +255,7 @@ class PreviewStoryFragment : BaseFragment() {
             }
         }
     }
+
     private fun compressAndUploadVideo(inputUri: Uri) {
         ProgressDialogUtils.getInstance().showProgress(requireActivity())
 
@@ -325,8 +335,8 @@ class PreviewStoryFragment : BaseFragment() {
     }
 
     private fun addStory(story: String) {
-        val map = HashMap<String,Any>()
-        if (mediaType!="image"&&uploadThumbnail!=""){
+        val map = HashMap<String, Any>()
+        if (mediaType != "image" && uploadThumbnail != "") {
             map["thumbnail"] = uploadThumbnail
         }
         map["file"] = story

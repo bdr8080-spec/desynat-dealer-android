@@ -207,6 +207,9 @@
         <action
             android:id="@+id/action_profileFragment_to_paymentFragment"
             app:destination="@id/payment" />
+        <action
+            android:id="@+id/action_profile_to_storyManagementFragment"
+            app:destination="@id/storyManagementFragment" />
     </fragment>
 
     <fragment
@@ -696,4 +699,11 @@
         android:label="Cms Content Fragment"
         tools:layout="@layout/fragment_cms_content"/>
 
-    </navigation>
+
+    <fragment
+        android:id="@+id/storyManagementFragment"
+        android:name="com.desynatdealer.ui.home.profile.story_management.StoryManagementFragment"
+        android:label="fragment_story_management"
+        tools:layout="@layout/fragment_story_management" />
+
+</navigation>

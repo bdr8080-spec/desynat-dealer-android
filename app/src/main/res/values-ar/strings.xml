@@ -775,7 +775,7 @@
     <string name="document_1">المستند 1</string>
     <string name="your_banner_request_has_been_successfully_submitted_for_verification_our_team_is_currently_reviewing_your_details_please_allow_3_4_hour_for_the_verification_process_to_be_completed_you_will_be_notified_once_your_banner_is_approved_on_the_desynat_platform">تم إرسال طلب البانر الخاص بك بنجاح للتحقق! يقوم فريقنا حالياً بمراجعة تفاصيلك، يرجى السماح من 3 إلى 4 ساعات لإكمال عملية التحقق. سيتم إشعارك بمجرد الموافقة على البانر الخاص بك على منصة ديسينات.</string>
 
-    <string name="thank_you_for_your_patience_team_desnyat">شكراً لصبرك - فريق ديسينات</string>
+    <string name="thank_you_for_your_patience_team_desnyat">شكراً لصبرك\nفريق ديسينات</string>
     <string name="lorem_ipsum">لوريم إيبسوم دولور سيت أميت كونسيكتيتور. مي أولتريسيس ديام سوسيوس فولوتبات أورسي نون. كومودو بريتيوم أورنا أوت أوغوي أك أميت سيد.</string>
 
     <string name="please_select_payment_status">يرجى اختيار حالة الدفع</string>
@@ -862,6 +862,11 @@
     <string name="bought">تم الشراء</string>
     <string name="sent_an_attachment">تم إرسال مرفق</string>
     <string name="share_via">مشاركة عبر</string>
+    <string name="promote_story">ترويج القصة</string>
+    <string name="your_story_request_successfully_submitted">تم إرسال طلب القصة الخاص بك بنجاح للتحقق!</string>
+    <string name="team_reviewing_your_details">يقوم فريقنا حالياً بمراجعة تفاصيلك، يرجى السماح من 3 إلى 4 ساعات لإكمال عملية التحقق.</string>
+    <string name="notified_once_story_approved">سيتم إشعارك بمجرد الموافقة على القصة الخاصة بك على منصة ديسينات.</string>
+
 
 
 </resources>

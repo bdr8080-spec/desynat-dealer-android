@@ -120,17 +120,22 @@ class ViewProfileFragment : BaseFragment() {
                             }
 
                             2 -> {
-                                val dummyList = ArrayList<GetStoryResponseNew.Data>()
-                                dummyList.add(highlightList[position])
-                                if (originalHighlightList.isNotEmpty()) {
-                                    val bundle = Bundle().apply {
-                                        putString("from", "highlights")
-                                        putString("storyData", Gson().toJson(originalHighlightList))
+                                if (position < highlightList.size) {
+                                    val clickedHighlight = highlightList[position]
+                                    if (clickedHighlight.highlights?.isNotEmpty() == true) {
+                                        val bundle = Bundle().apply {
+                                            putString("from", "highlights")
+                                            val singleHighlightList = arrayListOf(clickedHighlight)
+                                            putString(
+                                                "storyData",
+                                                Gson().toJson(singleHighlightList)
+                                            )
+                                        }
+                                        findNavController().navigate(
+                                            R.id.action_viewProfileFragment_to_viewStoryFragment,
+                                            bundle
+                                        )
                                     }
-                                    findNavController().navigate(
-                                        R.id.action_viewProfileFragment_to_viewStoryFragment,
-                                        bundle
-                                    )
                                 }
                             }
                         }
