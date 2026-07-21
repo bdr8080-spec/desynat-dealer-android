@@ -135,5 +135,10 @@ object Constants {
     const val UPDATE_PASSWORD = "api/seller/update_password"
     const val DELETE_ACCOUNT = "/api/seller/delete_account"
     const val GET_DASHBOARD_DATA = "/api/seller/dashboard_data"
+    const val completeStoryPayment = "/api/seller/complete_story_payment"
+
+
+    const val GET_SELLER_PROMOTIONAL_STORIES = ""
+
 
 }

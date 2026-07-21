@@ -1,5 +1,6 @@
 package com.desynatdealer.controller
 
+import com.desynatdealer.model.AddStoryResponse
 import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.model.create_account.CreateAccountRes
 import com.desynatdealer.model.login.req.LoginResponse
@@ -13,6 +14,10 @@ import com.desynatdealer.ui.home.bannerManagement.response.GetBannerPriceRespons
 import com.desynatdealer.ui.home.chat.response.ChatDetailResponse
 import com.desynatdealer.ui.home.chat.response.GetChatListResponse
 import com.desynatdealer.ui.home.chat.response.ModifySingleChatResponse
+import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
+import com.desynatdealer.ui.home.cms.response.GetContactResponse
+import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
+import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetAllDealResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealAllProductResponse
 import com.desynatdealer.ui.home.dealManagement.response.GetDealDetailResponse
@@ -22,9 +27,12 @@ import com.desynatdealer.ui.home.liveCoverage.response.GetLiveRequestResponse
 import com.desynatdealer.ui.home.liveCoverage.response.GetTimeSlotResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetAgoraTokenResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetLiveStreamingRoomResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetLiveUserCountResponse
+import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.RenewSubscriptionPlanResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
+import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
@@ -35,24 +43,15 @@ import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandRespon
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.ui.home.profile.response.UpdateReelResponse
+import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.response.CommonResponse
 import com.desynatdealer.ui.home.response.CreateSubscriptionPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
-import com.desynatdealer.ui.home.response.GetSellerInfo
-import com.desynatdealer.utils.Constants
-import com.desynatdealer.utils.translation.TranslateRequest
-import com.desynatdealer.utils.translation.TranslateResponse
-import com.desynatdealer.ui.home.cms.response.GetAllRaisedTicketResponse
-import com.desynatdealer.ui.home.cms.response.GetContactResponse
-import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
-import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
-import com.desynatdealer.ui.home.liveStreaming.response.GetLiveUserCountResponse
-import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
-import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
-import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
-import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.response.GetDashboardDataResponse
+import com.desynatdealer.ui.home.response.GetSellerInfo
+import com.desynatdealer.ui.home.response.PaymentCompleteResponse
 import com.desynatdealer.ui.home.response.ResponseDeliveryTime
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
@@ -60,6 +59,9 @@ import com.desynatdealer.ui.home.staffManagement.response.GetSellerAllMenuRespon
 import com.desynatdealer.ui.home.staffManagement.response.GetStaffCategoryResponse
 import com.desynatdealer.ui.home.staffManagement.response.UpdateStaffStatusResponse
 import com.desynatdealer.ui.home.staffManagement.response.ViewStaffDetailResponse
+import com.desynatdealer.utils.Constants
+import com.desynatdealer.utils.translation.TranslateRequest
+import com.desynatdealer.utils.translation.TranslateResponse
 import com.desynatdriver.ui.home.cms.response.GetCmsResponse
 import com.desynatdriver.ui.home.cms.response.GetFaqResponse
 import okhttp3.MultipartBody
@@ -80,19 +82,18 @@ import retrofit2.http.QueryMap
 interface CommonApiService {
 
     @POST("api/seller/login")
-    suspend fun login(@Body map: HashMap<String,Any>): Response<LoginResponse>
+    suspend fun login(@Body map: HashMap<String, Any>): Response<LoginResponse>
 
 
     @Multipart
-  //  @POST("api/upload")
+    //  @POST("api/upload")
     @POST(Constants.UPLOAD_VIDEO_IMAGE)
     suspend fun upload(
         @Part file: MultipartBody.Part?
     ): Response<UploadResponse>
 
 
-
-  @Multipart
+    @Multipart
     @POST(Constants.uploadWithResolutionPromotional)
     suspend fun uploadWithResolutionPromotional(
         @Part file: MultipartBody.Part?
@@ -109,7 +110,6 @@ interface CommonApiService {
 
     @POST("api/seller/store_information")
     suspend fun storeInformation(@Body req: HashMap<String, String>): Response<Unit>
-
 
 
     @POST(Constants.GET_SELLER_REVIEW)
@@ -146,7 +146,8 @@ interface CommonApiService {
     suspend fun getDeliveryTime(): Response<ResponseDeliveryTime>
 
     @POST(Constants.GET_PROFILE)
-    suspend fun getSellerInfo(@Header("Authorization") auth: String
+    suspend fun getSellerInfo(
+        @Header("Authorization") auth: String
     ): Response<GetSellerInfo>
 
     @POST(Constants.CREATE_SUBSCRIPTION_PLAN)
@@ -164,7 +165,7 @@ interface CommonApiService {
 
     @GET(Constants.GET_SUB_CATEGORY)
     suspend fun getSubCategory(
-        @Query ("category_id") categoryId:String
+        @Query("category_id") categoryId: String
     ): Response<GetSubCategoryResponse>
 
     @GET(Constants.GET_BRAND)
@@ -183,10 +184,10 @@ interface CommonApiService {
     suspend fun getAllProduct(@Body map: HashMap<String, Any>): Response<GetAllProductResponse>
 
     @POST(Constants.ADD_PRODUCT)
-    suspend fun addProduct(@Body request : AddProductRequest): Response<CommonResponse>
+    suspend fun addProduct(@Body request: AddProductRequest): Response<CommonResponse>
 
     @POST(Constants.UPDATE_PRODUCT)
-    suspend fun editProduct(@Body request : AddProductRequest): Response<CommonResponse>
+    suspend fun editProduct(@Body request: AddProductRequest): Response<CommonResponse>
 
     @POST(Constants.PRODUCT_DETAIL)
     suspend fun getProductDetail(@Body map: HashMap<String, Any>): Response<GetProductDetailResponse>
@@ -194,7 +195,7 @@ interface CommonApiService {
     @PUT(Constants.PRODUCT_ACTIVE_INACTIVE)
     suspend fun updateProductStatus(@Body map: HashMap<String, Any>): Response<GetProductDetailResponse>
 
- //   @DELETE(Constants.DELETE_PRODUCT)
+    //   @DELETE(Constants.DELETE_PRODUCT)
     @HTTP(method = "DELETE", path = Constants.DELETE_PRODUCT, hasBody = true)
     suspend fun deleteProduct(@Body map: HashMap<String, Any>): Response<CommonResponse>
 
@@ -296,7 +297,7 @@ interface CommonApiService {
     ): Response<TranslateResponse>
 
     @GET(Constants.GET_TIME_SLOT)
-    suspend fun getTimeSlot( @Query("date") date: String): Response<GetTimeSlotResponse>
+    suspend fun getTimeSlot(@Query("date") date: String): Response<GetTimeSlotResponse>
 
     @GET(Constants.GET_LIVE_REQUEST)
     suspend fun getLiveRequest(@QueryMap map: HashMap<String, Any>): Response<GetLiveRequestResponse>
@@ -310,7 +311,7 @@ interface CommonApiService {
     @GET(Constants.GET_NOTIFICATION_LIST)
     suspend fun getNotificationList(@QueryMap map: HashMap<String, Any>): Response<GetUserNotificationResponse>
 
- @GET(Constants.NOTIFICATION_COUNT)
+    @GET(Constants.NOTIFICATION_COUNT)
     suspend fun getNotificationCount(): Response<GetNotificationCountResponse>
 
     @POST(Constants.READ_NOTIFICATION)
@@ -326,7 +327,7 @@ interface CommonApiService {
     suspend fun getMyPlan(@QueryMap map: HashMap<String, Any>): Response<GetMyPlanResponse>
 
     @POST(Constants.ADD_STORY)
-    suspend fun addStory(@Body map: HashMap<String, Any>): Response<CommonResponse>
+    suspend fun addStory(@Body map: HashMap<String, Any>): Response<AddStoryResponse>
 
     @POST(Constants.ADD_REEL)
     suspend fun addReel(@Body map: HashMap<String, Any>): Response<CommonResponse>
@@ -348,6 +349,9 @@ interface CommonApiService {
 
     @GET(Constants.GET_ADMIN_STORY)
     suspend fun getAdminStory(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
+
+    @POST(Constants.GET_SELLER_PROMOTIONAL_STORIES)
+    suspend fun getSellerPromotionalStories(@Body map: HashMap<String, Any>): Response<GetStoryResponse>
 
     @GET(Constants.GET_REEL)
     suspend fun getReel(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
@@ -389,7 +393,7 @@ interface CommonApiService {
 
     @POST(Constants.GET_AGORA_TOKEN)
     suspend fun getAgoraToken(
-        @Body  map: HashMap<String, Any>
+        @Body map: HashMap<String, Any>
     ): Response<GetAgoraTokenResponse>
 
     @GET(Constants.GET_RAISED_TICKET)
@@ -397,12 +401,12 @@ interface CommonApiService {
 
     @POST(Constants.RAISE_TICKET)
     suspend fun raiseTicket(
-        @Body  map: HashMap<String, Any>
+        @Body map: HashMap<String, Any>
     ): Response<CommonResponse>
 
     @POST(Constants.SEE_STORY)
     suspend fun seeStory(
-        @Body  map: HashMap<String, Any>
+        @Body map: HashMap<String, Any>
     ): Response<CommonResponse>
 
     @GET(Constants.GET_TICKET_TYPE)
@@ -414,7 +418,7 @@ interface CommonApiService {
         @Path("appid") appid: String,
         @Path("channelName") channelName: String
     )
-    : Response<GetLiveUserCountResponse>
+            : Response<GetLiveUserCountResponse>
 
     @POST(Constants.NOTIFICATION_ON_OFF)
     suspend fun notificationOnOff(@QueryMap map: HashMap<String, Any>): Response<UpdateNotificationResponse>
@@ -481,6 +485,9 @@ interface CommonApiService {
 
     @GET(Constants.GET_DASHBOARD_DATA)
     suspend fun getDashboardData(@QueryMap map: HashMap<String, String>): Response<GetDashboardDataResponse>
+
+    @POST(Constants.completeStoryPayment)
+    suspend fun completeStoryPayment(@QueryMap map: HashMap<String, Any>): Response<PaymentCompleteResponse>
 
 
 }

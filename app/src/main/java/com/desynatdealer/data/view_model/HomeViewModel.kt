@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.repo.HomeRepository
+import com.desynatdealer.model.AddStoryResponse
 import com.desynatdealer.model.upload.UploadResponse
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
@@ -49,6 +50,7 @@ import com.desynatdealer.ui.home.response.CreateSubscriptionPlanResponse
 import com.desynatdealer.ui.home.response.GetAllPlanResponse
 import com.desynatdealer.ui.home.response.GetDashboardDataResponse
 import com.desynatdealer.ui.home.response.GetSellerInfo
+import com.desynatdealer.ui.home.response.PaymentCompleteResponse
 import com.desynatdealer.ui.home.response.ResponseDeliveryTime
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
@@ -882,6 +884,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         }
     }
 
+    private val _getSellerPromotionalStoriesResponse =
+        MutableLiveData<ApiResult<GetStoryResponse>?>()
+    val getSellerPromotionalStoriesResponse: MutableLiveData<ApiResult<GetStoryResponse>?>
+        get() = _getSellerPromotionalStoriesResponse
+
+    fun getSellerPromotionalStories(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getSellerPromotionalStoriesResponse.value = ApiResult.Loading
+            _getSellerPromotionalStoriesResponse.value = repo.getSellerPromotionalStories(map)
+        }
+    }
+
     private val _getHighlightsResponse =
         MutableLiveData<ApiResult<GetStoryResponseNew>?>()
     val getHighlightsResponse: MutableLiveData<ApiResult<GetStoryResponseNew>?>
@@ -991,8 +1005,8 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
     }
 
     private val _addStoryResponse =
-        MutableLiveData<ApiResult<CommonResponse>?>()
-    val addStoryResponse: MutableLiveData<ApiResult<CommonResponse>?>
+        MutableLiveData<ApiResult<AddStoryResponse>?>()
+    val addStoryResponse: MutableLiveData<ApiResult<AddStoryResponse>?>
         get() = _addStoryResponse
 
     fun addStory(map: HashMap<String, Any>) {
@@ -1327,6 +1341,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _getRefundOrderResponse.value = ApiResult.Loading
             _getRefundOrderResponse.value = repo.getRefundOrder(map)
+        }
+    }
+
+    private val _completeStoryPaymentResponse =
+        MutableLiveData<ApiResult<PaymentCompleteResponse>?>()
+    val completeStoryPaymentResponse: MutableLiveData<ApiResult<PaymentCompleteResponse>?>
+        get() = _completeStoryPaymentResponse
+
+    fun completeStoryPayment(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _completeStoryPaymentResponse.value = ApiResult.Loading
+            _completeStoryPaymentResponse.value = repo.completeStoryPayment(map)
         }
     }
 

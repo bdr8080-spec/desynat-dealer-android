@@ -42,7 +42,7 @@ class PreviewFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPreviewBinding.inflate(layoutInflater, container, false)
+        binding = FragmentPreviewBinding.inflate(inflater, container, false)
         return binding?.root
     }
 

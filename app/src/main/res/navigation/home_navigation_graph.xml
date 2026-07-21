@@ -617,6 +617,9 @@
         <action
             android:id="@+id/action_addPreviewStoryFragment_to_SubscriptionPlanFragment"
             app:destination="@id/mySubscription" />
+        <action
+            android:id="@+id/action_addPreviewStory_to_promoteStoryPaymentFragment"
+            app:destination="@id/promoteStoryPaymentFragment" />
 
 
     </fragment>
@@ -704,6 +707,18 @@
         android:id="@+id/storyManagementFragment"
         android:name="com.desynatdealer.ui.home.profile.story_management.StoryManagementFragment"
         android:label="fragment_story_management"
-        tools:layout="@layout/fragment_story_management" />
+        tools:layout="@layout/fragment_story_management" >
+        <action
+            android:id="@+id/action_storyManagementFragment_to_addStoryFragment"
+            app:destination="@id/addStory" />
+        <action
+            android:id="@+id/action_storyManagementFragment_to_viewStoryFragment"
+            app:destination="@id/viewStory" />
+    </fragment>
+    <fragment
+        android:id="@+id/promoteStoryPaymentFragment"
+        android:name="com.desynatdealer.ui.home.profile.PromoteStoryPaymentFragment"
+        android:label="fragment_promote_story_payment"
+        tools:layout="@layout/fragment_promote_story_payment" />
 
 </navigation>

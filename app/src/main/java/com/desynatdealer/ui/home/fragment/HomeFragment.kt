@@ -3,6 +3,7 @@ package com.desynatdealer.ui.home.fragment
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,6 @@ import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
-import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -37,17 +37,15 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import me.leolin.shortcutbadger.ShortcutBadger
-import kotlin.math.log
-import kotlin.text.get
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
-    private var binding : FragmentHomeBinding?=null
+    private var binding: FragmentHomeBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
     private var status = 1
     var adminStoryList = ArrayList<GetStoryResponse.Data>()
-    var dashboardData: GetDashboardDataResponse.Data?=null
-    private var userInfo : GetSellerInfo.Data?=null
+    var dashboardData: GetDashboardDataResponse.Data? = null
+    private var userInfo: GetSellerInfo.Data? = null
 
     var analytics = "1"
     var filter = "1"
@@ -65,8 +63,8 @@ class HomeFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View?{
-        binding = FragmentHomeBinding.inflate(layoutInflater, container,false)
+    ): View? {
+        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return binding?.root
     }
 
@@ -84,9 +82,11 @@ class HomeFragment : BaseFragment() {
         getAdminStory()
         getDashboardData()
         userInfo = SharedPreference.get(requireActivity()).getUser()
+
+        Log.e("TOKEN", "Main Token: ${SharedPreference.get(requireContext()).accessToken}")
         updateStatus()
         binding?.apply {
-            profilePic.load(userInfo?.profilePic){
+            profilePic.load(userInfo?.profilePic) {
                 crossfade(false)
                 placeholder(R.drawable.ic_user)
                 error(R.drawable.ic_user)
@@ -98,7 +98,7 @@ class HomeFragment : BaseFragment() {
         binding?.apply {
 
             logoImage.setOnClickListener {
-                if (adminStoryList.size!=0) {
+                if (adminStoryList.size != 0) {
                     val bundle = Bundle().apply {
                         putString("from", "admin")
                         putString("storyData", Gson().toJson(adminStoryList))
@@ -136,10 +136,12 @@ class HomeFragment : BaseFragment() {
                         analytics = "1"
                         setLineChartData()
                     }
-                    R.id.rbCustomerVisit ->{
-                        analytics ="2"
+
+                    R.id.rbCustomerVisit -> {
+                        analytics = "2"
                         setLineChartData()
                     }
+
                     else -> {
                         analytics = "1"
                         setLineChartData()
@@ -153,15 +155,18 @@ class HomeFragment : BaseFragment() {
                         filter = "1"
                         getDashboardData()
                     }
-                    R.id.rbWeek ->{
+
+                    R.id.rbWeek -> {
                         filter = "2"
                         getDashboardData()
                     }
-                    R.id.rbMonth ->{
+
+                    R.id.rbMonth -> {
                         filter = "3"
                         getDashboardData()
                     }
-                    R.id.rbYear ->{
+
+                    R.id.rbYear -> {
                         filter = "4"
                         getDashboardData()
                     }
@@ -233,7 +238,7 @@ class HomeFragment : BaseFragment() {
             tvReset.setOnClickListener {
                 fromTimestamp = null
                 fromDateText = null
-                toDateText=null
+                toDateText = null
                 toTimestamp = null
                 etTo.setText("")
                 etFrom.setText("")
@@ -244,7 +249,7 @@ class HomeFragment : BaseFragment() {
             tvAnalyticsReset.setOnClickListener {
                 fromAnalyticTimestamp = null
                 fromAnalyticDateText = null
-                toAnalyticDateText=null
+                toAnalyticDateText = null
                 toAnalyticTimestamp = null
                 etAnalyticsTo.setText("")
                 etAnalyticsFrom.setText("")
@@ -291,9 +296,9 @@ class HomeFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
-                        (requireActivity() as HomeActivity).updateAdapterCount(
-                            result.data?.data ?: 0
-                        )
+                    (requireActivity() as HomeActivity).updateAdapterCount(
+                        result.data?.data ?: 0
+                    )
                     viewModel.getOrderNotificationResponse.value = null
                 }
 
@@ -335,67 +340,71 @@ class HomeFragment : BaseFragment() {
         }
 
 
-        viewModel.storeOnOffResponse.observe(viewLifecycleOwner){result->
-            when(result){
+        viewModel.storeOnOffResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
                 ApiResult.Loading -> {
                     binding?.progressBar?.isVisible = true
                 }
+
                 is ApiResult.Success -> {
                     binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.data?.message.toString())
-                    if (userInfo?.storeInfo?.storeAvailability==1){
+                    if (userInfo?.storeInfo?.storeAvailability == 1) {
                         userInfo?.storeInfo?.storeAvailability = 0
-                    }
-                    else{
+                    } else {
                         userInfo?.storeInfo?.storeAvailability = 1
                     }
                     userInfo?.let { SharedPreference.get(requireActivity()).saveUser(it) }
                     updateStatus()
                     viewModel.storeOnOffResponse.value = null
                 }
+
                 is ApiResult.Error -> {
                     binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.storeOnOffResponse.value = null
                 }
-                else ->{
+
+                else -> {
 
                 }
             }
         }
 
-        viewModel.getNotificationCountResponse.observe(viewLifecycleOwner){result->
-            when(result){
+        viewModel.getNotificationCountResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
                 ApiResult.Loading -> {
                     binding?.progressBar?.isVisible = false
                 }
+
                 is ApiResult.Success -> {
                     binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
-                    if (result.data?.data?.notificationCount!=0){
-                        setNotificationCount(result.data?.data?.notificationCount?:0)
-                    }
-                    else{
+                    if (result.data?.data?.notificationCount != 0) {
+                        setNotificationCount(result.data?.data?.notificationCount ?: 0)
+                    } else {
                         SharedPreference.get(requireActivity()).badgeCount = 0
                         ShortcutBadger.removeCount(requireActivity())
 
                     }
 
-                    if (result.data?.data?.chatUnreadCount!=0){
-                        setChatCount(result.data?.data?.chatUnreadCount?:0)
+                    if (result.data?.data?.chatUnreadCount != 0) {
+                        setChatCount(result.data?.data?.chatUnreadCount ?: 0)
                     }
 
                     viewModel.getNotificationCountResponse.value = null
                 }
+
                 is ApiResult.Error -> {
                     binding?.progressBar?.isVisible = false
                     ProgressDialogUtils.getInstance().hideProgress()
                     showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.getNotificationCountResponse.value = null
                 }
-                else ->{
+
+                else -> {
 
                 }
             }
@@ -404,7 +413,8 @@ class HomeFragment : BaseFragment() {
 
     private fun setDashboardData() {
         binding?.apply {
-            tvAmount.text = "${CommonMethod.formatPrice(dashboardData?.totalRevenue?.toDoubleOrNull()?:0.0)} KD"
+            tvAmount.text =
+                "${CommonMethod.formatPrice(dashboardData?.totalRevenue?.toDoubleOrNull() ?: 0.0)} KD"
             tvTotalProductCount.text = "(${dashboardData?.totalProducts})"
             tvTotalOrdersCount.text = "(${dashboardData?.totalOrders})"
             tvTotalStaffCount.text = "(${dashboardData?.totalStaff})"
@@ -431,7 +441,7 @@ class HomeFragment : BaseFragment() {
 //        }
 
         binding?.apply {
-            if (adminStoryList.size!=0){
+            if (adminStoryList.size != 0) {
                 binding?.ivHighlightStory?.isVisible = true
                 val allStoriesSeen = adminStoryList?.all { it.isSeen == 1 } == true
                 binding?.ivHighlightStory?.strokeColor = ColorStateList.valueOf(
@@ -444,37 +454,35 @@ class HomeFragment : BaseFragment() {
                         }
                     )
                 )
-            }
-            else{
+            } else {
                 binding?.ivHighlightStory?.isInvisible = true
             }
         }
 
     }
 
-    private fun updateStatus(){
+    private fun updateStatus() {
         binding?.apply {
-          /*  if(userInfo?.storeInfo?.storeAvailability==1){
-                tvSwitch.text = getString(R.string.busy_on)
-                tvSwitch.setTextColor(Color.parseColor("#8B5E3C"))
-                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
-            }
-            else{
-                tvSwitch.text = getString(R.string.busy_off)
-                tvSwitch.setTextColor(Color.parseColor("#666666"))
-                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
+            /*  if(userInfo?.storeInfo?.storeAvailability==1){
+                  tvSwitch.text = getString(R.string.busy_on)
+                  tvSwitch.setTextColor(Color.parseColor("#8B5E3C"))
+                  tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
+              }
+              else{
+                  tvSwitch.text = getString(R.string.busy_off)
+                  tvSwitch.setTextColor(Color.parseColor("#666666"))
+                  tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
 
-            }*/
+              }*/
 
-            if(userInfo?.storeInfo?.storeAvailability==1){
+            if (userInfo?.storeInfo?.storeAvailability == 1) {
                 tvSwitch.text = getString(R.string.open)
                 tvSwitch.setTextColor(Color.parseColor("#8B5E3C"))
-                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on,0, 0 )
-            }
-            else{
+                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_on, 0, 0)
+            } else {
                 tvSwitch.text = getString(R.string.busy)
                 tvSwitch.setTextColor(Color.parseColor("#666666"))
-                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off,0,0 )
+                tvSwitch.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.switch_off, 0, 0)
 
             }
 
@@ -485,7 +493,7 @@ class HomeFragment : BaseFragment() {
         viewModel.storeOnOff()
     }
 
-    private fun getNotificationCount(){
+    private fun getNotificationCount() {
         viewModel.getNotificationCount()
     }
 
@@ -502,13 +510,13 @@ class HomeFragment : BaseFragment() {
 
     private fun getDashboardData() {
         val map = HashMap<String, String>()
-        if (fromDateText!=null&&toDateText!=null){
+        if (fromDateText != null && toDateText != null) {
             map["from_date"] = fromDateText.toString()
             map["to_date"] = toDateText.toString()
         }
 
         map["filter"] = filter
-        if (fromAnalyticDateText!=null&&toAnalyticDateText!=null) {
+        if (fromAnalyticDateText != null && toAnalyticDateText != null) {
             map["from_date_analytics"] = fromAnalyticDateText.toString()
             map["to_date_analytics"] = toAnalyticDateText.toString()
         }
@@ -516,7 +524,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun getAdminStory() {
-        val map = HashMap<String,Any>()
+        val map = HashMap<String, Any>()
 
         viewModel.getAdminStory(map)
     }

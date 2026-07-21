@@ -3,6 +3,7 @@ package com.desynatdealer.data.repo
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.controller.CommonApiService
 import com.desynatdealer.controller.networkCall
+import com.desynatdealer.model.AddStoryResponse
 import com.desynatdealer.model.upload.UploadResponse
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerRequest
 import com.desynatdealer.ui.home.bannerManagement.response.AddBannerResponse
@@ -48,6 +49,7 @@ import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCo
 import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
 import com.desynatdealer.ui.home.response.GetDashboardDataResponse
+import com.desynatdealer.ui.home.response.PaymentCompleteResponse
 import com.desynatdealer.ui.home.response.ResponseDeliveryTime
 import com.desynatdealer.ui.home.staffManagement.response.AddNewStaffRequest
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
@@ -581,6 +583,14 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
+    suspend fun getSellerPromotionalStories(map: HashMap<String, Any>): ApiResult<GetStoryResponse> {
+        return try {
+            networkCall(api.getSellerPromotionalStories(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
     suspend fun getHighlights(map: HashMap<String, Any>): ApiResult<GetStoryResponseNew> {
         return try {
             networkCall(api.getHighlights(map))
@@ -597,7 +607,7 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
         }
     }
 
-    suspend fun addStory(map: HashMap<String, Any>): ApiResult<CommonResponse> {
+    suspend fun addStory(map: HashMap<String, Any>): ApiResult<AddStoryResponse> {
         return try {
             networkCall(api.addStory(map))
         } catch (e: Exception) {
@@ -899,6 +909,14 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     suspend fun getRefundOrder(map: HashMap<String, Any>): ApiResult<GetRefundOrderResponse> {
         return try {
             networkCall(api.getRefundOrder(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun completeStoryPayment(map: HashMap<String, Any>): ApiResult<PaymentCompleteResponse> {
+        return try {
+            networkCall(api.completeStoryPayment(map))
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }

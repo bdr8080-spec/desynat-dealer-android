@@ -720,6 +720,8 @@
     <string name="inventory_updated_successfully">Inventory updated successfully</string>
     <string name="no_staff_found">No staff found</string>
     <string name="no_banner_found">No banner found</string>
+    <string name="no_story_found">No story found</string>
+    <string name="approved">Approved</string>
 
     <string name="upload_profile_image">Upload Profile Image</string>
     <string name="upload_store_image">Upload Store Image</string>

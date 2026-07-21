@@ -736,6 +736,8 @@
     <string name="inventory_updated_successfully">تم تحديث المخزون بنجاح</string>
     <string name="no_staff_found">لم يتم العثور على موظفين</string>
     <string name="no_banner_found">لم يتم العثور على لافتات</string>
+    <string name="no_story_found">لم يتم العثور على قصص</string>
+    <string name="approved">موافق عليه</string>
     <string name="upload_product_image">تحميل صورة المنتج</string>
 
     <string name="upload_profile_image">تحميل صورة الملف الشخصي</string>

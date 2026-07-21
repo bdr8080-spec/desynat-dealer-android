@@ -1,5 +1,6 @@
 package com.desynatdealer.ui.home.profile.story_management
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
@@ -16,13 +17,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.desynatdealer.R
-import com.desynatdealer.adapter.BannerAdapter
+import com.desynatdealer.adapter.StoryManagementAdapter
 import com.desynatdealer.base.BaseFragment
 import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.BannerFilterDialogBinding
 import com.desynatdealer.databinding.FragmentStoryManagementBinding
-import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
+import com.desynatdealer.ui.home.profile.PromoteStoryPaymentFragment
+import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
@@ -33,6 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 @AndroidEntryPoint
 class StoryManagementFragment : BaseFragment() {
@@ -46,8 +49,8 @@ class StoryManagementFragment : BaseFragment() {
     private var search: Job? = null
     private var lastQuery: String? = null
 
-    private var bannerList = ArrayList<GetAllBannerResponse.Data>()
-    private var bannerAdapter: BannerAdapter? = null
+    private var storyList = ArrayList<GetStoryResponse.Data>()
+    private var storyAdapter: StoryManagementAdapter? = null
     private var selectedPos = -1
     private var bannerFilter: String? = null
     private var fromTimestamp: Long? = null
@@ -111,65 +114,68 @@ class StoryManagementFragment : BaseFragment() {
                     lastQuery = query
                     search?.cancel()
                     search = lifecycleScope.launch {
-                        getBanner()
-                        delay(600)
-
+                        delay(600.milliseconds)
+                        getStories()
                     }
                 }
             })
 
-            bannerList.clear()
-            bannerAdapter =
-                BannerAdapter(requireActivity(), bannerList, object : BannerAdapter.OnClick {
-                    override fun onItemClick(position: Int, type: Int) {
-                        when (type) {
-                            1 -> {
-                                val bundle = Bundle().apply {
-                                    putString("bannerData", Gson().toJson(bannerList[position]))
+            storyList.clear()
+            storyAdapter =
+                StoryManagementAdapter(
+                    requireActivity(),
+                    storyList,
+                    object : StoryManagementAdapter.OnClick {
+                        override fun onItemClick(position: Int, type: Int) {
+                            when (type) {
+                                1 -> {
+                                    val bundle = Bundle().apply {
+                                        putString("from", "story")
+                                        putString("storyData", Gson().toJson(storyList))
+                                    }
+                                    findNavController().navigate(
+                                        R.id.action_storyManagementFragment_to_viewStoryFragment,
+                                        bundle
+                                    )
                                 }
-                                findNavController().navigate(
-                                    R.id.action_bannerManagementFragment_to_bannerDetailFragment,
-                                    bundle
-                                )
-                            }
-
-                            2 -> {
-                                val bundle = Bundle().apply {
-                                    putString("bannerData", Gson().toJson(bannerList[position]))
-                                    putString("from", "banner")
-                                }
-                                findNavController().navigate(
-                                    R.id.action_bannerManagementFragment_to_paymentMethodFragment,
-                                    bundle
-                                )
                             }
                         }
-                    }
 
-                })
-            rvStory.adapter = bannerAdapter
+                    })
+            rvStory.adapter = storyAdapter
 
             swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(requireActivity(), R.color.brown)
             )
             swipeRefreshLayout.setOnRefreshListener {
                 isFromSwipe = true
-                getBanner()
+                getStories()
             }
 
-            getBanner()
+            getStories()
 
         }
     }
 
-    private fun getBanner() {
+    private fun getStories() {
         val map = HashMap<String, Any>()
         if (lastQuery != null && lastQuery != "") {
             map["search"] = lastQuery.toString()
         }
+
+        // Map Story Filter to type: 0-pending, 1-approved, 2-rejected
         if (bannerFilter != null && bannerFilter != "") {
-            map["banner_filter"] = bannerFilter.toString()
+            val type = when (bannerFilter) {
+                "3" -> 0 // Pending
+                "2" -> 1 // Confirmed/Approved
+                "5" -> 2 // Rejected
+                else -> null
+            }
+            if (type != null) {
+                map["type"] = type
+            }
         }
+
         if (fromDateText != null && fromDateText != "") {
             map["from"] =
                 CommonMethod.formatDate(fromDateText.toString(), "dd/MM/yyyy", "yyyy-MM-dd")
@@ -180,7 +186,7 @@ class StoryManagementFragment : BaseFragment() {
                 CommonMethod.formatDate(toDateText.toString(), "dd/MM/yyyy", "yyyy-MM-dd")
 
         }
-        viewModel.getBanner(map)
+        viewModel.getSellerPromotionalStories(map)
     }
 
     override fun initControl() {
@@ -190,7 +196,8 @@ class StoryManagementFragment : BaseFragment() {
             }
 
             ivAdd.setOnClickListener {
-                findNavController().navigate(R.id.action_bannerManagementFragment_to_addBannerFragment)
+                PromoteStoryPaymentFragment.come_form = "onlyPaidStory"
+                findNavController().navigate(R.id.action_storyManagementFragment_to_addStoryFragment)
             }
 
             ivFilter.setOnClickListener {
@@ -199,8 +206,9 @@ class StoryManagementFragment : BaseFragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun observe() {
-        viewModel.getBannerResponse.observe(viewLifecycleOwner) { result ->
+        viewModel.getSellerPromotionalStoriesResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
                     if (!isFromSwipe) {
@@ -214,20 +222,24 @@ class StoryManagementFragment : BaseFragment() {
                         _binding?.swipeRefreshLayout?.isRefreshing = false
                         isFromSwipe = false
                     }
-                    bannerList.clear()
+                    storyList.clear()
 
                     result.data?.data?.let {
-                        bannerList.addAll(it)
+                        storyList.addAll(it)
                     }
-                    bannerAdapter?.notifyDataSetChanged()
+                    storyAdapter?.notifyDataSetChanged()
                     checkData()
-                    viewModel.getBannerResponse.value = null
+                    viewModel.getSellerPromotionalStoriesResponse.value = null
                 }
 
                 is ApiResult.Error -> {
                     ProgressDialogUtils.getInstance().hideProgress()
+                    if (isFromSwipe) {
+                        _binding?.swipeRefreshLayout?.isRefreshing = false
+                        isFromSwipe = false
+                    }
                     showToast(result.message ?: getString(R.string.generic_error))
-                    viewModel.getBannerResponse.value = null
+                    viewModel.getSellerPromotionalStoriesResponse.value = null
                 }
 
                 else -> {}
@@ -236,7 +248,8 @@ class StoryManagementFragment : BaseFragment() {
     }
 
     private fun checkData() {
-        _binding?.tvNoDataFound?.isVisible = bannerList.isEmpty()
+        _binding?.tvNoDataFound?.isVisible = storyList.isEmpty()
+        _binding?.tvNoDataFound?.text = getString(R.string.no_story_found)
     }
 
     private fun bannerFilterDialog() {
@@ -262,6 +275,9 @@ class StoryManagementFragment : BaseFragment() {
         window.attributes = params
 
         dialogBinding.apply {
+
+            // For stories, maybe some filters don't apply. Hiding Active and Expired for now if they don't map.
+            // But user said "same as banner", so I'll keep them and just map the ones that make sense.
 
             if (bannerFilter != null) {
                 filter = bannerFilter.toString()
@@ -339,7 +355,7 @@ class StoryManagementFragment : BaseFragment() {
                 tempFromDateText = null
                 tempToDateText = null
 
-                getBanner()
+                getStories()
                 dialog.dismiss()
             }
 
@@ -352,14 +368,8 @@ class StoryManagementFragment : BaseFragment() {
                 fromDateText = tempFromDateText
                 toDateText = tempToDateText
 
-                if (bannerFilter == null && fromDateText == null && toDateText == null) {
-                    showToast(getString(R.string.please_select_banner_status))
-                    return@setOnClickListener
-                } else {
-                    getBanner()
-                    dialog.dismiss()
-                }
-
+                getStories()
+                dialog.dismiss()
             }
 
         }
@@ -371,5 +381,5 @@ class StoryManagementFragment : BaseFragment() {
         super.onDestroyView()
         _binding = null
     }
-}
 
+}

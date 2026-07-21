@@ -28,7 +28,6 @@ import android.text.TextPaint
 import android.text.TextWatcher
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.util.Size
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -54,6 +53,7 @@ import com.desynatdealer.databinding.CustomCountryPickerBinding
 import com.desynatdealer.databinding.DeleteDialogLayoutBinding
 import com.desynatdealer.databinding.DialogCustomCalendarBinding
 import com.desynatdealer.databinding.ImagePreviewDialogBinding
+import com.desynatdealer.databinding.SendRequestPromotDialogBinding
 import com.desynatdealer.databinding.SuccessDialogLayoutBinding
 import com.desynatdealer.model.country.GetCountryResponse
 import com.desynatdealer.ui.home.staffManagement.response.GetAllStaffResponse
@@ -79,7 +79,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
-import java.util.concurrent.TimeUnit
 
 object CommonMethod {
 
@@ -514,7 +513,11 @@ object CommonMethod {
         }
     }
 
-    fun customizeChangeDateFormatKuwait(inputDate: String,inputFormat:String="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",outputFormat:String="dd MMM,yyyy"): String {
+    fun customizeChangeDateFormatKuwait(
+        inputDate: String,
+        inputFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+        outputFormat: String = "dd MMM,yyyy"
+    ): String {
         /*  val originalFormat: SimpleDateFormat = SimpleDateFormat(inputFormat, Locale.ENGLISH).apply {
               timeZone = TimeZone.getTimeZone("Asia/Kuwait")}
   */
@@ -597,8 +600,7 @@ object CommonMethod {
                     .replace("AM", "ص")
                     .replace("PM", "م")
                 return formattedDate
-            }
-            else {
+            } else {
                 date = originalFormat.parse(inputDate)
                 return targetFormat.format(date)
             }
@@ -688,8 +690,7 @@ object CommonMethod {
                     .replace("AM", "ص")
                     .replace("PM", "م")
                 return formattedDate
-            }
-            else{
+            } else {
                 val date = originalFormat.parse(inputDate)
                 targetFormat.format(date!!)
             }
@@ -779,10 +780,7 @@ object CommonMethod {
                     .replace("AM", "ص")
                     .replace("PM", "م")
                 return formattedDate
-            }
-            else {
-
-
+            } else {
 
 
                 targetFormat.format(date!!)
@@ -856,6 +854,38 @@ object CommonMethod {
                 }
             }, 1000)
         }
+    }
+
+
+    fun showSuccessDialog1(
+        context: Context,
+        onDismiss: (() -> Unit)? = null
+    ) {
+        val dialog = Dialog(context, R.style.CustomDialog)
+        val dialogBinding = SendRequestPromotDialogBinding.inflate(LayoutInflater.from(context))
+        dialog.setContentView(dialogBinding.root)
+
+        val window: Window = dialog.window!!
+        window.setLayout(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        window.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+
+        dialog.setOnDismissListener {
+            onDismiss?.invoke()
+        }
+
+        dialog.show()
+
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (dialog.isShowing) {
+                dialog.dismiss()
+            }
+        }, 2000)
+
     }
 
     fun clearData(context: Context) {
@@ -975,7 +1005,13 @@ object CommonMethod {
         context.startActivity(Intent.createChooser(intent, "Share via"))
     }
 
-    fun shareProductWithImage(context: Context, name: String, desc: String, imageUrl: String,link: String) {
+    fun shareProductWithImage(
+        context: Context,
+        name: String,
+        desc: String,
+        imageUrl: String,
+        link: String
+    ) {
 
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -1009,7 +1045,12 @@ object CommonMethod {
                 }
 
                 withContext(Dispatchers.Main) {
-                    context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_via)))
+                    context.startActivity(
+                        Intent.createChooser(
+                            intent,
+                            context.getString(R.string.share_via)
+                        )
+                    )
                 }
 
             } catch (e: Exception) {
@@ -1113,8 +1154,8 @@ object CommonMethod {
         val startOfYesterday = calendar.time
 
         val formattedTime = timeFormat.format(messageDate)
-            .replace("AM", if(Constants.language=="ar")"ص" else "AM")
-            .replace("PM", if(Constants.language=="ar")"م" else "PM")
+            .replace("AM", if (Constants.language == "ar") "ص" else "AM")
+            .replace("PM", if (Constants.language == "ar") "م" else "PM")
 
         return when {
             messageDate.after(startOfToday) -> {
@@ -1127,8 +1168,8 @@ object CommonMethod {
 
             else -> {
                 fullDateFormat.format(messageDate)
-                    .replace("AM", if(Constants.language=="ar")"ص" else "AM")
-                    .replace("PM", if(Constants.language=="ar")"م" else "PM")
+                    .replace("AM", if (Constants.language == "ar") "ص" else "AM")
+                    .replace("PM", if (Constants.language == "ar") "م" else "PM")
             }
         }
 
@@ -1153,6 +1194,7 @@ object CommonMethod {
                }
            }*/
     }
+
     fun imagePreviewDialog(context: Context, imageList: ArrayList<String>) {
         val dialog = Dialog(context, R.style.CustomDialog)
         val dialogBinding = ImagePreviewDialogBinding.inflate(LayoutInflater.from(context))
@@ -1452,10 +1494,9 @@ object CommonMethod {
                 "dd",
                 Locale.ENGLISH
             ).format(selectedCalendar.time)
-            if (Constants.language=="ar"){
+            if (Constants.language == "ar") {
                 binding.tvHeader.text = "$dayArabic، $dayNumber $monthArabic"
-            }
-            else{
+            } else {
                 binding.tvHeader.text = "${englishDay}، $dayNumber $englishMonth"
 
             }
@@ -1488,7 +1529,6 @@ object CommonMethod {
 
         dialog.show()
     }
-
 
 
 }

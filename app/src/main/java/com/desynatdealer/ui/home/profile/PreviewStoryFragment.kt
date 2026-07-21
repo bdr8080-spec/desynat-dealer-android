@@ -111,7 +111,6 @@ class PreviewStoryFragment : BaseFragment() {
 
                     videoView.layoutParams = layoutParams
 
-
                     mp.isLooping = false
                     val duration = mp.duration.toLong()
 
@@ -186,12 +185,13 @@ class PreviewStoryFragment : BaseFragment() {
                         isVideoUploading -> {
                             uploadImageVideo = url
                             isVideoUploading = false
-
-                            addStory(uploadImageVideo)
+                            ProgressDialogUtils.getInstance().hideProgress()
+                            navigateToPromote(uploadImageVideo, uploadThumbnail)
                         }
 
                         else -> {
-                            addStory(url) // image case
+                            ProgressDialogUtils.getInstance().hideProgress()
+                            navigateToPromote(url)
                         }
                     }
 
@@ -334,13 +334,13 @@ class PreviewStoryFragment : BaseFragment() {
         viewModel.uploadVideoImage(image)
     }
 
-    private fun addStory(story: String) {
-        val map = HashMap<String, Any>()
-        if (mediaType != "image" && uploadThumbnail != "") {
-            map["thumbnail"] = uploadThumbnail
+    private fun navigateToPromote(storyUrl: String, thumbnail: String = "") {
+        val bundle = Bundle().apply {
+            putString("file", storyUrl)
+            putString("thumbnail", thumbnail)
+            putString("mediaType", mediaType)
         }
-        map["file"] = story
-        viewModel.addStory(map)
+        findNavController().navigate(R.id.action_addPreviewStory_to_promoteStoryPaymentFragment, bundle)
     }
 
     fun isVideoWithinLimit(uri: Uri, maxDurationSec: Int = 30): Boolean {

@@ -107,7 +107,7 @@ class AddNewHighlightsFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAddNewHighlightsBinding.inflate(layoutInflater,container,false)
+        binding = FragmentAddNewHighlightsBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -329,11 +329,12 @@ class AddNewHighlightsFragment : BaseFragment() {
         viewModel.uploadVideoImageResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
-                    if (!isVideoUploading){
+                    if (!isVideoUploading) {
                         ProgressDialogUtils.getInstance().showProgress(requireActivity())
-                    }                }
-                is ApiResult.Success -> {
+                    }
+                }
 
+                is ApiResult.Success -> {
                     val url = result.data?.data?.url ?: ""
 
                     when {
@@ -358,35 +359,13 @@ class AddNewHighlightsFragment : BaseFragment() {
                         }
                     }
 
+                    compressedVideoFile?.delete()
                     viewModel.uploadVideoImageResponse.value = null
                 }
 
                 is ApiResult.Error -> {
                     showToast(result.message ?: "Error")
                     ProgressDialogUtils.getInstance().hideProgress()
-                    viewModel.uploadVideoImageResponse.value = null
-                }
-
-                else -> {}
-            }
-        }
-
-        viewModel.uploadVideoImageResponse.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
-                }
-
-                is ApiResult.Success -> {
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    addHighlights(result.data?.data?.url.toString())
-                    compressedVideoFile?.delete()
-                    viewModel.uploadVideoImageResponse.value = null
-                }
-
-                is ApiResult.Error -> {
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
                     viewModel.uploadVideoImageResponse.value = null
                 }
 

@@ -51,7 +51,6 @@ data class GetStoryResponseNew(
 ) {
 
     data class Data(
-
         @SerializedName("title")
         val title: String? = null,
 
