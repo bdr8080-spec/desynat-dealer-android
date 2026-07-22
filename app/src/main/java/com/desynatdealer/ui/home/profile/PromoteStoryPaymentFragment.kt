@@ -21,6 +21,9 @@ import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class PromoteStoryPaymentFragment : BaseFragment() {
@@ -36,7 +39,7 @@ class PromoteStoryPaymentFragment : BaseFragment() {
     private var thumbnail = ""
     private var mediaType = ""
     private var storyPrice = "0.0"
-    private var selectedDateApi = "2026-07-17"
+    private var selectedDateApi = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -60,8 +63,9 @@ class PromoteStoryPaymentFragment : BaseFragment() {
             thumbnail = arguments?.getString("thumbnail") ?: ""
             mediaType = arguments?.getString("mediaType") ?: ""
 
-            tvDate.text = "2026-07-17"
-            tvTotalPrice.text = "0 KD"
+            val calendar = Calendar.getInstance()
+            tvDate.text = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(calendar.time)
+            selectedDateApi = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(calendar.time)
         }
         getStoryPrice()
     }
@@ -97,7 +101,9 @@ class PromoteStoryPaymentFragment : BaseFragment() {
             }
 
             clDate.setOnClickListener {
-                openCustomDatePicker(requireActivity()) { date, timestamp ->
+                openCustomDatePicker(
+                    requireActivity(), minDate = System.currentTimeMillis()
+                ) { date, timestamp ->
                     tvDate.text = date
                     selectedDateApi = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
                 }

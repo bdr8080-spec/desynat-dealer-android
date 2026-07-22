@@ -206,7 +206,6 @@ class StoryManagementFragment : BaseFragment() {
                 }
 
                 is ApiResult.Success -> {
-                    ProgressDialogUtils.getInstance().hideProgress()
                     if (isFromSwipe) {
                         _binding?.swipeRefreshLayout?.isRefreshing = false
                         isFromSwipe = false
@@ -218,6 +217,10 @@ class StoryManagementFragment : BaseFragment() {
                     }
                     storyAdapter?.notifyDataSetChanged()
                     checkData()
+
+                    _binding?.rvStory?.post {
+                        ProgressDialogUtils.getInstance().hideProgress()
+                    }
                     viewModel.getSellerPromotionalStoriesResponse.value = null
                 }
 
