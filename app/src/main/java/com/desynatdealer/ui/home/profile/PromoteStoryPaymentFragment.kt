@@ -16,8 +16,9 @@ import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentPromoteStoryPaymentBinding
 import com.desynatdealer.databinding.SendRequestPromotDialogBinding
-import com.desynatdealer.model.AddStoryResponse
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
+import com.desynatdealer.utils.openCustomDatePicker
 import com.desynatdealer.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +35,8 @@ class PromoteStoryPaymentFragment : BaseFragment() {
     private var file = ""
     private var thumbnail = ""
     private var mediaType = ""
+    private var storyPrice = "0.0"
+    private var selectedDateApi = "2026-07-17"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -58,8 +61,9 @@ class PromoteStoryPaymentFragment : BaseFragment() {
             mediaType = arguments?.getString("mediaType") ?: ""
 
             tvDate.text = "2026-07-17"
-            tvTotalPrice.text = "499 KD"
+            tvTotalPrice.text = "0 KD"
         }
+        getStoryPrice()
     }
 
     override fun initControl() {
@@ -92,6 +96,13 @@ class PromoteStoryPaymentFragment : BaseFragment() {
                 clProfileStory.setBackgroundResource(R.drawable.search_bg)
             }
 
+            clDate.setOnClickListener {
+                openCustomDatePicker(requireActivity()) { date, timestamp ->
+                    tvDate.text = date
+                    selectedDateApi = CommonMethod.formatDate(date, "dd/MM/yyyy", "yyyy-MM-dd")
+                }
+            }
+
             if (come_form == "onlyPaidStory") {
                 clProfileStory.isVisible = false
                 rbFeaturedStory.setOnClickListener { clFeaturedStory.performClick() }
@@ -116,10 +127,10 @@ class PromoteStoryPaymentFragment : BaseFragment() {
 
         if (binding?.rbFeaturedStory?.isChecked == true) {
             map["is_promotional"] = 1
-            map["start_date"] = "2026-07-17"
-            map["end_date"] = "2026-07-17"
+            map["start_date"] = selectedDateApi
+            map["end_date"] = selectedDateApi
             map["total_days"] = 1
-            map["amount"] = 499
+            map["amount"] = storyPrice
         } else {
             map["is_promotional"] = 0
         }
@@ -128,6 +139,26 @@ class PromoteStoryPaymentFragment : BaseFragment() {
     }
 
     override fun observe() {
+        viewModel.getStoryPriceResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                ApiResult.Loading -> {
+                }
+
+                is ApiResult.Success -> {
+                    storyPrice = result.data?.data?.per_day_price ?: "0.0"
+                    binding?.tvTotalPrice?.text = "$storyPrice KD"
+                    viewModel.getStoryPriceResponse.value = null
+                }
+
+                is ApiResult.Error -> {
+                    showToast(result.message ?: getString(R.string.generic_error))
+                    viewModel.getStoryPriceResponse.value = null
+                }
+
+                else -> {}
+            }
+        }
+
         viewModel.addStoryResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 ApiResult.Loading -> {
@@ -137,14 +168,14 @@ class PromoteStoryPaymentFragment : BaseFragment() {
                 is ApiResult.Success -> {
                     ProgressDialogUtils.getInstance().hideProgress()
                     if (binding?.rbFeaturedStory?.isChecked == true) {
-                        hitCompleteStoryPayment(result.data?.data)
+                        showSuccessDialog()
                     } else {
                         if (come_form == "onlyPaidStory") {
                             if (!findNavController().popBackStack(R.id.viewProfile, false)) {
                                 findNavController().navigate(R.id.viewProfile)
                             }
                         } else {
-                            findNavController().popBackStack()
+                            findNavController().popBackStack(R.id.viewProfile, false)
                         }
                     }
                     viewModel.addStoryResponse.value = null
@@ -161,32 +192,9 @@ class PromoteStoryPaymentFragment : BaseFragment() {
         }
 
 
-        viewModel.completeStoryPaymentResponse.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                ApiResult.Loading -> {
-                    ProgressDialogUtils.getInstance().showProgress(requireActivity())
-                }
-
-                is ApiResult.Success -> {
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    showSuccessDialog()
-
-                    viewModel.completeStoryPaymentResponse.value = null
-                }
-
-                is ApiResult.Error -> {
-                    ProgressDialogUtils.getInstance().hideProgress()
-                    showToast(result.message ?: getString(R.string.generic_error))
-                    viewModel.completeStoryPaymentResponse.value = null
-                }
-
-                else -> {}
-            }
-        }
     }
 
     private fun showSuccessDialog() {
-//        if (!isAdded) return
         val dialogBinding = SendRequestPromotDialogBinding.inflate(layoutInflater)
         val dialog = Dialog(requireActivity(), R.style.CustomDialog)
         dialog.setContentView(dialogBinding.root)
@@ -203,17 +211,17 @@ class PromoteStoryPaymentFragment : BaseFragment() {
             if (isAdded && dialog.isShowing) {
                 dialog.dismiss()
                 if (!findNavController().popBackStack(R.id.viewProfile, false)) {
-                    findNavController().navigate(R.id.viewProfile)
+                    findNavController().popBackStack(R.id.storyManagementFragment, false)
                 }
             }
         }, 2500)
     }
 
-    private fun hitCompleteStoryPayment(data: AddStoryResponse.Data?) {
+    private fun getStoryPrice() {
         val map = HashMap<String, Any>()
-        map["story_id"] = data?.id.toString()
-        map["transaction_id"] = data?.seller_id.toString()
-        viewModel.completeStoryPayment(map = map)
+        map["country_id"] = 1
+        map["no_of_days"] = 1
+        viewModel.getStoryPrice(map)
     }
 
 

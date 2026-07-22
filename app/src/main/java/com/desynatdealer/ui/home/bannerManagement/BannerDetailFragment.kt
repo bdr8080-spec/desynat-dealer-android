@@ -12,14 +12,13 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.desynatdealer.R
 import com.desynatdealer.base.BaseFragment
-import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentBannerDetailBinding
 import com.desynatdealer.ui.home.bannerManagement.response.GetAllBannerResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.ProgressDialogUtils
-import com.desynatdealer.utils.showToast
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +27,7 @@ class BannerDetailFragment : BaseFragment() {
     private var binding: FragmentBannerDetailBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
     private var bannerData: GetAllBannerResponse.Data? = null
+    private var storyData: GetStoryResponse.Data? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,6 +69,13 @@ class BannerDetailFragment : BaseFragment() {
             bannerData = Gson().fromJson(itemJson, GetAllBannerResponse.Data::class.java)
             setData()
         }
+
+        val storyJson = arguments?.getString("storyData")
+        if (!storyJson.isNullOrEmpty()) {
+            storyData = Gson().fromJson(storyJson, GetStoryResponse.Data::class.java)
+            setData()
+        }
+
         binding?.apply {
             toolbar.tvToolbar.text = getString(R.string.details)
         }
@@ -82,21 +89,43 @@ class BannerDetailFragment : BaseFragment() {
 
             btnPay.setOnClickListener {
                 val bundle = Bundle().apply {
-                    putString("bannerData", Gson().toJson(bannerData))
-                    putString("from", "banner")
+                    if (bannerData != null) {
+                        putString("bannerData", Gson().toJson(bannerData))
+                        putString("from", "banner")
+                    } else {
+                        putString("storyData", Gson().toJson(storyData))
+                        putString("from", "story")
+                    }
                 }
-                findNavController().navigate(R.id.action_bannerDetailFragment_to_paymentMethodFragment,bundle)
+                findNavController().navigate(
+                    R.id.action_bannerDetailFragment_to_paymentMethodFragment,
+                    bundle
+                )
             }
         }
     }
 
     private fun setData() {
         binding?.apply {
+            if (bannerData != null) {
+                setBannerData()
+            } else {
+                setStoryData()
+            }
+        }
+    }
+
+    private fun setBannerData() {
+        binding?.apply {
             tvRequestId.text = bannerData?.orderId
             tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(
                 bannerData?.createdAt.toString(),
                 outputFormat = "dd/MM/yyyy '${getString(R.string.at)}' hh:mm a"
             )
+
+            // Ensure titles are visible for banner
+            tvBannerPositionTitle.isVisible = true
+            tvBannerPosition.isVisible = true
 
             when (bannerData?.adminVerify) {
                 "0" -> {
@@ -107,16 +136,16 @@ class BannerDetailFragment : BaseFragment() {
 
                 "1" -> {
                     when (bannerData?.paymentStatus) {
-                        "0" -> {if (CommonMethod.isExpired(bannerData?.endDate.toString())) {
-                            tvStatusValue.text = getString(R.string.expired)
-                            tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
-                            btnPay.isInvisible = true
-                        }
-                        else {
-                            tvStatusValue.text = getString(R.string.confirmed)
-                            tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
-                            btnPay.isVisible = true
-                        }
+                        "0" -> {
+                            if (CommonMethod.isExpired(bannerData?.endDate.toString())) {
+                                tvStatusValue.text = getString(R.string.expired)
+                                tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
+                                btnPay.isInvisible = true
+                            } else {
+                                tvStatusValue.text = getString(R.string.confirmed)
+                                tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
+                                btnPay.isVisible = true
+                            }
                         }
 
                         "1" -> {
@@ -127,7 +156,10 @@ class BannerDetailFragment : BaseFragment() {
                                     tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
                                 }
 
-                                CommonMethod.isActive(bannerData?.startDate.toString(), bannerData?.endDate.toString()) -> {
+                                CommonMethod.isActive(
+                                    bannerData?.startDate.toString(),
+                                    bannerData?.endDate.toString()
+                                ) -> {
                                     tvStatusValue.text = getString(R.string.active)
                                     CommonMethod.applyGradientText(tvStatusValue)
                                 }
@@ -146,11 +178,12 @@ class BannerDetailFragment : BaseFragment() {
                         }
                     }
                 }
+
                 "2" -> {
                     tvStatusValue.text = getString(R.string.rejected)
                     tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
                     btnPay.isInvisible = true
-                    if (bannerData?.cancelledReason!=null) {
+                    if (bannerData?.cancelledReason != null) {
                         tvReason.isVisible = true
                         tvRejectedReason.isVisible = true
                         tvRejectedReason.text = bannerData?.cancelledReason
@@ -178,7 +211,8 @@ class BannerDetailFragment : BaseFragment() {
                 "3" -> {
                     tvBannerPosition.text = getString(R.string.category)
                     tvCategoryValue.text = bannerData?.categoryDetails?.name
-                    tvSubCategoryValue.text = if (Constants.language=="ar") bannerData?.subcategoryDetails?.nameArabic else bannerData?.subcategoryDetails?.nameEnglish
+                    tvSubCategoryValue.text =
+                        if (Constants.language == "ar") bannerData?.subcategoryDetails?.nameArabic else bannerData?.subcategoryDetails?.nameEnglish
                     tvCategory.isVisible = true
                     tvCategoryValue.isVisible = true
                     tvSubCategory.isVisible = true
@@ -203,6 +237,136 @@ class BannerDetailFragment : BaseFragment() {
             }"
 
             ivBanner.load(bannerData?.uploadBanner) {
+                crossfade(true)
+                placeholder(R.drawable.ic_placeholder)
+                error(R.drawable.ic_placeholder)
+            }
+        }
+    }
+
+    private fun setStoryData() {
+        binding?.apply {
+            tvRequestId.text = "#" + storyData?.id
+            tvRequestedOnValue.text = CommonMethod.customizeChangeDateFormat(
+                storyData?.createdAt.toString(),
+                outputFormat = "dd/MM/yyyy '${getString(R.string.at)}' hh:mm a"
+            )
+
+            // Story Status logic (similar to banner)
+            when (storyData?.adminVerify) {
+
+                // Pending
+                "0" -> {
+                    tvStatusValue.text = getString(R.string.pending)
+                    tvStatusValue.setTextColor(Color.parseColor("#E28F12"))
+
+                    btnPay.isInvisible = true
+                    tvReason.isVisible = false
+                    tvRejectedReason.isVisible = false
+                }
+
+                // Admin Approved
+                "1" -> {
+
+                    when (storyData?.paymentStatus) {
+
+                        // Payment Pending -> Always Confirmed
+                        "0" -> {
+                            tvStatusValue.text = getString(R.string.confirmed)
+                            tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
+
+                            btnPay.isVisible = true
+                            tvReason.isVisible = false
+                            tvRejectedReason.isVisible = false
+                        }
+
+                        // Payment Completed
+                        "1" -> {
+
+                            btnPay.isInvisible = true
+                            tvReason.isVisible = false
+                            tvRejectedReason.isVisible = false
+
+                            when {
+
+                                // Future -> Confirmed
+                                CommonMethod.isUpcoming(storyData?.startDate.toString()) -> {
+                                    tvStatusValue.text = getString(R.string.confirmed)
+                                    tvStatusValue.setTextColor(Color.parseColor("#68CA44"))
+                                }
+
+                                // Active
+                                CommonMethod.isActive(
+                                    storyData?.startDate.toString(),
+                                    storyData?.endDate.toString()
+                                ) -> {
+                                    tvStatusValue.text = getString(R.string.active)
+                                    tvStatusValue.setTextColor(Color.parseColor("#C4A176"))
+                                }
+
+                                // Expired
+                                else -> {
+                                    tvStatusValue.text = getString(R.string.expired)
+                                    tvStatusValue.setTextColor(Color.parseColor("#9E9E9E"))
+                                }
+                            }
+                        }
+
+                        // Payment Rejected
+                        "2" -> {
+                            tvStatusValue.text = getString(R.string.rejected)
+                            tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
+
+                            btnPay.isInvisible = true
+                            tvReason.isVisible = true
+                            tvRejectedReason.isVisible = true
+                            tvRejectedReason.text =
+                                storyData?.rejectReason ?: getString(R.string.rejected_reason)
+                        }
+                    }
+                }
+
+                // Admin Rejected
+                "2" -> {
+                    tvStatusValue.text = getString(R.string.rejected)
+                    tvStatusValue.setTextColor(Color.parseColor("#D53B36"))
+
+                    btnPay.isInvisible = true
+                    tvReason.isVisible = true
+                    tvRejectedReason.isVisible = true
+                    tvRejectedReason.text =
+                        storyData?.rejectReason ?: getString(R.string.rejected_reason)
+                }
+            }
+
+            // Stories don't have position/category
+            tvBannerPositionTitle.isVisible = false
+            tvBannerPosition.isVisible = false
+            tvCategory.isVisible = false
+            tvCategoryValue.isVisible = false
+            tvSubCategory.isVisible = false
+            tvSubCategoryValue.isVisible = false
+
+            tvToDate.isVisible = false
+            tvTo.isVisible = false
+            tvDays.isVisible = false
+            tvTotalDays.isVisible = false
+            tvFrom.text = "Date Selected"
+
+
+            tvFromDate.text = CommonMethod.customizeChangeDateFormat(
+                storyData?.startDate.toString(),
+                "yyyy-MM-dd",
+                "dd/MM/yyyy"
+            )
+            tvTotalPrice.text =
+                "${CommonMethod.formatPrice(storyData?.amount?.toDoubleOrNull() ?: 0.0)} ${
+                    getString(
+                        R.string.kd
+                    )
+                }"
+
+            ivBanner.load(if (storyData?.thumbnail.isNullOrEmpty()) storyData?.file else storyData?.thumbnail) {
                 crossfade(true)
                 placeholder(R.drawable.ic_placeholder)
                 error(R.drawable.ic_placeholder)

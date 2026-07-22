@@ -33,6 +33,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetProductDetailResp
 import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryPriceResponse
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.ui.home.profile.response.UpdateReelResponse
 import com.desynatdealer.ui.home.response.CommonResponse
@@ -586,6 +587,14 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     suspend fun getSellerPromotionalStories(map: HashMap<String, Any>): ApiResult<GetStoryResponse> {
         return try {
             networkCall(api.getSellerPromotionalStories(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getStoryPrice(map: HashMap<String, Any>): ApiResult<GetStoryPriceResponse> {
+        return try {
+            networkCall(api.getStoryPrice(map))
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }

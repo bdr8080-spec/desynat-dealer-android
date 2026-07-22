@@ -136,9 +136,8 @@ object Constants {
     const val DELETE_ACCOUNT = "/api/seller/delete_account"
     const val GET_DASHBOARD_DATA = "/api/seller/dashboard_data"
     const val completeStoryPayment = "/api/seller/complete_story_payment"
-
-
-    const val GET_SELLER_PROMOTIONAL_STORIES = ""
+    const val GET_SELLER_PROMOTIONAL_STORIES = "api/seller/get_my_stories_requests"
+    const val GET_STORY_PRICE = "/api/seller/get_seller_story_price"
 
 
 }

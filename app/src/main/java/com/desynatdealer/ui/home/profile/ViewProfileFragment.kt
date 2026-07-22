@@ -39,8 +39,7 @@ class ViewProfileFragment : BaseFragment() {
     private var highlightsAdapter: HighlightsAdapter? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentViewProfileBinding.inflate(layoutInflater, container, false)
         return binding?.root
@@ -80,8 +79,7 @@ class ViewProfileFragment : BaseFragment() {
                                     putString("storyData", Gson().toJson(reelList[position]))
                                 }
                                 findNavController().navigate(
-                                    R.id.action_viewProfileFragment_to_viewReelFragment,
-                                    bundle
+                                    R.id.action_viewProfileFragment_to_viewReelFragment, bundle
                                 )
                             }
                         }
@@ -105,8 +103,7 @@ class ViewProfileFragment : BaseFragment() {
                                     val bundle = Bundle().apply {
                                         putString("from", "highlights")
                                         putString(
-                                            "highlightsData",
-                                            Gson().toJson(originalHighlightList)
+                                            "highlightsData", Gson().toJson(originalHighlightList)
                                         )
                                     }
                                     findNavController().navigate(
@@ -127,8 +124,7 @@ class ViewProfileFragment : BaseFragment() {
                                             putString("from", "highlights")
                                             val singleHighlightList = arrayListOf(clickedHighlight)
                                             putString(
-                                                "storyData",
-                                                Gson().toJson(singleHighlightList)
+                                                "storyData", Gson().toJson(singleHighlightList)
                                             )
                                         }
                                         findNavController().navigate(
@@ -196,6 +192,7 @@ class ViewProfileFragment : BaseFragment() {
 
             tvName.text = "${userInfo?.firstName} ${userInfo?.lastName}"
             tvMobile.text = "${userInfo?.countryCode} ${userInfo?.mobile}"
+            sharedPreference.countryId = userInfo?.storeInfo?.country.toString()
             tvEmail.text = userInfo?.email
             tvStore.text = userInfo?.storeInfo?.storeName
             tvBio.text = userInfo?.storeInfo?.bio
@@ -231,8 +228,7 @@ class ViewProfileFragment : BaseFragment() {
                         putString("storyData", Gson().toJson(storyList))
                     }
                     findNavController().navigate(
-                        R.id.action_viewProfileFragment_to_viewStoryFragment,
-                        bundle
+                        R.id.action_viewProfileFragment_to_viewStoryFragment, bundle
                     )
                 }
 
@@ -365,8 +361,7 @@ class ViewProfileFragment : BaseFragment() {
         viewModel.getHighlights(map)
     }
 
-    private fun setStory() {
-        /*  binding?.storyRing?.apply {
+    private fun setStory() {/*  binding?.storyRing?.apply {
               segmentCount = storyList.size
               invalidate()
            //   ivHighlightStory?.isVisible = storyList.isNotEmpty()

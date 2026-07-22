@@ -74,6 +74,11 @@ class SharedPreference(context: Context) {
         get() = preference["accessToken", ""]!!
         set(value) = preference.set("accessToken", value)
 
+
+  var countryId: String
+        get() = preference["countryId", ""]!!
+        set(value) = preference.set("countryId", value)
+
     var staffToken: String
         get() = preference["staffToken", ""]!!
         set(value) = preference.set("staffToken", value)

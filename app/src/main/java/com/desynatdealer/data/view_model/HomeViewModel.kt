@@ -41,6 +41,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetProductDetailResp
 import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryPriceResponse
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.ui.home.profile.response.UpdateReelResponse
@@ -893,6 +894,18 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _getSellerPromotionalStoriesResponse.value = ApiResult.Loading
             _getSellerPromotionalStoriesResponse.value = repo.getSellerPromotionalStories(map)
+        }
+    }
+
+    private val _getStoryPriceResponse =
+        MutableLiveData<ApiResult<GetStoryPriceResponse>?>()
+    val getStoryPriceResponse: MutableLiveData<ApiResult<GetStoryPriceResponse>?>
+        get() = _getStoryPriceResponse
+
+    fun getStoryPrice(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getStoryPriceResponse.value = ApiResult.Loading
+            _getStoryPriceResponse.value = repo.getStoryPrice(map)
         }
     }
 

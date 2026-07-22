@@ -42,6 +42,7 @@ import com.desynatdealer.ui.home.productManagement.response.GetProductDetailResp
 import com.desynatdealer.ui.home.productManagement.response.GetSellerBrandResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSizeResponse
 import com.desynatdealer.ui.home.productManagement.response.GetSubCategoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryPriceResponse
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.ui.home.profile.response.UpdateReelResponse
@@ -350,8 +351,6 @@ interface CommonApiService {
     @GET(Constants.GET_ADMIN_STORY)
     suspend fun getAdminStory(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
 
-    @POST(Constants.GET_SELLER_PROMOTIONAL_STORIES)
-    suspend fun getSellerPromotionalStories(@Body map: HashMap<String, Any>): Response<GetStoryResponse>
 
     @GET(Constants.GET_REEL)
     suspend fun getReel(@QueryMap map: HashMap<String, Any>): Response<GetStoryResponse>
@@ -489,5 +488,14 @@ interface CommonApiService {
     @POST(Constants.completeStoryPayment)
     suspend fun completeStoryPayment(@QueryMap map: HashMap<String, Any>): Response<PaymentCompleteResponse>
 
+    @GET(Constants.GET_SELLER_PROMOTIONAL_STORIES)
+    suspend fun getSellerPromotionalStories(
+        @QueryMap map: HashMap<String, Any>
+    ): Response<GetStoryResponse>
+
+    @GET(Constants.GET_STORY_PRICE)
+    suspend fun getStoryPrice(
+        @QueryMap map: HashMap<String, Any>
+    ): Response<GetStoryPriceResponse>
 
 }

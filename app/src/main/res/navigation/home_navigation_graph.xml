@@ -714,6 +714,12 @@
         <action
             android:id="@+id/action_storyManagementFragment_to_viewStoryFragment"
             app:destination="@id/viewStory" />
+        <action
+            android:id="@+id/action_storyManagementFragment_to_paymentMethod"
+            app:destination="@id/paymentMethod" />
+        <action
+            android:id="@+id/action_storyManagementFragment_to_bannerDetail"
+            app:destination="@id/bannerDetail" />
     </fragment>
     <fragment
         android:id="@+id/promoteStoryPaymentFragment"

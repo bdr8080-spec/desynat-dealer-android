@@ -82,29 +82,21 @@ class StoryManagementFragment : BaseFragment() {
 
             if (SharedPreference.get(requireActivity()).userType == "1") {
                 canAction = CommonMethod.getPermission(
-                    requireActivity(),
-                    "seller.show_banner"
+                    requireActivity(), "seller.show_banner"
                 )?.canAction == 1
                 canView = CommonMethod.getPermission(
-                    requireActivity(),
-                    "seller.show_banner"
+                    requireActivity(), "seller.show_banner"
                 )?.canView == 1
                 ivAdd.isVisible = canAction
             }
             etSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
+                    s: CharSequence?, start: Int, count: Int, after: Int
                 ) {
                 }
 
                 override fun onTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    before: Int,
-                    count: Int
+                    s: CharSequence?, start: Int, before: Int, count: Int
                 ) {
                 }
 
@@ -121,27 +113,32 @@ class StoryManagementFragment : BaseFragment() {
             })
 
             storyList.clear()
-            storyAdapter =
-                StoryManagementAdapter(
-                    requireActivity(),
-                    storyList,
-                    object : StoryManagementAdapter.OnClick {
-                        override fun onItemClick(position: Int, type: Int) {
-                            when (type) {
-                                1 -> {
-                                    val bundle = Bundle().apply {
-                                        putString("from", "story")
-                                        putString("storyData", Gson().toJson(storyList))
-                                    }
-                                    findNavController().navigate(
-                                        R.id.action_storyManagementFragment_to_viewStoryFragment,
-                                        bundle
-                                    )
+            storyAdapter = StoryManagementAdapter(
+                requireActivity(), storyList, object : StoryManagementAdapter.OnClick {
+                    override fun onItemClick(position: Int, type: Int) {
+                        when (type) {
+                            1 -> {
+                                val bundle = Bundle().apply {
+                                    putString("storyData", Gson().toJson(storyList[position]))
                                 }
+                                findNavController().navigate(
+                                    R.id.action_storyManagementFragment_to_bannerDetail, bundle
+                                )
                             }
-                        }
 
-                    })
+                            2 -> {
+                                val bundle = Bundle().apply {
+                                    putString("storyData", Gson().toJson(storyList[position]))
+                                    putString("from", "story")
+                                }
+                                findNavController().navigate(
+                                    R.id.action_storyManagementFragment_to_paymentMethod, bundle
+                                )
+                            }
+
+                        }
+                    }
+                })
             rvStory.adapter = storyAdapter
 
             swipeRefreshLayout.setColorSchemeColors(
@@ -163,29 +160,21 @@ class StoryManagementFragment : BaseFragment() {
             map["search"] = lastQuery.toString()
         }
 
-        // Map Story Filter to type: 0-pending, 1-approved, 2-rejected
         if (bannerFilter != null && bannerFilter != "") {
-            val type = when (bannerFilter) {
-                "3" -> 0 // Pending
-                "2" -> 1 // Confirmed/Approved
-                "5" -> 2 // Rejected
-                else -> null
-            }
-            if (type != null) {
-                map["type"] = type
-            }
+            map["filter"] = bannerFilter.toString()
         }
 
         if (fromDateText != null && fromDateText != "") {
-            map["from"] =
+            map["from_date"] =
                 CommonMethod.formatDate(fromDateText.toString(), "dd/MM/yyyy", "yyyy-MM-dd")
 
         }
         if (toDateText != null && toDateText != "") {
-            map["to"] =
+            map["to_date"] =
                 CommonMethod.formatDate(toDateText.toString(), "dd/MM/yyyy", "yyyy-MM-dd")
 
         }
+
         viewModel.getSellerPromotionalStories(map)
     }
 
@@ -245,6 +234,9 @@ class StoryManagementFragment : BaseFragment() {
                 else -> {}
             }
         }
+
+
+
     }
 
     private fun checkData() {
@@ -264,8 +256,7 @@ class StoryManagementFragment : BaseFragment() {
 
         val window: Window = dialog.window!!
         window.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
+            WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT
         )
         window.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(false)
@@ -332,8 +323,7 @@ class StoryManagementFragment : BaseFragment() {
                 }
 
                 openCustomDatePicker(
-                    requireActivity(),
-                    minDate = tempFromTimestamp
+                    requireActivity(), minDate = tempFromTimestamp
                 ) { date, timestamp ->
                     tempToTimestamp = timestamp
                     tempToDateText = date
@@ -381,5 +371,9 @@ class StoryManagementFragment : BaseFragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
+
+
 
 }

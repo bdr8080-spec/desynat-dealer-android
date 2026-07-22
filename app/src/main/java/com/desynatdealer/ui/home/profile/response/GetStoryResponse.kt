@@ -33,7 +33,26 @@ data class GetStoryResponse(
         @SerializedName("type")
         val type: String? = "",
         @SerializedName("updated_at")
-        val updatedAt: String? = ""
+
+        val updatedAt: String? = "",
+        @SerializedName("is_promotional")
+        val isPromotional: String? = "",
+        @SerializedName("start_date")
+        val startDate: String? = "",
+        @SerializedName("end_date")
+        val endDate: String? = "",
+        @SerializedName("total_days")
+        val totalDays: String? = "",
+        @SerializedName("amount")
+        val amount: String? = "",
+        @SerializedName("Admin_verify")
+        val adminVerify: String? = "",
+        @SerializedName("payment_status")
+        val paymentStatus: String? = "",
+        @SerializedName("transaction_id")
+        val transactionId: String? = "",
+        @SerializedName("reject_reason")
+        val rejectReason: String? = ""
     )
 }
 
