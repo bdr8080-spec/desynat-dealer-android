@@ -148,12 +148,8 @@ class PreviewStoryFragment : BaseFragment() {
                     val image = file?.toMultiPartBody("file")
                     viewModel.uploadVideoImage(image)
                 } else {
-                    thumbnailFile =
-                        CommonMethod.getVideoThumbnailFile(requireActivity(), Uri.parse(uri))
-                    isThumbnailUploading = true
-                    uploadThumbnailApi(thumbnailFile)
+                    compressAndUploadVideo(Uri.parse(uri))
                 }
-
             }
         }
     }
@@ -177,9 +173,7 @@ class PreviewStoryFragment : BaseFragment() {
                             isThumbnailUploading = false
 
                             isVideoUploading = true
-                            val file =
-                                CommonMethod.uriToFileForStory(requireActivity(), Uri.parse(uri))
-                            uploadCompressedVideo(file)
+                            uploadCompressedVideo(compressedVideoFile)
                         }
 
                         isVideoUploading -> {
@@ -259,6 +253,8 @@ class PreviewStoryFragment : BaseFragment() {
     private fun compressAndUploadVideo(inputUri: Uri) {
         ProgressDialogUtils.getInstance().showProgress(requireActivity())
 
+        thumbnailFile = CommonMethod.getVideoThumbnailFile(requireActivity(), inputUri)
+
         val outputFile = File(
             requireContext().cacheDir,
             "story_${System.currentTimeMillis()}.mp4"
@@ -268,7 +264,6 @@ class PreviewStoryFragment : BaseFragment() {
             .addDataSource(requireContext(), inputUri)
             .setVideoTrackStrategy(
                 DefaultVideoStrategy.Builder()
-
                     .bitRate(2_500_000)
                     .frameRate(30)
                     .build()
@@ -279,16 +274,11 @@ class PreviewStoryFragment : BaseFragment() {
                     .build()
             )
             .setListener(object : TranscoderListener {
-
-                override fun onTranscodeProgress(progress: Double) {
-                }
+                override fun onTranscodeProgress(progress: Double) {}
 
                 override fun onTranscodeCompleted(successCode: Int) {
                     requireActivity().runOnUiThread {
-                        ProgressDialogUtils.getInstance().hideProgress()
-
                         compressedVideoFile = outputFile
-
                         isThumbnailUploading = true
                         uploadThumbnailApi(thumbnailFile)
                     }
@@ -313,24 +303,24 @@ class PreviewStoryFragment : BaseFragment() {
     }
 
     private fun uploadCompressedVideo(file: File?) {
-        file?.exists()?.let {
-            if (!it) {
-                showToast(getString(R.string.video_not_found))
-                return
-            }
+        if (file == null || !file.exists()) {
+            showToast(getString(R.string.video_not_found))
+            ProgressDialogUtils.getInstance().hideProgress()
+            return
         }
-        val image = file?.toMultiPartBody("file")
+        val image = file.toMultiPartBody("file")
         viewModel.uploadVideoImage(image)
     }
 
     private fun uploadThumbnailApi(file: File?) {
-        file?.exists()?.let {
-            if (!it) {
-                showToast(getString(R.string.thumbnail_not_found))
-                return
-            }
+        if (file == null || !file.exists()) {
+            // If thumbnail fails, try uploading video anyway or hide progress
+            isThumbnailUploading = false
+            isVideoUploading = true
+            uploadCompressedVideo(compressedVideoFile)
+            return
         }
-        val image = file?.toMultiPartBody("file")
+        val image = file.toMultiPartBody("file")
         viewModel.uploadVideoImage(image)
     }
 
