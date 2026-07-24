@@ -37,7 +37,7 @@ class StoryManagementAdapter(
                 .load(if (storyData.thumbnail.isNullOrEmpty()) storyData.file else storyData.thumbnail)
                 .placeholder(R.drawable.ic_placeholder).into(ivBanner)
 
-            tvRequestId.text = "#${storyData.id}"
+            tvRequestId.text = context.getString(R.string.id_placeholder_format, storyData.id.toString())
 
             // Amount is not applicable for stories usually, or at least not in this response
             tvAmount.isVisible = false

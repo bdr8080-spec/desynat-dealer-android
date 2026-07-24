@@ -34,7 +34,6 @@ class PromoteStoryPaymentFragment : BaseFragment() {
 
     private var binding: FragmentPromoteStoryPaymentBinding? = null
     private val viewModel: HomeViewModel by viewModels()
-
     private var file = ""
     private var thumbnail = ""
     private var mediaType = ""
@@ -111,10 +110,10 @@ class PromoteStoryPaymentFragment : BaseFragment() {
 
             if (come_form == "onlyPaidStory") {
                 clProfileStory.isVisible = false
-                rbFeaturedStory.setOnClickListener { clFeaturedStory.performClick() }
+                clFeaturedStory.performClick()
             } else {
                 clProfileStory.isVisible = true
-                rbProfileStory.setOnClickListener { clProfileStory.performClick() }
+                clProfileStory.performClick()
             }
 
 

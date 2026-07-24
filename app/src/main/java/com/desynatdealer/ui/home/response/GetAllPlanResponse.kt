@@ -24,6 +24,7 @@ data class GetAllPlanResponse(
         val duration: Int,
         @SerializedName("duration_type")
         val durationType: Int,
+        val is_recommended_store: String,
         @SerializedName("id")
         val id: Int,
         @SerializedName("no_of_employee")

@@ -254,7 +254,7 @@ class WatchLiveEventFragment : BaseFragment() {
             tvLive.isVisible = !isShow
             tvAudienceCount.isVisible = !isShow
             relMute.isVisible = !isShow
-            tvNoDataFound.text = "Waiting for next live event..."
+            tvNoDataFound.text = getString(R.string.waiting_for_next_live_event)
             if (isShow) stopUserCount()
         }
     }
@@ -379,11 +379,11 @@ class WatchLiveEventFragment : BaseFragment() {
         binding?.apply {
             if ((audienceTotal ?: 0) > 0) {
              //   tvAudienceCount.isVisible = false
-                tvAudienceCount.text = "${getString(R.string.viewers)} : $audienceTotal"
+                tvAudienceCount.text = getString(R.string.viewers_format, getString(R.string.viewers), audienceTotal.toString())
             } else {
                 //   tvAudienceCount.isVisible = false
             //    tvAudienceCount.isVisible = true
-                tvAudienceCount.text = "${getString(R.string.viewers)} : 0"
+                tvAudienceCount.text = getString(R.string.viewers_format, getString(R.string.viewers), "0")
             }
         }
     }

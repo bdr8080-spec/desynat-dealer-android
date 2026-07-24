@@ -17,7 +17,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.desynatdealer.databinding.ItemStoryBinding
-import com.desynatdealer.ui.home.profile.response.GetStoryResponse
 import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.utils.CommonMethod
 
@@ -57,13 +56,8 @@ class StoryPagerAdapter(
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
 
-        if (from == "admin") {
-            holder.binding.ivDelete.isVisible = false
-        } else {
-            holder.binding.ivDelete.isVisible = true
-        }
         holder.binding.videoStory.stopPlayback()
-        val story = stories[position]
+        val story = stories[holder.absoluteAdapterPosition]
         val url = story.file ?: ""
 
         val cleanUrl = url.substringBefore("?").lowercase()
@@ -109,7 +103,7 @@ class StoryPagerAdapter(
                      holder.binding.videoLoader.isVisible = false
                      val duration = mp.duration.toLong()
 
-                     onVideoReady(position, duration)
+                     onVideoReady(holder.absoluteAdapterPosition, duration)
                      holder.binding.videoStory.start()
                  }*/
 
@@ -141,7 +135,7 @@ class StoryPagerAdapter(
                 holder.binding.videoLoader.isVisible = false
 
                 val duration = mp.duration.toLong()
-                onVideoReady(position, duration)
+                onVideoReady(holder.absoluteAdapterPosition, duration)
 
                 holder.binding.videoStory.start()
             }
@@ -216,16 +210,16 @@ class StoryPagerAdapter(
                         }*/
         }
 
-        if (position + 1 < stories.size) {
+        if (holder.absoluteAdapterPosition + 1 < stories.size) {
 
-            val nextUrl = stories[position + 1].file ?: ""
+            val nextUrl = stories[holder.absoluteAdapterPosition + 1].file ?: ""
 
             Glide.with(holder.itemView.context)
                 .load(nextUrl)
                 .preload()
         }
 
-//        holder.binding.tvTime.text = CommonMethod.getTimeAgo(context, story?.createdAt.toString())
+        holder.binding.tvTime.text = CommonMethod.getHighlightTimeAgo(context, story?.createdAt.toString())
         if (!story.title.isNullOrEmpty() && story.title != "null") {
             holder.binding.tvTitle.isVisible = true
             holder.binding.viewTitle.isVisible = true
@@ -236,7 +230,7 @@ class StoryPagerAdapter(
         }
 
         holder.binding.videoStory.setOnCompletionListener {
-            onVideoFinished(position)
+            onVideoFinished(holder.absoluteAdapterPosition)
         }
 
         holder.binding.rightClick.setOnTouchListener { _, event ->
@@ -244,7 +238,7 @@ class StoryPagerAdapter(
                 MotionEvent.ACTION_DOWN -> {
                     pressStartTime = System.currentTimeMillis()
                     holder.binding.videoStory.pause()
-                    click.onPause(position)
+                    click.onPause(holder.absoluteAdapterPosition)
                     true
                 }
 
@@ -252,10 +246,10 @@ class StoryPagerAdapter(
                     val pressDuration = System.currentTimeMillis() - pressStartTime
 
                     holder.binding.videoStory.start()
-                    click.onResume(position)
+                    click.onResume(holder.absoluteAdapterPosition)
 
                     if (pressDuration < LONG_PRESS_THRESHOLD) {
-                        click.onNext(position)
+                        click.onNext(holder.absoluteAdapterPosition)
                     }
 
                     true
@@ -263,7 +257,7 @@ class StoryPagerAdapter(
 
                 MotionEvent.ACTION_CANCEL -> {
                     holder.binding.videoStory.start()
-                    click.onResume(position)
+                    click.onResume(holder.absoluteAdapterPosition)
                     true
                 }
 
@@ -277,7 +271,7 @@ class StoryPagerAdapter(
                 MotionEvent.ACTION_DOWN -> {
                     pressStartTime = System.currentTimeMillis()
                     holder.binding.videoStory.pause()
-                    click.onPause(position)
+                    click.onPause(holder.absoluteAdapterPosition)
                     true
                 }
 
@@ -285,11 +279,11 @@ class StoryPagerAdapter(
                     val pressDuration = System.currentTimeMillis() - pressStartTime
 
                     holder.binding.videoStory.start()
-                    click.onResume(position)
+                    click.onResume(holder.absoluteAdapterPosition)
 
                     // ✅ ONLY SHORT TAP triggers previous
                     if (pressDuration < LONG_PRESS_THRESHOLD) {
-                        click.onPrevious(position)
+                        click.onPrevious(holder.absoluteAdapterPosition)
                     }
 
                     true
@@ -308,10 +302,6 @@ class StoryPagerAdapter(
 //        holder.binding.leftClick.setOnClickListener {
 //            click.onPrevious(position)
 //        }
-
-        holder.binding.ivDelete.setOnClickListener {
-            click.clickOnItem(position)
-        }
     }
 
     override fun onViewRecycled(holder: StoryViewHolder) {

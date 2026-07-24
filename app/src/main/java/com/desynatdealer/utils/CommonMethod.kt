@@ -1400,6 +1400,29 @@ object CommonMethod {
         }
     }
 
+    fun getHighlightTimeAgo(context: Context, timestamp: String): String {
+        return try {
+            val formatter = DateTimeFormatter.ISO_DATE_TIME
+            val time = ZonedDateTime.parse(timestamp, formatter)
+            val now = ZonedDateTime.now(ZoneId.systemDefault())
+            val localTime = time.withZoneSameInstant(ZoneId.systemDefault())
+
+            val minutes = ChronoUnit.MINUTES.between(localTime, now)
+            val hours = ChronoUnit.HOURS.between(localTime, now)
+            val days = ChronoUnit.DAYS.between(localTime, now)
+
+            when {
+                minutes < 1 -> context.getString(R.string.just_now)
+                minutes < 60 -> "$minutes ${context.getString(R.string.min_ago)}"
+                hours < 24 -> "$hours ${context.getString(R.string.hr_ago)}"
+                days < 30 -> "$days ${context.getString(R.string.days_ago)}"
+                else -> localTime.format(DateTimeFormatter.ofPattern("dd/MM/yy"))
+            }
+        } catch (e: Exception) {
+            ""
+        }
+    }
+
     fun setHtmlText(html: String): Spanned {
         val cleanHtml = html
             .replace("\\/", "/")

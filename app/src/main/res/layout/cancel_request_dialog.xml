@@ -16,7 +16,7 @@
         android:background="@drawable/bottomsheet_bg"
         android:backgroundTint="#FFF7EA"
         android:fontFamily="@font/poppins_medium"
-        android:text="Select Reason"
+        android:text="@string/select_reason"
         android:textColor="@color/black"
         android:drawableEnd="@drawable/close_icon"
         android:textSize="@dimen/_13sdp"
@@ -64,7 +64,7 @@
             android:textSize="@dimen/_10sdp"
             android:inputType="textMultiLine"
             android:background="@drawable/edit_back"
-            android:hint="Write Here"
+            android:hint="@string/write_here"
             android:gravity="start"/>
 
     <TextView
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_gradient"
         android:gravity="center"
-        android:text="Submit"
+        android:text="@string/submit"
         android:layout_marginTop="@dimen/_15sdp"
         android:fontFamily="@font/poppins_medium"
         android:paddingVertical="@dimen/_8sdp"

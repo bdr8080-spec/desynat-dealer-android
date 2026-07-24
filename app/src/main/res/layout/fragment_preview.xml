@@ -58,7 +58,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvFirstName"
                 style="@style/edit_text_title"
-                android:text="Ankit Sharma"
+                android:text="@string/ankit_sharma_placeholder"
                 android:textSize="@dimen/_11sdp"
                 android:textAlignment="viewStart"/>
 
@@ -75,7 +75,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvMobileNumber"
                 style="@style/edit_text_title"
-                android:text="+91- 7620386210"
+                android:text="@string/mobile_placeholder"
                 android:textSize="@dimen/_11sdp"
                 android:textAlignment="viewStart"/>
 
@@ -92,7 +92,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvEmailAddress"
                 style="@style/edit_text_title"
-                android:text="akash23@gmail.com"
+                android:text="@string/akash_email_placeholder"
                 android:textSize="@dimen/_11sdp"
                 android:textAlignment="viewStart"/>
 
@@ -138,7 +138,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStoreName"
                 style="@style/edit_text_title"
-                android:text="Puma Store"
+                android:text="@string/puma_store_placeholder"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 
@@ -155,7 +155,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAddress"
                 style="@style/edit_text_title"
-                android:text="Puma Store C 19, 2nd Floor, Sector 63, Moon Road, Kuwait"
+                android:text="@string/puma_address_placeholder"
                 android:textSize="@dimen/_11sdp"
                 android:textAlignment="viewStart"/>
 
@@ -172,7 +172,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStoreMobileNumber"
                 style="@style/edit_text_title"
-                android:text="+91- 7620386210"
+                android:text="@string/mobile_placeholder"
                 android:textSize="@dimen/_11sdp"
                 android:textAlignment="viewStart"/>
 
@@ -189,7 +189,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStoreEmailAddress"
                 style="@style/edit_text_title"
-                android:text="sharma23@gmail.com"
+                android:text="@string/sharma_email_placeholder"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 
@@ -207,7 +207,7 @@
                 android:id="@+id/tvBio"
                 style="@style/edit_text_title"
                 android:textAlignment="viewStart"
-                android:text="lorem ipsum dolor sit amet, conse adipisicing elit, sed do eiusmod tempor lorem ipsum dolor amet, consectetur adipisicing elit, it eiusmod tempor"
+                android:text="@string/lorem_ipsum_preview"
                 android:textSize="@dimen/_11sdp" />
 
             <View
@@ -363,7 +363,7 @@
                 android:visibility="gone"
                 android:id="@+id/tvIban"
                 style="@style/edit_text_title"
-                android:text="KW2837289202937393937929038292093839203"
+                android:text="@string/iban_placeholder"
                 android:textSize="@dimen/_11sdp"
                 android:textAlignment="viewStart"/>
 
@@ -383,7 +383,7 @@
                 android:visibility="gone"
                 android:id="@+id/tvSwift"
                 style="@style/edit_text_title"
-                android:text="26781901"
+                android:text="@string/swift_placeholder"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 
@@ -400,7 +400,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBankName"
                 style="@style/edit_text_title"
-                android:text="SBI Bank"
+                android:text="@string/sbi_bank_placeholder"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 
@@ -417,7 +417,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAccountHolderName"
                 style="@style/edit_text_title"
-                android:text="Rohan "
+                android:text="@string/rohan_placeholder"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/_11sdp" />
 

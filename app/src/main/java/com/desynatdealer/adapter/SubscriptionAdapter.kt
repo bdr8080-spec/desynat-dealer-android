@@ -14,66 +14,76 @@ import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.Constants
 import com.desynatdealer.utils.SharedPreference
 
-class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<GetAllPlanResponse.Data>, var subscriptionClick:SubscriptionClick) : RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {
+class SubscriptionAdapter(
+    var context: Context,
+    var subscriptionList: ArrayList<GetAllPlanResponse.Data>,
+    var subscriptionClick: SubscriptionClick
+) : RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemPlanBinding) :
-        RecyclerView.ViewHolder(binding.root){
-        fun bind(position: Int) = with(binding){
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(position: Int) = with(binding) {
             var subscriptionData = subscriptionList[position]
             var canAction = true
             var canView = true
             if (SharedPreference.get(context).userType == "1") {
-                canAction = CommonMethod.getPermission(context,"seller.subscriptionPlan")?.canAction == 1
-                canView = CommonMethod.getPermission(context,"seller.subscriptionPlan")?.canView == 1
+                canAction =
+                    CommonMethod.getPermission(context, "seller.subscriptionPlan")?.canAction == 1
+                canView =
+                    CommonMethod.getPermission(context, "seller.subscriptionPlan")?.canView == 1
             }
 
-            if (subscriptionData.isPurchased){
+            if (subscriptionData.isPurchased) {
                 btnContinue.isInvisible = true
-            }
-            else{
-                if (canAction){
+            } else {
+                if (canAction) {
                     btnContinue.isVisible = true
-                }
-                else{
+                } else {
                     btnContinue.isInvisible = true
                 }
 
             }
-                when(position){
-                    0->tvPackage.setBackgroundResource(R.drawable.pro)
-                    1->tvPackage.setBackgroundResource(R.drawable.plus)
-                    2->tvPackage.setBackgroundResource(R.drawable.growth)
-                    else ->tvPackage.setBackgroundResource(R.drawable.free)
-                }
+            when (position) {
+                0 -> tvPackage.setBackgroundResource(R.drawable.pro)
+                1 -> tvPackage.setBackgroundResource(R.drawable.plus)
+                2 -> tvPackage.setBackgroundResource(R.drawable.growth)
+                else -> tvPackage.setBackgroundResource(R.drawable.free)
+            }
 
-                tvPackage.text = if (Constants.language=="ar") subscriptionData.planNameArabic else subscriptionData.planNameEnglish
-                tvPrice.text = "${CommonMethod.formatPrice(subscriptionData.price)} ${
-                    context.getString(
-                        R.string.kd
-                    )
-                }"
-                when(subscriptionData.durationType){
-                    1 -> {
-                        tvDuration.text = "${context.getString(R.string.for_text)} ${subscriptionData.duration} ${
+            tvPackage.text =
+                if (Constants.language == "ar") subscriptionData.planNameArabic else subscriptionData.planNameEnglish
+            tvPrice.text = "${CommonMethod.formatPrice(subscriptionData.price)} ${
+                context.getString(
+                    R.string.kd
+                )
+            }"
+            when (subscriptionData.durationType) {
+                1 -> {
+                    tvDuration.text =
+                        "${context.getString(R.string.for_text)} ${subscriptionData.duration} ${
                             context.getString(
                                 R.string.month
                             )
                         }"
-                    }
-                    2 -> {
-                        tvDuration.text = "${context.getString(R.string.for_text)} ${subscriptionData.duration} ${
+                }
+
+                2 -> {
+                    tvDuration.text =
+                        "${context.getString(R.string.for_text)} ${subscriptionData.duration} ${
                             context.getString(
                                 R.string.year
                             )
                         }"
-                    }
-                    else -> {
-                        tvDuration.text = "${context.getString(R.string.for_text)} ${subscriptionData.duration} ${
+                }
+
+                else -> {
+                    tvDuration.text =
+                        "${context.getString(R.string.for_text)} ${subscriptionData.duration} ${
                             context.getString(
                                 R.string.month
                             )
                         }"
-                    }
                 }
+            }
 
 
             val featureList = ArrayList<FeatureList>() // new list per item
@@ -82,36 +92,83 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
 
             subscriptionData.apply {
                 if (noOfProducts != 0)
-                    featureList.add(FeatureList("${context.getString(R.string.number_of_products)}", noOfProducts))
-
-                else  featureList.add(FeatureList("${context.getString(R.string.number_of_products)}", 0))
+                    featureList.add(
+                        FeatureList(
+                            "${context.getString(R.string.number_of_products)}",
+                            noOfProducts
+                        )
+                    )
+                else featureList.add(
+                    FeatureList(
+                        "${context.getString(R.string.number_of_products)}",
+                        0
+                    )
+                )
 
                 if (noOfVideos != 0)
-                    featureList.add(FeatureList("${context.getString(R.string.number_of_videos)}", noOfVideos))
+                    featureList.add(
+                        FeatureList(
+                            "${context.getString(R.string.number_of_videos)}",
+                            noOfVideos
+                        )
+                    )
 
                 if (noOfHighlights != 0)
-                    featureList.add(FeatureList("${context.getString(R.string.number_of_highlights)}", noOfHighlights))
+                    featureList.add(
+                        FeatureList(
+                            "${context.getString(R.string.number_of_highlights)}",
+                            noOfHighlights
+                        )
+                    )
 
                 if (stories != 0)
                     featureList.add(FeatureList("${context.getString(R.string.stories)}", stories))
 
-                if (noOfEmployee != 0)
-                    featureList.add(FeatureList("$noOfEmployee ${context.getString(R.string.store_employees)}", 0))
-
+                if (noOfEmployee != 0) featureList.add(
+                    FeatureList(
+                        "$noOfEmployee ${
+                            context.getString(
+                                R.string.store_employees
+                            )
+                        }", 0
+                    )
+                )
+                val yesNo = if (is_recommended_store == "1") "Yes" else "No"
+                featureList.add(
+                    FeatureList(
+                        feature = context.getString(R.string.recommended_stores),
+                        yesNo = yesNo
+                    )
+                )
                 // Handle commission formatting
                 val commissionValue = commissionPercentage?.toString()?.toDoubleOrNull()
                 if (commissionValue != null && commissionValue != 0.0) {
-                    if (commissionValue % 1.0 == 0.0){
-                        val formattedCommission =  commissionValue.toInt()
-                        featureList.add(FeatureList("${context.getString(R.string.commission)}", formattedCommission))}
-                    else {
-                        val formattedCommission =  commissionValue.toString()
-                        featureList.add(FeatureList("${context.getString(R.string.commission)} $formattedCommission", 0))
+                    if (commissionValue % 1.0 == 0.0) {
+                        val formattedCommission = commissionValue.toInt()
+                        featureList.add(
+                            FeatureList(
+                                "${context.getString(R.string.commission)}",
+                                formattedCommission
+                            )
+                        )
+                    } else {
+                        val formattedCommission = commissionValue.toString()
+                        featureList.add(
+                            FeatureList(
+                                "${context.getString(R.string.commission)} $formattedCommission",
+                                0
+                            )
+                        )
                     }
                 }
 
-                if (noOfFreeMonths != null&&noOfFreeMonths != "null"&&noOfFreeMonths != "")
-                    featureList.add(FeatureList("${context.getString(R.string.number_of_free_month)}", noOfFreeMonths.toIntOrNull()))
+                if (noOfFreeMonths != null && noOfFreeMonths != "null" && noOfFreeMonths != "")
+                    featureList.add(
+                        FeatureList(
+                            "${context.getString(R.string.number_of_free_month)}",
+                            noOfFreeMonths.toIntOrNull()
+                        )
+                    )
 
             }
 
@@ -119,7 +176,8 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 adapter = FeaturePlanAdapter(
                     context = context,
-                    featureList)
+                    featureList
+                )
                 setHasFixedSize(false)
                 isNestedScrollingEnabled = false
                 setRecycledViewPool(null)
@@ -129,16 +187,17 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
                 subscriptionClick.onSubscriptionClick(position)
             }
         }
-        }
+    }
 
-    interface SubscriptionClick{
+    interface SubscriptionClick {
         fun onSubscriptionClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemPlanBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false)
+                LayoutInflater.from(parent.context), parent, false
+            )
         )
     }
 
@@ -151,8 +210,9 @@ class SubscriptionAdapter(var context:Context, var subscriptionList: ArrayList<G
     }
 
     data class FeatureList(
-        var feature:String,
-        var count:Int?=0
+        var feature: String,
+        var count: Int? = 0,
+        var yesNo: String? = null
     )
 
 }

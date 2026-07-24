@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:fontFamily="@font/poppins_semi_bold"
-            android:text="Ahmed Farhan"
+            android:text="@string/ahmed_farhan_placeholder"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp"
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:alpha="0.67"
             android:fontFamily="@font/poppins_regular"
-            android:text="farhan713@mail.com"
+            android:text="@string/farhan_email_placeholder"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
@@ -135,7 +135,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoProduct"
                     android:layout_toEndOf="@id/ivProduct"
-                    android:text="Product management " />
+                    android:text="@string/product_management" />
 
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -164,7 +164,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoOrder"
                     android:layout_toEndOf="@id/ivOrder"
-                    android:text="Order management " />
+                    android:text="@string/order_management" />
 
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -193,7 +193,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoPayment"
                     android:layout_toEndOf="@id/ivPayment"
-                    android:text="Payment management " />
+                    android:text="@string/payment_management" />
 
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -221,7 +221,7 @@
                     android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_toStartOf="@+id/ivGoLive"
                     android:layout_toEndOf="@id/ivLive"
-                    android:text="Live Event" />
+                    android:text="@string/live_event" />
 
 
                 <androidx.appcompat.widget.AppCompatImageView

@@ -33,6 +33,7 @@ import com.desynatdealer.databinding.CustomCountryPickerBinding
 import com.desynatdealer.databinding.FragmentAddNewHighlightsBinding
 import com.desynatdealer.ui.home.profile.response.GalleryMedia
 import com.desynatdealer.ui.home.profile.response.GetStoryResponse
+import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.CommonMethod.toMultiPartBody
 import com.desynatdealer.utils.ProgressDialogUtils
@@ -124,12 +125,36 @@ class AddNewHighlightsFragment : BaseFragment() {
         val json = arguments?.getString("highlightsData")
 
         if (!json.isNullOrEmpty()) {
-            val type = object : TypeToken<ArrayList<GetStoryResponse.Data>>() {}.type
-            val highlightsData: ArrayList<GetStoryResponse.Data> =
-                Gson().fromJson(json, type)
+            try {
+                if (json.contains("\"highlights\"")) {
+                    val type = object : TypeToken<ArrayList<com.desynatdealer.ui.home.profile.response.GetStoryResponseNew.Data>>() {}.type
+                    val groupedData: ArrayList<com.desynatdealer.ui.home.profile.response.GetStoryResponseNew.Data> = Gson().fromJson(json, type)
+                    highlightList.clear()
+                    groupedData.forEach { group ->
+                        group.highlights?.forEach { highlight ->
+                            highlightList.add(
+                                GetStoryResponse.Data(
+                                    id = highlight.id.toString(),
+                                    file = highlight.file,
+                                    thumbnail = highlight.thumbnail ?: "",
+                                    title = highlight.title,
+                                    type = highlight.type.toString(),
+                                    createdAt = highlight.createdAt
+                                )
+                            )
+                        }
+                    }
+                } else {
+                    val type = object : TypeToken<ArrayList<GetStoryResponse.Data>>() {}.type
+                    val highlightsData: ArrayList<GetStoryResponse.Data> =
+                        Gson().fromJson(json, type)
 
-            highlightList.clear()
-            highlightList.addAll(highlightsData)
+                    highlightList.clear()
+                    highlightList.addAll(highlightsData)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
         binding?.apply {
             rvGallery?.visibility = View.VISIBLE
@@ -187,12 +212,12 @@ class AddNewHighlightsFragment : BaseFragment() {
                 item.file?.let { mediaType = if (it.endsWith(".mp4")) "video" else "image" }
                 imageUrl = item.file
                 uploadThumbnail = item.thumbnail.toString()
+                clPlaceholder.isVisible = false
             }
 
             rvPrevious.apply {
                 layoutManager = GridLayoutManager(requireContext(), 3)
                 adapter = previousAdapter
-                addOnScrollListener(scrollListener)
             }
 
             storyMediaPicker = StoryMediaPicker(
@@ -228,7 +253,8 @@ class AddNewHighlightsFragment : BaseFragment() {
         binding?.apply {
 
             rgHighlights?.setOnCheckedChangeListener { _, checkedId ->
-                ivAddStory?.setImageResource(R.drawable.ic_upload_highlights)
+                ivAddStory?.setImageDrawable(null)
+                clPlaceholder.isVisible = true
                 imageUrl = null
                 imageUri = null
                 mediaType = ""
@@ -665,12 +691,14 @@ class AddNewHighlightsFragment : BaseFragment() {
         popupWindow.elevation = 20f
         popupWindow.showAsDropDown(anchor)
 
+        val uniqueHighlights = highlightList.distinctBy { it.title }.filter { !it.title.isNullOrBlank() }.toCollection(ArrayList())
+
         dialogBinding.rvCountry.adapter = HighlightPickerAdapter(
-            context, highlightList,
+            context, uniqueHighlights,
             object : HighlightPickerAdapter.ClickOnItem {
                 override fun onClickItem(position: Int) {
-                    binding?.etName?.setText(highlightList[position].title)
-                    binding?.etCaption?.setText(highlightList[position].title)
+                    binding?.etName?.setText(uniqueHighlights[position].title)
+                    binding?.etCaption?.setText(uniqueHighlights[position].title)
                     popupWindow.dismiss()
                 }
             }

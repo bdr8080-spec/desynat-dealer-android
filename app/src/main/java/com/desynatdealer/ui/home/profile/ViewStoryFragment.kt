@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -75,7 +76,9 @@ class ViewStoryFragment : BaseFragment() {
                     val type = object : TypeToken<ArrayList<GetStoryResponseNew.Data>>() {}.type
                     val dataList: ArrayList<GetStoryResponseNew.Data> = Gson().fromJson(json, type)
                     dataList.forEach { data ->
-                        data.highlights?.let { myStories.addAll(it) }
+                        data.highlights?.forEach { highlight ->
+                            myStories.add(highlight.copy(title = data.title ?: highlight.title))
+                        }
                     }
                 } else {
                     val type =
@@ -117,7 +120,25 @@ class ViewStoryFragment : BaseFragment() {
     }
 
     override fun initControl() {
-        binding?.apply { ivCancel.setOnClickListener { findNavController().popBackStack() } }
+        binding?.apply {
+            ivCancel.setOnClickListener { findNavController().popBackStack() }
+            ivDelete.setOnClickListener {
+                val position = viewPager.currentItem
+                if (position < myStories.size) {
+                    progressAnimator?.pause()
+                    val recyclerView = viewPager.getChildAt(0) as? RecyclerView
+                    val viewHolder =
+                        recyclerView?.findViewHolderForAdapterPosition(position) as? StoryPagerAdapter.StoryViewHolder
+                    viewHolder?.binding?.videoStory?.pause()
+
+                    when (from) {
+                        "story" -> deleteStory(myStories[position].id.toString())
+                        "highlights" -> deleteHighlights(myStories[position].id.toString())
+                        "reel" -> deleteReel(myStories[position].id.toString())
+                    }
+                }
+            }
+        }
     }
 
     override fun observe() {
@@ -250,14 +271,7 @@ class ViewStoryFragment : BaseFragment() {
                     object : StoryPagerAdapter.OnClick {
 
                         override fun clickOnItem(position: Int) {
-                            progressAnimator?.pause()
-                            val recyclerView = binding?.viewPager?.getChildAt(0) as? RecyclerView
-                            val viewHolder = recyclerView ?.findViewHolderForAdapterPosition(position) as? StoryPagerAdapter.StoryViewHolder
-                            viewHolder?.binding?.videoStory?.pause()
-                            when (from) {
-                                "story" -> deleteStory(myStories[position].id.toString())
-                                "highlights" -> deleteHighlights(myStories[position].id.toString())
-                                "reel" -> deleteReel(myStories[position].id.toString()) }
+                            // Handled by fragment's ivDelete now
                         }
 
 
@@ -429,7 +443,7 @@ class ViewStoryFragment : BaseFragment() {
 
 
     private fun setData() {
-
+        binding?.ivDelete?.isVisible = from != "admin"
         if (myStories.isNotEmpty()) {
 
             setupProgressBars(myStories.size)

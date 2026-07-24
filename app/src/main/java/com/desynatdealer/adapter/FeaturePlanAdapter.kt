@@ -7,35 +7,40 @@ import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.R
 import com.desynatdealer.databinding.ItemPlanFeatureBinding
 
-class FeaturePlanAdapter(var context:Context, var featureList: ArrayList<SubscriptionAdapter.FeatureList>) : RecyclerView.Adapter<FeaturePlanAdapter.ViewHolder>() {
+class FeaturePlanAdapter(
+    var context: Context,
+    var featureList: ArrayList<SubscriptionAdapter.FeatureList>
+) : RecyclerView.Adapter<FeaturePlanAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemPlanFeatureBinding) :
-        RecyclerView.ViewHolder(binding.root){
-        fun bind(position: Int) = with(binding){
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(position: Int) = with(binding) {
 
-      //      tvFeature.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_feature,0,0,0)
+            //      tvFeature.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_feature,0,0,0)
 
-             if (featureList[position].feature=="${context.getString(R.string.number_of_products)}"&&featureList[position].count==0){
+            if (!featureList[position].yesNo.isNullOrEmpty()) {
+                tvCount.text = featureList[position].yesNo.toString()
+                tvFeature.text = featureList[position].feature + ":"
+            }
+            if (featureList[position].feature == "${context.getString(R.string.number_of_products)}" && featureList[position].count == 0) {
                 tvCount.text = context.getString(R.string.unlimited)
-            }
-            else if (featureList[position].feature=="${context.getString(R.string.commission)}"&&featureList[position].count!=0){
-                tvCount.text = featureList[position].count.toString()+"%"
-                 tvFeature.text = featureList[position].feature+":"
-            }
-            else if (featureList[position].count!=0) {
+            } else if (featureList[position].feature == "${context.getString(R.string.commission)}" && featureList[position].count != 0) {
+                tvCount.text = featureList[position].count.toString() + "%"
+                tvFeature.text = featureList[position].feature + ":"
+            } else if (featureList[position].count != 0) {
                 tvCount.text = featureList[position].count.toString()
-                tvFeature.text = featureList[position].feature+":"
-            }
-            else{
+                tvFeature.text = featureList[position].feature + ":"
+            } else {
                 tvFeature.text = featureList[position].feature
             }
         }
-        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemPlanFeatureBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false)
+                LayoutInflater.from(parent.context), parent, false
+            )
         )
     }
 
