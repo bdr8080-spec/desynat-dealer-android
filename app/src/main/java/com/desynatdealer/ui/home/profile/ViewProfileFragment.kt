@@ -235,6 +235,7 @@ class ViewProfileFragment : BaseFragment() {
             }
 
             ivAddStory.setOnClickListener {
+                PromoteStoryPaymentFragment.come_form = ""
                 findNavController().navigate(R.id.action_viewProfileFragment_to_addStoryFragment)
 
             }
