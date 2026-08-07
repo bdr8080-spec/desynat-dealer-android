@@ -37,7 +37,7 @@
         android:elevation="@dimen/_4sdp"
         android:padding="@dimen/_12sdp"
         android:src="@drawable/ic_story_cancel"
-        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/ivDelete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutProgress" />
 
