@@ -591,7 +591,6 @@
                     android:id="@+id/tvSeller"
                     style="@style/drawer_text"
                     android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:layout_toStartOf="@+id/ivGoLanguage"
                     android:layout_toEndOf="@id/ivLanguage"
                     android:text="@string/change_language" />
 

@@ -3,7 +3,7 @@
 
     <string name="continue_text">متابعة</string>
     <string name="arabic">العربية</string>
-    <string name="english">English</string>
+    <string name="english">الإنجليزية</string>
     <string name="resend_otp">إعادة إرسال رمز التحقق</string>
     <string name="enter_mobile_number">أدخل رقم الجوال</string>
     <string name="enter_email_address">أدخل عنوان البريد الإلكتروني</string>
