@@ -33,17 +33,17 @@ class CoreApplication : Application() {
             Places.initialize(applicationContext, getString(R.string.map_key))
         }
 
-       /* MFSDK.init(
+        MFSDK.init(
             getString(R.string.my_fatoorah_token),
             MFCountry.KUWAIT,
             MFEnvironment.LIVE
-        ) */
+        )
 
-        MFSDK.init(
+  /*      MFSDK.init(
             getString(R.string.fatoorah),
             MFCountry.KUWAIT,
             MFEnvironment.TEST
-        )
+        )*/
 
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->

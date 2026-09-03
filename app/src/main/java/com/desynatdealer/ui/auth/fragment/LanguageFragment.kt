@@ -93,7 +93,6 @@ class LanguageFragment : BaseFragment() {
                 if (isChecked) {
                     cbArabic.isChecked = false
                     Constants.language = Constants.ENGLISH
-
                     root.layoutDirection = View.LAYOUT_DIRECTION_LTR
                     cbArabic.text = "Arabic"
                     cbEnglish.text = "English"
