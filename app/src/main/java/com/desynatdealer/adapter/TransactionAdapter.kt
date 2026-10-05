@@ -5,20 +5,48 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.databinding.ItemTransactionBinding
+import com.desynatdealer.ui.home.paymentManagement.response.GetAllTransactionResponse
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class TransactionAdapter(var context:Context, var transactionList: ArrayList<String>) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
+class TransactionAdapter(
+    var context: Context,
+    var transactionList: ArrayList<GetAllTransactionResponse.Data.Transactions.TransactionData>
+) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
+
     inner class ViewHolder(val binding: ItemTransactionBinding) :
-        RecyclerView.ViewHolder(binding.root){
-        fun bind(position: Int) = with(binding){
-            var transactionData = transactionList[position]
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(position: Int) = with(binding) {
+            val transactionData = transactionList[position]
+            tvTransactionId.text = "#${transactionData.transactionId?.takeLast(6) ?: "N/A"}"
 
+            val dateStr = transactionData.transactionDate ?: ""
+            if (dateStr.isNotEmpty()) {
+                try {
+                    val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                    val outputFormat = SimpleDateFormat("dd/MM/yyyy 'at' hh:mm a", Locale.getDefault())
+                    val parsedDate = inputFormat.parse(dateStr)
+                    tvDateTime.text = if (parsedDate != null) outputFormat.format(parsedDate) else dateStr
+                } catch (_: Exception) {
+                    tvDateTime.text = dateStr
+                }
+            } else {
+                tvDateTime.text = ""
+            }
+
+            tvCustomerName.text = transactionData.customerName ?: "N/A"
+            tvOrderId.text = transactionData.orderId?.let { "#$it" } ?: "N/A"
+            tvTotalAmount.text = transactionData.amount ?: "0"
+            tvTotalCommissionValue.text = transactionData.commission ?: "0"
+            tvPaymentMode.text = transactionData.transactionLabel ?: ""
         }
-        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemTransactionBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false)
+                LayoutInflater.from(parent.context), parent, false
+            )
         )
     }
 
@@ -29,5 +57,4 @@ class TransactionAdapter(var context:Context, var transactionList: ArrayList<Str
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(position)
     }
-
 }

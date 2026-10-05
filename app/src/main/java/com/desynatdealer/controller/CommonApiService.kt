@@ -32,6 +32,8 @@ import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoo
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.GetMyPlanResponse
 import com.desynatdealer.ui.home.mySubscriptionPlan.response.RenewSubscriptionPlanResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
+import com.desynatdealer.ui.home.paymentManagement.response.GetAllTransactionResponse
+import com.desynatdealer.ui.home.paymentManagement.response.GetPayoutResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
@@ -497,5 +499,15 @@ interface CommonApiService {
     suspend fun getStoryPrice(
         @QueryMap map: HashMap<String, Any>
     ): Response<GetStoryPriceResponse>
+
+    @GET("api/seller/get_all_transactions")
+    suspend fun getAllTransactions(
+        @QueryMap map: HashMap<String, Any>
+    ): Response<GetAllTransactionResponse>
+
+    @GET("api/seller/my_payout_list")
+    suspend fun getPayouts(
+        @QueryMap map: HashMap<String, Any>
+    ): Response<GetPayoutResponse>
 
 }

@@ -33,6 +33,8 @@ import com.desynatdealer.ui.home.mySubscriptionPlan.response.RenewSubscriptionPl
 import com.desynatdealer.ui.home.orderManagement.response.GetAllOrderResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetSingleOrderResponse
+import com.desynatdealer.ui.home.paymentManagement.response.GetAllTransactionResponse
+import com.desynatdealer.ui.home.paymentManagement.response.GetPayoutResponse
 import com.desynatdealer.ui.home.productManagement.response.AddProductRequest
 import com.desynatdealer.ui.home.productManagement.response.GetAllProductResponse
 import com.desynatdealer.ui.home.productManagement.response.GetCategoryResponse
@@ -1390,6 +1392,30 @@ open class HomeViewModel @Inject constructor(private val repo: HomeRepository) :
         viewModelScope.launch {
             _updateStaffResponse.value = ApiResult.Loading
             _updateStaffResponse.value = repo.updateStaff(request)
+        }
+    }
+
+    private val _getAllTransactionResponse =
+        MutableLiveData<ApiResult<GetAllTransactionResponse>?>()
+    val getAllTransactionResponse: MutableLiveData<ApiResult<GetAllTransactionResponse>?>
+        get() = _getAllTransactionResponse
+
+    fun getAllTransactions(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getAllTransactionResponse.value = ApiResult.Loading
+            _getAllTransactionResponse.value = repo.getAllTransactions(map)
+        }
+    }
+
+    private val _getPayoutResponse =
+        MutableLiveData<ApiResult<GetPayoutResponse>?>()
+    val getPayoutResponse: MutableLiveData<ApiResult<GetPayoutResponse>?>
+        get() = _getPayoutResponse
+
+    fun getPayouts(map: HashMap<String, Any>) {
+        viewModelScope.launch {
+            _getPayoutResponse.value = ApiResult.Loading
+            _getPayoutResponse.value = repo.getPayouts(map)
         }
     }
 

@@ -3,6 +3,7 @@ package com.desynatdealer.ui.home.paymentManagement
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.Dialog
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.view.animation.LinearInterpolator
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -22,9 +24,13 @@ import com.desynatdealer.R
 import com.desynatdealer.adapter.PayoutAdapter
 import com.desynatdealer.adapter.TransactionAdapter
 import com.desynatdealer.base.BaseFragment
+import com.desynatdealer.controller.ApiResult
 import com.desynatdealer.data.view_model.HomeViewModel
 import com.desynatdealer.databinding.FragmentPaymentManagementBinding
 import com.desynatdealer.databinding.PaymentFilterDialogBinding
+import com.desynatdealer.ui.home.paymentManagement.response.GetAllTransactionResponse
+import com.desynatdealer.ui.home.paymentManagement.response.GetPayoutResponse
+import com.desynatdealer.utils.CommonMethod
 import com.desynatdealer.utils.ProgressDialogUtils
 import com.desynatdealer.utils.SharedPreference
 import com.desynatdealer.utils.openCustomDatePicker
@@ -39,13 +45,15 @@ import kotlin.getValue
 class PaymentManagementFragment : BaseFragment() {
     private var binding : FragmentPaymentManagementBinding?=null
     private val viewModel: HomeViewModel by activityViewModels()
-    private var transactionList = ArrayList<String>()
+    private var transactionList = ArrayList<GetAllTransactionResponse.Data.Transactions.TransactionData>()
     private var transactionAdapter: TransactionAdapter?=null
-    private var payoutList = ArrayList<String>()
+    private var payoutList = ArrayList<GetPayoutResponse.Data.Payouts.PayoutData>()
     private var payoutAdapter: PayoutAdapter?=null
     private var search: Job? = null
     private var lastQuery: String? = null
     private var isFromSwipe = false
+    private var isFromSearch = false
+    private var isFromRefreshIcon = false
     private var type = 0
 
     private var paymentMode: String? = null
@@ -64,6 +72,7 @@ class PaymentManagementFragment : BaseFragment() {
         return binding?.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -113,6 +122,7 @@ class PaymentManagementFragment : BaseFragment() {
                     search?.cancel()
                     search = lifecycleScope.launch {
                         delay(600)
+                        isFromSearch = true
                         getPaymentList()
                     }
                 }
@@ -125,7 +135,7 @@ class PaymentManagementFragment : BaseFragment() {
             rvPayout.adapter = payoutAdapter
 
             when(type){
-                1->{
+                0, 1->{
                     allTransaction()
                 }
                 2->{
@@ -136,6 +146,7 @@ class PaymentManagementFragment : BaseFragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun initControl() {
         binding?.apply {
             ivBack.setOnClickListener {
@@ -151,11 +162,27 @@ class PaymentManagementFragment : BaseFragment() {
 
             ivRefresh.setOnClickListener {
                 animator?.start()
-                animator?.cancel()
+                isFromRefreshIcon = true
+                getPaymentList()
             }
 
-            btnExport.setOnClickListener{
 
+            btnExport.setOnClickListener {
+                if (type == 1) {
+                    if (transactionList.isEmpty()) {
+                        showToast("No transactions to export")
+                        return@setOnClickListener
+                    }
+                    val csv = CommonMethod.listToCsv(transactionList)
+                    CommonMethod.saveCsvFile(requireContext(), "transactions_${System.currentTimeMillis()}", csv)
+                } else if (type == 2) {
+                    if (payoutList.isEmpty()) {
+                        showToast("No payouts to export")
+                        return@setOnClickListener
+                    }
+                    val csv = CommonMethod.listToCsv(payoutList)
+                    CommonMethod.saveCsvFile(requireContext(), "payouts_${System.currentTimeMillis()}", csv)
+                }
             }
 
             ivFilter.setOnClickListener {
@@ -165,10 +192,118 @@ class PaymentManagementFragment : BaseFragment() {
     }
 
     override fun observe() {
+        viewModel.getAllTransactionResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is ApiResult.Loading -> {
+                    if (!isFromSwipe && !isFromSearch && !isFromRefreshIcon && type == 1) ProgressDialogUtils.getInstance().showProgress(requireActivity(), false)
+                }
+                is ApiResult.Success -> {
+                    if (type == 1) {
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        animator?.cancel()
+                        isFromSwipe = false
+                        isFromSearch = false
+                        isFromRefreshIcon = false
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                        response.data?.let {
+                            binding?.tvAvailable?.text = "${it.data?.totalRevenue ?: "0"} ${it.data?.currencyCode ?: ""}"
+                            transactionList.clear()
+                            val transactions = it.data?.transactions?.data ?: emptyList()
+                            transactionList.addAll(transactions)
+                            transactionAdapter?.notifyDataSetChanged()
+                            checkData()
+                        }
+                    }
+                }
+                is ApiResult.Error -> {
+                    if (type == 1) {
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        animator?.cancel()
+                        isFromSwipe = false
+                        isFromSearch = false
+                        isFromRefreshIcon = false
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                        showToast(response.message.toString())
+                    }
+                }
+                null -> {}
+            }
+        }
+
+        viewModel.getPayoutResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is ApiResult.Loading -> {
+                    if (!isFromSwipe && !isFromSearch && !isFromRefreshIcon && type == 2) ProgressDialogUtils.getInstance().showProgress(requireActivity(), false)
+                }
+                is ApiResult.Success -> {
+                    if (type == 2) {
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        animator?.cancel()
+                        isFromSwipe = false
+                        isFromSearch = false
+                        isFromRefreshIcon = false
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                        response.data?.let {
+                            binding?.tvAvailable?.text = "${it.data?.totalRevenue ?: "0"} ${it.data?.currencyCode ?: ""}"
+                            payoutList.clear()
+                            val payouts = it.data?.payouts?.data ?: emptyList()
+                            payoutList.addAll(payouts)
+                            payoutAdapter?.notifyDataSetChanged()
+                            checkData()
+                        }
+                    }
+                }
+                is ApiResult.Error -> {
+                    if (type == 2) {
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        animator?.cancel()
+                        isFromSwipe = false
+                        isFromSearch = false
+                        isFromRefreshIcon = false
+                        binding?.swipeRefreshLayout?.isRefreshing = false
+                        showToast(response.message.toString())
+                    }
+                }
+                null -> {}
+            }
+        }
     }
 
     private fun getPaymentList(){
-
+        if (type == 1) {
+            val map = HashMap<String, Any>()
+            map["page"] = 1
+            map["limit"] = 20
+            map["transaction_type"] = 0
+            if (!fromDateText.isNullOrEmpty()) {
+                map["from_date"] = fromDateText!!
+            }
+            if (!toDateText.isNullOrEmpty()) {
+                map["to_date"] = toDateText!!
+            }
+            if (!paymentMode.isNullOrEmpty()) {
+                map["payment_mode"] = paymentMode!!
+            }
+            map["search"] = binding?.etSearch?.text?.toString()?.trim() ?: ""
+            map["total_revenue"] = true
+            map["customer_name"] = true
+            map["total_commission"] = true
+            
+            viewModel.getAllTransactions(map)
+        } else if (type == 2) {
+            val map = HashMap<String, Any>()
+            map["page"] = 1
+            map["limit"] = 20
+            if (!fromDateText.isNullOrEmpty()) {
+                map["from_date"] = fromDateText!!
+            }
+            if (!toDateText.isNullOrEmpty()) {
+                map["to_date"] = toDateText!!
+            }
+            map["search"] = binding?.etSearch?.text?.toString()?.trim() ?: ""
+            
+            viewModel.getPayouts(map)
+        }
     }
 
     private fun allTransaction(){
@@ -180,6 +315,7 @@ class PaymentManagementFragment : BaseFragment() {
             tvPayouts.setTextColor(requireActivity().getColor(R.color.black))
             tvTransactions.setTextColor(requireActivity().getColor(R.color.white))
             tvTransactions.setBackgroundResource(R.drawable.selected_left_tab)
+            getPaymentList()
         }
     }
 
@@ -192,6 +328,7 @@ class PaymentManagementFragment : BaseFragment() {
             tvPayouts.setTextColor(requireActivity().getColor(R.color.white))
             tvTransactions.setTextColor(requireActivity().getColor(R.color.black))
             tvTransactions.background = null
+            getPaymentList()
         }
     }
 
@@ -300,6 +437,7 @@ class PaymentManagementFragment : BaseFragment() {
                 tempToDateText = null
 
                 dialog.dismiss()
+                getPaymentList()
             }
 
             tvApply.setOnClickListener {
@@ -319,8 +457,8 @@ class PaymentManagementFragment : BaseFragment() {
                     return@setOnClickListener
                 }
                 else {
-
                     dialog.dismiss()
+                    getPaymentList()
                 }
 
             }

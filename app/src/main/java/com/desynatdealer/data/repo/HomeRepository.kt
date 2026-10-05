@@ -46,6 +46,8 @@ import com.desynatdealer.ui.home.cms.response.GetContactResponse
 import com.desynatdealer.ui.home.cms.response.GetTicketTypeResponse
 import com.desynatdealer.ui.home.cms.response.UpdateNotificationResponse
 import com.desynatdealer.ui.home.liveStreaming.response.GetOtherLiveStreamingRoomResponse
+import com.desynatdealer.ui.home.paymentManagement.response.GetAllTransactionResponse
+import com.desynatdealer.ui.home.paymentManagement.response.GetPayoutResponse
 import com.desynatdealer.ui.home.orderManagement.response.GetOrderNotificationCountResponse
 import com.desynatdealer.ui.home.profile.response.GetStoryResponseNew
 import com.desynatdealer.ui.home.refundManagement.response.GetRefundOrderResponse
@@ -926,6 +928,22 @@ class HomeRepository @Inject constructor(private val api: CommonApiService) {
     suspend fun completeStoryPayment(map: HashMap<String, Any>): ApiResult<PaymentCompleteResponse> {
         return try {
             networkCall(api.completeStoryPayment(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getAllTransactions(map: HashMap<String, Any>): ApiResult<GetAllTransactionResponse> {
+        return try {
+            networkCall(api.getAllTransactions(map))
+        } catch (e: Exception) {
+            ApiResult.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getPayouts(map: HashMap<String, Any>): ApiResult<GetPayoutResponse> {
+        return try {
+            networkCall(api.getPayouts(map))
         } catch (e: Exception) {
             ApiResult.Error(e.message.toString())
         }

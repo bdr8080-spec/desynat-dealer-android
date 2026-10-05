@@ -93,7 +93,7 @@ class HomeActivity : BaseActivity() {
             R.id.productManagement,
             R.id.orderManagement,
             R.id.event,
-          //  R.id.payment,
+            R.id.payment,
         )
 
 
@@ -120,9 +120,9 @@ class HomeActivity : BaseActivity() {
                 R.id.liveStreaming -> {
                     bottomAdapter?.setSelectedItem(2)
                 }
-//                R.id.payment -> {
-//                    bottomAdapter?.setSelectedItem(4)
-//                }
+                R.id.payment -> {
+                    bottomAdapter?.setSelectedItem(4)
+                }
             }
         }
     }
@@ -243,10 +243,10 @@ class HomeActivity : BaseActivity() {
                         ProgressDialogUtils.getInstance().hideProgress()
                         controller.navigate(R.id.orderManagement)
                     }
-//                    4 -> {
-//                        ProgressDialogUtils.getInstance().hideProgress()
-//                        controller.navigate(R.id.payment)
-//                    }
+                    4 -> {
+                        ProgressDialogUtils.getInstance().hideProgress()
+                        controller.navigate(R.id.payment)
+                    }
                 }
 
             }
