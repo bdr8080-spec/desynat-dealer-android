@@ -679,6 +679,7 @@
     <string name="filter_by_date">تصفية حسب التاريخ</string>
     <string name="google_pay">جوجل باي</string>
     <string name="apple_pay">آبل باي</string>
+    <string name="samsung_pay">سامسونج باي</string>
     <string name="cash_on_delivery">الدفع عند الاستلام</string>
     <string name="type">النوع</string>
     <string name="select_status">اختر الحالة</string>
@@ -934,4 +935,6 @@
     <string name="date_format_placeholder">DD//MM/YYYY</string>
     <string name="payment_management">إدارة المدفوعات</string>
     <string name="recommended_stores">المتاجر الموصى بها</string>
+    <string name="payout_received_at">وقت استلام الدفعة</string>
+    <string name="total_amount_received">إجمالي المبلغ المستلم</string>
 </resources>

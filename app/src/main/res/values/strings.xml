@@ -663,6 +663,7 @@
     <string name="filter_by_date">Filter by date</string>
     <string name="google_pay">Google Pay</string>
     <string name="apple_pay">Apple Pay</string>
+    <string name="samsung_pay">Samsung Pay</string>
     <string name="cash_on_delivery">Cash On Delivery</string>
     <string name="type">Type</string>
     <string name="select_status">Select Status</string>
@@ -909,4 +910,6 @@
     <string name="date_format_placeholder">DD//MM/YYYY</string>
     <string name="payment_management">Payment management</string>
     <string name="recommended_stores">Recommended Stores</string>
+    <string name="payout_received_at">Payout received at</string>
+    <string name="total_amount_received">Total Amount received</string>
 </resources>

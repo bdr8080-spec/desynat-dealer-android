@@ -3,6 +3,7 @@ package com.desynatdealer.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.desynatdealer.databinding.ItemTransactionBinding
 import com.desynatdealer.ui.home.paymentManagement.response.GetAllTransactionResponse
@@ -37,7 +38,21 @@ class TransactionAdapter(
             tvCustomerName.text = transactionData.customerName ?: "N/A"
             tvOrderId.text = transactionData.orderId?.let { "#$it" } ?: "N/A"
             tvTotalAmount.text = transactionData.amount ?: "0"
-            tvTotalCommissionValue.text = transactionData.commission ?: "0"
+
+            val commission = transactionData.commission
+            val isCommissionValid = !commission.isNullOrEmpty() && 
+                commission != "0" && 
+                commission != "0.0" && 
+                commission != "0.00" && 
+                commission != "0.000" &&
+                commission.toDoubleOrNull()?.let { it > 0.0 } == true
+
+            tvTotalCommission.isVisible = isCommissionValid
+            tvTotalCommissionValue.isVisible = isCommissionValid
+            if (isCommissionValid) {
+                tvTotalCommissionValue.text = commission
+            }
+
             tvPaymentMode.text = transactionData.transactionLabel ?: ""
         }
     }

@@ -20,7 +20,7 @@ class PayoutAdapter(
         fun bind(position: Int) = with(binding) {
             val payoutData = payoutList[position]
 
-            tvFromDate.text = formatDate(payoutData.fromDate ?: payoutData.orderDate)
+            tvFromDate.text = formatDate(payoutData.fromDate ?:"")
             tvToDate.text = formatDate(payoutData.toDate)
             tvTransactionId.text = "#${payoutData.transactionId?.takeLast(5) }"?: ""
             tvPayoutReceived.isVisible = true
@@ -31,9 +31,19 @@ class PayoutAdapter(
             tvTotalAmount.isVisible = true
             tvTotalAmount.text = payoutData.amount ?: "0"
 
-            tvTotalCommission.isVisible = true
-            tvTotalCommissionValue.isVisible = true
-            tvTotalCommissionValue.text = payoutData.commission ?: "0"
+            val commission = payoutData.commission
+            val isCommissionValid = !commission.isNullOrEmpty() && 
+                commission != "0" && 
+                commission != "0.0" && 
+                commission != "0.00" && 
+                commission != "0.000" &&
+                commission.toDoubleOrNull()?.let { it > 0.0 } == true
+
+            tvTotalCommission.isVisible = isCommissionValid
+            tvTotalCommissionValue.isVisible = isCommissionValid
+            if (isCommissionValid) {
+                tvTotalCommissionValue.text = commission
+            }
         }
     }
 
