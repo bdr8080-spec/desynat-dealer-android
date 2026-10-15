@@ -29,8 +29,8 @@ class PayoutAdapter(
 
             tvTotal.isVisible = true
             tvTotalAmount.isVisible = true
-            tvTotalAmount.text = payoutData.amount ?: "0"
-
+//            tvTotalAmount.text = payoutData.amount ?: "0"
+            tvTotalAmount.text = "%.2f KD".format(Locale.US, payoutData.amount?.toDoubleOrNull() ?: 0.0)
             val commission = payoutData.commission
             val isCommissionValid = !commission.isNullOrEmpty() && 
                 commission != "0" && 

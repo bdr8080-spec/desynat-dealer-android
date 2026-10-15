@@ -37,7 +37,8 @@ class TransactionAdapter(
 
             tvCustomerName.text = transactionData.customerName ?: "N/A"
             tvOrderId.text = transactionData.orderId?.let { "#$it" } ?: "N/A"
-            tvTotalAmount.text = transactionData.amount ?: "0"
+//            tvTotalAmount.text = transactionData.amount ?: "0"
+            tvTotalAmount.text = "${"%.2f".format(Locale.US, transactionData.amount?.toDoubleOrNull() ?: 0.0)} KD"
 
             val commission = transactionData.commission
             val isCommissionValid = !commission.isNullOrEmpty() && 
@@ -53,7 +54,12 @@ class TransactionAdapter(
                 tvTotalCommissionValue.text = commission
             }
 
-            tvPaymentMode.text = transactionData.transactionLabel ?: ""
+            tvPaymentMode.text = when (transactionData.paymentMethod.toString()) {
+                "1" -> root.context.getString(com.desynatdealer.R.string.online)
+                "2" -> root.context.getString(com.desynatdealer.R.string.wallet)
+                "3" -> root.context.getString(com.desynatdealer.R.string.cash_on_delivery)
+                else -> ""
+            }
         }
     }
 

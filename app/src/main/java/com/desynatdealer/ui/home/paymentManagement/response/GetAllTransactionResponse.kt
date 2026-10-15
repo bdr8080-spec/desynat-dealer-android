@@ -53,6 +53,8 @@ data class GetAllTransactionResponse(
                 val amount: String? = null,
                 @SerializedName("commission")
                 val commission: String? = null,
+                @SerializedName("payment_method")
+                val paymentMethod: String? = null,
                 @SerializedName("transaction_date")
                 val transactionDate: String? = null
             )

@@ -52,12 +52,11 @@ class PaymentManagementFragment : BaseFragment() {
     private var payoutList = ArrayList<GetPayoutResponse.Data.Payouts.PayoutData>()
     private var payoutAdapter: PayoutAdapter? = null
     private var search: Job? = null
-    private var lastQuery: String? = null
+    private var lastQuery: String? = ""
     private var isFromSwipe = false
     private var isFromSearch = false
     private var isFromRefreshIcon = false
     private var type = 0
-
     private var paymentMode: String? = null
     private var fromTimestamp: Long? = null
     private var toTimestamp: Long? = null
@@ -219,7 +218,7 @@ class PaymentManagementFragment : BaseFragment() {
                         isFromRefreshIcon = false
                         binding?.swipeRefreshLayout?.isRefreshing = false
                         response.data?.let {
-                            binding?.tvAvailable?.text = "${"%.1f".format(it.data?.totalRevenue?.toDoubleOrNull() ?: 0.0)} ${it.data?.currencyCode ?: ""}"
+                            binding?.tvAvailable?.text = "${"%.1f".format(it.data?.totalRevenue?.toDoubleOrNull() ?: 0.0)} ${"KD"}"
                             transactionList.clear()
                             val transactions = it.data?.transactions?.data ?: emptyList()
                             transactionList.addAll(transactions)
@@ -261,7 +260,7 @@ class PaymentManagementFragment : BaseFragment() {
                         isFromRefreshIcon = false
                         binding?.swipeRefreshLayout?.isRefreshing = false
                         response.data?.let {
-                            binding?.tvAvailable?.text = "${"%.1f".format(it.data?.totalRevenue?.toDoubleOrNull() ?: 0.0)} ${it.data?.currencyCode ?: ""}"
+//                            binding?.tvAvailable?.text = "${"%.1f".format(it.data?.totalRevenue?.toDoubleOrNull() ?: 0.0)} ${it.data?.currencyCode ?: ""}"
 
                             payoutList.clear()
                             val payouts = it.data?.payouts?.data ?: emptyList()
@@ -334,6 +333,8 @@ class PaymentManagementFragment : BaseFragment() {
             paymentMode = null
             fromTimestamp = null
             toTimestamp = null
+            search?.cancel()
+            lastQuery = ""
             etSearch.setText("")
             rvTransaction.isVisible = true
             rvPayout.isVisible = false
@@ -353,6 +354,8 @@ class PaymentManagementFragment : BaseFragment() {
             paymentMode = null
             fromTimestamp = null
             toTimestamp = null
+            search?.cancel()
+            lastQuery = ""
             etSearch.setText("")
             rvTransaction.isVisible = false
             rvPayout.isVisible = true
@@ -422,7 +425,7 @@ class PaymentManagementFragment : BaseFragment() {
                 }
             }
 
-            tvToolbar.setOnClickListener {
+            closeIv.setOnClickListener {
                 dialog.dismiss()
             }
 
@@ -502,12 +505,12 @@ class PaymentManagementFragment : BaseFragment() {
         when (type) {
             1 -> {
                 binding?.tvNoDataFound?.isVisible = transactionList.isEmpty()
-                binding?.tvNoDataFound?.text = "No transaction found"
+                binding?.tvNoDataFound?.text = getString(R.string.no_transaction_found)
             }
 
             2 -> {
                 binding?.tvNoDataFound?.isVisible = payoutList.isEmpty()
-                binding?.tvNoDataFound?.text = "No payout found"
+                binding?.tvNoDataFound?.text = getString(R.string.no_payout_found)
             }
         }
 

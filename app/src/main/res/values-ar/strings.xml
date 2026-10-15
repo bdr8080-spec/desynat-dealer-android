@@ -937,4 +937,7 @@
     <string name="recommended_stores">المتاجر الموصى بها</string>
     <string name="payout_received_at">وقت استلام الدفعة</string>
     <string name="total_amount_received">إجمالي المبلغ المستلم</string>
+    <string name="online">متصل</string>
+    <string name="no_payout_found">لم يتم العثور على أي دفعة</string>
+    <string name="no_transaction_found">لم يتم العثور على أي معاملة</string>
 </resources>

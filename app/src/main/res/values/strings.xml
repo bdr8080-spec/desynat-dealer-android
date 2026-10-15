@@ -912,4 +912,7 @@
     <string name="recommended_stores">Recommended Stores</string>
     <string name="payout_received_at">Payout received at</string>
     <string name="total_amount_received">Total Amount received</string>
+    <string name="online">Online</string>
+    <string name="no_payout_found">No payout found</string>
+    <string name="no_transaction_found">No transaction found</string>
 </resources>
